@@ -1,0 +1,55 @@
+package at.framework.ui;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+
+import at.framework.browser.Factory;
+import at.framework.reports.ExtFactory;
+
+public class CheckBox extends Factory {
+
+	public void check(By object) {
+		try {
+			WebElement obj = getDriver().findElement(object);
+			
+			if (!obj.isSelected()) {
+				obj.click();
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Checked the checkbox [ "+object +" ]");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void unCheck(By object) {
+		try {
+			WebElement obj = getDriver().findElement(object);
+			if (obj.isSelected()) {
+				obj.click();
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Unchecked the checkbox [ "+object +" ]");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public boolean isChecked(By object) {
+		try {
+			WebElement obj = getDriver().findElement(object);
+			
+			if (obj.isSelected()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		} catch (Exception exc) {			
+			Assert.fail(exc.toString());
+			return false;
+		}
+	}
+}
