@@ -9,11 +9,11 @@ import at.smartshop.keys.KeysConfiguration;
 import at.smartshop.testData.TestDataFilesPaths;
 
 public class Browser extends Factory {
-	PropertyFile PropertyFile = new PropertyFile();
+	PropertyFile propertyFile = new PropertyFile();
 
 	public void launch() {
 	try {
-			setDriver(PropertyFile.readConfig(KeysConfiguration.BROWSER,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			setDriver(propertyFile.readConfig(KeysConfiguration.BROWSER,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

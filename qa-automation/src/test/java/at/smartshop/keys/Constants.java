@@ -15,6 +15,7 @@ public class Constants {
 	public static final String CHROME = "Chrome";
 	public static final String REGEX_DDMMYYY = "DDMMYYY";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
+	public static final String REGEX_NUMBER = "0123456789";
 	public static final String SHEETNAME = "Sheet1";
 	public static final String YES = "yes";
 	public static final String REPORT_NAME= "\\Results.html";
@@ -24,4 +25,6 @@ public class Constants {
 	public static final String NATIONACCOUNT_UPCS = "UPCs";
 	public static final String NATIONACCOUNT_NATIONAL_CATEGORY= "National Categories";
 	public static final String NA= "N/A";
+	public static final String PRODUCT_DATAGRID= "productDataGrid_locname";
+	
 }

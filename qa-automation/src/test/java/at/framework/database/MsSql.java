@@ -8,17 +8,16 @@ import org.testng.Assert;
 public class MsSql {
 
 	public Connection getDBConnection() throws SQLException {
-		DBConnections DBConnections = new DBConnections();
-		String dbURL = null;
+		DBConnections dbConnections = new DBConnections();
+		String databaseURL = null;
 		try {
 			DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			dbURL = DBConnections.jdbcdriver + ";databaseName=" + DBConnections.dbname + ";user="
-					+ DBConnections.username + ";password=" + DBConnections.password;
+			databaseURL = dbConnections.jdbcdriver + ";databaseName=" + dbConnections.dbname + ";user="
+					+ dbConnections.username + ";password=" + dbConnections.password;
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return DriverManager.getConnection(dbURL);
+		return DriverManager.getConnection(databaseURL);
 	}
 
 }

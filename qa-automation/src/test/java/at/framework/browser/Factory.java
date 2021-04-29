@@ -15,7 +15,7 @@ import at.smartshop.testData.TestDataFilesPaths;
 public class Factory {
 
 	private Factory instance = null;
-	public static ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
+	public static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
 
 	public Factory getInstance() {
 		try {
@@ -32,9 +32,7 @@ public class Factory {
 	public void setDriver(String browser) {
 		try {
 			DesiredCapabilities capabilities = null;
-			switch (browser) {
-
-			case Constants.CHROME:
+			if (browser.equals(Constants.CHROME)) {
 				capabilities = DesiredCapabilities.chrome();
 				ChromeOptions chromeOptions = new ChromeOptions();
 				Map<String, Object> chromePrefs = new HashMap<String, Object>();
@@ -45,7 +43,6 @@ public class Factory {
 				capabilities.setCapability("applicationCacheEnabled", false);
 				System.setProperty("webdriver.chrome.driver", TestDataFilesPaths.DRIVER_CHROME);
 				webDriver.set(new ChromeDriver());
-
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

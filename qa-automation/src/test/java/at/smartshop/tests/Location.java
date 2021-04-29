@@ -17,6 +17,7 @@ import at.smartshop.utilities.DataBase;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Constants;
 import at.smartshop.keys.KeysConfiguration;
 
 @Listeners(at.framework.reports.Listeners.class)
@@ -58,7 +59,7 @@ public class Location extends TestInfra {
 
 			// Extend product to location
 			textBox.enterText(productSummary.txtFilter, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			table.selectRow("productDataGrid_locname", rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			foundation.click(productSummary.btnSave);
 

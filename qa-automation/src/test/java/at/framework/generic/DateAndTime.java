@@ -6,21 +6,17 @@ import java.util.TimeZone;
 import org.testng.Assert;
 
 public class DateAndTime {
-	
-	public DateAndTime() {
-
-	}
 
 	public static String getTimeStamp(String dateTimePattern) {
 		SimpleDateFormat objSDF = new SimpleDateFormat(dateTimePattern);
 		return objSDF.format(new Date());
 	}
 	
-	public String getDateBasedOnZone(Date date, String format, String reqTimeZone) {
+	public String getDateBasedOnZone(Date date, String format, String requiredTimeZone) {
 		SimpleDateFormat formatter = null;
 		try {
 			formatter = new SimpleDateFormat(format);
-			TimeZone timeZone = TimeZone.getTimeZone(reqTimeZone);
+			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
 			formatter.setTimeZone(timeZone);
 
 		} catch (Exception exc) {

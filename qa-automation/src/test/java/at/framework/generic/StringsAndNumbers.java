@@ -6,8 +6,7 @@ import at.smartshop.keys.Constants;
 
 public class StringsAndNumbers {
 	public static int generateRandomIntRange(int min, int max) {
-		Random randomNumer = new Random();
-		return randomNumer.nextInt((max - min) + 1) + min;
+		return new Random().nextInt((max - min) + 1) + min;
 	}
 	
 	public static String getSaltString() {

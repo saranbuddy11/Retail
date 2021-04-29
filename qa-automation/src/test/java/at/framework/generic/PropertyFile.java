@@ -7,9 +7,9 @@ import org.testng.Assert;
 import at.smartshop.keys.Constants;
 
 public class PropertyFile  {
-	private Properties configfile = null;
-	
+
 	public String readConfig(String requiredData, String filePath) {
+		Properties configfile = null;
         String requiredString = Constants.EMPTY_STRING;
         try {
             FileInputStream fileInputStream = new FileInputStream(filePath);
@@ -17,7 +17,6 @@ public class PropertyFile  {
             configfile.load(fileInputStream);
             requiredString = configfile.getProperty(requiredData);
             fileInputStream.close();
-           
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }
