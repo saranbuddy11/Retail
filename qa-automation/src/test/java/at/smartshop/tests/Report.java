@@ -70,12 +70,12 @@ public class Report extends TestInfra {
 			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-			rstNavigationMenuData = db.getNavigationMenuData(dBConnections.navigationMenu, CASE_NUM);
-			rstConsumerSearchData = db.getConsumerSearchData(dBConnections.consumersearch, CASE_NUM);
-			rstProductSummaryData = db.getProductSummaryData(dBConnections.productsummary, CASE_NUM);
-			rstLocationSummaryData = db.getLocationSummaryData(dBConnections.locationsummary, CASE_NUM);
-			rstConsumerSummaryData = db.getConsumerSummaryData(dBConnections.consumersummary, CASE_NUM);
-			rstReportListData = db.getReportListData(dBConnections.reportsList, CASE_NUM);
+			rstNavigationMenuData = db.getNavigationMenuData(dBConnections.getNavigationMenu(), CASE_NUM);
+			rstConsumerSearchData = db.getConsumerSearchData(dBConnections.getConsumersearch(), CASE_NUM);
+			rstProductSummaryData = db.getProductSummaryData(dBConnections.getProductsummary(), CASE_NUM);
+			rstLocationSummaryData = db.getLocationSummaryData(dBConnections.getLocationsummary(), CASE_NUM);
+			rstConsumerSummaryData = db.getConsumerSummaryData(dBConnections.getConsumersummary(), CASE_NUM);
+			rstReportListData = db.getReportListData(dBConnections.getReportsList(), CASE_NUM);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

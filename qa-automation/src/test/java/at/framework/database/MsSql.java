@@ -12,8 +12,8 @@ public class MsSql {
 		String databaseURL = null;
 		try {
 			DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-			databaseURL = dbConnections.jdbcdriver + ";databaseName=" + dbConnections.dbname + ";user="
-					+ dbConnections.username + ";password=" + dbConnections.password;
+			databaseURL = dbConnections.getJdbcdriver() + ";databaseName=" + dbConnections.getDbname() + ";user="
+					+ dbConnections.getUsername() + ";password=" + dbConnections.getPassword();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

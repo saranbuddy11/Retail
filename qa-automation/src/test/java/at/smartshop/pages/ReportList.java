@@ -15,6 +15,7 @@ import at.smartshop.keys.KeysReports;
 public class ReportList extends Factory {
 	TextBox textBox = new TextBox();
 	Foundation foundation = new Foundation();
+	DateAndTime dateAndTime = new DateAndTime();
 	
 	private By txtSearch = By.id("Search");
 	private By dpdDate = By.id("reportrange1");
@@ -44,7 +45,7 @@ public class ReportList extends Factory {
 			foundation.waitforElement(dpdDateOptions, 30000);
 			List<WebElement> dateOptions = editerGrid.findElements(dpdDateOptions);
 
-			String currentTime=DateAndTime.getTimeStamp(KeysReports.HH);
+			String currentTime=dateAndTime.getTimeStamp(KeysReports.HH);
 			if (Integer.parseInt(currentTime)<=KeysReports.HOURTWELVE)
 			{
 				optionName=KeysReports.YESTERDAY;

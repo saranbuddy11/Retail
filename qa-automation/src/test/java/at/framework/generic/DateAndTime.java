@@ -7,15 +7,14 @@ import org.testng.Assert;
 
 public class DateAndTime {
 
-	public static String getTimeStamp(String dateTimePattern) {
+	public String getTimeStamp(String dateTimePattern) {
 		SimpleDateFormat objSDF = new SimpleDateFormat(dateTimePattern);
 		return objSDF.format(new Date());
 	}
 	
 	public String getDateBasedOnZone(Date date, String format, String requiredTimeZone) {
-		SimpleDateFormat formatter = null;
+		SimpleDateFormat formatter =new SimpleDateFormat(format);
 		try {
-			formatter = new SimpleDateFormat(format);
 			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
 			formatter.setTimeZone(timeZone);
 

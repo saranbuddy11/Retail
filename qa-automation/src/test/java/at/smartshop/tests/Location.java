@@ -43,9 +43,9 @@ public class Location extends TestInfra {
 			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
-			rstNavigationMenuData = db.getNavigationMenuData(dBConnections.navigationMenu, CASE_NUM);
-			rstDeviceListData = db.getDeviceListData(dBConnections.devicelist, CASE_NUM);
-			rstLocationListData = db.getLocationListData(dBConnections.locationlist, CASE_NUM);
+			rstNavigationMenuData = db.getNavigationMenuData(dBConnections.getNavigationMenu(), CASE_NUM);
+			rstDeviceListData = db.getDeviceListData(dBConnections.getDevicelist(), CASE_NUM);
+			rstLocationListData = db.getLocationListData(dBConnections.getLocationlist(), CASE_NUM);
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

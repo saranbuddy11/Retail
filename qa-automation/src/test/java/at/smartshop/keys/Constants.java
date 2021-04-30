@@ -13,7 +13,7 @@ public class Constants {
 	public static final String TITLE = "title";
 	public static final String DATA = "data";
 	public static final String CHROME = "Chrome";
-	public static final String REGEX_DDMMYYY = "DDMMYYY";
+	public static final String REGEX_DDMMYYYY = "DDMMYYYY";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
 	public static final String SHEETNAME = "Sheet1";

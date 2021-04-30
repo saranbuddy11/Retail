@@ -5,16 +5,16 @@ import java.util.Random;
 import at.smartshop.keys.Constants;
 
 public class StringsAndNumbers {
-	public static int generateRandomIntRange(int min, int max) {
+	public int generateRandomIntRange(int min, int max) {
 		return new Random().nextInt((max - min) + 1) + min;
 	}
 	
-	public static String getSaltString() {
+	public String getSaltString() {
 		String SALTCHARS = Constants.REGEX_CHAR;
 		StringBuilder salt = new StringBuilder();
 		Random rnd = new Random();
 		while (salt.length() < 10) { 
-			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			int index = (int) (rnd.nextInt() * SALTCHARS.length());
 			salt.append(SALTCHARS.charAt(index));
 		}
 		String saltStr = salt.toString();

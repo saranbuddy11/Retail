@@ -1,6 +1,7 @@
 package at.framework.generic;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 import org.testng.Assert;
 
@@ -8,17 +9,18 @@ import at.smartshop.keys.Constants;
 
 public class PropertyFile  {
 
-	public String readConfig(String requiredData, String filePath) {
-		Properties configfile = null;
+	public String readConfig(String requiredData, String filePath) throws IOException  {
+		Properties configfile = new Properties();
         String requiredString = Constants.EMPTY_STRING;
+        FileInputStream fileInputStream=null;
         try {
-            FileInputStream fileInputStream = new FileInputStream(filePath);
-            configfile = new Properties();
+        	fileInputStream = new FileInputStream(filePath);
             configfile.load(fileInputStream);
             requiredString = configfile.getProperty(requiredData);
-            fileInputStream.close();
         } catch (Exception exc) {
             Assert.fail(exc.toString());
+        }finally {
+        	fileInputStream.close();
         }
        
         return requiredString;

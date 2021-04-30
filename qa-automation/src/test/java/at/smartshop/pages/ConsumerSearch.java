@@ -15,16 +15,15 @@ public class ConsumerSearch extends Factory{
 	TextBox textBox = new TextBox();
 	Dropdown Dropdown = new Dropdown();
 	Foundation foundation = new Foundation();
-
-	public By dpdSearchBy = By.id("searchBy");
-	public By txtSearch = By.id("search");
+	
 	private By dpdLocation = By.id("loc-dropdown");
 	private By dpdStatus = By.id("isdisabled");
+	public By dpdSearchBy = By.id("searchBy");
+	public By txtSearch = By.id("search");
 	public By btnGo = By.id("findBtn");
 	public By tblConsumers = By.id("consumerdt");
 	public By tblConsumerSearchGrid = By.id("consumerdt");
-	public By lblRows = By.cssSelector("#consumerdt > tbody > tr:nth-of-type(1)");
-	
+	public By lblRows = By.cssSelector("#consumerdt > tbody > tr");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -41,7 +40,8 @@ public class ConsumerSearch extends Factory{
 
 	public void clickCell(String consumerName) {
 		try {
-			foundation.click(tblConsumers.partialLinkText(consumerName));
+			By consumerFirstName = By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");
+			foundation.click(consumerFirstName);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
