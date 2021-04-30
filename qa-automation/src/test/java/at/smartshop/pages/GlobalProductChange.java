@@ -28,26 +28,22 @@ public class GlobalProductChange extends Factory{
 	public By btnIncrement = By.xpath("//*[@id='increment-radio-btn']/..");
 	public By txtPrice = By.id("prd-price");
 	public By txtProductName = By.id("filter-name");
-	public By lblPrice = By.xpath("//*[@id='prd-change-form']/dt[1]");
-	public By lblMin = By.xpath("//*[@id='prd-change-form']/dt[2]");
-	public By lblMax = By.xpath("//*[@id='prd-change-form']/dt[3]");
-	public By lblProduct = By.xpath("((//tbody//tr)[1]//td)[1]");   
     public By drpLoyaltyMultiplier = By.id("prd-loyalty-multiplier");
     public By btnSubmit = By.id("prd-update-submit");
     public By btnOK = By.cssSelector("button.ajs-button.ajs-ok");
     public By msgSuccess = By.xpath("//div[text()='Updated 1 product(s)!']");
 		
 	public List<String> getAllFilteredLocations(){ 
-		List<String> filteredLocationsList = new ArrayList<>();
+		List<String> filteredLocationsGrid = new ArrayList<>();
 		try {
 			 List<WebElement> filteredProducts = getDriver().findElements(tblProductsList);
 			 for(WebElement filteredProduct : filteredProducts)
 			 {
-				filteredLocationsList.add(filteredProduct.findElement(tblProductsListRows).getText());
+				filteredLocationsGrid.add(filteredProduct.findElement(tblProductsListRows).getText());
 			 }
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return filteredLocationsList;
+		return filteredLocationsGrid;
     }
 }

@@ -11,7 +11,7 @@ public class Login extends Factory {
 	Foundation foundation = new Foundation();
 	private By txtEmail = By.id("email");
 	private By txtPassword = By.id("password");
-	private By btnSignin = By.cssSelector("#loginform > button");
+	private By btnSignIn = By.cssSelector("#loginform > button");
 	private By lblUserName = By.id("drop5");
 	private By mnuLogout = By.id("logout");
 	
@@ -28,7 +28,7 @@ public class Login extends Factory {
 	public void login(String userName, String password) {
 		try {
 			insertLoginFields(userName, password);
-			foundation.click(btnSignin);
+			foundation.click(btnSignIn);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

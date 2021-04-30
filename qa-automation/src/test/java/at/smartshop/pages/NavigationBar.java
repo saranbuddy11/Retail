@@ -19,10 +19,8 @@ public class NavigationBar extends Factory {
 	public By mnuGobalProduct = By.id("sup-product");
 	public By mnuLocationGobalProduct = By.id("sup-product");
 	public By mnuReports = By.cssSelector("a[id*=reports]");
-	public By mnuLocation = By.id("//a[contains(@id,'location')])[1]");
 	public By mnuSuper = By.id("drop7");
 	public By mnuUserRoles = By.id("super-supuser");
-	public By mnuUNationalAccounts = By.xpath("(//a[text()='National Accounts'])[2]");
 
 	public void selectOrginazation(String selectText) {	
 		try {
@@ -49,17 +47,6 @@ public class NavigationBar extends Factory {
 		foundation.click(menu);
 		foundation.scrollToElement(menuItem);
 		foundation.click(menuItem);
-		}
-		catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	
-	public void navigateToSubmenu(By menu, String menuItem) {
-		try {
-		foundation.click(menu);
-		foundation.click(By.xpath("(//a[text()='" + menuItem + "'])[2]"));
 		}
 		catch (Exception exc) {
 			Assert.fail(exc.toString());

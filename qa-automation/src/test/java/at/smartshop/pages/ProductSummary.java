@@ -14,11 +14,11 @@ public class ProductSummary extends Factory {
 	public By tblData = By.cssSelector("tbody[aria-relevant=all] span");
 	public By btnRemove = By.id("previewremove");
 	public By msgSuccess = By.className("div.humane.humane-libnotify-success");
-	public By tblcellPrice = By.cssSelector("td.edit.priceandstock.column-price");
+	public By tblCellPrice = By.cssSelector("td.edit.priceandstock.column-price");
 	public By txtLocationSearchFilter =  By.cssSelector("#locdt_filter > label > input");
 	public By drpPrice = By.id("price");
 
-	public void getLocName() {
+	public void getLocationName() {
 		try {
 			textbox.getText(tblData);
 		} catch (Exception exc) {
@@ -29,7 +29,7 @@ public class ProductSummary extends Factory {
 	public String getPriceFromLocationsTable() {
 		String cellValue = null;
 		try {
-				cellValue = getDriver().findElement(tblcellPrice).getText();
+				cellValue = getDriver().findElement(tblCellPrice).getText();
 			} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

@@ -10,15 +10,15 @@ public class StringsAndNumbers {
 	}
 	
 	public String getSaltString() {
-		String SALTCHARS = Constants.REGEX_CHAR;
+		String saltChars = Constants.REGEX_CHAR;
 		StringBuilder salt = new StringBuilder();
-		Random rnd = new Random();
+		Random random = new Random();
 		while (salt.length() < 10) { 
-			int index = (int) (rnd.nextInt() * SALTCHARS.length());
-			salt.append(SALTCHARS.charAt(index));
+			int index = (int) (random.nextInt() * saltChars.length());
+			salt.append(saltChars.charAt(index));
 		}
-		String saltStr = salt.toString();
-		String output = saltStr.substring(0, 1).toUpperCase() + saltStr.substring(1);
+		String saltData = salt.toString();
+		String output = saltData.substring(0, 1).toUpperCase() + saltData.substring(1);
 		return output;
 	}
 }

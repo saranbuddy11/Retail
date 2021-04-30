@@ -90,9 +90,8 @@ public class KeysReports {
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String CREDIT = "CREDIT";
 	public static final String REJECTED = "REJECTED";
-	public static final String HHMMSS = "HHmmss";
-	public static final String DDMMYYY = "ddMMMYYYY";
-	public static final String MMddyyyy = "MM/dd/yyyy";
-	public static final String HH = "HH";
-	public static final int HOURTWELVE = 12;
+	public static final String FORMAT_HHMMSS = "HHmmss";
+	public static final String FORMAT_DDMMYYY = "ddMMMYYYY";
+	public static final String FORMAT_MMDDYYYY = "MM/dd/yyyy";
+	public static final String FORMAT_HH = "HH";
 }

@@ -14,7 +14,6 @@ public class AccountAdjustment extends Factory {
 
 	DataBase db = new DataBase();
 	private By tblAccountAdjustment = By.id("rptdt");
-	//private By lblRows = By.cssSelector("#rptdt > tbody > tr:nth-of-type(1)");
 	private By lblRows = By.cssSelector("#rptdt > tbody > tr");
 	public By lblReportName = By.cssSelector("#report-container > script + style + div > div");
 	public By txtSearch = By.cssSelector("input[aria-controls='rptdt']");
@@ -24,12 +23,12 @@ public class AccountAdjustment extends Factory {
 		try {
 			int curColumnIndex = 1;
 			WebElement tableReports = getDriver().findElement(tblAccountAdjustment);
-			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
 			WebElement row = getDriver().findElement(lblRows);
 
-			for (WebElement header : headers) {
+			for (WebElement columnHeader : columnHeaders) {
 				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + curColumnIndex + ")"));
-				uiTblRowValues.put(header.getText(), column.getText());
+				uiTblRowValues.put(columnHeader.getText(), column.getText());
 				curColumnIndex++;
 			}
 		} catch (Exception exc) {

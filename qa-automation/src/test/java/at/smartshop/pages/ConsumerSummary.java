@@ -18,7 +18,7 @@ public class ConsumerSummary {
 		double initBalance = 0;
 		try {
 			String balance = textBox.getText(lblReadBalance);
-			initBalance = Double.parseDouble(balance.substring(1).replace(",", Constants.EMPTY_STRING));
+			initBalance = Double.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 		} catch (Exception exc) {		
 			Assert.fail();
 		}

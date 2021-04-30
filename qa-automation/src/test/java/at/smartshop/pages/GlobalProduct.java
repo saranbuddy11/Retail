@@ -12,8 +12,8 @@ public class GlobalProduct extends Factory {
 
 	public void selectGlobalProduct(String product) {
 		try {
-		By ColumnName = By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
-		foundation.click(ColumnName);
+		By objColumn = By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
+		foundation.click(objColumn);
 		}
 		catch (Exception exc) {
 			Assert.fail(exc.toString());

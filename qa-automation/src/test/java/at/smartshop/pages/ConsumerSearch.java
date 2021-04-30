@@ -13,7 +13,7 @@ import at.smartshop.keys.Constants;
 
 public class ConsumerSearch extends Factory{
 	TextBox textBox = new TextBox();
-	Dropdown Dropdown = new Dropdown();
+	Dropdown dropdown = new Dropdown();
 	Foundation foundation = new Foundation();
 	
 	private By dpdLocation = By.id("loc-dropdown");
@@ -27,10 +27,10 @@ public class ConsumerSearch extends Factory{
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
-			Dropdown.selectItem(dpdSearchBy, searchBy, Constants.TEXT);
+			dropdown.selectItem(dpdSearchBy, searchBy, Constants.TEXT);
 			textBox.enterText(txtSearch, search);
-			Dropdown.selectItem(dpdLocation, locationName, Constants.TEXT);
-			Dropdown.selectItem(dpdStatus, status, Constants.TEXT);
+			dropdown.selectItem(dpdLocation, locationName, Constants.TEXT);
+			dropdown.selectItem(dpdStatus, status, Constants.TEXT);
 			foundation.click(btnGo);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

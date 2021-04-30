@@ -13,18 +13,8 @@ public class LocationList extends Factory{
 
 	public void selectLocaionName(String locationName) {
 		try {
-			By LocationName = By.xpath("//a[text()='" + locationName + "']");
-			foundation. click(LocationName);
-		}
-		catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-	
-	public void selectLocaionListType(String locationType) {
-		try {
-			By LocationName = By.xpath("//a[text()='" + locationType + "']");
-			foundation. click(LocationName);
+			By objLocationName = By.xpath("//a[text()='" + locationName + "']");
+			foundation. click(objLocationName);
 		}
 		catch (Exception exc) {
 			Assert.fail(exc.toString());

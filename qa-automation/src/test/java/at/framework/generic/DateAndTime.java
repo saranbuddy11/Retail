@@ -8,8 +8,8 @@ import org.testng.Assert;
 public class DateAndTime {
 
 	public String getTimeStamp(String dateTimePattern) {
-		SimpleDateFormat objSDF = new SimpleDateFormat(dateTimePattern);
-		return objSDF.format(new Date());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateTimePattern);
+		return dateFormat.format(new Date());
 	}
 	
 	public String getDateBasedOnZone(Date date, String format, String requiredTimeZone) {

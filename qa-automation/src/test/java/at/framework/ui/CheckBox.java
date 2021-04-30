@@ -13,10 +13,10 @@ public class CheckBox extends Factory {
 
 	public void check(By object) {
 		try {
-			WebElement obj = getDriver().findElement(object);
+			WebElement element = getDriver().findElement(object);
 			
-			if (!obj.isSelected()) {
-				obj.click();
+			if (!element.isSelected()) {
+				element.click();
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Checked the checkbox [ "+object +" ]");
 		} catch (Exception exc) {
@@ -26,9 +26,9 @@ public class CheckBox extends Factory {
 
 	public void unCheck(By object) {
 		try {
-			WebElement obj = getDriver().findElement(object);
-			if (obj.isSelected()) {
-				obj.click();
+			WebElement element = getDriver().findElement(object);
+			if (element.isSelected()) {
+				element.click();
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Unchecked the checkbox [ "+object +" ]");
 		} catch (Exception exc) {
@@ -38,9 +38,9 @@ public class CheckBox extends Factory {
 	
 	public boolean isChecked(By object) {
 		try {
-			WebElement obj = getDriver().findElement(object);
+			WebElement element = getDriver().findElement(object);
 			
-			if (obj.isSelected()) {
+			if (element.isSelected()) {
 				return true;
 			}
 			else {

@@ -22,8 +22,8 @@ import at.smartshop.keys.KeysConfiguration;
 
 @Listeners(at.framework.reports.Listeners.class)
 public class Location extends TestInfra {
-	DataBase db = new DataBase();
-	DBConnections dBConnections = new DBConnections();
+	DataBase dataBase = new DataBase();
+	DBConnections dbConnections = new DBConnections();
 	NavigationBar navigationBar = new NavigationBar();
 	GlobalProduct globalProduct = new GlobalProduct();
 	TextBox textBox = new TextBox();
@@ -43,9 +43,9 @@ public class Location extends TestInfra {
 			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
-			rstNavigationMenuData = db.getNavigationMenuData(dBConnections.getNavigationMenu(), CASE_NUM);
-			rstDeviceListData = db.getDeviceListData(dBConnections.getDevicelist(), CASE_NUM);
-			rstLocationListData = db.getLocationListData(dBConnections.getLocationlist(), CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(dbConnections.getNavigationMenu(), CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(dbConnections.getDevicelist(), CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(dbConnections.getLocationlist(), CASE_NUM);
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

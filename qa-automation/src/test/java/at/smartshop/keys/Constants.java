@@ -5,6 +5,7 @@ public class Constants {
 	public static final String DELIMITER_TILD = "~";
 	public static final String DELIMITER_HYPHEN = "-";
 	public static final String DELIMITER_SPACE = " ";
+	public static final String DELIMITER_COMMA = ",";
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
 	public static final String VALUE = "value";

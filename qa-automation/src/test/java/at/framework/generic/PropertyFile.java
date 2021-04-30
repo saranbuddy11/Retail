@@ -10,13 +10,13 @@ import at.smartshop.keys.Constants;
 public class PropertyFile  {
 
 	public String readConfig(String requiredData, String filePath) throws IOException  {
-		Properties configfile = new Properties();
+		Properties configFile = new Properties();
         String requiredString = Constants.EMPTY_STRING;
         FileInputStream fileInputStream=null;
         try {
         	fileInputStream = new FileInputStream(filePath);
-            configfile.load(fileInputStream);
-            requiredString = configfile.getProperty(requiredData);
+            configFile.load(fileInputStream);
+            requiredString = configFile.getProperty(requiredData);
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }finally {

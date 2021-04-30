@@ -51,12 +51,12 @@ public class Table extends Factory{
 			int index = 1;
 
 			WebElement tableReports = getDriver().findElement(tableGrid);
-			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
 			WebElement row = getDriver().findElement(tableRow);
 
-			for (WebElement header : headers) {
+			for (WebElement columnHeader : columnHeaders) {
 				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + index + ")"));
-				uiTblRowValues.put(header.getText(), column.getText());
+				uiTblRowValues.put(columnHeader.getText(), column.getText());
 				index++;
 			}
 		} catch (Exception exc) {
@@ -71,11 +71,11 @@ public class Table extends Factory{
 			int index = 1;
 
 			WebElement tableReports = getDriver().findElement(tableGrid);
-			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
 			
-			for (WebElement header : headers) {
+			for (WebElement columnHeader : columnHeaders) {
 				getDriver().findElement(By.cssSelector("table#dataGrid > thead > tr > th:nth-child(" + index + ")"));
-				uiTblHeaders.put(header.getText(), header.getText());
+				uiTblHeaders.put(columnHeader.getText(), columnHeader.getText());
 				index++;
 			}
 		} catch (Exception exc) {

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.testng.Assert;
 import at.framework.database.MsSql;
 import at.smartshop.database.columns.*;
+import at.smartshop.keys.Constants;
 
 public class DataBase {
 	
@@ -16,17 +17,17 @@ public class DataBase {
 
 	public Map<String, String> getNavigationMenuData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstNavigationMenu = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
 
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
 				rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
@@ -35,8 +36,8 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstNavigationMenu;
 
@@ -44,17 +45,17 @@ public class DataBase {
 
 	public Map<String, String> getConsumerSearchData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstConsumerSearch = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
 
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstConsumerSearch.put(CNConsumerSearch.CONSUMER_ID, resultSet.getString(CNConsumerSearch.CONSUMER_ID));
 				rstConsumerSearch.put(CNConsumerSearch.SEARCH_BY, resultSet.getString(CNConsumerSearch.SEARCH_BY));
@@ -69,25 +70,25 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstConsumerSearch;
 	}
 
 	public Map<String, String> getProductSummaryData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstProductSummary = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
 
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstProductSummary.put(CNProductSummary.ACTUAL_DATA, resultSet.getString(CNProductSummary.ACTUAL_DATA));
 				rstProductSummary.put(CNProductSummary.REQUIRED_DATA, resultSet.getString(CNProductSummary.REQUIRED_DATA));
@@ -156,8 +157,8 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstProductSummary;
 
@@ -165,17 +166,17 @@ public class DataBase {
 
 	public Map<String, String> getLocationSummaryData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstLocationSummary = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
 
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstLocationSummary.put(CNLocationSummary.ACTUAL_DATA, resultSet.getString(CNLocationSummary.ACTUAL_DATA));
 				rstLocationSummary.put(CNLocationSummary.REQUIRED_DATA,
@@ -233,8 +234,8 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstLocationSummary;
 
@@ -242,16 +243,16 @@ public class DataBase {
 
 	public Map<String, String> getConsumerSummaryData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstConsumerSummary = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstConsumerSummary.put(CNConsumerSummary.REASON, resultSet.getString(CNConsumerSummary.REASON));
 				rstConsumerSummary.put(CNConsumerSummary.ADJUST_BALANCE,
@@ -269,8 +270,8 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstConsumerSummary;
 
@@ -278,16 +279,16 @@ public class DataBase {
 
 	public Map<String, String> getReportListData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstReportList = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstReportList.put(CNReportList.REPORT_NAME, resultSet.getString(CNReportList.REPORT_NAME));
 				rstReportList.put(CNReportList.DATE_RANGE, resultSet.getString(CNReportList.DATE_RANGE));
@@ -301,25 +302,25 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstReportList;
 	}
 
 	public Map<String, String> getDeviceListData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstDeviceList = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
 
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstDeviceList.put(CNDeviceList.CC_PROCESSOR, resultSet.getString(CNDeviceList.CC_PROCESSOR));
 				rstDeviceList.put(CNDeviceList.PRODUCT_NAME, resultSet.getString(CNDeviceList.PRODUCT_NAME));
@@ -327,24 +328,24 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstDeviceList;
 	}
 
 	public Map<String, String> getLocationListData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstLocationList = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstLocationList.put(CNLocationList.DROPDOWN, resultSet.getString(CNLocationList.DROPDOWN));
 				rstLocationList.put(CNLocationList.LOCATION_NAME, resultSet.getString(CNLocationList.LOCATION_NAME));
@@ -354,24 +355,24 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstLocationList;
 	}
 	
 	public Map<String, String> getGmaUserData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstGmaUser = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstGmaUser.put(CNGmaUser.START_BALANCE, resultSet.getString(CNGmaUser.START_BALANCE));
 				rstGmaUser.put(CNGmaUser.PIN_VALUE, resultSet.getString(CNGmaUser.PIN_VALUE));
@@ -379,24 +380,24 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstGmaUser;	
 	}
 	
 	public Map<String, String> getLoadProductData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstLoadProduct = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstLoadProduct.put(CNLoadProduct.DELETE_EXISTING_PRODUCT, resultSet.getString(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 				rstLoadProduct.put(CNLoadProduct.LOAD_TYPE, resultSet.getString(CNLoadProduct.LOAD_TYPE));
@@ -404,24 +405,24 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstLoadProduct;
 	}
 	
 	public Map<String, String> getGlobalProductChangeData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstGlobalProductChange = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstGlobalProductChange.put(CNGlobalProductChange.TAB_NAME, resultSet.getString(CNGlobalProductChange.TAB_NAME));
 				rstGlobalProductChange.put(CNGlobalProductChange.LOCATION_NAME, resultSet.getString(CNGlobalProductChange.LOCATION_NAME));
@@ -439,24 +440,24 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstGlobalProductChange;
 	}
 	
 	public Map<String, String> getUserRolesData(String query, String testcaseID) throws SQLException {
 		Map<String, String> rstUserRoles = new HashMap<>();
-		Connection conn = null;
-		Statement stmt = null;
-		String sql = "";
+		Connection connection = null;
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			conn = mysql.getDBConnection();
-			if (conn != null) {
-				stmt = conn.createStatement();
-				sql = query + testcaseID;
+			connection = mysql.getDBConnection();
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
 			}
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstUserRoles.put(CNUserRoles.ROLE_NAME, resultSet.getString(CNUserRoles.ROLE_NAME));
 				rstUserRoles.put(CNUserRoles.ROW_RECORD, resultSet.getString(CNUserRoles.ROW_RECORD));
@@ -465,32 +466,32 @@ public class DataBase {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		}
 		return rstUserRoles;
 	}
 	
 	public Map<String, String> getNationalAccounts(String query, String testcaseID) throws SQLException {
         Map<String, String> rstNationalAccounts = new HashMap<>();
-        Connection conn = null;
-        Statement stmt = null;
-        String sql = "";
+        Connection connection = null;
+        Statement statement = null;
+        String sqlQuery = Constants.EMPTY_STRING;
         try {
-            conn = mysql.getDBConnection();
-            if (conn != null) {
-                stmt = conn.createStatement();
-                sql = query + testcaseID;
+            connection = mysql.getDBConnection();
+            if (connection != null) {
+                statement = connection.createStatement();
+                sqlQuery = query + testcaseID;
             }
-            ResultSet resultSet = stmt.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
             while (resultSet.next()) {
                 rstNationalAccounts.put(CNNationalAccounts.CLIENT_NAME, resultSet.getString(CNNationalAccounts.CLIENT_NAME));
-                rstNationalAccounts.put(CNNationalAccounts.DEFAULt_DROPDOWN_LOCATION, resultSet.getString(CNNationalAccounts.DEFAULt_DROPDOWN_LOCATION));
+                rstNationalAccounts.put(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION, resultSet.getString(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
                 rstNationalAccounts.put(CNNationalAccounts.DEFAULT_DROPDOWN_ORG, resultSet.getString(CNNationalAccounts.DEFAULT_DROPDOWN_ORG));
                 rstNationalAccounts.put(CNNationalAccounts.LOCATION_TAGGED, resultSet.getString(CNNationalAccounts.LOCATION_TAGGED));
                 rstNationalAccounts.put(CNNationalAccounts.NATIONAL_ACCOUNT_NAME, resultSet.getString(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
                 rstNationalAccounts.put(CNNationalAccounts.ORG_ASSIGNED, resultSet.getString(CNNationalAccounts.ORG_ASSIGNED));
-                rstNationalAccounts.put(CNNationalAccounts.NATIONAL_ACCOUNT_GRIDNAME, resultSet.getString(CNNationalAccounts.NATIONAL_ACCOUNT_GRIDNAME));
+                rstNationalAccounts.put(CNNationalAccounts.GRID_NAME, resultSet.getString(CNNationalAccounts.GRID_NAME));
                 rstNationalAccounts.put(CNNationalAccounts.COLUMN_NAMES, resultSet.getString(CNNationalAccounts.COLUMN_NAMES));
                 rstNationalAccounts.put(CNNationalAccounts.RULE_NAME, resultSet.getString(CNNationalAccounts.RULE_NAME));
                 rstNationalAccounts.put(CNNationalAccounts.RULE_TYPE, resultSet.getString(CNNationalAccounts.RULE_TYPE));
@@ -499,8 +500,8 @@ public class DataBase {
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         } finally {
-            stmt.close();
-            conn.close();
+            statement.close();
+            connection.close();
         }
         return rstNationalAccounts;
     }

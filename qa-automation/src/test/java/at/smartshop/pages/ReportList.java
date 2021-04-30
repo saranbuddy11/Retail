@@ -23,7 +23,7 @@ public class ReportList extends Factory {
 	private By dpdDateOptions = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul > li");
 	private By dpdDateGrid = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul");
 	private By dpdLocations = By.cssSelector("div.span12.m-0 > span > span.selection > span > ul > li > input");
-	private By dpdLocationlist = By.cssSelector("span.select2-results > #select2-locdt-results");
+	private By dpdLocationList = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public By btnRunReport = By.id("run");
 	
 	public void selectReport(String reportName) {
@@ -44,12 +44,6 @@ public class ReportList extends Factory {
 			WebElement editerGrid = getDriver().findElement(gridScheduledReport);
 			foundation.waitforElement(dpdDateOptions, 30000);
 			List<WebElement> dateOptions = editerGrid.findElements(dpdDateOptions);
-
-			String currentTime=dateAndTime.getTimeStamp(KeysReports.HH);
-			if (Integer.parseInt(currentTime)<=KeysReports.HOURTWELVE)
-			{
-				optionName=KeysReports.YESTERDAY;
-			}
 				for (WebElement dateOption : dateOptions) {
 					if (dateOption.getText().equals(optionName)) {
 						foundation.waitforElement(dpdDateGrid, 30000);
@@ -66,7 +60,7 @@ public class ReportList extends Factory {
 		try {
 			foundation.click(dpdLocations);
 			textBox.enterText(dpdLocations, locationName);
-			foundation.click(dpdLocationlist);
+			foundation.click(dpdLocationList);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
