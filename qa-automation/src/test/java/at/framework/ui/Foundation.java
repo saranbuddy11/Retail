@@ -15,7 +15,7 @@ import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
-import at.framework.reports.ExtFactory;
+import at.framework.reportsSetup.ExtFactory;
 
 public class Foundation extends Factory {
 

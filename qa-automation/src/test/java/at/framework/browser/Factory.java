@@ -8,7 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import com.aventstack.extentreports.Status;
-import at.framework.reports.ExtFactory;
+
+import at.framework.reportsSetup.ExtFactory;
 import at.smartshop.keys.Constants;
 import at.smartshop.testData.TestDataFilesPaths;
 

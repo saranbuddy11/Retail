@@ -20,7 +20,7 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.KeysConfiguration;
 
-@Listeners(at.framework.reports.Listeners.class)
+@Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
 	DataBase dataBase = new DataBase();
 	DBConnections dbConnections = new DBConnections();

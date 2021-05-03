@@ -6,7 +6,7 @@ import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
-import at.framework.reports.ExtFactory;
+import at.framework.reportsSetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
 import java.util.List;

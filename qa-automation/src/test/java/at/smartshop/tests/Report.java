@@ -34,7 +34,7 @@ import at.smartshop.testData.TestDataFilesPaths;
 import at.smartshop.utilities.CurrenyConverter;
 import at.smartshop.utilities.DataBase;
 
-@Listeners(at.framework.reports.Listeners.class)
+@Listeners(at.framework.reportsSetup.Listeners.class)
 public class Report extends TestInfra {
 	DataBase dataBase = new DataBase();
 	DBConnections dbConnections = new DBConnections();
