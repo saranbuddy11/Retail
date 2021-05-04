@@ -1,6 +1,9 @@
 package at.smartshop.database.columns;
 
 public class CNGlobalProductChange {
+	private CNGlobalProductChange() {
+
+	}
 	public static final String TAB_NAME = "TabName";
 	public static final String LOCATION_NAME = "LocationName";
 	public static final String PRODUCT_NAME = "ProductName";

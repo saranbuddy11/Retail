@@ -1,6 +1,9 @@
 package at.smartshop.keys;
 
 public class Constants {
+	private Constants() {
+
+	}
 	public static final String DELIMITER_HASH = "#";
 	public static final String DELIMITER_TILD = "~";
 	public static final String DELIMITER_HYPHEN = "-";

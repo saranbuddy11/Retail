@@ -1,6 +1,10 @@
 package at.smartshop.database.columns;
 
 public class CNConsumerSummary {
+	private CNConsumerSummary() {
+
+	}
+
 	public static final String REASON = "Reason";
 	public static final String ADJUST_BALANCE = "AdjustBalance";
 	public static final String FIRST_NAME = "FirstName";

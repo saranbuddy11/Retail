@@ -36,9 +36,9 @@ import at.smartshop.utilities.CurrenyConverter;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Report extends TestInfra {
-	DataBase dataBase = new DataBase();
-	DBConnections dbConnections = new DBConnections();
-	NavigationBar navigationBar = new NavigationBar();
+	private DataBase dataBase = new DataBase();
+	private DBConnections dbConnections = new DBConnections();
+	private NavigationBar navigationBar = new NavigationBar();
 	ConsumerSearch consumerSearch = new ConsumerSearch();
 	ConsumerSummary consumerSummary = new ConsumerSummary();
 	Foundation foundation = new Foundation();

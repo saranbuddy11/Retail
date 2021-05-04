@@ -1,6 +1,9 @@
 package at.smartshop.keys;
 
 public class KeysReports {
+	private KeysReports() {
+
+	}
 	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String TIME_FORMAT = "hh:mm a";
 	public static final String DEVICE_ID = "device_id";

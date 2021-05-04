@@ -17,24 +17,4 @@ public class ProductSummary extends Factory {
 	public By tblCellPrice = By.cssSelector("td.edit.priceandstock.column-price");
 	public By txtLocationSearchFilter =  By.cssSelector("#locdt_filter > label > input");
 	public By drpPrice = By.id("price");
-
-	public void getLocationName() {
-		try {
-			textbox.getText(tblData);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-	
-	public String getPriceFromLocationsTable() {
-		String cellValue = null;
-		try {
-				cellValue = getDriver().findElement(tblCellPrice).getText();
-			} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		
-		return cellValue;
-	}
-
 }

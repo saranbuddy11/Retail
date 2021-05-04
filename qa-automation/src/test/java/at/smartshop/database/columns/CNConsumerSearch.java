@@ -1,6 +1,10 @@
 package at.smartshop.database.columns;
 
 public class CNConsumerSearch {
+	
+	private CNConsumerSearch() {
+		
+	}
 	public static final String CONSUMER_ID = "ConsumerID";
 	public static final String SEARCH_BY = "SearchBy";
 	public static final String STATUS = "Status";
