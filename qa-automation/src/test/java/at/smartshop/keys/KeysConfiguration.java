@@ -1,6 +1,9 @@
 package at.smartshop.keys;
 
 public class KeysConfiguration {
+	private KeysConfiguration() {
+
+	}
 	public static final String CURRENT_ORG = "current_org";
 	public static final String CURRENT_LOC = "current_loc";
 	public static final String SALES_TRANS = "sales_trans";

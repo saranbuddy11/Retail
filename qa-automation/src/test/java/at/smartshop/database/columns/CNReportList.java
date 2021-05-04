@@ -1,6 +1,9 @@
 package at.smartshop.database.columns;
 
 public class CNReportList {
+	private CNReportList() {
+
+	}
 	public static final String REPORT_NAME = "ReportName";
 	public static final String FROM_TIME = "FromTime";
 	public static final String DATE_RANGE = "DateRange";
