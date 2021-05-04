@@ -10,7 +10,7 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.keys.KeysReports;
+
 
 public class ReportList extends Factory {
 	TextBox textBox = new TextBox();

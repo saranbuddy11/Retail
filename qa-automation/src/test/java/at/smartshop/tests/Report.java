@@ -13,6 +13,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.DBConnections;
+import at.framework.database.DataBase;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -32,7 +33,6 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ReportList;
 import at.smartshop.testData.TestDataFilesPaths;
 import at.smartshop.utilities.CurrenyConverter;
-import at.smartshop.utilities.DataBase;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Report extends TestInfra {
@@ -57,7 +57,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstReportListData;
 	
 	@Test(description = "This test validates account adjustment report")
-	public void AccountAdjustmentReport() throws SQLException {
+	public void accountAdjustmentReport() throws SQLException {
 		try {
 			Map<String, String> dbData = new HashMap<>();
 

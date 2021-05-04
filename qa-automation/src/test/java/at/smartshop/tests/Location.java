@@ -7,13 +7,13 @@ import org.testng.annotations.*;
 import org.testng.annotations.Listeners;
 
 import at.framework.database.DBConnections;
+import at.framework.database.DataBase;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 
 import at.smartshop.pages.*;
 import at.smartshop.testData.TestDataFilesPaths;
-import at.smartshop.utilities.DataBase;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -36,7 +36,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	
 	@Test(description = "This test validates Extend Product")
-	public void ExtendProducts() {
+	public void extendProducts() {
 		try {			
 			final String CASE_NUM = "114280";
 			browser.navigateURL(propertyFile.readConfig(KeysConfiguration.CURRENT_URL,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

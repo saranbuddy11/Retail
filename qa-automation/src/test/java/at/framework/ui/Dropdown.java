@@ -35,8 +35,7 @@ public class Dropdown extends Factory {
 	public String getSelectedItem(By object) {
         foundation.scrollToElement(object);
         Select select = new Select(getDriver().findElement(object));
-        String selectedItem = select.getFirstSelectedOption().getText();
-        return selectedItem;
+        return select.getFirstSelectedOption().getText();        
     }	
    
     public void selectItemByIndex(By object,int index) {

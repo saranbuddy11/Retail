@@ -22,7 +22,7 @@ public class TestInfra {
 	}
 
 	@AfterTest
-	public void AfterTest() {
+	public void afterTest() {
 		browser.close();
 	}
 }

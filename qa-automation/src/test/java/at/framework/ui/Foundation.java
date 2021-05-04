@@ -20,16 +20,16 @@ import at.framework.reportsSetup.ExtFactory;
 public class Foundation extends Factory {
 
 	public boolean isDisplayed(By object, String objectName) {
-		boolean ObjDisplayed = false;
+		boolean isElementDisplayed = false;
 		try {
-			ObjDisplayed = getDriver().findElement(object).isDisplayed();
+			isElementDisplayed = getDriver().findElement(object).isDisplayed();
 			if(ExtFactory.getInstance().getExtent()!=null) {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, objectName+" is displayed");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return ObjDisplayed;
+		return isElementDisplayed;
 	}	
 
 	public String getText(By object) {
@@ -86,8 +86,8 @@ public class Foundation extends Factory {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
         try {
             Thread.sleep(200);
-        } catch (InterruptedException e) {           
-            e.printStackTrace();
+        } catch (InterruptedException exc) {           
+        	Assert.fail(exc.toString());
         }
     }
 

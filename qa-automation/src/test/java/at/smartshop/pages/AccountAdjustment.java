@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import at.framework.browser.Factory;
-import at.smartshop.utilities.DataBase;
+import at.framework.database.DataBase;
 
 public class AccountAdjustment extends Factory {
 

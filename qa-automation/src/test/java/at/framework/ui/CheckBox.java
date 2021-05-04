@@ -37,19 +37,20 @@ public class CheckBox extends Factory {
 	}
 	
 	public boolean isChecked(By object) {
+		boolean isChecked=false;
 		try {
 			WebElement element = getDriver().findElement(object);
 			
 			if (element.isSelected()) {
-				return true;
+				isChecked=true;
 			}
 			else {
-				return false;
+				isChecked=false;
 			}
 			
 		} catch (Exception exc) {			
-			Assert.fail(exc.toString());
-			return false;
+			Assert.fail(exc.toString());			
 		}
+		return isChecked;
 	}
 }
