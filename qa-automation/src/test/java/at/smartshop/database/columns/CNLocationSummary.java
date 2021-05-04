@@ -1,6 +1,9 @@
 package at.smartshop.database.columns;
 
 public class CNLocationSummary {
+	private CNLocationSummary() {
+
+	}
 	public static final String ACTUAL_DATA = "ActualData";
 	public static final String REQUIRED_DATA = "RequiredData";
 	public static final String COLUMN_NAME = "ColumnName";

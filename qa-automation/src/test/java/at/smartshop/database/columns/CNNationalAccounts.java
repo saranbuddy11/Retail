@@ -1,6 +1,9 @@
 package at.smartshop.database.columns;
 
 public class CNNationalAccounts {
+	private CNNationalAccounts() {
+
+	}
 	 public static final String DEFAULT_DROPDOWN_LOCATION = "DefaultDropdownLocation";
 	 public static final String DEFAULT_DROPDOWN_ORG = "DefaultDropdownOrg";
 	 public static final String LOCATION_TAGGED = "LocationsTagged";
