@@ -39,15 +39,16 @@ public class Report extends TestInfra {
 	private DataBase dataBase = new DataBase();
 	private DBConnections dbConnections = new DBConnections();
 	private NavigationBar navigationBar = new NavigationBar();
-	ConsumerSearch consumerSearch = new ConsumerSearch();
-	ConsumerSummary consumerSummary = new ConsumerSummary();
-	Foundation foundation = new Foundation();
-	TextBox textBox = new TextBox();
-	Dropdown dropdown = new Dropdown();
-	DateAndTime dateAndTime = new DateAndTime();
-	ReportList reportList = new ReportList();
-	AccountAdjustment accountAdjustment = new AccountAdjustment();
-	CurrenyConverter converter = new CurrenyConverter();
+	private ConsumerSearch consumerSearch = new ConsumerSearch();
+	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Foundation foundation = new Foundation();
+	private TextBox textBox = new TextBox();
+	private Dropdown dropdown = new Dropdown();
+	private DateAndTime dateAndTime = new DateAndTime();
+	private ReportList reportList = new ReportList();
+	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private CurrenyConverter converter = new CurrenyConverter();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;

@@ -22,14 +22,14 @@ import at.smartshop.keys.KeysConfiguration;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
-	DataBase dataBase = new DataBase();
-	DBConnections dbConnections = new DBConnections();
-	NavigationBar navigationBar = new NavigationBar();
-	GlobalProduct globalProduct = new GlobalProduct();
-	TextBox textBox = new TextBox();
-	ProductSummary productSummary = new ProductSummary();
-	Foundation foundation = new Foundation();
-	Table table=new Table();
+	
+	private DBConnections dbConnections = new DBConnections();
+	private NavigationBar navigationBar = new NavigationBar();
+	private GlobalProduct globalProduct = new GlobalProduct();
+	private TextBox textBox = new TextBox();
+	private ProductSummary productSummary = new ProductSummary();
+	private Foundation foundation = new Foundation();
+	private Table table=new Table();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -46,6 +46,7 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(dbConnections.getNavigationMenu(), CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(dbConnections.getDevicelist(), CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(dbConnections.getLocationlist(), CASE_NUM);
+			
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
