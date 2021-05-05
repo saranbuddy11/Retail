@@ -3,26 +3,27 @@ package at.smartshop.tests;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.*;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import at.framework.database.DBConnections;
 import at.framework.database.DataBase;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-
-import at.smartshop.pages.*;
-import at.smartshop.testData.TestDataFilesPaths;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.KeysConfiguration;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductSummary;
+import at.smartshop.testData.TestDataFilesPaths;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
-	
+	private DataBase dataBase = new DataBase();
 	private DBConnections dbConnections = new DBConnections();
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();

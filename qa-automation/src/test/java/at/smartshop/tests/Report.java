@@ -49,7 +49,6 @@ public class Report extends TestInfra {
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
 	private CurrenyConverter converter = new CurrenyConverter();
 	
-
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
@@ -88,11 +87,14 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			
 			consumerSearch.clickCell(requiredData.get(5));
-
+			
+			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> tblColumnHeader = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
+			
 			// reading Balance and add to the array list
 			double initialbalance = consumerSummary.getBalance();
-			dbData.put(CNReportList.INITIAL_BALANCE, converter.convertTOCurrency(initialbalance));
-
+			dbData.put(tblColumnHeader.get(7), converter.convertTOCurrency(initialbalance));
+			
 			foundation.click(consumerSummary.btnAdjust);
  
 			// converting string to double and adding the adjusted value
@@ -127,21 +129,21 @@ public class Report extends TestInfra {
 			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));			
 
 			// Add db data to Array list
-			dbData.put(CNProductSummary.LOCATION, propertyFile.readConfig(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			dbData.put(CNProductSummary.ADJUSTER_ID, requiredData.get(0));
-			dbData.put(CNProductSummary.ADJUSTER_NAME, requiredData.get(1));
-			dbData.put(CNReportList.CONSUMER_ID, rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
-			dbData.put(CNProductSummary.CONSUMER_NAME, requiredData.get(2));
-			dbData.put(CNProductSummary.ACTION, requiredData.get(3));
+			dbData.put(tblColumnHeader.get(1), propertyFile.readConfig(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			dbData.put(tblColumnHeader.get(2), requiredData.get(0));
+			dbData.put(tblColumnHeader.get(3), requiredData.get(1));
+			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
+			dbData.put(tblColumnHeader.get(5), requiredData.get(2));
+			dbData.put(tblColumnHeader.get(6), requiredData.get(3));
 
-			dbData.put(CNReportList.UPDATED_BALANACE, converter.convertTOCurrency(updatedbalance));
-			dbData.put(CNReportList.ADJUST_BALANCE, converter.convertTOCurrency(adustedBalance));
+			dbData.put(tblColumnHeader.get(8), converter.convertTOCurrency(updatedbalance));
+			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
-			dbData.put(CNProductSummary.REFLECT_ON_EFT, requiredData.get(4));
+			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
 			
-			dbData.put(CNReportList.UPDATED_TIME, String.valueOf(updatedTime));
+			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
-			textBox.enterText(accountAdjustment.txtSearch, dbData.get(CNReportList.UPDATED_TIME));
+			textBox.enterText(accountAdjustment.txtSearch, tblColumnHeader.get(0));
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();

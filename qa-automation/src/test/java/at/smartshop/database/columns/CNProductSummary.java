@@ -47,12 +47,4 @@ public class CNProductSummary {
 	public static final String MAX_SELECTIONS = "MaxSelections";
 	public static final String TOOL_TIP_MESSAGE = "ToolTipMessage";
 	public static final String RECORDS_PER_PAGE_LIST = "RecordsPerPageList";
-
-//	public static final String ADJUSTER_ID = "Adjuster ID";
-//	public static final String ADJUSTER_NAME = "Adjuster Name";
-//	public static final String CONSUMER_NAME = "Consumer Name";
-//	public static final String ACTION = "Action";
-//	public static final String REFLECT_ON_EFT = "Reflect on EFT";
-//	public static final String DATE = "Date";
-//	public static final String LOCATION = "Location";
 }
