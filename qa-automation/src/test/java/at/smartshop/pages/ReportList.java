@@ -17,14 +17,14 @@ public class ReportList extends Factory {
 	Foundation foundation = new Foundation();
 	DateAndTime dateAndTime = new DateAndTime();
 	
-	private By txtSearch = By.id("Search");
-	private By dpdDate = By.id("reportrange1");
-	private By gridScheduledReport = By.id("scheduled-report-grid_editor_list");
-	private By dpdDateOptions = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul > li");
-	private By dpdDateGrid = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul");
-	private By dpdLocations = By.cssSelector("div.span12.m-0 > span > span.selection > span > ul > li > input");
-	private By dpdLocationList = By.cssSelector("span.select2-results > #select2-locdt-results");
-	public By btnRunReport = By.id("run");
+	private static final By txtSearch = By.id("Search");
+	private static final By dpdDate = By.id("reportrange1");
+	private static final By gridScheduledReport = By.id("scheduled-report-grid_editor_list");
+	private static final By dpdDateOptions = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul > li");
+	private static final By dpdDateGrid = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul");
+	private static final By dpdLocations = By.cssSelector("div.span12.m-0 > span > span.selection > span > ul > li > input");
+	private static final By dpdLocationList = By.cssSelector("span.select2-results > #select2-locdt-results");
+	public static final By btnRunReport = By.id("run");
 	
 	public void selectReport(String reportName) {
 		try {

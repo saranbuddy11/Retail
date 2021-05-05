@@ -10,17 +10,17 @@ public class NavigationBar extends Factory {
 	Dropdown dropdown = new Dropdown();
 	Foundation foundation = new Foundation();
 
-	private By dpdOrg = By.className("select2");
-	private By txtOrg = By.className("select2-search__field");
-	private By dpdSelectOrg = By.className("select2-results__option");
-	public By mnuAdmin = By.id("drop6");
-	public By mnuConsumer = By.id("supadmin-adconsumer");
-	public By mnuProduct = By.id("drop1");
-	public By mnuGobalProduct = By.id("sup-product");
-	public By mnuLocationGobalProduct = By.id("sup-product");
-	public By mnuReports = By.cssSelector("a[id*=reports]");
-	public By mnuSuper = By.id("drop7");
-	public By mnuUserRoles = By.id("super-supuser");
+	private static final By dpdOrg = By.className("select2");
+	private static final By txtOrg = By.className("select2-search__field");
+	private static final By dpdSelectOrg = By.className("select2-results__option");
+	public static final By mnuAdmin = By.id("drop6");
+	public static final By mnuConsumer = By.id("supadmin-adconsumer");
+	public static final By mnuProduct = By.id("drop1");
+	public static final By mnuGobalProduct = By.id("sup-product");
+	public static final By mnuLocationGobalProduct = By.id("sup-product");
+	public static final By mnuReports = By.cssSelector("a[id*=reports]");
+	public static final By mnuSuper = By.id("drop7");
+	public static final By mnuUserRoles = By.id("super-supuser");
 
 	public void selectOrginazation(String selectText) {	
 		try {

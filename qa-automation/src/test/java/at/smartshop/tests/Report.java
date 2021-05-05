@@ -75,7 +75,7 @@ public class Report extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(navigationBar.mnuAdmin, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.navigateToMenuItem(NavigationBar.mnuAdmin, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -95,18 +95,18 @@ public class Report extends TestInfra {
 			double initialbalance = consumerSummary.getBalance();
 			dbData.put(tblColumnHeader.get(7), converter.convertTOCurrency(initialbalance));
 			
-			foundation.click(consumerSummary.btnAdjust);
+			foundation.click(ConsumerSummary.btnAdjust);
  
 			// converting string to double and adding the adjusted value
 			double adustedBalance = Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			double updatedbalance = initialbalance
 					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
-			textBox.enterText(consumerSummary.txtAdjustBalance, Double.toString(updatedbalance));
+			textBox.enterText(ConsumerSummary.txtAdjustBalance, Double.toString(updatedbalance));
 
-			dropdown.selectItem(consumerSummary.dpdReason, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+			dropdown.selectItem(ConsumerSummary.dpdReason, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 
-			foundation.click(consumerSummary.btnSave);
+			foundation.click(ConsumerSummary.btnSave);
 
 			// converting time zone to specific time zone
 			String updatedTime = String.valueOf(dateAndTime.getDateBasedOnZone(dateAndTime.getCurrentDate(),
@@ -114,7 +114,7 @@ public class Report extends TestInfra {
 					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			// Navigate to Reports
-			foundation.click(navigationBar.mnuReports);
+			foundation.click(NavigationBar.mnuReports);
 
 			// Selecting the Date range and Location for running report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -122,10 +122,10 @@ public class Report extends TestInfra {
 
 			reportList.selectLocation(propertyFile.readConfig(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 
-			foundation.click(reportList.btnRunReport);
+			foundation.click(ReportList.btnRunReport);
 
 			// Validate Account Adjustment Report Title
-			String reportName = foundation.getText(accountAdjustment.lblReportName);
+			String reportName = foundation.getText(AccountAdjustment.lblReportName);
 			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));			
 
 			// Add db data to Array list
@@ -143,7 +143,7 @@ public class Report extends TestInfra {
 			
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
-			textBox.enterText(accountAdjustment.txtSearch, String.valueOf(updatedTime));
+			textBox.enterText(AccountAdjustment.txtSearch, String.valueOf(updatedTime));
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();

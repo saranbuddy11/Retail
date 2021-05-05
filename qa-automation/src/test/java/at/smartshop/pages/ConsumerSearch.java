@@ -16,14 +16,14 @@ public class ConsumerSearch extends Factory{
 	Dropdown dropdown = new Dropdown();
 	Foundation foundation = new Foundation();
 	
-	private By dpdLocation = By.id("loc-dropdown");
-	private By dpdStatus = By.id("isdisabled");
-	public By dpdSearchBy = By.id("searchBy");
-	public By txtSearch = By.id("search");
-	public By btnGo = By.id("findBtn");
-	public By tblConsumers = By.id("consumerdt");
-	public By tblConsumerSearchGrid = By.id("consumerdt");
-	public By lblRows = By.cssSelector("#consumerdt > tbody > tr");
+	private static final By dpdLocation = By.id("loc-dropdown");
+	private static final By dpdStatus = By.id("isdisabled");
+	public static final By dpdSearchBy = By.id("searchBy");
+	public static final By txtSearch = By.id("search");
+	public static final By btnGo = By.id("findBtn");
+	public static final By tblConsumers = By.id("consumerdt");
+	public static final By tblConsumerSearchGrid = By.id("consumerdt");
+	public static final By lblRows = By.cssSelector("#consumerdt > tbody > tr");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {

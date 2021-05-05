@@ -9,11 +9,11 @@ import at.framework.ui.*;
 public class Login extends Factory {
 	TextBox textBox = new TextBox();
 	Foundation foundation = new Foundation();
-	private By txtEmail = By.id("email");
-	private By txtPassword = By.id("password");
-	private By btnSignIn = By.cssSelector("#loginform > button");
-	private By lblUserName = By.id("drop5");
-	private By mnuLogout = By.id("logout");
+	private static final By txtEmail = By.id("email");
+	private static final By txtPassword = By.id("password");
+	private static final By btnSignIn = By.cssSelector("#loginform > button");
+	private static final By lblUserName = By.id("drop5");
+	private static final By mnuLogout = By.id("logout");
 	
 
 	public void insertLoginFields(String userName, String password) {

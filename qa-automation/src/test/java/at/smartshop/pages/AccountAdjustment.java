@@ -13,10 +13,10 @@ import at.framework.database.DataBase;
 public class AccountAdjustment extends Factory {
 
 	DataBase db = new DataBase();
-	private By tblAccountAdjustment = By.id("rptdt");
-	private By lblRows = By.cssSelector("#rptdt > tbody > tr");
-	public By lblReportName = By.cssSelector("#report-container > script + style + div > div");
-	public By txtSearch = By.cssSelector("input[aria-controls='rptdt']");
+	private static final By tblAccountAdjustment = By.id("rptdt");
+	private static final By lblRows = By.cssSelector("#rptdt > tbody > tr");
+	public static final By lblReportName = By.cssSelector("#report-container > script + style + div > div");
+	public static final By txtSearch = By.cssSelector("input[aria-controls='rptdt']");
 
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();

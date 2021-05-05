@@ -8,11 +8,11 @@ import at.smartshop.keys.Constants;
 public class ConsumerSummary {
 	TextBox textBox = new TextBox();
 
-	private By lblReadBalance = By.id("readbalance");
-	public By btnAdjust = By.id("adjustBalanceBtn");
-	public By txtAdjustBalance = By.id("balNum");
-	public By dpdReason = By.id("reason");
-	public By btnSave = By.id("reasonSaveBtn");
+	private static final By lblReadBalance = By.id("readbalance");
+	public static final By btnAdjust = By.id("adjustBalanceBtn");
+	public static final By txtAdjustBalance = By.id("balNum");
+	public static final By dpdReason = By.id("reason");
+	public static final By btnSave = By.id("reasonSaveBtn");
 
 	public double getBalance() {
 		double initBalance = 0;

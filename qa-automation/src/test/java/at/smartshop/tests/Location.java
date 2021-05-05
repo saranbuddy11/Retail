@@ -28,7 +28,6 @@ public class Location extends TestInfra {
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
-	private ProductSummary productSummary = new ProductSummary();
 	private Foundation foundation = new Foundation();
 	private Table table=new Table();
 	
@@ -51,29 +50,29 @@ public class Location extends TestInfra {
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(navigationBar.mnuProduct, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.navigateToMenuItem(NavigationBar.mnuProduct, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Searching for Product
-			textBox.enterText(globalProduct.txtFilter, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			textBox.enterText(GlobalProduct.txtFilter, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			globalProduct.selectGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			
-			foundation.click(productSummary.btnExtend);
+			foundation.click(ProductSummary.btnExtend);
 
 			// Extend product to location
-			textBox.enterText(productSummary.txtFilter, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			textBox.enterText(ProductSummary.txtFilter, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-			foundation.click(productSummary.btnSave);
+			foundation.click(ProductSummary.btnSave);
 
 			// Searching for Product and Validating the Location Name
-			textBox.enterText(productSummary.txtSearch, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			Assert.assertTrue((textBox.getText(productSummary.tblData))
+			textBox.enterText(ProductSummary.txtSearch, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			Assert.assertTrue((textBox.getText(ProductSummary.tblData))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
 			// Resetting test data
-			foundation.click(productSummary.tblData);
-			foundation.waitforElement(productSummary.btnRemove, 10000);
-			foundation.click(productSummary.btnRemove);
+			foundation.click(ProductSummary.tblData);
+			foundation.waitforElement(ProductSummary.btnRemove, 10000);
+			foundation.click(ProductSummary.btnRemove);
 
 		} catch (Exception exc) {
 			Assert.fail();

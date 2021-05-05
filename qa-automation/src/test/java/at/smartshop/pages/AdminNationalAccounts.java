@@ -6,17 +6,17 @@ import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 
 public class AdminNationalAccounts extends Factory{
-	public By lblNationalAccountTitle = By.id("page-title");
-	public By tblNationalAccountTitle = By.id(" National Account Rules");
-	public By txtFilter = By.id("filterType");
-	public By tblRulesList = By.cssSelector("#dataGrid> tbody > tr");
-	public By tblHeader = By.cssSelector("table#dataGrid > thead > tr");
-	public By dpdRuleType = By.id("ruletype");
-	public By tblDataGrid = By.id("dataGrid");
-	public By tblDataRow = By.cssSelector("#dataGrid > tbody >tr");
-	public By dpdCategory = By.id("upctype");
-	public By btnSave = By.id("saveBtn");
-	public By dpdRulePrice = By.id("ruleprice");
+	public static final By lblNationalAccountTitle = By.id("page-title");
+	public static final By tblNationalAccountTitle = By.id(" National Account Rules");
+	public static final By txtFilter = By.id("filterType");
+	public static final By tblRulesList = By.cssSelector("#dataGrid> tbody > tr");
+	public static final By tblHeader = By.cssSelector("table#dataGrid > thead > tr");
+	public static final By dpdRuleType = By.id("ruletype");
+	public static final By tblDataGrid = By.id("dataGrid");
+	public static final By tblDataRow = By.cssSelector("#dataGrid > tbody >tr");
+	public static final By dpdCategory = By.id("upctype");
+	public static final By btnSave = By.id("saveBtn");
+	public static final By dpdRulePrice = By.id("ruleprice");
 	
 	Foundation foundation = new Foundation();
 	
