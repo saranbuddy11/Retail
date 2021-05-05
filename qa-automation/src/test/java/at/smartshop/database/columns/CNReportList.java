@@ -15,4 +15,5 @@ public class CNReportList {
 	public static final String END_MONTH = "EndMonth";
 	public static final String YESTERDAY = "Yesterday";
 	public static final String TRANS_ID = "transid";
+	public static final String UPDATED_TIME = "Date";
 }

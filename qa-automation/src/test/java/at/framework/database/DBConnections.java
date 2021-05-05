@@ -2,26 +2,26 @@ package at.framework.database;
 
 public class DBConnections {
 	
-	private String jdbcdriver = "jdbc:sqlserver://65.183.177.43:1920";
+	private static String jdbcdriver = "jdbc:sqlserver://65.183.177.43:1920";
 	private String dburl = "jdbc:mariadb://192.168.100.174/db";
 	private String dbname = "qa";
-	private String username = "QAUser";
-	private String password = "Nyb!qcrpN3p4D@n6EZQPx:Ft";
+	private static String username = "QAUser";
+	private static String password = "Nyb!qcrpN3p4D@n6EZQPx:Ft";
 	
-	private String navigationMenu = "SELECT * FROM dbo.NavigationMenu where TestcaseID=";
-	private String consumersearch = "SELECT * FROM dbo.ConsumerSearch where TestcaseID=";
-	private String productsummary = "SELECT * FROM dbo.ProductSummary where TestcaseID=";
-	private String locationsummary = "SELECT * FROM dbo.LocationSummary where TestcaseID=";
-	private String consumersummary = "SELECT * FROM dbo.ConsumerSummary where TestcaseID=";
-	private String reportsList = "SELECT * FROM dbo.ReportsList where TestcaseID=";
-	private String devicelist = "SELECT * FROM dbo.DeviceList where TestcaseID=";
-	private String locationlist = "SELECT * FROM dbo.LocationList where TestcaseID=";
+	private String navigationMenu = "SELECT * FROM QA.dbo.NavigationMenu where TestcaseID=";
+	private String consumersearch = "SELECT * FROM QA.dbo.ConsumerSearch where TestcaseID=";
+	private String productsummary = "SELECT * FROM QA.dbo.ProductSummary where TestcaseID=";
+	private String locationsummary = "SELECT * FROM QA.dbo.LocationSummary where TestcaseID=";
+	private String consumersummary = "SELECT * FROM QA.dbo.ConsumerSummary where TestcaseID=";
+	private String reportsList = "SELECT * FROM QA.dbo.ReportsList where TestcaseID=";
+	private String devicelist = "SELECT * FROM QA.dbo.DeviceList where TestcaseID=";
+	private String locationlist = "SELECT * FROM QA.dbo.LocationList where TestcaseID=";
 
-	public String getJdbcdriver() {
+	public static String getJdbcdriver() {
 		return jdbcdriver;
 	}
 	public void setJdbcdriver(String jdbcdriver) {
-		this.jdbcdriver = jdbcdriver;
+		DBConnections.jdbcdriver = jdbcdriver;
 	}
 	public String getDburl() {
 		return dburl;
@@ -35,17 +35,17 @@ public class DBConnections {
 	public void setDbname(String dbname) {
 		this.dbname = dbname;
 	}
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
-		this.username = username;
+		DBConnections.username = username;
 	}
-	public String getPassword() {
+	public static String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		DBConnections.password = password;
 	}
 	public String getNavigationMenu() {
 		return navigationMenu;

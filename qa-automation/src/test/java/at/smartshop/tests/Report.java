@@ -143,7 +143,7 @@ public class Report extends TestInfra {
 			
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
-			textBox.enterText(accountAdjustment.txtSearch, tblColumnHeader.get(0));
+			textBox.enterText(accountAdjustment.txtSearch, dbData.get(CNReportList.UPDATED_TIME));
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();

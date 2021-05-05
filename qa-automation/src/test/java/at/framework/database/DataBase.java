@@ -1,6 +1,5 @@
 package at.framework.database;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,26 +7,33 @@ import java.util.HashMap;
 import java.util.Map;
 import org.testng.Assert;
 
-import at.smartshop.database.columns.*;
+import at.smartshop.database.columns.CNConsumerSearch;
+import at.smartshop.database.columns.CNConsumerSummary;
+import at.smartshop.database.columns.CNDeviceList;
+import at.smartshop.database.columns.CNGlobalProductChange;
+import at.smartshop.database.columns.CNGmaUser;
+import at.smartshop.database.columns.CNLoadProduct;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNationalAccounts;
+import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProductSummary;
+import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Constants;
 
 public class DataBase extends MsSql {
-	
-	private MsSql mysql = new MsSql();
-	Connection connection=getDBConnection();
-	
 
 	public Map<String, String> getNavigationMenuData(String query, String testcaseID) {
 		Map<String, String> rstNavigationMenu = new HashMap<>();
-		//Connection connection = null;
+
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			//connection = mysql.getDBConnection();
+
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
-
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
@@ -40,8 +46,7 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
-			} catch (SQLException exc) {
+			} catch (Exception exc) {
 				Assert.fail(exc.toString());
 			}
 		}
@@ -51,11 +56,11 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getConsumerSearchData(String query, String testcaseID) {
 		Map<String, String> rstConsumerSearch = new HashMap<>();
-		Connection connection = null;
+
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
+
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -81,8 +86,8 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
-			} catch (SQLException exc) {
+
+			} catch (Exception exc) {
 				Assert.fail(exc.toString());
 			}
 		}
@@ -91,11 +96,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getProductSummaryData(String query, String testcaseID) {
 		Map<String, String> rstProductSummary = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -183,7 +186,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -194,11 +196,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getLocationSummaryData(String query, String testcaseID) {
 		Map<String, String> rstLocationSummary = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -274,7 +274,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -285,11 +284,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getConsumerSummaryData(String query, String testcaseID) {
 		Map<String, String> rstConsumerSummary = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -318,7 +315,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -329,11 +325,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getReportListData(String query, String testcaseID) {
 		Map<String, String> rstReportList = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -355,7 +349,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -365,11 +358,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getDeviceListData(String query, String testcaseID) {
 		Map<String, String> rstDeviceList = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -385,7 +376,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -395,11 +385,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getLocationListData(String query, String testcaseID) {
 		Map<String, String> rstLocationList = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -418,7 +406,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -428,11 +415,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getGmaUserData(String query, String testcaseID) {
 		Map<String, String> rstGmaUser = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -448,7 +433,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -458,11 +442,9 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getLoadProductData(String query, String testcaseID) {
 		Map<String, String> rstLoadProduct = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -479,7 +461,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -489,11 +470,10 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getGlobalProductChangeData(String query, String testcaseID) {
 		Map<String, String> rstGlobalProductChange = new HashMap<>();
-		Connection connection = null;
+
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -531,7 +511,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -541,11 +520,10 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getUserRolesData(String query, String testcaseID) {
 		Map<String, String> rstUserRoles = new HashMap<>();
-		Connection connection = null;
+
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
@@ -562,7 +540,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}
@@ -572,15 +549,13 @@ public class DataBase extends MsSql {
 
 	public Map<String, String> getNationalAccounts(String query, String testcaseID) {
 		Map<String, String> rstNationalAccounts = new HashMap<>();
-		Connection connection = null;
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			connection = mysql.getDBConnection();
+
 			if (connection != null) {
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
-
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
 					rstNationalAccounts.put(CNNationalAccounts.CLIENT_NAME,
@@ -612,7 +587,6 @@ public class DataBase extends MsSql {
 		} finally {
 			try {
 				statement.close();
-				connection.close();
 			} catch (SQLException exc) {
 				Assert.fail(exc.toString());
 			}

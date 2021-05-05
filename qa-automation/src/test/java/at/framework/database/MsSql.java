@@ -1,28 +1,40 @@
 package at.framework.database;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
+import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
 public class MsSql {
+	//DBConnections dbConnection=new DBConnections();
+	public static Connection connection ;
+	private static BasicDataSource dataSource = new BasicDataSource();
 
-	public Connection getDBConnection() {
-	       
-        DBConnections dbConnections = new DBConnections();
-        String databaseURL = null;
-        Connection connection = null;
-        try {
-            DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-            databaseURL = dbConnections.getJdbcdriver() + ";databaseName=" + dbConnections.getDbname() + ";user="
-                    + dbConnections.getUsername() + ";password=" + dbConnections.getPassword();   
-            connection=DriverManager.getConnection(databaseURL);
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-        return connection;
-       
+    static {
+    	try {
+            dataSource.setUrl(DBConnections.getJdbcdriver());
+            dataSource.setUsername(DBConnections.getUsername());
+            dataSource.setPassword(DBConnections.getPassword());
+            dataSource.setMinIdle(5);
+            dataSource.setMaxIdle(10);
+            dataSource.setMaxOpenPreparedStatements(10);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+    	
     }
-	
-	
-
+    
+    public static Connection getConnection()  {
+    	
+    	try {
+    		connection = dataSource.getConnection();    		
+    	}
+    	catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+    	return connection;
+    }
+    
+    public MsSql(){ }
+    
 }
