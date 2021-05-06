@@ -7,7 +7,7 @@ public class ExtFactory {
 
 	}
 
-	private static final ExtFactory instance = new ExtFactory();
+	private static ExtFactory instance = new ExtFactory();
 
 	public static ExtFactory getInstance() {
 		return instance;

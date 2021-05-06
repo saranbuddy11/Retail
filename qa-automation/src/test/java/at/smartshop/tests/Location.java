@@ -24,7 +24,6 @@ import at.smartshop.testData.TestDataFilesPaths;
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
 	private DataBase dataBase = new DataBase();
-	private DBConnections dbConnections = new DBConnections();
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
@@ -35,7 +34,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	
-	@Test(description = "This test validates Extend Product")
+	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
 		try {			
 			final String CASE_NUM = "114280";
@@ -43,9 +42,9 @@ public class Location extends TestInfra {
 			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(dbConnections.getNavigationMenu(), CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(dbConnections.getDevicelist(), CASE_NUM);
-			rstLocationListData = dataBase.getLocationListData(dbConnections.getLocationlist(), CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(DBConnections.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(DBConnections.DEVICE_LIST, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(DBConnections.LOCATION_LIST, CASE_NUM);
 			
 			
 			// Select Menu and Menu Item
@@ -73,7 +72,8 @@ public class Location extends TestInfra {
 			foundation.click(ProductSummary.tblData);
 			foundation.waitforElement(ProductSummary.btnRemove, 10000);
 			foundation.click(ProductSummary.btnRemove);
-
+			foundation.waitforElement(ProductSummary.txtSearch, 10000);
+			
 		} catch (Exception exc) {
 			Assert.fail();
 		}

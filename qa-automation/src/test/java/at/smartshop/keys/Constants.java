@@ -18,12 +18,14 @@ public class Constants {
 	public static final String DATA = "data";
 	public static final String CHROME = "Chrome";
 	public static final String REGEX_DDMMYYYY = "DDMMYYYY";
+	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
+	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
 	public static final String SHEETNAME = "Sheet1";
 	public static final String YES = "yes";
 	public static final String REPORT_NAME= "\\Results.html";
-	public static final String REPORTS= "\\Reports";
+	public static final String REPORTS= "\\Reports\\";
 	public static final String DELIMITER_BACKSLASH= "\\";
 	public static final String NATIONACCOUNT_RULETYPE= "Rule Type";
 	public static final String NATIONACCOUNT_UPCS = "UPCs";

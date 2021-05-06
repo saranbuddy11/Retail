@@ -37,7 +37,6 @@ import at.smartshop.utilities.CurrenyConverter;
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Report extends TestInfra {
 	private DataBase dataBase = new DataBase();
-	private DBConnections dbConnections = new DBConnections();
 	private NavigationBar navigationBar = new NavigationBar();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
@@ -56,7 +55,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 	
-	@Test(description = "This test validates account adjustment report")
+	@Test(description = "119928- This test validates account adjustment report")
 	public void accountAdjustmentReport() throws SQLException {
 		try {
 			Map<String, String> dbData = new HashMap<>();
@@ -66,12 +65,12 @@ public class Report extends TestInfra {
 			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(dbConnections.getNavigationMenu(), CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(dbConnections.getConsumersearch(), CASE_NUM);
-			rstProductSummaryData = dataBase.getProductSummaryData(dbConnections.getProductsummary(), CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(dbConnections.getLocationsummary(), CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(dbConnections.getConsumersummary(), CASE_NUM);
-			rstReportListData = dataBase.getReportListData(dbConnections.getReportsList(), CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(DBConnections.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(DBConnections.CONSUMER_SEARCH, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(DBConnections.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(DBConnections.LOCATION_SUMMARY, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(DBConnections.CONSUMER_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(DBConnections.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

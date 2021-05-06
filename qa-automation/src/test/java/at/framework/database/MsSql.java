@@ -6,18 +6,17 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
 public class MsSql {
-	//DBConnections dbConnection=new DBConnections();
 	public static Connection connection ;
 	private static BasicDataSource dataSource = new BasicDataSource();
 
     static {
     	try {
-            dataSource.setUrl(DBConnections.getJdbcdriver());
-            dataSource.setUsername(DBConnections.getUsername());
-            dataSource.setPassword(DBConnections.getPassword());
+            dataSource.setUrl(DBConnections.JDBC_DRIVIER);
+            dataSource.setUsername(DBConnections.USERNAME);
+            dataSource.setPassword(DBConnections.PASSWORD);
             dataSource.setMinIdle(5);
             dataSource.setMaxIdle(10);
-            dataSource.setMaxOpenPreparedStatements(10);
+            dataSource.setMaxOpenPreparedStatements(100);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

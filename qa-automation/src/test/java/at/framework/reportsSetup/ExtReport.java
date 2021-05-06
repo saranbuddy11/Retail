@@ -2,7 +2,6 @@ package at.framework.reportsSetup;
 
 import at.framework.generic.DateAndTime;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.KeysReports;
 import at.smartshop.testData.TestDataFilesPaths;
 
 import java.io.File;
@@ -23,20 +22,21 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtReport {
 
-	DateAndTime objDateTime= new DateAndTime();
-	
+	public String rootFolder = TestDataFilesPaths.PATH + Constants.REPORTS;
+	private String presentSubFolderName = Constants.EMPTY_STRING;
+	private String presentRootFolderPath;
+	private DateAndTime objDateNTime;
+
 	ExtentSparkReporter objSparkReporter;
 	ExtentReports objExtentReport;
 	ExtentTest objExtentTest;
-	
-	private String rootFolder = TestDataFilesPaths.PATH+  Constants.REPORTS+Constants.DELIMITER_BACKSLASH;
-	private String presentSubFolderName = Constants.EMPTY_STRING;
-	private String presentRootFolderPath;
+
 	private String reportMainTitleName = Constants.EMPTY_STRING;
 	private String reportBrowserTitleName = Constants.EMPTY_STRING;
 
 	public ExtReport(String reportMainTitleName, String reportBrowserTitleName) {
-		Path path = Paths.get(this.rootFolder + Constants.DELIMITER_BACKSLASH + objDateTime.getTimeStamp(Constants.REGEX_DDMMYYYY));
+		objDateNTime = new DateAndTime();
+		Path path = Paths.get(this.rootFolder + objDateNTime.getTimeStamp(Constants.REGEX_DDMMMYYYY));
 		try {
 			if (!Files.exists(path)) {
 				Files.createDirectory(path);
@@ -45,6 +45,7 @@ public class ExtReport {
 			this.reportMainTitleName = reportMainTitleName;
 			this.reportBrowserTitleName = reportBrowserTitleName;
 		} catch (IOException exc) {
+			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 
@@ -52,6 +53,7 @@ public class ExtReport {
 
 	public ExtentReports getReporter() {
 		try {
+			System.out.println(createReportSubFolder() + Constants.REPORT_NAME);
 			objSparkReporter = new ExtentSparkReporter(createReportSubFolder() + Constants.REPORT_NAME);
 			objSparkReporter.config().setReportName(this.reportMainTitleName);
 			objSparkReporter.config().setDocumentTitle(this.reportBrowserTitleName);
@@ -59,6 +61,7 @@ public class ExtReport {
 			objExtentReport.attachReporter(objSparkReporter);
 
 		} catch (Exception exc) {
+			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 
@@ -74,10 +77,10 @@ public class ExtReport {
 	}
 
 	private String createReportSubFolder() {
-		presentSubFolderName = presentRootFolderPath + Constants.DELIMITER_BACKSLASH + objDateTime.getTimeStamp(KeysReports.FORMAT_MMDDYYYY);
+		presentSubFolderName = presentRootFolderPath + "\\" + objDateNTime.getTimeStamp(Constants.REGEX_HHMMSS);
 		try {
 			Files.createDirectories(Paths.get(presentSubFolderName));
-		} catch (IOException exc) {
+		} catch (IOException exc) {			
 			Assert.fail(exc.toString());
 		}
 		return presentSubFolderName;
@@ -86,11 +89,11 @@ public class ExtReport {
 	public String getScreenshot(String methodName, WebDriver driver) {
 		String destinationFile = null;
 		try {
-			TakesScreenshot screenshot = (TakesScreenshot) driver;
-			File source = screenshot.getScreenshotAs(OutputType.FILE);
-			destinationFile = getPresentSubFolderPath() + Constants.DELIMITER_BACKSLASH +methodName+".png";
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File source = ts.getScreenshotAs(OutputType.FILE);
+			destinationFile = getPresentSubFolderPath() + "\\"+methodName+".png";
 			FileUtils.copyFile(source, new File(destinationFile));
-		} catch (Exception exc) {
+		} catch (Exception exc) {			
 			Assert.fail(exc.toString());
 		}
 		return destinationFile;
