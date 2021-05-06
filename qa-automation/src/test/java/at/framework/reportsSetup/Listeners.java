@@ -27,8 +27,6 @@ public class Listeners implements ITestListener {
 	}
 
 	public void onTestSuccess(ITestResult result) {
-		ITestContext context = result.getTestContext();
-		//String testcaseID=context.getAttribute("testId").toString();		
 		ExtFactory.getInstance().getExtent().log(Status.PASS,
 				" method[" + result.getMethod().getMethodName() + "] is passed");
 	}
