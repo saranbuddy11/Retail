@@ -7,19 +7,19 @@ import at.framework.ui.*;
 
 
 public class Login extends Factory {
-	TextBox textBox = new TextBox();
-	Foundation foundation = new Foundation();
-	private static final By txtEmail = By.id("email");
-	private static final By txtPassword = By.id("password");
-	private static final By btnSignIn = By.cssSelector("#loginform > button");
-	private static final By lblUserName = By.id("drop5");
-	private static final By mnuLogout = By.id("logout");
+	private TextBox textBox = new TextBox();
+	private Foundation foundation = new Foundation();
+	private static final By TXT_EMAIL = By.id("email");
+	private static final By TXT_PASSWORD = By.id("password");
+	private static final By BTN_SIGN_IN = By.cssSelector("#loginform > button");
+	private static final By LBL_USER_NAME = By.id("drop5");
+	private static final By MUN_LOGOUT = By.id("logout");
 	
 
 	public void insertLoginFields(String userName, String password) {
 		try {
-			textBox.enterText(txtEmail, userName);
-			textBox.enterText(txtPassword, password);
+			textBox.enterText(TXT_EMAIL, userName);
+			textBox.enterText(TXT_PASSWORD, password);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -28,7 +28,7 @@ public class Login extends Factory {
 	public void login(String userName, String password) {
 		try {
 			insertLoginFields(userName, password);
-			foundation.click(btnSignIn);
+			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -36,8 +36,8 @@ public class Login extends Factory {
 
 	public void logout() {
 		try {
-			foundation.click(lblUserName);
-			foundation.click(mnuLogout);
+			foundation.click(LBL_USER_NAME);
+			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

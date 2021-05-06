@@ -6,18 +6,18 @@ import at.framework.ui.*;
 import at.smartshop.keys.Constants;
 
 public class ConsumerSummary {
-	TextBox textBox = new TextBox();
+	private TextBox textBox = new TextBox();
 
-	private static final By lblReadBalance = By.id("readbalance");
-	public static final By btnAdjust = By.id("adjustBalanceBtn");
-	public static final By txtAdjustBalance = By.id("balNum");
-	public static final By dpdReason = By.id("reason");
-	public static final By btnSave = By.id("reasonSaveBtn");
+	private static final By LBL_READ_BALANCE = By.id("readbalance");
+	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
+	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
+	public static final By DPD_REASON = By.id("reason");
+	public static final By BTN_SAVE = By.id("reasonSaveBtn");
 
 	public double getBalance() {
 		double initBalance = 0;
 		try {
-			String balance = textBox.getText(lblReadBalance);
+			String balance = textBox.getText(LBL_READ_BALANCE);
 			initBalance = Double.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 		} catch (Exception exc) {		
 			Assert.fail();

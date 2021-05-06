@@ -13,7 +13,7 @@ public class Browser extends Factory {
 
 	public void launch() {
 	try {
-			setDriver(propertyFile.readConfig(KeysConfiguration.BROWSER,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			setDriver(propertyFile.readPropertyFile(KeysConfiguration.BROWSER,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

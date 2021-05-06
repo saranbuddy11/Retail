@@ -12,26 +12,26 @@ import at.framework.ui.*;
 import at.smartshop.keys.Constants;
 
 public class ConsumerSearch extends Factory{
-	TextBox textBox = new TextBox();
-	Dropdown dropdown = new Dropdown();
-	Foundation foundation = new Foundation();
+	private TextBox textBox = new TextBox();
+	private Dropdown dropdown = new Dropdown();
+	private Foundation foundation = new Foundation();
 	
-	private static final By dpdLocation = By.id("loc-dropdown");
-	private static final By dpdStatus = By.id("isdisabled");
-	public static final By dpdSearchBy = By.id("searchBy");
-	public static final By txtSearch = By.id("search");
-	public static final By btnGo = By.id("findBtn");
-	public static final By tblConsumers = By.id("consumerdt");
-	public static final By tblConsumerSearchGrid = By.id("consumerdt");
-	public static final By lblRows = By.cssSelector("#consumerdt > tbody > tr");
+	private static final By DPD_LOCATION = By.id("loc-dropdown");
+	private static final By DPD_STATUS = By.id("isdisabled");
+	public static final By DPD_SEARCH_BY = By.id("searchBy");
+	public static final By TXT_SEARCH = By.id("search");
+	public static final By BTN_GO = By.id("findBtn");
+	public static final By TBL_CONSUMERS = By.id("consumerdt");
+	public static final By TBL_CONSUMER_SEARCH_GRID = By.id("consumerdt");
+	public static final By LBL_ROWS = By.cssSelector("#consumerdt > tbody > tr");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
-			dropdown.selectItem(dpdSearchBy, searchBy, Constants.TEXT);
-			textBox.enterText(txtSearch, search);
-			dropdown.selectItem(dpdLocation, locationName, Constants.TEXT);
-			dropdown.selectItem(dpdStatus, status, Constants.TEXT);
-			foundation.click(btnGo);
+			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
+			textBox.enterText(TXT_SEARCH, search);
+			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
+			foundation.click(BTN_GO);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -52,9 +52,9 @@ public class ConsumerSearch extends Factory{
 		try {
 			int curColumnIndex = 1;
 
-			WebElement tableReports = getDriver().findElement(tblConsumerSearchGrid);
+			WebElement tableReports = getDriver().findElement(TBL_CONSUMER_SEARCH_GRID);
 			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
-			WebElement row = getDriver().findElement(lblRows);
+			WebElement row = getDriver().findElement(LBL_ROWS);
 
 			for (WebElement header : headers) {
 				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + curColumnIndex + ")"));

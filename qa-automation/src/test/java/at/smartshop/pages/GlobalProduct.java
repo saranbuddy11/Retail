@@ -7,8 +7,8 @@ import at.framework.ui.Foundation;
 
 
 public class GlobalProduct extends Factory {
-	Foundation foundation = new Foundation();
-	public static final By txtFilter = By.id("filterType");
+	private Foundation foundation = new Foundation();
+	public static final By TXT_FILTER = By.id("filterType");
 
 	public void selectGlobalProduct(String product) {
 		try {

@@ -5,15 +5,17 @@ import java.sql.Connection;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
-public class MsSql {
+public class MsSqlConnection {
 	public static Connection connection ;
 	private static BasicDataSource dataSource = new BasicDataSource();
-
+	
+	public MsSqlConnection(){ }
+	
     static {
     	try {
-            dataSource.setUrl(DBConnections.JDBC_DRIVIER);
-            dataSource.setUsername(DBConnections.USERNAME);
-            dataSource.setPassword(DBConnections.PASSWORD);
+            dataSource.setUrl(MsSqlProperties.JDBC_DRIVIER);
+            dataSource.setUsername(MsSqlProperties.USERNAME);
+            dataSource.setPassword(MsSqlProperties.PASSWORD);
             dataSource.setMinIdle(5);
             dataSource.setMaxIdle(10);
             dataSource.setMaxOpenPreparedStatements(100);
@@ -34,6 +36,6 @@ public class MsSql {
     	return connection;
     }
     
-    public MsSql(){ }
+  
     
 }

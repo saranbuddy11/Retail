@@ -22,7 +22,7 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Constants;
 
-public class DataBase extends MsSql {
+public class MsSqlResultSet extends MsSqlConnection {
 
 	public Map<String, String> getNavigationMenuData(String query, String testcaseID) {
 		Map<String, String> rstNavigationMenu = new HashMap<>();
@@ -394,11 +394,11 @@ public class DataBase extends MsSql {
 
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
-					rstLocationList.put(CNLocationList.DROPDOWN, resultSet.getString(CNLocationList.DROPDOWN));
+					rstLocationList.put(CNLocationList.DROPDOWN_LOCATION_LIST, resultSet.getString(CNLocationList.DROPDOWN_LOCATION_LIST));
 					rstLocationList.put(CNLocationList.LOCATION_NAME,
 							resultSet.getString(CNLocationList.LOCATION_NAME));
-					rstLocationList.put(CNLocationList.COLUMN, resultSet.getString(CNLocationList.COLUMN));
-					rstLocationList.put(CNLocationList.MESSAGE, resultSet.getString(CNLocationList.MESSAGE));
+					rstLocationList.put(CNLocationList.COLUMN_NAME, resultSet.getString(CNLocationList.COLUMN_NAME));
+					rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
 				}
 			}
 		} catch (Exception exc) {

@@ -32,5 +32,6 @@ public class Constants {
 	public static final String NATIONACCOUNT_NATIONAL_CATEGORY= "National Categories";
 	public static final String NA= "N/A";
 	public static final String PRODUCT_DATAGRID= "productDataGrid_locname";
+	public static final String TIME_ZONE_INDIA= "Asia/Kolkata";
 	
 }

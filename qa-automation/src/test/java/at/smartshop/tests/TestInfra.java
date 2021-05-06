@@ -9,10 +9,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import at.framework.browser.Browser;
-import at.framework.database.DataBase;
+import at.framework.database.MsSqlResultSet;
 import at.framework.generic.PropertyFile;
 import at.smartshop.pages.Login;
 
+//RunTimeSetup
 public class TestInfra {
 	Browser browser = new Browser();
 	Login login = new Login();
@@ -20,7 +21,7 @@ public class TestInfra {
 	
 	@BeforeSuite
 	public void beforeSuit() {
-		DataBase.getConnection();
+		MsSqlResultSet.getConnection();
 	}
 	
 	@BeforeMethod
@@ -45,7 +46,7 @@ public class TestInfra {
 	@AfterSuite
 	public void afterSuit() {
 		try {			
-			DataBase.connection.close();
+			MsSqlResultSet.connection.close();
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}

@@ -6,27 +6,26 @@ import at.framework.browser.Factory;
 import at.framework.ui.*;
 
 public class NavigationBar extends Factory {
-	TextBox textBox = new TextBox();
-	Dropdown dropdown = new Dropdown();
-	Foundation foundation = new Foundation();
+	private TextBox textBox = new TextBox();
+	private Foundation foundation = new Foundation();
 
-	private static final By dpdOrg = By.className("select2");
-	private static final By txtOrg = By.className("select2-search__field");
-	private static final By dpdSelectOrg = By.className("select2-results__option");
-	public static final By mnuAdmin = By.id("drop6");
-	public static final By mnuConsumer = By.id("supadmin-adconsumer");
-	public static final By mnuProduct = By.id("drop1");
-	public static final By mnuGobalProduct = By.id("sup-product");
-	public static final By mnuLocationGobalProduct = By.id("sup-product");
-	public static final By mnuReports = By.cssSelector("a[id*=reports]");
-	public static final By mnuSuper = By.id("drop7");
-	public static final By mnuUserRoles = By.id("super-supuser");
+	private static final By DPD_ORG = By.className("select2");
+	private static final By TXT_ORG = By.className("select2-search__field");
+	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
+	public static final By MNU_ADMIN = By.id("drop6");
+	public static final By MNU_CONSUMER = By.id("supadmin-adconsumer");
+	public static final By MNU_PRODUCT = By.id("drop1");
+	public static final By MNU_GLOBAL_PRODUCT = By.id("sup-product");
+	public static final By MNU_LOCATION_GLOBAL_PRODUCT = By.id("sup-product");
+	public static final By MNU_REPORTS = By.cssSelector("a[id*=reports]");
+	public static final By MNU_SUPER = By.id("drop7");
+	public static final By MNU_USER_ROLES = By.id("super-supuser");
 
 	public void selectOrginazation(String selectText) {	
 		try {
-			foundation.click(dpdOrg);
-			textBox.enterText(txtOrg, selectText);
-			foundation.click(dpdSelectOrg);
+			foundation.click(DPD_ORG);
+			textBox.enterText(TXT_ORG, selectText);
+			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

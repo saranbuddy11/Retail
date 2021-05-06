@@ -54,11 +54,9 @@ public class Listeners implements ITestListener {
 	}
 
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-
 	}
 
 	public void onTestFailedWithTimeout(ITestResult result) {
-
 	}
 
 	public void onStart(ITestContext context) {

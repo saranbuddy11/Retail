@@ -6,8 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import at.framework.database.DBConnections;
-import at.framework.database.DataBase;
+import at.framework.database.MsSqlQuery;
+import at.framework.database.MsSqlResultSet;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -23,7 +23,7 @@ import at.smartshop.testData.TestDataFilesPaths;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
-	private DataBase dataBase = new DataBase();
+	private MsSqlResultSet dataBase = new MsSqlResultSet();
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
@@ -38,41 +38,41 @@ public class Location extends TestInfra {
 	public void extendProducts() {
 		try {			
 			final String CASE_NUM = "114280";
-			browser.navigateURL(propertyFile.readConfig(KeysConfiguration.CURRENT_URL,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readConfig(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readConfig(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_URL,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(DBConnections.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(DBConnections.DEVICE_LIST, CASE_NUM);
-			rstLocationListData = dataBase.getLocationListData(DBConnections.LOCATION_LIST, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(MsSqlQuery.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(MsSqlQuery.DEVICE_LIST, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(MsSqlQuery.LOCATION_LIST, CASE_NUM);
 			
 			
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readConfig(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(NavigationBar.mnuProduct, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.selectOrginazation(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(NavigationBar.MNU_PRODUCT, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Searching for Product
-			textBox.enterText(GlobalProduct.txtFilter, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			globalProduct.selectGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			
-			foundation.click(ProductSummary.btnExtend);
+			foundation.click(ProductSummary.BTN_EXTEND);
 
 			// Extend product to location
-			textBox.enterText(ProductSummary.txtFilter, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-			foundation.click(ProductSummary.btnSave);
+			foundation.click(ProductSummary.BTN_SAVE);
 
 			// Searching for Product and Validating the Location Name
-			textBox.enterText(ProductSummary.txtSearch, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			Assert.assertTrue((textBox.getText(ProductSummary.tblData))
+			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			Assert.assertTrue((textBox.getText(ProductSummary.TBL_DATA))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
 			// Resetting test data
-			foundation.click(ProductSummary.tblData);
-			foundation.waitforElement(ProductSummary.btnRemove, 10000);
-			foundation.click(ProductSummary.btnRemove);
-			foundation.waitforElement(ProductSummary.txtSearch, 10000);
+			foundation.click(ProductSummary.TBL_DATA);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+			foundation.click(ProductSummary.BTN_REMOVE);
+			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10000);
 			
 		} catch (Exception exc) {
 			Assert.fail();

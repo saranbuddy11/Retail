@@ -8,8 +8,8 @@ import at.framework.ui.Foundation;
 
 public class LocationList extends Factory{
 	Foundation foundation = new Foundation();
-	public static final By txtFilter = By.id("filterType");
-	public static final By dpdLocationList = By.id("filtervalues");
+	public static final By TXT_FILTER = By.id("filterType");
+	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 
 	public void selectLocaionName(String locationName) {
 		try {

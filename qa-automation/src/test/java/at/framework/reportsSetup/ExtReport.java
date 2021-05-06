@@ -1,9 +1,5 @@
 package at.framework.reportsSetup;
 
-import at.framework.generic.DateAndTime;
-import at.smartshop.keys.Constants;
-import at.smartshop.testData.TestDataFilesPaths;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,12 +16,16 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
+import at.framework.generic.DateAndTime;
+import at.smartshop.keys.Constants;
+import at.smartshop.testData.TestDataFilesPaths;
+
 public class ExtReport {
 
 	public String rootFolder = TestDataFilesPaths.PATH + Constants.REPORTS;
 	private String presentSubFolderName = Constants.EMPTY_STRING;
 	private String presentRootFolderPath;
-	private DateAndTime objDateNTime;
+	private DateAndTime objDate;
 
 	ExtentSparkReporter objSparkReporter;
 	ExtentReports objExtentReport;
@@ -35,8 +35,8 @@ public class ExtReport {
 	private String reportBrowserTitleName = Constants.EMPTY_STRING;
 
 	public ExtReport(String reportMainTitleName, String reportBrowserTitleName) {
-		objDateNTime = new DateAndTime();
-		Path path = Paths.get(this.rootFolder + objDateNTime.getTimeStamp(Constants.REGEX_DDMMMYYYY));
+		objDate = new DateAndTime();
+		Path path = Paths.get(this.rootFolder + objDate.getDateAndTime(Constants.REGEX_DDMMMYYYY,Constants.TIME_ZONE_INDIA));
 		try {
 			if (!Files.exists(path)) {
 				Files.createDirectory(path);
@@ -77,7 +77,7 @@ public class ExtReport {
 	}
 
 	private String createReportSubFolder() {
-		presentSubFolderName = presentRootFolderPath + "\\" + objDateNTime.getTimeStamp(Constants.REGEX_HHMMSS);
+		presentSubFolderName = presentRootFolderPath + "\\" + objDate.getDateAndTime(Constants.REGEX_HHMMSS,Constants.TIME_ZONE_INDIA);
 		try {
 			Files.createDirectories(Paths.get(presentSubFolderName));
 		} catch (IOException exc) {			

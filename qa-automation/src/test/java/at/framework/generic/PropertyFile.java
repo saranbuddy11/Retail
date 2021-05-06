@@ -9,7 +9,7 @@ import at.smartshop.keys.Constants;
 
 public class PropertyFile  {
 
-	public String readConfig(String requiredData, String filePath) throws IOException  {
+	public String readPropertyFile(String requiredData, String filePath)  {
 		Properties configFile = new Properties();
         String requiredString = Constants.EMPTY_STRING;
         FileInputStream fileInputStream=null;
@@ -20,7 +20,11 @@ public class PropertyFile  {
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }finally {
-        	fileInputStream.close();
+        	try {
+				fileInputStream.close();
+			} catch (IOException exc) {
+				 Assert.fail(exc.toString());
+			}
         }
        
         return requiredString;
