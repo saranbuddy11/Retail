@@ -53,12 +53,6 @@ public class Listeners implements ITestListener {
 		ExtFactory.getInstance().removeExtentObject();
 	}
 
-	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-	}
-
-	public void onTestFailedWithTimeout(ITestResult result) {
-	}
-
 	public void onStart(ITestContext context) {
 		try {
 			objReportName = new ExtReport("365 Test Automation", "365 Test Results");
