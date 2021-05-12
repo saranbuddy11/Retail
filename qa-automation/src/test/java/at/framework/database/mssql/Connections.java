@@ -1,21 +1,21 @@
-package at.framework.database;
+package at.framework.database.mssql;
 
 import java.sql.Connection;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
-public class MsSqlConnection {
+public class Connections {
 	public static Connection connection ;
 	private static BasicDataSource dataSource = new BasicDataSource();
 	
-	public MsSqlConnection(){ }
+	public Connections(){ }
 	
     static {
     	try {
-            dataSource.setUrl(MsSqlProperties.JDBC_DRIVIER);
-            dataSource.setUsername(MsSqlProperties.USERNAME);
-            dataSource.setPassword(MsSqlProperties.PASSWORD);
+            dataSource.setUrl(Properties.JDBC_DRIVIER);
+            dataSource.setUsername(Properties.USERNAME);
+            dataSource.setPassword(Properties.PASSWORD);
             dataSource.setMinIdle(5);
             dataSource.setMaxIdle(10);
             dataSource.setMaxOpenPreparedStatements(100);

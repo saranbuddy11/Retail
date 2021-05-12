@@ -12,8 +12,8 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import at.framework.database.MsSqlQuery;
-import at.framework.database.MsSqlResultSet;
+import at.framework.database.mssql.Queries;
+import at.framework.database.mssql.ResultSets;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -36,7 +36,7 @@ import at.smartshop.utilities.CurrenyConverter;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Report extends TestInfra {
-	private MsSqlResultSet dataBase = new MsSqlResultSet();
+	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
@@ -65,12 +65,12 @@ public class Report extends TestInfra {
 			login.login(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(MsSqlQuery.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(MsSqlQuery.CONSUMER_SEARCH, CASE_NUM);
-			rstProductSummaryData = dataBase.getProductSummaryData(MsSqlQuery.PRODUCT_SUMMARY, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(MsSqlQuery.LOCATION_SUMMARY, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(MsSqlQuery.CONSUMER_SUMMARY, CASE_NUM);
-			rstReportListData = dataBase.getReportListData(MsSqlQuery.REPORT_LIST, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrginazation(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));

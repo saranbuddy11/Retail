@@ -1,4 +1,4 @@
-package at.framework.database;
+package at.framework.database.mssql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Constants;
 
-public class MsSqlResultSet extends MsSqlConnection {
+public class ResultSets extends Connections {
 
 	public Map<String, String> getNavigationMenuData(String query, String testcaseID) {
 		Map<String, String> rstNavigationMenu = new HashMap<>();

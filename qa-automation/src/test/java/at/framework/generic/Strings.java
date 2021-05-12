@@ -4,7 +4,7 @@ import java.util.Random;
 
 import at.smartshop.keys.Constants;
 
-public class RandomString {
+public class Strings {
 	
 	public String getRandomCharacter() {
 		String randomCharacter = Constants.REGEX_CHAR;

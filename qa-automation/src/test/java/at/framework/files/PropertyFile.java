@@ -1,4 +1,4 @@
-package at.framework.generic;
+package at.framework.files;
 
 import java.io.FileInputStream;
 import java.io.IOException;

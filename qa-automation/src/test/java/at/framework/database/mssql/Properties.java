@@ -1,6 +1,6 @@
-package at.framework.database;
+package at.framework.database.mssql;
 
-public class MsSqlProperties {
+public class Properties {
 	
 	public static final String JDBC_DRIVIER = "jdbc:sqlserver://65.183.177.43:1920";
 	public String dburl = "jdbc:mariadb://192.168.100.174/db";

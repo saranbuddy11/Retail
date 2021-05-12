@@ -1,6 +1,6 @@
-package at.framework.database;
+package at.framework.database.mssql;
 
-public class MsSqlQuery {
+public class Queries {
 	public static final String NAVIGATION_MENU = "SELECT * FROM QA.dbo.NavigationMenu where TestcaseID=";
 	public static final String CONSUMER_SEARCH = "SELECT * FROM QA.dbo.ConsumerSearch where TestcaseID=";
 	public static final String PRODUCT_SUMMARY = "SELECT * FROM QA.dbo.ProductSummary where TestcaseID=";

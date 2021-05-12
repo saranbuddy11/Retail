@@ -4,7 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import at.framework.generic.PropertyFile;
+
+import at.framework.files.PropertyFile;
 import at.smartshop.keys.KeysConfiguration;
 import at.smartshop.testData.TestDataFilesPaths;
 

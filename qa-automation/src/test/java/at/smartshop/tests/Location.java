@@ -6,8 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import at.framework.database.MsSqlQuery;
-import at.framework.database.MsSqlResultSet;
+import at.framework.database.mssql.Queries;
+import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -23,7 +23,7 @@ import at.smartshop.testData.TestDataFilesPaths;
 
 @Listeners(at.framework.reportsSetup.Listeners.class)
 public class Location extends TestInfra {
-	private MsSqlResultSet dataBase = new MsSqlResultSet();
+	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
@@ -42,9 +42,9 @@ public class Location extends TestInfra {
 			login.login(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(MsSqlQuery.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(MsSqlQuery.DEVICE_LIST, CASE_NUM);
-			rstLocationListData = dataBase.getLocationListData(MsSqlQuery.LOCATION_LIST, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			
 			
 			// Select Menu and Menu Item
