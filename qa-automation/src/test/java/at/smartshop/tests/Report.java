@@ -25,16 +25,16 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.KeysConfiguration;
+import at.smartshop.keys.FilePath;
+import at.smartshop.keys.Configuration;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ReportList;
-import at.smartshop.testData.TestDataFilesPaths;
 import at.smartshop.utilities.CurrenyConverter;
 
-@Listeners(at.framework.reportsSetup.Listeners.class)
+@Listeners(at.framework.reportsetup.Listeners.class)
 public class Report extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
@@ -61,8 +61,8 @@ public class Report extends TestInfra {
 			Map<String, String> dbData = new HashMap<>();
 
 			final String CASE_NUM = "119928";
-			browser.navigateURL(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_URL,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -73,13 +73,13 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(NavigationBar.MNU_ADMIN, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					propertyFile.readPropertyFile(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
 			List<String> requiredData = Arrays
@@ -119,7 +119,7 @@ public class Report extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectLocation(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
@@ -128,7 +128,7 @@ public class Report extends TestInfra {
 			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));			
 
 			// Add db data to Array list
-			dbData.put(tblColumnHeader.get(1), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_LOC,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			dbData.put(tblColumnHeader.get(1), propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE));
 			dbData.put(tblColumnHeader.get(2), requiredData.get(0));
 			dbData.put(tblColumnHeader.get(3), requiredData.get(1));
 			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));

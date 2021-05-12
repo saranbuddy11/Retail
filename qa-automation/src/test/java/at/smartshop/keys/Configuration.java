@@ -1,7 +1,7 @@
 package at.smartshop.keys;
 
-public class KeysConfiguration {
-	private KeysConfiguration() {
+public class Configuration {
+	private Configuration() {
 
 	}
 	public static final String CURRENT_ORG = "current_org";

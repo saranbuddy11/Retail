@@ -7,7 +7,7 @@ import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
-import at.framework.reportsSetup.ExtFactory;
+import at.framework.reportsetup.ExtFactory;
 
 public class CheckBox extends Factory {
 

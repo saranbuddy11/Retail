@@ -1,7 +1,7 @@
-package at.smartshop.testData;
+package at.smartshop.keys;
 
-public class TestDataFilesPaths {
-	private TestDataFilesPaths() {
+public class FilePath {
+	private FilePath() {
 		
 	}
 	public static final String PATH = System.getProperty("user.dir");

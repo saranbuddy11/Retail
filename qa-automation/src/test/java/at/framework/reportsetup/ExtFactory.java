@@ -1,4 +1,4 @@
-package at.framework.reportsSetup;
+package at.framework.reportsetup;
 
 import com.aventstack.extentreports.ExtentTest;
 
@@ -13,7 +13,7 @@ public class ExtFactory {
 		return instance;
 	}
 
-	ThreadLocal<ExtentTest> extent = new ThreadLocal<ExtentTest>();
+	ThreadLocal<ExtentTest> extent = new ThreadLocal<>();
 
 	public ExtentTest getExtent() {
 		return extent.get();

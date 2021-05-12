@@ -1,4 +1,4 @@
-package at.framework.reportsSetup;
+package at.framework.reportsetup;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,11 +18,11 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import at.framework.generic.DateAndTime;
 import at.smartshop.keys.Constants;
-import at.smartshop.testData.TestDataFilesPaths;
+import at.smartshop.keys.FilePath;
 
 public class ExtReport {
 
-	public String rootFolder = TestDataFilesPaths.PATH + Constants.REPORTS;
+	public String rootFolder = FilePath.PATH + Constants.REPORTS;
 	private String presentSubFolderName = Constants.EMPTY_STRING;
 	private String presentRootFolderPath;
 	private DateAndTime objDate;

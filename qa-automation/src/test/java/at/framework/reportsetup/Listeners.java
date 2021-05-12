@@ -1,5 +1,5 @@
 
-package at.framework.reportsSetup;
+package at.framework.reportsetup;
 
 
 

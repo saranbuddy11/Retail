@@ -15,13 +15,13 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.KeysConfiguration;
+import at.smartshop.keys.FilePath;
+import at.smartshop.keys.Configuration;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductSummary;
-import at.smartshop.testData.TestDataFilesPaths;
 
-@Listeners(at.framework.reportsSetup.Listeners.class)
+@Listeners(at.framework.reportsetup.Listeners.class)
 public class Location extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
@@ -38,8 +38,8 @@ public class Location extends TestInfra {
 	public void extendProducts() {
 		try {			
 			final String CASE_NUM = "114280";
-			browser.navigateURL(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_URL,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_USER,TestDataFilesPaths.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(KeysConfiguration.CURRENT_PASSWORD,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 			
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -48,7 +48,7 @@ public class Location extends TestInfra {
 			
 			
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(KeysConfiguration.CURRENT_ORG,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(NavigationBar.MNU_PRODUCT, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Searching for Product

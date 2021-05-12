@@ -9,9 +9,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
-import at.framework.reportsSetup.ExtFactory;
+import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.testData.TestDataFilesPaths;
+import at.smartshop.keys.FilePath;
 
 public class Factory {
 
@@ -42,7 +42,7 @@ public class Factory {
 				chromeOptions.addArguments("--disable-plugins", "--disable-extensions", "--disable.popup.blocking");
 				capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 				capabilities.setCapability("applicationCacheEnabled", false);
-				System.setProperty("webdriver.chrome.driver", TestDataFilesPaths.DRIVER_CHROME);
+				System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
 				webDriver.set(new ChromeDriver());
 			}
 		} catch (Exception exc) {

@@ -6,15 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
-import at.smartshop.keys.KeysConfiguration;
-import at.smartshop.testData.TestDataFilesPaths;
+import at.smartshop.keys.Configuration;
+import at.smartshop.keys.FilePath;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();
 
 	public void launch() {
 	try {
-			setDriver(propertyFile.readPropertyFile(KeysConfiguration.BROWSER,TestDataFilesPaths.PROPERTY_CONFIG_FILE));
+			setDriver(propertyFile.readPropertyFile(Configuration.BROWSER,FilePath.PROPERTY_CONFIG_FILE));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

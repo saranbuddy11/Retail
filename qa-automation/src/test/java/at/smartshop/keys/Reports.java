@@ -1,7 +1,7 @@
 package at.smartshop.keys;
 
-public class KeysReports {
-	private KeysReports() {
+public class Reports {
+	private Reports() {
 
 	}
 	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
