@@ -24,13 +24,16 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ReportList;
 import at.smartshop.utilities.CurrenyConverter;
 
@@ -40,12 +43,15 @@ public class Report extends TestInfra {
 	private NavigationBar navigationBar = new NavigationBar();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private LocationList locationList = new LocationList();
+	private LocationSummary locationSummary = new LocationSummary();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private ProductPricingReport productPricing = new ProductPricingReport();
 	private CurrenyConverter converter = new CurrenyConverter();
 	
 	private Map<String, String> rstNavigationMenuData;
@@ -65,16 +71,17 @@ public class Report extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
-			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(NavigationBar.MNU_ADMIN, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+//			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+//			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+//			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+//			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+//
+//			// Select Menu and Menu Item
+//			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+	//		navigationBar.navigateToMenuItem(NavigationBar.MNU_ADMIN, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.navigateToMenuItem("Super#Copy#Products - Location to Location ");
 			
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -153,6 +160,66 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+	}
+	
+	@Test(description = "This test validates Product Pricing Report Data Calculation")
+	public void ProductPricingReportData() {
+		try {
+
+			final String CASE_NUM = "135696";
+
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+					FilePath.PROPERTY_CONFIG_FILE));
+			login.login(
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+							FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstProductSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+					FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			foundation.click(NavigationBar.MNU_REPORTS);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			productPricing.getTblRecordsUI();
+			productPricing.getIntialData().putAll(productPricing.getReportsData());
+			
+			//get Location Data
+			foundation.click(NavigationBar.MNU_LOCATION);
+			locationList.selectLocaionName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
+			
+			// apply calculation and update data
+		//	productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			
+			// verify report headers
+			productPricing.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productPricing.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 
 }
