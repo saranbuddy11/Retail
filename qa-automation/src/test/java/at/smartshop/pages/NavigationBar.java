@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
@@ -32,7 +29,7 @@ public class NavigationBar extends Factory {
 	public static final By MNU_LOCATION = By.id("sup-location");
 	public static final By MNU_USER_ROLES = By.id("super-supuser");
 
-	public void selectOrginazation(String selectText) {
+	public void selectOrganization(String selectText) {
 		try {
 			foundation.click(DPD_ORG);
 			textBox.enterText(TXT_ORG, selectText);

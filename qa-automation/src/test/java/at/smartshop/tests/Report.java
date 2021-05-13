@@ -71,17 +71,16 @@ public class Report extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-//			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-//			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
-//			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-//			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
-//			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-//
-//			// Select Menu and Menu Item
-//			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-	//		navigationBar.navigateToMenuItem(NavigationBar.MNU_ADMIN, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			navigationBar.navigateToMenuItem("Super#Copy#Products - Location to Location ");
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -179,15 +178,16 @@ public class Report extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
-			rstProductSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
 					FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
-			foundation.click(NavigationBar.MNU_REPORTS);
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -198,17 +198,18 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
+			productPricing.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
 			
 			//get Location Data
-			foundation.click(NavigationBar.MNU_LOCATION);
+			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocaionName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
 					FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
 			
 			// apply calculation and update data
-		//	productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			
 			// verify report headers
 			productPricing.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
