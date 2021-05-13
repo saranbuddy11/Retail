@@ -48,8 +48,8 @@ public class Location extends TestInfra {
 			
 			
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(NavigationBar.MNU_PRODUCT, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Searching for Product
 			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));

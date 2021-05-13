@@ -47,22 +47,24 @@ public class Report extends TestInfra {
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
 	private CurrenyConverter converter = new CurrenyConverter();
-	
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
-	
+
 	@Test(description = "119928- This test validates account adjustment report")
 	public void accountAdjustmentReport() throws SQLException {
 		try {
 			Map<String, String> dbData = new HashMap<>();
 
 			final String CASE_NUM = "119928";
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -73,29 +75,34 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(NavigationBar.MNU_ADMIN, rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> menuItems = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			
+
 			consumerSearch.clickCell(requiredData.get(5));
-			
-			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			List<String> tblColumnHeader = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
-			
+
 			// reading Balance and add to the array list
 			double initialbalance = consumerSummary.getBalance();
 			dbData.put(tblColumnHeader.get(7), converter.convertTOCurrency(initialbalance));
-			
+
 			foundation.click(ConsumerSummary.BTN_ADJUST);
- 
+
 			// converting string to double and adding the adjusted value
 			double adustedBalance = Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			double updatedbalance = initialbalance
@@ -108,27 +115,29 @@ public class Report extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// converting time zone to specific time zone
-			String updatedTime = String.valueOf(dateAndTime.getDateAndTime(
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
 			// Navigate to Reports
-			foundation.click(NavigationBar.MNU_REPORTS);
+			navigationBar.navigateToMenuItem(menuItems.get(1));
 
 			// Selecting the Date range and Location for running report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			// Validate Account Adjustment Report Title
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
-			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));			
+			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 
 			// Add db data to Array list
-			dbData.put(tblColumnHeader.get(1), propertyFile.readPropertyFile(Configuration.CURRENT_LOC,FilePath.PROPERTY_CONFIG_FILE));
+			dbData.put(tblColumnHeader.get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			dbData.put(tblColumnHeader.get(2), requiredData.get(0));
 			dbData.put(tblColumnHeader.get(3), requiredData.get(1));
 			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
@@ -139,7 +148,7 @@ public class Report extends TestInfra {
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
-			
+
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));
@@ -149,7 +158,7 @@ public class Report extends TestInfra {
 
 			// Validate account adjustment adjusted report data
 			assertEquals(uiData, dbData);
-			
+
 		} catch (Exception exc) {
 			Assert.fail();
 		}

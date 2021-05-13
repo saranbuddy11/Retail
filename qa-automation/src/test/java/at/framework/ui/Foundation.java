@@ -1,11 +1,13 @@
 package at.framework.ui;
 
 import java.time.Duration;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -57,7 +59,7 @@ public class Foundation extends Factory {
 	
 	public void fluentWait(String object, int waitTime) {
 		try {
-			FluentWait<WebDriver> wait = new FluentWait<WebDriver>(getDriver())
+			FluentWait<WebDriver> wait = new FluentWait<>(getDriver())
 					.withTimeout(Duration.ofSeconds(waitTime)).pollingEvery(Duration.ofSeconds(5))
 					.ignoring(NoSuchElementException.class);
 
@@ -82,13 +84,9 @@ public class Foundation extends Factory {
 		return element;
 	}
 	
-	public void scrollToElement(By object) {       
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException exc) {           
-        	Assert.fail(exc.toString());
-        }
-    }
-
+	public void objectFocus(By element) {
+		Actions action = new Actions(getDriver());
+        Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
+        seriesOfActions.perform();
+	}
 }
