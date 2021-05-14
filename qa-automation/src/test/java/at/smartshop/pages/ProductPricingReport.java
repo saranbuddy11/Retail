@@ -2,7 +2,6 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +25,6 @@ public class ProductPricingReport extends Factory {
 	private static final By TBL_PRODUCT_PRICING_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-	private int rowCount = 0;
-	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
@@ -57,7 +54,8 @@ public class ProductPricingReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord(String scancode) {
+	private int getRequiredRecord(String scancode) {
+		int rowCount = 0;
 		try {
 			int recordCount = 0;
 			for (int val = 0; val < intialData.size(); val++) {
@@ -70,6 +68,7 @@ public class ProductPricingReport extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+		return rowCount;
 	}
 
 	public void verifyReportName(String reportName) {
@@ -83,6 +82,7 @@ public class ProductPricingReport extends Factory {
 
 	public void updateData(String value, String columnNames) {
 		try {
+			int rowCount = getRequiredRecord(value);
 			Map<Integer, Map<String, String>> productsData = locationSummary.getProductsRecords(value);
 			int recordCount = 0;
 			for(recordCount = 0; recordCount < productsData.size(); recordCount++) {
@@ -129,10 +129,6 @@ public class ProductPricingReport extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}
-
-	public Map<String, Object> getJsonData() {
-		return jsonData;
 	}
 
 	public Map<Integer, Map<String, String>> getIntialData() {

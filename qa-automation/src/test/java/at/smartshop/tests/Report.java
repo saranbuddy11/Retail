@@ -207,7 +207,6 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
-			productPricing.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
 			
 			//get Location Data
