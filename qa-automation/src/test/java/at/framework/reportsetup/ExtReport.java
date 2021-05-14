@@ -61,7 +61,7 @@ public class ExtReport {
 			objSparkReporter.config().setReportName(this.reportMainTitleName);
 			objSparkReporter.config().setDocumentTitle(this.reportBrowserTitleName);
 			objExtentReport = new ExtentReports();
-			objExtentReport.attachReporter(objSparkReporter);		
+			objExtentReport.attachReporter(objSparkReporter);			
 
 		} catch (Exception exc) {
 			exc.printStackTrace();

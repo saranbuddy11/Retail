@@ -65,7 +65,7 @@ public class Location extends TestInfra {
 
 			// Searching for Product and Validating the Location Name
 			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			Assert.assertTrue((textBox.getText(ProductSummary.TBL_DATA))
+			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
 			// Resetting test data

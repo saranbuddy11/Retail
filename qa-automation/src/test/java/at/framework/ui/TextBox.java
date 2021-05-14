@@ -23,14 +23,4 @@ public class TextBox extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-	public String getText(By object) {
-		String text = null;
-		try {
-			text = getDriver().findElement(object).getText();
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return text;
-	}
 }
