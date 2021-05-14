@@ -20,4 +20,6 @@ public class CNNationalAccounts {
 	 public static final String LOCATION_COUNT= "LocationCount";
 	 public static final String GRID_RULE_NAME = "GridRuleName";
 	 public static final String MIN_MAX_EXACT_PRICE="MinMaxExactPrice";
+	 public static final String LOCATION="Location";
+	 public static final String PROMPT_TITLE ="PromptTitle";
 }

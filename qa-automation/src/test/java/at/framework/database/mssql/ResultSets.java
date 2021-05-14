@@ -268,6 +268,8 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNLocationSummary.PRODUCT_POPUP_DETAILS));
 					rstLocationSummary.put(CNLocationSummary.SPEND_LIMIT,
 							resultSet.getString(CNLocationSummary.SPEND_LIMIT));
+					rstLocationSummary.put(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT,
+                            resultSet.getString(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT));
 				}
 			}
 		} catch (Exception exc) {
@@ -591,6 +593,10 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNNationalAccounts.GRID_RULE_NAME));
 					rstNationalAccounts.put(CNNationalAccounts.MIN_MAX_EXACT_PRICE,
 							resultSet.getString(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+					rstNationalAccounts.put(CNNationalAccounts.LOCATION,
+                            resultSet.getString(CNNationalAccounts.LOCATION));
+					rstNationalAccounts.put(CNNationalAccounts.PROMPT_TITLE,
+                            resultSet.getString(CNNationalAccounts.PROMPT_TITLE));
 				}
 			}
 		} catch (Exception exc) {

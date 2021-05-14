@@ -44,4 +44,9 @@ public class Dropdown extends Factory {
         }
         return false;
     }
+	
+	public String getSelectedItem(By object) {
+        Select select = new Select(getDriver().findElement(object));
+        return select.getFirstSelectedOption().getText();       
+    }
 }

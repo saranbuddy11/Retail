@@ -1,9 +1,19 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
+import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.Dropdown;
+import at.framework.ui.Foundation;
 
 public class LocationSummary extends Factory {
+	
+    private Foundation foundation = new Foundation();
+    private Dropdown dropDown=new Dropdown();
 
 	public static final By DPD_DISABLED= By.id("isdisabled");
 	public static final By BTN_SAVE= By.id("saveBtn");
@@ -19,4 +29,32 @@ public class LocationSummary extends Factory {
 	public static final By LNK_LOCKER_NAME=  By.xpath("//*[@id='pickuplockersystems']/div/a");
 	public static final By TXT_SYSTEM_NAME=  By.id("systemName");
 	public static final By LBL_SHELF_LIFE=  By.xpath("//*[@id='pickuplockersystems']/div/span");
+    public static final By BUTTON_LOCATION_INFO = By.cssSelector("button#toggleinfo");
+    public static final By DPD_RETRIEVE_ACCOUNT = By.cssSelector("select#retrieveaccount");
+    public static final  By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
+    private static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
+    private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
+    public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
+    
+    public void validateErrorMessage(String Message) {
+        try {                           
+            String errMsg = foundation.getText(TXT_ERR_MSG);
+            Assert.assertEquals(errMsg, Message);
+            ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Error Message for Retrieve Account");
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+    
+    public void verifyHasLockerField(String defaultValue) {
+        try {
+            foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
+            Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS, "Has Lockers option "));
+            String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
+            Assert.assertEquals(value, defaultValue);
+            ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the has Locker default Value"+ defaultValue);
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }

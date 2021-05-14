@@ -37,6 +37,7 @@ public class Location extends TestInfra {
 	private Table table=new Table();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropdown = new Dropdown();
+	private LocationSummary locationSummary = new LocationSummary();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -134,4 +135,30 @@ public class Location extends TestInfra {
 		}
 
 	}
+	
+	@Test(description ="This test to verify the Error Message validation for Retrieve Account Methods")
+    public void validateErrorMessage() {
+        try {
+            final String CASE_NUM="130658";
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+           
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+            rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);           
+           
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, 2);
+            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
+            dropdown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX, "Retrieve Account Methods (Max 2)"));
+            foundation.click(LocationSummary.BTN_SAVE);
+           
+            locationSummary.validateErrorMessage(rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+                   
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }

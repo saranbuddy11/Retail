@@ -38,4 +38,6 @@ public class CNLocationSummary {
 	public static final String POPUP_NAME = "PopupName";
 	public static final String PRODUCT_POPUP_DETAILS = "ProductPopupDetails";
 	public static final String SPEND_LIMIT = "SpendLimit";
+    public static final String ENABLE_RETRIEVE_ACCOUNT = "EnableRetrieveAccount";
+
 }

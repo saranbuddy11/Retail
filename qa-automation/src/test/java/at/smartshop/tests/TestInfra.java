@@ -15,9 +15,9 @@ import at.smartshop.pages.Login;
 
 //RunTimeSetup
 public class TestInfra {
-	Browser browser = new Browser();
-	Login login = new Login();
-	PropertyFile propertyFile = new PropertyFile();
+	public Browser browser = new Browser();
+	public Login login = new Login();
+	public PropertyFile propertyFile = new PropertyFile();
 	
 	@BeforeSuite
 	public void beforeSuit() {

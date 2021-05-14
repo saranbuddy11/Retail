@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 
 public class AdminNationalAccounts extends Factory{
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
@@ -39,8 +40,18 @@ public class AdminNationalAccounts extends Factory{
 	public static final By LBL_RULE_NAME_HEADER = By.id("dataGrid_name");
 	public static final By DPD_ORG = By.id("orgdt");
 	public static final By CB_AUTO_ADD_LOCATION= By.id("autoselects");
-	
-	Foundation foundation = new Foundation();
+	public static final By TABLE_NATIONAL_ACCOUNT_RULE = By.cssSelector("tbody[role='rowgroup']");
+    public static final By LBL_NATIONAL_ACCOUNT_RULE = By.xpath("//div[contains(text(),'National Account Rules')]");
+    public static final By BTN_CREATE_NEW_RULE = By.id("createNewBtn");
+    public final static String COLUMN_ORG = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_org";
+    public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_location";
+    public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
+    public static final By SEARCH_BOX = By.cssSelector("input#filterType");
+    public static final By TEXT_RULE_NAME = By.cssSelector("td[aria-describedby='dataGrid_name'] > a");
+    public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
+
+	private Foundation foundation = new Foundation();
+	private TextBox textBox= new TextBox();
 	
 	public void clickManageRule(String nationalAccountName, String gridName) {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='"+ gridName +"'][text()='"+ nationalAccountName +"']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
@@ -82,4 +93,48 @@ public class AdminNationalAccounts extends Factory{
 		}
 		return descending;
 	}
+	
+	public List<String> getLocationDetails(String nationalAccountName, String orgName) {     
+		List<String> locationValues = new ArrayList<>();
+        try {
+            locationValues.clear();
+            getDriver().findElement(By.xpath("//td[text()='"+nationalAccountName+"']/..//td[@class='ui-iggrid-expandcolumn']//span//span")).click();
+            foundation.waitforElement(NATIONAL_ACCOUNT_DETAILS, 3);
+            WebElement locations = getDriver().findElement(NATIONAL_ACCOUNT_DETAILS);
+            List<WebElement> rows = locations.findElements(By.tagName("tr"));
+            for (int iter = 0; iter < rows.size(); iter++) {
+                if(rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td["+COLUMN_ORG+"]")).getText().equals(orgName)) {
+                    locationValues.add(rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td["+COLUMN_LOCATION+"]")).getText());
+                }
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }   
+        return locationValues;
+    }
+	
+	public void selectRuleName(String ruleName) {
+        try {
+            textBox.enterText(SEARCH_BOX, ruleName);
+            WebElement nationalAccountRule = getDriver().findElement(TABLE_NATIONAL_ACCOUNT_RULE);
+            List<WebElement> rows = nationalAccountRule.findElements(By.tagName("tr"));
+            for (int iter = 0; iter < rows.size(); iter++) {
+                if (rows.get(iter).findElement(TEXT_RULE_NAME).getText().equals(ruleName)) {
+                    foundation.click(TEXT_RULE_NAME);
+                    break;
+                }
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+   
+    public void verifyRuleName(String ruleName) {
+        try {
+            String name = getDriver().findElement(TEXT_BOX_RULE_NAME).getAttribute("value");
+            Assert.assertTrue(name.contains(ruleName));
+        }catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }

@@ -34,6 +34,8 @@ public class Locker extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private LocationList locationList = new LocationList();
 	private LockerSystem lockerSystem = new LockerSystem();
+	private LocationSummary locationSummary = new LocationSummary();
+	private CreateLocker createLocker = new CreateLocker();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -369,7 +371,208 @@ public class Locker extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
 	}
 	
+	@Test(description = "This test validates the Has locker with Default option in the Location Summary page")
+    public void verifyHasLockerWithNo() {
+        try {
+            final String CASE_NUM = "135540";
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+            
+            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+            rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+            locationSummary.verifyHasLockerField(requiredData.get(1));
+            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
+            dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
+            foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title is not"));
+            
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+            
+            login.logout();
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+ 
+
+            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
+            dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
+            foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title not "));
+            
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+            
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+	
+	@Test(description = "This test validates the Has locker with Yes option in the Location Summary page")
+    public void verifyHasLockerWithYes() {
+        try {
+            final String CASE_NUM = "135541";
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+            
+            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+            rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+            dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+            foundation.click(LocationSummary.BTN_SAVE);
+            
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
+            foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title is  displayed"));
+            
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            
+            login.logout();
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
+            foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title"));
+            
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM, "Location Locker System page"));
+            foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+	
+	@Test(description = "This test validates the Scheduling button in the Locker system page")
+    public void verifySchedulingButton() {
+        try {
+            final String CASE_NUM="120320";
+           
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+           
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+           
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+           
+            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING, "Scheduling Button"));
+           
+            lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
+            login.logout();
+           
+            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+           
+            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING, "Scheduling Button"));
+           
+            lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
+           
+        }catch(Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+	
+	 @Test(description = "This test validates the functionality of Scheduling button in Locker system page")
+	    public void verifySchedulingButtonFunctionality() {
+	        try {
+	            final String CASE_NUM="120321";
+	           
+	            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	            rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+	            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	           
+	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
+	            foundation.click(LockerSystem.BTN_SCHEDULING);
+	            lockerSystem.verifyCubbySchedulingScreen(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE));
+	           
+	            login.logout();
+	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+	            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	           
+	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
+	            foundation.click(LockerSystem.BTN_SCHEDULING);
+	            lockerSystem.verifyCubbySchedulingScreen(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE));
+	           
+	           
+	    }
+	        catch(Exception exc) {
+	            Assert.fail(exc.toString());
+	        }
+	    }
+	   
+	    @Test(description = "This test validates the Scheduling button in Locker system page when no locker created")
+	    public void verifySchedulingButtonWithNoLocker() {
+	        try {
+	            final String CASE_NUM = "120322";
+	           
+	            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	            rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+	            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	           
+	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	           
+	            login.logout();
+	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+	            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	           
+	        }catch(Exception exc) {
+	            Assert.fail(exc.toString());
+	        }
+	    }
 }
