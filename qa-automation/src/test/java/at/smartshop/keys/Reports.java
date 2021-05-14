@@ -97,4 +97,5 @@ public class Reports {
 	public static final String FORMAT_DDMMYYY = "ddMMMYYYY";
 	public static final String FORMAT_MMDDYYYY = "MM/dd/yyyy";
 	public static final String FORMAT_HH = "HH";
+	public static final String BAD_SCAN = "badScan";
 }

@@ -24,10 +24,12 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
+import at.smartshop.keys.Reports;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.NavigationBar;
@@ -46,6 +48,7 @@ public class Report extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private BadScanReport badScan = new BadScanReport();
 	private CurrenyConverter converter = new CurrenyConverter();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -80,7 +83,7 @@ public class Report extends TestInfra {
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItems.get(0));
-
+			
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
@@ -163,5 +166,63 @@ public class Report extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "This test validates Bad Scan Report Data Calculation")
+	public void BadScanReportData() {
+		try {
 
+			final String CASE_NUM = "120821";
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			badScan.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			badScan.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			badScan.getTblRecordsUI();
+			badScan.getIntialData().putAll(badScan.getReportsData());
+			badScan.getRequiredRecord((String) badScan.getData().get(Reports.TRANS_DATE_TIME));
+
+			// apply calculation and update data
+			badScan.updateData(badScan.getTableHeaders().get(0), propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			badScan.updateData(badScan.getTableHeaders().get(1),
+					(String) badScan.getData().get(Reports.TRANS_DATE_TIME));
+			badScan.updateData(badScan.getTableHeaders().get(2), badScan.getRequiredJsonData().get(1));
+			badScan.updateData(badScan.getTableHeaders().get(3), badScan.getRequiredJsonData().get(0));
+
+			// verify report headers
+			badScan.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			badScan.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
 }

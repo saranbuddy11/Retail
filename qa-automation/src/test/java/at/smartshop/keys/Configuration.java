@@ -18,4 +18,5 @@ public class Configuration {
 	public static final String CHROME_DRIVER = "chrome_driver";
 	public static final String CURRENT_USER = "username";
 	public static final String CURRENT_PASSWORD = "password";
+	public static final String TRANS_BAD_SCAN = "trans_badscan";
 }
