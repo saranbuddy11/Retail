@@ -24,12 +24,14 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
+import at.smartshop.keys.Reports;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ReportList;
 import at.smartshop.utilities.CurrenyConverter;
@@ -46,6 +48,7 @@ public class Report extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private MemberPurchaseDetailsReport memberPurchaseDetails = new MemberPurchaseDetailsReport();
 	private CurrenyConverter converter = new CurrenyConverter();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -159,6 +162,66 @@ public class Report extends TestInfra {
 			// Validate account adjustment adjusted report data
 			assertEquals(uiData, dbData);
 
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "This test validates Member Purchase Details Report Data Calculation")
+	public void MemberPurchaseDetailsReport() {
+		try {
+
+			final String CASE_NUM = "120269";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Login
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Process Sales API data
+			memberPurchaseDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Verify Report Name
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			memberPurchaseDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// run and read report
+			textBox.enterText(MemberPurchaseDetailsReport.CSS_TXT_SEARCH,
+					((String) memberPurchaseDetails.getJsonData().get(Reports.TRANS_DATE_TIME)));
+			memberPurchaseDetails.getMemberPurchaseDetails();
+			memberPurchaseDetails.getInitialData().putAll(memberPurchaseDetails.getReportsData());
+			memberPurchaseDetails.getRequiredRecord(memberPurchaseDetails.getScancodeData());
+
+			// apply calculation and update data
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			memberPurchaseDetails.updateData(memberPurchaseDetails.getTableHeaders().get(0), requiredData.get(0));
+			memberPurchaseDetails.updateData(memberPurchaseDetails.getTableHeaders().get(1), requiredData.get(1));
+			memberPurchaseDetails.updateData(memberPurchaseDetails.getTableHeaders().get(2), requiredData.get(2));
+			memberPurchaseDetails.updateListData(memberPurchaseDetails.getTableHeaders().get(3),
+					memberPurchaseDetails.getProductNameData());
+			memberPurchaseDetails.updateListData(memberPurchaseDetails.getTableHeaders().get(5),
+					memberPurchaseDetails.getPriceData());
+			memberPurchaseDetails.updateListData(memberPurchaseDetails.getTableHeaders().get(6),
+					memberPurchaseDetails.getTaxData());
+			memberPurchaseDetails.updateTotal();
+
+			// Verify Report Headers
+			memberPurchaseDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// Verify Report Data
+			memberPurchaseDetails.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
