@@ -33,12 +33,6 @@ public class Foundation extends Factory {
 		}
 		return isElementDisplayed;
 	}	
-	
-	public void objectFocus(By element) {
-		Actions action = new Actions(getDriver());
-		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
-		seriesOfActions.perform();
-	}
 
 	public String getText(By object) {
 		String text = null;
