@@ -36,8 +36,12 @@ public class ExtReport {
 
 	public ExtReport(String reportMainTitleName, String reportBrowserTitleName) {
 		objDate = new DateAndTime();
+		Path reportFolder=Paths.get(this.rootFolder);
 		Path path = Paths.get(this.rootFolder + objDate.getDateAndTime(Constants.REGEX_DDMMMYYYY,Constants.TIME_ZONE_INDIA));
 		try {
+			 if(!Files.exists(reportFolder)) {
+	                Files.createDirectory(reportFolder);
+	            }
 			if (!Files.exists(path)) {
 				Files.createDirectory(path);
 			}
@@ -52,13 +56,12 @@ public class ExtReport {
 	}
 
 	public ExtentReports getReporter() {
-		try {
-			System.out.println(createReportSubFolder() + Constants.REPORT_NAME);
-			objSparkReporter = new ExtentSparkReporter(createReportSubFolder() + Constants.REPORT_NAME);
+		try {			
+			objSparkReporter = new ExtentSparkReporter(createReportSubFolder() + Constants.REPORT_NAME);			
 			objSparkReporter.config().setReportName(this.reportMainTitleName);
 			objSparkReporter.config().setDocumentTitle(this.reportBrowserTitleName);
 			objExtentReport = new ExtentReports();
-			objExtentReport.attachReporter(objSparkReporter);
+			objExtentReport.attachReporter(objSparkReporter);		
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
