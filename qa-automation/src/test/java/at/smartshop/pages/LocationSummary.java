@@ -34,20 +34,6 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
 
-	public List<String> getProductsHeaders() {
-		List<String> tableHeaders = new ArrayList<>();
-		try {
-			WebElement tableProducts = getDriver().findElement(TBL_PRODUCTS);
-			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th > span.ui-iggrid-headertext"));
-			for (WebElement columnHeader : columnHeaders) {
-				tableHeaders.add(columnHeader.getText());
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return tableHeaders;
-	}
-
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -62,25 +48,34 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				WebElement columnsOptions = getDriver().findElement(DLG_COLUMN_CHOOSER_OPTIONS);
-				List<WebElement> optionNames = columnsOptions.findElements(By.cssSelector("li > span + span"));
-				for (WebElement optionName : optionNames) {
-					if (optionName.getText().equals(columnName.get(count))) {
-						optionName.click();
-						break;
-					}
-				}
+				foundation.click(By.xpath(
+						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+								+ columnName.get(count) + "']"));
 			}
 			foundation.click(POP_UP_BTN_APPLY);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public List<String> getProductsHeaders() {
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_PRODUCTS);
+			List<WebElement> columnHeaders = tableProducts
+					.findElements(By.cssSelector("thead > tr > th > span.ui-iggrid-headertext"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return tableHeaders;
+	}
 
 	public Map<Integer, Map<String, String>> getProductsRecords(String recordValue) {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
-		//String columnValue = Constants.EMPTY_STRING;
 		try {
 			List<String> tableHeaders = getProductsHeaders();
 			textBox.enterText(TXT_PRODUCT_FILTER, recordValue);
@@ -95,7 +90,6 @@ public class LocationSummary extends Factory {
 				productsData.put(recordCount, productsRecord);
 				recordCount++;
 			}
-			//columnValue = productsData.get(recordCount).get(columnName);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
