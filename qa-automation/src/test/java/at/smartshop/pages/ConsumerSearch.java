@@ -18,12 +18,12 @@ public class ConsumerSearch extends Factory{
 	
 	private static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
-	public static final By DPD_SEARCH_BY = By.id("searchBy");
-	public static final By TXT_SEARCH = By.id("search");
-	public static final By BTN_GO = By.id("findBtn");
+	private static final By DPD_SEARCH_BY = By.id("searchBy");
+	private static final By TXT_SEARCH = By.id("search");
+	private static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By TBL_CONSUMER_SEARCH_GRID = By.id("consumerdt");
-	public static final By LBL_ROWS = By.cssSelector("#consumerdt > tbody > tr");
+	private static final By LBL_ROWS = By.cssSelector("#consumerdt > tbody > tr");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {

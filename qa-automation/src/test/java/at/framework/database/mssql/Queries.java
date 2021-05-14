@@ -9,4 +9,10 @@ public class Queries {
 	public static final String REPORT_LIST = "SELECT * FROM QA.dbo.ReportsList where TestcaseID=";
 	public static final String DEVICE_LIST = "SELECT * FROM QA.dbo.DeviceList where TestcaseID=";
 	public static final String LOCATION_LIST = "SELECT * FROM QA.dbo.LocationList where TestcaseID=";
+	public static final String GMA_USER = "SELECT * FROM QA.dbo.LoadGMAUserParameters where TestcaseID=";
+	public static final String LOAD_PRODUCT="SELECT * FROM QA.dbo.LoadProductParameters where TestcaseID=";
+	public static final String GLOBAL_PRODUCT_CHANGE="SELECT * FROM QA.dbo.GlobalProductChange where TestcaseID=";
+	public static final String USER_ROLES = "SELECT * FROM QA.dbo.ViewRole where TestcaseID=";
+	public static final String NATIONAL_ACCOUNTS="SELECT * FROM QA.dbo.NationalAccounts where TestcaseID=";
+	public static final String LOCKER_SYSTEM ="SELECT * FROM QA.dbo.LockerSystem where TestcaseID=";
 }

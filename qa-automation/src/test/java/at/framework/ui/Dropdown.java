@@ -1,6 +1,9 @@
 package at.framework.ui;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -28,4 +31,17 @@ public class Dropdown extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public boolean verifyItemPresent(By object,String text) {
+        Select select = new Select(getDriver().findElement(object));
+        List<WebElement> items = select.getOptions();
+       
+        for(WebElement item : items) {
+            String itemText = item.getText();
+            if(itemText.equalsIgnoreCase(text)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

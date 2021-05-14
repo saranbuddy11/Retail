@@ -18,6 +18,7 @@ import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.keys.Constants;
 
 public class Foundation extends Factory {
 
@@ -28,7 +29,10 @@ public class Foundation extends Factory {
 			if(ExtFactory.getInstance().getExtent()!=null) {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, objectName+" is displayed");
 			}
-		} catch (Exception exc) {
+		} catch (NoSuchElementException exc) {
+			isElementDisplayed=false;
+		}
+		 catch (Exception exc) {			 
 			Assert.fail(exc.toString());
 		}
 		return isElementDisplayed;
@@ -82,6 +86,24 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return element;
+	}
+	
+	public void refreshPage() {       
+        try {
+        	getDriver().navigate().refresh();
+        } catch (Exception exc) {           
+        	exc.printStackTrace();
+        }
+    }
+	
+	public String getTextAttribute(By object) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
 	}
 	
 	public void objectFocus(By element) {

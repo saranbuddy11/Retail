@@ -7,7 +7,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 
 public class LocationList extends Factory{
-	Foundation foundation = new Foundation();
+	private Foundation foundation = new Foundation();
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 
