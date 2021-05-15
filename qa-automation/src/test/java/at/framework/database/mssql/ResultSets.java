@@ -13,6 +13,7 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNGmaUser;
 import at.smartshop.database.columns.CNLoadProduct;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
@@ -39,7 +40,7 @@ public class ResultSets extends Connections {
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
 					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
-							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
+					resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
 			}
 		} catch (Exception exc) {
@@ -597,6 +598,10 @@ public class ResultSets extends Connections {
                             resultSet.getString(CNNationalAccounts.LOCATION));
 					rstNationalAccounts.put(CNNationalAccounts.PROMPT_TITLE,
                             resultSet.getString(CNNationalAccounts.PROMPT_TITLE));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_PAGE_TITLE,
+							resultSet.getString(CNNationalAccounts.RULE_PAGE_TITLE));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_PRICE,
+							resultSet.getString(CNNationalAccounts.RULE_PRICE));
 				}
 			}
 		} catch (Exception exc) {
@@ -642,4 +647,36 @@ public class ResultSets extends Connections {
         }
         return rstLockerSystem;
     }
+	
+	public Map<String, String> getLocationData(String query, String testcaseID) {
+		Map<String, String> rstLocation = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstLocation.put(CNLocation.LOCATION_NAME, resultSet.getString(CNLocation.LOCATION_NAME));
+					rstLocation.put(CNLocation.PROMOTION_NAME, resultSet.getString(CNLocation.PROMOTION_NAME));
+					rstLocation.put(CNLocation.PROMOTION_TYPE, resultSet.getString(CNLocation.PROMOTION_TYPE));
+					rstLocation.put(CNLocation.REQUIRED_DATA, resultSet.getString(CNLocation.REQUIRED_DATA));
+					rstLocation.put(CNLocation.LOCATIONLIST_DPDN_VALUE,
+							resultSet.getString(CNLocation.LOCATIONLIST_DPDN_VALUE));
+
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstLocation;
+	}
 }

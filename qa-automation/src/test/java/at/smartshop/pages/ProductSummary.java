@@ -2,9 +2,7 @@ package at.smartshop.pages;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
 import at.framework.browser.Factory;
-import at.framework.ui.Foundation;
 
 public class ProductSummary extends Factory {
 	
@@ -27,5 +25,26 @@ public class ProductSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return cellValue;
+	}
+	
+	public By getLocationNamePath(String text) {
+		By xpath = null;
+		try {
+			xpath = By.xpath("//span[normalize-space()='" + text + "']");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return xpath;
+	}
+	
+	public Boolean verifyLocationName(String text) {
+		Boolean rulesLink= false;
+		try {
+		 rulesLink = (getDriver().findElement(By.xpath("//span[normalize-space()='" + text + "']"))).isDisplayed();
+		}catch (Exception exc) {
+			Assert.fail(exc.toString());			
+		}
+		return rulesLink;
+		
 	}
 }

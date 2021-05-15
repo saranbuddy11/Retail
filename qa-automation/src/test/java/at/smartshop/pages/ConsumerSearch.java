@@ -24,6 +24,10 @@ public class ConsumerSearch extends Factory{
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By TBL_CONSUMER_SEARCH_GRID = By.id("consumerdt");
 	private static final By LBL_ROWS = By.cssSelector("#consumerdt > tbody > tr");
+	public static final By TXT_BALANCE=By.xpath("//table//tbody//tr[@class='odd']//td[5]");
+	public static final By TXT_CONSUMER_NAME=By.xpath("//table//tbody//tr[@class='odd']//td[3]//a");
+	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
+	public static final By TXT_BALANCE_NUM = By.id("balNum");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {

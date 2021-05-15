@@ -36,7 +36,7 @@ public class Location extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private Table table=new Table();
 	private LocationList locationList = new LocationList();
-	private Dropdown dropdown = new Dropdown();
+	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
 	
 	private Map<String, String> rstNavigationMenuData;
@@ -105,27 +105,27 @@ public class Location extends TestInfra {
 			
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
 			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
-			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(0), Constants.TEXT);
 			
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 			
 			List<String> dropDownList = Arrays
 					.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			dropdown.selectItem(LocationList.DPD_LOCATION_LIST,dropDownList.get(1),Constants.TEXT);
+			dropDown.selectItem(LocationList.DPD_LOCATION_LIST,dropDownList.get(1),Constants.TEXT);
 			
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
 			foundation.click(LocationSummary.TBL_PRODUCTS);
 			
 			Assert.assertTrue(table.getTblRowCount(LocationSummary.TBL_PRODUCTS_LIST)<= 0);	
 			
-			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
@@ -148,10 +148,10 @@ public class Location extends TestInfra {
             rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);           
            
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
             foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, 2);
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-            dropdown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
+            dropDown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
             Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX, "Retrieve Account Methods (Max 2)"));
             foundation.click(LocationSummary.BTN_SAVE);
            
@@ -161,4 +161,58 @@ public class Location extends TestInfra {
             Assert.fail(exc.toString());
         }
     }
+	
+	@Test(description = "verify Add Home commercial in Home commercial Tab and Disable Location")
+	public void Add_HomeCommercial() {
+		try {
+			final String CASE_NUM = "114262";
+
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Reading test data from DataBase
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			List<String> locationList_Dpd_Values = Arrays.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+			
+			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			String locationDisabled_Yes = locationDisabled.get(0);
+			String locationDisabled_No = locationDisabled.get(1);
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image
+			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2000);
+			foundation.click(LocationList.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationList.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationList.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, "C:\\Users\\ajaybabur\\Pictures\\icecream.jpg");
+			textBox.enterText(LocationList.TXT_ADD_NAME, "Icecream");
+			foundation.click(LocationList.BTN_ADD);
+
+			// disabling location
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, "text");
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
+
+			// Navigating to disabled location list
+			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), "text");
+
+			// validations
+			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName), "Text");
+			Assert.assertTrue(status);
+			
+			//resetting data
+			locationList.selectLocationName(locationName);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, "text");
+			foundation.click(LocationSummary.BTN_SAVE);
+						
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

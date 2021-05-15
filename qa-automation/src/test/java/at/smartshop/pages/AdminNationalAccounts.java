@@ -49,6 +49,12 @@ public class AdminNationalAccounts extends Factory{
     public static final By SEARCH_BOX = By.cssSelector("input#filterType");
     public static final By TEXT_RULE_NAME = By.cssSelector("td[aria-describedby='dataGrid_name'] > a");
     public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
+    
+	public static final String COLUMNNATIONALACCOUNTS = "aria-describedby=national-account-grid_nationalAccount";
+	public static final By TXT_FLITER_INPUT = By.xpath("//input[@placeholder='Contains...']");
+	public static final By BTN_CREATE_RULE = By.id("createNewBtn");
+	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
+	public static final By BTN_NO = By.xpath("//button[text()='NO']");
 
 	private Foundation foundation = new Foundation();
 	private TextBox textBox= new TextBox();
@@ -137,4 +143,22 @@ public class AdminNationalAccounts extends Factory{
             Assert.fail(exc.toString());
         }
     }
+    
+    public void clickManageRulesLink(String NationalAccountName) {
+		try {
+			WebElement rowList = getDriver().findElement(TBL_NATIONAL_ACCOUNT_LIST);
+			List<WebElement> rows = rowList.findElements(By.tagName("tr"));
+			for (int iter = 0; iter < rows.size(); iter++) {
+				WebElement column = rows.get(iter).findElement(By.cssSelector("td[" + COLUMNNATIONALACCOUNTS + "]"));
+				if (column.getText().contains(NationalAccountName)) {
+					foundation.click(LNK_MANAGE_RULES);
+					break;
+				}
+			}
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail(exc.toString());
+		}
+	}
 }

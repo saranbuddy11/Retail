@@ -40,6 +40,11 @@ public class CreateNewRule extends Factory{
 	public static final By BTN_YES = By.cssSelector("button.ajs-button.ajs-ok");
 	public static final By FIELD_SEARCH = By.cssSelector("input[type='search']");
 	
+	public static final By TXT_RULENAME = By.id("rulename");
+	public static final By DPD_RULETYPE = By.id("ruletype");
+	public static final By DPD_NATIONALCATEGORY = By.id("upctype");
+	public static final By TXT_CLIENTRULE_NAME = By.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
+	
 	List<String> locationDPDValues = new ArrayList<>();
 	
 	public void createRule(String org,String location,String ruleType,String nationalCategory,String ruleName,String price) {

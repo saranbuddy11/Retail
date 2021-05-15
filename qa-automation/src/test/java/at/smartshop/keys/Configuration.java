@@ -19,4 +19,5 @@ public class Configuration {
 	public static final String CURRENT_USER = "username";
 	public static final String CURRENT_PASSWORD = "password";
 	public static final String OPERATOR_USER ="OperatorUser";
+	public static final String RNOUS_ORG = "second_org";
 }

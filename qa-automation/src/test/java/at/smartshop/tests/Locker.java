@@ -1,6 +1,9 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.testng.Assert;
@@ -11,6 +14,7 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
@@ -36,6 +40,7 @@ public class Locker extends TestInfra {
 	private LockerSystem lockerSystem = new LockerSystem();
 	private LocationSummary locationSummary = new LocationSummary();
 	private CreateLocker createLocker = new CreateLocker();
+	private Table table = new Table();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -56,7 +61,7 @@ public class Locker extends TestInfra {
 			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -70,7 +75,7 @@ public class Locker extends TestInfra {
 			
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS); 
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
@@ -112,7 +117,7 @@ public class Locker extends TestInfra {
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			locationList.selectLocaionName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -126,7 +131,7 @@ public class Locker extends TestInfra {
 			
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			locationList.selectLocaionName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS); 
 						
@@ -154,7 +159,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			locationList.selectLocaionName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 									
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS); 
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
@@ -329,7 +334,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 	
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			locationList.selectLocaionName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -385,7 +390,7 @@ public class Locker extends TestInfra {
             rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
             
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
             List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
             locationSummary.verifyHasLockerField(requiredData.get(1));
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
@@ -403,7 +408,7 @@ public class Locker extends TestInfra {
             browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
             login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
  
 
@@ -435,12 +440,12 @@ public class Locker extends TestInfra {
             rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
             
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
             List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
             dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
             foundation.click(LocationSummary.BTN_SAVE);
             
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
             Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title is  displayed"));
@@ -455,7 +460,7 @@ public class Locker extends TestInfra {
             browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
             login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocaionName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
@@ -575,4 +580,155 @@ public class Locker extends TestInfra {
 	            Assert.fail(exc.toString());
 	        }
 	    }
+	    
+	    @Test(description = "Validate the Locker Equipment screen (layout when a locker model is tapped).")
+		public void LockerEquipment() {
+			try {
+				final String CASE_NUM = "135544";
+				
+				Map<String, String> dbData = new HashMap<>();
+				
+				browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
+				String lockerModelName=rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+				
+				// Select Org,Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+						FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+				
+				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				
+				//table header validations
+				List<String> columnNames = Arrays.asList(
+						rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+				for (int i = 0; i < columnNames.size(); i++) {
+					dbData.put(columnNames.get(i), columnNames.get(i));
+				}
+				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER);
+						
+				assertEquals(uiTableHeader, dbData);	
+				
+				//Locker model validation
+				foundation.click(LockerSystem.LINK_MODEL);
+				String modelName=foundation.getText(LockerSystem.TXT_MODEL_NAME);
+				Assert.assertEquals(modelName, lockerModelName);
+				
+				
+			} catch (Exception exc) {
+				exc.printStackTrace();
+				Assert.fail();
+			}
+		}
+		@Test(description = "Validate the Pre Programed in grid 'Locker Model' Functionality")
+		public void LockerEquipmentTable() {
+			try {
+				final String CASE_NUM = "135545";
+				
+				Map<String, String> dbData_Locker_20 = new HashMap<>();
+				Map<String, String> dbData_Locker_18 = new HashMap<>();
+				
+				browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
+							
+				// Select Org,Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+						FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+				
+				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				
+				List<String> requiredData = Arrays
+						.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+				
+				List<String> requiredData_Locker_20 = Arrays.asList(requiredData.get(0).split(Constants.DELIMITER_TILD));
+				
+				List<String> requiredData_Locker_18 = Arrays.asList(requiredData.get(1).split(Constants.DELIMITER_TILD));
+				
+				List<String> columnNames = Arrays.asList(
+						rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+				
+				
+			// Add db data to Array list
+				//locker system 20
+				dbData_Locker_20.put(columnNames.get(0), requiredData_Locker_20.get(0));
+				dbData_Locker_20.put(columnNames.get(1), requiredData_Locker_20.get(1));
+				dbData_Locker_20.put(columnNames.get(2), requiredData_Locker_20.get(2));
+				dbData_Locker_20.put(columnNames.get(3), requiredData_Locker_20.get(3));
+				dbData_Locker_20.put(columnNames.get(4), requiredData_Locker_20.get(4));
+				dbData_Locker_20.put(columnNames.get(5), requiredData_Locker_20.get(5));
+				//locker system 18
+				dbData_Locker_18.put(columnNames.get(0), requiredData_Locker_18.get(0));
+				dbData_Locker_18.put(columnNames.get(1), requiredData_Locker_18.get(1));
+				dbData_Locker_18.put(columnNames.get(2), requiredData_Locker_18.get(2));
+				dbData_Locker_18.put(columnNames.get(3), requiredData_Locker_18.get(3));
+				dbData_Locker_18.put(columnNames.get(4), requiredData_Locker_18.get(4));
+				dbData_Locker_18.put(columnNames.get(5), requiredData_Locker_18.get(5));
+				
+				//Table Validations
+				Map<String, String> uiData_locker_20 =table.getTblRecordsUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER, LockerSystem.TBL_ROW_1);// table.getTblRecordsUI();
+				
+				assertEquals(uiData_locker_20, dbData_Locker_20);
+				
+				Map<String, String> uiData_locker_18 =table.getTblRecordsUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER, LockerSystem.TBL_ROW_2);
+				assertEquals(uiData_locker_18, dbData_Locker_18);
+				
+			} catch (Exception exc) {
+				exc.printStackTrace();
+				Assert.fail();
+			}
+		}
+		@Test(description = "Validate the Locker Equipment screen (layout when a no locker model is tapped).")
+		public void LockerEquipmentSystem() {
+			try {
+				final String CASE_NUM = "135543";
+				
+				Map<String, String> dbData = new HashMap<>();
+				
+				browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
+				
+				
+				// Select Org,Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+						FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+				
+				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				
+				//table header validations
+				List<String> columnNames = Arrays.asList(
+						rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+				for (int i = 0; i < columnNames.size(); i++) {
+					dbData.put(columnNames.get(i), columnNames.get(i));
+				}
+				
+				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER);
+						
+				assertEquals(uiTableHeader, dbData);	
+				
+				//Locker model validation
+				Assert.assertFalse(foundation.isDisplayed(LockerSystem.TXT_MODEL_NAME,"Locker model image display"));
+			
+
+			} catch (Exception exc) {
+				exc.printStackTrace();
+				Assert.fail();
+			}
+		}
 }

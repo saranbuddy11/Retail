@@ -112,7 +112,7 @@ public class Report extends TestInfra {
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 
-			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
 			String updatedTime = String

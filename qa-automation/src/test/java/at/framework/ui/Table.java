@@ -84,4 +84,22 @@ public class Table extends Factory{
 		return uiTblHeaders;
 	}
 
+	public Map<String, String> getLockerEquipmentTblHeadersUI(By tableGrid) {
+		Map<String, String> uiTblHeaders = new HashMap<>();
+		try {
+			int index = 1;
+
+			WebElement tableReports = getDriver().findElement(tableGrid);
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
+			
+			for (WebElement columnHeader : columnHeaders) {
+				getDriver().findElement(By.cssSelector("#lockerequipmentgrid > thead > tr > th:nth-child(" + index + ")"));
+				uiTblHeaders.put(columnHeader.getText(), columnHeader.getText());
+				index++;
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return uiTblHeaders;
+	}
 }

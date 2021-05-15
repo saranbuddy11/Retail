@@ -28,6 +28,13 @@ public class LockerSystem extends Factory{
     private static final By TABLE_LOCATION_HEADER = By.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
     private static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
 
+    public static final By TBL_LOCKER_EQUIPMENT_HEADER = By.cssSelector("#lockerequipmentgrid > thead > tr");
+	public static final By TXT_PAGE_TITLE=By.xpath("//h4[text()='Locker Equipment']");
+	public static final By LINK_MODEL=By.xpath("//a[text()='20 Door Satellite']");
+	public static final By TXT_MODEL_NAME=By.xpath("//div[@id='20door']/div[1]");
+	public static final By TBL_GRID=By.id("lockerequipmentgrid");
+	public static final By TBL_ROW_1=By.cssSelector("#lockerequipmentgrid > tbody");                                    
+	public static final By TBL_ROW_2=By.xpath("//table[@id='lockerequipmentgrid']/tbody/tr[2]");
 	
     public static List<String> columnNamesList = new ArrayList<>();
 

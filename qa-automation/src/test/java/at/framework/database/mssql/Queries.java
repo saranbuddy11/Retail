@@ -15,5 +15,5 @@ public class Queries {
 	public static final String USER_ROLES = "SELECT * FROM QA.dbo.ViewRole where TestcaseID=";
 	public static final String NATIONAL_ACCOUNTS="SELECT * FROM QA.dbo.NationalAccounts where TestcaseID=";
 	public static final String LOCKER_SYSTEM ="SELECT * FROM QA.dbo.LockerSystem where TestcaseID=";
-	
+	public static final String LOCATION = "SELECT * FROM QA.dbo.Location where TestcaseID=";
 }
