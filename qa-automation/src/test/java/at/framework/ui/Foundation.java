@@ -22,12 +22,12 @@ import at.smartshop.keys.Constants;
 
 public class Foundation extends Factory {
 
-	public boolean isDisplayed(By object, String objectName) {
+	public boolean isDisplayed(By object) {
 		boolean isElementDisplayed = false;
 		try {
 			isElementDisplayed = getDriver().findElement(object).isDisplayed();
 			if(ExtFactory.getInstance().getExtent()!=null) {
-			ExtFactory.getInstance().getExtent().log(Status.INFO, objectName+" is displayed");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, object+" is displayed");
 			}
 		} catch (NoSuchElementException exc) {
 			isElementDisplayed=false;
@@ -111,4 +111,17 @@ public class Foundation extends Factory {
         Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
         seriesOfActions.perform();
 	}
+	
+	public boolean isEnabled(By object) {
+        boolean ObjEnabled = false;
+        try {
+            ObjEnabled = getDriver().findElement(object).isEnabled();
+            if(ExtFactory.getInstance().getExtent()!=null) {
+            ExtFactory.getInstance().getExtent().log(Status.INFO, object+" is enabled");
+            }
+        } catch (Exception exc) {
+            ObjEnabled = false;                   
+        }
+        return ObjEnabled;
+    }
 }

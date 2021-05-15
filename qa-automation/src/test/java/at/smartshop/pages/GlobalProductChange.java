@@ -29,7 +29,8 @@ public class GlobalProductChange extends Factory{
     public static final By BTN_SUBMIT = By.id("prd-update-submit");
     public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
     public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
-		
+    public static final By RDO_OPERATOR_PRODUCT_CHANGE= By.xpath("//label[text()='Operator Product Catalog Change']");
+
 	public List<String> getAllFilteredLocations(){ 
 		List<String> filteredLocations = new ArrayList<>();
 		try {

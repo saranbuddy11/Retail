@@ -52,9 +52,23 @@ public class AdminNationalAccounts extends Factory{
     
 	public static final String COLUMNNATIONALACCOUNTS = "aria-describedby=national-account-grid_nationalAccount";
 	public static final By TXT_FLITER_INPUT = By.xpath("//input[@placeholder='Contains...']");
-	public static final By BTN_CREATE_RULE = By.id("createNewBtn");
 	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
 	public static final By BTN_NO = By.xpath("//button[text()='NO']");
+	
+
+    public static final By BTN_NATIONAL_ACCOUNT_CATEGORY = By.id("mng-category");
+    public static final By LBL_LOCATION_TITLE = By.id("corporatetitle");
+   
+    public static final By DPD_LOCATION = By.id("loc");
+    public static final By CHK_AUTOADD = By.id("autoadd-act");
+    public static final By BTN_SAVE_MODAL = By.id("btn-save");
+    public static final By BTN_ORG_CLEAR = By.xpath("//select[@id='org']/..//*[@class='select2-selection__clear']");
+    public static final By BTN_LOC_CLEAR = By.id("//select[@id='loc']/..//*[@class='select2-selection__clear']");
+    public static final By BTN_CANCEL_MODAL = By.id("btn-cancel");
+    public static final By BTN_CANCEL_MANAGE_RULE = By.id("cancel-btn");
+    public static final By LBL_RULE_HEADER = By.id("dataGrid_name");
+    public static final By LNK_RULE_NAME = By.xpath("//td[@aria-describedby='dataGrid_name']//a");
+    public static final By BTN_YES_DELETE_RULE = By.xpath("//button[text()='YES']");
 
 	private Foundation foundation = new Foundation();
 	private TextBox textBox= new TextBox();
@@ -161,4 +175,14 @@ public class AdminNationalAccounts extends Factory{
 			Assert.fail(exc.toString());
 		}
 	}
+    
+    public By getLocationObj(String text) {
+        return By.xpath("//a[text()='" + text + "']//..//..//td[@aria-describedby='dataGrid_location']//a");
+    }
+    
+    public void deleteMangeRule(String ruleName) {
+        getDriver().findElement(By.xpath("//td[@aria-describedby='dataGrid_name']//a[text()='"+ruleName+"']//..//..//td[@aria-describedby='dataGrid_delete']//a")).click();
+        foundation.click(BTN_YES_DELETE_RULE);
+    }
+    
 }

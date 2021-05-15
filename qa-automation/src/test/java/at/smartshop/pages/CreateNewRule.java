@@ -25,9 +25,6 @@ public class CreateNewRule extends Factory{
 	
 	private static final By DPD_ORG = By.xpath("//*[@id='orgdt']//../span//input");
 	public static final By DPD_LOCATION = By.xpath("//*[@id='locdt']//../span//input");
-	public static final By TEXT_RULE_NAME = By.cssSelector("input#rulename");
-	public static final By DPD_RULE_TYPE = By.cssSelector("select#ruletype");
-	public static final By DPD_NATIONAL_CATEGORY =By.cssSelector("select#upctype");
 	public static final By DPD_RULE = By.id("ruleprice");
 	public static final By TXT_PRICE = By.cssSelector("input#fromprice");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -40,9 +37,9 @@ public class CreateNewRule extends Factory{
 	public static final By BTN_YES = By.cssSelector("button.ajs-button.ajs-ok");
 	public static final By FIELD_SEARCH = By.cssSelector("input[type='search']");
 	
-	public static final By TXT_RULENAME = By.id("rulename");
-	public static final By DPD_RULETYPE = By.id("ruletype");
-	public static final By DPD_NATIONALCATEGORY = By.id("upctype");
+	public static final By TXT_RULE_NAME = By.id("rulename");
+	public static final By DPD_RULE_TYPE = By.id("ruletype");
+	public static final By DPD_NATIONAL_CATEGORY = By.id("upctype");
 	public static final By TXT_CLIENTRULE_NAME = By.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
 	
 	List<String> locationDPDValues = new ArrayList<>();
@@ -51,7 +48,7 @@ public class CreateNewRule extends Factory{
 		try {
 		selectOrg(org);
 		selectLocation(location);
-		textbox.enterText(TEXT_RULE_NAME, ruleName);
+		textbox.enterText(TXT_RULE_NAME, ruleName);
 		dropdown.selectItem(DPD_RULE_TYPE, ruleType, Constants.TEXT);
 		dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);
 		textbox.enterText(TXT_PRICE, price);
@@ -122,7 +119,7 @@ public class CreateNewRule extends Factory{
 	public void verifyDeletePromptTitle(String promptTitle) {
 		try {			
 			foundation.waitforElement(DELETE_PROMPT, 5);
-			Assert.assertTrue(foundation.isDisplayed(DELETE_PROMPT, "Delete Prompt Window"));
+			Assert.assertTrue(foundation.isDisplayed(DELETE_PROMPT));
 			String title = foundation.getText(DELETE_PROMPT_TITLE);
 			Assert.assertEquals(title, promptTitle);
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Delete Prompt Title" + promptTitle);
@@ -133,8 +130,8 @@ public class CreateNewRule extends Factory{
 	
 	public void verifyDeletePromptButtons() {
 		try {
-			Assert.assertTrue(foundation.isDisplayed(BTN_YES, "Yes button is displayed"));
-			Assert.assertTrue(foundation.isDisplayed(BTN_CANCEL, "Cancel Button is displayed"));
+			Assert.assertTrue(foundation.isDisplayed(BTN_YES));
+			Assert.assertTrue(foundation.isDisplayed(BTN_CANCEL));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the buttons displayed in the Delete Prompt");
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
@@ -144,7 +141,7 @@ public class CreateNewRule extends Factory{
 	public void clickOnCancelButton() {
 		try {
 			foundation.click(BTN_CANCEL);
-			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE, "Delete Button"));
+			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Successfully clicked on the Cancel Button");
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
@@ -163,4 +160,13 @@ public class CreateNewRule extends Factory{
 		}
 	}
 	
+	public void createNewRule(String org,String location,String ruleType,String nationalCategory,String ruleName,String price) {
+        selectOrg(org);
+        dropdown.selectItem(DPD_LOCATION, location, "text");
+        textbox.enterText(TXT_RULE_NAME, ruleName);
+        dropdown.selectItem(DPD_RULE_TYPE, ruleType, "text");
+        dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, "text");
+        textbox.enterText(TXT_PRICE, price);
+        foundation.click(BTN_SAVE);
+    }
 }

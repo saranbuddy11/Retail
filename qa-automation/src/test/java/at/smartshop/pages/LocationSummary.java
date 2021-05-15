@@ -34,8 +34,14 @@ public class LocationSummary extends Factory {
     public static final  By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
     private static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
     private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
-    public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
-    
+    private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
+    public static final By TAB_PRODUCTS = By.id("loc-products");
+    public static final By TXT_SEARCH = By.id("productFilterType");
+    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
+    private static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
+    private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
+    private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+
     public void validateErrorMessage(String Message) {
         try {                           
             String errMsg = foundation.getText(TXT_ERR_MSG);
@@ -49,12 +55,22 @@ public class LocationSummary extends Factory {
     public void verifyHasLockerField(String defaultValue) {
         try {
             foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
-            Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS, "Has Lockers option "));
+            Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
             String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
             Assert.assertEquals(value, defaultValue);
             ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the has Locker default Value"+ defaultValue);
         }catch(Exception exc) {
             Assert.fail(exc.toString());
         }
+    }
+    
+    public void showTaxCategory() {
+        try {
+        foundation.click(BTN_MANAGE_COLUMNS);
+        foundation.click(BTN_SHOW);
+        }
+        catch (Exception exc) {           
+        }
+        foundation.click(BTN_APPLY);
     }
 }

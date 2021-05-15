@@ -53,14 +53,14 @@ public class UserRoles extends TestInfra{
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES, "User List Page"));
+			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			
 			List<String> LblRowRecord = Arrays
 					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
 			textBox.enterText(UserList.TXT_FILTER, LblRowRecord.get(0));
 			table.selectRow(LblRowRecord.get(0));
 			
- 			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT, "User Summary Page"));
+ 			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
  			List<String> clientdropDownList = Arrays
 					.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
@@ -77,11 +77,11 @@ public class UserRoles extends TestInfra{
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES, "User List Page"));
+			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			
 			textBox.enterText(UserList.TXT_FILTER, LblRowRecord.get(1));
 			table.selectRow(LblRowRecord.get(1));			
- 			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT, "User Summary Page"));
+ 			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 				
 			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
 			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));

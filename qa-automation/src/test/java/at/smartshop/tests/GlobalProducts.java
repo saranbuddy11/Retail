@@ -98,7 +98,7 @@ public class GlobalProducts extends TestInfra {
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 	        foundation.click(GlobalProductChange.BTN_OK);
-	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS, "Product increment submition successmessage");
+	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
 	        // Select Menu and Global product	       
 	        navigationBar.navigateToMenuItem(menuItem.get(1));

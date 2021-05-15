@@ -72,7 +72,7 @@ public class Sos extends TestInfra {
                                             rstGmaUser.get(CNGmaUser.START_BALANCE),
                                             FilePath.GMA_ACCOUNT_TEMPLATE,
                                             rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));       
-            Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS, "Success label"));
+            Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
            
         } catch (Exception exc) {
             Assert.fail(exc.toString());

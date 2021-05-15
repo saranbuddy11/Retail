@@ -16,6 +16,9 @@ public class ProductSummary extends Factory {
 	public static final By TBL_CELL_PRICE = By.cssSelector("td.edit.priceandstock.column-price");
 	public static final By TXT_LOCATION_SEARCH_FILTER =  By.cssSelector("#locdt_filter > label > input");
 	public static final By DPD_PRICE = By.id("price");
+	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
+	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
+	public static final By BTN_EDIT_LOCATION = By.id("editlocation");
 	
 	public String getPriceFromLocationsTable() {
 		String cellValue = null;

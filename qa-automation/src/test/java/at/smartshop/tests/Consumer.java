@@ -1,5 +1,9 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -14,6 +18,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerSearch;
@@ -30,10 +35,12 @@ public class Consumer extends TestInfra {
 	private Dropdown dropDown = new Dropdown();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private ConsumerSummary consumerSummary=new ConsumerSummary();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstConsumerSummaryData;
+	private Map<String, String> rstProductSummaryData;
 
 	@Test(description = "Verify Balance Increment with and without Reason Code")
 	public void BalanceIncrement() {
@@ -119,4 +126,54 @@ public class Consumer extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "Cancel Adjust Balance")
+    public void cancelAdjustBalance() {
+        try {
+            final String CASE_NUM = "116747";            
+
+            // Reading test data from DataBase
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+            rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+            rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+             // Select Menu and Menu Item
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+					FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+             // Enter fields in Consumer Search Page
+            consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+                    rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+                    propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+        					FilePath.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+        
+            // Split database data
+            List<String> requiredData = Arrays
+                    .asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split("~"));
+            
+            consumerSearch.clickCell(requiredData.get(5));
+
+            // reading Balance and add to the array list
+            double initialbalance = consumerSummary.getBalance();
+            
+            foundation.click(ConsumerSummary.BTN_ADJUST);
+
+            // converting string to double and adding the adjusted value
+            double updatedbalance = initialbalance
+                    + Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
+
+            dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+                    "text");
+            foundation.click(ConsumerSummary.BTN_SAVE);
+            
+            double balanceAfterCancel = consumerSummary.getBalance();
+            assertEquals(balanceAfterCancel, initialbalance);
+            
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }

@@ -49,4 +49,15 @@ public class Dropdown extends Factory {
         Select select = new Select(getDriver().findElement(object));
         return select.getFirstSelectedOption().getText();       
     }
+	
+	public void selectItemByIndex(By object,int index) {
+        try {
+            Select select = new Select(getDriver().findElement(object));           
+            select.selectByIndex(index);                       
+            ExtFactory.getInstance().getExtent().log(Status.INFO, "selected" +index+" dropdown value");
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            Assert.fail(exc.toString());
+        }
+    }
 }

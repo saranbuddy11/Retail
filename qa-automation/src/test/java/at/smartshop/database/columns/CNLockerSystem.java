@@ -11,4 +11,5 @@ public class CNLockerSystem {
 	public static final String DISPLAY_NAME="DisplayName";
 	public static final String REQUIRED_DATA="RequiredData";
 	public static final String LOCATION_NAME="LocationName";
+    public static final String LOCKER_MODEL_TITLE="LockerModelTitle";
 }

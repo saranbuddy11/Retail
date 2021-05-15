@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
@@ -22,6 +25,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -38,6 +42,7 @@ public class Location extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
+	private Radio radio=new Radio();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -152,7 +157,7 @@ public class Location extends TestInfra {
             foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, 2);
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
             dropDown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
-            Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX, "Retrieve Account Methods (Max 2)"));
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX));
             foundation.click(LocationSummary.BTN_SAVE);
            
             locationSummary.validateErrorMessage(rstLocationListData.get(CNLocationList.INFO_MESSAGE));
@@ -201,7 +206,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), "text");
 
 			// validations
-			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName), "Text");
+			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName));
 			Assert.assertTrue(status);
 			
 			//resetting data
@@ -215,4 +220,105 @@ public class Location extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
+    public void UpdateLoyaltyMultiplier() {
+        try {
+            final String CASE_NUM = "111001";                
+            
+            // Reading test data from DataBase
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            
+            //Split database data
+            List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split("~"));
+            
+            // Select Menu and Menu Item
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(subMenu.get(0));
+
+            // Select Operator Product Catalog Change radio button and select 1st product
+            // from filter search
+            radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
+            String product = foundation.getText(GlobalProductChange.LBL_PRODUCT);
+            foundation.click(GlobalProductChange.LBL_PRODUCT);
+            foundation.click(GlobalProductChange.BTN_NEXT);
+
+            // Update loyalty filter
+            dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
+            foundation.click(GlobalProductChange.BTN_SUBMIT);
+            foundation.click(GlobalProductChange.BTN_OK);
+            foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+
+            // Select Menu and Global product
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(subMenu.get(1));
+
+            // Search and select product
+            textBox.enterText(GlobalProduct.TXT_FILTER, product);
+            globalProduct.selectGlobalProduct(product);
+
+            // verify value in loyalty dropdown
+            assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            Assert.fail();
+        }
+    }
+
+ 
+
+    @Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
+    public void updateTaxForProduct() {
+        try {
+            final String CASE_NUM = "114899";            
+            
+            // Reading test data from DataBase
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstDeviceListData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+            String product = rstDeviceListData.get(CNLocationSummary.PRODUCT_NAME);
+            String location = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+            
+            //String product = rstDeviceListData.get(cnDeviceList.PRODUCT_NAME);
+            //String location = rstLocationListData.get(cnLocationList.LOCATION_NAME);
+
+            // Select Menu and Menu Item
+            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+            // Searching for Product
+            textBox.enterText(GlobalProduct.TXT_FILTER, product);
+            globalProduct.selectGlobalProduct(product);
+
+            //select tax category
+            dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, 2);
+            String selectedTaxCat = dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY);
+            foundation.click(ProductSummary.BTN_SAVE);
+
+            // naviagate back to product summary page
+            textBox.enterText(GlobalProduct.TXT_FILTER, product);
+            globalProduct.selectGlobalProduct(product);
+
+            // Navigate to product's location
+            textBox.enterText(ProductSummary.TXT_SEARCH, location);
+            foundation.click(ProductSummary.TBL_DATA);
+            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+            foundation.click(ProductSummary.BTN_EDIT_LOCATION);
+
+            // navigate to product tab
+            foundation.click(LocationSummary.TAB_PRODUCTS);
+
+            // enable show tax cat column
+            locationSummary.showTaxCategory();
+            Thread.sleep(3000);
+            
+            // ensure selected tax category from product summary page displays for the product here
+            textBox.enterText(LocationSummary.TXT_SEARCH, product);            
+            assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            Assert.fail();
+        }
+    }
 }

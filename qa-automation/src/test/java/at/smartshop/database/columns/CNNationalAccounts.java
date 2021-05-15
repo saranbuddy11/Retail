@@ -23,4 +23,5 @@ public class CNNationalAccounts {
 	 public static final String LOCATION="Location";
 	 public static final String PROMPT_TITLE ="PromptTitle";	 
 	 public static final String RULE_PAGE_TITLE = "RulePageTitle";
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
@@ -48,6 +49,11 @@ public class NationalAccounts extends Factory {
 	public static final String AUTOMATION_ORG = "AutomationOrg";
 	public static final String LOCATION = "AutomationLocation3";
 	
+    public static final By LBL_ORGANIZATION = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(1)");
+    public static final By LBL_CITY = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(3)");
+    public static final By LBL_STATE = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(4)");
+    public static final By BTN_ADD_TO_NATIONAL_ACCOUNTS = By.id("nationalAccountBtn");   
+    
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	public static final String id_tableNationalAccountsSummary = "nationalAccountsSummaryGrid";
 	
@@ -111,4 +117,16 @@ public class NationalAccounts extends Factory {
 		Assert.assertEquals("background: rgb(240, 240, 240);", expected);
 		
 	}
+	
+	public boolean trySelectNonVisibleTextLocation(String text) {
+        try {
+            Select select = new Select(getDriver().findElement(LBL_LOCATION));
+            select.selectByVisibleText(text);
+            return true;
+        }
+        catch (Exception e) {
+            // TODO: handle exception
+            return false;
+        }
+    }
 }

@@ -27,25 +27,23 @@ public class LockerSystem extends Factory{
     public static final By BTN_SCHEDULING = By.xpath("//a[text()='Scheduling']");
     private static final By TABLE_LOCATION_HEADER = By.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
     private static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
-
-    public static final By TBL_LOCKER_EQUIPMENT_HEADER = By.cssSelector("#lockerequipmentgrid > thead > tr");
-	public static final By TXT_PAGE_TITLE=By.xpath("//h4[text()='Locker Equipment']");
-	public static final By LINK_MODEL=By.xpath("//a[text()='20 Door Satellite']");
-	public static final By TXT_MODEL_NAME=By.xpath("//div[@id='20door']/div[1]");
-	public static final By TBL_GRID=By.id("lockerequipmentgrid");
-	public static final By TBL_ROW_1=By.cssSelector("#lockerequipmentgrid > tbody");                                    
-	public static final By TBL_ROW_2=By.xpath("//table[@id='lockerequipmentgrid']/tbody/tr[2]");
+    public static final By ICO_SIBLING_COPY = By.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
 	
     public static List<String> columnNamesList = new ArrayList<>();
 
 	public void expandLocationLocker(String location) {
 		try {
 			Thread.sleep(2000);
-			foundation.click(By.xpath("//td[@aria-describedby='lockersystemtable_locationName'][text()='"+location+"']//..//span[@class='ui-iggrid-expandbuttoncontainer']"));
+			foundation.click(objExpandLocationLocker(location));
 		} catch (InterruptedException exc) {
 		
 		}
 	}
+	
+	public By objExpandLocationLocker(String location) {
+        return By.xpath("//td[@aria-describedby='lockersystemtable_locationName'][text()='" + location
+                + "']//..//span[@class='ui-iggrid-expandbuttoncontainer']");
+    }
 	
 	public By objSchedule(String systemName) {		
 		return By.xpath("//a[@id='linksystemname'][text()='"+systemName+"']//..//..//a[text()='Scheduling']");
@@ -62,7 +60,7 @@ public class LockerSystem extends Factory{
 	}
 	
 	public boolean resetleLockerDisplay(String address) {		
-		return foundation.isDisplayed(By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_reset']//a"),"reset locker");
+		return foundation.isDisplayed(By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_reset']//a"));
 	}
 	
 	public String cubbyStatus(String address) {		
@@ -72,6 +70,14 @@ public class LockerSystem extends Factory{
 	public void copyDeleteSystem(String location, String name) {		
 		foundation.click(By.xpath("//a[@id='linksystemname'][text()='"+location+"']//..//..//a[contains(@title,'"+ name +"')]"));
 	}
+	
+	public By copySystem(String systemName) {
+        return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[@title='Copy']");
+    }
+	
+	public By objDeleteSystem(String systemName) {
+        return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'Delete')]");
+    }
 	
 	public void getLocationColumns() {
         try {
@@ -113,6 +119,17 @@ public class LockerSystem extends Factory{
          Assert.assertTrue(name.size()==0);
         }catch(Exception exc) {
             Assert.fail(exc.toString());
+        }
+    }
+    
+    public void deleteSystem(String location,String systemName) {
+        try {
+            Thread.sleep(500);
+            foundation.click(objExpandLocationLocker(location));
+            foundation.click(objDeleteSystem(systemName));
+            foundation.click(BTN_YES_DELETE);
+        } catch (Exception exc) {
+           
         }
     }
 }

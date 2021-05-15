@@ -1,6 +1,8 @@
 package at.smartshop.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,10 +26,12 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Configuration;
 import at.smartshop.pages.CreateLocker;
+import at.smartshop.pages.CreateSystem;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerSystem;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.LockerEquipment;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
@@ -41,6 +45,8 @@ public class Locker extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private CreateLocker createLocker = new CreateLocker();
 	private Table table = new Table();
+	private LockerEquipment lockerEquipment= new LockerEquipment();
+	private CreateSystem newLockerSysytem = new CreateSystem();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -81,7 +87,7 @@ public class Locker extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE,"Text in Italic");
+			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 			
 			List<String> Name = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.NAME).split(Constants.DELIMITER_TILD));
 			
@@ -139,7 +145,7 @@ public class Locker extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 						
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE,"Text in Italic");
+			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 			
 			List<String> Name = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.NAME).split(Constants.DELIMITER_TILD));
 			
@@ -195,7 +201,7 @@ public class Locker extends TestInfra {
 			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLocationListData.get(CNLocationList.LOCATION_NAME)); 
-			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE, "Next to Copy icon Delete button");
+			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
 			
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
@@ -203,7 +209,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			lockerSystem.expandLocationLocker(rstLocationListData.get(CNLocationList.LOCATION_NAME)); 
-			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE, "Next to Copy icon Delete button");
+			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
 			
 			
 		} catch (Exception exc) {
@@ -233,8 +239,8 @@ public class Locker extends TestInfra {
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE, "Delete button"));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL, "Cancel button"));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
 			
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
@@ -250,8 +256,8 @@ public class Locker extends TestInfra {
 			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE, "Delete button"));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL, "Cancel button"));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
 			
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
@@ -282,15 +288,15 @@ public class Locker extends TestInfra {
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE, "Delete button"));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL, "Cancel button"));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
 			
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
 			
 			foundation.click(LockerSystem.BTN_CANCEL);
 			
-			Assert.assertTrue(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME)),"locker system"));
+			Assert.assertTrue(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME))));
 
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
@@ -301,15 +307,15 @@ public class Locker extends TestInfra {
 			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE, "Delete button"));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL, "Cancel button"));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
 			
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
 			
 			foundation.click(LockerSystem.BTN_CANCEL);
 			
-			Assert.assertTrue(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME)),"locker system"));
+			Assert.assertTrue(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME))));
 		} catch (Exception exc) {
 			Assert.fail();
 		}
@@ -356,14 +362,14 @@ public class Locker extends TestInfra {
 			foundation.waitforElement(LockerSystem.BTN_CREATE_SYSTEM, 2000);
 			
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE, "Delete icon");
+			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
 			
 			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE, "Delete button"));
-			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL, "Cancel button"));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
 			
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
@@ -371,7 +377,7 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, 2000);
 			
-			Assert.assertFalse(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME)),"locker system is not"));
+			Assert.assertFalse(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME))));
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -396,12 +402,12 @@ public class Locker extends TestInfra {
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title is not"));
+            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
             
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
             foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
             createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.INFO_MESSAGE));
             
             login.logout();
@@ -415,12 +421,12 @@ public class Locker extends TestInfra {
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title not "));
+            Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
             
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
             foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
             createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.INFO_MESSAGE));
             
         }catch(Exception exc) {
@@ -448,12 +454,12 @@ public class Locker extends TestInfra {
             locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title is  displayed"));
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
             
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM,"Location Locker System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
             foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
             createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.LOCATION_NAME));
             
             login.logout();
@@ -464,12 +470,12 @@ public class Locker extends TestInfra {
 
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);            
             foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE, "Locker Pick title"));
+            Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
             
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM, "Location Locker System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
             foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
-            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM, "Create System page"));
+            Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
             createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),  rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
         }catch(Exception exc) {
@@ -490,11 +496,11 @@ public class Locker extends TestInfra {
            
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
            
             lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
             foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
-            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING, "Scheduling Button"));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING));
            
             lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
             login.logout();
@@ -503,11 +509,11 @@ public class Locker extends TestInfra {
             login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
            
             lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
             foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
-            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING, "Scheduling Button"));
+            Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_SCHEDULING));
            
             lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
            
@@ -528,7 +534,7 @@ public class Locker extends TestInfra {
 	           
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
 	            foundation.click(LockerSystem.BTN_SCHEDULING);
@@ -540,7 +546,7 @@ public class Locker extends TestInfra {
 	           
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
 	            foundation.click(LockerSystem.BTN_SCHEDULING);
@@ -565,7 +571,7 @@ public class Locker extends TestInfra {
 	           
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	           
 	            login.logout();
@@ -573,7 +579,7 @@ public class Locker extends TestInfra {
 	            login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE, "Location Locker system page"));
+	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	           
 	        }catch(Exception exc) {
@@ -594,7 +600,6 @@ public class Locker extends TestInfra {
 				// Reading test data from DataBase
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
-				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
 				String lockerModelName=rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
 				
 				// Select Org,Menu and Menu Item
@@ -602,7 +607,7 @@ public class Locker extends TestInfra {
 						FilePath.PROPERTY_CONFIG_FILE));
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				
-				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				Assert.assertTrue(foundation.isDisplayed(at.smartshop.pages.LockerEquipment.TXT_PAGE_TITLE));
 				
 				//table header validations
 				List<String> columnNames = Arrays.asList(
@@ -610,13 +615,13 @@ public class Locker extends TestInfra {
 				for (int i = 0; i < columnNames.size(); i++) {
 					dbData.put(columnNames.get(i), columnNames.get(i));
 				}
-				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER);
+				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER);
 						
 				assertEquals(uiTableHeader, dbData);	
 				
 				//Locker model validation
-				foundation.click(LockerSystem.LINK_MODEL);
-				String modelName=foundation.getText(LockerSystem.TXT_MODEL_NAME);
+				foundation.click(LockerEquipment.LINK_MODEL);
+				String modelName=foundation.getText(LockerEquipment.TXT_MODEL_NAME);
 				Assert.assertEquals(modelName, lockerModelName);
 				
 				
@@ -639,14 +644,13 @@ public class Locker extends TestInfra {
 				// Reading test data from DataBase
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
-				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
 							
 				// Select Org,Menu and Menu Item
 				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
 						FilePath.PROPERTY_CONFIG_FILE));
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				
-				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				Assert.assertTrue(foundation.isDisplayed(LockerEquipment.TXT_PAGE_TITLE));
 				
 				List<String> requiredData = Arrays
 						.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
@@ -676,11 +680,11 @@ public class Locker extends TestInfra {
 				dbData_Locker_18.put(columnNames.get(5), requiredData_Locker_18.get(5));
 				
 				//Table Validations
-				Map<String, String> uiData_locker_20 =table.getTblRecordsUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER, LockerSystem.TBL_ROW_1);// table.getTblRecordsUI();
+				Map<String, String> uiData_locker_20 =table.getTblRecordsUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_1);// table.getTblRecordsUI();
 				
 				assertEquals(uiData_locker_20, dbData_Locker_20);
 				
-				Map<String, String> uiData_locker_18 =table.getTblRecordsUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER, LockerSystem.TBL_ROW_2);
+				Map<String, String> uiData_locker_18 =table.getTblRecordsUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
 				assertEquals(uiData_locker_18, dbData_Locker_18);
 				
 			} catch (Exception exc) {
@@ -700,16 +704,14 @@ public class Locker extends TestInfra {
 		
 				// Reading test data from DataBase
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
-				String pageTitle=rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE);
-				
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);				
 				
 				// Select Org,Menu and Menu Item
 				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
 						FilePath.PROPERTY_CONFIG_FILE));
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				
-				Assert.assertTrue(foundation.isDisplayed(LockerSystem.TXT_PAGE_TITLE, pageTitle));
+				Assert.assertTrue(foundation.isDisplayed(LockerEquipment.TXT_PAGE_TITLE));
 				
 				//table header validations
 				List<String> columnNames = Arrays.asList(
@@ -718,17 +720,253 @@ public class Locker extends TestInfra {
 					dbData.put(columnNames.get(i), columnNames.get(i));
 				}
 				
-				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerSystem.TBL_LOCKER_EQUIPMENT_HEADER);
+				Map<String, String> uiTableHeader = table.getLockerEquipmentTblHeadersUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER);
 						
 				assertEquals(uiTableHeader, dbData);	
 				
 				//Locker model validation
-				Assert.assertFalse(foundation.isDisplayed(LockerSystem.TXT_MODEL_NAME,"Locker model image display"));
+				Assert.assertFalse(foundation.isDisplayed(LockerEquipment.TXT_MODEL_NAME));
 			
 
 			} catch (Exception exc) {
 				exc.printStackTrace();
 				Assert.fail();
+			}
+		}
+		
+		@Test(description = "Validate Locker Model > 18 Door Master from the grid and views")
+		public void validateLockerModel18Door() {
+			try {
+				final String CASE_NUM = "135547";
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				assertTrue(foundation.isDisplayed(LockerEquipment.LOCKER_EQUIPMENT_GRID));
+				assertTrue(foundation.isDisplayed(
+						lockerEquipment.objLockerModel(rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL))));
+				foundation.click(lockerEquipment.objLockerModel(rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL)));
+				assertEquals(foundation.getText(LockerEquipment.LBL_18_MODEL_TITLE),
+						rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL_TITLE));
+				foundation.isDisplayed(LockerEquipment.LBL_18_MODEL_IMG);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		 @Test(description = "Validate Locker Model > 20 Door Satellite from the grid and views")
+		public void validateLockerModel20Door() {
+			try {
+				final String CASE_NUM = "135546";
+
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				assertTrue(foundation.isDisplayed(LockerEquipment.LOCKER_EQUIPMENT_GRID));
+				assertTrue(foundation.isDisplayed(
+						lockerEquipment.objLockerModel(rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL))));
+				foundation.click(lockerEquipment.objLockerModel(rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL)));
+				assertEquals(foundation.getText(LockerEquipment.LBL_20_MODEL_TITLE),
+						rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL_TITLE));
+				foundation.isDisplayed(LockerEquipment.LBL_20_MODEL_IMG);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		@Test(description = "Verify the functionality of 'Copy' icon in the 'Location Locker system dashboard' page")
+		public void functaionalityOfCopyIcon() {
+			try {
+				final String CASE_NUM = "120327";
+
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
+				String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
+				String displayName = rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME);
+				String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				// create new system
+				Thread.sleep(2000);
+				boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
+				if (isSystemExist == false) {
+					foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+					newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
+				}
+
+				// validate copy functionality
+				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+				foundation.click(lockerSystem.copySystem(systemName));
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
+				assertTrue(foundation.isDisplayed(CreateSystem.LBL_CREATE_SYSTEM));
+				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
+				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_DISPLAY_NAME), "");
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);
+				assertFalse(foundation.isEnabled(CreateSystem.BTN_SAVE));
+
+				// cleanupdata
+				foundation.click(CreateSystem.BTN_CANCEL);
+				lockerSystem.deleteSystem(locationName, systemName);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		@Test(description = "Verify the 'Copy' icon in the 'Location Locker system dashboard' page")
+		public void verifyCopyIcon() {
+			try {
+				final String CASE_NUM = "120326";
+
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
+				String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
+				String displayName = rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME);
+				String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				// create new system
+				Thread.sleep(2000);
+				boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
+				if (isSystemExist == false) {
+					foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+					newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
+				}
+
+				// validate copy functionality
+				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+				foundation.waitforElement(LockerSystem.ICO_SIBLING_COPY, 500);
+				assertTrue(foundation.isDisplayed(LockerSystem.ICO_SIBLING_COPY));
+
+				// cleanup data
+				foundation.click(lockerSystem.objDeleteSystem(systemName));
+				foundation.click(LockerSystem.BTN_YES_DELETE);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		@Test(description = "Verify the 'Save' button when 'Display' field is blank")
+		public void verifySaveWithDisplayBlank() {
+			try {
+				final String CASE_NUM = "120328";
+
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
+				String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
+				String displayName = rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME);
+				String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				// create new system
+				Thread.sleep(2000);
+				boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
+				if (isSystemExist == false) {
+					foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+					newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
+				}
+
+				// validate copy functionality
+				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+				foundation.click(lockerSystem.copySystem(systemName));
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
+				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_DISPLAY_NAME), "");
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);
+				assertFalse(foundation.isEnabled(CreateSystem.BTN_SAVE));
+
+				// cleanupdata
+				foundation.click(CreateSystem.BTN_CANCEL);
+				lockerSystem.deleteSystem(locationName, systemName);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		@Test(description = "Verify the 'Save' button when 'System' field is blank")
+		public void verifySaveWithSystemBlank() {
+			try {
+				final String CASE_NUM = "120329";
+
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
+				String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
+				String displayName = rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME);
+				String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+
+				// Select Menu and Menu Item
+				navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menuItem);
+
+				// create new system
+				Thread.sleep(2000);
+				boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
+				if (isSystemExist == false) {
+					foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+					newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
+				}
+
+				// validate copy functionality
+				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+				foundation.click(lockerSystem.copySystem(systemName));
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
+				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
+				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);
+				assertFalse(foundation.isEnabled(CreateSystem.BTN_SAVE));
+
+				// cleanupdata
+				foundation.click(CreateSystem.BTN_CANCEL);
+				lockerSystem.deleteSystem(locationName, systemName);
+
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
 			}
 		}
 }
