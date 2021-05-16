@@ -34,6 +34,7 @@ import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ReportList;
+import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.utilities.CurrenyConverter;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -49,6 +50,7 @@ public class Report extends TestInfra {
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
 	private BadScanReport badScan = new BadScanReport();
+	private TransactionCannedReport transactionCanned = new TransactionCannedReport();
 	private CurrenyConverter converter = new CurrenyConverter();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -83,7 +85,7 @@ public class Report extends TestInfra {
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItems.get(0));
-			
+
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
@@ -166,13 +168,13 @@ public class Report extends TestInfra {
 			Assert.fail();
 		}
 	}
-	
-	@Test(description = "This test validates Bad Scan Report Data Calculation")
-	public void BadScanReportData() {
+
+	@Test(description = "This test validates Transaction Canned Report Data Calculation")
+	public void TransactionCannedReportData() {
 		try {
 
-			final String CASE_NUM = "120821";
-			
+			final String CASE_NUM = "130612";
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -181,6 +183,105 @@ public class Report extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			transactionCanned.getTblRecordsUI();
+			transactionCanned.getIntialData().putAll(transactionCanned.getReportsData());
+			transactionCanned.getIntialTotal().putAll(transactionCanned.getUpdatedTotal());
+
+			// read updated data
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			transactionCanned.getTblRecordsUI();
+
+			// apply calculation and update data
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			transactionCanned.updateTransactions(transactionCanned.getTableHeaders().get(1),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			transactionCanned.updateTransactions(transactionCanned.getTableHeaders().get(2),
+					rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA));
+			transactionCanned.updateSales(transactionCanned.getTableHeaders().get(5),
+					transactionCanned.getTableHeaders().get(1), transactionCanned.getTableHeaders().get(3));
+			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(2),
+					transactionCanned.getTableHeaders().get(1), transactionCanned.getTableHeaders().get(4));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(5),
+					transactionCanned.getRequiredJsonData().get(0));
+			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(5),
+					transactionCanned.getTableHeaders().get(4), transactionCanned.getTableHeaders().get(6));
+			transactionCanned.updateTransactions(transactionCanned.getTableHeaders().get(7),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			transactionCanned.updateSales(transactionCanned.getTableHeaders().get(11),
+					transactionCanned.getTableHeaders().get(7), transactionCanned.getTableHeaders().get(8));
+			transactionCanned.updatePercent(transactionCanned.getTableHeaders().get(8),
+					transactionCanned.getTableHeaders().get(3), transactionCanned.getTableHeaders().get(9));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(10),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(11),
+					transactionCanned.getRequiredJsonData().get(0));
+			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(11),
+					transactionCanned.getTableHeaders().get(10), transactionCanned.getTableHeaders().get(12));
+			transactionCanned.updateTransactions(transactionCanned.getTableHeaders().get(13),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			transactionCanned.updateSales(transactionCanned.getTableHeaders().get(17),
+					transactionCanned.getTableHeaders().get(13), transactionCanned.getTableHeaders().get(14));
+			transactionCanned.updatePercent(transactionCanned.getTableHeaders().get(14),
+					transactionCanned.getTableHeaders().get(3), transactionCanned.getTableHeaders().get(15));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(16),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(17),
+					transactionCanned.getRequiredJsonData().get(0));
+			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(17),
+					transactionCanned.getTableHeaders().get(16), transactionCanned.getTableHeaders().get(18));
+
+			// Calculate total
+			transactionCanned.updateTotal();
+			transactionCanned.updateDecimalTotal();
+
+			// verify report headers
+			transactionCanned.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			transactionCanned.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "This test validates Bad Scan Report Data Calculation")
+	public void BadScanReportData() {
+		try {
+
+			final String CASE_NUM = "120821";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
@@ -196,6 +297,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
