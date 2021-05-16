@@ -2,6 +2,7 @@ package at.smartshop.utilities;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+
 import org.testng.Assert;
 
 
