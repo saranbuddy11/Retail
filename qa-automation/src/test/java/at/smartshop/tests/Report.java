@@ -32,8 +32,11 @@ import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TransactionCannedReport;
@@ -45,12 +48,15 @@ public class Report extends TestInfra {
 	private NavigationBar navigationBar = new NavigationBar();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private LocationList locationList = new LocationList();
+	private LocationSummary locationSummary = new LocationSummary();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private ProductPricingReport productPricing = new ProductPricingReport();
 	private ProductTaxReport productTax = new ProductTaxReport();
 	private MemberPurchaseDetailsReport memberPurchaseDetails = new MemberPurchaseDetailsReport();
 	private BadScanReport badScan = new BadScanReport();
@@ -130,7 +136,7 @@ public class Report extends TestInfra {
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
-			
+
 			// Selecting the Date range and Location for running report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -172,20 +178,17 @@ public class Report extends TestInfra {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test(description = "This test validates Product Tax Report Data Calculation")
 	public void ProductTaxReportData() {
 		try {
 
 			final String CASE_NUM = "120622";
 
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,
-					FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
-							FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -195,21 +198,16 @@ public class Report extends TestInfra {
 			// process sales API to generate data
 			productTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Navigate to Reports
+			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
-					FilePath.PROPERTY_CONFIG_FILE));
 
-			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
 			productTax.getIntialData().putAll(productTax.getReportsData());
@@ -218,10 +216,10 @@ public class Report extends TestInfra {
 			// apply calculation and update data
 			productTax.updateData(productTax.getTableHeaders().get(0),
 					(String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME));
-			productTax.updateData(productTax.getTableHeaders().get(1), propertyFile
-					.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			productTax.updateData(productTax.getTableHeaders().get(2), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			productTax.updateData(productTax.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			productTax.updateData(productTax.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
 			productTax.updateData(productTax.getTableHeaders().get(3), productTax.getProductNameData());
 			productTax.updateData(productTax.getTableHeaders().get(4), productTax.getScancodeData());
 			productTax.updateData(productTax.getTableHeaders().get(5), productTax.getCategory1Data());
@@ -236,6 +234,65 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productTax.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "This test validates Product Pricing Report Data Calculation")
+	public void ProductPricingReportData() {
+		try {
+
+			final String CASE_NUM = "135696";
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menu.get(0));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			productPricing.getTblRecordsUI();
+			productPricing.getIntialData().putAll(productPricing.getReportsData());
+
+			// get Location Data
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocaionName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
+
+			// apply calculation and update data
+			productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// verify report headers
+			productPricing.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productPricing.verifyReportData();
 
 		} catch (Exception exc) {
 			Assert.fail();
@@ -344,7 +401,7 @@ public class Report extends TestInfra {
 		}
 
 	}
-	
+
 	@Test(description = "This test validates Member Purchase Details Report Data Calculation")
 	public void MemberPurchaseDetailsReport() {
 		try {
