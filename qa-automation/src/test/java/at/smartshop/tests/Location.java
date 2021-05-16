@@ -128,7 +128,7 @@ public class Location extends TestInfra {
 			
 			foundation.click(LocationSummary.TBL_PRODUCTS);
 			
-			Assert.assertTrue(table.getTblRowCount(LocationSummary.TBL_PRODUCTS_LIST)<= 0);	
+			Assert.assertTrue(locationSummary.getRowCount()<= 0);
 			
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			

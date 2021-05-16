@@ -22,8 +22,6 @@ public class ConsumerSearch extends Factory{
 	private static final By TXT_SEARCH = By.id("search");
 	private static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
-	public static final By TBL_CONSUMER_SEARCH_GRID = By.id("consumerdt");
-	private static final By LBL_ROWS = By.cssSelector("#consumerdt > tbody > tr");
 	public static final By TXT_BALANCE=By.xpath("//table//tbody//tr[@class='odd']//td[5]");
 	public static final By TXT_CONSUMER_NAME=By.xpath("//table//tbody//tr[@class='odd']//td[3]//a");
 	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
@@ -42,32 +40,12 @@ public class ConsumerSearch extends Factory{
 
 	}
 
-	public void clickCell(String consumerName) {
+	public void clickTableCell(String consumerName) {
 		try {
 			By consumerFirstName = By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");
 			foundation.click(consumerFirstName);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}
-	
-	public Map<String, String> getTblRecordsUI() {
-		Map<String, String> uiTblRowValues = new HashMap<>();
-		try {
-			int curColumnIndex = 1;
-
-			WebElement tableReports = getDriver().findElement(TBL_CONSUMER_SEARCH_GRID);
-			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
-			WebElement row = getDriver().findElement(LBL_ROWS);
-
-			for (WebElement header : headers) {
-				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + curColumnIndex + ")"));
-				uiTblRowValues.put(header.getText(), column.getText());
-				curColumnIndex++;
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return uiTblRowValues;
 	}
 }

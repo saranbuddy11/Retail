@@ -35,6 +35,7 @@ public class GlobalProducts extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private LocationList locationList = new LocationList();
 	private Table table = new Table();
+	private GlobalProductChange globalProductChange=new GlobalProductChange();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -76,8 +77,8 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);			
 			       
-	        foundation.click(GlobalProductChange.LBL_PRODUCT);
-			
+	        foundation.click(globalProductChange.selectTableRow(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+	        
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			
 			//increment the price			

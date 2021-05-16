@@ -1,6 +1,9 @@
 package at.smartshop.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
@@ -18,7 +21,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_DISABLED= By.id("isdisabled");
 	public static final By BTN_SAVE= By.id("saveBtn");
 	public static final By TBL_PRODUCTS= By.cssSelector("a#loc-products");
-	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
+	//public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody");
 	public static final By POP_UP_BTN_SAVE =  By.id("confirmDisableId");
 	public static final By BTN_LOCATION_SETTINGS =  By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER =  By.id("haslocker");
@@ -69,8 +72,20 @@ public class LocationSummary extends Factory {
         foundation.click(BTN_MANAGE_COLUMNS);
         foundation.click(BTN_SHOW);
         }
-        catch (Exception exc) {           
+        catch (Exception exc) { 
+        	Assert.fail(exc.toString());
         }
         foundation.click(BTN_APPLY);
     }
+    
+	public int getRowCount() {
+		List<WebElement> columnHeaders = null;
+		try {
+			WebElement tableReports = getDriver().findElement(By.cssSelector("#productDataGrid > tbody"));
+			columnHeaders = tableReports.findElements(By.tagName("tr"));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return (columnHeaders.size());
+	}
 }
