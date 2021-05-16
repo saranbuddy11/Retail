@@ -1,11 +1,7 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+
 import at.framework.browser.Factory;
 
 public class GlobalProductChange extends Factory{	
