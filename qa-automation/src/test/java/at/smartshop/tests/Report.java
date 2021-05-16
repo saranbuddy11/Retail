@@ -34,6 +34,7 @@ import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.utilities.CurrenyConverter;
@@ -50,6 +51,7 @@ public class Report extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
+	private ProductTaxReport productTax = new ProductTaxReport();
 	private MemberPurchaseDetailsReport memberPurchaseDetails = new MemberPurchaseDetailsReport();
 	private BadScanReport badScan = new BadScanReport();
 	private TransactionCannedReport transactionCanned = new TransactionCannedReport();
@@ -128,7 +130,7 @@ public class Report extends TestInfra {
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
-
+			
 			// Selecting the Date range and Location for running report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -169,6 +171,76 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+	}
+	
+	@Test(description = "This test validates Product Tax Report Data Calculation")
+	public void ProductTaxReportData() {
+		try {
+
+			final String CASE_NUM = "120622";
+
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+					FilePath.PROPERTY_CONFIG_FILE));
+			login.login(
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+							FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			productTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+					FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			productTax.getTblRecordsUI();
+			productTax.getIntialData().putAll(productTax.getReportsData());
+			productTax.getRequiredRecord((String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME),
+					productTax.getScancodeData());
+			// apply calculation and update data
+			productTax.updateData(productTax.getTableHeaders().get(0),
+					(String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME));
+			productTax.updateData(productTax.getTableHeaders().get(1), propertyFile
+					.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			productTax.updateData(productTax.getTableHeaders().get(2), propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			productTax.updateData(productTax.getTableHeaders().get(3), productTax.getProductNameData());
+			productTax.updateData(productTax.getTableHeaders().get(4), productTax.getScancodeData());
+			productTax.updateData(productTax.getTableHeaders().get(5), productTax.getCategory1Data());
+			productTax.updateData(productTax.getTableHeaders().get(6), productTax.getCategory2Data());
+			productTax.updateData(productTax.getTableHeaders().get(7), productTax.getCategory3Data());
+			productTax.updatePrice();
+			productTax.updateData(productTax.getTableHeaders().get(9), productTax.getTaxCatData());
+			productTax.updateData(productTax.getTableHeaders().get(10), productTax.getTaxData());
+			productTax.updateData(productTax.getTableHeaders().get(11), productTax.getRequiredJsonData().get(0));
+			// verify report headers
+			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productTax.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 
 	@Test(description = "This test validates Transaction Canned Report Data Calculation")
