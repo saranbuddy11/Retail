@@ -9,7 +9,6 @@ public class GlobalProductChange extends Factory{
 	public static final By TBL_LOCATION_LIST = By.id("location-list");
 	public static final By BTN_LOCATION_APPLY = By.id("loc-filter-apply");
 	public static final By BTN_PRODUCT_APPLY = By.id("prd-filter-apply");
-	public static final By LNK_SEARCH_ALL = By.id("loc-select-all");
 	public static final By TAB_PRODUCT = By.cssSelector("#li2 > a");
 	public static final By BTN_NEXT = By.id("prd-dt-next");
 	public static final By BTN_INCREMENT = By.xpath("//*[@id='increment-radio-btn']/..");

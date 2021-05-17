@@ -70,10 +70,7 @@ public class GlobalProducts extends TestInfra {
 			price=Double.parseDouble(productsRecord.get("Price"));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			//textBox.enterText(GlobalProductChange.TXT_LOCATION_SEARCH, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			globalProductChange.selectLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-			//Thread.sleep(2000);
-			//foundation.click(GlobalProductChange.LNK_SEARCH_ALL);
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);			
