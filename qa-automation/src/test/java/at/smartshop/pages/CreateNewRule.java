@@ -11,7 +11,6 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -21,7 +20,7 @@ public class CreateNewRule extends Factory{
 	private Foundation foundation=new Foundation();
 	private Dropdown dropdown=new Dropdown();
 	private TextBox textbox=new TextBox();
-	private CheckBox checkBox = new CheckBox();
+
 	
 	private static final By DPD_ORG = By.xpath("//*[@id='orgdt']//../span//input");
 	public static final By DPD_LOCATION = By.xpath("//*[@id='locdt']//../span//input");
@@ -35,14 +34,14 @@ public class CreateNewRule extends Factory{
 	public static final  By DELETE_PROMPT_TITLE = By.cssSelector("div.ajs-header");
 	public static final By BTN_CANCEL = By.cssSelector("button.ajs-button.ajs-cancel");
 	public static final By BTN_YES = By.cssSelector("button.ajs-button.ajs-ok");
-	public static final By FIELD_SEARCH = By.cssSelector("input[type='search']");
+	public static final By TXT_SEARCH = By.cssSelector("input[type='search']");
 	
 	public static final By TXT_RULE_NAME = By.id("rulename");
 	public static final By DPD_RULE_TYPE = By.id("ruletype");
 	public static final By DPD_NATIONAL_CATEGORY = By.id("upctype");
 	public static final By TXT_CLIENTRULE_NAME = By.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
 	
-	List<String> locationDPDValues = new ArrayList<>();
+	
 	
 	public void createRule(String org,String location,String ruleType,String nationalCategory,String ruleName,String price) {
 		try {
@@ -81,7 +80,7 @@ public class CreateNewRule extends Factory{
 	
 	public void verifyHintText(String hintText) {
 		try {
-			List<WebElement> element = getDriver().findElements(FIELD_SEARCH);
+			List<WebElement> element = getDriver().findElements(TXT_SEARCH);
 			for (int iter = 0; iter < element.size(); iter++) {
 				if(element.get(iter).getAttribute("placeholder").equals(hintText))
 				break;
@@ -92,16 +91,10 @@ public class CreateNewRule extends Factory{
 		}
 	}
 	
-	public void verifyAutoAddNewLocationRuleStatus() {
-		try {
-			Assert.assertFalse(checkBox.isChecked(CHCK_AUTO_LOCATION));
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Auto Add Location Rule Status");
-		}catch(Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+
 	
 	public List<String> getLocationDropdownValues() {
+		List<String> locationDPDValues = new ArrayList<>();
 		try {
 			foundation.click(DPD_LOCATION);
 			locationDPDValues.clear();
@@ -138,7 +131,7 @@ public class CreateNewRule extends Factory{
 		}
 	}
 	
-	public void clickOnCancelButton() {
+	public void verifyCancelButton() {
 		try {
 			foundation.click(BTN_CANCEL);
 			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE));
@@ -148,7 +141,7 @@ public class CreateNewRule extends Factory{
 		}
 	}
 	
-	public void clickOnYesButton() {
+	public void verifyYesButton() {
 		try {
 		foundation.click(BTN_DELETE);
 		foundation.waitforElement(BTN_YES, 5);
