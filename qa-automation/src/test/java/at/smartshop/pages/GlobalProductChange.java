@@ -28,4 +28,9 @@ public class GlobalProductChange extends Factory{
 	public By selectTableRow(String location) {
 			return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='"+ location +"']");
 	}
+	
+	public void selectLocation(String location) {
+		getDriver().findElement(By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']")).click();
+}
+	
 }

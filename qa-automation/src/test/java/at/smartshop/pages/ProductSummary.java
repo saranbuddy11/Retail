@@ -1,11 +1,18 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+
 import at.framework.browser.Factory;
 
 public class ProductSummary extends Factory {
-	
+
 	public static final By BTN_EXTEND = By.cssSelector("a#extend");
 	public static final By TXT_FILTER = By.cssSelector("input[id=productFilterType]");
 	public static final By BTN_SAVE = By.cssSelector("#modalsave");
@@ -19,16 +26,7 @@ public class ProductSummary extends Factory {
 	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By BTN_EDIT_LOCATION = By.id("editlocation");
-	
-	public String getPriceFromLocationsTable() {
-		String cellValue = null;
-		try {
-				cellValue = getDriver().findElement(TBL_CELL_PRICE).getText();
-			} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return cellValue;
-	}
+	public static final By TBL_LOCATION = By.id("locdt");
 	
 	public By getLocationNamePath(String text) {
 		By xpath = null;
@@ -47,7 +45,36 @@ public class ProductSummary extends Factory {
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());			
 		}
-		return rulesLink;
-		
+		return rulesLink;	
 	}
+	
+	public List<String> getProductsHeaders() {
+        List<String> tableHeaders = new ArrayList<>();
+        try {
+            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+            List<WebElement> columnHeaders = tableProducts
+                    .findElements(By.cssSelector("thead > tr > th"));
+            for (WebElement columnHeader : columnHeaders) {
+                tableHeaders.add(columnHeader.getText());
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+        return tableHeaders;
+    }
+	
+	public Map<String, String> getProductsRecords(String name) {
+		Map<String, String> productsRecord = new LinkedHashMap<>();
+    try {
+        List<String> tableHeaders = getProductsHeaders();
+            for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+            	WebElement column = getDriver().findElement(By.xpath("//table[@id='locdt']//tr//td//span[(text()='"+ name +"')]//..//..//td["+columnCount+"]"));
+                productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+            }
+    } catch (Exception exc) {
+        Assert.fail(exc.toString());
+    }
+    return productsRecord;
+    
+}
 }
