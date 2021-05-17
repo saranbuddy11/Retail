@@ -9,8 +9,7 @@ public class LockerEquipment {
 	public static final By TXT_MODEL_NAME=By.xpath("//div[@id='20door']/div[1]");
 	public static final By TBL_GRID=By.id("lockerequipmentgrid");
 	public static final By TBL_ROW_1=By.cssSelector("#lockerequipmentgrid > tbody");                                    
-	public static final By TBL_ROW_2=By.xpath("//table[@id='lockerequipmentgrid']/tbody/tr[2]");
-	
+	public static final By TBL_ROW_2=By.xpath("//table[@id='lockerequipmentgrid']/tbody/tr[2]");	
 	public static final By LOCKER_EQUIPMENT_GRID = By.id("lockerequipmentgrid_container");
     public static final By LBL_18_MODEL_TITLE = By.xpath("//div[@id='18door']//div");
     public static final By LBL_20_MODEL_TITLE = By.xpath("//div[@id='20door']//div");

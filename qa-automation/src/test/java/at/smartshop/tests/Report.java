@@ -143,12 +143,10 @@ public class Report extends TestInfra {
 			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
 			dbData.put(tblColumnHeader.get(5), requiredData.get(2));
 			dbData.put(tblColumnHeader.get(6), requiredData.get(3));
-
 			dbData.put(tblColumnHeader.get(8), converter.convertTOCurrency(updatedbalance));
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
-
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));

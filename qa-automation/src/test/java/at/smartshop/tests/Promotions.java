@@ -19,14 +19,13 @@ import at.smartshop.pages.PromotionList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Promotions extends TestInfra {
-	
 
 	private PropertyFile propertyFile = new PropertyFile();
 	private ResultSets dataBase = new ResultSets();
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
 	private CreatePromotions createPromotions = new CreatePromotions();
-	
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 
@@ -34,36 +33,34 @@ public class Promotions extends TestInfra {
 	public void verifyPromotions() {
 		try {
 			final String CASE_NUM = "130666";
-				
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			
-			//Reading test data from database
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-			
+
 			String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName  = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String requiredData  = rstLocationData.get(CNLocation.REQUIRED_DATA);
-			
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));	
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-					
-			
+
 			// New Promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType,promotionName,requiredData);
+			createPromotions.newPromotion(promotionType, promotionName, requiredData);
 
-		
 			// Validating "All" option in Location field
 			String uiData = foundation.getText(CreatePromotions.DPD_LOCATION);
 			Assert.assertEquals(uiData, locationName);
 
-		
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

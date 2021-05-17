@@ -24,6 +24,7 @@ public class Constants {
 	public static final String REGEX_NUMBER = "0123456789";
 	public static final String SHEETNAME = "Sheet1";
 	public static final String YES = "yes";
+	public static final String ACCOUNT_NAME = "Test";
 	public static final String REPORT_NAME= "\\Results.html";
 	public static final String REPORTS= "\\Reports\\";
 	public static final String DELIMITER_BACKSLASH= "\\";

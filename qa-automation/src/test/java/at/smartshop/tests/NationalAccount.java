@@ -207,13 +207,13 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1));
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount.get(1));
 
-			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount.get(1) + "test");
+			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			foundation.click(NationalAccounts.BTN_CANCEL);
 
 			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
-			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + "test");
+			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 		} catch (Exception exc) {
