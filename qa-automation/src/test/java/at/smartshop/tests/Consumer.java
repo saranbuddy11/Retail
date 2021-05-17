@@ -153,7 +153,7 @@ public class Consumer extends TestInfra {
             List<String> requiredData = Arrays
                     .asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split("~"));
             
-            consumerSearch.clickTableCell(requiredData.get(5));
+            consumerSearch.clickCell(requiredData.get(5));
 
             // reading Balance and add to the array list
             double initialbalance = consumerSummary.getBalance();

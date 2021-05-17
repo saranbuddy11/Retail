@@ -66,7 +66,7 @@ public class GlobalProducts extends TestInfra {
 			globalProduct.selectGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 			
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-			Map<String, String> productsRecord=productSummary.getProductsRecords(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			Map<String, String> productsRecord=productSummary.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			List<String> columnName=Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			price=Double.parseDouble(productsRecord.get(columnName.get(3)));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -111,7 +111,7 @@ public class GlobalProducts extends TestInfra {
 	        textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 	        double updatedPrice = price+Incrementprice;
 	        
-	        Map<String, String> updatedProductsRecord=productSummary.getProductsRecords(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+	        Map<String, String> updatedProductsRecord=productSummary.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
     	    
 			assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
 			

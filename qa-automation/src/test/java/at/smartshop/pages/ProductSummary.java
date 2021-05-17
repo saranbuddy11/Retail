@@ -63,7 +63,7 @@ public class ProductSummary extends Factory {
         return tableHeaders;
     }
 	
-	public Map<String, String> getProductsRecords(String name) {
+	public Map<String, String> getProductDetails(String name) {
 		Map<String, String> productsRecord = new LinkedHashMap<>();
     try {
         List<String> tableHeaders = getProductsHeaders();

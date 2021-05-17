@@ -21,7 +21,6 @@ public class LocationSummary extends Factory {
 	public static final By DPD_DISABLED= By.id("isdisabled");
 	public static final By BTN_SAVE= By.id("saveBtn");
 	public static final By TBL_PRODUCTS= By.cssSelector("a#loc-products");
-	//public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody");
 	public static final By POP_UP_BTN_SAVE =  By.id("confirmDisableId");
 	public static final By BTN_LOCATION_SETTINGS =  By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER =  By.id("haslocker");

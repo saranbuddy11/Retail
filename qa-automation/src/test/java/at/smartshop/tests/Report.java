@@ -91,7 +91,7 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-			consumerSearch.clickTableCell(requiredData.get(5));
+			consumerSearch.clickCell(requiredData.get(5));
 
 			List<String> columnName = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
