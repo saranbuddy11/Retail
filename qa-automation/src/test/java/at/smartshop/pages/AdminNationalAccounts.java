@@ -144,48 +144,14 @@ public class AdminNationalAccounts extends Factory {
 		return locationValues;
 	}
 
-	public void selectRuleName(String ruleName) {
-		try {
-			textBox.enterText(SEARCH_BOX, ruleName);
-			WebElement nationalAccountRule = getDriver().findElement(TABLE_NATIONAL_ACCOUNT_RULE);
-			List<WebElement> rows = nationalAccountRule.findElements(By.tagName("tr"));
-			for (int iter = 0; iter < rows.size(); iter++) {
-				if (rows.get(iter).findElement(TEXT_RULE_NAME).getText().equals(ruleName)) {
-					foundation.click(TEXT_RULE_NAME);
-					break;
-				}
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	public void verifyRuleName(String ruleName) {
-		try {
-			String name = getDriver().findElement(TEXT_BOX_RULE_NAME).getAttribute("value");
-			Assert.assertTrue(name.contains(ruleName));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	public void clickManageRulesLink(String NationalAccountName) {
-		try {
-			WebElement rowList = getDriver().findElement(TBL_NATIONAL_ACCOUNT_LIST);
-			List<WebElement> rows = rowList.findElements(By.tagName("tr"));
-			for (int iter = 0; iter < rows.size(); iter++) {
-				WebElement column = rows.get(iter).findElement(By.cssSelector("td[" + COLUMNNATIONALACCOUNTS + "]"));
-				if (column.getText().contains(NationalAccountName)) {
-					foundation.click(LNK_MANAGE_RULES);
-					break;
-				}
-			}
-
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail(exc.toString());
-		}
-	}
+//	public void verifyRuleName(String ruleName) {
+//		try {
+//			String name = getDriver().findElement(TEXT_BOX_RULE_NAME).getAttribute("value");
+//			Assert.assertTrue(name.contains(ruleName));
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
 
 	public By getLocationObj(String text) {
 		return By.xpath("//a[text()='" + text + "']//..//..//td[@aria-describedby='dataGrid_location']//a");

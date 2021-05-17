@@ -577,7 +577,7 @@ public class NationalAccount extends TestInfra{
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			createNewRule.verifyAutoAddNewLocationRuleStatus();			
+			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));			
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -610,7 +610,7 @@ public class NationalAccount extends TestInfra{
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			createNewRule.verifyAutoAddNewLocationRuleStatus();			
+			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));			
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -712,8 +712,8 @@ public class NationalAccount extends TestInfra{
 			
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			adminNationalAccounts.selectRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			adminNationalAccounts.verifyRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));			
+			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			nationalAccountRules.verifyRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));			
 		
 			
 		}catch (Exception exc) {
@@ -742,12 +742,15 @@ public class NationalAccount extends TestInfra{
 			
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			adminNationalAccounts.selectRuleName(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
 			
 			assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
 			foundation.click(CreateNewRule.BTN_DELETE);
 			
-			createNewRule.verifyDeletePromptTitle(rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
+			foundation.waitforElement(CreateNewRule.DELETE_PROMPT, 5);
+			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.DELETE_PROMPT));
+			String title = foundation.getText(CreateNewRule.DELETE_PROMPT_TITLE);
+			Assert.assertEquals(title, rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
 			createNewRule.verifyDeletePromptButtons();
 			createNewRule.clickOnCancelButton();
 			createNewRule.clickOnYesButton();
@@ -784,7 +787,7 @@ public class NationalAccount extends TestInfra{
 			
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			adminNationalAccounts.selectRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
 					
 		}catch (Exception exc) {
@@ -877,6 +880,7 @@ public class NationalAccount extends TestInfra{
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
 			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
@@ -887,7 +891,7 @@ public class NationalAccount extends TestInfra{
 			foundation.wait(2000);
 
 			// Click manage
-			adminNationalAccounts.clickManageRulesLink(nationalAccountName);
+			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 
 			Boolean createRuleButton = foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			Assert.assertTrue(createRuleButton);
@@ -922,7 +926,8 @@ public class NationalAccount extends TestInfra{
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
 			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-
+			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
 					FilePath.PROPERTY_CONFIG_FILE));
@@ -932,7 +937,7 @@ public class NationalAccount extends TestInfra{
 			foundation.wait(2000);
 
 			// Click manage
-			adminNationalAccounts.clickManageRulesLink(nationalAccountName);
+			adminNationalAccounts.clickManageRule(nationalAccountName,gridName);
 
 			Boolean createRuleButton = foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			Assert.assertTrue(createRuleButton);
@@ -968,6 +973,7 @@ public class NationalAccount extends TestInfra{
 
 			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
 			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
@@ -977,7 +983,7 @@ public class NationalAccount extends TestInfra{
 			// filtering rule
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
 			foundation.wait(2000);
-			adminNationalAccounts.clickManageRulesLink(nationalAccountName);
+			adminNationalAccounts.clickManageRule(nationalAccountName,gridName);
 			nationalAccountRules.clickRulesLink(ruleName);
 
 			// Rule Page Validations
@@ -1089,6 +1095,7 @@ public class NationalAccount extends TestInfra{
 			String ruleCategory = rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY);
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
@@ -1100,7 +1107,7 @@ public class NationalAccount extends TestInfra{
 			Thread.sleep(2000);
 
 			// Click manage button
-			adminNationalAccounts.clickManageRulesLink(nationalAccountName);
+			adminNationalAccounts.clickManageRule(nationalAccountName,gridName);
 
 			// create new rule
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);

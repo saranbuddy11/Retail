@@ -1,6 +1,7 @@
 package at.framework.ui;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -123,5 +124,15 @@ public class Foundation extends Factory {
             ObjEnabled = false;                   
         }
         return ObjEnabled;
+    }
+	
+	public int getSizeofListElement(By object) {
+		int sizeofObj = 0;
+        try {
+        	sizeofObj= getDriver().findElements(object).size();        
+        }catch(Exception exc) {
+        	Assert.fail(exc.toString()); 
+        }
+        return sizeofObj;
     }
 }

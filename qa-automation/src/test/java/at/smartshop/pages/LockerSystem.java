@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class LockerSystem extends Factory{
 	private Foundation foundation=new Foundation();
@@ -26,7 +27,7 @@ public class LockerSystem extends Factory{
     public static final By LBL_PAGE_TITLE = By.xpath("//div[text()='Location Locker Systems']");
     public static final By BTN_SCHEDULING = By.xpath("//a[text()='Scheduling']");
     private static final By TABLE_LOCATION_HEADER = By.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
-    private static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
+    public static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
     public static final By ICO_SIBLING_COPY = By.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
 	
     public static List<String> columnNamesList = new ArrayList<>();
@@ -55,29 +56,21 @@ public class LockerSystem extends Factory{
 	}
 	
 	public void resetleLocker(String address) {		
-		foundation.click(By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_reset']//a"));
+		foundation.click(objresetleLocker(address));
 		assertEquals(cubbyStatus(address),"Available");
 	}
 	
-	public boolean resetleLockerDisplay(String address) {		
-		return foundation.isDisplayed(By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_reset']//a"));
+	public By objresetleLocker(String address) {		
+		return By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_reset']//a");
 	}
 	
 	public String cubbyStatus(String address) {		
 		return foundation.getText(By.xpath("//td[@aria-describedby='cubbyschedulinggrid_address'][text()='"+address+"']//..//td[@aria-describedby='cubbyschedulinggrid_status']"));
 	}
 	
-	public void copyDeleteSystem(String location, String name) {		
-		foundation.click(By.xpath("//a[@id='linksystemname'][text()='"+location+"']//..//..//a[contains(@title,'"+ name +"')]"));
+	public By copyORDeleteSystem(String systemName, String title) {		
+		return By.xpath("//a[@id='linksystemname'][text()='"+systemName+"']//..//..//a[contains(@title,'"+ title +"')]");
 	}
-	
-	public By copySystem(String systemName) {
-        return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[@title='Copy']");
-    }
-	
-	public By objDeleteSystem(String systemName) {
-        return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'Delete')]");
-    }
 	
 	public void getLocationColumns() {
         try {
@@ -102,31 +95,13 @@ public class LockerSystem extends Factory{
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }
-    }
-    
-    public void verifyCubbySchedulingScreen(String pageTitle) {
-        try {
-            String text = foundation.getText(LBL_CUBBY_SCHEDULING_SCREEN);
-            Assert.assertTrue(text.contains(pageTitle));               
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
-    
-    public void verifyLocationNameNotExist(String location) {
-        try {
-         List<WebElement> name = getDriver().findElements(By.xpath("//td[@aria-describedby='lockersystemtable_locationName'][text()='"+location+"']"));
-         Assert.assertTrue(name.size()==0);
-        }catch(Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
+    }  
     
     public void deleteSystem(String location,String systemName) {
         try {
             Thread.sleep(500);
             foundation.click(objExpandLocationLocker(location));
-            foundation.click(objDeleteSystem(systemName));
+            foundation.click(copyORDeleteSystem(systemName,Constants.DELETE));            
             foundation.click(BTN_YES_DELETE);
         } catch (Exception exc) {
            

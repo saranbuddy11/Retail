@@ -176,7 +176,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)); 
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			foundation.click(LockerSystem.BTN_YES_DELETE);
@@ -234,7 +234,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)); 
 	
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -253,7 +253,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)); 
 			
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
@@ -283,7 +283,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)); 
 	
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -304,7 +304,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)); 
 			
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
@@ -364,7 +364,7 @@ public class Locker extends TestInfra {
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
 			
-			lockerSystem.copyDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE); 
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE)); 
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
 			
 			List<String> popUpMessage = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -538,7 +538,7 @@ public class Locker extends TestInfra {
 	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
 	            foundation.click(LockerSystem.BTN_SCHEDULING);
-	            lockerSystem.verifyCubbySchedulingScreen(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE));
+	            Assert.assertTrue(foundation.getText(LockerSystem.LBL_CUBBY_SCHEDULING_SCREEN).contains(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE)));            
 	           
 	            login.logout();
 	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
@@ -550,7 +550,7 @@ public class Locker extends TestInfra {
 	            lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 	            foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
 	            foundation.click(LockerSystem.BTN_SCHEDULING);
-	            lockerSystem.verifyCubbySchedulingScreen(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE));
+	            Assert.assertTrue(foundation.getText(LockerSystem.LBL_CUBBY_SCHEDULING_SCREEN).contains(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE)));
 	           
 	           
 	    }
@@ -572,7 +572,7 @@ public class Locker extends TestInfra {
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
-	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	            Assert.assertTrue(foundation.getSizeofListElement(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)))==0);	            
 	           
 	            login.logout();
 	            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
@@ -580,7 +580,7 @@ public class Locker extends TestInfra {
 	            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 	            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 	            Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
-	            lockerSystem.verifyLocationNameNotExist(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+	            Assert.assertTrue(foundation.getSizeofListElement(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)))==0);
 	           
 	        }catch(Exception exc) {
 	            Assert.fail(exc.toString());
@@ -821,7 +821,7 @@ public class Locker extends TestInfra {
 
 				// validate copy functionality
 				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
-				foundation.click(lockerSystem.copySystem(systemName));
+				foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.COPY));
 				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
 				assertTrue(foundation.isDisplayed(CreateSystem.LBL_CREATE_SYSTEM));
 				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
@@ -872,7 +872,7 @@ public class Locker extends TestInfra {
 				assertTrue(foundation.isDisplayed(LockerSystem.ICO_SIBLING_COPY));
 
 				// cleanup data
-				foundation.click(lockerSystem.objDeleteSystem(systemName));
+				foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.DELETE));
 				foundation.click(LockerSystem.BTN_YES_DELETE);
 
 			} catch (Exception exc) {
@@ -910,7 +910,7 @@ public class Locker extends TestInfra {
 
 				// validate copy functionality
 				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
-				foundation.click(lockerSystem.copySystem(systemName));
+				foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.COPY));
 				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
 				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_DISPLAY_NAME), "");
 				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);
@@ -955,7 +955,7 @@ public class Locker extends TestInfra {
 
 				// validate copy functionality
 				foundation.click(lockerSystem.objExpandLocationLocker(locationName));
-				foundation.click(lockerSystem.copySystem(systemName));
+				foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.COPY));
 				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
 				assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
 				assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);

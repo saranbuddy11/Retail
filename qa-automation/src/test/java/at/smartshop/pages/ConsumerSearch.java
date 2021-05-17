@@ -38,11 +38,7 @@ public class ConsumerSearch extends Factory{
 
 	}
 
-	public void clickCell(String consumerName) {
-		try {
-			foundation.click(By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']"));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
+	public By clickCell(String consumerName) {		
+			return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");		
 	}
 }

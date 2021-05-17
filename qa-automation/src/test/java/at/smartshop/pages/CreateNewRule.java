@@ -92,15 +92,6 @@ public class CreateNewRule extends Factory{
 		}
 	}
 	
-	public void verifyAutoAddNewLocationRuleStatus() {
-		try {
-			Assert.assertFalse(checkBox.isChecked(CHCK_AUTO_LOCATION));
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Auto Add Location Rule Status");
-		}catch(Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-	
 	public List<String> getLocationDropdownValues() {
 		try {
 			foundation.click(DPD_LOCATION);
@@ -114,18 +105,6 @@ public class CreateNewRule extends Factory{
 			Assert.fail(exc.toString());
 		}
 		return locationDPDValues;
-	}
-	
-	public void verifyDeletePromptTitle(String promptTitle) {
-		try {			
-			foundation.waitforElement(DELETE_PROMPT, 5);
-			Assert.assertTrue(foundation.isDisplayed(DELETE_PROMPT));
-			String title = foundation.getText(DELETE_PROMPT_TITLE);
-			Assert.assertEquals(title, promptTitle);
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Delete Prompt Title" + promptTitle);
-		}catch(Exception exc) {
-			Assert.fail(exc.toString());
-		}
 	}
 	
 	public void verifyDeletePromptButtons() {
