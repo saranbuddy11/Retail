@@ -279,9 +279,6 @@ public class Location extends TestInfra {
 
             String product = rstDeviceListData.get(CNLocationSummary.PRODUCT_NAME);
             String location = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-            
-            //String product = rstDeviceListData.get(cnDeviceList.PRODUCT_NAME);
-            //String location = rstLocationListData.get(cnLocationList.LOCATION_NAME);
 
             // Select Menu and Menu Item
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
