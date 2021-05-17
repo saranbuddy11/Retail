@@ -160,7 +160,7 @@ public class Location extends TestInfra {
             Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX));
             foundation.click(LocationSummary.BTN_SAVE);
            
-            locationSummary.validateErrorMessage(rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+            Assert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG), rstLocationListData.get(CNLocationList.INFO_MESSAGE));  
                    
         }catch(Exception exc) {
             Assert.fail(exc.toString());

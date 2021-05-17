@@ -34,7 +34,7 @@ public class LocationSummary extends Factory {
     public static final By BUTTON_LOCATION_INFO = By.cssSelector("button#toggleinfo");
     public static final By DPD_RETRIEVE_ACCOUNT = By.cssSelector("select#retrieveaccount");
     public static final  By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
-    private static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
+    public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
     private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
     private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
     public static final By TAB_PRODUCTS = By.id("loc-products");
@@ -44,15 +44,7 @@ public class LocationSummary extends Factory {
     private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 
-    public void validateErrorMessage(String Message) {
-        try {                           
-            String errMsg = foundation.getText(TXT_ERR_MSG);
-            Assert.assertEquals(errMsg, Message);
-            ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Error Message for Retrieve Account");
-        }catch(Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
+  
     
     public void verifyHasLockerField(String defaultValue) {
         try {

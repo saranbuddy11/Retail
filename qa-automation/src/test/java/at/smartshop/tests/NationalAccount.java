@@ -43,6 +43,7 @@ import at.smartshop.utilities.CurrenyConverter;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class NationalAccount extends TestInfra{
+	
 		private ResultSets dataBase = new ResultSets();
 		private NavigationBar navigationBar = new NavigationBar();
 		private UserRoles userRoles = new UserRoles();
@@ -578,6 +579,7 @@ public class NationalAccount extends TestInfra{
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
 			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));			
+
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -611,6 +613,8 @@ public class NationalAccount extends TestInfra{
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
 			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));			
+		
+
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -752,8 +756,8 @@ public class NationalAccount extends TestInfra{
 			String title = foundation.getText(CreateNewRule.DELETE_PROMPT_TITLE);
 			Assert.assertEquals(title, rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
 			createNewRule.verifyDeletePromptButtons();
-			createNewRule.clickOnCancelButton();
-			createNewRule.clickOnYesButton();
+			createNewRule.verifyCancelButton();
+			createNewRule.verifyYesButton();
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), 
 													rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), 
@@ -787,7 +791,7 @@ public class NationalAccount extends TestInfra{
 			
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
 					
 		}catch (Exception exc) {

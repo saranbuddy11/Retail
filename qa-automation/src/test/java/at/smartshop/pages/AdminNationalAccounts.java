@@ -11,7 +11,6 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 
 public class AdminNationalAccounts extends Factory {
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
@@ -47,7 +46,7 @@ public class AdminNationalAccounts extends Factory {
 	public final static String COLUMN_ORG = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_org";
 	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_location";
 	public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
-	public static final By SEARCH_BOX = By.cssSelector("input#filterType");
+	
 	public static final By TEXT_RULE_NAME = By.cssSelector("td[aria-describedby='dataGrid_name'] > a");
 	public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
 	public static final String COLUMNNATIONALACCOUNTS = "aria-describedby=national-account-grid_nationalAccount";
@@ -69,11 +68,10 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_YES_DELETE_RULE = By.xpath("//button[text()='YES']");
 
 	private Foundation foundation = new Foundation();
-	private TextBox textBox = new TextBox();
+	
 
 	public void clickManageRule(String nationalAccountName, String gridName) {
-		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName
-				+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
+		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
 	}
 
 	public List<String> getColumnValues(String gridName) {
@@ -143,15 +141,6 @@ public class AdminNationalAccounts extends Factory {
 		}
 		return locationValues;
 	}
-
-//	public void verifyRuleName(String ruleName) {
-//		try {
-//			String name = getDriver().findElement(TEXT_BOX_RULE_NAME).getAttribute("value");
-//			Assert.assertTrue(name.contains(ruleName));
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	public By getLocationObj(String text) {
 		return By.xpath("//a[text()='" + text + "']//..//..//td[@aria-describedby='dataGrid_location']//a");
