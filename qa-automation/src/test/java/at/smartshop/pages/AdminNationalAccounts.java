@@ -195,6 +195,7 @@ public class AdminNationalAccounts extends Factory {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='dataGrid_name']//a[text()='" + ruleName
 				+ "']//..//..//td[@aria-describedby='dataGrid_delete']//a")).click();
 		foundation.click(BTN_YES_DELETE_RULE);
+		
 	}
 
 }
