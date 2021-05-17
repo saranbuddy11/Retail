@@ -68,7 +68,7 @@ public class Location extends TestInfra {
 
 			// Searching for Product
 			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			globalProduct.selectGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			
 			foundation.click(ProductSummary.BTN_EXTEND);
 
@@ -127,8 +127,8 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
 			foundation.click(LocationSummary.TBL_PRODUCTS);
-			
-			Assert.assertTrue(locationSummary.getRowCount()<= 0);
+		
+			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS)<= 0);
 			
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			
@@ -255,7 +255,7 @@ public class Location extends TestInfra {
 
             // Search and select product
             textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            globalProduct.selectGlobalProduct(product);
+            foundation.click(globalProduct.getGlobalProduct(product));
 
             // verify value in loyalty dropdown
             assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
@@ -289,7 +289,7 @@ public class Location extends TestInfra {
 
             // Searching for Product
             textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            globalProduct.selectGlobalProduct(product);
+            foundation.click(globalProduct.getGlobalProduct(product));
 
             //select tax category
             dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, 2);
@@ -298,7 +298,7 @@ public class Location extends TestInfra {
 
             // naviagate back to product summary page
             textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            globalProduct.selectGlobalProduct(product);
+            foundation.click(globalProduct.getGlobalProduct(product));
 
             // Navigate to product's location
             textBox.enterText(ProductSummary.TXT_SEARCH, location);

@@ -10,13 +10,7 @@ public class GlobalProduct extends Factory {
 	private Foundation foundation = new Foundation();
 	public static final By TXT_FILTER = By.id("filterType");
 
-	public void selectGlobalProduct(String product) {
-		try {
-		By objColumn = By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
-		foundation.click(objColumn);
-		}
-		catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
+	public By getGlobalProduct(String product) {		
+		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");		
 	}
 }

@@ -21,18 +21,13 @@ public class CreateSystem {
     public static final By BTN_CANCEL = By.id("cancelbtn");
     public static final By BTN_CREATE_SYSTEM = By.id("systemcreate");
 	
-	public void createNewSystem(String locationName,String systemName,String displayName,String lockerModel) {
-		try {
+	public void createNewSystem(String locationName,String systemName,String displayName,String lockerModel) {		
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
         textBox.enterText(TXT_SYSTEM_NAME,systemName);
         textBox.enterText(TXT_DISPLAY_NAME,displayName);
         dropDown.selectItem(DPD_LOCKER_MODEL, lockerModel, Constants.TEXT);
         foundation.click(BTN_SAVE);
-        Thread.sleep(2000);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
+        foundation.threadWait(2000);
 	}
 	
 	

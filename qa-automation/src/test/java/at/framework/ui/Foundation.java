@@ -135,4 +135,13 @@ public class Foundation extends Factory {
         }
         return sizeofObj;
     }
+	
+	public void threadWait(int milliSeconds) {
+		try {
+			Thread.sleep(milliSeconds);
+		}
+	 catch(Exception exc) {
+     	Assert.fail(exc.toString()); 
+     }
+	}
 }

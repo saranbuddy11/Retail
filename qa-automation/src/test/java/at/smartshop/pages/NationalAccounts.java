@@ -110,13 +110,11 @@ public class NationalAccounts extends Factory {
 		}
 	}
 	
-	public void verifyBackgroundColour(String text){
-		
-		By locationElement = By.xpath("//select[@name='locs']//option[text()='"+text+"']");
-		String expected=getDriver().findElement(locationElement).getAttribute("style");
-		Assert.assertEquals("background: rgb(240, 240, 240);", expected);
-		
-	}
+	public void verifyBackgroundColour(String text,String actualcolor) { 
+        By locationElement = By.xpath("//select[@name='locs']//option[text()='" + text + "']");
+        String expected = getDriver().findElement(locationElement).getAttribute("style");
+        Assert.assertEquals(actualcolor, expected);
+    }
 	
 	public boolean trySelectNonVisibleTextLocation(String text) {
         try {
@@ -127,6 +125,29 @@ public class NationalAccounts extends Factory {
         catch (Exception e) {
             // TODO: handle exception
             return false;
+        }
+    }
+	
+	public void verifyPromptMsg(String Message, String existsmsg) {
+        try {
+            By TXT_ALREADYEXISTS = By.xpath("//p[text()='" + existsmsg + "']");
+            Boolean status1 = foundation.isDisplayed(TXT_ALREADYEXISTS);
+            Assert.assertTrue(status1);
+            By TXT_ALREADYEXIST_MSG = By.xpath("//b[text()='" + Message + "']");
+            Boolean status2 = foundation.isDisplayed(TXT_ALREADYEXIST_MSG);
+            Assert.assertTrue(status2);
+        } catch (Exception e) {
+            Assert.fail();
+        }
+    }
+	
+    public void verifyDeleteConfirmationMsg(String deleteMsg) {
+        try {
+            By popupMessage = By.xpath("//p[text()='"+deleteMsg+"']");
+            Boolean status1 = foundation.isDisplayed(popupMessage);
+            Assert.assertTrue(status1);
+        } catch (Exception exc) {
+            Assert.fail();
         }
     }
 }

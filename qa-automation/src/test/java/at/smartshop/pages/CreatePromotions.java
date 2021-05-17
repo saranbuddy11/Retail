@@ -23,7 +23,7 @@ public class CreatePromotions extends Factory {
 	private static final By TXT_DISPLAY_NAME = By.id("displayname");
 	private static final By BTN_NEXT = By.id("submitBtn");
 
-	public static final By DPD_LOCATION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
+	public static final By DPD_LOCATION = By.id("location-select");
 	private static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	private static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 

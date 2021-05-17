@@ -11,40 +11,34 @@ public class NationalAccountRules extends Factory {
 	public static final  By BTN_POPUP_YES = By.xpath("//button[text()='YES']");
 	public static final  By ICON_DELETE = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final  By TXT_FILTERTYPE = By.id("filterType");
-	public static final  By POPUP_MESSAGE = By.xpath("//div[text()='National Account Pricing Rule Delete Confirmation']");
-	public static final  By POPUP_WARNING_MSG = By.xpath("//div[text()='You are about to delete a National Account pricing rule.This pricing rule will no longer be applied.']");
+	//public static final  By POPUP_MESSAGE = By.xpath("//div[text()='National Account Pricing Rule Delete Confirmation']");
+	//public static final  By POPUP_WARNING_MSG = By.xpath("//div[text()='You are about to delete a National Account pricing rule.This pricing rule will no longer be applied.']");
 	public static final By BTN_CANCEL = By.xpath("//button[text()='CANCEL']");
 	public static final By TBL_NATIONALACCOUNT_BODY = By.cssSelector("#dataGrid > tbody");
 	public static final By SEARCH_BOX = By.cssSelector("input#filterType");
+	//public static final By RULE_PAGE =By.xpath("//b[text()='Please select org(s) and location(s) to associated rule to:']");	
 	
 	private Foundation foundation = new Foundation();
 	
 	public void clickRulesLink(String RuleName) {
 		try {
-			By rulesLink = By.xpath("//a[text()='" + RuleName + "']");
-			foundation.click(rulesLink);
+			foundation.click(objRuleName(RuleName));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 	
-	public void verifyRulePage() {
-	
-		Boolean isdisplayed = (getDriver().findElement(By.xpath("//b[text()='Please select org(s) and location(s) to associated rule to:']"))).isDisplayed();
-		Assert.assertTrue(isdisplayed);
+	public By objRuleName(String RuleName) {
+		return By.xpath("//a[text()='"+RuleName+"']");
 	}
 	
+	public By verifyPromptMsg(String promptMessage) {
+		 return By.xpath("//div[text()='"+promptMessage+"'");
+    }
 	
-	public Boolean verifyRuleName(String RuleName) {
-		Boolean rulesLink= false;
-		try {
-		 rulesLink = (getDriver().findElement(By.xpath("//a[text()='"+RuleName+"']"))).isDisplayed();
-		}catch (Exception exc) {
-			exc.printStackTrace();					
-		}
-		return rulesLink;
-		
-	}
-	
+	public By objRulePage(String ruleName) {		   
+        return By.xpath("//input[@value='"+ruleName+"']");
+                
+    }
 	
 }

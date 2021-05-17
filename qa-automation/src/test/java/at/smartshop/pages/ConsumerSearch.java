@@ -1,6 +1,12 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
@@ -20,10 +26,9 @@ public class ConsumerSearch extends Factory{
 	private static final By TXT_SEARCH = By.id("search");
 	private static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
-	public static final By TXT_BALANCE=By.xpath("//table//tbody//tr[@class='odd']//td[5]");
-	public static final By TXT_CONSUMER_NAME=By.xpath("//table//tbody//tr[@class='odd']//td[3]//a");
 	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
+	public static final By TBL_LOCATION = By.id("consumerdt");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -38,7 +43,38 @@ public class ConsumerSearch extends Factory{
 
 	}
 
-	public By clickCell(String consumerName) {		
+	public By objCell(String consumerName) {		
 			return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");		
 	}
+	
+	public List<String> getConsumerHeaders() {
+        List<String> tableHeaders = new ArrayList<>();
+        try {
+            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+            for (WebElement columnHeader : columnHeaders) {
+                tableHeaders.add(columnHeader.getText());
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+        return tableHeaders;
+    }
+	
+    public Map<String, String> getConsumerRecords(String location) {
+        Map<String, String> consumerRecord = new LinkedHashMap<>();
+        try {
+            List<String> tableHeaders = getConsumerHeaders();
+            for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+                WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"+location+"')]//..//..//td[" + columnCount + "]"));
+                consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+        return consumerRecord;
+
+ 
+
+    }
 }

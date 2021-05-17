@@ -27,25 +27,10 @@ public class ProductSummary extends Factory {
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By BTN_EDIT_LOCATION = By.id("editlocation");
 	public static final By TBL_LOCATION = By.id("locdt");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	
-	public By getLocationNamePath(String text) {
-		By xpath = null;
-		try {
-			xpath = By.xpath("//span[normalize-space()='" + text + "']");
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return xpath;
-	}
-	
-	public Boolean verifyLocationName(String text) {
-		Boolean rulesLink= false;
-		try {
-		 rulesLink = (getDriver().findElement(By.xpath("//span[normalize-space()='" + text + "']"))).isDisplayed();
-		}catch (Exception exc) {
-			Assert.fail(exc.toString());			
-		}
-		return rulesLink;	
+	public By getLocationNamePath(String text) {		
+			return By.xpath("//span[normalize-space()='" + text + "']");
 	}
 	
 	public List<String> getProductsHeaders() {

@@ -3,8 +3,9 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Foundation;
 
-public class GlobalProductChange extends Factory{	
+public class GlobalProductChange extends Factory{
 	public static final By TXT_LOCATION_SEARCH = By.id("loc-search");
 	public static final By TBL_LOCATION_LIST = By.id("location-list");
 	public static final By BTN_LOCATION_APPLY = By.id("loc-filter-apply");
@@ -24,12 +25,12 @@ public class GlobalProductChange extends Factory{
     public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
     public static final By RDO_OPERATOR_PRODUCT_CHANGE= By.xpath("//label[text()='Operator Product Catalog Change']");
     
-	public By selectTableRow(String location) {
+	public By objTableRow(String location) {
 			return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='"+ location +"']");
 	}
 	
-	public void selectLocation(String location) {
-		getDriver().findElement(By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']")).click();
+	public By objLocation(String location) {
+		return By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']");
 }
 	
 }

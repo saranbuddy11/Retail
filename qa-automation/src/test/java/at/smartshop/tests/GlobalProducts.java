@@ -1,6 +1,7 @@
 package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +64,7 @@ public class GlobalProducts extends TestInfra {
 			// Searching for Product
 			String product= rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
-			globalProduct.selectGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+			foundation.click(globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));			
 			
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			Map<String, String> productsRecord=productSummary.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
@@ -71,12 +72,12 @@ public class GlobalProducts extends TestInfra {
 			price=Double.parseDouble(productsRecord.get(columnName.get(3)));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			globalProductChange.selectLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			foundation.click(locationList.getlocationElement(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);			
 			       
-	        foundation.click(globalProductChange.selectTableRow(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+	        foundation.click(globalProductChange.objTableRow(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 	        
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			
@@ -107,7 +108,7 @@ public class GlobalProducts extends TestInfra {
 	       
 	        // Search and select product
 	        textBox.enterText(LocationList.TXT_FILTER, product);
-	        globalProduct.selectGlobalProduct(product);
+	        foundation.click(globalProduct.getGlobalProduct(product));
 	        textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 	        double updatedPrice = price+Incrementprice;
 	        
@@ -144,7 +145,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Selecting the Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
-			locationList.selectGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
+			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
 			// selecting location
 			foundation.click(productSummary.getLocationNamePath(locationName));
@@ -154,9 +155,8 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.wait(2000);
-			Boolean status = productSummary.verifyLocationName(locationName);
-			Assert.assertFalse(status);
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 2000);
+			assertTrue(foundation.isDisplayed(productSummary.getLocationNamePath(locationName)));
 			
 			//resetting test data
 			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2000);

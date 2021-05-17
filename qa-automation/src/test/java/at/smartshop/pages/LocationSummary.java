@@ -43,6 +43,7 @@ public class LocationSummary extends Factory {
     private static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
     private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+    public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
 
   
     
@@ -68,15 +69,5 @@ public class LocationSummary extends Factory {
         }
         foundation.click(BTN_APPLY);
     }
-    
-	public int getRowCount() {
-		List<WebElement> columnHeaders = null;
-		try {
-			WebElement tableReports = getDriver().findElement(By.cssSelector("#productDataGrid > tbody"));
-			columnHeaders = tableReports.findElements(By.tagName("tr"));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return (columnHeaders.size());
-	}
+
 }
