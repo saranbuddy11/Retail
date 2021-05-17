@@ -67,7 +67,8 @@ public class GlobalProducts extends TestInfra {
 			
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			Map<String, String> productsRecord=productSummary.getProductsRecords(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-			price=Double.parseDouble(productsRecord.get("Price"));
+			List<String> columnName=Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			price=Double.parseDouble(productsRecord.get(columnName.get(3)));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
 			globalProductChange.selectLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
@@ -96,6 +97,7 @@ public class GlobalProducts extends TestInfra {
 			
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.waitforElement(GlobalProductChange.BTN_OK, 2000);
 	        foundation.click(GlobalProductChange.BTN_OK);
 	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
@@ -111,7 +113,7 @@ public class GlobalProducts extends TestInfra {
 	        
 	        Map<String, String> updatedProductsRecord=productSummary.getProductsRecords(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
     	    
-			assertEquals(Double.parseDouble(updatedProductsRecord.get("Price")), updatedPrice);
+			assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
 			
 		} catch (Exception exc) {
 			exc.printStackTrace();
