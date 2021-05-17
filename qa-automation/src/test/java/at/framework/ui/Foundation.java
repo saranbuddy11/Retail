@@ -1,7 +1,6 @@
 package at.framework.ui;
 
 import java.time.Duration;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

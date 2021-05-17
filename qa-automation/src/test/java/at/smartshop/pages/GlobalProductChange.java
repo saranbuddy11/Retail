@@ -3,7 +3,6 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
-import at.framework.ui.Foundation;
 
 public class GlobalProductChange extends Factory{
 	public static final By TXT_LOCATION_SEARCH = By.id("loc-search");
