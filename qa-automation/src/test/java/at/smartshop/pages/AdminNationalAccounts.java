@@ -66,7 +66,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By LBL_RULE_HEADER = By.id("dataGrid_name");
 	public static final By LNK_RULE_NAME = By.xpath("//td[@aria-describedby='dataGrid_name']//a");
 	public static final By BTN_YES_DELETE_RULE = By.xpath("//button[text()='YES']");
-
+	public static final By BTN_CANCEL_RULE = By.id("cancelBtn");
+	
 	private Foundation foundation = new Foundation();
 	
 

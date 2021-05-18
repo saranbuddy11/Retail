@@ -131,7 +131,7 @@ public class NationalAccount extends TestInfra {
 
 			// Entering fields in New National Account
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME,
 					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME), Constants.TEXT);
@@ -190,7 +190,7 @@ public class NationalAccount extends TestInfra {
 
 			// Entering fields in New National Account
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME,
 					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME), Constants.TEXT);
@@ -295,6 +295,8 @@ public class NationalAccount extends TestInfra {
 			// Selecting UPC rule type and rule category
 			List<String> ruleCategory = Arrays.asList(
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY).split(Constants.DELIMITER_TILD));
+			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(1), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -924,7 +926,7 @@ public class NationalAccount extends TestInfra {
 
 			assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
-			foundation.click(AdminNationalAccounts.BTN_CANCEL);
+			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE );
 			foundation.click(AdminNationalAccounts.BTN_NO);
 
 			// Validate table headers
@@ -979,7 +981,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.wait(2000);
+			foundation.threadWait(2000);
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
@@ -1024,7 +1026,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.wait(2000);
+			foundation.threadWait(2000);
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
@@ -1071,7 +1073,7 @@ public class NationalAccount extends TestInfra {
 
 			// filtering rule
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.wait(2000);
+			foundation.threadWait(2000);
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			nationalAccountRules.clickRulesLink(ruleName);
 
@@ -1142,7 +1144,7 @@ public class NationalAccount extends TestInfra {
 
 			foundation.click(NationalAccountRules.BTN_CANCEL);
 
-			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
+			assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
 			foundation.click(NationalAccountRules.ICON_DELETE);
 			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle), 2000);
@@ -1152,7 +1154,7 @@ public class NationalAccount extends TestInfra {
 
 			foundation.click(NationalAccountRules.BTN_POPUP_YES);
 
-			assertFalse(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
+			assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1211,7 +1213,7 @@ public class NationalAccount extends TestInfra {
 
 			foundation.click(NationalAccountRules.BTN_CANCEL);
 
-			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
+			assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
 			foundation.click(NationalAccountRules.ICON_DELETE);
 			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle), 2000);
@@ -1221,7 +1223,7 @@ public class NationalAccount extends TestInfra {
 
 			foundation.click(NationalAccountRules.BTN_POPUP_YES);
 
-			assertFalse(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
+			assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1256,7 +1258,7 @@ public class NationalAccount extends TestInfra {
 
 			// Entering fields in New National Account
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + strings.getRandomCharacter(); // RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + strings.getRandomCharacter(); // RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
@@ -1289,7 +1291,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyNationalAccountSummaryTableBody(locationsTagged);
 
 			// Resetting data
-			foundation.wait(2000);
+			foundation.threadWait(2000);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
@@ -1325,7 +1327,7 @@ public class NationalAccount extends TestInfra {
 
 			// Creating New National Account
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + strings.getRandomCharacter();
+			final String accountName = Constants.ACCOUNT_NAME + strings.getRandomCharacter();
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
@@ -1335,7 +1337,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
 
 			// Location field validation
-			foundation.wait(2000);
+			foundation.threadWait(2000);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
 
 			String actualColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
@@ -1381,7 +1383,7 @@ public class NationalAccount extends TestInfra {
 
 			// Precondition
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
@@ -1439,7 +1441,7 @@ public class NationalAccount extends TestInfra {
 
 			// Save a national accounts
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
@@ -1514,7 +1516,7 @@ public class NationalAccount extends TestInfra {
 
 			// Save a national accounts
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = "test" + RandomStringUtils.randomAlphabetic(6);
+			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);

@@ -30,7 +30,7 @@ public class NationalAccountRules extends Factory {
 	}
 	
 	public By verifyPromptMsg(String promptMessage) {
-		 return By.xpath("//div[text()='"+promptMessage+"'");
+		 return By.xpath("//div[text()='"+promptMessage+"']");
     }
 	
 	public By objRulePage(String ruleName) {		   

@@ -34,10 +34,10 @@ public class LockerSystem extends Factory{
 
 	public void expandLocationLocker(String location) {
 		try {
-			Thread.sleep(2000);
+			foundation.threadWait(2000);
 			foundation.click(objExpandLocationLocker(location));
-		} catch (InterruptedException exc) {
-		
+		} catch (Exception exc) {
+			Assert.fail();
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class LockerSystem extends Factory{
         try {
             columnNamesList.clear();
             List<WebElement> header = getDriver().findElements(TABLE_LOCATION_HEADER);
-            for(int iter=1; iter<=header.size(); iter++) {
+            for(int iter=1; iter<=header.size()-1; iter++) {
                 String column = header.get(iter).getText();
                 columnNamesList.add(column);
             }           

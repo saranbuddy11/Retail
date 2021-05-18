@@ -72,7 +72,7 @@ public class GlobalProducts extends TestInfra {
 			price=Double.parseDouble(productsRecord.get(columnName.get(3)));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			foundation.click(locationList.getlocationElement(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+			foundation.click(globalProductChange.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);			

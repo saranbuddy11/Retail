@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -22,16 +23,16 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
 import at.smartshop.pages.CreateLocker;
 import at.smartshop.pages.CreateSystem;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.LockerEquipment;
 import at.smartshop.pages.LockerSystem;
 import at.smartshop.pages.NavigationBar;
-import at.smartshop.pages.LockerEquipment;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
@@ -698,7 +699,7 @@ public class Locker extends TestInfra {
 			for (int i = 0; i < columnNames.size(); i++) {
 				dbData.put(columnNames.get(i), columnNames.get(i));
 			}
-			Map<String, String> uiTableHeader = table
+			Map<String, String> uiTableHeader = lockerEquipment
 					.getLockerEquipmentTblHeadersUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER);
 
 			assertEquals(uiTableHeader, dbData);
@@ -810,7 +811,7 @@ public class Locker extends TestInfra {
 				dbData.put(columnNames.get(i), columnNames.get(i));
 			}
 
-			Map<String, String> uiTableHeader = table
+			Map<String, String> uiTableHeader = lockerEquipment
 					.getLockerEquipmentTblHeadersUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER);
 
 			assertEquals(uiTableHeader, dbData);
@@ -905,7 +906,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
-			Thread.sleep(2000);
+			foundation.threadWait(2000);
 			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
 			if (isSystemExist == false) {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
@@ -954,7 +955,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
-			Thread.sleep(2000);
+			foundation.threadWait(2000);
 			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
 			if (isSystemExist == false) {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
@@ -998,7 +999,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
-			Thread.sleep(2000);
+			foundation.threadWait(2000);
 			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
 			if (isSystemExist == false) {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
@@ -1045,7 +1046,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
-			Thread.sleep(2000);
+			foundation.threadWait(2000);
 			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locationName));
 			if (isSystemExist == false) {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);

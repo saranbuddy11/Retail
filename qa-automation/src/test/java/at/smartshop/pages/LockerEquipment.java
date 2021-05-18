@@ -1,8 +1,16 @@
 package at.smartshop.pages;
 
-import org.openqa.selenium.By;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class LockerEquipment {
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import at.framework.browser.Factory;
+
+public class LockerEquipment extends Factory {
 	public static final By TBL_LOCKER_EQUIPMENT_HEADER = By.cssSelector("#lockerequipmentgrid > thead > tr");
 	public static final By TXT_PAGE_TITLE=By.xpath("//h4[text()='Locker Equipment']");
 	public static final By LINK_MODEL=By.xpath("//a[text()='20 Door Satellite']");
@@ -19,4 +27,23 @@ public class LockerEquipment {
     public By objLockerModel(String lockerModel) {
         return By.xpath("//td[@aria-describedby='lockerequipmentgrid_lockername']//a[text()='"+lockerModel+"']");
     }
+    
+	public Map<String, String> getLockerEquipmentTblHeadersUI(By tableGrid) {
+		Map<String, String> uiTblHeaders = new HashMap<>();
+		try {
+			int index = 1;
+
+			WebElement tableReports = getDriver().findElement(tableGrid);
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
+			
+			for (WebElement columnHeader : columnHeaders) {
+				getDriver().findElement(By.cssSelector("#lockerequipmentgrid > thead > tr > th:nth-child(" + index + ")"));
+				uiTblHeaders.put(columnHeader.getText(), columnHeader.getText());
+				index++;
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return uiTblHeaders;
+	}
 }

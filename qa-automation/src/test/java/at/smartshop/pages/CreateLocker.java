@@ -12,7 +12,7 @@ public class CreateLocker extends Factory {
 
     private Foundation foundation = new Foundation();
     private TextBox textBox = new TextBox();
-	public static final By DPD_LOCATION = By.id("locs");
+    public static final By DPD_LOCATION = By.xpath("//span[@id='select2-locs-container']");
 	public static final By TXT_SYSTEM_NAME = By.id("systemName");
 	public static final By TXT_DISPLAY_NAME = By.id("displayName");
 	public static final By DPD_LOCKER_MODEL = By.id("tester");

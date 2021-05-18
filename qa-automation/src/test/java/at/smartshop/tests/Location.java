@@ -68,7 +68,7 @@ public class Location extends TestInfra {
 
 			// Searching for Product
 			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.click(globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			
 			foundation.click(ProductSummary.BTN_EXTEND);
 
@@ -308,7 +308,7 @@ public class Location extends TestInfra {
 
             // enable show tax cat column
             locationSummary.showTaxCategory();
-            Thread.sleep(3000);
+            foundation.threadWait(3000);
             
             // ensure selected tax category from product summary page displays for the product here
             textBox.enterText(LocationSummary.TXT_SEARCH, product);            
