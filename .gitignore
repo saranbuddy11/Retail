@@ -1,2 +1,3 @@
 /.metadata/
 .sonarlint/default/.sonartmp_7832361713937664038/sonarlint-slf4j-sonar-log5684688586830412501.jar
+*.jar
