@@ -54,7 +54,7 @@ public class Locker extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLockerSystemData;
 
-	@Test(description = "C135549 - This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
+	@Test(description = "135549-This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
 	public void verifyLockerSystemsPickupLocation() {
 		try {
 			final String CASE_NUM = "135549";
@@ -430,7 +430,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Has locker with Default option in the Location Summary page")
+	@Test(description = "135540-This test validates the Has locker with Default option in the Location Summary page")
 	public void verifyHasLockerWithNo() {
 		try {
 			final String CASE_NUM = "135540";
@@ -487,7 +487,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Has locker with Yes option in the Location Summary page")
+	@Test(description = "135541-This test validates the Has locker with Yes option in the Location Summary page")
 	public void verifyHasLockerWithYes() {
 		try {
 			final String CASE_NUM = "135541";
@@ -545,7 +545,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Scheduling button in the Locker system page")
+	@Test(description = "120320-This test validates the Scheduling button in the Locker system page")
 	public void verifySchedulingButton() {
 		try {
 			final String CASE_NUM = "120320";
@@ -590,7 +590,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the functionality of Scheduling button in Locker system page")
+	@Test(description = "120321-This test validates the functionality of Scheduling button in Locker system page")
 	public void verifySchedulingButtonFunctionality() {
 		try {
 			final String CASE_NUM = "120321";
@@ -633,7 +633,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Scheduling button in Locker system page when no locker created")
+	@Test(description = "120322-This test validates the Scheduling button in Locker system page when no locker created")
 	public void verifySchedulingButtonWithNoLocker() {
 		try {
 			final String CASE_NUM = "120322";
@@ -669,7 +669,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Validate the Locker Equipment screen (layout when a locker model is tapped).")
+	@Test(description = "135544-Validate the Locker Equipment screen (layout when a locker model is tapped).")
 	public void LockerEquipment() {
 		try {
 			final String CASE_NUM = "135544";
@@ -715,7 +715,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Validate the Pre Programed in grid 'Locker Model' Functionality")
+	@Test(description = "135545-Validate the Pre Programed in grid 'Locker Model' Functionality")
 	public void LockerEquipmentTable() {
 		try {
 			final String CASE_NUM = "135545";
@@ -781,7 +781,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Validate the Locker Equipment screen (layout when a no locker model is tapped).")
+	@Test(description = "135543-Validate the Locker Equipment screen (layout when a no locker model is tapped).")
 	public void LockerEquipmentSystem() {
 		try {
 			final String CASE_NUM = "135543";
@@ -825,10 +825,12 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Validate Locker Model > 18 Door Master from the grid and views")
+	@Test(description = "135547-Validate Locker Model > 18 Door Master from the grid and views")
 	public void validateLockerModel18Door() {
 		try {
 			final String CASE_NUM = "135547";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -854,11 +856,13 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Validate Locker Model > 20 Door Satellite from the grid and views")
+	@Test(description = "135546-Validate Locker Model > 20 Door Satellite from the grid and views")
 	public void validateLockerModel20Door() {
 		try {
 			final String CASE_NUM = "135546";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -884,11 +888,13 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the functionality of 'Copy' icon in the 'Location Locker system dashboard' page")
+	@Test(description = "120327-Verify the functionality of 'Copy' icon in the 'Location Locker system dashboard' page")
 	public void functaionalityOfCopyIcon() {
 		try {
 			final String CASE_NUM = "120327";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -933,11 +939,13 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Copy' icon in the 'Location Locker system dashboard' page")
+	@Test(description = "120326-Verify the 'Copy' icon in the 'Location Locker system dashboard' page")
 	public void verifyCopyIcon() {
 		try {
 			final String CASE_NUM = "120326";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -977,11 +985,13 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Save' button when 'Display' field is blank")
+	@Test(description = "120328-Verify the 'Save' button when 'Display' field is blank")
 	public void verifySaveWithDisplayBlank() {
 		try {
 			final String CASE_NUM = "120328";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -1024,11 +1034,13 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Save' button when 'System' field is blank")
+	@Test(description = "120329-Verify the 'Save' button when 'System' field is blank")
 	public void verifySaveWithSystemBlank() {
 		try {
 			final String CASE_NUM = "120329";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 

@@ -66,7 +66,7 @@ public class NationalAccount extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountsData;
 
-	@Test(description = "This test verifies Master National Account PresetRole Permissions")
+	@Test(description = "118214-This test verifies Master National Account PresetRole Permissions")
 	public void verifyMasterNationalAccountPermission() {
 		try {
 			final String CASE_NUM = "118214";
@@ -111,7 +111,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate add National Account functionality")
+	@Test(description = "118194-This test is to validate add National Account functionality")
 	public void verifNationalAccAddFunctionality() {
 		try {
 			final String CASE_NUM = "118194";
@@ -170,7 +170,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate cancel to National Account functionality")
+	@Test(description = "118188-This test is to validate cancel to National Account functionality")
 	public void verifNationalAccCancelFunctionality() {
 		try {
 			final String CASE_NUM = "118188";
@@ -222,7 +222,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
+	@Test(description = "120712-This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
 	public void verifGridColumnInNationalAccount() {
 		try {
 			final String CASE_NUM = "120712";
@@ -625,7 +625,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test This test validates Location Dropdown in the National Account Edit rule screen with NA User")
+	@Test(description = "120731-This test This test validates Location Dropdown in the National Account Edit rule screen with NA User")
 	public void verifyLocationDropdownNAUser() {
 		try {
 			final String CASE_NUM = "120731";
@@ -660,7 +660,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test This test validates Location Dropdown in the National Account Edit rule screen with MNA User")
+	@Test(description = "120728-This test This test validates Location Dropdown in the National Account Edit rule screen with MNA User")
 	public void verifyLocationDropdownMNAUser() {
 		try {
 			final String CASE_NUM = "120728";
@@ -696,7 +696,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
+	@Test(description = "120730-This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
 	public void verifyOrgsDropdownNAUser() {
 		try {
 			final String CASE_NUM = "120730";
@@ -735,7 +735,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
+	@Test(description = "120726-This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
 	public void verifyOrgsDropdownMNAUser() {
 		try {
 			final String CASE_NUM = "120726";
@@ -775,7 +775,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates National Account Client Rule List Screen")
+	@Test(description = "120722-This test validates National Account Client Rule List Screen")
 	public void verifyClientRuleScreen() {
 		try {
 
@@ -808,7 +808,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
+	@Test(description = "120723-This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
 	public void verifyDeleteButton() {
 		try {
 
@@ -859,7 +859,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Auto Add New Locations Rule check box with MNA")
+	@Test(description = "120734-This test validates the Auto Add New Locations Rule check box with MNA")
 	public void validateAutoAddNewLocationsMNA() {
 		try {
 			final String CASE_NUM = "120734";
@@ -891,7 +891,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Rule List Columns when Master National Account user navigated to National Account : Client Rule list screen")
+	@Test(description = "120716-Verify Rule List Columns when Master National Account user navigated to National Account : Client Rule list screen")
 	public void NationalAccountClientRuleTable() {
 		try {
 			final String CASE_NUM = "120716";
@@ -957,7 +957,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the functionality of Create New button on the National Account Client rule page with National Account User")
+	@Test(description = "120717-Verify the functionality of Create New button on the National Account Client rule page with National Account User")
 	public void NationalAccountClientRule() {
 		try {
 			final String CASE_NUM = "120717";
@@ -1001,7 +1001,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the functionality of Create New button on the Master National Account Client rule page with National Account User")
+	@Test(description = "120718-Verify the functionality of Create New button on the Master National Account Client rule page with National Account User")
 	public void MasterNationalAccountClientRule() {
 		try {
 			final String CASE_NUM = "120718";
@@ -1046,7 +1046,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the National Accounts:Client Rules List Screen (Rule Name - edit rule) for Master National Account user")
+	@Test(description = "120721-Verify the National Accounts:Client Rules List Screen (Rule Name - edit rule) for Master National Account user")
 	public void MasterNationalAccountSummary() {
 		try {
 			final String CASE_NUM = "120721";
@@ -1090,7 +1090,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Prompt screen when Master National Account user delete")
+	@Test(description = "120720-Verify the Prompt screen when Master National Account user delete")
 	public void verifyMNADeleteScreen() {
 		try {
 			final String CASE_NUM = "120720";
@@ -1161,7 +1161,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Prompt screen when National Account user delete")
+	@Test(description = "120719-Verify the Prompt screen when National Account user delete")
 	public void verifyNationalAccountDeleteScreen() {
 		try {
 			final String CASE_NUM = "120719";
@@ -1230,7 +1230,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verfiy the UI in national account Location grid")
+	@Test(description = "118193-Verfiy the UI in national account Location grid")
 	public void NationalAccountSummary() {
 		try {
 			final String CASE_NUM = "118193";
@@ -1304,7 +1304,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test verifies select location field")
+	@Test(description = "118192-This test verifies select location field")
 	public void NationalAccountSummaryLocation() {
 		try {
 			final String CASE_NUM = "118192";
@@ -1358,7 +1358,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify 'Prompt' message if account already exists")
+	@Test(description = "118190-Verify 'Prompt' message if account already exists")
 	public void VerifyPopup() {
 		try {
 			final String CASE_NUM = "118190";
@@ -1419,11 +1419,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verfiy 'Search'  option functionality")
+	@Test(description = "118195-Verfiy 'Search'  option functionality")
 	public void nationalAccountsSearchOption() {
 		try {
 			final String CASE_NUM = "118195";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1494,11 +1496,13 @@ public class NationalAccount extends TestInfra {
 
 	}
 
-	@Test(description = "Verify 'Select Org' field in National Account Summary screen")
+	@Test(description = "118191-Verify 'Select Org' field in National Account Summary screen")
 	public void verifySelectOrgField() {
 		try {
 			final String CASE_NUM = "118191";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1536,11 +1540,13 @@ public class NationalAccount extends TestInfra {
 
 	}
 
-	@Test(description = "Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - Master National Account user")
+	@Test(description = "120711-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - Master National Account user")
 	public void addRemoveLocationMasterAct() {
 		try {
 			final String CASE_NUM = "120711";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1591,11 +1597,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - National Account user")
+	@Test(description = "120714-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - National Account user")
 	public void addRemoveLocationNationalAct() {
 		try {
 			final String CASE_NUM = "120714";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1645,13 +1653,15 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Rule List Columns when National Account user navigated to National Account : Client Rule list screen")
+	@Test(description = "120715-Verify Rule List Columns when National Account user navigated to National Account : Client Rule list screen")
 	public void verifyRuleList() {
 		try {
 			final String CASE_NUM = "120715";
 
 			Map<String, String> dbData = new HashMap<>();
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1704,11 +1714,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Category field in National Accounts:Rule Details Screen - Master National Account user")
+	@Test(description = "120733-Verify Category field in National Accounts:Rule Details Screen - Master National Account user")
 	public void verifyCategoryFieldMasterAccount() {
 		try {
 			final String CASE_NUM = "120733";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1761,7 +1773,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Category field in National Accounts:Rule Details Screen - National Account User")
+	@Test(description = "120729-Verify Category field in National Accounts:Rule Details Screen - National Account User")
 	public void verifyCategoryFieldNationalAccount() {
 		try {
 			final String CASE_NUM = "120729";
@@ -1831,11 +1843,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Master National Account user will able to save the new Rule when user provides the Unique Rule name")
+	@Test(description = "120737-Verify Master National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleMasterAccount() {
 		try {
 			final String CASE_NUM = "120737";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1877,11 +1891,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify National Account user will able to save the new Rule when user provides the Unique Rule name")
+	@Test(description = "120736-Verify National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleNationalAccount() {
 		try {
 			final String CASE_NUM = "120736";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1937,11 +1953,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Rule name will allows the Alphanumeric values with Master National Account User")
+	@Test(description = "120739-Verify the Rule name will allows the Alphanumeric values with Master National Account User")
 	public void ruleNameAlphaNumericMasterAccount() {
 		try {
 			final String CASE_NUM = "120739";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1983,11 +2001,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Rule name will allows the Alphanumeric values with National Account User")
+	@Test(description = "120738-Verify the Rule name will allows the Alphanumeric values with National Account User")
 	public void ruleNameAlphaNumericNationalAccount() {
 		try {
 			final String CASE_NUM = "120738";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),

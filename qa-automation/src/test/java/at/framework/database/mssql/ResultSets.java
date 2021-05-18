@@ -630,6 +630,7 @@ public class ResultSets extends Connections {
                     rstLockerSystem.put(CNLockerSystem.COLUMN_NAMES, resultSet.getString(CNLockerSystem.COLUMN_NAMES));
                     rstLockerSystem.put(CNLockerSystem.PAGE_TITLE, resultSet.getString(CNLockerSystem.PAGE_TITLE));
                     rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL, resultSet.getString(CNLockerSystem.LOCKER_MODEL));
+                    rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL_TITLE, resultSet.getString(CNLockerSystem.LOCKER_MODEL_TITLE));
                     rstLockerSystem.put(CNLockerSystem.SYSTEM_NAME, resultSet.getString(CNLockerSystem.SYSTEM_NAME));
                     rstLockerSystem.put(CNLockerSystem.DISPLAY_NAME, resultSet.getString(CNLockerSystem.DISPLAY_NAME));
                     rstLockerSystem.put(CNLockerSystem.REQUIRED_DATA, resultSet.getString(CNLockerSystem.REQUIRED_DATA));                
