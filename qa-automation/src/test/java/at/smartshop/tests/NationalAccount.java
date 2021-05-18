@@ -302,7 +302,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying UPC rule setting in table
-			Map<String, String> upcData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(upcData.get(Constants.RULETYPE), ruleType.get(1));
 			Assert.assertEquals(upcData.get(Constants.UPCS), ruleCategory.get(1));
@@ -316,7 +316,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying national category rule setting in table
-			Map<String, String> NAData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(NAData.get(Constants.RULETYPE), ruleType.get(3));
 			Assert.assertEquals(NAData.get(Constants.NATIONAL_CATEGORY), ruleCategory.get(0));
@@ -336,7 +336,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for rule to No More Than
-			Map<String, String> rulePriceNoMoreThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MAX_PRICE), rulePrice);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MIN_PRICE),
@@ -350,7 +350,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for No Less Than
-			Map<String, String> rulePriceNoLessThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoLessThan.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -364,7 +364,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for Force Exact Price
-			Map<String, String> ruleForceExactPrice = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleForceExactPrice.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -376,7 +376,7 @@ public class NationalAccount extends TestInfra {
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
-			Map<String, String> ruleStatusInActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 
 			// Validating rule status is Inactive
@@ -390,7 +390,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating rule status is Active
-			Map<String, String> ruleStatusActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleStatusActive.get(Constants.RULE_STATUS), rulesStatus.get(0));
 
@@ -402,7 +402,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating Location tagged count
-			Map<String, String> locationCount = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(locationCount.get(Constants.LOCATION),
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
@@ -503,7 +503,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying UPC rule setting in table
-			Map<String, String> upcData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(upcData.get(Constants.RULETYPE), ruleType.get(1));
 			Assert.assertEquals(upcData.get(Constants.UPCS), ruleCategory.get(1));
@@ -517,7 +517,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying national category rule setting in table
-			Map<String, String> NAData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(NAData.get(Constants.RULETYPE), ruleType.get(3));
 			Assert.assertEquals(NAData.get(Constants.NATIONAL_CATEGORY), ruleCategory.get(0));
@@ -537,7 +537,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for rule to No More Than
-			Map<String, String> rulePriceNoMoreThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MAX_PRICE), rulePrice);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MIN_PRICE),
@@ -551,7 +551,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for No Less Than
-			Map<String, String> rulePriceNoLessThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoLessThan.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -565,7 +565,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for Force Exact Price
-			Map<String, String> ruleForceExactPrice = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleForceExactPrice.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -577,7 +577,7 @@ public class NationalAccount extends TestInfra {
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
-			Map<String, String> ruleStatusInActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 
 			// Validating rule status is Inactive
@@ -591,7 +591,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating rule status is Active
-			Map<String, String> ruleStatusActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleStatusActive.get(Constants.RULE_STATUS), rulesStatus.get(0));
 
@@ -603,7 +603,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating Location tagged count
-			Map<String, String> locationCount = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(locationCount.get(Constants.LOCATION),
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));

@@ -766,12 +766,12 @@ public class Locker extends TestInfra {
 			dbData_Locker_18.put(columnNames.get(5), requiredData_Locker_18.get(5));
 
 			// Table Validations
-			Map<String, String> uiData_locker_20 = table.getTblRecordsUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER,
+			Map<String, String> uiData_locker_20 = table.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER,
 					LockerEquipment.TBL_ROW_1);// table.getTblRecordsUI();
 
 			assertEquals(uiData_locker_20, dbData_Locker_20);
 
-			Map<String, String> uiData_locker_18 = table.getTblRecordsUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER,
+			Map<String, String> uiData_locker_18 = table.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER,
 					LockerEquipment.TBL_ROW_2);
 			assertEquals(uiData_locker_18, dbData_Locker_18);
 
