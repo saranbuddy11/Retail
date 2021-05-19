@@ -1427,12 +1427,13 @@ public class NationalAccount extends TestInfra {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String org = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 
@@ -1504,12 +1505,13 @@ public class NationalAccount extends TestInfra {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String defaultLocation = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION);
 			String defaultOrg = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_ORG);
 
@@ -1669,7 +1671,7 @@ public class NationalAccount extends TestInfra {
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
-			String gridRuleName = rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME);
+			//String gridRuleName = rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -1698,11 +1700,11 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying Ascending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridRuleName));
+			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridName));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridRuleName));
+			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridName));
 
 			// Verifying search functionality
 			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData
