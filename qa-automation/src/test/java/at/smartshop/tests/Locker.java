@@ -1101,7 +1101,20 @@ public class Locker extends TestInfra {
 			
 			foundation.waitforElement(LockerSystem.LBL_PAGE_TITLE, 3);
 			foundation.isDisplayed(LockerSystem.BTN_CREATE_SYSTEM);
-			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));			
+			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));		
+			
+			login.logout();
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			foundation.waitforElement(LockerSystem.LBL_PAGE_TITLE, 3);
+			foundation.isDisplayed(LockerSystem.BTN_CREATE_SYSTEM);
+			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));	
+			
 		}
 		catch (Exception exc) {
 			Assert.fail(exc.toString());
