@@ -1576,17 +1576,18 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION, location, "text");
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION), location);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
@@ -1632,17 +1633,18 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION, location, "text");
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION), location);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
@@ -1671,7 +1673,7 @@ public class NationalAccount extends TestInfra {
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
-			//String gridRuleName = rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME);
+			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -1680,13 +1682,13 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
+			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			table.selectRow(ruleName);
-			assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),
+			assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
-			foundation.click(AdminNationalAccounts.BTN_CANCEL);
-			foundation.click(AdminNationalAccounts.BTN_NO);
+			foundation.click(CreateNewRule.BTN_CANCEL);
+			foundation.click(CreateNewRule.BTN_NO);
 
 			// Validate table headers
 			List<String> columnNames = Arrays.asList(
@@ -1706,11 +1708,9 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
 			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridName));
 
-			// Verifying search functionality
-			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData
-					.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_TILD));
-			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(0));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 1);
+			// Verifying search functionality		
+			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
+			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST),1);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
