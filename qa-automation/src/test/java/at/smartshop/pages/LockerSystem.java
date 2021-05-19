@@ -72,6 +72,10 @@ public class LockerSystem extends Factory{
 		return By.xpath("//a[@id='linksystemname'][text()='"+systemName+"']//..//..//a[contains(@title,'"+ title +"')]");
 	}
 	
+	public By objSystemName(String systemName) {
+		return By.xpath("//a[@id='linksystemname'][text()='"+systemName+"']");
+	}
+	
 	public void getLocationColumns() {
         try {
             columnNamesList.clear();

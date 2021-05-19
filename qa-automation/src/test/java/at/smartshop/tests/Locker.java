@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -28,6 +29,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreateLocker;
 import at.smartshop.pages.CreateSystem;
+import at.smartshop.pages.EditSystem;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerEquipment;
@@ -36,6 +38,7 @@ import at.smartshop.pages.NavigationBar;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
+	
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private TextBox textBox = new TextBox();
@@ -48,7 +51,8 @@ public class Locker extends TestInfra {
 	private Table table = new Table();
 	private LockerEquipment lockerEquipment = new LockerEquipment();
 	private CreateSystem newLockerSysytem = new CreateSystem();
-
+	private Strings string = new Strings();
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
@@ -1069,5 +1073,59 @@ public class Locker extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	@Test(description = "This test validates the Edit functionality in Locker System page")
+	public void verifyEditFunctionality() {		
+		try {
+			final String CASE_NUM = "135715";
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			List<String> requiredData = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+ 			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
+			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			foundation.waitforElement(LockerSystem.BTN_SCHEDULING, 2);
+			foundation.click(lockerSystem.objSystemName(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME)));
+			foundation.waitforElement(EditSystem.LBL_PAGE_TITLE, 2);			
+			
+			  String randomText = string.getRandomCharacter();
+			  textBox.enterText(EditSystem.TXT_SYSTEM_NAME, "");
+			  textBox.enterText(EditSystem.TXT_SYSTEM_NAME, randomText);
+			  textBox.enterText(EditSystem.TXT_DISPLAY_NAME, "");
+			  textBox.enterText(EditSystem.TXT_DISPLAY_NAME, randomText);
+			  textBox.enterText(EditSystem.TXT_SHELF_TIMER, "");
+			  textBox.enterText(EditSystem.TXT_SHELF_TIMER, requiredData.get(1));
+			  foundation.click(EditSystem.BTN_SAVE);
+			  
+			  lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));		
+			  foundation.click(lockerSystem.objSystemName(randomText));
+			 foundation.waitforElement(EditSystem.LBL_PAGE_TITLE, 2);			
+			
+			 Assert.assertEquals(textBox.getTextFromInput(EditSystem.TXT_SYSTEM_NAME), randomText);
+			 Assert.assertEquals(textBox.getTextFromInput(EditSystem.TXT_DISPLAY_NAME), randomText);
+			 Assert.assertEquals(textBox.getTextFromInput(EditSystem.TXT_SHELF_TIMER),  requiredData.get(1));
+			 
+			 //reset data
+			 textBox.enterText(EditSystem.TXT_SYSTEM_NAME, "");
+			 textBox.enterText(EditSystem.TXT_SYSTEM_NAME, rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME));
+			 textBox.enterText(EditSystem.TXT_DISPLAY_NAME, "");
+			 textBox.enterText(EditSystem.TXT_DISPLAY_NAME, rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME));
+			 textBox.enterText(EditSystem.TXT_SHELF_TIMER, "");
+			  textBox.enterText(EditSystem.TXT_SHELF_TIMER, requiredData.get(0));
+			 foundation.click(EditSystem.BTN_SAVE);
+			 foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE);			 
+			  
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		
 	}
 }
