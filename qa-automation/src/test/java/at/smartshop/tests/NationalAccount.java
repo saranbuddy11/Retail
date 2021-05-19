@@ -1753,7 +1753,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(organisation);
-			dropDown.selectItem(CreateNewRule.DPD_LOCATION, location, "text");
+			createNewRule.selectLocation(location);
 			textBox.enterText(CreateNewRule.TXT_RULE_NAME, ruleName);
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
@@ -1819,7 +1819,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(organisation);
-			dropDown.selectItem(CreateNewRule.DPD_LOCATION, location, "text");
+			createNewRule.selectLocation(location);
 			textBox.enterText(CreateNewRule.TXT_RULE_NAME, ruleName);
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
