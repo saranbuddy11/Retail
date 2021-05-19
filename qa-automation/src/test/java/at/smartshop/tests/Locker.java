@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -1081,5 +1082,135 @@ public class Locker extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	@Test(description = "C135751 - SOS-22234- Verify the System and Display Name fields in Create a System screen - Super")
+	public void verifySuperSystemAndDisplayFields() {
+		try {
+			final String CASE_NUM = "135751";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			assertTrue(foundation.isDisplayed(CreateSystem.LBL_PAGE_TITLE));
+
+			assertTrue(foundation.isDisplayed(CreateSystem.DPD_LOCATION_SIBLING));
+
+			List<String> systemName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME).split(Constants.DELIMITER_TILD));
+			List<String> displayName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME).split(Constants.DELIMITER_TILD));
+			List<String> errorMessage = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(0));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			String errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(0)));
+
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(1));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_SYSTEM_ERROR));
+
+			newLockerSysytem.createNewSystem(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), systemName.get(2),
+					displayName.get(2), rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL));
+			assertTrue(foundation.isDisplayed(CreateSystem.MSG_UNIQUE_SYSTEM_NAME));
+
+			String duplicateSystem = foundation.getText(CreateSystem.MSG_UNIQUE_SYSTEM_NAME);
+			assertTrue(duplicateSystem.equals(errorMessage.get(1)+systemName.get(2)));
+
+			List<String> maxSystemName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(0));
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
+
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(1));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
+			
+			
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, Keys.TAB);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(3)));
+			
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(0));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			String displayErrorMessage = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(displayErrorMessage.equals(errorMessage.get(4)));
+			
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(1));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_DISPLAY_ERROR));
+
+			List<String> maxDisplayName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(0));
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
+
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(1));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
+			
+			
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, Keys.TAB);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(5)));
+			
+			newLockerSysytem.createNewSystem(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), systemName.get(1),
+					displayName.get(2), rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL));
+			
+			assertTrue(foundation.isDisplayed(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME))));
+
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
+			
+			// Searching for Product
+			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+
+			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
+			Assert.assertTrue(lockerName.equals(displayName.get(2)));
+
+			//resetting the Data
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName.get(1),
+					Constants.DELETE));
+			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
+
+			foundation.click(LockerSystem.BTN_YES_DELETE);
+			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, 2000);
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 }
