@@ -5,3 +5,4 @@ qa-automation/testng.xml
 qa-automation/testng.xml
 qa-automation/src/test/resources/SOS_GMA_Account_template.xls
 *.xls
+*.xls
