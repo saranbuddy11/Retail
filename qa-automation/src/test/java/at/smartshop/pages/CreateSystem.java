@@ -25,7 +25,7 @@ public class CreateSystem {
     public static final By LBL_SYSTEM_ERROR = By.id("systemName-error");
     public static final By LBL_DISPLAY_ERROR = By.id("displayName-error");
     public static final By MSG_UNIQUE_SYSTEM_NAME = By.xpath("//div[contains(text(),'Data for Locker System exists:')]");
-    private static final By TXT_TIMER = By.id("timer");
+    public static final By TXT_TIMER = By.id("timer");
 	
 	public void createNewSystem(String locationName,String systemName,String displayName,String lockerModel) {		
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);

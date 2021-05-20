@@ -1112,68 +1112,82 @@ public class Locker extends TestInfra {
 					.asList(rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME).split(Constants.DELIMITER_TILD));
 			List<String> errorMessage = Arrays
 					.asList(rstLockerSystemData.get(CNLockerSystem.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+			
+			//Verifying invalid system name
 			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(0));
 			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
 			String errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
 			assertTrue(errorMessageUI.equals(errorMessage.get(0)));
 
+			//Verifying alphanumeric characters for system name
 			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(1));
 			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
 			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_SYSTEM_ERROR));
 
+			//Creating System with duplicate system name
 			newLockerSysytem.createNewSystem(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), systemName.get(2),
 					displayName.get(2), rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL));
 			assertTrue(foundation.isDisplayed(CreateSystem.MSG_UNIQUE_SYSTEM_NAME));
 
+			//Verifying the System Name is unique
 			String duplicateSystem = foundation.getText(CreateSystem.MSG_UNIQUE_SYSTEM_NAME);
 			assertTrue(duplicateSystem.equals(errorMessage.get(1)+systemName.get(2)));
 
+			//Verifying maximum 250 characters
 			List<String> maxSystemName = Arrays
 					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
 			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(0));
 			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
 			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
 
+			//Verifying greater than maximum 250 characters.
 			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(1));
 			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
 			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
 			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
 			
-			
+			//Verifying mandatory system name field
 			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, Keys.TAB);
 			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
 			assertTrue(errorMessageUI.equals(errorMessage.get(3)));
 			
+			//Verifying invalid display name
 			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(0));
 			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
 			String displayErrorMessage = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
 			assertTrue(displayErrorMessage.equals(errorMessage.get(4)));
 			
+			//Verifying alphanumeric characters for Display name
 			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(1));
 			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
 			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_DISPLAY_ERROR));
 
+			//Verifying maximum 250 characters
 			List<String> maxDisplayName = Arrays
 					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
 			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(0));
 			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
 			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
 
+			//Verifying greater than maximum 250 characters
 			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(1));
 			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
 			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
 			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
 			
-			
+			//Verifying mandatory display name field
 			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, Keys.TAB);
 			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
 			assertTrue(errorMessageUI.equals(errorMessage.get(5)));
 			
+			//Creating system with duplicate display Name
 			newLockerSysytem.createNewSystem(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), systemName.get(1),
 					displayName.get(2), rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL));
 			
+			//Verifying the display Name is not unique
 			assertTrue(foundation.isDisplayed(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME))));
 
+			//Navigating to location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -1192,8 +1206,9 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
-
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			
+			//verifying the created locker system is displayed as an option for pick up location
 			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
 			Assert.assertTrue(lockerName.equals(displayName.get(2)));
 
@@ -1213,4 +1228,176 @@ public class Locker extends TestInfra {
 		}
 
 	}
+	
+	@Test(description = "C135756 - SOS-22234- Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
+	public void verifySuperCopySystemAndDisplayFields() {
+		try {
+			final String CASE_NUM = "135756";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> systemName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME).split(Constants.DELIMITER_TILD));
+			List<String> displayName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME).split(Constants.DELIMITER_TILD));
+			List<String> errorMessage = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+			
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			
+			//Creating New System to work on copy operation
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			newLockerSysytem.createNewSystem(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), systemName.get(1),
+					displayName.get(1), rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL));
+			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName.get(1),
+					Constants.COPY));
+
+			assertTrue(foundation.isDisplayed(CreateSystem.LBL_PAGE_TITLE));
+
+			assertTrue(foundation.isDisplayed(CreateSystem.DPD_LOCATION_SIBLING));
+			
+			//Verifying invalid system name
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(0));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			String errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(0)));
+
+			//Verifying alphanumeric characters for system name
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, systemName.get(1));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_SYSTEM_ERROR));
+
+			//Creating System with duplicate system name
+			dropDown.selectItem(CreateSystem.DPD_LOCATION, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), Constants.TEXT);
+	        textBox.enterText(CreateSystem.TXT_SYSTEM_NAME,systemName.get(1));
+	        textBox.enterText(CreateSystem.TXT_DISPLAY_NAME,displayName.get(2));
+	        dropDown.selectItem(CreateSystem.DPD_EDIT_LOCKER_MODEL, rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL), Constants.TEXT);
+	        foundation.click(CreateSystem.TXT_TIMER);
+	        foundation.click(CreateSystem.BTN_SAVE);
+	        foundation.waitforElement(CreateSystem.MSG_UNIQUE_SYSTEM_NAME, 2000);
+
+			//Verifying the System Name is unique
+	        assertTrue(foundation.isDisplayed(CreateSystem.MSG_UNIQUE_SYSTEM_NAME));
+			String duplicateSystem = foundation.getText(CreateSystem.MSG_UNIQUE_SYSTEM_NAME);
+			assertTrue(duplicateSystem.equals(errorMessage.get(1)+systemName.get(1)));
+
+			//Verifying maximum 250 characters.
+			List<String> maxSystemName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(0));
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
+
+			//Verifying greater than maximum 250 characters.
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, maxSystemName.get(1));
+			foundation.click(CreateSystem.TXT_DISPLAY_NAME);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
+			
+			//Verifying mandatory system name field
+			textBox.enterText(CreateSystem.TXT_SYSTEM_NAME, Keys.TAB);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_SYSTEM_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(3)));
+			
+			//Verifying invalid display name
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(0));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			String displayErrorMessage = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(displayErrorMessage.equals(errorMessage.get(4)));
+			
+			//Verifying alphanumeric characters for Display name
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, displayName.get(1));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			Assert.assertFalse(foundation.isDisplayed(CreateSystem.LBL_DISPLAY_ERROR));
+
+			//Verifying maximum 250 characters.
+			List<String> maxDisplayName = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.TEST_DATA).split(Constants.DELIMITER_TILD));
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(0));
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(!errorMessageUI.equals(errorMessage.get(2)));
+
+			//Verifying greater than maximum 250 characters.
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, maxDisplayName.get(1));
+			foundation.click(CreateSystem.TXT_SYSTEM_NAME);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(2)));
+			
+			//Verifying mandatory display name field
+			textBox.enterText(CreateSystem.TXT_DISPLAY_NAME, Keys.TAB);
+			errorMessageUI = foundation.getText(CreateSystem.LBL_DISPLAY_ERROR);
+			assertTrue(errorMessageUI.equals(errorMessage.get(5)));
+			
+			//Creating system with duplicate display Name
+			dropDown.selectItem(CreateSystem.DPD_LOCATION, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME), Constants.TEXT);
+	        textBox.enterText(CreateSystem.TXT_SYSTEM_NAME,systemName.get(3));
+	        textBox.enterText(CreateSystem.TXT_DISPLAY_NAME,displayName.get(3));
+	        dropDown.selectItem(CreateSystem.DPD_EDIT_LOCKER_MODEL, rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL), Constants.TEXT);
+	        foundation.click(CreateSystem.TXT_TIMER);
+	        foundation.click(CreateSystem.BTN_SAVE);
+	        foundation.waitforElement(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME)), 2000);
+
+	        //Verifying the display Name is not unique
+	        assertTrue(foundation.isDisplayed(lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME))));
+			
+			//Verifying the display Name is not unique
+			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName.get(1),
+					Constants.DELETE));
+			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
+
+			foundation.click(LockerSystem.BTN_YES_DELETE);
+			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, 2000);
+			
+			//Navigating to location summary and set Has Order Ahead
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
+			
+			// Searching for Product
+			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			
+			//verifying the created locker system is displayed as an option for pick up location 
+			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
+			Assert.assertTrue(lockerName.equals(displayName.get(3)));
+
+			//resetting the Data
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName.get(3),
+					Constants.DELETE));
+			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, 2000);
+
+			foundation.click(LockerSystem.BTN_YES_DELETE);
+			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, 2000);
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}	
+	
 }
