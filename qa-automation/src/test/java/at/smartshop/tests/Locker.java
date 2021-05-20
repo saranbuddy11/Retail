@@ -1082,4 +1082,46 @@ public class Locker extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "This test validates the Functionality of an Create System button")
+	public void verifyCreateSystemButtonFunctionality() {
+		try {
+			final String CASE_NUM = "135731";
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
+			
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			
+			login.logout();
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
+			
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			
+			
+		}catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
