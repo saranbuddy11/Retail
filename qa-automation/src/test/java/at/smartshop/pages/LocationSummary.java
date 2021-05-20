@@ -9,6 +9,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
 	
@@ -41,6 +42,8 @@ public class LocationSummary extends Factory {
     private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
+    public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+
 
   
     
@@ -65,6 +68,12 @@ public class LocationSummary extends Factory {
         	Assert.fail(exc.toString());
         }
         foundation.click(BTN_APPLY);
+    }
+    
+    public void updateLockerSettings(String enableORDisable) {    	
+        dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
+        foundation.click(LocationSummary.BTN_SAVE);
+        foundation.waitforElement(LBL_SPINNER_MSG, 2000);
     }
 
 }

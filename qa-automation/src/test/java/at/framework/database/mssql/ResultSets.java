@@ -271,6 +271,8 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNLocationSummary.SPEND_LIMIT));
 					rstLocationSummary.put(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT,
                             resultSet.getString(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT));
+					rstLocationSummary.put(CNLocationSummary.HAS_LOCKERS,
+                            resultSet.getString(CNLocationSummary.HAS_LOCKERS));
 				}
 			}
 		} catch (Exception exc) {
@@ -634,7 +636,8 @@ public class ResultSets extends Connections {
                     rstLockerSystem.put(CNLockerSystem.SYSTEM_NAME, resultSet.getString(CNLockerSystem.SYSTEM_NAME));
                     rstLockerSystem.put(CNLockerSystem.DISPLAY_NAME, resultSet.getString(CNLockerSystem.DISPLAY_NAME));
                     rstLockerSystem.put(CNLockerSystem.REQUIRED_DATA, resultSet.getString(CNLockerSystem.REQUIRED_DATA));                
-                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));                
+                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));
+                    rstLockerSystem.put(CNLockerSystem.DEFAULT_LOCATION, resultSet.getString(CNLockerSystem.DEFAULT_LOCATION));
                }
             }
         } catch (Exception exc) {
