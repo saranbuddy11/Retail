@@ -31,10 +31,12 @@ public class CreateNewRule extends Factory {
 	public static final By BTN_DELETE = By.cssSelector("button#deleteBtn");
 	public static final By DELETE_PROMPT = By.cssSelector("div.ajs-dialog");
 	public static final By DELETE_PROMPT_TITLE = By.cssSelector("div.ajs-header");
-	public static final By BTN_CANCEL = By.cssSelector("button.ajs-button.ajs-cancel");
+	public static final By BTN_CANCEL = By.id("cancelBtn");
+	public static final By BTN_NO = By.cssSelector("button.ajs-button.ajs-cancel");
 	public static final By BTN_YES = By.cssSelector("button.ajs-button.ajs-ok");
 	public static final By TXT_SEARCH = By.cssSelector("input[type='search']");
-
+	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
+	
 	public static final By TXT_RULE_NAME = By.id("rulename");
 	public static final By DPD_RULE_TYPE = By.id("ruletype");
 	public static final By DPD_NATIONAL_CATEGORY = By.id("upctype");

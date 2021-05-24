@@ -9,14 +9,13 @@ public class Strings {
 	public String getRandomCharacter() {
 		String randomCharacter = Constants.REGEX_CHAR;
 		StringBuilder stringBuilder = new StringBuilder();
-		Random objRandom = new Random();
-		while (stringBuilder.length() < 10) { 
-			int index = (int) (objRandom.nextInt() * randomCharacter.length());
-			stringBuilder.append(randomCharacter.charAt(index));
+		while (stringBuilder.length() < 10) {
+			int index = (int)(randomCharacter.length() * Math.random());
+		stringBuilder.append(randomCharacter.charAt(index));
 		}
 		String randomData = stringBuilder.toString();
-		return  randomData.substring(0, 1).toUpperCase() + randomData.substring(1);
-	}
+		return randomData.substring(0, 1).toUpperCase() + randomData.substring(1);
+		}
 } 
 
 

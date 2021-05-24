@@ -66,7 +66,7 @@ public class NationalAccount extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountsData;
 
-	@Test(description = "This test verifies Master National Account PresetRole Permissions")
+	@Test(description = "118214-This test verifies Master National Account PresetRole Permissions")
 	public void verifyMasterNationalAccountPermission() {
 		try {
 			final String CASE_NUM = "118214";
@@ -111,7 +111,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate add National Account functionality")
+	@Test(description = "118194-This test is to validate add National Account functionality")
 	public void verifNationalAccAddFunctionality() {
 		try {
 			final String CASE_NUM = "118194";
@@ -170,7 +170,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate cancel to National Account functionality")
+	@Test(description = "118188-This test is to validate cancel to National Account functionality")
 	public void verifNationalAccCancelFunctionality() {
 		try {
 			final String CASE_NUM = "118188";
@@ -222,7 +222,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
+	@Test(description = "120712-This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
 	public void verifGridColumnInNationalAccount() {
 		try {
 			final String CASE_NUM = "120712";
@@ -302,7 +302,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying UPC rule setting in table
-			Map<String, String> upcData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(upcData.get(Constants.RULETYPE), ruleType.get(1));
 			Assert.assertEquals(upcData.get(Constants.UPCS), ruleCategory.get(1));
@@ -316,7 +316,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying national category rule setting in table
-			Map<String, String> NAData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(NAData.get(Constants.RULETYPE), ruleType.get(3));
 			Assert.assertEquals(NAData.get(Constants.NATIONAL_CATEGORY), ruleCategory.get(0));
@@ -336,7 +336,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for rule to No More Than
-			Map<String, String> rulePriceNoMoreThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MAX_PRICE), rulePrice);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MIN_PRICE),
@@ -350,7 +350,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for No Less Than
-			Map<String, String> rulePriceNoLessThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoLessThan.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -364,7 +364,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for Force Exact Price
-			Map<String, String> ruleForceExactPrice = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleForceExactPrice.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -376,7 +376,7 @@ public class NationalAccount extends TestInfra {
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
-			Map<String, String> ruleStatusInActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 
 			// Validating rule status is Inactive
@@ -390,7 +390,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating rule status is Active
-			Map<String, String> ruleStatusActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleStatusActive.get(Constants.RULE_STATUS), rulesStatus.get(0));
 
@@ -402,7 +402,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating Location tagged count
-			Map<String, String> locationCount = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(locationCount.get(Constants.LOCATION),
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
@@ -503,7 +503,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying UPC rule setting in table
-			Map<String, String> upcData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(upcData.get(Constants.RULETYPE), ruleType.get(1));
 			Assert.assertEquals(upcData.get(Constants.UPCS), ruleCategory.get(1));
@@ -517,7 +517,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Verifying national category rule setting in table
-			Map<String, String> NAData = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(NAData.get(Constants.RULETYPE), ruleType.get(3));
 			Assert.assertEquals(NAData.get(Constants.NATIONAL_CATEGORY), ruleCategory.get(0));
@@ -537,7 +537,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for rule to No More Than
-			Map<String, String> rulePriceNoMoreThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MAX_PRICE), rulePrice);
 			Assert.assertEquals(rulePriceNoMoreThan.get(Constants.MIN_PRICE),
@@ -551,7 +551,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for No Less Than
-			Map<String, String> rulePriceNoLessThan = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(rulePriceNoLessThan.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -565,7 +565,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating price set for Force Exact Price
-			Map<String, String> ruleForceExactPrice = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleForceExactPrice.get(Constants.MAX_PRICE),
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
@@ -577,7 +577,7 @@ public class NationalAccount extends TestInfra {
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
-			Map<String, String> ruleStatusInActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 
 			// Validating rule status is Inactive
@@ -591,7 +591,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating rule status is Active
-			Map<String, String> ruleStatusActive = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(ruleStatusActive.get(Constants.RULE_STATUS), rulesStatus.get(0));
 
@@ -603,7 +603,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
 			// Validating Location tagged count
-			Map<String, String> locationCount = table.getTblRecordsUI(AdminNationalAccounts.TBL_DATA_GRID,
+			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
 					AdminNationalAccounts.TBL_DATA_ROW);
 			Assert.assertEquals(locationCount.get(Constants.LOCATION),
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
@@ -625,7 +625,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test This test validates Location Dropdown in the National Account Edit rule screen with NA User")
+	@Test(description = "120731-This test This test validates Location Dropdown in the National Account Edit rule screen with NA User")
 	public void verifyLocationDropdownNAUser() {
 		try {
 			final String CASE_NUM = "120731";
@@ -660,7 +660,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test This test validates Location Dropdown in the National Account Edit rule screen with MNA User")
+	@Test(description = "120728-This test This test validates Location Dropdown in the National Account Edit rule screen with MNA User")
 	public void verifyLocationDropdownMNAUser() {
 		try {
 			final String CASE_NUM = "120728";
@@ -696,7 +696,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
+	@Test(description = "120730-This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
 	public void verifyOrgsDropdownNAUser() {
 		try {
 			final String CASE_NUM = "120730";
@@ -735,7 +735,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
+	@Test(description = "120726-This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
 	public void verifyOrgsDropdownMNAUser() {
 		try {
 			final String CASE_NUM = "120726";
@@ -775,7 +775,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates National Account Client Rule List Screen")
+	@Test(description = "120722-This test validates National Account Client Rule List Screen")
 	public void verifyClientRuleScreen() {
 		try {
 
@@ -808,7 +808,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
+	@Test(description = "120723-This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
 	public void verifyDeleteButton() {
 		try {
 
@@ -859,7 +859,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Auto Add New Locations Rule check box with MNA")
+	@Test(description = "120734-This test validates the Auto Add New Locations Rule check box with MNA")
 	public void validateAutoAddNewLocationsMNA() {
 		try {
 			final String CASE_NUM = "120734";
@@ -891,7 +891,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Rule List Columns when Master National Account user navigated to National Account : Client Rule list screen")
+	@Test(description = "120716-Verify Rule List Columns when Master National Account user navigated to National Account : Client Rule list screen")
 	public void NationalAccountClientRuleTable() {
 		try {
 			final String CASE_NUM = "120716";
@@ -957,7 +957,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the functionality of Create New button on the National Account Client rule page with National Account User")
+	@Test(description = "120717-Verify the functionality of Create New button on the National Account Client rule page with National Account User")
 	public void NationalAccountClientRule() {
 		try {
 			final String CASE_NUM = "120717";
@@ -1001,7 +1001,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the functionality of Create New button on the Master National Account Client rule page with National Account User")
+	@Test(description = "120718-Verify the functionality of Create New button on the Master National Account Client rule page with National Account User")
 	public void MasterNationalAccountClientRule() {
 		try {
 			final String CASE_NUM = "120718";
@@ -1046,7 +1046,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the National Accounts:Client Rules List Screen (Rule Name - edit rule) for Master National Account user")
+	@Test(description = "120721-Verify the National Accounts:Client Rules List Screen (Rule Name - edit rule) for Master National Account user")
 	public void MasterNationalAccountSummary() {
 		try {
 			final String CASE_NUM = "120721";
@@ -1090,7 +1090,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Prompt screen when Master National Account user delete")
+	@Test(description = "120720-Verify the Prompt screen when Master National Account user delete")
 	public void verifyMNADeleteScreen() {
 		try {
 			final String CASE_NUM = "120720";
@@ -1161,7 +1161,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Prompt screen when National Account user delete")
+	@Test(description = "120719-Verify the Prompt screen when National Account user delete")
 	public void verifyNationalAccountDeleteScreen() {
 		try {
 			final String CASE_NUM = "120719";
@@ -1230,7 +1230,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verfiy the UI in national account Location grid")
+	@Test(description = "118193-Verfiy the UI in national account Location grid")
 	public void NationalAccountSummary() {
 		try {
 			final String CASE_NUM = "118193";
@@ -1304,7 +1304,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test verifies select location field")
+	@Test(description = "118192-This test verifies select location field")
 	public void NationalAccountSummaryLocation() {
 		try {
 			final String CASE_NUM = "118192";
@@ -1358,7 +1358,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify 'Prompt' message if account already exists")
+	@Test(description = "118190-Verify 'Prompt' message if account already exists")
 	public void VerifyPopup() {
 		try {
 			final String CASE_NUM = "118190";
@@ -1419,18 +1419,21 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verfiy 'Search'  option functionality")
+	@Test(description = "118195-Verfiy 'Search'  option functionality")
 	public void nationalAccountsSearchOption() {
 		try {
 			final String CASE_NUM = "118195";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String org = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 
@@ -1494,18 +1497,21 @@ public class NationalAccount extends TestInfra {
 
 	}
 
-	@Test(description = "Verify 'Select Org' field in National Account Summary screen")
+	@Test(description = "118191-Verify 'Select Org' field in National Account Summary screen")
 	public void verifySelectOrgField() {
 		try {
 			final String CASE_NUM = "118191";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String defaultLocation = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION);
 			String defaultOrg = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_ORG);
 
@@ -1536,11 +1542,13 @@ public class NationalAccount extends TestInfra {
 
 	}
 
-	@Test(description = "Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - Master National Account user")
+	@Test(description = "120711-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - Master National Account user")
 	public void addRemoveLocationMasterAct() {
 		try {
 			final String CASE_NUM = "120711";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1550,7 +1558,7 @@ public class NationalAccount extends TestInfra {
 			String org = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);			
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -1559,7 +1567,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10000);
 
@@ -1568,17 +1576,18 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION, location, "text");
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION), location);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
@@ -1591,11 +1600,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - National Account user")
+	@Test(description = "120714-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - National Account user")
 	public void addRemoveLocationNationalAct() {
 		try {
 			final String CASE_NUM = "120714";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1613,7 +1624,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10000);
 
@@ -1622,17 +1633,18 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION, location, "text");
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION), location);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
@@ -1645,13 +1657,15 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Rule List Columns when National Account user navigated to National Account : Client Rule list screen")
+	@Test(description = "120715-Verify Rule List Columns when National Account user navigated to National Account : Client Rule list screen")
 	public void verifyRuleList() {
 		try {
 			final String CASE_NUM = "120715";
 
 			Map<String, String> dbData = new HashMap<>();
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1659,7 +1673,7 @@ public class NationalAccount extends TestInfra {
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
-			String gridRuleName = rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME);
+			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -1668,13 +1682,13 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			table.selectRow(ruleName);
-			assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),
+			assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
-			foundation.click(AdminNationalAccounts.BTN_CANCEL);
-			foundation.click(AdminNationalAccounts.BTN_NO);
+			foundation.click(CreateNewRule.BTN_CANCEL);
+			foundation.click(CreateNewRule.BTN_NO);
 
 			// Validate table headers
 			List<String> columnNames = Arrays.asList(
@@ -1688,27 +1702,27 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying Ascending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridRuleName));
+			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridName));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridRuleName));
+			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridName));
 
-			// Verifying search functionality
-			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData
-					.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_TILD));
-			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(0));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 1);
+			// Verifying search functionality		
+			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
+			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST),1);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	@Test(description = "Verify Category field in National Accounts:Rule Details Screen - Master National Account user")
+	@Test(description = "120733-Verify Category field in National Accounts:Rule Details Screen - Master National Account user")
 	public void verifyCategoryFieldMasterAccount() {
 		try {
 			final String CASE_NUM = "120733";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1736,10 +1750,10 @@ public class NationalAccount extends TestInfra {
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// validate national account category field
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(organisation);
-			dropDown.selectItem(CreateNewRule.DPD_LOCATION, location, "text");
+			createNewRule.selectLocation(location);
 			textBox.enterText(CreateNewRule.TXT_RULE_NAME, ruleName);
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
@@ -1761,11 +1775,12 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Category field in National Accounts:Rule Details Screen - National Account User")
+	@Test(description = "120729-Verify Category field in National Accounts:Rule Details Screen - National Account User")
 	public void verifyCategoryFieldNationalAccount() {
 		try {
 			final String CASE_NUM = "120729";
-
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1801,10 +1816,10 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(organisation);
-			dropDown.selectItem(CreateNewRule.DPD_LOCATION, location, "text");
+			createNewRule.selectLocation(location);
 			textBox.enterText(CreateNewRule.TXT_RULE_NAME, ruleName);
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
@@ -1831,11 +1846,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify Master National Account user will able to save the new Rule when user provides the Unique Rule name")
+	@Test(description = "120737-Verify Master National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleMasterAccount() {
 		try {
 			final String CASE_NUM = "120737";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1862,7 +1879,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// save new rule
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 
@@ -1877,11 +1894,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify National Account user will able to save the new Rule when user provides the Unique Rule name")
+	@Test(description = "120736-Verify National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleNationalAccount() {
 		try {
 			final String CASE_NUM = "120736";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1917,7 +1936,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// validate save a rule with unique name
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 
@@ -1937,11 +1956,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Rule name will allows the Alphanumeric values with Master National Account User")
+	@Test(description = "120739-Verify the Rule name will allows the Alphanumeric values with Master National Account User")
 	public void ruleNameAlphaNumericMasterAccount() {
 		try {
 			final String CASE_NUM = "120739";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -1968,7 +1989,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// save new rule
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 
@@ -1983,11 +2004,13 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the Rule name will allows the Alphanumeric values with National Account User")
+	@Test(description = "120738-Verify the Rule name will allows the Alphanumeric values with National Account User")
 	public void ruleNameAlphaNumericNationalAccount() {
 		try {
 			final String CASE_NUM = "120738";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
@@ -2023,7 +2046,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// validate save a rule with unique name
-			adminNationalAccounts.clickManageRule("AutomationNationalAccount", gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 
