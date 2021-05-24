@@ -39,6 +39,7 @@ public class AdminNationalAccounts extends Factory {
 	public static final By LBL_RULE_NAME = By.xpath("//*[@aria-describedby='dataGrid_name']//a");
 	public static final By LBL_RULE_NAME_HEADER = By.id("dataGrid_name");
 	public static final By DPD_ORG = By.id("orgdt");
+	public static final By DPD_LOCATION = By.id("loc");
 	public static final By CB_AUTO_ADD_LOCATION = By.id("autoselects");
 	public static final By TABLE_NATIONAL_ACCOUNT_RULE = By.cssSelector("tbody[role='rowgroup']");
 	public static final By LBL_NATIONAL_ACCOUNT_RULE = By.xpath("//div[contains(text(),'National Account Rules')]");
@@ -56,7 +57,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_NATIONAL_ACCOUNT_CATEGORY = By.id("mng-category");
 	public static final By LBL_LOCATION_TITLE = By.id("corporatetitle");
 
-	public static final By DPD_LOCATION = By.id("loc");
+	public static final By DPD_ORG_MODAL = By.id("org");
+	public static final By DPD_LOCATION_MODAL = By.id("loc");
 	public static final By CHK_AUTOADD = By.id("autoadd-act");
 	public static final By BTN_SAVE_MODAL = By.id("btn-save");
 	public static final By BTN_ORG_CLEAR = By.xpath("//select[@id='org']/..//*[@class='select2-selection__clear']");
