@@ -8,23 +8,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.*;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-
-import at.smartshop.pages.*;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class GlobalProducts extends TestInfra {
@@ -155,8 +158,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 2000);
-			assertTrue(foundation.isDisplayed(productSummary.getLocationNamePath(locationName)));
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
 			
 			//resetting test data
 			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2000);
