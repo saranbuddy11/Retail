@@ -20,4 +20,7 @@ public class Configuration {
 	public static final String CURRENT_PASSWORD = "password";
 	public static final String OPERATOR_USER ="OperatorUser";
 	public static final String RNOUS_ORG = "second_org";
+	public static final String TRANS_BAD_SCAN = "trans_badscan";
+	public static final String TRANS_SALES = "trans_sales";
+
 }

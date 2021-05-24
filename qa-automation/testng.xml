@@ -7,15 +7,10 @@
 
 	<test name="Test1">
 		<classes>
-			<class name="at.smartshop.tests.NationalAccount">
+			<class name="at.smartshop.tests.NationalAccount">				   
 			</class>
 		</classes>
 	</test> <!-- Test -->
-	<test name="Test2">
-		<classes>
-			<class name="at.smartshop.tests.Locker">
-			</class>
-		</classes>
-	</test> <!-- Test -->
+	
 	
 </suite> <!-- Suite -->
