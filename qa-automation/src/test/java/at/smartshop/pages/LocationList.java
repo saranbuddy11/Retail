@@ -1,7 +1,6 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 
