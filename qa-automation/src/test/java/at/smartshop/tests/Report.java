@@ -106,7 +106,7 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-			consumerSearch.clickCell(requiredData.get(5));
+			foundation.click(consumerSearch.objCell(requiredData.get(5)));
 
 			List<String> columnName = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
@@ -127,7 +127,7 @@ public class Report extends TestInfra {
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 
-			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
 			String updatedTime = String
@@ -158,12 +158,10 @@ public class Report extends TestInfra {
 			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
 			dbData.put(tblColumnHeader.get(5), requiredData.get(2));
 			dbData.put(tblColumnHeader.get(6), requiredData.get(3));
-
 			dbData.put(tblColumnHeader.get(8), converter.convertTOCurrency(updatedbalance));
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
-
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
 
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));
