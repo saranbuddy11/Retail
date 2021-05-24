@@ -24,6 +24,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -34,6 +35,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerEquipment;
 import at.smartshop.pages.LockerSystem;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.UserList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
@@ -49,11 +51,13 @@ public class Locker extends TestInfra {
 	private Table table = new Table();
 	private LockerEquipment lockerEquipment = new LockerEquipment();
 	private CreateSystem newLockerSysytem = new CreateSystem();
+	private UserList userList=new UserList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLockerSystemData;
+	private Map<String, String> rstUserRolesData;
 
 	@Test(description = "135549-This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
 	public void verifyLockerSystemsPickupLocation() {
@@ -1502,4 +1506,84 @@ public class Locker extends TestInfra {
 		}
 	}
 	
+	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings enabled in Location Summary - Super")
+	public void verifyEnabledLocationSuper() {
+		try {
+			final String CASE_NUM = "135738";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
+
+			List<String> navigationData = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			List<String> locationName = Arrays
+					.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+			List<String> lockerSystem_Required_Data = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// precondition
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(locationName.get(0));
+			List<String> requiredData = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			// precondition2
+
+			navigationBar.navigateToMenuItem(navigationData.get(1));
+			textBox.enterText(UserList.TXT_FILTER, rstUserRolesData.get(CNUserRoles.ROLE_NAME));
+			foundation.click(userList.objRoleName(rstUserRolesData.get(CNUserRoles.ROLE_NAME)));
+
+	        foundation.waitforElement(UserList.TXT_SEARCH_LOC, 2000);
+	        dropDown.selectItem(UserList.TXT_SEARCH_LOC, locationName.get(0), Constants.TEXT);
+
+			foundation.click(UserList.BTN_UPDATE_USER);
+
+			foundation.waitforElement(UserList.TXT_SPINNER_MSG, 2000);
+			navigationBar.navigateToMenuItem(navigationData.get(0));
+			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
+			// validations
+			createLocker.verifyLocation(locationName.get(0), lockerSystem_Required_Data.get(0));
+
+			foundation.refreshPage();
+
+			createLocker.verifyLocation(locationName.get(1), lockerSystem_Required_Data.get(1));
+
+			// resetting test data
+
+			foundation.click(LocationList.LINK_HOME_PAGE);
+
+			locationList.selectLocationName(locationName.get(0));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			navigationBar.navigateToMenuItem(navigationData.get(1));
+			textBox.enterText(UserList.TXT_FILTER, rstUserRolesData.get(CNUserRoles.ROLE_NAME));
+			foundation.click(userList.objRoleName(rstUserRolesData.get(CNUserRoles.ROLE_NAME)));
+
+	        foundation.waitforElement(UserList.TXT_SEARCH_LOC, 2000);
+	        dropDown.selectItem(UserList.TXT_SEARCH_LOC, rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST), Constants.TEXT);
+
+			foundation.click(UserList.BTN_UPDATE_USER);
+			foundation.threadWait(2000);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
