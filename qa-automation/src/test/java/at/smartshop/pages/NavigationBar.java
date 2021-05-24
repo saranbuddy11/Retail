@@ -28,6 +28,7 @@ public class NavigationBar extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	public void navigateToMenuItem(String optionNames) {
         try {
             List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
