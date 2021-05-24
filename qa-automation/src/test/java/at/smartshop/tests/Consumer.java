@@ -175,7 +175,7 @@ public class Consumer extends TestInfra {
 
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					"text");
-			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
 
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);
