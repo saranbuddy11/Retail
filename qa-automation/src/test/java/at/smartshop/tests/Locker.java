@@ -1446,4 +1446,60 @@ public class Locker extends TestInfra {
 		}
 	}
 	
+	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Operator")
+	public void verifyDisabledLocationOperator() {
+		try {
+			final String CASE_NUM = "135739";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+
+			// precondition
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			List<String> requiredData = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			foundation.threadWait(2000);
+			login.logout();
+
+			// login as operator
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
+
+			createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA));
+			login.logout();
+
+			// resetting test data
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			foundation.threadWait(2000);
+			login.logout();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
