@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -52,6 +53,7 @@ public class Locker extends TestInfra {
 	private LockerEquipment lockerEquipment = new LockerEquipment();
 	private CreateSystem newLockerSysytem = new CreateSystem();
 	private UserList userList=new UserList();
+	private Strings strings=new Strings();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -1676,6 +1678,79 @@ public class Locker extends TestInfra {
 			foundation.click(UserList.BTN_UPDATE_USER);
 			foundation.threadWait(2000);
 			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Super")
+	public void verifyCopyIconSuper() {
+		try {
+			final String CASE_NUM = "135747";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
+			final String systemName = Constants.ACCOUNT_NAME + strings.getRandomCharacter();
+			final String displayName = Constants.ACCOUNT_NAME + strings.getRandomCharacter();
+			String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+
+			List<String> locationListName = Arrays
+					.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+			List<String> lockerSystem_Required_Data = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			locationList.selectLocationName(locationListName.get(0));
+			List<String> requiredData = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem);
+
+			// create new system
+			foundation.waitforElement(LockerSystem.BTN_CREATE_SYSTEM, 2000);
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
+
+			// precondition
+			foundation.click(LocationList.LINK_HOME_PAGE);
+			locationList.selectLocationName(locationListName.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+
+			// validate copy screen location dropdown
+			navigationBar.navigateToMenuItem(menuItem);
+			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), 2000);
+			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+			foundation.waitforElement(LockerSystem.ICO_SIBLING_COPY, 500);
+			assertTrue(foundation.isDisplayed(LockerSystem.ICO_SIBLING_COPY));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName,Constants.COPY));
+
+			createLocker.verifyLocation(locationListName.get(0), lockerSystem_Required_Data.get(0));
+			foundation.refreshPage();
+			createLocker.verifyLocation(locationListName.get(1), lockerSystem_Required_Data.get(1));
+
+			// resetting test data
+			foundation.click(LockerSystem.BTN_CANCEL);
+			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), 2000);
+			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+			foundation.click(lockerSystem.copyORDeleteSystem(systemName, Constants.DELETE));
+			foundation.click(LockerSystem.BTN_YES_DELETE);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
