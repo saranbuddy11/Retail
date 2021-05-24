@@ -277,7 +277,7 @@ public class Report extends TestInfra {
 
 			// get Location Data
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocaionName(
+			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
