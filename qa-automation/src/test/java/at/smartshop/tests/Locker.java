@@ -1093,11 +1093,12 @@ public class Locker extends TestInfra {
 		}
 	}
 
+	
 
-	@Test(description = "This test validates the Create System button in Locker System page")
-	public void verifyCreateSystemButton() {
+	@Test(description = "This test validates the Functionality of an Create System button")
+	public void verifyCreateSystemButtonFunctionality() {
 		try {
-			final String CASE_NUM = "135730";
+			final String CASE_NUM = "135731";
 			
 
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1107,14 +1108,16 @@ public class Locker extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
 
-			String requiredData = rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA);
-			
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
-			foundation.waitforElement(LockerSystem.LBL_PAGE_TITLE, 3);
-			foundation.isDisplayed(LockerSystem.BTN_CREATE_SYSTEM);
-			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));		
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
+			
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+
 			
 			login.logout();
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1123,13 +1126,15 @@ public class Locker extends TestInfra {
 			
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
+			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 			
-			foundation.waitforElement(LockerSystem.LBL_PAGE_TITLE, 3);
-			foundation.isDisplayed(LockerSystem.BTN_CREATE_SYSTEM);
-			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));	
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
 			
-		}
-		catch (Exception exc) {
+			
+		}catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
