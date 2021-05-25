@@ -53,6 +53,7 @@ public class NationalAccounts extends Factory {
     public static final By LBL_CITY = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(3)");
     public static final By LBL_STATE = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(4)");
     public static final By BTN_ADD_TO_NATIONAL_ACCOUNTS = By.id("nationalAccountBtn");   
+    public static final By BTN_Cancel = By.xpath("//button[text()='CANCEL']");
     
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	public static final String id_tableNationalAccountsSummary = "nationalAccountsSummaryGrid";

@@ -634,7 +634,10 @@ public class ResultSets extends Connections {
                     rstLockerSystem.put(CNLockerSystem.SYSTEM_NAME, resultSet.getString(CNLockerSystem.SYSTEM_NAME));
                     rstLockerSystem.put(CNLockerSystem.DISPLAY_NAME, resultSet.getString(CNLockerSystem.DISPLAY_NAME));
                     rstLockerSystem.put(CNLockerSystem.REQUIRED_DATA, resultSet.getString(CNLockerSystem.REQUIRED_DATA));                
-                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));                
+                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));    
+                    rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL_TITLE, resultSet.getString(CNLockerSystem.LOCKER_MODEL_TITLE));    
+                    rstLockerSystem.put(CNLockerSystem.TEST_DATA, resultSet.getString(CNLockerSystem.TEST_DATA));    
+                    rstLockerSystem.put(CNLockerSystem.ERROR_MESSAGE, resultSet.getString(CNLockerSystem.ERROR_MESSAGE));  
                }
             }
         } catch (Exception exc) {
@@ -665,7 +668,7 @@ public class ResultSets extends Connections {
 					rstLocation.put(CNLocation.PROMOTION_TYPE, resultSet.getString(CNLocation.PROMOTION_TYPE));
 					rstLocation.put(CNLocation.REQUIRED_DATA, resultSet.getString(CNLocation.REQUIRED_DATA));
 					rstLocation.put(CNLocation.LOCATIONLIST_DPDN_VALUE,
-							resultSet.getString(CNLocation.LOCATIONLIST_DPDN_VALUE));
+					resultSet.getString(CNLocation.LOCATIONLIST_DPDN_VALUE));
 
 				}
 			}

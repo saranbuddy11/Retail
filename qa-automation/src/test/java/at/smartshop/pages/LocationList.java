@@ -15,6 +15,7 @@ public class LocationList extends Factory {
 	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
 	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
+	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 
 	public void selectLocationName(String locationName) {		
 			foundation.click(By.xpath("//a[text()='" + locationName + "']"));		
