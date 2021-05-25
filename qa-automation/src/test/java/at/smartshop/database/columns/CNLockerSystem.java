@@ -12,4 +12,6 @@ public class CNLockerSystem {
 	public static final String REQUIRED_DATA="RequiredData";
 	public static final String LOCATION_NAME="LocationName";
     public static final String LOCKER_MODEL_TITLE="LockerModelTitle";
+    public static final String TEST_DATA="TestData";
+    public static final String ERROR_MESSAGE="ErrorMessage";
 }
