@@ -32,6 +32,7 @@ import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
@@ -62,7 +63,8 @@ public class Report extends TestInfra {
 	private BadScanReport badScan = new BadScanReport();
 	private TransactionCannedReport transactionCanned = new TransactionCannedReport();
 	private CurrenyConverter converter = new CurrenyConverter();
-
+	private DeviceByCategoryReport deviceByCategory = new DeviceByCategoryReport();
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
@@ -514,6 +516,67 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
 	}
+	
+	@Test(description = "This test validates Device By Category Report Data Calculation")
+	public void DeviceByCategoryReportData() {
+		try {
+
+			final String CASE_NUM = "141644";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			deviceByCategory.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			deviceByCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			deviceByCategory.getTblRecordsUI();
+			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
+			deviceByCategory.processAPI();
+			
+			// apply calculation and update data
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(2), requiredData.get(0));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3), deviceByCategory.getRequiredJsonData().get(1));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(4), deviceByCategory.getRequiredJsonData().get(2));
+			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(5), requiredData.get(1));
+			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(6), requiredData.get(2));
+			deviceByCategory.updateTotal(deviceByCategory.getRequiredJsonData().get(0), deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
+			// verify report headers
+			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productTax.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
 }
