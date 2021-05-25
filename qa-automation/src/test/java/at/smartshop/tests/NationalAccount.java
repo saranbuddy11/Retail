@@ -1287,7 +1287,7 @@ public class NationalAccount extends TestInfra {
 			Boolean popupYesButton = foundation.isDisplayed(NationalAccounts.BTN_POP_UP_YES);
 			Assert.assertTrue(popupYesButton);
 
-			foundation.click(NationalAccounts.BTN_CANCEL);
+			foundation.click(NationalAccounts.BTN_Cancel);
 			nationalAccounts.verifyNationalAccountSummaryTableBody(locationsTagged);
 
 			// Resetting data

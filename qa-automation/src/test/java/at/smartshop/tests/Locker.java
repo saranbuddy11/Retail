@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -24,6 +25,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -35,6 +37,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerEquipment;
 import at.smartshop.pages.LockerSystem;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.UserList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
@@ -50,13 +53,16 @@ public class Locker extends TestInfra {
 	private CreateLocker createLocker = new CreateLocker();
 	private Table table = new Table();
 	private LockerEquipment lockerEquipment = new LockerEquipment();
-	private CreateSystem newLockerSysytem = new CreateSystem();
-	private Strings string = new Strings();
-	
+	private CreateSystem newLockerSysytem = new CreateSystem();	
+	private UserList userList=new UserList();
+	private Strings strings=new Strings();
+
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLockerSystemData;
+	private Map<String, String> rstUserRolesData;
 
 	@Test(description = "135549-This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
 	public void verifyLockerSystemsPickupLocation() {
@@ -1087,6 +1093,7 @@ public class Locker extends TestInfra {
 		}
 	}
 	
+
 	@Test(description = "This test validates the Edit functionality in Locker System page")
 	public void verifyEditFunctionality() {		
 		try {
@@ -1108,7 +1115,7 @@ public class Locker extends TestInfra {
 			foundation.click(lockerSystem.objSystemName(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME)));
 			foundation.waitforElement(EditSystem.LBL_PAGE_TITLE, 2);			
 			
-			  String randomText = string.getRandomCharacter();
+			  String randomText = strings.getRandomCharacter();
 			  textBox.enterText(EditSystem.TXT_SYSTEM_NAME, "");
 			  textBox.enterText(EditSystem.TXT_SYSTEM_NAME, randomText);
 			  textBox.enterText(EditSystem.TXT_DISPLAY_NAME, "");
@@ -1137,7 +1144,6 @@ public class Locker extends TestInfra {
 			  
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
-		}
-		
+	}
 	}
 }
