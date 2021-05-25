@@ -11,7 +11,7 @@ public class LocationList extends Factory{
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 
-	public void selectLocaionName(String locationName) {
+	public void selectLocationName(String locationName) {
 		try {
 			By objLocationName = By.xpath("//a[text()='" + locationName + "']");
 			foundation.click(objLocationName);
