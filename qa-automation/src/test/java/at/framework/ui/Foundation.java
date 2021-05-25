@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -143,4 +144,17 @@ public class Foundation extends Factory {
      	Assert.fail(exc.toString()); 
      }
 	}
+	
+	 public String getBGColor(By object) {
+	    	String hexColor=null;
+	    	try {
+	    		WebElement element = getDriver().findElement(object);
+	    		String colorValue = element.getCssValue("background-color");
+	    		hexColor = Color.fromString(colorValue).asHex();
+	    		 ExtFactory.getInstance().getExtent().log(Status.INFO,"Back Ground color for "+ object);
+	    	} catch (Exception exc) {
+	       	 Assert.fail(exc.toString());
+	       }
+	    	return hexColor;  	
+	    }
 }
