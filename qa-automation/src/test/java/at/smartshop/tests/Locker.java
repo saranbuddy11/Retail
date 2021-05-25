@@ -1141,8 +1141,10 @@ public class Locker extends TestInfra {
 			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(0)));
 			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, defaultLocation));
 			assertFalse(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(1)));
-			
+		} catch (Exception exc) {
+			Assert.fail();
 		}
+	}
 		
 		
 @Test(description = "C135751 - SOS-22234- Verify the System and Display Name fields in Create a System screen - Super")
