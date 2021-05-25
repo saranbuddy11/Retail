@@ -58,7 +58,8 @@ public class LocationSummary extends Factory {
     private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
-	
+    public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));

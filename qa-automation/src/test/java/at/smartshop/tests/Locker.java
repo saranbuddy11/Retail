@@ -9,12 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -23,6 +25,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -33,6 +36,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerEquipment;
 import at.smartshop.pages.LockerSystem;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.UserList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Locker extends TestInfra {
@@ -48,11 +52,14 @@ public class Locker extends TestInfra {
 	private Table table = new Table();
 	private LockerEquipment lockerEquipment = new LockerEquipment();
 	private CreateSystem newLockerSysytem = new CreateSystem();
+	private UserList userList=new UserList();
+	private Strings strings=new Strings();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLockerSystemData;
+	private Map<String, String> rstUserRolesData;
 
 	@Test(description = "135549-This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
 	public void verifyLockerSystemsPickupLocation() {
@@ -1083,6 +1090,7 @@ public class Locker extends TestInfra {
 		}
 	}
 	
+
 	@Test(description = "This test validates the Functionality of an Create System button")
 	public void verifyCreateSystemButtonFunctionality() {
 		try {
