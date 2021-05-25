@@ -42,7 +42,7 @@ public class Consumer extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstProductSummaryData;
 
-	@Test(description = "Verify Balance Increment with and without Reason Code")
+	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void BalanceIncrement() {
 		try {
 			final String CASE_NUM = "116743";
@@ -136,7 +136,7 @@ public class Consumer extends TestInfra {
 		}
 	}
 
-	@Test(description = "Cancel Adjust Balance")
+	@Test(description = "116747-Cancel Adjust Balance")
 	public void cancelAdjustBalance() {
 		try {
 			final String CASE_NUM = "116747";
@@ -147,6 +147,11 @@ public class Consumer extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
