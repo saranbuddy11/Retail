@@ -60,6 +60,7 @@ public class LocationSummary extends Factory {
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
 
+    
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -144,4 +145,12 @@ public class LocationSummary extends Factory {
         }
         foundation.click(BTN_APPLY);
     }
+    
+    public void updateLockerSettings(String enableORDisable) {    	
+        dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
+        foundation.click(LocationSummary.BTN_SAVE);
+        foundation.waitforElement(LBL_SPINNER_MSG, 2000);
+    }
+
 }
+
