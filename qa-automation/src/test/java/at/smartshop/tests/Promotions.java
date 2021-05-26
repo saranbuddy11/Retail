@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -25,6 +26,7 @@ public class Promotions extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private Dropdown dropDown = new Dropdown();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -58,7 +60,7 @@ public class Promotions extends TestInfra {
 			createPromotions.newPromotion(promotionType, promotionName, requiredData);
 
 			// Validating "All" option in Location field
-			String uiData = foundation.getText(CreatePromotions.DPD_LOCATION);
+			String uiData = dropDown.getSelectedItem(CreatePromotions.DPD_LOCATION);
 			Assert.assertEquals(uiData, locationName);
 
 		} catch (Exception exc) {

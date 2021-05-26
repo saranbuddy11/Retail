@@ -1316,6 +1316,7 @@ public class NationalAccount extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String org = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_ORG);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION);
 			String clientName = rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME);
@@ -1426,9 +1427,7 @@ public class NationalAccount extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.CURRENT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
@@ -1450,8 +1449,9 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_SAVE);
 
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
-			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
-			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, "text");
+			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
+			foundation.threadWait(2000);
+			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
 
 			foundation.click(NationalAccounts.BTN_ADD_TO_NATIONAL_ACCOUNTS);
 
@@ -1576,15 +1576,15 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
 			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);

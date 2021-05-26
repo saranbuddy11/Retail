@@ -107,7 +107,7 @@ public class CreateNewRule extends Factory {
 
 	public void verifyCancelButton() {
 		try {
-			foundation.click(BTN_CANCEL);
+			foundation.click(BTN_NO);
 			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

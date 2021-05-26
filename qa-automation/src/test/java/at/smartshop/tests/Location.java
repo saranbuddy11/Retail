@@ -18,6 +18,7 @@ import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
+import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -48,6 +49,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
+	private Map<String, String> rstGlobalProductChangeData;
 	
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -126,7 +128,7 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
-			foundation.click(LocationSummary.TBL_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 		
 			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS)<= 0);
 			
@@ -168,7 +170,7 @@ public class Location extends TestInfra {
     }
 	
 	@Test(description = "verify Add Home commercial in Home commercial Tab and Disable Location")
-	public void Add_HomeCommercial() {
+	public void addHomeCommercial() {
 		try {
 			final String CASE_NUM = "114262";
 
@@ -192,18 +194,18 @@ public class Location extends TestInfra {
 			foundation.click(LocationList.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationList.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationList.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, "C:\\Users\\ajaybabur\\Pictures\\icecream.jpg");
+			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
 			textBox.enterText(LocationList.TXT_ADD_NAME, "Icecream");
 			foundation.click(LocationList.BTN_ADD);
 
 			// disabling location
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, "text");
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 
 			// Navigating to disabled location list
-			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), "text");
+			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), Constants.TEXT);
 
 			// validations
 			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName));
@@ -212,9 +214,9 @@ public class Location extends TestInfra {
 			//resetting data
 			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, "text");
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-						
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, 2000);			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
@@ -222,7 +224,7 @@ public class Location extends TestInfra {
 	}
 	
 	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
-    public void UpdateLoyaltyMultiplier() {
+    public void updateLoyaltyMultiplier() {
         try {
             final String CASE_NUM = "111001";                
             
@@ -233,6 +235,7 @@ public class Location extends TestInfra {
 			
             // Reading test data from DataBase
             rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
             
             //Split database data
             List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split("~"));
@@ -241,10 +244,12 @@ public class Location extends TestInfra {
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.navigateToMenuItem(subMenu.get(0));
 
-            // Select Operator Product Catalog Change radio button and select 1st product
-            // from filter search
+         // Searching for Product
             radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
-            String product = foundation.getText(GlobalProductChange.LBL_PRODUCT);
+            String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+            textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
+            foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+            foundation.threadWait(2000);
             foundation.click(GlobalProductChange.LBL_PRODUCT);
             foundation.click(GlobalProductChange.BTN_NEXT);
 

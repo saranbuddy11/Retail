@@ -158,7 +158,9 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 2000);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
+		
 			
 			//resetting test data
 			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2000);
