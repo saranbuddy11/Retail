@@ -53,10 +53,11 @@ public class DeviceByCategoryReport extends Factory {
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public void getTblRecordsUI() {
 		try {
 			int recordCount = 0;
-			textBox.enterText(TXT_SEARCH, Reports.DEVICE_NAME);
+			textBox.enterText(TXT_SEARCH, propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			tableHeaders.clear();
 			WebElement tableReportsList = getDriver().findElement(TBL_DEVICE_BY_CATEGORY_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_DEVICE_BY_CATEGORY);
@@ -65,6 +66,7 @@ public class DeviceByCategoryReport extends Factory {
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
+			reportsData.clear();
 			for (WebElement row : rows) {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
@@ -77,28 +79,7 @@ public class DeviceByCategoryReport extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return reportsData;
 	}
-
-//	public void getRequiredRecord(String transDate, List<String> scancodes) {
-//		try {
-//			requiredRecords.clear();
-//			for (int iter = 0; iter < scancodes.size(); iter++) {
-//				for (int val = 0; val < intialData.size(); val++) {
-//					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-//							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
-//						requiredRecords.add(val);
-//						break;
-//					}
-//				}
-//				if (requiredRecords.size() == scancodes.size()) {
-//					break;
-//				}
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -108,17 +89,6 @@ public class DeviceByCategoryReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-//	public void updateData(String columnName, List<String> values) {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String value = String.valueOf(values.get(iter));
-//				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	public void updateData(String columnName, String value) {
 		try {
@@ -130,8 +100,7 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateTotal(String itemPrice, String columnUnitsSold, String columnTotal) {
 		try {
-			double initialTotal = Double.parseDouble(
-					reportsData.get(0).get(columnUnitsSold).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+			int initialTotal = Integer.parseInt(reportsData.get(0).get(columnUnitsSold));
 			double price = Double.parseDouble(requiredJsonData.get(0));
 			double updatedTotal = initialTotal * price;
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
@@ -141,9 +110,9 @@ public class DeviceByCategoryReport extends Factory {
 		}
 	}
 
-	public void updateCount(String count, String columnName) {
+	public void updateCount(String columnName, String count) {
 		try {
-			int initialCount = Integer.parseInt(reportsData.get(0).get(columnName));
+			int initialCount = Integer.parseInt(intialData.get(0).get(columnName));
 			int updatedCount = initialCount + Integer.parseInt(count);
 			intialData.get(0).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
@@ -183,20 +152,8 @@ public class DeviceByCategoryReport extends Factory {
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
-			getJsonSalesData();
 			getJsonArrayData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	private void getJsonSalesData() {
-		try {
-			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
-			String delivery = sales.get(Reports.DELIVERY).getAsString();
-			requiredJsonData.add(delivery);
-		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 	}
@@ -204,16 +161,13 @@ public class DeviceByCategoryReport extends Factory {
 	private void generateJsonDetails() {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-			//DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			//String reportDate = tranDate.format(reqFormat);
 			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
 					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
-			//jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

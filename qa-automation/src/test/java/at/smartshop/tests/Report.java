@@ -555,6 +555,8 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI();
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 			deviceByCategory.processAPI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			deviceByCategory.getTblRecordsUI();
 			
 			// apply calculation and update data
 			List<String> requiredData = Arrays
@@ -570,10 +572,10 @@ public class Report extends TestInfra {
 			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(6), requiredData.get(2));
 			deviceByCategory.updateTotal(deviceByCategory.getRequiredJsonData().get(0), deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
 			// verify report headers
-			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productTax.verifyReportData();
+			deviceByCategory.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
