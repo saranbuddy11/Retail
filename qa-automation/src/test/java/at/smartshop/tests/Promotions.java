@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.openqa.selenium.Keys;
@@ -120,7 +122,7 @@ public class Promotions extends TestInfra {
 	        foundation.click(CreatePromotions.BTN_OK);
 	        
 	        //Validating promotion is displayed
-	        assert(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 	        //Resetting the data
 	        createPromotions.expirePromotion("hierarchicalGrid_name",promotionName);
