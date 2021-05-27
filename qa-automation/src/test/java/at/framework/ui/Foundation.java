@@ -157,4 +157,16 @@ public class Foundation extends Factory {
 	       }
 	    	return hexColor;  	
 	    }
+	 
+		public void doubleClick(By object) {
+			try {			
+				 Actions action = new Actions(getDriver());
+		         action.doubleClick(getDriver().findElement(object)).perform();
+				if(ExtFactory.getInstance().getExtent()!=null) {								
+						ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ "+object +" ]");
+					}
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
 }
