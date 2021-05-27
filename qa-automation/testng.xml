@@ -6,8 +6,19 @@
 	</listeners>
 
 	<test name="Test1">
+	<parameter name = "driver" value="local"/> 
 		<classes>
-			<class name="at.smartshop.tests.NationalAccount">				   
+			<class name="at.smartshop.tests.Locker"/>				
+			<class name="at.smartshop.tests.Locker"/>
+			<class name="at.smartshop.tests.Locker"/>		   
+			
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="v5">
+	<parameter name = "driver" value="remote"/> 
+		<classes>
+			<class name="at.smartshop.tests.V5">				   
 			</class>
 		</classes>
 	</test> <!-- Test -->

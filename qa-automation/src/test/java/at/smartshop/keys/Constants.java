@@ -16,7 +16,11 @@ public class Constants {
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String TITLE = "title";
 	public static final String DATA = "data";
+	public static final String LOCAL = "Local";
+	public static final String REMOTE = "Remote";
 	public static final String CHROME = "Chrome";
+	public static final String FIREFOX = "Firefox";
+	public static final String INTERNET_EXPOLRER = "InternetExplorer";
 	public static final String REGEX_DDMMYYYY = "DDMMYYYY";
 	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
 	public static final String REGEX_HHMMSS = "HHmmss";
