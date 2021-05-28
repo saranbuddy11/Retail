@@ -205,6 +205,11 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+                    propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+           
+            // run and read report
+            foundation.click(ReportList.BTN_RUN_REPORT);
 
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
@@ -353,8 +358,8 @@ public class Report extends TestInfra {
 					rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA));
 			transactionCanned.updateSales(transactionCanned.getTableHeaders().get(5),
 					transactionCanned.getTableHeaders().get(1), transactionCanned.getTableHeaders().get(3));
-			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(2),
-					transactionCanned.getTableHeaders().get(1), transactionCanned.getTableHeaders().get(4));
+			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(4),
+                    rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(5),
 					transactionCanned.getRequiredJsonData().get(0));
 			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(5),
@@ -472,6 +477,8 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 			// process sales API to generate data
 			badScan.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
