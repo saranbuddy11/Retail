@@ -93,6 +93,7 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -125,7 +126,7 @@ public class Promotions extends TestInfra {
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 	        //Resetting the data
-	        createPromotions.expirePromotion("hierarchicalGrid_name",promotionName);
+	        createPromotions.expirePromotion(gridName,promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
