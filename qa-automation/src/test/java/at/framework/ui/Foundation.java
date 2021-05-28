@@ -1,6 +1,8 @@
 package at.framework.ui;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,17 +29,16 @@ public class Foundation extends Factory {
 		boolean isElementDisplayed = false;
 		try {
 			isElementDisplayed = getDriver().findElement(object).isDisplayed();
-			if(ExtFactory.getInstance().getExtent()!=null) {
-			ExtFactory.getInstance().getExtent().log(Status.INFO, object+" is displayed");
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is displayed");
 			}
 		} catch (NoSuchElementException exc) {
-			isElementDisplayed=false;
-		}
-		 catch (Exception exc) {			 
+			isElementDisplayed = false;
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return isElementDisplayed;
-	}	
+	}
 
 	public String getText(By object) {
 		String text = null;
@@ -48,25 +49,22 @@ public class Foundation extends Factory {
 		}
 		return (text);
 	}
-	
 
 	public void click(By object) {
-		try {			
+		try {
 			getDriver().findElement(object).click();
-			if(ExtFactory.getInstance().getExtent()!=null) {								
-					ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ "+object +" ]");
-				}
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	
+
 	public void fluentWait(String object, int waitTime) {
 		try {
-			FluentWait<WebDriver> wait = new FluentWait<>(getDriver())
-					.withTimeout(Duration.ofSeconds(waitTime)).pollingEvery(Duration.ofSeconds(5))
-					.ignoring(NoSuchElementException.class);
+			FluentWait<WebDriver> wait = new FluentWait<>(getDriver()).withTimeout(Duration.ofSeconds(waitTime))
+					.pollingEvery(Duration.ofSeconds(5)).ignoring(NoSuchElementException.class);
 
 			wait.until(new Function<WebDriver, WebElement>() {
 				public WebElement apply(WebDriver getDriver) {
@@ -88,15 +86,15 @@ public class Foundation extends Factory {
 		}
 		return element;
 	}
-	
-	public void refreshPage() {       
-        try {
-        	getDriver().navigate().refresh();
-        } catch (Exception exc) {           
-        	exc.printStackTrace();
-        }
-    }
-	
+
+	public void refreshPage() {
+		try {
+			getDriver().navigate().refresh();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+
 	public String getTextAttribute(By object) {
 		String textAttribute = null;
 		try {
@@ -106,67 +104,82 @@ public class Foundation extends Factory {
 		}
 		return textAttribute;
 	}
-	
+
 	public void objectFocus(By element) {
 		Actions action = new Actions(getDriver());
-        Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
-        seriesOfActions.perform();
+		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
+		seriesOfActions.perform();
 	}
-	
+
 	public boolean isEnabled(By object) {
-        boolean ObjEnabled = false;
-        try {
-            ObjEnabled = getDriver().findElement(object).isEnabled();
-            if(ExtFactory.getInstance().getExtent()!=null) {
-            ExtFactory.getInstance().getExtent().log(Status.INFO, object+" is enabled");
-            }
-        } catch (Exception exc) {
-            ObjEnabled = false;                   
-        }
-        return ObjEnabled;
-    }
-	
+		boolean ObjEnabled = false;
+		try {
+			ObjEnabled = getDriver().findElement(object).isEnabled();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is enabled");
+			}
+		} catch (Exception exc) {
+			ObjEnabled = false;
+		}
+		return ObjEnabled;
+	}
+
 	public int getSizeofListElement(By object) {
 		int sizeofObj = 0;
-        try {
-        	sizeofObj= getDriver().findElements(object).size();        
-        }catch(Exception exc) {
-        	Assert.fail(exc.toString()); 
-        }
-        return sizeofObj;
-    }
-	
+		try {
+			sizeofObj = getDriver().findElements(object).size();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return sizeofObj;
+	}
+
 	public void threadWait(int milliSeconds) {
 		try {
 			Thread.sleep(milliSeconds);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
-	 catch(Exception exc) {
-     	Assert.fail(exc.toString()); 
-     }
 	}
-	
-	 public String getBGColor(By object) {
-	    	String hexColor=null;
-	    	try {
-	    		WebElement element = getDriver().findElement(object);
-	    		String colorValue = element.getCssValue("background-color");
-	    		hexColor = Color.fromString(colorValue).asHex();
-	    		 ExtFactory.getInstance().getExtent().log(Status.INFO,"Back Ground color for "+ object);
-	    	} catch (Exception exc) {
-	       	 Assert.fail(exc.toString());
-	       }
-	    	return hexColor;  	
-	    }
-	 
-		public void doubleClick(By object) {
-			try {			
-				 Actions action = new Actions(getDriver());
-		         action.doubleClick(getDriver().findElement(object)).perform();
-				if(ExtFactory.getInstance().getExtent()!=null) {								
-						ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ "+object +" ]");
-					}
-			} catch (Exception exc) {
-				Assert.fail(exc.toString());
-			}
+
+	public String getBGColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("background-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
+		return hexColor;
+	}
+
+	public void doubleClick(By object) {
+		try {
+			Actions action = new Actions(getDriver());
+			action.doubleClick(getDriver().findElement(object)).perform();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public List<String> getTextofListElement(By object) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				text = webElement.getText();
+				elementsText.add(text);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
+	}
 }
