@@ -1,6 +1,13 @@
 package at.framework.ui;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -18,10 +25,13 @@ import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
+import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.pages.PromotionList;
 
 public class Foundation extends Factory {
+	DateAndTime dateAndTime=new DateAndTime();
 
 	public boolean isDisplayed(By object) {
 		boolean isElementDisplayed = false;
@@ -145,16 +155,68 @@ public class Foundation extends Factory {
      }
 	}
 	
-	 public String getBGColor(By object) {
-	    	String hexColor=null;
-	    	try {
-	    		WebElement element = getDriver().findElement(object);
-	    		String colorValue = element.getCssValue("background-color");
-	    		hexColor = Color.fromString(colorValue).asHex();
-	    		 ExtFactory.getInstance().getExtent().log(Status.INFO,"Back Ground color for "+ object);
-	    	} catch (Exception exc) {
-	       	 Assert.fail(exc.toString());
-	       }
-	    	return hexColor;  	
-	    }
+	public String getBGColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("background-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return hexColor;
+	}
+
+	public List<String> getTextofListElement(By object) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				text = webElement.getText();
+				elementsText.add(text);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
+	}
+	
+	public boolean verifySortDate(By object,String type,String pattern) {
+		boolean isSorted=false;		
+		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object),pattern);
+		if(type.equals(Constants.ASCENDING)) {
+			isSorted=listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listDate);
+		}
+		else if(type.equals(Constants.DESCENDING)) {
+			isSorted=listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listDate);
+		}
+		return isSorted;
+	}
+	
+	public boolean verifySortText(By object,String type) {
+		boolean isSorted=false;
+		List<String> listOfText = getTextofListElement(object);
+		if(type.equals(Constants.ASCENDING)) {
+			isSorted=listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listOfText);
+		}
+		else if(type.equals(Constants.DESCENDING)) {
+			isSorted=listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listOfText);
+		}
+		return isSorted;
+	}
+	
+	public void doubleClick(By object) {
+        try {           
+             Actions action = new Actions(getDriver());
+             action.doubleClick(getDriver().findElement(object)).perform();
+            if(ExtFactory.getInstance().getExtent()!=null) {                               
+                    ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ "+object +" ]");
+                }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }
