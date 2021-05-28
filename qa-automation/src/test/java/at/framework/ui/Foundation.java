@@ -1,6 +1,8 @@
 package at.framework.ui;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -157,4 +159,32 @@ public class Foundation extends Factory {
 	       }
 	    	return hexColor;  	
 	    }
+	 
+	 public void doubleClick(By object) {
+         try {           
+              Actions action = new Actions(getDriver());
+              action.doubleClick(getDriver().findElement(object)).perform();
+             if(ExtFactory.getInstance().getExtent()!=null) {                               
+                     ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ "+object +" ]");
+                 }
+         } catch (Exception exc) {
+             Assert.fail(exc.toString());
+         }
+     }
+	 
+	 public List<String> getTextofListElement(By object) {
+		 String text = null;
+		 List<String> elementsText = new ArrayList<String>();
+		 try {
+		 List<WebElement> ListElement = getDriver().findElements(object);
+		 for (WebElement webElement : ListElement) {
+		 text = webElement.getText();
+		 elementsText.add(text);
+		 }
+
+		  } catch (Exception exc) {
+		 Assert.fail(exc.toString());
+		 }
+		 return elementsText;
+		 }
 }
