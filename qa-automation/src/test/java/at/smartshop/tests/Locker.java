@@ -2042,4 +2042,57 @@ public class Locker extends TestInfra {
 		}
 	}
 
+	@Test(description = "135741-Verify the 'Location' dropdown in Edit a system screen for Locker settings enabled in Location Summary - Super")
+	public void locationDropdownEditSystemSuper() {
+		try {
+			final String CASE_NUM = "135741";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
+			String displayName = rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME);
+			String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
+			String defaultLocation = rstLockerSystemData.get(CNLockerSystem.DEFAULT_LOCATION);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> locations = Arrays
+					.asList(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+			List<String> menuItems = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> hasLocker = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
+
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+			locationList.selectLocationName(locations.get(0));
+			locationSummary.updateLockerSettings(hasLocker.get(0));
+			locationList.selectLocationName(locations.get(1));
+			locationSummary.updateLockerSettings(hasLocker.get(1));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locations.get(0)));
+			if (isSystemExist == false) {
+				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
+				newLockerSysytem.createNewSystem(locations.get(0), systemName, displayName, lockerModel);
+			}
+			foundation.threadWait(2000);
+			foundation.click(lockerSystem.objExpandLocationLocker(locations.get(0)));
+			foundation.click(lockerSystem.objSystemName(systemName));
+			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, defaultLocation));
+			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(0)));
+			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, defaultLocation));
+			assertFalse(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(1)));
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+
 }
