@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
@@ -57,7 +58,11 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_DISCOUNT = By.id("discountBy");
 	public static final By DPD_ITEM = By.id("itemSelectInput");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
-	
+	public static final By DPD_DISCOUNT_BY = By.id("discountBy");
+	public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
+	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
+	public static final By DPD_ORGANIZATION = By.id("org-select");
+
 	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
 
 		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, "text");
@@ -99,5 +104,13 @@ public class CreatePromotions extends Factory {
 		return popupFieldArray;
 
 	}
-
+	public By filterOptions(String fieldName) {
+		return By.xpath("//dt[text()='"+fieldName+"']");
+	}
+	public void verifyOrgField(List<String> orgs) {
+	List<String> orgData = dropdown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
+	for(int iter=0;iter<orgData.size();iter++) {
+		Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
+	}
+	}
 }
