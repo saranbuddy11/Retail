@@ -36,6 +36,7 @@ public class Promotions extends TestInfra {
 	private Dropdown dropdown=new Dropdown();
 	private TextBox textBox = new TextBox();
 	private EditPromotion editPromotion = new EditPromotion();
+	private PromotionList promotionList=new PromotionList();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -124,6 +125,7 @@ public class Promotions extends TestInfra {
 	        foundation.waitforElement(CreatePromotions.BTN_OK,2000);
 	        foundation.click(CreatePromotions.BTN_OK);
 	        
+	        promotionList.searchPromotion(promotionName);
 	        //Validating promotion is displayed
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
