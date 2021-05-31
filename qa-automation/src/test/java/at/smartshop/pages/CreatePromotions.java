@@ -23,11 +23,10 @@ public class CreatePromotions extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private TextBox textbox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
-	private Table table = new Table();
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
-	private static final By TXT_DISPLAY_NAME = By.id("displayname");
+	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.id("submitBtn");
 
 	public static final By DPD_LOCATION = By.id("location-select");
@@ -37,8 +36,6 @@ public class CreatePromotions extends Factory {
     public static final By TXT_SELECTION=By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
-	public static final By BTN_END_PROMO =By.id("disablepromotion");
-	public static final By BTN_EXPIRE =By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By MULTI_SELECT_TENDER_TYPES =By.id("tendertypes");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
@@ -56,6 +53,10 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_APPLY_DISCOUNT_TO =By.id("appliesto");
 	public static final By TXT_TRANSACTION_MIN =By.id("transmin");
 	public static final By CHK_SUNDAY=By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
+	public static final By DPD_DISCOUNT_BY =By.id("discountBy");
+	public static final By DPD_CATEGORY =By.id("categorySelectInput");
+	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
+	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 
 	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
 
@@ -69,18 +70,6 @@ public class CreatePromotions extends Factory {
 		textbox.enterText(DPD_ORG, Keys.ENTER);
         dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
-	}
-	
-	public void expirePromotion(String dataGridname,String promoName){
-            foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
-            textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
-            foundation.click(PromotionList.BTN_SEARCH);
-            
-            table.selectRow(dataGridname,promoName);       
-            foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-            foundation.waitforElement(BTN_END_PROMO, 2000);
-            foundation.click(BTN_END_PROMO);
-            foundation.click(BTN_EXPIRE);
 	}
 	
 	public List<String> getPopUpData() {
