@@ -1,5 +1,6 @@
 package at.framework.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -60,4 +61,19 @@ public class Dropdown extends Factory {
             Assert.fail(exc.toString());
         }
     }
+	
+	public List<String> getAllItems(By object) {
+	       List<String> orgList = new ArrayList<String>();
+		try {
+        Select select = new Select(getDriver().findElement(object));
+        List<WebElement> items = select.getOptions(); 
+        for(WebElement item : items) {
+            String itemText = item.getText();
+          orgList.add(itemText);
+        }
+    }catch(Exception exc) {
+    	Assert.fail(exc.toString());
+    }
+		return orgList;
+}
 }
