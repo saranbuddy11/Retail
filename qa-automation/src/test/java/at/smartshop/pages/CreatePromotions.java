@@ -11,7 +11,6 @@ import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -23,7 +22,6 @@ public class CreatePromotions extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private TextBox textbox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
-	private Table table=new Table();
 	
 	
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
@@ -36,8 +34,6 @@ public class CreatePromotions extends Factory {
     public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
     public static final By BTN_OK = By.xpath("//button[text()='OK']");
     public static final By TXT_SELECTION=By.xpath("(//li[@class='select2-selection__choice'])[2]");
-    public static final By BTN_EXPIRE =By.xpath("//button[@class='ajs-button ajs-ok']");
-    public static final By BTN_END_PROMO =By.id("disablepromotion");
     public static final By MULTI_SELECT_TENDER_TYPES =By.id("tendertypes");
     public static final By DPD_DISCOUNT_TYPE =By.id("discounttype");
     public static final By BTN_CREATE = By.id("submitBtnContainer");
@@ -69,18 +65,6 @@ public class CreatePromotions extends Factory {
 		textbox.enterText(DPD_ORG, Keys.ENTER);
         dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
-	}
-	
-	public void expirePromotion(String dataGridname,String promoName){
-            foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
-            textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
-            foundation.click(PromotionList.BTN_SEARCH);
-            
-            table.selectRow(dataGridname,promoName);       
-            foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-            foundation.waitforElement(BTN_END_PROMO, 2000);
-            foundation.click(BTN_END_PROMO);
-            foundation.click(BTN_EXPIRE);
 	}
 	
 	public List<String> getPopUpData() {

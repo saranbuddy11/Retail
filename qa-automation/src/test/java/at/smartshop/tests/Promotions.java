@@ -26,6 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 
@@ -41,7 +42,8 @@ public class Promotions extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime=new DateAndTime();
-	
+	private EditPromotion editPromotion = new EditPromotion();
+	private PromotionList promotionList=new PromotionList();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -130,11 +132,13 @@ public class Promotions extends TestInfra {
 	        foundation.waitforElement(CreatePromotions.BTN_OK,2000);
 	        foundation.click(CreatePromotions.BTN_OK);
 	        
+	        promotionList.searchPromotion(promotionName);
+	        
 	        //Validating promotion is displayed
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 	        //Resetting the data
-	        createPromotions.expirePromotion(gridName,promotionName);
+	        editPromotion.expirePromotion(gridName,promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -230,12 +234,13 @@ public class Promotions extends TestInfra {
 			
 	        
 	        foundation.click(CreatePromotions.BTN_OK);
+	        promotionList.searchPromotion(promotionName);
 	        
 	        //Validating promotion is displayed
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 	        //Resetting the data
-	        createPromotions.expirePromotion(gridName,promotionName);
+	        editPromotion.expirePromotion(gridName,promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
