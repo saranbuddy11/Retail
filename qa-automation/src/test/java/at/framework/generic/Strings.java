@@ -1,7 +1,5 @@
 package at.framework.generic;
 
-import java.util.Random;
-
 import at.smartshop.keys.Constants;
 
 public class Strings {

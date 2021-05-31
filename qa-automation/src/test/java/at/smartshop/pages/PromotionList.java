@@ -2,10 +2,22 @@ package at.smartshop.pages;
 
 import org.openqa.selenium.By;
 
+import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
+
 public class PromotionList {
+	private Foundation foundation = new Foundation();
+	private TextBox textbox = new TextBox();
+	
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
 	public static final By TXT_SEARCH_PROMONAME = By.id("search");
 	public static final By BTN_SEARCH = By.id("searchbtn");	
 	public static final By TBL_COLUMN_NAME = By.xpath("//td[@aria-describedby='hierarchicalGrid_name']");
+	
+	public void searchPromotion(String promoName){
+		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
+		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
+		foundation.click(PromotionList.BTN_SEARCH);
+	}
 }

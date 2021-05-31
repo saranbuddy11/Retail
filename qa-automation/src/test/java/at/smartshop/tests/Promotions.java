@@ -21,6 +21,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 
@@ -34,7 +35,8 @@ public class Promotions extends TestInfra {
 	private CreatePromotions createPromotions = new CreatePromotions();
 	private Dropdown dropdown=new Dropdown();
 	private TextBox textBox = new TextBox();
-		
+	private EditPromotion editPromotion = new EditPromotion();
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 
@@ -126,7 +128,7 @@ public class Promotions extends TestInfra {
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 	        //Resetting the data
-	        createPromotions.expirePromotion(gridName,promotionName);
+	        editPromotion.expirePromotion(gridName,promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
