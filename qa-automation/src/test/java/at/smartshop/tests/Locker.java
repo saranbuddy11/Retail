@@ -182,7 +182,7 @@ public class Locker extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_SYSTEM_NAME, 2000);
 
 			dropDown.selectItem(CreateLocker.DPD_LOCATION, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME),
-					Constants.TEXT);
+					Constants.TEXT);		
 			textBox.enterText(CreateLocker.TXT_SYSTEM_NAME, rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME));
 			textBox.enterText(CreateLocker.TXT_DISPLAY_NAME, rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME));
 			dropDown.selectItem(CreateLocker.DPD_LOCKER_MODEL, rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL),
@@ -1149,7 +1149,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Functionality of an Create System button")
+	@Test(description = "C135731 - This test validates the Functionality of an Create System button")
 	public void verifyCreateSystemButtonFunctionality() {
 		try {
 			final String CASE_NUM = "135731";
@@ -1157,8 +1157,11 @@ public class Locker extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
