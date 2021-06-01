@@ -183,16 +183,4 @@ public class Foundation extends Factory {
 		return elementsText;
 	}
 
-	public boolean isSelected(By object) {
-		boolean ObjSelected = false;
-		try {
-			ObjSelected = getDriver().findElement(object).isSelected();
-			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is enabled");
-			}
-		} catch (Exception exc) {
-			ObjSelected = false;
-		}
-		return ObjSelected;
-	}
 }

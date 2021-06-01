@@ -69,7 +69,7 @@ public class Dropdown extends Factory {
 			} else if (type == Constants.TEXT) {
 				select.deselectByVisibleText(text);
 			}
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value " + text );
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "deselected dropdown value " + text );
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
