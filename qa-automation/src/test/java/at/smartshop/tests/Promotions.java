@@ -49,7 +49,7 @@ public class Promotions extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 
-	// @Test(description = "Verify All option is displayed in Location Dropdown")
+	@Test(description = "Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
 		try {
 			final String CASE_NUM = "130666";
@@ -86,8 +86,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	// @Test(description = "141779 - Verify the Tender Discount Promotion with
-	// Tender type as Cash")
+	@Test(description = "141779 - Verify the Tender Discount Promotion with Tender type as Cash")
 	public void verifyTenderDiscountWithTenderTypeCash() {
 		try {
 			final String CASE_NUM = "141779";
