@@ -258,6 +258,11 @@ public class Promotions extends TestInfra {
 			createPromotions.verifyOrgField(orgs);	
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			
+			List<String> locationNames = foundation.getTextofListElement(CreatePromotions.LINK_LOCATION_LIST);
+			for (String location : locationNames) {
+                assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
+            }
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2000);
 

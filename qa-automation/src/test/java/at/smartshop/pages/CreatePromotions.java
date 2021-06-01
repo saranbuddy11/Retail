@@ -62,6 +62,7 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
 	public static final By DPD_ORGANIZATION = By.id("org-select");
+	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 
 	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
 
