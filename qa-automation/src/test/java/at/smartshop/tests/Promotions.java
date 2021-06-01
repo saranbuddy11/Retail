@@ -29,6 +29,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.UserList;
@@ -233,6 +234,7 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
 				
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> locationNames = foundation.getTextofListElement(LocationList.LINK_LOCATION_LIST);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
@@ -259,7 +261,10 @@ public class Promotions extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(0))));
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(1))));
 			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);			
+			for (String location : locationNames) {
+                assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
+            }
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -307,7 +312,7 @@ public class Promotions extends TestInfra {
 			 //Resetting the data
 			editPromotion.expirePromotion(gridName,promotionName);
 			login.logout();
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
