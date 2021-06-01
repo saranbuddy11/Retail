@@ -31,6 +31,7 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_NEXT = By.id("submitBtn");
 
 	public static final By DPD_LOCATION = By.id("location-select");
+	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	
@@ -56,20 +57,19 @@ public class CreatePromotions extends Factory {
 	    public static final By TXT_TRANSACTION_MIN =By.id("transmin");
 	    public static final By CHK_SUNDAY=By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
 
-	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
+	    public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
 
-		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, "text");
-		textbox.enterText(TXT_PROMO_NAME, PromoName);
-		textbox.enterText(TXT_DISPLAY_NAME, DisplayName);
-		foundation.click(BTN_NEXT);
-		textbox.enterText(DPD_ORG,
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropdown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
+			textbox.enterText(TXT_PROMO_NAME, PromoName);
+			//textbox.enterText(TXT_DISPLAY_NAME, DisplayName);
+			foundation.click(BTN_NEXT);
+			textbox.enterText(DPD_ORG,
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			textbox.enterText(DPD_ORG, Keys.ENTER);
+	        dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
-		getDriver().findElement(DPD_ORG).sendKeys(Keys.ENTER);
-		getDriver().findElement(DPD_LOC).click();
-		getDriver().findElement(DPD_LOC).sendKeys(Keys.ENTER);
-
-	}
+		}
 	
 	public void expirePromotion(String dataGridname,String promoName){
 		
@@ -96,6 +96,10 @@ public class CreatePromotions extends Factory {
 		}
 		return popupFieldArray;
 
+	}
+	
+	public By objFieldSet(String filedSetText) {
+		return By.xpath("//fieldset[@id='fieldset']//*[text()='"+filedSetText+"']");
 	}
 
 }
