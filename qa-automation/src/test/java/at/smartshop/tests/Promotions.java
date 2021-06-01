@@ -4,13 +4,14 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
@@ -21,6 +22,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -47,10 +49,12 @@ public class Promotions extends TestInfra {
 	private PromotionList promotionList = new PromotionList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private UserRoles userRoles = new UserRoles();
+	private UserList userList = new UserList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
@@ -198,6 +202,7 @@ public class Promotions extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);	
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -208,13 +213,15 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			foundation.waitforElement(UserRoles.LBL_USER_LIST, 2000);
 			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(userRoles.getRowByText("naveenoperator@gmail.com"));
+			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
 			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 2000);
 			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
 			List<String> orgs = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
-			dropdown.selectItem(UserList.DPD_ORG, orgs.get(0), Constants.TEXT);
-			dropdown.selectItem(UserList.DPD_ORG, orgs.get(1), Constants.TEXT);
-			dropdown.selectItem(UserList.TXT_SEARCH_LOC, "ALL", Constants.TEXT);
+			userList.selectOrgs(UserList.DPD_ORG, orgs);
+			foundation.threadWait(2000);
+			String allOption = rstLocationListData.get(CNLocationList.COLUMN_NAME);
+			foundation.objectFocus(UserList.TXT_SEARCH_LOC);
+			dropdown.selectItem(UserList.TXT_SEARCH_LOC, allOption, Constants.TEXT);
 			foundation.threadWait(2000);
 			foundation.click(UserList.BTN_UPDATE_USER);
 			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3000);
@@ -308,18 +315,16 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			foundation.waitforElement(UserRoles.LBL_USER_LIST, 2000);
 			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(userRoles.getRowByText("naveenoperator@gmail.com"));
+			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
 			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 2000);
 			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
 			
-			dropdown.selectItem(UserList.DPD_ORG, "ALL", Constants.TEXT);
+			dropdown.selectItem(UserList.DPD_ORG, allOption, Constants.TEXT);
 			foundation.threadWait(2000);
-			dropdown.selectItem(UserList.TXT_SEARCH_LOC, "ALL", Constants.TEXT);
-			foundation.threadWait(3000);
+			foundation.waitforElement(UserList.LNK_LOCATION_REMOVE_ALL, 10000);
 			foundation.click(UserList.BTN_UPDATE_USER);
 			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3000);
-			login.logout();
-			
+			login.logout();			
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
