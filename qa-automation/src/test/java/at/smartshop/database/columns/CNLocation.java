@@ -11,4 +11,5 @@ public class CNLocation {
 	public static final String PROMOTION_TYPE = "PromotionType";
 	public static final String TAB_NAME = "TabName";
 	public static final String ACTUAL_DATA ="ActualData";
+	public static final String POPUP_NAME="PopupName";
 }

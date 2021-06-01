@@ -675,6 +675,7 @@ public class ResultSets extends Connections {
 					rstLocation.put(CNLocation.ACTUAL_DATA, resultSet.getString(CNLocation.ACTUAL_DATA));
 					rstLocation.put(CNLocation.LOCATIONLIST_DPDN_VALUE,resultSet.getString(CNLocation.LOCATIONLIST_DPDN_VALUE));
 					rstLocation.put(CNLocation.TAB_NAME, resultSet.getString(CNLocation.TAB_NAME));
+					rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
 
 				}
 			}

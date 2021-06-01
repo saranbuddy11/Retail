@@ -60,4 +60,18 @@ public class Dropdown extends Factory {
             Assert.fail(exc.toString());
         }
     }
+	public void deselectItem(By object, String text, String type) {
+		try {
+			Select select = new Select(getDriver().findElement(object));
+			if (type == Constants.VALUE) {
+				select.deselectByValue(text);
+
+			} else if (type == Constants.TEXT) {
+				select.deselectByVisibleText(text);
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value " + text );
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }

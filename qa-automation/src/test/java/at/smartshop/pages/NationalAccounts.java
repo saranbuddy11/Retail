@@ -54,6 +54,8 @@ public class NationalAccounts extends Factory {
     public static final By LBL_STATE = By.cssSelector("#nationalAccountsSummaryGrid > tbody > tr > td:nth-child(4)");
     public static final By BTN_ADD_TO_NATIONAL_ACCOUNTS = By.id("nationalAccountBtn");   
     public static final By BTN_Cancel = By.xpath("//button[text()='CANCEL']");
+    public static final By TXT_ALERT_MSG = By.id("alertifyMessage");
+    public static final By TXT_ALERT_CONTENT =By.xpath("//div[@class='ajs-content']");
     
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	public static final String id_tableNationalAccountsSummary = "nationalAccountsSummaryGrid";
@@ -131,10 +133,10 @@ public class NationalAccounts extends Factory {
 	
 	public void verifyPromptMsg(String Message, String existsmsg) {
         try {
-            By TXT_ALREADYEXISTS = By.xpath("//p[text()='" + existsmsg + "']");
+            By TXT_ALREADYEXISTS = By.xpath("//b[normalize-space(text())='" + existsmsg + "']");
             Boolean status1 = foundation.isDisplayed(TXT_ALREADYEXISTS);
             Assert.assertTrue(status1);
-            By TXT_ALREADYEXIST_MSG = By.xpath("//b[text()='" + Message + "']");
+            By TXT_ALREADYEXIST_MSG = By.xpath("//p[normalize-space(text()) ='" + Message + "']");
             Boolean status2 = foundation.isDisplayed(TXT_ALREADYEXIST_MSG);
             Assert.assertTrue(status2);
         } catch (Exception e) {

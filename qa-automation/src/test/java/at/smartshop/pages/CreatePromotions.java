@@ -48,14 +48,15 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_END_DATE =By.id("enddate");
 	public static final By TXT_TIME_START =By.id("timestart");
 	public static final By TXT_TIME_END =By.id("timeend");
-	  
+	 
 	    public static final By POP_UP_MESSAGES = By.xpath("//div[@class='ajs-dialog']//b");
 	    public static final By LBL_POPUP_FIELD = By.xpath("//div[@class='alert-details']//b");
 	    public static final By LBL_POPUP_VALUES = By.xpath("//div[@class='alert-details']");
 	    public static final By DPD_APPLY_DISCOUNT_TO =By.id("appliesto");
 	    public static final By TXT_TRANSACTION_MIN =By.id("transmin");
 	    public static final By CHK_SUNDAY=By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
-
+	    public static final By DPD_ORGANIZATION =By.id("org-select");
+	    
 	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
 
 		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, "text");
