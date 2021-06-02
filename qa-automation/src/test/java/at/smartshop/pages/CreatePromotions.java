@@ -57,6 +57,7 @@ public class CreatePromotions extends Factory {
 	public static final By CHK_SUNDAY = By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_ITEM = By.id("itemSelectInput");
+	public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
 
 		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, "text");
