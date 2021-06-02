@@ -351,8 +351,7 @@ public class Promotions extends TestInfra {
 			
 			foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
 			String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
-			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
-            foundation.click(PromotionList.BTN_SEARCH);
+			promotionList.searchPromotion(promotionName);
             foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			
             //Basic Information Page
@@ -391,7 +390,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CREATE);
 			
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, 3000);
-			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains("Multiple Locations Alert"));
+			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
@@ -436,7 +435,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CREATE);
 			
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, 3000);
-			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains("Multiple Locations Alert"));
+			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
