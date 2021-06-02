@@ -202,10 +202,7 @@ public class Promotions extends TestInfra {
 			
 			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK,2000);
-			
-			
-			 
+			foundation.waitforElement(CreatePromotions.BTN_OK,2000);					 
 			 
 			  List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 				List<String> popupField = null;
@@ -215,9 +212,7 @@ public class Promotions extends TestInfra {
 				List<String> actualData = Arrays
 						.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 				assertEquals(popupField.get(0),actualData.get(0));
-				assertEquals(popupField.get(1),actualData.get(1));
-			
-			
+				assertEquals(popupField.get(1),actualData.get(1));				
 			
 			List<String> popupFieldArray = createPromotions.getPopUpData();		
 			String currentDate=dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
@@ -230,8 +225,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupFieldArray.get(5), actualData.get(5));
 			assertEquals(popupFieldArray.get(6), actualData.get(6));
 			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
-			
+			assertTrue(popupFieldArray.get(8).contains(currentDate));			
 	        
 	        foundation.click(CreatePromotions.BTN_OK);
 	        promotionList.searchPromotion(promotionName);
