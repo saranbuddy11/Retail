@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -32,6 +31,7 @@ import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
@@ -62,6 +62,7 @@ public class Report extends TestInfra {
 	private BadScanReport badScan = new BadScanReport();
 	private TransactionCannedReport transactionCanned = new TransactionCannedReport();
 	private CurrenyConverter converter = new CurrenyConverter();
+	private ICEReport iceReport = new ICEReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -516,4 +517,70 @@ public class Report extends TestInfra {
 		}
 
 	}
+	
+	@Test(description = "This test validates ICE Report Data Calculation")
+	public void ICEReportData() {
+		try {
+
+			final String CASE_NUM = "135696";
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
+			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			iceReport.getTblRecordsUI();
+			iceReport.getIntialData().putAll(iceReport.getReportsData());
+
+			// get Location Data
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
+
+			// apply calculation and update data
+			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// verify report headers
+			iceReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			iceReport.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+	
 }
