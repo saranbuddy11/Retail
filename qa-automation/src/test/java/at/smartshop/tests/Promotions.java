@@ -222,8 +222,6 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3000);
 			login.logout();
 
-			login.logout();
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -288,26 +286,8 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
 
-			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
-			List<String> popupField = null;
-			popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
-			popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
-
-			assertEquals(popupField.get(0), actualData.get(0));
-			assertEquals(popupField.get(1), actualData.get(1));
-
-			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
-
-			assertTrue(popupFieldArray.get(0).contains(promotionType));
-			assertTrue(popupFieldArray.get(1).contains(promotionName));
-			assertEquals(popupFieldArray.get(2), actualData.get(2));
-			assertEquals(popupFieldArray.get(3), actualData.get(3));
-			assertEquals(popupFieldArray.get(4), actualData.get(4));
-			assertEquals(popupFieldArray.get(5), actualData.get(5));
-			assertEquals(popupFieldArray.get(6), actualData.get(6));
-			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
+			//verify promotion details
+			createPromotions.verifyPromotionPopupDetails(actualData, promotionType, promotionName);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
@@ -339,5 +319,6 @@ public class Promotions extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}	
+	}
+	
 }

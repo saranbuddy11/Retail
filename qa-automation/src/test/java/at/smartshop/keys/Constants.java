@@ -46,4 +46,6 @@ public class Constants {
 	public static final String DELETE= "Delete";
 	public static final String COPY= "Copy";
 	public static final String NEW_LINE ="\n";
+	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
+	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
 }
