@@ -11,7 +11,6 @@ import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -20,8 +19,8 @@ import at.smartshop.keys.FilePath;
 public class CreatePromotions extends Factory {
 
 	private Foundation foundation = new Foundation();
-	private Dropdown dropdown = new Dropdown();
-	private TextBox textbox = new TextBox();
+	private Dropdown dropDown = new Dropdown();
+	private TextBox textBox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
@@ -33,7 +32,6 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 
     public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
-    public static final By TXT_SELECTION=By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By MULTI_SELECT_TENDER_TYPES =By.id("tendertypes");
@@ -58,17 +56,17 @@ public class CreatePromotions extends Factory {
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 
-	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
+	public void newPromotion(String promoType, String promoName, String displayName, String locationName) {
 
-		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
-		textbox.enterText(TXT_PROMO_NAME, PromoName);
-		textbox.enterText(TXT_DISPLAY_NAME, DisplayName);
+		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promoName);
+		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		textbox.enterText(DPD_ORG,
+		textBox.enterText(DPD_ORG,
 				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		
-		textbox.enterText(DPD_ORG, Keys.ENTER);
-        dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+		textBox.enterText(DPD_ORG, Keys.ENTER);
+        dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
 	}
 	

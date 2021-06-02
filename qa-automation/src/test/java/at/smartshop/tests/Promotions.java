@@ -377,16 +377,14 @@ public class Promotions extends TestInfra {
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 		
 			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-			//dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, "On-Screen", Constants.TEXT);
-			
+						
 			String basicInfoPageTitle=foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
 			assertTrue(basicInfoPageTitle.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
 			
 			String promotionName = strings.getRandomCharacter();
 			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
 			String displayName = strings.getRandomCharacter();
-			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, displayName);
-			
+			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, displayName);			
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			String filtersPageTitle=foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
@@ -402,15 +400,13 @@ public class Promotions extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 	        dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, category.get(0), Constants.TEXT);
 	        
-	        foundation.click(CreatePromotions.SEARCH_CATEGORY);
-	        
+	        foundation.click(CreatePromotions.SEARCH_CATEGORY);	        
 	        textBox.enterText(CreatePromotions.SEARCH_CATEGORY, category.get(1));
 	        foundation.threadWait(2000);
 	        textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
       
  	        String categorySelected=dropdown.getSelectedItem(CreatePromotions.DPD_CATEGORY);
-			assertTrue(categorySelected.equals(category.get(1)));
-	        
+			assertTrue(categorySelected.equals(category.get(1)));	        
 			
 			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);

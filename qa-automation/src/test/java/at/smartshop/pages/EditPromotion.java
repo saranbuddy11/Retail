@@ -16,8 +16,8 @@ public class EditPromotion extends Factory {
 	public void expirePromotion(String dataGridname,String promoName){
         table.selectRow(dataGridname,promoName);       
         foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-        foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2000);
-        foundation.click(EditPromotion.BTN_END_PROMO);
-        foundation.click(EditPromotion.BTN_EXPIRE);
+        foundation.waitforElement(BTN_END_PROMO, 2000);
+        foundation.click(BTN_END_PROMO);
+        foundation.click(BTN_EXPIRE);
 }
 }
