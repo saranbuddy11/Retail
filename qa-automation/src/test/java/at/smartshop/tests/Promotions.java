@@ -380,8 +380,9 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			//Details page
+			foundation.threadWait(2000);
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			dropdown.deselectItem(EditPromotion.DPD_ITEM, requiredData.get(0), Constants.TEXT);
+			dropdown.deselectItem(CreatePromotions.DPD_ITEM, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM,requiredData.get(1));
 			foundation.threadWait(1000);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
@@ -396,6 +397,15 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, 5000);
+			
+			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.click(PromotionList.BTN_SEARCH);
+			foundation.click(PromotionList.LINK_EXPAND);
+			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
+			Assert.assertEquals( org.get(1), orgName);
+			foundation.click(PromotionList.LINK_EXPAND);
+			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
+			Assert.assertEquals(location.get(1), locName);
 			
 			//Reset the Data
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
@@ -413,10 +423,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, location.get(0), Constants.TEXT);
         	foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			 
-        	foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
-			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.click(CreatePromotions.BTN_NEXT);		 
 			
 			//Details page
 			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
