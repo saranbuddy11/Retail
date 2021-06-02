@@ -246,7 +246,7 @@ public class Promotions extends TestInfra {
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			foundation.isDisplayed(CreatePromotions.LBL_BASIC_INFORMATION);
 			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-			String promotionName = "Test"+strings.getRandomCharacter();
+			String promotionName = strings.getRandomCharacter();
 			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
 			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, promotionName);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -280,7 +280,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(1000);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.threadWait(2000);
+			foundation.waitforElement(CreatePromotions.POP_UP_MESSAGES, 2000);
 			
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
