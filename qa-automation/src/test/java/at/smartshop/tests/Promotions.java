@@ -40,6 +40,7 @@ public class Promotions extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime=new DateAndTime();
+	private PromotionList promotionList=new PromotionList();
 	
 
 	private Map<String, String> rstNavigationMenuData;
@@ -222,6 +223,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
 			foundation.click(CreatePromotions.BTN_OK);
 
+			//navigate to same promotion and validate update promotion
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -246,9 +248,19 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
+			
+			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+            foundation.click(PromotionList.BTN_SEARCH);
+            foundation.click(PromotionList.LINK_EXPAND);
+            String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
+            Assert.assertEquals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), orgName);
+            foundation.click(PromotionList.LINK_EXPAND);
+            String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
+            Assert.assertEquals(locationName.get(2), locName);
 
 			// Resetting the data
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
+			promotionList.searchPromotion(promotionName);
 			createPromotions.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {

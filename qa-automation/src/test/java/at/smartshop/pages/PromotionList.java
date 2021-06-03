@@ -18,5 +18,14 @@ public class PromotionList {
     public static final By LBL_LOCATION  = By.xpath("//select[@id='loc-dropdown']//..//..//dt");
     public static final By LBL_STATUS = By.xpath("//select[@id='status']//..//..//dt");
     public static final By LBL_PROMOTYPE = By.xpath("//select[@id='promotype']//..//..//dt");
+    public static final By LINK_EXPAND = By.xpath("//span[@title='Expand Row']");
+    public static final By LBL_LOCATION_NAME =  By.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
+    public static final By LBL_ORG_NAME = By.xpath("//td[contains(@aria-describedby,'orgs_child_orgname')]");
+    
+    public void searchPromotion(String promoName){
+        foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
+        textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
+        foundation.click(PromotionList.BTN_SEARCH);
+    }
     
 }
