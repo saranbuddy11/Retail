@@ -17,4 +17,5 @@ public class Queries {
 	public static final String LOCKER_SYSTEM ="SELECT * FROM QA.dbo.LockerSystem where TestcaseID=";
 	public static final String LOCATION = "SELECT * FROM QA.dbo.Location where TestcaseID=";
 	public static final String V5DEVICE = "SELECT * FROM QA.dbo.V5Device where TestcaseID=";
+
 }
