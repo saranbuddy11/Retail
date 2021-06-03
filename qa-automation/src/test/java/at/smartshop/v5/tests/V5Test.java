@@ -54,7 +54,7 @@ public class V5Test extends TestInfra {
 		public void verifyPrivacyPolicy() {
 			try {
 				final String CASE_NUM = "141881";
-				rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+				rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5DEVICE, CASE_NUM);
 		        //List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 				
 		        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
