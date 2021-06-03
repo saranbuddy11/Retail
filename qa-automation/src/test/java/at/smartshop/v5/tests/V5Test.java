@@ -31,6 +31,7 @@ public class V5Test extends TestInfra {
 	private Foundation foundation=new Foundation();
 	private AccountLogin accountLogin=new AccountLogin();
 	private ResultSets dataBase = new ResultSets();
+	private LandingPage landingPage=new LandingPage();
 	
 	private Map<String, String> rstV5DeviceData;
 //	@Test(description = "Testing V5 test case execution")
@@ -57,7 +58,8 @@ public class V5Test extends TestInfra {
 		        //List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 				
 		        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
-				foundation.click(LandingPage.BTN_LOGIN);
+		        foundation.click(landingPage.objLanguage("English"));
+		        foundation.click(LandingPage.BTN_LOGIN);
 				foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 				accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 	
