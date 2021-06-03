@@ -212,20 +212,20 @@ public class Promotions extends TestInfra {
 			String promotionName =  strings.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String locationList_Dpd =rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST);
+			String locationListDpd =rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST);
 			
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
-			String locationDisabled_Yes = locationDisabled.get(0);
-			String locationDisabled_No  = locationDisabled.get(1);
+			String locationDisabledYes = locationDisabled.get(0);
+			String locationDisabledNo  = locationDisabled.get(1);
 			// Selecting location
 			locationList.selectLocationName(locationName);
 
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_Yes, Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledYes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
@@ -255,15 +255,16 @@ public class Promotions extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.objLocation(requiredData.get(2))));
 
 			login.logout();
+			//Resetting test data
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
-			dropdown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd, Constants.TEXT);
+			dropdown.selectItem(LocationList.DPD_LOCATION_LIST, locationListDpd, Constants.TEXT);
 			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropdown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, "text");
+			dropdown.selectItem(LocationSummary.DPD_DISABLED,locationDisabledNo, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
 
