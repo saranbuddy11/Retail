@@ -23,6 +23,7 @@ public class Constants {
 	public static final String INTERNET_EXPOLRER = "InternetExplorer";
 	public static final String REGEX_DDMMYYYY = "DDMMYYYY";
 	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
+	public static final String REGEX_MMDDYY = "MM/dd/YY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
@@ -48,4 +49,5 @@ public class Constants {
 	public static final String LOCATION= "#Locations";
 	public static final String DELETE= "Delete";
 	public static final String COPY= "Copy";
+	public static final String NEW_LINE ="\n";
 }
