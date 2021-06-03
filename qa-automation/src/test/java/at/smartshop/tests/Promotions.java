@@ -270,10 +270,8 @@ public class Promotions extends TestInfra {
 				foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
 				textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 				foundation.click(PromotionList.BTN_SEARCH);
-
 				Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-				// Resetting the data
-				 editPromotion.expirePromotion(gridName, promotionName);
+			
 			}
 			
 
