@@ -17,8 +17,7 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "Testing V5 test case execution")
 	public void verifyLockerSystemsPickupLocation() {
-		try {
-			//browser.launch(propertyFile.readPropertyFile(Configuration.DRIVER, FilePath.PROPERTY_CONFIG_FILE),propertyFile.readPropertyFile(Configuration.BROWSER, FilePath.PROPERTY_CONFIG_FILE));
+		try {			
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
 			By createAccount= By.id("create-account-id");
