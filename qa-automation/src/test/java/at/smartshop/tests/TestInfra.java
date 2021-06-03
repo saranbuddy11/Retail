@@ -8,6 +8,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
@@ -28,11 +29,11 @@ public class TestInfra {
 	}
 	
 	
+	 @Parameters({"drivers", "browsers"})
 	@BeforeMethod	
-	public void beforeMethod() {
+	public void beforeMethod(String drivers, String browsers) {			
 		try {			
-			browser.launch(propertyFile.readPropertyFile(Configuration.DRIVER, FilePath.PROPERTY_CONFIG_FILE),propertyFile.readPropertyFile(Configuration.BROWSER, FilePath.PROPERTY_CONFIG_FILE));
-			//browser.launch(Constants.LOCAL,Constants.CHROME);
+			browser.launch(drivers,browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
