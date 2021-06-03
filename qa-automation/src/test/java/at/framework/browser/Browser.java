@@ -22,6 +22,7 @@ public class Browser extends Factory {
 		try {
 			WebDriver browser = getDriver();
 			browser.close();
+			browser.quit();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

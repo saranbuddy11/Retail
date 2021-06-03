@@ -2,20 +2,17 @@ package at.smartshop.tests;
 
 import java.sql.SQLException;
 
-
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
 
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.smartshop.keys.Configuration;
-import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 

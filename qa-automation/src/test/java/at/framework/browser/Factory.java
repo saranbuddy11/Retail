@@ -13,7 +13,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
+import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
@@ -22,7 +24,7 @@ public class Factory {
 	//private Factory instance = null;
 
 	public static final ThreadLocal<RemoteWebDriver> webDriver = new ThreadLocal<>();
-
+	public PropertyFile propertyFile = new PropertyFile();
 //	public Factory getInstance() {
 //		try {
 //			if (instance == null) {
@@ -69,7 +71,7 @@ public class Factory {
 					capabilities.setPlatform(Platform.ANY);
 					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
 					chromeOptions.setBinary("/usr/bin/chromium-browser");
-					webDriver.set(new RemoteWebDriver(new URL("http://192.168.29.159:4444/wd/hub"), capabilities));
+					webDriver.set(new RemoteWebDriver(new URL(propertyFile.readPropertyFile(Configuration.HUB_URL, FilePath.PROPERTY_CONFIG_FILE)), capabilities));
 
 				} else if (browser.equals(Constants.FIREFOX)) {
 

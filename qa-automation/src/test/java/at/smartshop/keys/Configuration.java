@@ -8,6 +8,8 @@ public class Configuration {
 	public static final String CURRENT_LOC = "current_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
+	public static final String HUB_URL = "Hub_url";
+	public static final String V5_APP_URL = "V5_application_url";
 	
 	public static final String SOS_CURRENT_URL = "sos_current_url";
 	public static final String CURRENT_ROLE = "current_role";
@@ -24,5 +26,4 @@ public class Configuration {
 	public static final String RNOUS_ORG = "second_org";
 	public static final String TRANS_BAD_SCAN = "trans_badscan";
 	public static final String TRANS_SALES = "trans_sales";
-
 }
