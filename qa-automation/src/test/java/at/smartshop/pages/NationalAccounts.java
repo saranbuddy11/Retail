@@ -57,6 +57,8 @@ public class NationalAccounts extends Factory {
     
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	public static final String id_tableNationalAccountsSummary = "nationalAccountsSummaryGrid";
+	public static final By TXT_ALERT_MSG = By.id("alertifyMessage");
+	 public static final By TXT_ALERT_CONTENT =By.xpath("//div[@class='ajs-content']");
 	
 	private Foundation foundation=new Foundation();
 

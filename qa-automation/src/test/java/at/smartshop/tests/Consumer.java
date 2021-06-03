@@ -77,7 +77,7 @@ public class Consumer extends TestInfra {
 			String Balance = consumerTblRecords.get(columnName);
 
 			String Balance1 = Balance.substring(1);
-			float newBalance = Float.parseFloat(Balance1) + 2;
+			float newBalance = Float.parseFloat(Balance1.replace(",", "")) + 2;
 			String expectedBalance = "$" + String.valueOf(newBalance);
 
 			// clicking consumer id
@@ -88,7 +88,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					"text");
+					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			// Enter fields in Consumer Search Page
@@ -106,7 +106,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 
 			String actualBalance1 = actualBalance.substring(1);
-			float newBalance2 = Float.parseFloat(actualBalance1) + 2;
+			float newBalance2 = Float.parseFloat(actualBalance1.replace(",", "")) + 2;
 			String expectedBalance2 = "$" + String.valueOf(newBalance2);
 
 			// clicking consumer id

@@ -147,6 +147,7 @@ public class GlobalProducts extends TestInfra {
 			
 
 			// Selecting the Product
+			foundation.threadWait(2000);			
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -158,7 +159,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 2000);
+			foundation.threadWait(2000);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
 		
 			
