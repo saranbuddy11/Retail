@@ -1,6 +1,5 @@
 package at.smartshop.v5.tests;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -9,28 +8,34 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.AdminMenu;
+import at.smartshop.v5.pages.LandingPage;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
 		
 	private Foundation foundation=new Foundation();
+	private AccountLogin accountLogin = new AccountLogin();
 	
-	@Test(description = "Testing V5 test case execution")
-	public void verifyLockerSystemsPickupLocation() {
+	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
+	public void verifyDriverLoginLogout() {
 		try {
-			//browser.launch(propertyFile.readPropertyFile(Configuration.DRIVER, FilePath.PROPERTY_CONFIG_FILE),propertyFile.readPropertyFile(Configuration.BROWSER, FilePath.PROPERTY_CONFIG_FILE));
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
-			By createAccount= By.id("create-account-id");
-			By english= By.xpath("//button[text()='English']");
-			foundation.click(english);
-			foundation.click(createAccount);
-			Thread.sleep(10000);
+			final String CASE_NUM = "141867";
+					
+					browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+					foundation.click(LandingPage.LINK_ENGLISH);
+					foundation.doubleClick(LandingPage.IMG_LOGO);
+					foundation.doubleClick(LandingPage.IMG_LOGO);
+					foundation.click(LandingPage.IMG_LOGO);
+					accountLogin.enterPin("1111");
+					foundation.click(AdminMenu.BTN_SIGN_IN);
+					foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
+					foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);					
 			
-		} catch (Exception exc) {
-			Assert.fail();
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
 		}
-
 	}
 
 }
