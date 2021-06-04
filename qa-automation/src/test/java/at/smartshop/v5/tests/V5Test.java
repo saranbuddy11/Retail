@@ -1,5 +1,6 @@
 package at.smartshop.v5.tests;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -73,6 +74,28 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C141886 -Kiosk Checkout UI > Cart Contents")
+	public void verifyOrderScreen() {
+		try {
+			final String CASE_NUM = "141886";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5DEVICE, CASE_NUM);
+			 List<String> requiredData =Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			 List<String> actualData =Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			landingPage.enterText(requiredData.get(1));
+			foundation.click(LandingPage.BTN_PRODUCT);
+			String actualHeader=foundation.getText(LandingPage.TXT_HEADER);
+			assertEquals(actualHeader,actualData.get(1));
+			String actualProduct=foundation.getText(LandingPage.TXT_PRODUCT);
+			assertEquals(actualProduct,actualData.get(0));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
