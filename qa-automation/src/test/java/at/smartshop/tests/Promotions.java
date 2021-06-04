@@ -417,7 +417,7 @@ public class Promotions extends TestInfra {
             
 	        //Validating promotion is displayed
 	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-
+ 
 	        //Resetting the data
 	        editPromotion.expirePromotion(gridName,promotionName);
 
