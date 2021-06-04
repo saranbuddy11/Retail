@@ -101,7 +101,7 @@ public class GlobalProducts extends TestInfra {
 			
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.waitforElement(GlobalProductChange.BTN_OK, 2000);
+			foundation.waitforElement(GlobalProductChange.BTN_OK, 2);
 	        foundation.click(GlobalProductChange.BTN_OK);
 	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
@@ -155,7 +155,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(productSummary.getLocationNamePath(locationName));
 
 			// Remove selected location
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2000);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2);
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
@@ -164,7 +164,7 @@ public class GlobalProducts extends TestInfra {
 		
 			
 			//resetting test data
-			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2000);
+			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
 			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);

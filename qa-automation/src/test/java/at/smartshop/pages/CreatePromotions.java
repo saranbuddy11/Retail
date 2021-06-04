@@ -73,12 +73,12 @@ public class CreatePromotions extends Factory {
 	
 	public void expirePromotion(String dataGridname,String promoName){
 		
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
+		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 		table.selectRow(dataGridname,promoName);
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-		foundation.waitforElement(BTN_END_PROMO, 2000);
+		foundation.waitforElement(BTN_END_PROMO, 2);
 		foundation.click(BTN_END_PROMO);
 		foundation.click(BTN_EXPIRE);
 		}

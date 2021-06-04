@@ -87,9 +87,9 @@ public class Location extends TestInfra {
 
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
 			foundation.click(ProductSummary.BTN_REMOVE);
-			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10000);
+			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -135,7 +135,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -190,7 +190,7 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 
 			// upload image
-			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2000);
+			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2);
 			foundation.click(LocationList.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationList.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationList.TXT_UPLOAD_NEW);
@@ -199,7 +199,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationList.BTN_ADD);
 
 			// disabling location
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
@@ -213,10 +213,10 @@ public class Location extends TestInfra {
 			
 			//resetting data
 			locationList.selectLocationName(locationName);
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, 2000);			
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, 2);			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
@@ -315,7 +315,7 @@ public class Location extends TestInfra {
             // Navigate to product's location
             textBox.enterText(ProductSummary.TXT_SEARCH, location);
             foundation.click(ProductSummary.TBL_DATA);
-            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
             foundation.click(ProductSummary.BTN_EDIT_LOCATION);
 
             // navigate to product tab

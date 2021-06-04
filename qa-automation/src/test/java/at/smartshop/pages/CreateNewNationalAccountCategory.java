@@ -46,7 +46,7 @@ public class CreateNewNationalAccountCategory {
 		textBox.enterText(TXT_SEARCH, Keys.CLEAR);
 		textBox.enterText(TXT_SEARCH, ruleCategory);
 		foundation.click(LNK_UPC_MAPPED);
-		foundation.waitforElement(BTN_DELETE_CATEGORY, 800);
+		foundation.waitforElement(BTN_DELETE_CATEGORY, 8);
 		foundation.click(BTN_DELETE_CATEGORY);		
 		foundation.click(BTN_YES_DELETE_CATEGORY);
 	}

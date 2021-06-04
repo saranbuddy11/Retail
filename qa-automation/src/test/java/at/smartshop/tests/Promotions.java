@@ -129,7 +129,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT,2);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -144,7 +144,7 @@ public class Promotions extends TestInfra {
 			
 			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK,2000);		
+			foundation.waitforElement(CreatePromotions.BTN_OK,2);		
 			 			 
 			  List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 				List<String> popupField = null;
@@ -172,7 +172,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			
 			//Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 			 //Resetting the data
