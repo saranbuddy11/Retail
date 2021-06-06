@@ -29,7 +29,7 @@ public class TestInfra {
 	}
 	
 	
-	 @Parameters({"drivers", "browsers"})
+	@Parameters({"drivers", "browsers"})
 	@BeforeMethod	
 	public void beforeMethod(String drivers, String browsers) {			
 		try {			
