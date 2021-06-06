@@ -82,4 +82,39 @@ public class V5Test extends TestInfra {
 		foundation.click(EditAccount.BTN_SAVE);
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
+	
+	@Test(description = "141875-Kiosk Manage Account > Edit Account > Change PIN")
+	public void editAccountChangePin() {
+		final String CASE_NUM = "141875";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+		// login to application
+		foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+		accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+
+		// navigate to edit account and update pin
+		foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
+		foundation.click(EditAccount.BTN_CHANGE_PIN);
+		textBox.enterPin(requiredData.get(1));
+		foundation.click(EditAccount.BTN_EDIT_NEXT);
+		textBox.enterPin(requiredData.get(1));		
+		foundation.click(EditAccount.BTN_SAVE_PIN);		
+		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+		
+		//reset data
+		foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
+		foundation.click(EditAccount.BTN_CHANGE_PIN);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(EditAccount.BTN_EDIT_NEXT);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));		
+		foundation.click(EditAccount.BTN_SAVE_PIN);		
+		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+	}
 }
