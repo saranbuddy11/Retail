@@ -45,7 +45,7 @@ public class Table extends Factory{
 		}
 	}
 	
-	public Map<String, String> getTblRecordsUI(By tableGrid, By tableRow) {
+	public Map<String, String> getTblSingleRowRecordUI(By tableGrid, By tableRow) {
 		Map<String, String> uiTblRowValues = new HashMap<>();
 		try {
 			int index = 1;

@@ -15,4 +15,13 @@ public class CNNationalAccounts {
 	 public static final String RULE_NAME = "RuleName";
 	 public static final String RULE_TYPE = "RuleType";
 	 public static final String RULE_CATEGORY = "RuleCategory";
+	 public static final String RULE_PRICE = "RulePrice";
+	 public static final String RULE_STATUS= "RuleStatus";
+	 public static final String LOCATION_COUNT= "LocationCount";
+	 public static final String GRID_RULE_NAME = "GridRuleName";
+	 public static final String MIN_MAX_EXACT_PRICE="MinMaxExactPrice";
+	 public static final String LOCATION="Location";
+	 public static final String PROMPT_TITLE ="PromptTitle";	 
+	 public static final String RULE_PAGE_TITLE = "RulePageTitle";
+
 }

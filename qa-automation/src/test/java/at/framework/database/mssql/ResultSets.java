@@ -13,8 +13,10 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNGmaUser;
 import at.smartshop.database.columns.CNLoadProduct;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
@@ -38,7 +40,7 @@ public class ResultSets extends Connections {
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
 					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
-							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
+					resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
 			}
 		} catch (Exception exc) {
@@ -267,6 +269,10 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNLocationSummary.PRODUCT_POPUP_DETAILS));
 					rstLocationSummary.put(CNLocationSummary.SPEND_LIMIT,
 							resultSet.getString(CNLocationSummary.SPEND_LIMIT));
+					rstLocationSummary.put(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT,
+                            resultSet.getString(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT));
+					rstLocationSummary.put(CNLocationSummary.HAS_LOCKERS,
+                            resultSet.getString(CNLocationSummary.HAS_LOCKERS));
 				}
 			}
 		} catch (Exception exc) {
@@ -547,7 +553,7 @@ public class ResultSets extends Connections {
 		return rstUserRoles;
 	}
 
-	public Map<String, String> getNationalAccounts(String query, String testcaseID) {
+	public Map<String, String> getNationalAccountsData(String query, String testcaseID) {
 		Map<String, String> rstNationalAccounts = new HashMap<>();
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
@@ -580,6 +586,24 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNNationalAccounts.RULE_TYPE));
 					rstNationalAccounts.put(CNNationalAccounts.RULE_CATEGORY,
 							resultSet.getString(CNNationalAccounts.RULE_CATEGORY));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_PRICE,
+							resultSet.getString(CNNationalAccounts.RULE_PRICE));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_STATUS,
+							resultSet.getString(CNNationalAccounts.RULE_STATUS));
+					rstNationalAccounts.put(CNNationalAccounts.LOCATION_COUNT,
+							resultSet.getString(CNNationalAccounts.LOCATION_COUNT));
+					rstNationalAccounts.put(CNNationalAccounts.GRID_RULE_NAME,
+							resultSet.getString(CNNationalAccounts.GRID_RULE_NAME));
+					rstNationalAccounts.put(CNNationalAccounts.MIN_MAX_EXACT_PRICE,
+							resultSet.getString(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+					rstNationalAccounts.put(CNNationalAccounts.LOCATION,
+                            resultSet.getString(CNNationalAccounts.LOCATION));
+					rstNationalAccounts.put(CNNationalAccounts.PROMPT_TITLE,
+                            resultSet.getString(CNNationalAccounts.PROMPT_TITLE));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_PAGE_TITLE,
+							resultSet.getString(CNNationalAccounts.RULE_PAGE_TITLE));
+					rstNationalAccounts.put(CNNationalAccounts.RULE_PRICE,
+							resultSet.getString(CNNationalAccounts.RULE_PRICE));
 				}
 			}
 		} catch (Exception exc) {
@@ -592,5 +616,77 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstNationalAccounts;
+	}
+	
+	public Map<String, String> getLockerSystemData(String query, String testcaseID) {
+        Map<String, String> rstLockerSystem = new HashMap<>();
+        Statement statement = null;
+        String sqlQuery = Constants.EMPTY_STRING;
+        try {
+
+            if (connection != null) {
+                statement = connection.createStatement();
+                sqlQuery = query + testcaseID;
+                ResultSet resultSet = statement.executeQuery(sqlQuery);
+                while (resultSet.next()) {
+                    rstLockerSystem.put(CNLockerSystem.COLUMN_NAMES, resultSet.getString(CNLockerSystem.COLUMN_NAMES));
+                    rstLockerSystem.put(CNLockerSystem.PAGE_TITLE, resultSet.getString(CNLockerSystem.PAGE_TITLE));
+                    rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL, resultSet.getString(CNLockerSystem.LOCKER_MODEL));
+                    rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL_TITLE, resultSet.getString(CNLockerSystem.LOCKER_MODEL_TITLE));
+                    rstLockerSystem.put(CNLockerSystem.SYSTEM_NAME, resultSet.getString(CNLockerSystem.SYSTEM_NAME));
+                    rstLockerSystem.put(CNLockerSystem.DISPLAY_NAME, resultSet.getString(CNLockerSystem.DISPLAY_NAME));
+                    rstLockerSystem.put(CNLockerSystem.REQUIRED_DATA, resultSet.getString(CNLockerSystem.REQUIRED_DATA));                
+                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));
+                    rstLockerSystem.put(CNLockerSystem.DEFAULT_LOCATION, resultSet.getString(CNLockerSystem.DEFAULT_LOCATION));
+                    rstLockerSystem.put(CNLockerSystem.LOCATION_NAME, resultSet.getString(CNLockerSystem.LOCATION_NAME));    
+                    rstLockerSystem.put(CNLockerSystem.LOCKER_MODEL_TITLE, resultSet.getString(CNLockerSystem.LOCKER_MODEL_TITLE));    
+                    rstLockerSystem.put(CNLockerSystem.TEST_DATA, resultSet.getString(CNLockerSystem.TEST_DATA));    
+                    rstLockerSystem.put(CNLockerSystem.ERROR_MESSAGE, resultSet.getString(CNLockerSystem.ERROR_MESSAGE));  
+
+               }
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException exc) {
+                Assert.fail(exc.toString());
+            }
+        }
+        return rstLockerSystem;
+    }
+	
+	public Map<String, String> getLocationData(String query, String testcaseID) {
+		Map<String, String> rstLocation = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstLocation.put(CNLocation.LOCATION_NAME, resultSet.getString(CNLocation.LOCATION_NAME));
+					rstLocation.put(CNLocation.PROMOTION_NAME, resultSet.getString(CNLocation.PROMOTION_NAME));
+					rstLocation.put(CNLocation.PROMOTION_TYPE, resultSet.getString(CNLocation.PROMOTION_TYPE));
+					rstLocation.put(CNLocation.REQUIRED_DATA, resultSet.getString(CNLocation.REQUIRED_DATA));
+					rstLocation.put(CNLocation.ACTUAL_DATA, resultSet.getString(CNLocation.ACTUAL_DATA));
+					rstLocation.put(CNLocation.LOCATIONLIST_DPDN_VALUE,resultSet.getString(CNLocation.LOCATIONLIST_DPDN_VALUE));
+					rstLocation.put(CNLocation.TAB_NAME, resultSet.getString(CNLocation.TAB_NAME));
+
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstLocation;
 	}
 }
