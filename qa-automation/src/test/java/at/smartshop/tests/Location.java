@@ -78,7 +78,7 @@ public class Location extends TestInfra {
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Searching for Product and Validating the Location Name
 			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));

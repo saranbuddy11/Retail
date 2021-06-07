@@ -172,10 +172,9 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			
 			//Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-
-			 //Resetting the data
+			foundation.waitforElement(PromotionList.PAGE_TITLE, 10);
+			
+			//Resetting the data
 			createPromotions.expirePromotion(gridName,promotionName);
 
 			

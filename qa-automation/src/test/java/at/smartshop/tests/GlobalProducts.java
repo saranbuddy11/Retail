@@ -159,7 +159,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.threadWait(2000);
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 3);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
 		
 			
@@ -169,10 +169,10 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
 			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);
 
-			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.click(ProductSummary.BTN_MODAL_SAVE);
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==1);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail();
 		}
 	}

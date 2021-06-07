@@ -74,10 +74,10 @@ public class Consumer extends TestInfra {
 
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String Balance = consumerTblRecords.get(columnName);
+			String balance = consumerTblRecords.get(columnName);
 
-			String Balance1 = Balance.substring(1);
-			float newBalance = Float.parseFloat(Balance1.replace(",", "")) + 2;
+			String balance1 = balance.substring(1);
+			float newBalance = Float.parseFloat(balance1) + 2;
 			String expectedBalance = "$" + String.valueOf(newBalance);
 
 			// clicking consumer id
@@ -106,7 +106,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 
 			String actualBalance1 = actualBalance.substring(1);
-			float newBalance2 = Float.parseFloat(actualBalance1.replace(",", "")) + 2;
+			float newBalance2 = Float.parseFloat(actualBalance1) + 2;
 			String expectedBalance2 = "$" + String.valueOf(newBalance2);
 
 			// clicking consumer id

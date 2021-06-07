@@ -28,6 +28,7 @@ public class ProductSummary extends Factory {
 	public static final By BTN_EDIT_LOCATION = By.id("editlocation");
 	public static final By TBL_LOCATION = By.id("locdt");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By BTN_MODAL_SAVE = By.cssSelector("a#modalsave");
 
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");

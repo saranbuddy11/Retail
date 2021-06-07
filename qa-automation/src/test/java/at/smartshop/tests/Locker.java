@@ -1080,8 +1080,7 @@ public class Locker extends TestInfra {
 
 			// validate copy functionality
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
-			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),
-					Constants.COPY));
+			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),Constants.COPY));
 			assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
 			assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
 			assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_EDIT_LOCKER_MODEL), lockerModel);

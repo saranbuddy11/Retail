@@ -222,7 +222,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "120712-This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
+	@Test(description = "120712-This test is to validate  grid columns in National Account:Client List screen for National Account user")
 	public void verifGridColumnInNationalAccount() {
 		try {
 			final String CASE_NUM = "120712";
@@ -295,8 +295,6 @@ public class NationalAccount extends TestInfra {
 			// Selecting UPC rule type and rule category
 			List<String> ruleCategory = Arrays.asList(
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY).split(Constants.DELIMITER_TILD));
-			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(1), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -1442,7 +1440,8 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_ADD_TO_NATIONAL_ACCOUNTS);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, org);
-
+			
+			foundation.threadWait(1000);
 			String city = foundation.getText(NationalAccounts.LBL_CITY);
 			String State = foundation.getText(NationalAccounts.LBL_STATE);
 
