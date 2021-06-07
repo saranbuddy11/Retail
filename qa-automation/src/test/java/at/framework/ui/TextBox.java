@@ -70,5 +70,12 @@ public class TextBox extends Factory {
                 foundation.click(By.xpath("//td[text()='" + number + "']"));
             }         
     }
+        
+        public void enterDriverPin(String pin) {
+            for (int i = 0; i < pin.length(); i++) {
+                int number = Integer.parseInt(pin.substring(i, i + 1));
+                foundation.click(By.xpath("//input[@value='" + number + "']"));
+            }
+        }
 	
 }

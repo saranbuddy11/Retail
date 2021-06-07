@@ -41,7 +41,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			textBox.enterPin(pin);
+			textBox.enterDriverPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
