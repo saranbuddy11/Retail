@@ -24,8 +24,9 @@ public class LocationList extends Factory {
 	public By objGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
-
+  
 	public By getlocationElement(String locationName) {
 		return By.xpath("//a[text()='" + locationName + "']");
+
 	}
 }
