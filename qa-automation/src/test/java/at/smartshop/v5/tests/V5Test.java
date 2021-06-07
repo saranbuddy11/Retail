@@ -11,23 +11,24 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
 		
 	private Foundation foundation=new Foundation();
-	private AccountLogin accountLogin = new AccountLogin();
 	private AdminMenu adminMenu = new AdminMenu();
 	private ResultSets dataBase = new ResultSets();
 	private LandingPage landingPage = new LandingPage();
+	private TextBox textBox = new TextBox();
 	
 	private Map<String, String> rstV5DeviceData;
 	
@@ -41,7 +42,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			accountLogin.enterPin(pin);
+			textBox.enterPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
@@ -64,12 +65,41 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin =  propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			accountLogin.enterPin(pin);
+			textBox.enterPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_INVENTORY);
 			List<String> optionNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD)); 
 			adminMenu.verifyOptions(optionNames);			
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C141873 - Verify the products as per the user search")
+	public void verifyProductSearch() {
+		try {
+			
+			final String CASE_NUM ="141873";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage("English"));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			textBox.enterKeypadText(productName.get(0));
+			String zeroCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
+			String msg = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
+			String unMatchedProdMsg = zeroCount+" "+msg;
+			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			Assert.assertEquals(unMatchedProdMsg, requiredData.get(0));		
+			
+			foundation.click(ProductSearch.LINK_CLOSE_POPUP);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName.get(1));
+			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
+			String matchedProdMsg = matchedCount+" "+msg;
+			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
