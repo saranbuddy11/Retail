@@ -179,4 +179,32 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 		assertEquals(foundation.getText(Order.LBL_TAX),requiredData.get(2));
 	}
+	
+	@Test(description = "141890-Kiosk Checkout UI > Bottle Deposits Applied")
+	public void bottleDepositApplied() {
+		final String CASE_NUM = "141890";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		
+		// login to application
+		foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+
+		// verify the display of total section
+		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+		String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+		Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
+		assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+	}
 }
