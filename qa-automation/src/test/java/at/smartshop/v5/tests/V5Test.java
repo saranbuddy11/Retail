@@ -1,5 +1,7 @@
 package at.smartshop.v5.tests;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -42,7 +45,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			textBox.enterPin(pin);
+			textBox.enterDriverPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
@@ -65,7 +68,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin =  propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			textBox.enterPin(pin);
+			textBox.enterDriverPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_INVENTORY);
@@ -84,7 +87,8 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM ="141873";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage("English"));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			textBox.enterKeypadText(productName.get(0));
@@ -100,6 +104,29 @@ public class V5Test extends TestInfra {
 			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String matchedProdMsg = matchedCount+" "+msg;
 			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
+			
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description ="C141872 - This test validates the item in the Your order screen")
+	public void verifyItemInOrderScreen() {
+		try {
+			
+			final String CASE_NUM ="141872";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			
+		    // search and click product
+	         foundation.click(LandingPage.IMG_SEARCH_ICON);
+	        textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+	        foundation.click(ProductSearch.BTN_PRODUCT);       
+	        assertEquals(foundation.getText(Order.TXT_HEADER),rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));       
+	        assertEquals(foundation.getText(Order.TXT_PRODUCT),rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
