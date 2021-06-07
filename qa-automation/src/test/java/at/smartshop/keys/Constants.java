@@ -50,4 +50,5 @@ public class Constants {
 	public static final String DELETE= "Delete";
 	public static final String COPY= "Copy";
 	public static final String NEW_LINE ="\n";
+	public static final String DOLLAR ="\\$";
 }

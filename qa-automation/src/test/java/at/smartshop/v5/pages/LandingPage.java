@@ -8,6 +8,7 @@ public class LandingPage {
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
 	public static final By IMG_SEARCH_ICON = By.cssSelector("div.btn.category.search-btn");
 	public static final By BTN_LOGIN=By.id("account-login-id");
+	public static final By LBL_PRODUCT_NAME=By.id("");
 	
 	
 	public By objLanguage(String languageName) {

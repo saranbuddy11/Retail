@@ -53,13 +53,12 @@ public class TextBox extends Factory {
        
     }
 	
-	public void enterKeypadText(String text) {		
+	public void enterKeypadText(String text) {
 		char[] charArray = text.toCharArray();
 		for (char eachChar : charArray) {
 			if(eachChar==' ') {
 				foundation.click(By.xpath("//*[text()='Space']"));
-				foundation.click(By.xpath("//*[text()='abc']"));
-				foundation.threadWait(100);
+				foundation.click(By.xpath("//*[text()='abc']"));				
 			}
 			else {
 			foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
