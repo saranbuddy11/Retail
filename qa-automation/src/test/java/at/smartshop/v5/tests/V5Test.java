@@ -84,7 +84,8 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM ="141873";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage("English"));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			textBox.enterKeypadText(productName.get(0));
