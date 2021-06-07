@@ -149,4 +149,34 @@ public class V5Test extends TestInfra {
 		foundation.click(Order.BTN_CANCEL_ORDER);
 		assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 	}
+	
+	@Test(description = "141889-Kiosk Checkout UI > Taxes Applied")
+	public void taxesApplied() {
+
+		final String CASE_NUM = "141889";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+
+		// login to application
+		foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+
+		// verify the display of total section
+		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+		String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+		Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
+		assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+		assertEquals(foundation.getText(Order.LBL_TAX),requiredData.get(2));
+	}
 }
