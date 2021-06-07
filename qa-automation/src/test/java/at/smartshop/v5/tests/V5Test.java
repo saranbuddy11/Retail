@@ -11,20 +11,20 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.LandingPage;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
-		
+			
 	private Foundation foundation=new Foundation();
-	private AccountLogin accountLogin = new AccountLogin();
+	private TextBox textBox = new TextBox();
 	private AdminMenu adminMenu = new AdminMenu();
 	private ResultSets dataBase = new ResultSets();
 	private LandingPage landingPage = new LandingPage();
@@ -41,7 +41,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			accountLogin.enterPin(pin);
+			textBox.enterPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
@@ -64,7 +64,7 @@ public class V5Test extends TestInfra {
 			foundation.doubleClick(LandingPage.IMG_LOGO);
 			foundation.click(LandingPage.IMG_LOGO);
 			String pin =  propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
-			accountLogin.enterPin(pin);
+			textBox.enterPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_INVENTORY);
