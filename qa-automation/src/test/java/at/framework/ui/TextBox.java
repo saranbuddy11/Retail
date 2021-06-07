@@ -10,7 +10,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 
 public class TextBox extends Factory {
-
+	private Foundation foundation=new Foundation();
 	public void enterText(By object, String text) {
 		try {
 			getDriver().findElement(object).clear();
@@ -50,5 +50,30 @@ public class TextBox extends Factory {
             Assert.fail(exc.toString());
         }
        
+    }
+	
+	public void enterKeypadText(String text) {        
+        char[] charArray = text.toCharArray();
+        for (char eachChar : charArray) {
+            if(eachChar==' ') {
+                foundation.click(By.xpath("//*[text()='Space']"));
+                foundation.click(By.xpath("//*[text()='abc']"));                
+            }
+            else {
+            foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
+            }
+        }        
+    }
+
+ 
+
+    public void enterPin(String pin) {
+        for (int i = 0; i < pin.length(); i++) {
+            int number = Integer.parseInt(pin.substring(i, i + 1));
+            foundation.click(By.xpath("//td[text()='" + number + "']"));
+        }
+
+ 
+
     }
 }
