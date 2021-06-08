@@ -13,18 +13,16 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class CreatePromotions extends Factory {
 
 	private Foundation foundation = new Foundation();
-
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private DateAndTime dateAndTime = new DateAndTime();
-
+	public static final By TXT_LOCATION = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
@@ -70,9 +68,12 @@ public class CreatePromotions extends Factory {
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 
+	public By objLocation(String value) {
+		return By.xpath("//li[contains(text(),'" + value + "')]");
+	}
+
 	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
 			String locationName) {
-
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
 		textBox.enterText(TXT_DISPLAY_NAME, displayName);

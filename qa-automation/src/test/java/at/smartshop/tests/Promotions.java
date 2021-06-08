@@ -67,7 +67,7 @@ public class Promotions extends TestInfra {
 	@Test(description = "Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
 		try {
-			final String CASE_NUM = "130666";
+			final String CASE_NUM = "141771";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -78,12 +78,12 @@ public class Promotions extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-			String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
+			String promotionName = strings.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
-			String organization = propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -92,17 +92,17 @@ public class Promotions extends TestInfra {
 
 			// New Promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, requiredData,organization, locationName);
+			createPromotions.newPromotion(promotionType, promotionName, requiredData.get(0), requiredData.get(1),
+					locationName);
 
 			// Validating "All" option in Location field
-			String uiData = foundation.getText(CreatePromotions.DPD_LOCATION);
-			Assert.assertEquals(uiData, locationName);
+			String uiData = dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION);
+			assertEquals(uiData, locationName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-
 	@Test(description = "141779 - Verify the Tender Discount Promotion with Tender type as Cash")
 	public void verifyTenderDiscountWithTenderTypeCash() {
 		try {
@@ -1621,4 +1621,85 @@ public class Promotions extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
+	@Test(description = "C141773-SOS-7519 - Verify Create Promotion page display only active location when location filter is selected")
+	public void verifyPromotionsDisabledLocation() {
+		try {
+			final String CASE_NUM = "141773";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			String promotionName =  strings.getRandomCharacter();
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationListDpd =rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST);
+			
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			String locationDisabledYes = locationDisabled.get(0);
+			String locationDisabledNo  = locationDisabled.get(1);
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledYes, Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			login.logout();
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Org,Menu and Menu Item
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// New Promotion
+			foundation.click(PromotionList.BTN_CREATE);
+			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, requiredData.get(0));
+			foundation.click(CreatePromotions.BTN_NEXT);
+
+			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(1));
+			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			foundation.click(CreatePromotions.TXT_LOCATION);
+			textBox.enterText(CreatePromotions.TXT_LOCATION, locationName);
+			Assert.assertTrue(foundation.isDisplayed(createPromotions.objLocation(requiredData.get(2))));
+
+			login.logout();
+			//Resetting test data
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			dropdown.selectItem(LocationList.DPD_LOCATION_LIST, locationListDpd, Constants.TEXT);
+			locationList.selectLocationName(locationName);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			dropdown.selectItem(LocationSummary.DPD_DISABLED,locationDisabledNo, Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
