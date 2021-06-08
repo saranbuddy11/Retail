@@ -22,6 +22,7 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
+import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
 
 public class ResultSets extends Connections {
@@ -687,5 +688,34 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstLocation;
+	}
+	
+	public Map<String, String> getV5DeviceData(String query, String testcaseID) {
+		Map<String, String> rstV5Device = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstV5Device.put(CNV5Device.PRODUCT_NAME, resultSet.getString(CNV5Device.PRODUCT_NAME));
+					rstV5Device.put(CNV5Device.REQUIRED_DATA, resultSet.getString(CNV5Device.REQUIRED_DATA));
+					rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
+					rstV5Device.put(CNV5Device.PIN, resultSet.getString(CNV5Device.PIN));
+					rstV5Device.put(CNV5Device.EMAIL_ID, resultSet.getString(CNV5Device.EMAIL_ID));
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstV5Device;
 	}
 }
