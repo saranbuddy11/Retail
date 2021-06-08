@@ -161,7 +161,9 @@ public class Promotions extends TestInfra {
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 			// Resetting the data
-			createPromotions.expirePromotion(gridName, promotionName);
+			promotionList.searchPromotion(promotionName);
+			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			editPromotion.expirePromotion(gridName,promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
