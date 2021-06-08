@@ -9,9 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -63,11 +65,14 @@ public class Locker extends TestInfra {
 	private Map<String, String> rstLockerSystemData;
 	private Map<String, String> rstUserRolesData;
 
+	
 	@Test(description = "135549-This test validates 'Locker Systems' pickup location type under the Order Ahead Settings")
 	public void verifyLockerSystemsPickupLocation() {
 		try {
 			final String CASE_NUM = "135549";
 
+			browser.launch(Constants.LOCAL,Constants.CHROME);
+			
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
@@ -87,6 +92,7 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
 
+			
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -102,7 +108,8 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
-
+			
+			
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 
