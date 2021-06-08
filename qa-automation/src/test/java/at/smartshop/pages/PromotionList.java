@@ -14,7 +14,6 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 
 public class PromotionList extends Factory {
-
 	private Foundation foundation = new Foundation();
 	private TextBox textbox = new TextBox();
 
@@ -43,6 +42,7 @@ public class PromotionList extends Factory {
 		foundation.click(PromotionList.BTN_SEARCH);
 	}
 
+
 	public void verifyPromotionName(String promotionName) {
 		try {
 			List<WebElement> promotionData = getDriver().findElements(TBL_COLUMN_NAME);
@@ -56,5 +56,4 @@ public class PromotionList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
 }

@@ -11,6 +11,7 @@ import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -22,6 +23,8 @@ public class CreatePromotions extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
+	private Table table = new Table();
+
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
@@ -53,20 +56,11 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_APPLY_DISCOUNT_TO = By.id("appliesto");
 	public static final By TXT_TRANSACTION_MIN = By.id("transmin");
 	public static final By CHK_SUNDAY = By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
-
-	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
+	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']"); 
 	public static final By DPD_DISCOUNT_BY = By.id("discountBy");
 	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By DPD_ORGANIZATION = By.cssSelector("select#org-select");
-
-	public void newPromotion(String promoType, String promoName, String displayName, String locationName) {
-
-		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
-		textBox.enterText(TXT_PROMO_NAME, promoName);
-		textBox.enterText(TXT_DISPLAY_NAME, displayName);
-
-	}
 
 	public List<String> getPopUpData() {
 
