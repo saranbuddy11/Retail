@@ -119,16 +119,16 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, "C:\\Users\\ajaybabur\\Pictures\\icecream.jpg");
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
 			textBox.enterText(LocationSummary.TXT_ADD_NAME, "Icecream");
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.threadWait(3000);
 			login.logout();
 			
-			browser.launch("Remote", "Chrome");
-			
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+//			browser.launch("Remote", "Chrome");
+//			
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			
 
 		
