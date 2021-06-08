@@ -160,6 +160,7 @@ public class Foundation extends Factory {
 	    	return hexColor;  	
 	    }
 	 
+
 	 public void doubleClick(By object) {
          try {           
               Actions action = new Actions(getDriver());
