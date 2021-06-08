@@ -75,6 +75,7 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
 	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+
 	
 	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
