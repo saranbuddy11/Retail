@@ -59,6 +59,7 @@ public class Promotions extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
+	
 	@Test(description = "Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
 		try {
