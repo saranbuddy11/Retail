@@ -1744,8 +1744,7 @@ public class Locker extends TestInfra {
 			dropDown.selectItem(UserList.TXT_SEARCH_LOC, locationName.get(0), Constants.TEXT);
 
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.waitforElement(UserList.TXT_SPINNER_MSG, 2);
-			foundation.threadWait(2000);
+			foundation.waitforElement(UserList.TXT_SEARCH_LOC, 5);			
 			login.logout();
 
 			// login as operator role
@@ -1778,7 +1777,7 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(locationName.get(0));
 			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 5);
 			navigationBar.navigateToMenuItem(navigationData.get(1));
 			textBox.enterText(UserList.TXT_FILTER, rstUserRolesData.get(CNUserRoles.ROLE_NAME));
 			foundation.click(userList.objRoleName(rstUserRolesData.get(CNUserRoles.ROLE_NAME)));
@@ -1788,7 +1787,7 @@ public class Locker extends TestInfra {
 					Constants.TEXT);
 
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.threadWait(2000);
+			foundation.waitforElement(UserList.TXT_SEARCH_LOC, 5);
 			login.logout();
 
 		} catch (Exception exc) {

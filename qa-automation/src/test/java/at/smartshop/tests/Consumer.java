@@ -77,7 +77,7 @@ public class Consumer extends TestInfra {
 			String balance = consumerTblRecords.get(columnName);
 
 			String balance1 = balance.substring(1);
-			float newBalance = Float.parseFloat(balance1) + 2;
+			Double newBalance = Double.parseDouble(balance1) + 2;
 			String expectedBalance = "$" + String.valueOf(newBalance);
 
 			// clicking consumer id
@@ -106,7 +106,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 
 			String actualBalance1 = actualBalance.substring(1);
-			float newBalance2 = Float.parseFloat(actualBalance1) + 2;
+			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
 			String expectedBalance2 = "$" + String.valueOf(newBalance2);
 
 			// clicking consumer id
