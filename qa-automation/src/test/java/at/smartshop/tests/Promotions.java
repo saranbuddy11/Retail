@@ -30,9 +30,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
-
 import at.smartshop.pages.LocationList;
-
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.UserList;
@@ -49,6 +47,8 @@ public class Promotions extends TestInfra {
 	private Dropdown dropdown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
+
+
 	private DateAndTime dateAndTime = new DateAndTime();
 
 	private PromotionList promotionList = new PromotionList();
@@ -915,6 +915,83 @@ public class Promotions extends TestInfra {
 
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
+	public void verifyOnscreenPromotionsCategory() {
+		try {
+			final String CASE_NUM = "141804";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Creating New Promotion
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+		
+			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+						
+			String basicInfoPageTitle=foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
+			assertTrue(basicInfoPageTitle.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
+			
+			String promotionName = strings.getRandomCharacter();
+			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+			String displayName = strings.getRandomCharacter();
+			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, displayName);			
+			foundation.click(CreatePromotions.BTN_NEXT);
+			
+			String filtersPageTitle=foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
+			assertTrue(filtersPageTitle.equals(promotionType));
+			
+			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+		
+	        dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
+	        foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
+	        foundation.click(CreatePromotions.BTN_NEXT);
+	        List<String> category = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+	        dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, category.get(0), Constants.TEXT);
+	        
+	        foundation.click(CreatePromotions.SEARCH_CATEGORY);	        
+	        textBox.enterText(CreatePromotions.SEARCH_CATEGORY, category.get(1));
+	        foundation.threadWait(2000);
+	        textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
+      
+ 	        String categorySelected=dropdown.getSelectedItem(CreatePromotions.DPD_CATEGORY);
+			assertTrue(categorySelected.equals(category.get(1)));	        
+			
+			foundation.threadWait(2000);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_OK,2000);
+	        foundation.click(CreatePromotions.BTN_OK);
+	        
+	        promotionList.searchPromotion(promotionName);
+            
+	        //Validating promotion is displayed
+	        assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+ 
+	        //Resetting the data
+	        editPromotion.expirePromotion(gridName,promotionName);
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

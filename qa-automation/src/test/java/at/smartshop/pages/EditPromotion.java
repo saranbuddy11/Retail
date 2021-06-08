@@ -9,7 +9,6 @@ import at.framework.ui.Table;
 public class EditPromotion extends Factory {
 	private Foundation foundation = new Foundation();
 	private Table table = new Table();
-
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By PAGE_TITLE = By.id("pagetitle");
@@ -29,5 +28,4 @@ public class EditPromotion extends Factory {
 		foundation.click(EditPromotion.BTN_EXPIRE);
 
 	}
-
 }

@@ -141,7 +141,7 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	 public String getBGColor(By object) {
 	    	String hexColor=null;
 	    	try {

@@ -14,5 +14,4 @@ public class CNLocation {
 	public static final String PRODUCT_NAME = "ProductName";
  	public static final String COLUMN_VALUE = "ColumnValue";
  	public static final String POPUP_NAME="PopupName";
-	
 }
