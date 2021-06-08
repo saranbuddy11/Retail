@@ -14,14 +14,23 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Radio;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.EditAccount;
@@ -36,8 +45,14 @@ public class V5Test extends TestInfra {
 	private LandingPage landingPage=new LandingPage();
 	private AccountLogin accountLogin=new AccountLogin();
 	private EditAccount editAccount=new EditAccount();
+	private LocationList locationList = new LocationList();
+	private Dropdown dropDown = new Dropdown();
+	private  NavigationBar navigationBar= new NavigationBar();
+ 
 	
-	private Map<String, String> rstV5DeviceData;	
+	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -81,5 +96,46 @@ public class V5Test extends TestInfra {
 		editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, emailAddress,requiredData.get(3));
 		foundation.click(EditAccount.BTN_SAVE);
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+	}
+	@Test(description = "Kiosk Default Landing UI > Commercial Display")
+	public void verifyHomeCommercial() {
+		try {
+			final String CASE_NUM = "141858";
+
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+	
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2000);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, "C:\\Users\\ajaybabur\\Pictures\\icecream.jpg");
+			textBox.enterText(LocationSummary.TXT_ADD_NAME, "Icecream");
+			foundation.click(LocationSummary.BTN_ADD);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.threadWait(3000);
+			login.logout();
+			
+			browser.launch("Remote", "Chrome");
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+			
+
+		
+						
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
 	}
 }
