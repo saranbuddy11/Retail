@@ -26,9 +26,7 @@ public class EditAccount {
 	
 	public void updateText(By obj,String text,String priviousText) {
 		foundation.click(obj);		
-		for(int i=0;i<=priviousText.length();i++) {
-			foundation.click(BTN_DELETE);
-		}		
+		textBox.deleteKeypadText(priviousText);		
 		foundation.click(obj);
 		textBox.enterKeypadText(text);	
 	}

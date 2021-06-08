@@ -1,6 +1,7 @@
 package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -206,5 +207,31 @@ public class V5Test extends TestInfra {
 		Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
 		assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+	}
+	
+	@Test(description = "")
+	public void searchFunctionality() {
+		final String CASE_NUM = "";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		
+		// login to application
+		foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		textBox.deleteKeypadText(requiredData.get(1));
+		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		textBox.enterKeypadText(requiredData.get(2));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 	}
 }
