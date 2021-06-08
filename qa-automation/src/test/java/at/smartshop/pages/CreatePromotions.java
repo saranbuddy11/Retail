@@ -11,6 +11,7 @@ import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -22,6 +23,7 @@ public class CreatePromotions extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
+	private Table table = new Table();
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
@@ -30,15 +32,13 @@ public class CreatePromotions extends Factory {
 
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
-
-    public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
-	public static final By MULTI_SELECT_TENDER_TYPES =By.id("tendertypes");
+	public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
-	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
-	public static final By DPD_DISCOUNT_TIME =By.id("timing");
-	public static final By DPD_DISCOUNT_TYPE =By.id("discounttype");
+	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
+	public static final By DPD_DISCOUNT_TYPE = By.id("discounttype");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
 	public static final By TXT_AMOUNT = By.id("amount");	    
 	public static final By TXT_START_DATE =By.id("startdate");
@@ -55,7 +55,14 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_CATEGORY =By.id("categorySelectInput");
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
-
+	public static final By BTN_END_PROMO = By.id("disablepromotion");
+	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
+	public static final By DPD_DISCOUNT_TIME = By.id("timing");
+	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']"); 
+	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+	public static final By DPD_ORGANIZATION = By.cssSelector("select#org-select");
+	
 	public void newPromotion(String promoType, String promoName, String displayName, String locationName) {
 
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
@@ -69,9 +76,11 @@ public class CreatePromotions extends Factory {
         dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
 	}
+
 	
+
 	public List<String> getPopUpData() {
-		
+
 		List<String> popupFieldValues = foundation.getTextofListElement(LBL_POPUP_VALUES);
 		List<String> popupFieldArray = new ArrayList<String>();
 		List<String> promoValues;
@@ -83,4 +92,9 @@ public class CreatePromotions extends Factory {
 		}
 		return popupFieldArray;
 	}
+
+	public By filterOptions(String fieldName) {
+		return By.xpath("//dt[text()='" + fieldName + "']");
+	}
+
 }
