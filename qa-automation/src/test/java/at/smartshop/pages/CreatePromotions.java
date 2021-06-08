@@ -37,7 +37,6 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_NEXT = By.id("submitBtn");
 
 	public static final By DPD_LOCATION = By.id("location-select");
-	// public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 
@@ -77,6 +76,7 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
+	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 
 	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
