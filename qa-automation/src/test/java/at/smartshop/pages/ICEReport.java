@@ -11,12 +11,16 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class ICEReport extends Factory {
-	
+
 	private Foundation foundation = new Foundation();
+	private PropertyFile propertyFile = new PropertyFile();
 	private LocationSummary locationSummary = new LocationSummary();
 
 	private static final By TBL_ICE = By.id("rptdt");
@@ -26,6 +30,7 @@ public class ICEReport extends Factory {
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> admData = new ArrayList<>();
+	private Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
@@ -60,7 +65,7 @@ public class ICEReport extends Factory {
 		try {
 			int recordCount = 0;
 			for (int val = 0; val < intialData.size(); val++) {
-				if (intialData.get(val).get(tableHeaders.get(4)).equals(scancode)) {
+				if (intialData.get(val).get(tableHeaders.get(2)).equals(scancode)) {
 					rowCount = recordCount;
 					break;
 				}
@@ -80,28 +85,97 @@ public class ICEReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public void updateFills(String scancode, String columnName, String reqCount) {
+		int updatedInInv;
+		try {
+			int rowCount = getRequiredRecord(scancode);
+			int recordCount = 0;
+			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
+				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(scancode)) {
+					break;
+				}
+			}
+			String intialInInv = productsData.get(recordCount).get(columnName);
+			if(Integer.parseInt(intialInInv) < 0) {
+				updatedInInv = (Integer.parseInt(intialInInv) * -1) + Integer.parseInt(reqCount);
+			} else {
+				updatedInInv = Integer.parseInt(reqCount);
+			}
+			intialData.get(rowCount).put(tableHeaders.get(5), String.valueOf(updatedInInv));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void updateWaste(String value, String columnName, String reqCount) {
+		int updatedInInv;
+		try {
+			int rowCount = getRequiredRecord(value);
+			productsData = locationSummary.getProductsRecords(value);
+			int recordCount = 0;
+			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
+				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
+					break;
+				}
+			}
+			String intialInInv = productsData.get(recordCount).get(columnName);
+			updatedInInv = Integer.parseInt(intialInInv) - Integer.parseInt(reqCount);
+			intialData.get(rowCount).put(tableHeaders.get(6), String.valueOf(updatedInInv));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void updateSold(String value) {
+		try {
+			int rowCount = getRequiredRecord(value);
+			String intialSold = intialData.get(rowCount).get(tableHeaders.get(7));
+			int updatedSold = Integer.parseInt(intialSold) + 1;
+			intialData.get(rowCount).put(tableHeaders.get(7), String.valueOf(updatedSold));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void updateClosingLevel(String value, String columnName) {
+		try {
+			int rowCount = getRequiredRecord(value);
+			productsData = locationSummary.getProductsRecords(value);
+			int recordCount = 0;
+			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
+				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
+					break;
+				}
+			}
+			String inventoryValue = productsData.get(recordCount).get(columnName);
+			intialData.get(rowCount).put(tableHeaders.get(8), String.valueOf(inventoryValue));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 
 	public void updateData(String value, String columnNames) {
 		try {
 			int rowCount = getRequiredRecord(value);
-			Map<Integer, Map<String, String>> productsData = locationSummary.getProductsRecords(value);
+			productsData = locationSummary.getProductsRecords(value);
 			int recordCount = 0;
-			for(recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if((productsData.get(recordCount).get(tableHeaders.get(4))).equals(value)) {
+			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
+				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
 					break;
 				}
 			}
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			intialData.get(rowCount).put(tableHeaders.get(0), productsData.get(recordCount).get(columnName.get(0)));
-			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(1)));
-			intialData.get(rowCount).put(tableHeaders.get(2), productsData.get(recordCount).get(columnName.get(2)));
-			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(3)));
-			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(4)));
-			intialData.get(rowCount).put(tableHeaders.get(5), productsData.get(recordCount).get(columnName.get(5)));
-			intialData.get(rowCount).put(tableHeaders.get(6), productsData.get(recordCount).get(columnName.get(6)));
-			intialData.get(rowCount).put(tableHeaders.get(7), productsData.get(recordCount).get(columnName.get(7)));
-			intialData.get(rowCount).put(tableHeaders.get(8), productsData.get(recordCount).get(columnName.get(8)));
-			intialData.get(rowCount).put(tableHeaders.get(9), productsData.get(recordCount).get(columnName.get(8)));
+			intialData.get(rowCount).put(tableHeaders.get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(5)));
+			intialData.get(rowCount).put(tableHeaders.get(2), productsData.get(recordCount).get(columnName.get(1)));
+			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(0)));
+			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(3)));
+			intialData.get(rowCount).put(tableHeaders.get(9), admData.get(2));
+			intialData.get(rowCount).put(tableHeaders.get(10), admData.get(1));
+			intialData.get(rowCount).put(tableHeaders.get(11), admData.get(0));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -109,7 +183,7 @@ public class ICEReport extends Factory {
 
 	public void verifyReportHeaders(String columnNames) {
 		try {
-			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HYPHEN));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -143,7 +217,7 @@ public class ICEReport extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-	
+
 	public List<String> getADMData() {
 		return admData;
 	}

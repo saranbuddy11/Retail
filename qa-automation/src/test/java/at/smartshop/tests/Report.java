@@ -517,12 +517,12 @@ public class Report extends TestInfra {
 		}
 
 	}
-	
+
 	@Test(description = "This test validates ICE Report Data Calculation")
 	public void ICEReportData() {
 		try {
 
-			final String CASE_NUM = "135696";
+			final String CASE_NUM = "142642";
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
@@ -542,15 +542,21 @@ public class Report extends TestInfra {
 			// Navigate to Reports
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			navigationBar.navigateToMenuItem(menu.get(0));
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> tabName = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
-			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
+			
+			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -564,15 +570,38 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER));
+			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
+			
+			//update Data
+			locationSummary.selectTab(tabName.get(0));
+			locationSummary.manageColumn(columnName.get(0));
+			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
+			locationSummary.selectTab(tabName.get(1));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0), actualData.get(0));
+			List<String> colName = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
+			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8), requiredData.get(0));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1), actualData.get(1));
+			locationSummary.selectTab(tabName.get(0));
+			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8), requiredData.get(1));
+			iceReport.updateSold(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8));
+			
+			// Select the Report Date range and Location
+			navigationBar.navigateToMenuItem(menu.get(0));
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
-			// apply calculation and update data
-			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			iceReport.getTblRecordsUI();
 
 			// verify report headers
-			iceReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			iceReport.verifyReportHeaders(columnName.get(2));
 
 			// verify report data
 			iceReport.verifyReportData();
@@ -582,5 +611,5 @@ public class Report extends TestInfra {
 		}
 
 	}
-	
+
 }
