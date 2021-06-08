@@ -24,15 +24,15 @@ import at.smartshop.keys.FilePath;
 public class CreatePromotions extends Factory {
 
 	private Foundation foundation = new Foundation();
-	private Dropdown dropdown = new Dropdown();
-	private TextBox textbox = new TextBox();
+	private Dropdown dropDown = new Dropdown();
+	private TextBox textBox = new TextBox();
 	private PropertyFile propertyFile = new PropertyFile();
 	private Table table = new Table();
 	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
-	private static final By TXT_DISPLAY_NAME = By.id("displayname");
+	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.id("submitBtn");
 
 	public static final By DPD_LOCATION = By.id("location-select");
@@ -69,32 +69,23 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_PER_TRANSACTION_LIMIT = By.id("promolimit");
 	public static final By CHK_PROMO_RESTRICTION = By.id("haspromolimit");
 	public static final By DPD_DURATION = By.id("duration");
-
+	public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+	public static final By DPD_CATEGORY = By.id("categorySelectInput");
+	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
+	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
+	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
+	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+	
 	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
-
-		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
-		textbox.enterText(TXT_PROMO_NAME, PromoName);
-		textbox.enterText(TXT_DISPLAY_NAME, DisplayName);
+		dropDown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, PromoName);
+		textBox.enterText(TXT_DISPLAY_NAME, DisplayName);
 		foundation.click(BTN_NEXT);
-		textbox.enterText(DPD_ORG,
+		textBox.enterText(DPD_ORG,
 				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		textBox.enterText(DPD_ORG, Keys.ENTER);
+		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
-		textbox.enterText(DPD_ORG, Keys.ENTER);
-		dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-
-	}
-
-	public void expirePromotion(String dataGridname, String promoName) {
-
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
-		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
-		foundation.click(PromotionList.BTN_SEARCH);
-		table.selectRow(dataGridname, promoName);
-		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-		foundation.waitforElement(BTN_END_PROMO, 2000);
-		foundation.click(BTN_END_PROMO);
-		foundation.click(BTN_EXPIRE);
-		foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
 	}
 
 	public List<String> getPopUpData() {
@@ -109,7 +100,10 @@ public class CreatePromotions extends Factory {
 			}
 		}
 		return popupFieldArray;
+	}
 
+	public By filterOptions(String fieldName) {
+		return By.xpath("//dt[text()='" + fieldName + "']");
 	}
 
 	public By objFieldSet(String filedSetText) {

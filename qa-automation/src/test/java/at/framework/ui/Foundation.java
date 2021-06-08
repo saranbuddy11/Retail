@@ -182,5 +182,5 @@ public class Foundation extends Factory {
 		}
 		return elementsText;
 	}
-	
+
 }
