@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
@@ -20,13 +21,19 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.EditPromotion;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
+import at.smartshop.pages.UserList;
+import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Promotions extends TestInfra {
@@ -40,10 +47,15 @@ public class Promotions extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime=new DateAndTime();
-	
+	private PromotionList promotionList = new PromotionList();
+	private EditPromotion editPromotion = new EditPromotion();
+	private UserRoles userRoles = new UserRoles();
+	private UserList userList = new UserList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
@@ -171,12 +183,153 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			
 			//Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3000);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			foundation.waitforElement(PromotionList.PAGE_TITLE, 5000);
+			promotionList.verifyPromotionName(promotionName);
 
 			 //Resetting the data
-			createPromotions.expirePromotion(gridName,promotionName);
+			editPromotion.expirePromotion(gridName,promotionName);
 
+			
+		}catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C118620 - This test validates the Create Promotion with Promotion Type as On Screen")
+	public void verifyCreatePromotionWithOnScreen() {
+		try {
+			final String CASE_NUM = "118620";
+			
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);	
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, 2000);
+			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
+			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 2000);
+			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
+			List<String> orgs = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
+			userList.selectOrgs(UserList.DPD_ORG, orgs);
+			foundation.threadWait(2000);
+			String allOption = rstLocationListData.get(CNLocationList.COLUMN_NAME);
+			foundation.objectFocus(UserList.TXT_SEARCH_LOC);
+			dropdown.selectItem(UserList.TXT_SEARCH_LOC, allOption, Constants.TEXT);
+			foundation.threadWait(2000);
+			foundation.click(UserList.BTN_UPDATE_USER);
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3000);
+			login.logout();
+			
+			//Operator User
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+				
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> locationNames = foundation.getTextofListElement(LocationList.LINK_LOCATION_LIST);
+			navigationBar.navigateToMenuItem(menu.get(1));
+			
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			
+			//Basic Information Page
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+			foundation.isDisplayed(CreatePromotions.LBL_BASIC_INFORMATION);
+			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+			String promotionName = strings.getRandomCharacter();
+			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, promotionName);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			
+			//Filter Page
+			foundation.threadWait(1000);
+			List<String> orgData = dropdown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
+			for(int iter=0;iter<orgData.size();iter++) {
+				Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
+			}						
+			List<String> fieldName = Arrays.asList(rstLocationListData.get(CNLocationList.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(0))));
+			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(1))));
+			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);			
+			for (String location : locationNames) {
+                assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
+            }
+			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT,2000);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			
+			//Promotion Details Page
+			List<String> discountType = Arrays.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
+			textBox.enterText(CreatePromotions.DPD_CATEGORY, discountType.get(2));
+			foundation.threadWait(1000);
+			textBox.enterText(CreatePromotions.DPD_CATEGORY, Keys.ENTER);
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(1), Constants.TEXT);
+			textBox.enterText(CreatePromotions.DPD_ITEM,discountType.get(3));
+			foundation.threadWait(1000);
+			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.waitforElement(CreatePromotions.POP_UP_MESSAGES, 2000);
+			
+			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
+			List<String> popupField = null;
+			popupField= Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
+			popupField= Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
+
+			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			assertEquals(popupField.get(0),actualData.get(0));
+			assertEquals(popupField.get(1),actualData.get(1));	
+			
+			List<String> popupFieldArray = createPromotions.getPopUpData();		
+			String currentDate=dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			
+			assertTrue(popupFieldArray.get(0).contains(promotionType));
+			assertTrue(popupFieldArray.get(1).contains(promotionName));
+			assertTrue(popupFieldArray.get(2).contains(promotionName));
+			assertEquals(popupFieldArray.get(3), actualData.get(2));
+			assertEquals(popupFieldArray.get(4), actualData.get(3));
+			assertEquals(popupFieldArray.get(5), actualData.get(4));
+			assertEquals(popupFieldArray.get(6), actualData.get(5));
+			assertTrue(popupFieldArray.get(7).contains(currentDate));
+			assertTrue(popupFieldArray.get(8).contains(currentDate));			
+			foundation.click(CreatePromotions.BTN_OK);
+			
+			//Validating promotion is displayed
+			foundation.waitforElement(PromotionList.PAGE_TITLE, 5000);
+			promotionList.verifyPromotionName(promotionName);
+
+			 //Resetting the data
+			editPromotion.expirePromotion(gridName,promotionName);
+			login.logout();
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, 2000);
+			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
+			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 2000);
+			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
+			
+			dropdown.selectItem(UserList.DPD_ORG, allOption, Constants.TEXT);
+			foundation.threadWait(2000);
+			foundation.waitforElement(UserList.LNK_LOCATION_REMOVE_ALL, 10000);
+			foundation.click(UserList.BTN_UPDATE_USER);
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3000);
+			login.logout();			
 			
 		}catch (Exception exc) {
 			Assert.fail(exc.toString());
