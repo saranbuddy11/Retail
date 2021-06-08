@@ -47,25 +47,25 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_TIME_START =By.id("timestart");
 	public static final By TXT_TIME_END =By.id("timeend");
 	  
-	    public static final By POP_UP_MESSAGES = By.xpath("//div[@class='ajs-dialog']//b");
-	    public static final By LBL_POPUP_FIELD = By.xpath("//div[@class='alert-details']//b");
-	    public static final By LBL_POPUP_VALUES = By.xpath("//div[@class='alert-details']");
-	    public static final By DPD_APPLY_DISCOUNT_TO =By.id("appliesto");
-	    public static final By TXT_TRANSACTION_MIN =By.id("transmin");
-	    public static final By CHK_SUNDAY=By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
+	public static final By POP_UP_MESSAGES = By.xpath("//div[@class='ajs-dialog']//b");
+	public static final By LBL_POPUP_FIELD = By.xpath("//div[@class='alert-details']//b");
+	public static final By LBL_POPUP_VALUES = By.xpath("//div[@class='alert-details']");
+	public static final By DPD_APPLY_DISCOUNT_TO =By.id("appliesto");
+	public static final By TXT_TRANSACTION_MIN =By.id("transmin");
+	public static final By CHK_SUNDAY=By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
 	    
-	    public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']"); 
-	    public static final By DPD_DISCOUNT_BY = By.id("discountBy");
-	    public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']"); 
-	    public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
-	    public static final By DPD_ORGANIZATION = By.cssSelector("select#org-select");
+	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']"); 
+	public static final By DPD_DISCOUNT_BY = By.id("discountBy");
+	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']"); 
+	public static final By DPD_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
+	public static final By DPD_ORGANIZATION = By.cssSelector("select#org-select");
 
 
-	public void newPromotion(String PromoType, String PromoName, String DisplayName) {
+	public void newPromotion(String promoType, String promoName, String displayName) {
 
-		dropdown.selectItem(DPD_PROMO_TYPE, PromoType, "text");
-		textbox.enterText(TXT_PROMO_NAME, PromoName);
-		textbox.enterText(TXT_DISPLAY_NAME, DisplayName);
+		dropdown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
+		textbox.enterText(TXT_PROMO_NAME, promoName);
+		textbox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
 		textbox.enterText(DPD_ORG,
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
