@@ -72,6 +72,7 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
+
 	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
