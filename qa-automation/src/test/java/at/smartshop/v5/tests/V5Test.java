@@ -14,14 +14,19 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.EditAccount;
@@ -36,8 +41,14 @@ public class V5Test extends TestInfra {
 	private LandingPage landingPage=new LandingPage();
 	private AccountLogin accountLogin=new AccountLogin();
 	private EditAccount editAccount=new EditAccount();
+	private NavigationBar navigationBar=new NavigationBar();
+	private Dropdown dropDown=new Dropdown();
+	private LocationList locationList=new LocationList();
 	
+	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;	
+	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -82,4 +93,95 @@ public class V5Test extends TestInfra {
 		foundation.click(EditAccount.BTN_SAVE);
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
+	
+	@Test(description = "SOS-24492- Kiosk Language selection")
+	public void swedishKioskLanguage() {
+		try {
+		//final String CASE_NUM = "141874";
+//		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+//		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+//        rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	
+		// Select Menu and Menu Item
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+
+		// Reading test data from DataBase
+        //String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+
+        // Selecting location
+        locationList.selectLocationName("Hsr Loc");
+        
+        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "Swedish", Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "English", Constants.TEXT);
+        
+        foundation.click(LocationSummary.BTN_SYNC);
+        foundation.click(LocationSummary.BTN_SAVE);
+        foundation.waitforElement(LocationList.TXT_FILTER, 5);
+        login.logout();
+        browser.close();
+        
+        //login into Kiosk Device
+        browser.launch("Remote", "Chrome");
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		
+		String actuallang="Skanna/Välj produkter eller Logga in";
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang);
+
+		//foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(landingPage.objLanguage("English"));
+		String actuallang1="Scan/Select Products or Login";
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang1);
+	    browser.close();
+	    
+	    browser.launch("Local", "Chrome");
+	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+	
+		// Select Menu and Menu Item
+		//navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization("RNous");
+		//navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+		
+        // Reading test data from DataBase
+        //String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+
+        // Selecting location
+        locationList.selectLocationName("Hsr Loc");
+        
+        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "English", Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "Swedish", Constants.TEXT);
+        
+        foundation.click(LocationSummary.BTN_SYNC);
+        foundation.click(LocationSummary.BTN_SAVE);
+        foundation.waitforElement(LocationList.TXT_FILTER, 5);
+        login.logout();
+        browser.close();
+        
+        //login into Kiosk Device
+        browser.launch("Remote", "Chrome");
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		String actuallang2="Scan/Select Products or Login";
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang2);
+		
+		
+		//foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(landingPage.objLanguage("Swedish"));
+		String actuallang3="Skanna/Välj produkter eller Logga in";
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang3);
+                    
+    } catch (Exception exc) {
+        exc.printStackTrace();
+        Assert.fail();
+    }
+}
+
+
+
+
+		
+		
+					
 }
