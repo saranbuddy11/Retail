@@ -60,7 +60,7 @@ public class LocationSummary extends Factory {
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
     public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
-	public static final By BTN_HOME_COMMERCIAL = By.xpath("//a[text()='Home Commercial']");
+	public static final By BTN_HOME_COMMERCIAL = By.id("loc-homeCommercial");
 	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
 	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
 	public static final By TXT_UPLOAD_NEW = By.xpath("//a[text()='Upload New']");

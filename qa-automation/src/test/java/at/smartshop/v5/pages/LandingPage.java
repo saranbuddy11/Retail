@@ -14,4 +14,8 @@ public class LandingPage {
 		return By.xpath("//button[text()='"+languageName+"']");
 	}
 	
+	public By objImageDisplay(String imageName) {
+		return By.xpath("//img[contains(@src,'"+imageName+"'));");
+	}
+	
 }
