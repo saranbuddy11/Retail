@@ -18,6 +18,7 @@ import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
+import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -44,6 +45,7 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private Radio radio=new Radio();
 	
+	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
@@ -224,7 +226,7 @@ public class Location extends TestInfra {
 	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
     public void UpdateLoyaltyMultiplier() {
         try {
-            final String CASE_NUM = "111001";                
+            final String CASE_NUM = "111001";             
             
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -233,6 +235,7 @@ public class Location extends TestInfra {
 			
             // Reading test data from DataBase
             rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
             
             //Split database data
             List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split("~"));
@@ -241,12 +244,14 @@ public class Location extends TestInfra {
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.navigateToMenuItem(subMenu.get(0));
 
-            // Select Operator Product Catalog Change radio button and select 1st product
-            // from filter search
+			// Searching for Product
             radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
-            String product = foundation.getText(GlobalProductChange.LBL_PRODUCT);
-            foundation.click(GlobalProductChange.LBL_PRODUCT);
-            foundation.click(GlobalProductChange.BTN_NEXT);
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
+			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+			foundation.threadWait(2000);
+			foundation.click(GlobalProductChange.LBL_PRODUCT);
+			foundation.click(GlobalProductChange.BTN_NEXT);
 
             // Update loyalty filter
             dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
