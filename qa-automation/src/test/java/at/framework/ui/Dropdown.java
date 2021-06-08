@@ -47,6 +47,7 @@ public class Dropdown extends Factory {
 	}
 
 	public String getSelectedItem(By object) {
+
 		Select select = new Select(getDriver().findElement(object));
 		return select.getFirstSelectedOption().getText();
 	}
@@ -76,4 +77,20 @@ public class Dropdown extends Factory {
 		}
 		return orgList;
 	}
+
+	public void deSelectItem(By object, String text, String type) {
+		try {
+			Select select = new Select(getDriver().findElement(object));
+			if (type == Constants.VALUE) {
+				select.deselectByValue(text);
+
+			} else if (type == Constants.TEXT) {
+				select.deselectByVisibleText(text);
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "deselected dropdown value " + text);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 }
