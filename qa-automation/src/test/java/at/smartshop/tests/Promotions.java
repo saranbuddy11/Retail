@@ -33,6 +33,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.UserList;
@@ -46,6 +47,7 @@ public class Promotions extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private LocationList locationList=new LocationList();
 	private Dropdown dropdown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
@@ -80,6 +82,8 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			String organization = propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -88,7 +92,7 @@ public class Promotions extends TestInfra {
 
 			// New Promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, requiredData, locationName);
+			createPromotions.newPromotion(promotionType, promotionName, requiredData,organization, locationName);
 
 			// Validating "All" option in Location field
 			String uiData = foundation.getText(CreatePromotions.DPD_LOCATION);
@@ -721,7 +725,7 @@ public class Promotions extends TestInfra {
 
 			// Create new promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, locationName);
+			createPromotions.newPromotion(promotionType, promotionName, promotionName,organization, locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEMS, requiredData.get(1));
@@ -804,7 +808,7 @@ public class Promotions extends TestInfra {
 
 			// Create new promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, locationName);
+			createPromotions.newPromotion(promotionType, promotionName, promotionName,organization, locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_CATEGORYS, requiredData.get(1));
@@ -1246,7 +1250,7 @@ public class Promotions extends TestInfra {
 
 			// Create new promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, locationName.get(0));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), locationName.get(0));
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			foundation.threadWait(1000);
@@ -1561,5 +1565,60 @@ public class Promotions extends TestInfra {
 		}
 
 	}
+	@Test(description = "C141772-SOS-7520 - Verify Promotion List page display only active location")
+	public void verifyPromotionsActiveLocation() {
+		try {
+			final String CASE_NUM = "141772";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			String promotionName =  strings.getRandomCharacter();
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+
+			String locationDisabled_No = locationDisabled.get(1);
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
+			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2000);
+			login.logout();
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Org,Menu and Menu Item
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// New Promotion
+			foundation.click(PromotionList.BTN_CREATE);
+			createPromotions.newPromotion(promotionType, promotionName, requiredData.get(0), requiredData.get(1),
+					locationName);
+
+			// Validating "Active location name in Location field
+			String uiData = dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION);
+			Assert.assertEquals(uiData, locationName);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }

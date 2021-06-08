@@ -6,40 +6,32 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
-
 import at.framework.browser.Factory;
-import at.framework.files.PropertyFile;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
 
 public class CreatePromotions extends Factory {
 
 	private Foundation foundation = new Foundation();
+
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private PropertyFile propertyFile = new PropertyFile();
-	private Table table = new Table();
 	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.id("submitBtn");
-
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
-
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -78,13 +70,14 @@ public class CreatePromotions extends Factory {
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 
-	public void newPromotion(String PromoType, String PromoName, String DisplayName, String locationName) {
-		dropDown.selectItem(DPD_PROMO_TYPE, PromoType, Constants.TEXT);
-		textBox.enterText(TXT_PROMO_NAME, PromoName);
-		textBox.enterText(TXT_DISPLAY_NAME, DisplayName);
+	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
+			String locationName) {
+
+		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promoName);
+		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		textBox.enterText(DPD_ORG,
-				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 
