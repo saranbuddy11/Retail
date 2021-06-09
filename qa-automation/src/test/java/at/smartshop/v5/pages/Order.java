@@ -15,5 +15,6 @@ public class Order {
 	public static final By TXT_PRODUCT=By.xpath("//div[@id='cartContainer']//div[@class='product-name']");
 	public static final By POP_UP_TIMEOUT_YES = By.id("time-out-btn-yes-id");
 	public static final By POP_UP_TIMEOUT_NO=By.id("time-out-btn-no-id");
+	public static final By LBL_YOUR_ORDER = By.xpath("//h1[text()='Your Order']");
 }
 
