@@ -37,6 +37,7 @@ import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
+import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductTaxReport;
@@ -66,6 +67,7 @@ public class Report extends TestInfra {
 	private CurrenyConverter converter = new CurrenyConverter();
 	private DeviceByCategoryReport deviceByCategory = new DeviceByCategoryReport();
 	private EmployeeCompDetailsReport employeeCompDetails = new EmployeeCompDetailsReport();
+	private MemberPurchaseSummaryReport memberPurchaseSummary = new MemberPurchaseSummaryReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -643,6 +645,58 @@ public class Report extends TestInfra {
 
 			// verify report data
 			employeeCompDetails.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+	
+	@Test(description = "This test validates Product Tax Report Data Calculation")
+	public void MemberPurchaseSummaryReportData() {
+		try {
+
+			final String CASE_NUM = "120622";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			memberPurchaseSummary.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			memberPurchaseSummary.getTblRecordsUI();
+			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
+
+			// apply calculation and update data
+			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(0),
+					(String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME));
+			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify report headers
+			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productTax.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
