@@ -158,7 +158,7 @@ public class LocationSummary extends Factory {
 	public void updateLockerSettings(String enableORDisable) {
 		dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LBL_SPINNER_MSG, 2000);
+		foundation.waitforElement(LBL_SPINNER_MSG, 2);
 	}
 
 	public By objHomeCommercial(String homeCommercial) {

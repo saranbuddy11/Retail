@@ -13,8 +13,6 @@ import org.testng.annotations.Parameters;
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
-import at.smartshop.keys.Configuration;
-import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
