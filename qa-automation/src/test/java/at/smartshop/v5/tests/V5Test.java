@@ -28,6 +28,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
@@ -46,6 +47,7 @@ public class V5Test extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private NavigationBar navigationBar = new NavigationBar();
 	private Strings string = new Strings();
+	private LocationSummary locationSummary = new LocationSummary();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
@@ -97,10 +99,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "Kiosk Default Landing UI > Commercial Display")
+	@Test(description = "C142690-SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
 	public void verifyHomeCommercial() {
 		try {
-			final String CASE_NUM = "141858";
+			final String CASE_NUM = "142690";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -130,17 +132,35 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_ADD_NAME, imageName);
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.threadWait(5000);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+	        foundation.waitforElement(Login.LBL_USER_NAME,5);  
 			login.logout();
 			browser.close();
+			//launching v5 device
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
-			System.out.println(actualData);
 			assertEquals(actualData, requiredData);
 
+			//resetting test data
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			textBox.enterText(LocationSummary.TXT_CMR_FILTER, imageName);
+			foundation.click(locationSummary.objHomeCommercial(imageName));
+			foundation.click(LocationSummary.BTN_REMOVE);
+			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
+			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
