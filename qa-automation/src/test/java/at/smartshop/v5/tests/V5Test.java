@@ -1,5 +1,6 @@
 package at.smartshop.v5.tests;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -113,8 +114,8 @@ public class V5Test extends TestInfra {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			final String imageName =  string.getRandomCharacter();
-			String  requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 
 			// Selecting location
 			textBox.enterText(LocationList.TXT_FILTER, locationName);
@@ -132,12 +133,13 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(5000);
 			login.logout();
 			browser.close();
-
-		browser.launch("Remote", "Chrome");
-		
+			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			System.out.println(actualData);
+			assertEquals(actualData, requiredData);
+
 
 		} catch (Exception exc) {
 			exc.printStackTrace();

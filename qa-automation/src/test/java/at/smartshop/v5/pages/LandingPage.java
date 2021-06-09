@@ -8,14 +8,14 @@ public class LandingPage {
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
 	public static final By IMG_SEARCH_ICON = By.cssSelector("div.btn.category.search-btn");
 	public static final By BTN_LOGIN=By.id("account-login-id");
-	
+	public static final By LNK_IMAGE=By.xpath("//figure[@class='Commercial animated ']//img");
 	
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='"+languageName+"']");
 	}
 	
 	public By objImageDisplay(String imageName) {
-		return By.xpath("//img[contains(@src,'"+imageName+"'));");
+		return By.xpath("//img[contains(@src,'"+imageName+"')]");
 	}
 	
 }

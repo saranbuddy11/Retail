@@ -67,6 +67,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
 	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
+	public static final By TXT_CMR_FILTER =By.id("cmrHomeFilterType");
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
