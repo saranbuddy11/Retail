@@ -10,6 +10,9 @@ public class EditPromotion extends Factory {
 
 	private Table table = new Table();
 	private Foundation foundation = new Foundation();
+
+	public static final By DPD_CATEGORY=By.id("categorySelectInput");
+	public static final By BTN_NEXT =By.xpath("//button[text()='Next']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By CHK_ACTIVE = By.id("active");
@@ -37,6 +40,7 @@ public class EditPromotion extends Factory {
 		foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2000);
 		foundation.click(EditPromotion.BTN_END_PROMO);
 		foundation.click(EditPromotion.BTN_EXPIRE);
+
 
 	}
 
