@@ -1,8 +1,16 @@
 package at.framework.generic;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import org.testng.Assert;
 
@@ -18,5 +26,11 @@ public class DateAndTime {
 			Assert.fail(exc.toString());
 		}
 		return (formatter.format(date));
+	}
+	
+	public Collection<LocalDate> stringListToDateList(List<String> listOfText,String pattern) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+		return listOfText.stream().map(ds -> LocalDate.parse(ds, formatter)).collect(Collectors.toCollection(ArrayList::new));
+				
 	}
 }

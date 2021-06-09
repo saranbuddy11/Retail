@@ -6,22 +6,32 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
-import at.framework.browser.Factory;
+
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
-public class CreatePromotions extends Factory {
+public class CreatePromotions {
 
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private DateAndTime dateAndTime = new DateAndTime();
+
+	public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
+	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
+	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
+	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
+	public static final By LBL_SELECT_CRITERIA = By.xpath("//div[@id='multiple-filters']//i");
+	public static final By LBL_DETAILS = By.xpath("//div[@id='section3']//h4");
+	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
+	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By TXT_LOCATION = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
@@ -72,12 +82,12 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-
 	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
-		textBox.enterText(TXT_DISPLAY_NAME, displayName);
+		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
+			textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
 		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
