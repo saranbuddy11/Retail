@@ -45,11 +45,12 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private Radio radio=new Radio();
 	
+	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
-	private Map<String, String> rstGlobalProductChangeData;
+
 	
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -226,7 +227,7 @@ public class Location extends TestInfra {
 	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
     public void updateLoyaltyMultiplier() {
         try {
-            final String CASE_NUM = "111001";                
+            final String CASE_NUM = "111001";             
             
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -244,14 +245,15 @@ public class Location extends TestInfra {
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             navigationBar.navigateToMenuItem(subMenu.get(0));
 
-         // Searching for Product
+			// Searching for Product
             radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
-            String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
-            textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
-            foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-            foundation.threadWait(2000);
-            foundation.click(GlobalProductChange.LBL_PRODUCT);
-            foundation.click(GlobalProductChange.BTN_NEXT);
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
+			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+			foundation.threadWait(2000);
+			foundation.click(GlobalProductChange.LBL_PRODUCT);
+			foundation.click(GlobalProductChange.BTN_NEXT);
+
 
             // Update loyalty filter
             dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
