@@ -101,4 +101,26 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "C142664 - This test validates the Yes button functionality on Order Screen")
+	public void verifyYesButtonFunctionality() {
+		try {
+			
+			final String CASE_NUM = "142663";
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			//String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			foundation.click(landingPage.objLanguage("English"));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText("Vanella");
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			foundation.threadWait(20000);
+		
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
