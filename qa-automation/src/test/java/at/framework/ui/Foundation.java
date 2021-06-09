@@ -1,8 +1,12 @@
 package at.framework.ui;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -20,10 +24,12 @@ import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
+import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
 public class Foundation extends Factory {
+	DateAndTime dateAndTime=new DateAndTime();
 
 	public boolean isDisplayed(By object) {
 		boolean isElementDisplayed = false;
@@ -182,5 +188,28 @@ public class Foundation extends Factory {
 		}
 		return elementsText;
 	}
-
+	
+	public boolean verifySortDate(By object,String type,String pattern) {
+		boolean isSorted=false;		
+		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object),pattern);
+		if(type.equals(Constants.ASCENDING)) {
+			isSorted=listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listDate);
+		}
+		else if(type.equals(Constants.DESCENDING)) {
+			isSorted=listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listDate);
+		}
+		return isSorted;
+	}
+	
+	public boolean verifySortText(By object,String type) {
+		boolean isSorted=false;
+		List<String> listOfText = getTextofListElement(object);
+		if(type.equals(Constants.ASCENDING)) {
+			isSorted=listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listOfText);
+		}
+		else if(type.equals(Constants.DESCENDING)) {
+			isSorted=listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listOfText);
+		}
+		return isSorted;
+	}
 }
