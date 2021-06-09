@@ -156,7 +156,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_NEXT,2);
+			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -200,9 +200,10 @@ public class Promotions extends TestInfra {
 
 			// Validating promotion is displayed
 			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
-			promotionList.verifyPromotionName(promotionName);
+			promotionList.searchPromotion(promotionName);
 
 			// Resetting the data
+			
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
@@ -954,14 +955,10 @@ public class Promotions extends TestInfra {
 
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
 			foundation.click(CreatePromotions.BTN_OK);
-
-			// Validating promotion is displayed
-			foundation.threadWait(2000);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-
-			// Resetting the data
 			promotionList.searchPromotion(promotionName);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+
+			// Resetting the data			
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
@@ -1054,8 +1051,6 @@ public class Promotions extends TestInfra {
 
 			foundation.click(CreatePromotions.BTN_OK);
 			promotionList.searchPromotion(promotionName);
-
-			// Validating promotion is displayed
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 
 			// Resetting the data
@@ -1330,7 +1325,7 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "141820-Verify Operator will update the existing Promotion with Same Org/Location")
-	public void verifyUpdatePrmotion() {
+	public void verifyUpdatePromotion() {
 		try {
 			final String CASE_NUM = "141820";
 
@@ -1360,6 +1355,7 @@ public class Promotions extends TestInfra {
 			createPromotions.newPromotion(promotionType, promotionName, promotionName,
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
 					locationName.get(0));
+			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			foundation.threadWait(1000);
@@ -1397,16 +1393,12 @@ public class Promotions extends TestInfra {
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.click(PromotionList.LINK_EXPAND);
-			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
-			Assert.assertEquals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					orgName);
-			foundation.click(PromotionList.LINK_EXPAND);
+			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, 3);
 			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
-			Assert.assertEquals(locationName.get(2), locName);
-
+			Assert.assertEquals(locationName.get(1), locName);
+			foundation.threadWait(1000);
 			// Resetting the data
 			promotionList.searchPromotion(promotionName);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {

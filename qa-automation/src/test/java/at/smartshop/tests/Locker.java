@@ -36,6 +36,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LockerEquipment;
 import at.smartshop.pages.LockerSystem;
+import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.UserList;
 
@@ -1694,7 +1695,8 @@ public class Locker extends TestInfra {
 					Constants.TEXT);
 
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.threadWait(2000);
+			 foundation.isDisplayed(UserList.TXT_SPINNER_MSG);
+	         foundation.waitforElement(Login.LBL_USER_NAME,5);
 			login.logout();
 
 		} catch (Exception exc) {
@@ -1746,7 +1748,8 @@ public class Locker extends TestInfra {
 			dropDown.selectItem(UserList.TXT_SEARCH_LOC, locationName.get(0), Constants.TEXT);
 
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.waitforElement(UserList.TXT_SEARCH_LOC, 5);			
+			 foundation.isDisplayed(UserList.TXT_SPINNER_MSG);
+	         foundation.waitforElement(Login.LBL_USER_NAME,5);			
 			login.logout();
 
 			// login as operator role
@@ -1789,7 +1792,8 @@ public class Locker extends TestInfra {
 					Constants.TEXT);
 
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.waitforElement(UserList.TXT_SEARCH_LOC, 5);
+			 foundation.isDisplayed(UserList.TXT_SPINNER_MSG);
+	         foundation.waitforElement(Login.LBL_USER_NAME,5);	
 			login.logout();
 
 		} catch (Exception exc) {
