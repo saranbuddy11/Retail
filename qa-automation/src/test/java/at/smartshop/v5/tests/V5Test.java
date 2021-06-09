@@ -95,7 +95,7 @@ public class V5Test extends TestInfra {
 	}
 
 	@Test(description = "C142690-SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
-	public void verifyHomeCommercial() {
+	public void verifyHomeCommercialJPG() {
 		try {
 			final String CASE_NUM = "142690";
 
