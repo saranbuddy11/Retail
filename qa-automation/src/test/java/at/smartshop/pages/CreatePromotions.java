@@ -77,6 +77,7 @@ public class CreatePromotions extends Factory {
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
+		if(foundation.isDisplayed(TXT_DISPLAY_NAME))
 		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
 		textBox.enterText(DPD_ORG, orgName);
