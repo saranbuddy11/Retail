@@ -129,8 +129,6 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), 5);
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actualData.get(0));
 
-		foundation.click(landingPage.objLanguage(requiredData.get(3)));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actualData.get(1));
 	    browser.close();
 	    
 	    browser.launch(Constants.LOCAL,Constants.CHROME);
