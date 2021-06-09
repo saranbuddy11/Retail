@@ -18,10 +18,15 @@ public class Constants {
 	public static final String DATA = "data";
 	public static final String ASCENDING = "Ascending";
 	public static final String DESCENDING = "Descending";
+	public static final String LOCAL = "Local";
+	public static final String REMOTE = "Remote";
 	public static final String CHROME = "Chrome";
+	public static final String FIREFOX = "Firefox";
+	public static final String INTERNET_EXPOLRER = "InternetExplorer";
 	public static final String REGEX_DDMMYYYY = "DDMMYYYY";
 	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
 	public static final String REGEX_MMDDUU = "MM/dd/uu";
+	public static final String REGEX_MMDDYY = "MM/dd/YY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
@@ -47,4 +52,7 @@ public class Constants {
 	public static final String LOCATION= "#Locations";
 	public static final String DELETE= "Delete";
 	public static final String COPY= "Copy";
+	public static final String NEW_LINE ="\n";
+	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
+	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
 }
