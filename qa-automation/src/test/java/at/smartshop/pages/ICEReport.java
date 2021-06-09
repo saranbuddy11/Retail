@@ -1,26 +1,39 @@
 package at.smartshop.pages;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import at.framework.browser.Factory;
+import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.keys.Reports;
+import at.smartshop.utilities.WebService;
 
 public class ICEReport extends Factory {
 
 	private Foundation foundation = new Foundation();
+	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
+	private WebService webService = new WebService();
 	private LocationSummary locationSummary = new LocationSummary();
 
 	private static final By TBL_ICE = By.id("rptdt");
@@ -30,6 +43,7 @@ public class ICEReport extends Factory {
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> admData = new ArrayList<>();
+	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
@@ -86,17 +100,18 @@ public class ICEReport extends Factory {
 		}
 	}
 	
-	public void updateFills(String scancode, String columnName, String reqCount) {
+	public void updateFills(String scancode, String columnNames, String reqCount) {
 		int updatedInInv;
 		try {
 			int rowCount = getRequiredRecord(scancode);
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int recordCount = 0;
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(scancode)) {
+				if ((productsData.get(recordCount).get(columnName.get(1))).equals(scancode)) {
 					break;
 				}
 			}
-			String intialInInv = productsData.get(recordCount).get(columnName);
+			String intialInInv = productsData.get(recordCount).get(columnName.get(8));
 			if(Integer.parseInt(intialInInv) < 0) {
 				updatedInInv = (Integer.parseInt(intialInInv) * -1) + Integer.parseInt(reqCount);
 			} else {
@@ -108,18 +123,19 @@ public class ICEReport extends Factory {
 		}
 	}
 	
-	public void updateWaste(String value, String columnName, String reqCount) {
+	public void updateWaste(String value, String columnNames, String reqCount) {
 		int updatedInInv;
 		try {
 			int rowCount = getRequiredRecord(value);
 			productsData = locationSummary.getProductsRecords(value);
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int recordCount = 0;
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
+				if ((productsData.get(recordCount).get(columnName.get(1))).equals(value)) {
 					break;
 				}
 			}
-			String intialInInv = productsData.get(recordCount).get(columnName);
+			String intialInInv = productsData.get(recordCount).get(columnName.get(8));
 			updatedInInv = Integer.parseInt(intialInInv) - Integer.parseInt(reqCount);
 			intialData.get(rowCount).put(tableHeaders.get(6), String.valueOf(updatedInInv));
 		} catch (Exception exc) {
@@ -138,17 +154,18 @@ public class ICEReport extends Factory {
 		}
 	}
 	
-	public void updateClosingLevel(String value, String columnName) {
+	public void updateClosingLevel(String value, String columnNames) {
 		try {
 			int rowCount = getRequiredRecord(value);
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			productsData = locationSummary.getProductsRecords(value);
 			int recordCount = 0;
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
+				if ((productsData.get(recordCount).get(columnName.get(1))).equals(value)) {
 					break;
 				}
 			}
-			String inventoryValue = productsData.get(recordCount).get(columnName);
+			String inventoryValue = productsData.get(recordCount).get(columnName.get(8));
 			intialData.get(rowCount).put(tableHeaders.get(8), String.valueOf(inventoryValue));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -161,12 +178,12 @@ public class ICEReport extends Factory {
 			int rowCount = getRequiredRecord(value);
 			productsData = locationSummary.getProductsRecords(value);
 			int recordCount = 0;
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if ((productsData.get(recordCount).get(tableHeaders.get(2))).equals(value)) {
+				if ((productsData.get(recordCount).get(columnName.get(1))).equals(value)) {
 					break;
 				}
 			}
-			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			intialData.get(rowCount).put(tableHeaders.get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(5)));
@@ -204,6 +221,76 @@ public class ICEReport extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public void processAPI() {
+		try {
+			generateJsonDetails();
+			salesJsonDataUpdate();
+			webService.apiReportPostRequest(
+					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
+					(String) jsonData.get(Reports.JSON));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	private void generateJsonDetails() {
+		try {
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
+			LocalDateTime tranDate = LocalDateTime.now();
+			String transDate = tranDate.format(dateFormat);
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			jsonData.put(Reports.TRANS_ID, transID);
+			jsonData.put(Reports.TRANS_DATE, transDate);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader) {
+		try {
+			JsonArray items = jsonObj.get(reqString).getAsJsonArray();
+			for (JsonElement item : items) {
+				JsonObject json = item.getAsJsonObject();
+				json.addProperty(Reports.ID,
+						UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
+				json.addProperty(Reports.SALES_HEADER, salesheader);
+				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	private void salesJsonDataUpdate() {
+		try {
+			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
+					Constants.EMPTY_STRING);
+			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
+			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			String sale = saleJson.get(Reports.SALE).getAsString();
+			JsonObject salesObj = jsonFunctions.convertStringToJson(sale);
+			salesObj.addProperty(Reports.ID, salesHeaderID);
+			salesObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			salesObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID);
+			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID);
+			saleJson.addProperty(Reports.SALE, salesObj.toString());
+			jsonData.put(Reports.JSON, saleJson.toString());
+			jsonData.put(Reports.SALES, salesObj);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public Map<String, Object> getJsonData() {
+		return jsonData;
 	}
 
 	public Map<Integer, Map<String, String>> getIntialData() {

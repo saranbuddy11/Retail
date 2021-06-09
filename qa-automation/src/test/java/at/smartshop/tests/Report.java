@@ -581,15 +581,16 @@ public class Report extends TestInfra {
 			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			locationSummary.selectTab(tabName.get(1));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0), actualData.get(0));
-			List<String> colName = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
-			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8), requiredData.get(0));
+			//List<String> colName = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
+			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1), requiredData.get(0));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1), actualData.get(1));
 			locationSummary.selectTab(tabName.get(0));
-			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8), requiredData.get(1));
+			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1), requiredData.get(1));
 			iceReport.updateSold(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), colName.get(8));
+			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			
 			// Select the Report Date range and Location
+			iceReport.processAPI();
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));

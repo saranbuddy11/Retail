@@ -155,14 +155,20 @@ public class LocationSummary extends Factory {
 	}
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
-		textBox.enterText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input[@type='text']"),
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.click(By.xpath("//div[@id ='promoGrid_editor_list']/following::div/div/ul/li[text()=" + reasonCode + "]"));
+		foundation.waitforElement(By.xpath("//div[@id ='promoGrid_editor_list']/following::div/div"), 2);
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 	}
 
 }
