@@ -94,13 +94,14 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 	
-	@Test(description = "SOS-24492- Kiosk Language selection")
-	public void swedishKioskLanguage() {
+	@Test(description = "C142667 - SOS-24492- Kiosk Language selection")
+	public void englishItalianLanguage() {
 		try {
-		//final String CASE_NUM = "141874";
-//		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-//		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-//        rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		final String CASE_NUM = "142667";
+		// Reading test data from DataBase
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
@@ -108,14 +109,11 @@ public class V5Test extends TestInfra {
 		// Select Menu and Menu Item
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
 
-		// Reading test data from DataBase
-        //String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-
         // Selecting location
-        locationList.selectLocationName("Hsr Loc");
+        locationList.selectLocationName(requiredData.get(0));
         
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "Swedish", Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "English", Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
         
         foundation.click(LocationSummary.BTN_SYNC);
         foundation.click(LocationSummary.BTN_SAVE);
@@ -123,54 +121,35 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
+        foundation.threadWait(5000);
         //login into Kiosk Device
-        browser.launch("Remote", "Chrome");
+        browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		
-		String actuallang="Skanna/Välj produkter eller Logga in";
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang);
+		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), 5);
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actualData.get(0));
 
-		//foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(landingPage.objLanguage("English"));
-		String actuallang1="Scan/Select Products or Login";
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang1);
+		foundation.click(landingPage.objLanguage(requiredData.get(3)));
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actualData.get(1));
 	    browser.close();
 	    
-	    browser.launch("Local", "Chrome");
+	    browser.launch(Constants.LOCAL,Constants.CHROME);
 	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 	
 		// Select Menu and Menu Item
-		//navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization("RNous");
-		//navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-		
-        // Reading test data from DataBase
-        //String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
 
         // Selecting location
-        locationList.selectLocationName("Hsr Loc");
+        locationList.selectLocationName(requiredData.get(0));
         
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "English", Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "Swedish", Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
         
         foundation.click(LocationSummary.BTN_SYNC);
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LocationList.TXT_FILTER, 5);
         login.logout();
-        browser.close();
-        
-        //login into Kiosk Device
-        browser.launch("Remote", "Chrome");
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		String actuallang2="Scan/Select Products or Login";
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang2);
-		
-		
-		//foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(landingPage.objLanguage("Swedish"));
-		String actuallang3="Skanna/Välj produkter eller Logga in";
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actuallang3);
                     
     } catch (Exception exc) {
         exc.printStackTrace();
