@@ -64,4 +64,5 @@ public class PromotionList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
 }
