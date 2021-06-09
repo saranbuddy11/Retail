@@ -933,7 +933,7 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2000);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			foundation.threadWait(1000);
@@ -952,7 +952,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(2000);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2000);
+			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Validating promotion is displayed
