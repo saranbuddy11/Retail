@@ -46,7 +46,6 @@ public class V5Test extends TestInfra {
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -109,7 +108,6 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
@@ -128,18 +126,19 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-	        foundation.waitforElement(Login.LBL_USER_NAME,5);  
+			foundation.waitforElement(Login.LBL_USER_NAME, 5);
 			login.logout();
 			browser.close();
-			//launching v5 device
+			// launching v5 device
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
 			assertEquals(actualData, requiredData);
 
-			//resetting test data
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			// resetting test data
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -157,7 +156,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
 			foundation.click(LocationSummary.BTN_SYNC);
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
