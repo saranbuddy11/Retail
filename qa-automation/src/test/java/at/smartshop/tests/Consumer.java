@@ -42,7 +42,7 @@ public class Consumer extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstProductSummaryData;
 
-	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
+	@Test(description = "116743-Verify Balance Increment with and without Reason Code", enabled = false)
 	public void BalanceIncrement() {
 		try {
 			final String CASE_NUM = "116743";
