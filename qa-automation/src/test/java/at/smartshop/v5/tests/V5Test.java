@@ -124,7 +124,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "C142665 - This test validates the Yes button functionality on Order Screen")
+	@Test(description = "C142665 - This test validates the No button functionality on Order Screen")
 	public void verifyNoButtonFunctionality() {
 		try {
 			
