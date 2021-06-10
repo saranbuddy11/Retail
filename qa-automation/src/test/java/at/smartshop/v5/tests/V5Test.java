@@ -47,7 +47,6 @@ public class V5Test extends TestInfra {
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -95,10 +94,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142693-SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
-	public void verifyRemoveHomeCommercialJPG() {
+	@Test(description = "C142694-SOS-24493- verify default home commercial image is displayed when all the existing images are removed from location summary in Adm")
+	public void verifyDefaultHomeCommercial() {
 		try {
-			final String CASE_NUM = "142693";
+			final String CASE_NUM = "142694";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -110,10 +109,11 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			final String imageName = string.getRandomCharacter();
-			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			final String cmrName = string.getRandomCharacter();
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			;
 
 			// Selecting location
 			textBox.enterText(LocationList.TXT_FILTER, locationName);
@@ -125,7 +125,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PNG_PATH);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME, imageName);
+			textBox.enterText(LocationSummary.TXT_ADD_NAME, cmrName);
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
@@ -135,9 +135,9 @@ public class V5Test extends TestInfra {
 			// launching v5 device
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), 10);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
-			assertEquals(actualData, requiredData);
+			assertEquals(actualData, requiredData.get(1));
 			browser.close();
 			// Remove home commercial
 			browser.launch("Local", "Chrome");
@@ -154,8 +154,8 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-			textBox.enterText(LocationSummary.TXT_CMR_FILTER, imageName);
-			foundation.click(locationSummary.objHomeCommercial(imageName));
+			textBox.enterText(LocationSummary.TXT_CMR_FILTER, cmrName);
+			foundation.click(locationSummary.objHomeCommercial(cmrName));
 
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
 			foundation.click(LocationSummary.BTN_REMOVE);
@@ -170,7 +170,10 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(5000);
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), 10);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+
 			browser.close();
 
 		} catch (Exception exc) {
