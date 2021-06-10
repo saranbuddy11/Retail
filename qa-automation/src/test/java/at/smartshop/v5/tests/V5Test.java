@@ -129,19 +129,20 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-	        foundation.waitforElement(Login.LBL_USER_NAME,5);  
+			foundation.waitforElement(Login.LBL_USER_NAME, 5);
 			login.logout();
 			browser.close();
-			//launching v5 device
+			// launching v5 device
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
 			assertEquals(actualData, requiredData);
-
-			//Remove home commercial
+			browser.close();
+			// Remove home commercial
 			browser.launch("Local", "Chrome");
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -155,20 +156,23 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			textBox.enterText(LocationSummary.TXT_CMR_FILTER, imageName);
 			foundation.click(locationSummary.objHomeCommercial(imageName));
+
+			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
 			foundation.click(LocationSummary.BTN_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-	        foundation.waitforElement(Login.LBL_USER_NAME,5);  
+			foundation.waitforElement(Login.LBL_USER_NAME, 5);
+			foundation.refreshPage();
 			login.logout();
-			//v5 device 
+			browser.close();
+			// v5 device
+			foundation.threadWait(5000);
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.threadWait(5000);
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
-			
-			
-			
+			browser.close();
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
