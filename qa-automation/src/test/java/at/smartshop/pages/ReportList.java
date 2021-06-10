@@ -49,7 +49,7 @@ public class ReportList extends Factory {
 			for (WebElement dateOption : dateOptions) {
 				if (dateOption.getText().equals(optionName)) {
 					foundation.waitforElement(DPD_DATE_GRID, 30000);
-					dateOption.click();
+ 					dateOption.click();
 					break;
 				}
 			}

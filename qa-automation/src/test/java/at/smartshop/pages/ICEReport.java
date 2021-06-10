@@ -115,29 +115,34 @@ public class ICEReport extends Factory {
 			if(Integer.parseInt(intialInInv) < 0) {
 				updatedInInv = (Integer.parseInt(intialInInv) * -1) + Integer.parseInt(reqCount);
 			} else {
-				updatedInInv = Integer.parseInt(reqCount);
+				updatedInInv = Integer.parseInt(reqCount) - Integer.parseInt(intialInInv);
 			}
-			intialData.get(rowCount).put(tableHeaders.get(5), String.valueOf(updatedInInv));
+			String intialValue = intialData.get(rowCount).get(tableHeaders.get(5));
+			int updatedValue = updatedInInv + Integer.parseInt(intialValue);
+			intialData.get(rowCount).put(tableHeaders.get(5), String.valueOf(updatedValue));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 	
-	public void updateWaste(String value, String columnNames, String reqCount) {
+	public void updateWaste(String scancode, String columnNames, String reqCount) {
 		int updatedInInv;
 		try {
-			int rowCount = getRequiredRecord(value);
-			productsData = locationSummary.getProductsRecords(value);
+			
+			int rowCount = getRequiredRecord(scancode);
+			productsData = locationSummary.getProductsRecords(scancode);
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int recordCount = 0;
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
-				if ((productsData.get(recordCount).get(columnName.get(1))).equals(value)) {
+				if ((productsData.get(recordCount).get(columnName.get(1))).equals(scancode)) {
 					break;
 				}
 			}
 			String intialInInv = productsData.get(recordCount).get(columnName.get(8));
-			updatedInInv = Integer.parseInt(intialInInv) - Integer.parseInt(reqCount);
-			intialData.get(rowCount).put(tableHeaders.get(6), String.valueOf(updatedInInv));
+			updatedInInv = Integer.parseInt(intialInInv);
+			String intialValue = intialData.get(rowCount).get(tableHeaders.get(6));
+			int updatedValue = updatedInInv + Integer.parseInt(intialValue);
+			intialData.get(rowCount).put(tableHeaders.get(6), String.valueOf(updatedValue));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -165,7 +170,7 @@ public class ICEReport extends Factory {
 					break;
 				}
 			}
-			String inventoryValue = productsData.get(recordCount).get(columnName.get(8));
+			int inventoryValue = Integer.parseInt(productsData.get(recordCount).get(columnName.get(8))) - 1;
 			intialData.get(rowCount).put(tableHeaders.get(8), String.valueOf(inventoryValue));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -191,8 +196,8 @@ public class ICEReport extends Factory {
 			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(0)));
 			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(3)));
 			intialData.get(rowCount).put(tableHeaders.get(9), admData.get(2));
-			intialData.get(rowCount).put(tableHeaders.get(10), admData.get(1));
-			intialData.get(rowCount).put(tableHeaders.get(11), admData.get(0));
+			intialData.get(rowCount).put(tableHeaders.get(10), admData.get(0));
+			intialData.get(rowCount).put(tableHeaders.get(11), admData.get(1));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -209,14 +214,17 @@ public class ICEReport extends Factory {
 		}
 	}
 
-	public void verifyReportData() {
+	public void verifyReportData(String scancode) {
 		try {
-			int count = intialData.size();
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+			int recordCount = 0;
+			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
+				if ((intialData.get(recordCount).get(tableHeaders.get(2))).equals(scancode)) {
+					break;
 				}
+			}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
+						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

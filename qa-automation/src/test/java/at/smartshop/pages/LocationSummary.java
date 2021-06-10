@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -29,6 +30,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
+	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
@@ -62,6 +64,8 @@ public class LocationSummary extends Factory {
 	public static final By TXT_CUSTOMER = By.id("customer");
 	public static final By DPD_ROUTE = By.id("route");
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
+	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
+	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 
 	public void selectTab(String tabName) {
 		try {
@@ -81,7 +85,11 @@ public class LocationSummary extends Factory {
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
-			foundation.click(POP_UP_BTN_APPLY);
+			foundation.objectFocus(POP_UP_BTN_APPLY);
+			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
+			if(foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
+				foundation.click(POP_UP_BTN_APPLY);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -106,7 +114,9 @@ public class LocationSummary extends Factory {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
 		try {
+			foundation.waitforElement(TBL_PRODUCTS_GRID, 5);
 			List<String> tableHeaders = getProductsHeaders();
+			foundation.waitforElement(TXT_PRODUCT_FILTER, 2);
 			textBox.enterText(TXT_PRODUCT_FILTER, recordValue);
 			WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
 			List<WebElement> rows = tableProductsGrid.findElements(By.tagName("tr"));
@@ -167,8 +177,10 @@ public class LocationSummary extends Factory {
 				inventoryValue);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.waitforElement(By.xpath("//div[@id ='promoGrid_editor_list']/following::div/div"), 2);
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
 	}
 
 }
