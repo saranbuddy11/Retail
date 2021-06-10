@@ -1,6 +1,7 @@
 package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -94,10 +95,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142691-SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
-	public void verifyHomeCommercialPNG() {
+	@Test(description = "C142692-SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
+	public void verifyRemoveHomeCommercialJPG() {
 		try {
-			final String CASE_NUM = "142691";
+			final String CASE_NUM = "142692";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -123,7 +124,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PNG_PATH);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
 			textBox.enterText(LocationSummary.TXT_ADD_NAME, imageName);
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -138,7 +139,8 @@ public class V5Test extends TestInfra {
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
 			assertEquals(actualData, requiredData);
 
-			//resetting test data
+			//Remove home commercial
+			browser.launch("Local", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -155,6 +157,17 @@ public class V5Test extends TestInfra {
 			foundation.click(locationSummary.objHomeCommercial(imageName));
 			foundation.click(LocationSummary.BTN_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+	        foundation.waitforElement(Login.LBL_USER_NAME,5);  
+			login.logout();
+			//v5 device 
+			browser.launch("Remote", "Chrome");
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(5000);
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			
+			
 			
 		} catch (Exception exc) {
 			exc.printStackTrace();
