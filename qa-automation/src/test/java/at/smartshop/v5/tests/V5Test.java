@@ -95,10 +95,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142692-SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
+	@Test(description = "C142693-SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
 	public void verifyRemoveHomeCommercialJPG() {
 		try {
-			final String CASE_NUM = "142692";
+			final String CASE_NUM = "142693";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -124,7 +124,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PNG_PATH);
 			textBox.enterText(LocationSummary.TXT_ADD_NAME, imageName);
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.click(LocationSummary.BTN_SYNC);
