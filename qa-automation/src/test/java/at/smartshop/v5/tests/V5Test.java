@@ -153,8 +153,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			textBox.enterText(LocationSummary.TXT_CMR_FILTER, imageName);
 			foundation.click(locationSummary.objHomeCommercial(imageName));
+			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
 			foundation.click(LocationSummary.BTN_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
+			foundation.click(LocationSummary.BTN_SYNC);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
