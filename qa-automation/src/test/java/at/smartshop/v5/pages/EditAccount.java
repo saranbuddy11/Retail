@@ -15,10 +15,6 @@ public class EditAccount {
 	public static final By BTN_EDIT_NEXT=By.id("pin-reset-btn-go-id");
 	public static final By TXT_EMAIL_ADDRESS=By.id("editaccount_emailAddress");
 	public static final By BTN_CHANGE_PIN=By.xpath("//*[text()='Change PIN']");
-	public static final By TXT_PIN_1=By.id("pinInput0");
-	public static final By TXT_PIN_2=By.id("pinInput1");
-	public static final By TXT_PIN_3=By.id("pinInput2");
-	public static final By TXT_PIN_4=By.id("pinInput3");
 	public static final By BTN_SAVE=By.id("editaccount-btn-go-id");
 	public static final By BTN_SAVE_PIN=By.id("pin-reset-btn-go-id");
 	public static final By BTN_CAMEL_CASE=By.xpath("//div[text()='abc']");

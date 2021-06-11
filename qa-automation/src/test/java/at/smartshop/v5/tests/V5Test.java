@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -28,9 +29,14 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.CardPayment;
+import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -44,6 +50,11 @@ public class V5Test extends TestInfra {
 	private NavigationBar navigationBar=new NavigationBar();
 	private Dropdown dropDown=new Dropdown();
 	private LocationList locationList=new LocationList();
+	private Order order=new Order();
+	private CardPayment cardPayment=new CardPayment();
+	private CreateAccount createAccount=new CreateAccount();
+	private CheckBox checkBox=new CheckBox();
+	private AccountDetails accountDetails=new AccountDetails();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;	
@@ -103,52 +114,169 @@ public class V5Test extends TestInfra {
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, 5);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(5000);
+//		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+//		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+//	
+//		// Select Menu and Menu Item
+//		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+//
+//        // Selecting location
+//        locationList.selectLocationName(requiredData.get(0));
+//        
+//        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+//        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
+//        
+//        foundation.click(LocationSummary.BTN_SYNC);
+//        foundation.click(LocationSummary.BTN_SAVE);
+//        foundation.waitforElement(LocationList.TXT_FILTER, 5);
+//        login.logout();
+//        browser.close();
+//        
+//        foundation.threadWait(5000);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		
+		//Validating Landing Page
 		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), 5);
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),actualData.get(0));
+//		List<String> landingPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANDING_PAGE).split(Constants.DELIMITER_TILD));
+	
+//		Assert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN),landingPageData.get(0));
+//		Assert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT),landingPageData.get(1));
+//		Assert.assertTrue(foundation.isDisplayed(landingPage.objLanguage(landingPageData.get(2))));
+//		Assert.assertTrue(foundation.isDisplayed(landingPage.objLanguage(landingPageData.get(3))));
+//		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),landingPageData.get(4));
+//		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH),landingPageData.get(5));
+//		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN),landingPageData.get(6));
 
+//		//Validating Search Page
+//		foundation.click(LandingPage.IMG_SEARCH_ICON);
+//		List<String> productSearchPage = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE).split(Constants.DELIMITER_TILD));
+//	
+//		Assert.assertEquals(foundation.getText(ProductSearch.LBL_PRODUCT_SEARCH_TITLE),productSearchPage.get(0));
+//		Assert.assertEquals(foundation.getText(ProductSearch.LBL_PRODUCT_SEARCH_HEADER),productSearchPage.get(1));
+//		Assert.assertEquals(foundation.getText(ProductSearch.LBL_PRODUCT_FOUND),productSearchPage.get(2));
+//
+//		foundation.click(AccountLogin.BTN_CAMELCASE);
+//		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+//        foundation.click(ProductSearch.BTN_PRODUCT);
+//        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(2))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(3))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(4))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(5))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(6))));
+//        foundation.objectFocus(order.objText(orderPageData.get(7)));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(7))));
+//        Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(8))));
+//        
+//        //Validating Credit/Debit Page
+//        foundation.click(order.objText(orderPageData.get(8)));
+//        List<String> crditDebitPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE).split(Constants.DELIMITER_TILD));
+//        foundation.waitforElement(cardPayment.objText(crditDebitPageData.get(0)), 5);        
+//        Assert.assertTrue(foundation.isDisplayed(cardPayment.objText(crditDebitPageData.get(0))));
+//        Assert.assertTrue(foundation.isDisplayed(cardPayment.objText(crditDebitPageData.get(1))));
+        	
+//		//Validating Account Login Page
+		foundation.click(LandingPage.BTN_LOGIN);
+		List<String> loginPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE).split(Constants.DELIMITER_TILD));
+//		Assert.assertEquals(foundation.getText(AccountLogin.LBL_PAGE_TITLE),loginPageData.get(0));
+//		Assert.assertEquals(foundation.getText(AccountLogin.LBL_PAGE_HEADER),loginPageData.get(1));
+//		Assert.assertEquals(foundation.getText(AccountLogin.LBL_SCAN),loginPageData.get(2));
+//		Assert.assertEquals(foundation.getText(AccountLogin.LBL_FINGER_PRINT),loginPageData.get(3));
+//		Assert.assertEquals(foundation.getText(AccountLogin.BTN_EMAIL_LOGIN),loginPageData.get(4));
+//		Assert.assertEquals(foundation.getText(AccountLogin.BTN_I_DONT_HAVE_ACCOUNT),loginPageData.get(5));
+//		
+		
+//		//Validating Create Account Page
+//		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+//		List<String> createAccountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT).split(Constants.DELIMITER_TILD));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(0))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(1))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(2))));
+//		foundation.objectFocus(CreateAccount.CHK_LABEL);
+//		foundation.click(CreateAccount.CHK_LABEL);
+//	
+//		foundation.click(createAccount.objText(createAccountPageData.get(1)));
+//		foundation.waitforElement(createAccount.objText(createAccountPageData.get(3)), 5);
+//		//Assert.assertTrue(foundation.isDisplayed(createAccount.objText("With Email")));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(4))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(5))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(6))));
+//		
+//		foundation.click(createAccount.objText(createAccountPageData.get(6)));
+//		foundation.objectFocus(CreateAccount.CHK_LABEL);
+//		foundation.click(CreateAccount.CHK_LABEL);
+//		foundation.click(createAccount.objText(createAccountPageData.get(1)));
+//		
+//		foundation.waitforElement(createAccount.objText(createAccountPageData.get(8)), 5);
+//		//Assert.assertTrue(foundation.isDisplayed(createAccount.objText("With Email")));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(3))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(7))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(8))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(9))));
+//				
+//		foundation.click(createAccount.objText(createAccountPageData.get(9)));
+//		foundation.waitforElement(createAccount.objText(createAccountPageData.get(4)), 5);
+//		foundation.click(createAccount.objText(createAccountPageData.get(5)));
+//		foundation.waitforElement(createAccount.objText(createAccountPageData.get(11)), 5);
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(3))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(10))));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(11))));
+//		foundation.click(CreateAccount.BTN_CLOSE);
+//		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,5);
+		
+        //Validating Account Login Email Page
+		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		Assert.assertEquals(foundation.getText(AccountLogin.LBL_PAGE_TITLE),loginPageData.get(0));
+		Assert.assertEquals(foundation.getText(AccountLogin.LBL_EMAIL_HEADER),loginPageData.get(6));
+		Assert.assertEquals(foundation.getText(AccountLogin.BTN_EMAIl_BACK),loginPageData.get(7));
+		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_ENTER);
+        foundation.click(AccountLogin.BTN_NEXT);
+        
+        //Validating Account Login PIN Page
+        foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+        Assert.assertEquals(foundation.getText(AccountLogin.LBL_PIN_PAGE_TITLE),loginPageData.get(0));
+		Assert.assertEquals(foundation.getText(AccountLogin.LBL_PIN_HEADER),loginPageData.get(9));
+		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
+		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
+		
+        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+        
+		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(createAccount.objText("Welcome Back, test")));
+		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(8))));
+		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(9))));
+
+		
 	    browser.close();
 	    
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, 5);
-        login.logout();
-                    
+//	    browser.launch(Constants.LOCAL,Constants.CHROME);
+//	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+//		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+//	
+//		// Select Menu and Menu Item
+//		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+//
+//        // Selecting location
+//        locationList.selectLocationName(requiredData.get(0));
+//        
+//        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+//        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
+//        
+//        foundation.click(LocationSummary.BTN_SYNC);
+//        foundation.click(LocationSummary.BTN_SAVE);
+//        foundation.waitforElement(LocationList.TXT_FILTER, 5);
+//        login.logout();
+//                    
     } catch (Exception exc) {
         exc.printStackTrace();
         Assert.fail();

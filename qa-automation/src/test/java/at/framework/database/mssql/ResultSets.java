@@ -717,6 +717,15 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
 					rstV5Device.put(CNV5Device.PIN, resultSet.getString(CNV5Device.PIN));
 					rstV5Device.put(CNV5Device.EMAIL_ID, resultSet.getString(CNV5Device.EMAIL_ID));
+					rstV5Device.put(CNV5Device.LANDING_PAGE, resultSet.getString(CNV5Device.LANDING_PAGE));
+					rstV5Device.put(CNV5Device.ORDER_PAGE, resultSet.getString(CNV5Device.ORDER_PAGE));
+					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE, resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
+					rstV5Device.put(CNV5Device.DRIVER_PAGE, resultSet.getString(CNV5Device.DRIVER_PAGE));
+					rstV5Device.put(CNV5Device.FUND_ACCOUNT_PAGE, resultSet.getString(CNV5Device.FUND_ACCOUNT_PAGE));
+					rstV5Device.put(CNV5Device.LOGIN_PAGE, resultSet.getString(CNV5Device.LOGIN_PAGE));
+					rstV5Device.put(CNV5Device.CREDIT_DEBIT_PAGE, resultSet.getString(CNV5Device.CREDIT_DEBIT_PAGE));
+					rstV5Device.put(CNV5Device.CREATE_ACCOUNT, resultSet.getString(CNV5Device.CREATE_ACCOUNT));
+					rstV5Device.put(CNV5Device.ACCOUNT_DETAILS, resultSet.getString(CNV5Device.ACCOUNT_DETAILS));
 				}
 			}
 		} catch (Exception exc) {
