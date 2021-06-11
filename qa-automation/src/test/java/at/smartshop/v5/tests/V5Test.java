@@ -170,4 +170,27 @@ public class V5Test extends TestInfra {
 		
 	}
 	
+	@Test(description="C142680 - This test validates the Order Timeout Prompt when user unable to process the payment")
+	public void verifyOrderTimePromptDetails() {
+		try {
+			
+			final String CASE_NUM ="142680";
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 20);
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
