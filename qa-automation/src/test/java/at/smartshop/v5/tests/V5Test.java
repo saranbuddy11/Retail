@@ -159,9 +159,9 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.threadWait(20000);
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 20);
 			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
-			foundation.threadWait(20000);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, 5);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 			
 		}catch(Exception exc) {
