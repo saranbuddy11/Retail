@@ -93,7 +93,7 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142723-SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
+	@Test(description = "C142724-SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
 	public void verifyHomeCommercialImageSize() {
 		try {
 			final String CASE_NUM = "142724";
