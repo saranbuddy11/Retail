@@ -1,6 +1,6 @@
 package at.smartshop.v5.tests;
 
-import static org.testng.Assert.assertEquals;
+
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
