@@ -59,6 +59,8 @@ public class LocationSummary extends Factory {
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+    
+    public static final By BTN_FULL_SYNC =  By.id("fullsync");
 
     
 	public void selectTab(String tabName) {

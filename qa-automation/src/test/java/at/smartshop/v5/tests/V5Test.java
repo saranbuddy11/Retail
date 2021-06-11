@@ -16,14 +16,21 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.EditAccount;
@@ -42,8 +49,14 @@ public class V5Test extends TestInfra {
 	private AccountLogin accountLogin = new AccountLogin();
 	private EditAccount editAccount = new EditAccount();
 	private CurrenyConverter currenyConverter = new CurrenyConverter();
+	private NavigationBar navigationBar=new NavigationBar();
+	private GlobalProduct globalProduct=new GlobalProduct();
+	private LocationList locationList=new LocationList();
+	private LocationSummary locationSummary=new LocationSummary();
+	private Dropdown dropdown=new Dropdown();
 
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstNavigationMenuData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -259,5 +272,133 @@ public class V5Test extends TestInfra {
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+	}
+	
+	@Test(description = "142699-SOS-24494-V5 -validate the search functionality for scan code search")
+	public void updateProductName() {
+		final String CASE_NUM = "142699";
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		//launch browser and select org
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		// navigate to global product of V5 associated and update name and sync
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(1000);
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(2));
+		foundation.click(ProductSummary.BTN_SAVE);
+		navigationBar.navigateToMenuItem(menuItem.get(1));
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
+		browser.close();
+
+		// launch v5 application
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));		
+		foundation.click(landingPage.objLanguage(requiredData.get(5)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		textBox.deleteKeypadText(requiredData.get(1));
+		textBox.enterKeypadText(requiredData.get(2));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+		
+		//reset data
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(500);
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(2)));
+		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(1));
+		foundation.click(ProductSummary.BTN_SAVE);		
+		
+	}
+	
+	@Test(description = "142700-SOS-24494-V5 - update tax category and verify in kiosk machine cart page")
+	public void updateTaxCategory() {
+		final String CASE_NUM = "142700";
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		//launch browser and select org
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		// navigate to global product of V5 associated and update name and sync
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(1000);
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);
+		navigationBar.navigateToMenuItem(menuItem.get(1));
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
+		browser.close();
+
+		// launch v5 application
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));		
+		foundation.click(landingPage.objLanguage(requiredData.get(5)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		textBox.deleteKeypadText(requiredData.get(1));
+		textBox.enterKeypadText(requiredData.get(2));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+		
+		//reset data
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(500);
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(6), Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);		
+		
 	}
 }

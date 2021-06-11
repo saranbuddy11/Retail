@@ -15,7 +15,7 @@ public class ProductSummary extends Factory {
 
 	public static final By BTN_EXTEND = By.cssSelector("a#extend");
 	public static final By TXT_FILTER = By.cssSelector("input[id=productFilterType]");
-	public static final By BTN_SAVE = By.cssSelector("#modalsave");
+	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TXT_SEARCH = By.cssSelector("#locdt_filter > label > input");
 	public static final By TBL_DATA = By.cssSelector("tbody[aria-relevant=all] span");
 	public static final By BTN_REMOVE = By.id("previewremove");
@@ -28,6 +28,11 @@ public class ProductSummary extends Factory {
 	public static final By BTN_EDIT_LOCATION = By.id("editlocation");
 	public static final By TBL_LOCATION = By.id("locdt");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
+	
+	public static final By TXT_PRODUCT_NAME = By.id("name");
+	public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
+	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
+	public static final By DPD_IS_DISABLED = By.id("isdisabled");
 
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");
