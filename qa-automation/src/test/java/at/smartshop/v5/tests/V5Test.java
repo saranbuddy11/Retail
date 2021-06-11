@@ -93,10 +93,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142724-SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
+	@Test(description = "C142725-SOS-24493-Verify error message is displayed when uploaded home commercial image pixel length is greater than 1024x520")
 	public void verifyHomeCommercialImageSize() {
 		try {
-			final String CASE_NUM = "142724";
+			final String CASE_NUM = "142725";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -120,9 +120,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_SIZE_MORE);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
 			//foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
-			foundation.threadWait(20000);
+			foundation.threadWait(2000);
 			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData,actualData);
 			
