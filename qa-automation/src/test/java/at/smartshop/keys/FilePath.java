@@ -16,6 +16,7 @@ public class FilePath {
 	public static final String IMAGE_PNG_PATH = PATH+ "\\src\\test\\resources\\fruits.png";
 	public static final String IMAGE_SIZE_MORE = PATH+ "\\src\\test\\resources\\Earth.jpg";
 	public static final String IMAGE_TEXT_PATH = PATH+ "\\src\\test\\resources\\Capture.txt";
+	public static final String IMAGE_PIXEL_SIZE = PATH+ "\\src\\test\\resources\\pixelsize1.jpg";
 
 
 }

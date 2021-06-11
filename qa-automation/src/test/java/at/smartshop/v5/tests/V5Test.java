@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
@@ -24,7 +23,6 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
-import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
@@ -42,8 +40,8 @@ public class V5Test extends TestInfra {
 	private EditAccount editAccount = new EditAccount();
 	private LocationList locationList = new LocationList();
 	private NavigationBar navigationBar = new NavigationBar();
-	private Strings string = new Strings();
-	private LocationSummary locationSummary = new LocationSummary();
+	
+
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
