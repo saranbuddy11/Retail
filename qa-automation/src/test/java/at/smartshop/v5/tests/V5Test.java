@@ -209,9 +209,9 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 	}
 	
-	@Test(description = "")
+	@Test(description = "142696-SOS-24494-V5 -validate the search functionality for product search")
 	public void searchFunctionalityProduct() {
-		final String CASE_NUM = "";
+		final String CASE_NUM = "142696";
 
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -235,9 +235,9 @@ public class V5Test extends TestInfra {
 		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 	}
 	
-	@Test(description = "")
+	@Test(description = "142697-SOS-24494-V5 -validate the search functionality for scan code search")
 	public void searchFunctionalityScancode() {
-		final String CASE_NUM = "";
+		final String CASE_NUM = "142697";
 
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
