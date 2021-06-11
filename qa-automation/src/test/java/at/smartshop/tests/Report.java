@@ -655,7 +655,7 @@ public class Report extends TestInfra {
 	public void MemberPurchaseSummaryReportData() {
 		try {
 
-			final String CASE_NUM = "120622";
+			final String CASE_NUM = "142715";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -683,15 +683,16 @@ public class Report extends TestInfra {
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
-
+			memberPurchaseSummary.processAPI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			memberPurchaseSummary.getTblRecordsUI();
+			
 			// apply calculation and update data
-			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(0),
-					(String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME));
-			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(1),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			memberPurchaseSummary.updateData(productTax.getTableHeaders().get(2),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-
+			memberPurchaseSummary.updateData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(3), memberPurchaseSummary.getRequiredJsonData().get(1));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(4), memberPurchaseSummary.getRequiredJsonData().get(2));
+			memberPurchaseSummary.updateTotal();
+			
 			// verify report headers
 			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 

@@ -43,7 +43,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-	// private List<Integer> requiredRecords = new LinkedList<>();
+	private int recordCount;
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
@@ -74,25 +74,18 @@ public class MemberPurchaseSummaryReport extends Factory {
 		return reportsData;
 	}
 
-//	public void getRequiredRecord(String transDate, List<String> scancodes) {
-//		try {
-//			requiredRecords.clear();
-//			for (int iter = 0; iter < scancodes.size(); iter++) {
-//				for (int val = 0; val < intialData.size(); val++) {
-//					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-//							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
-//						requiredRecords.add(val);
-//						break;
-//					}
-//				}
-//				if (requiredRecords.size() == scancodes.size()) {
-//					break;
-//				}
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
+	public void getRequiredRecord() {
+		try {
+			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
+				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(requiredJsonData.get(0))) {
+					recordCount = rowCount;
+					break;
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -103,11 +96,11 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-
-
-	public void updateData(String columnName, String values) {
+	public void updateData(String values) {
 		try {
-			intialData.get(0).put(columnName, values);
+			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
+			intialData.get(recordCount).put(tableHeaders.get(1), value.get(0));
+			intialData.get(recordCount).put(tableHeaders.get(2), value.get(1));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -115,11 +108,11 @@ public class MemberPurchaseSummaryReport extends Factory {
 
 	public void updateAmount(String columnName, String value) {
 		try {
-			String intialValue = intialData.get(0).get(columnName).replaceAll(Constants.EMPTY_STRING,
+			String intialValue = intialData.get(recordCount).get(columnName).replaceAll(Constants.EMPTY_STRING,
 					Reports.REPLACE_DOLLOR);
 			double updatedValue = Double.parseDouble(intialValue) + Double.parseDouble(value);
 			updatedValue = Math.round(updatedValue * 100.0) / 100.0;
-			intialData.get(0).put(columnName, String.valueOf(updatedValue));
+			intialData.get(recordCount).put(columnName, String.valueOf(updatedValue));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -127,13 +120,13 @@ public class MemberPurchaseSummaryReport extends Factory {
 
 	public void updateTotal() {
 		try {
-			String subTotal = reportsData.get(0)
+			String subTotal = reportsData.get(recordCount)
 					.get(tableHeaders.get(3).replaceAll(Constants.EMPTY_STRING, Reports.REPLACE_DOLLOR));
-			String taxAmount = reportsData.get(0)
+			String taxAmount = reportsData.get(recordCount)
 					.get(tableHeaders.get(4).replaceAll(Constants.EMPTY_STRING, Reports.REPLACE_DOLLOR));
 			double updatedTotal = Double.parseDouble(subTotal) + Double.parseDouble(taxAmount);
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
-			intialData.get(0).put(tableHeaders.get(5), String.valueOf(updatedTotal));
+			intialData.get(recordCount).put(tableHeaders.get(5), String.valueOf(updatedTotal));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
