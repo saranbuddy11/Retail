@@ -69,6 +69,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
 	public static final By TXT_CMR_FILTER = By.id("cmrHomeFilterType");
 	public static final By BTN_REMOVE = By.xpath("//a[@id='previewremove']");
+	public static final By TXT_UPLOAD_STATUS = By.xpath("//span[@class='qq-upload-status-text']");
 
 	public void selectTab(String tabName) {
 		try {

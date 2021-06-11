@@ -1,6 +1,7 @@
 package at.smartshop.v5.tests;
 
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -94,10 +95,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142695-SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
-	public void verifyMultipleHomeCommercial() {
+	@Test(description = "C142720-SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
+	public void verifyHomeCommercialJSON() {
 		try {
-			final String CASE_NUM = "142695";
+			final String CASE_NUM = "142720";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -110,10 +111,7 @@ public class V5Test extends TestInfra {
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			final String cmrName1 = string.getRandomCharacter();
-			final String cmrName2 = string.getRandomCharacter();
-			List<String> requiredData =  Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
 			textBox.enterText(LocationList.TXT_FILTER, locationName);
@@ -124,58 +122,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME, cmrName1);
-			foundation.click(LocationSummary.BTN_ADD);
-			// upload image-2
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
-			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
-			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PNG_PATH);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME, cmrName2);
-			foundation.click(LocationSummary.BTN_ADD);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
+			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
+			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData,actualData);
 			
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-			foundation.waitforElement(Login.LBL_USER_NAME, 5);
-			login.logout();
-			browser.close();
-			// launching v5 device
-			browser.launch("Remote", "Chrome");
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), 10);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
-			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), 10);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
-
-			// resetting test data
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			// Selecting location
-			textBox.enterText(LocationList.TXT_FILTER, locationName);
-			locationList.selectLocationName(locationName);
-			//removing cmr1
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
-			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-			textBox.enterText(LocationSummary.TXT_CMR_FILTER, cmrName1);
-			foundation.click(locationSummary.objHomeCommercial(cmrName1));
-			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
-			foundation.click(LocationSummary.BTN_REMOVE);
-			//removing cmr2
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
-			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-			textBox.enterText(LocationSummary.TXT_CMR_FILTER, cmrName2);
-			foundation.click(locationSummary.objHomeCommercial(cmrName2));
-			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
-			foundation.click(LocationSummary.BTN_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
-			foundation.click(LocationSummary.BTN_SYNC);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
