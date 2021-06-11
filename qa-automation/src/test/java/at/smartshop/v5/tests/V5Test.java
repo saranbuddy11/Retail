@@ -95,10 +95,10 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 
-	@Test(description = "C142720-SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
-	public void verifyHomeCommercialJSON() {
+	@Test(description = "C142723-SOS-24493-Verify error message is displayed when home commercial image is uploaded in Text format")
+	public void verifyHomeCommercialText() {
 		try {
-			final String CASE_NUM = "142720";
+			final String CASE_NUM = "142723";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -122,8 +122,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
-			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
+			//foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
+			foundation.threadWait(3000);
 			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData,actualData);
 			
