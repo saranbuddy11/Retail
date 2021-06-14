@@ -74,10 +74,11 @@ public class MemberPurchaseSummaryReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord() {
+	public void getRequiredRecord(String values) {
 		try {
+			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
-				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(requiredJsonData.get(0))) {
+				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(value.get(0))) {
 					recordCount = rowCount;
 					break;
 				}
@@ -99,8 +100,9 @@ public class MemberPurchaseSummaryReport extends Factory {
 	public void updateData(String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
-			intialData.get(recordCount).put(tableHeaders.get(1), value.get(0));
-			intialData.get(recordCount).put(tableHeaders.get(2), value.get(1));
+			getRequiredRecord(value.get(0));
+			intialData.get(recordCount).put(tableHeaders.get(1), value.get(1));
+			intialData.get(recordCount).put(tableHeaders.get(2), value.get(2));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -108,8 +110,8 @@ public class MemberPurchaseSummaryReport extends Factory {
 
 	public void updateAmount(String columnName, String value) {
 		try {
-			String intialValue = intialData.get(recordCount).get(columnName).replaceAll(Constants.EMPTY_STRING,
-					Reports.REPLACE_DOLLOR);
+			String intialValue = intialData.get(recordCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
 			double updatedValue = Double.parseDouble(intialValue) + Double.parseDouble(value);
 			updatedValue = Math.round(updatedValue * 100.0) / 100.0;
 			intialData.get(recordCount).put(columnName, String.valueOf(updatedValue));
@@ -121,9 +123,9 @@ public class MemberPurchaseSummaryReport extends Factory {
 	public void updateTotal() {
 		try {
 			String subTotal = reportsData.get(recordCount)
-					.get(tableHeaders.get(3).replaceAll(Constants.EMPTY_STRING, Reports.REPLACE_DOLLOR));
+					.get(tableHeaders.get(3)).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
 			String taxAmount = reportsData.get(recordCount)
-					.get(tableHeaders.get(4).replaceAll(Constants.EMPTY_STRING, Reports.REPLACE_DOLLOR));
+					.get(tableHeaders.get(4)).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
 			double updatedTotal = Double.parseDouble(subTotal) + Double.parseDouble(taxAmount);
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
 			intialData.get(recordCount).put(tableHeaders.get(5), String.valueOf(updatedTotal));
@@ -161,11 +163,14 @@ public class MemberPurchaseSummaryReport extends Factory {
 		try {
 			generateJsonDetails();
 			salesJsonDataUpdate();
+			gmaJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
+			webService.apiReportPostRequest(
+					propertyFile.readPropertyFile(Configuration.TRANS_GMA, FilePath.PROPERTY_CONFIG_FILE),
+					(String) jsonData.get(Reports.GMA_JSON));
 			getJsonSalesData();
-			// getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -199,26 +204,6 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader) {
 		try {
 			JsonArray items = jsonObj.get(reqString).getAsJsonArray();
@@ -230,8 +215,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 				if (reqString.equals(Reports.PAYMENTS)) {
-					String scancode = json.get(Reports.SCANCODE).getAsString();
-					requiredJsonData.add(scancode);
+					json.addProperty(Reports.TYPE, Reports.ACCOUNT.toUpperCase());
 				}
 			}
 
@@ -263,6 +247,25 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
+	private void gmaJsonDataUpdate() {
+		try {
+			String gmaValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+			JsonObject gmaJson = jsonFunctions.convertStringToJson(gmaValue);
+			gmaJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			gmaJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			String gmaData = gmaJson.get(Reports.DATA).getAsString();
+			JsonObject gmaObj = jsonFunctions.convertStringToJson(gmaData);
+			gmaObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			gmaObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			gmaObj.addProperty(Reports.PAYMENT_TYPE, Reports.ACCOUNT.toUpperCase());
+			gmaJson.addProperty(Reports.DATA, gmaObj.toString());
+			jsonData.put(Reports.GMA_JSON, gmaJson.toString());
+			jsonData.put(Reports.GMA_TRANS, gmaObj);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	public Map<String, Object> getJsonData() {
 		return jsonData;
 	}
@@ -275,30 +278,6 @@ public class MemberPurchaseSummaryReport extends Factory {
 		return reportsData;
 	}
 
-//	public List<String> getScancodeData() {
-//		return scancodeData;
-//	}
-//
-//	public List<String> getCategory1Data() {
-//		return category1Data;
-//	}
-//
-//	public List<String> getTaxCatData() {
-//		return taxcatData;
-//	}
-//
-//	public List<String> getCategory2Data() {
-//		return category2Data;
-//	}
-//
-//	public List<String> getCategory3Data() {
-//		return category3Data;
-//	}
-//
-//	public List<String> getTaxData() {
-//		return taxData;
-//	}
-
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
 	}
@@ -306,13 +285,5 @@ public class MemberPurchaseSummaryReport extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-
-//	public List<String> getPriceData() {
-//		return priceData;
-//	}
-//
-//	public List<String> getProductNameData() {
-//		return productNameData;
-//	}
 
 }

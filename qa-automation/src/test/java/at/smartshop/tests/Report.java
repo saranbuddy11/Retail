@@ -654,7 +654,6 @@ public class Report extends TestInfra {
 	@Test(description = "This test validates Product Tax Report Data Calculation")
 	public void MemberPurchaseSummaryReportData() {
 		try {
-
 			final String CASE_NUM = "142715";
 
 			browser.navigateURL(
@@ -676,28 +675,30 @@ public class Report extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Select the Report Date range and Location
+			// Select the Report Date range
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
+			
+			//Process GMA and sales API
 			memberPurchaseSummary.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			memberPurchaseSummary.getTblRecordsUI();
 			
 			// apply calculation and update data
 			memberPurchaseSummary.updateData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
-			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(3), memberPurchaseSummary.getRequiredJsonData().get(1));
-			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(4), memberPurchaseSummary.getRequiredJsonData().get(2));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(3), memberPurchaseSummary.getRequiredJsonData().get(0));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(4), memberPurchaseSummary.getRequiredJsonData().get(1));
 			memberPurchaseSummary.updateTotal();
 			
 			// verify report headers
-			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			memberPurchaseSummary.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productTax.verifyReportData();
+			memberPurchaseSummary.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
