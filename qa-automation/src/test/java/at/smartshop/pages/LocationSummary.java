@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -61,6 +62,7 @@ public class LocationSummary extends Factory {
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
     
     public static final By BTN_FULL_SYNC =  By.id("fullsync");
+    public static final By TXT_PRICE_IN_GRID =  By.id("fullsync");
 
     
 	public void selectTab(String tabName) {
@@ -152,6 +154,15 @@ public class LocationSummary extends Factory {
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LBL_SPINNER_MSG, 2000);
+    }
+    
+    public void enterPrice(String scancode,String price) {
+    	By priceLink=By.xpath("//td[text()='"+scancode+"']//..//td[@aria-describedby='productDataGrid_price']");
+    	By priceInput=By.xpath("//td[text()='"+scancode+"']//..//td[@aria-describedby='productDataGrid_price']//input");
+    	foundation.click(priceLink);
+    	textBox.enterText(priceInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+        textBox.enterText(priceInput,price);
+    	ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is"+foundation.getText(priceLink));
     }
 
 }
