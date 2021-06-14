@@ -8,9 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -19,8 +16,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNDeviceList;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -32,12 +27,12 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.utilities.CurrenyConverter;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
-import at.smartshop.utilities.*;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -376,13 +371,10 @@ public class V5Test extends TestInfra {
 		foundation.click(landingPage.objLanguage(requiredData.get(5)));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		textBox.enterKeypadText(requiredData.get(1));
-		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.deleteKeypadText(requiredData.get(1));
-		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+		assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(6));
 		
 		//reset data
 		browser.close();
@@ -397,7 +389,7 @@ public class V5Test extends TestInfra {
 		foundation.threadWait(500);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(6), Constants.TEXT);
+		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(7), Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);		
 		
 	}
