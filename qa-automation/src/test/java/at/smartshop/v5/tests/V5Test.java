@@ -14,10 +14,16 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.DeviceSummary;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.EditAccount;
@@ -34,8 +40,14 @@ public class V5Test extends TestInfra {
 	private LandingPage landingPage=new LandingPage();
 	private AccountLogin accountLogin=new AccountLogin();
 	private EditAccount editAccount=new EditAccount();
+	private NavigationBar navigationBar = new NavigationBar();
+	private LocationSummary locationSummary = new LocationSummary();
+	private LocationList locationList = new LocationList();
+	private DeviceSummary deviceSummary = new DeviceSummary();
 	
-	private Map<String, String> rstV5DeviceData;	
+	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstNavigationMenuData;
+	private Map<String, String> rstLocationListData;
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -107,15 +119,47 @@ public class V5Test extends TestInfra {
 		try {
 			
 			final String CASE_NUM = "142664";
+			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
+					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			 
+			 String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			 String deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			 String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			 String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			 String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
+			 
+			 locationList.selectLocationName(locationName);
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
+			 locationSummary.selectDeviceName(deviceName);
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			 deviceSummary.setTimeOut(time);
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			 navigationBar.navigateToMenuItem(menu);
+			 locationList.selectLocationName(locationName);
+			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			 foundation.click(LocationSummary.BTN_SYNC);
+			 foundation.click(LocationSummary.BTN_SAVE);
+			 foundation.waitforElement(LocationList.TXT_FILTER, 5);
+			 login.logout();
+			 browser.close();
+			 
+			 browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 			foundation.click(landingPage.objLanguage(language));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, 20);
+			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, 22);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			
