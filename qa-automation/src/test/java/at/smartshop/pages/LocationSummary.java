@@ -59,6 +59,9 @@ public class LocationSummary extends Factory {
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+    public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
+	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
+	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
 
     
 	public void selectTab(String tabName) {
@@ -151,6 +154,10 @@ public class LocationSummary extends Factory {
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LBL_SPINNER_MSG, 2);
     }
+    
+    public void selectDeviceName(String deviceName) {
+		foundation.click(By.xpath("//a[text()='"+deviceName+"']"));		
+	}
 
 }
 
