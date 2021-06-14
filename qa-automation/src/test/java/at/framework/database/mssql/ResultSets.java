@@ -726,6 +726,12 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.CREDIT_DEBIT_PAGE, resultSet.getString(CNV5Device.CREDIT_DEBIT_PAGE));
 					rstV5Device.put(CNV5Device.CREATE_ACCOUNT, resultSet.getString(CNV5Device.CREATE_ACCOUNT));
 					rstV5Device.put(CNV5Device.ACCOUNT_DETAILS, resultSet.getString(CNV5Device.ACCOUNT_DETAILS));
+					rstV5Device.put(CNV5Device.QUICK_SCAN_SETUP, resultSet.getString(CNV5Device.QUICK_SCAN_SETUP));
+					rstV5Device.put(CNV5Device.FINGER_PRINT_SETUP, resultSet.getString(CNV5Device.FINGER_PRINT_SETUP));
+					rstV5Device.put(CNV5Device.EDIT_ACCOUNT_DETAILS, resultSet.getString(CNV5Device.EDIT_ACCOUNT_DETAILS));
+					rstV5Device.put(CNV5Device.TIME_OUT_POPUP, resultSet.getString(CNV5Device.TIME_OUT_POPUP));
+					rstV5Device.put(CNV5Device.TRANSACTION_CANCEL, resultSet.getString(CNV5Device.TRANSACTION_CANCEL));
+					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
 				}
 			}
 		} catch (Exception exc) {

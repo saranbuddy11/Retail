@@ -18,4 +18,10 @@ public class CNV5Device {
 	public static final String CREDIT_DEBIT_PAGE="CreditDebitPage";
 	public static final String CREATE_ACCOUNT="CreateAccountPage";
 	public static final String ACCOUNT_DETAILS="AccountDetailsPage";
+	public static final String QUICK_SCAN_SETUP="QuickScanSetupPage";
+	public static final String FINGER_PRINT_SETUP="FingerPrintSetupPage";
+	public static final String EDIT_ACCOUNT_DETAILS="EditAccountPage";
+	public static final String TIME_OUT_POPUP="TimeOutPopup";
+	public static final String TRANSACTION_CANCEL="TransactionCancelPage";
+	public static final String CHANGE_PIN="ChangePinPage";
 }
