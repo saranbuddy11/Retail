@@ -59,7 +59,7 @@ public class LocationSummary extends Factory {
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
-
+    public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
     
 	public void selectTab(String tabName) {
 		try {
@@ -151,6 +151,25 @@ public class LocationSummary extends Factory {
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LBL_SPINNER_MSG, 2);
     }
+    
+    public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				inventoryValue);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+	}
 
 }
 
