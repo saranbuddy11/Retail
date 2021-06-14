@@ -138,7 +138,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_SAVE);
 
 			// Selecting Orginization and Location
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION,
 					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), Constants.TEXT);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION,
@@ -157,7 +157,7 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting Data by Deleting created National Product
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICO_DELETE);
@@ -198,7 +198,7 @@ public class NationalAccount extends TestInfra {
 
 			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
@@ -212,7 +212,7 @@ public class NationalAccount extends TestInfra {
 
 			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
@@ -222,7 +222,7 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "120712-This test is to validate Validate grid columns in National Account:Client List screen for National Account user")
+	@Test(description = "120712-This test is to validate  grid columns in National Account:Client List screen for National Account user")
 	public void verifGridColumnInNationalAccount() {
 		try {
 			final String CASE_NUM = "120712";
@@ -295,8 +295,6 @@ public class NationalAccount extends TestInfra {
 			// Selecting UPC rule type and rule category
 			List<String> ruleCategory = Arrays.asList(
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY).split(Constants.DELIMITER_TILD));
-			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(1), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -409,14 +407,14 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2000);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
-			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2000);
+			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 		} catch (Exception exc) {
@@ -610,14 +608,14 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2000);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
-			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2000);
+			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 		} catch (Exception exc) {
@@ -1079,7 +1077,7 @@ public class NationalAccount extends TestInfra {
 
 			// Rule Page Validations
 			String rulePageTitle = rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE);
-			foundation.waitforElement(createNewRule.objClientRuleName(rulePageTitle), 4000);
+			foundation.waitforElement(createNewRule.objClientRuleName(rulePageTitle), 4);
 			Boolean clientRuleName = foundation.isDisplayed(createNewRule.objClientRuleName(rulePageTitle));
 			Assert.assertTrue(clientRuleName);
 			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
@@ -1091,155 +1089,132 @@ public class NationalAccount extends TestInfra {
 	}
 
 	@Test(description = "120720-Verify the Prompt screen when Master National Account user delete")
-	public void verifyMNADeleteScreen() {
-		try {
-			final String CASE_NUM = "120720";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+    public void verifyMNADeleteScreen() {
+        try {
+            final String CASE_NUM = "120720";
 
-			// Reading Test data from database
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            browser.navigateURL(
+                    propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+            login.login(
+                    propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+                            FilePath.PROPERTY_CONFIG_FILE),
+                    propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
-			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
-			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
-			String ruleCategory = rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY);
-			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
-			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-			String accountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-			List<String> promptTitle = Arrays.asList(
-					rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE).split(Constants.DELIMITER_TILD));
+            // Reading Test data from database
+            rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
+            String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
+            String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
+            String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+            String ruleCategory = rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY);
+            String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
+            String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
+            String accountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+            List<String> promptTitle = Arrays.asList(
+                    rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE).split(Constants.DELIMITER_TILD));
+            // Select Menu and Menu Item
+            navigationBar.selectOrganization(
+                    propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            // Click manage
+            adminNationalAccounts.clickManageRule(accountName, gridName);
+            // create new rule
+            foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+            createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2);
+            textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
 
-			// Click manage
-			adminNationalAccounts.clickManageRule(accountName, gridName);
+            foundation.click(NationalAccountRules.ICON_DELETE);
+            // delete pop up validations
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
 
-			// create new rule
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
-			foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2000);
+            Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
+            Assert.assertTrue(popupWindow);
+            String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
+            List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
+            assertEquals(actualData.get(0), promptTitle.get(1));
+            assertEquals(actualData.get(2), promptTitle.get(2));
 
-			textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
+            Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
+            Assert.assertTrue(popupCancelButton);
 
-			foundation.click(NationalAccountRules.ICON_DELETE);
+            foundation.click(NationalAccountRules.BTN_CANCEL);
+            assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
+            foundation.click(NationalAccountRules.ICON_DELETE);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
+            Assert.assertTrue(popupYesButton);
+            foundation.click(NationalAccountRules.BTN_POPUP_YES);
+            assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
-			// delete pop up validations
-			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2000);
-
-			Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
-			Assert.assertTrue(popupWindow);
-			String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
-			List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
-			assertEquals(actualData.get(0), promptTitle.get(1));
-			assertEquals(actualData.get(2), promptTitle.get(2));
-
-			Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
-			Assert.assertTrue(popupCancelButton);
-
-			foundation.click(NationalAccountRules.BTN_CANCEL);
-
-			assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
-
-			foundation.click(NationalAccountRules.ICON_DELETE);
-			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2000);
-
-			Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
-			Assert.assertTrue(popupYesButton);
-
-			foundation.click(NationalAccountRules.BTN_POPUP_YES);
-
-			assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 
 	@Test(description = "120719-Verify the Prompt screen when National Account user delete")
-	public void verifyNationalAccountDeleteScreen() {
-		try {
-			final String CASE_NUM = "120719";
+    public void verifyNationalAccountDeleteScreen() {
+        try {
+            final String CASE_NUM = "120719";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+            browser.navigateURL(
+                    propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+            login.login(
+                    propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+                    propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+            // Reading test data from database
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+            rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+            String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
+            String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
+            String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
+            String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+            String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
+            String ruleCategory = rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY);
+            String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
+            String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+            List<String> promptTitle = Arrays.asList(
+                    rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE).split(Constants.DELIMITER_TILD));
+            // Select Org,Menu and Menu Item
+            navigationBar.selectOrganization(
+                    propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
-			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
-			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
-			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-			String ruleCategory = rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY);
-			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
-			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-			List<String> promptTitle = Arrays.asList(
-					rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE).split(Constants.DELIMITER_TILD));
-			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+            // Click manage button
+            adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
+            // create new rule
+            foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+            createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2);
+            textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
+            foundation.click(NationalAccountRules.ICON_DELETE);
+            // delete pop up validations
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
+            Assert.assertTrue(popupWindow);
+            String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
+            List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
+            assertEquals(actualData.get(0), promptTitle.get(1));
+            assertEquals(actualData.get(2), promptTitle.get(2));
+            Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
+            Assert.assertTrue(popupCancelButton);
+            foundation.click(NationalAccountRules.BTN_CANCEL);
+            assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
+            foundation.click(NationalAccountRules.ICON_DELETE);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
+            Assert.assertTrue(popupYesButton);
+            foundation.click(NationalAccountRules.BTN_POPUP_YES);
+            assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 
-			// Click manage button
-			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
-
-			// create new rule
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
-			foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2000);
-
-			textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
-
-			foundation.click(NationalAccountRules.ICON_DELETE);
-
-			// delete pop up validations
-			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2000);
-
-			Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
-			Assert.assertTrue(popupWindow);
-
-			String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
-			List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
-			assertEquals(actualData.get(0), promptTitle.get(1));
-			assertEquals(actualData.get(2), promptTitle.get(2));
-
-			Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
-			Assert.assertTrue(popupCancelButton);
-
-			foundation.click(NationalAccountRules.BTN_CANCEL);
-
-			assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
-
-			foundation.click(NationalAccountRules.ICON_DELETE);
-			foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2000);
-
-			Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
-			Assert.assertTrue(popupYesButton);
-
-			foundation.click(NationalAccountRules.BTN_POPUP_YES);
-
-			assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
 
 	@Test(description = "118193-Verfiy the UI in national account Location grid")
 	public void NationalAccountSummary() {
@@ -1274,7 +1249,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
 			// Selecting Organization and Location
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, "text");
 
@@ -1289,7 +1264,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyNationalAccountSummaryTableBody(location);
 			foundation.click(NationalAccounts.ICON_DELETE);
 
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2000);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
 			Boolean popupWindow = foundation.isDisplayed(NationalAccounts.BTN_POP_UP_YES);
 			Assert.assertTrue(popupWindow);
 
@@ -1304,10 +1279,10 @@ public class NationalAccount extends TestInfra {
 			// Resetting data
 			foundation.threadWait(2000);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2000);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -1327,6 +1302,7 @@ public class NationalAccount extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			String org = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_ORG);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION);
 			String clientName = rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME);
@@ -1342,7 +1318,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, "text");
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
@@ -1356,11 +1332,11 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2000);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 
 		} catch (Exception exc) {
@@ -1403,14 +1379,14 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// creating duplicate account
-			foundation.waitforElement(NationalAccounts.BTN_CREATE, 2000);
+			foundation.waitforElement(NationalAccounts.BTN_CREATE, 2);
 			foundation.click(NationalAccounts.BTN_CREATE);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
 
 			// Alert message Validations
-			foundation.waitforElement(nationalAccounts.nationalAccountDetails(accountName), 2000);
+			foundation.waitforElement(nationalAccounts.nationalAccountDetails(accountName), 2);
 			Boolean status1 = foundation.isDisplayed(nationalAccounts.nationalAccountDetails(accountName));
 			Assert.assertTrue(status1);
 			nationalAccounts.verifyPromptMsg(promptTitle.get(0), promptTitle.get(1));
@@ -1424,10 +1400,10 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2000);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -1442,7 +1418,7 @@ public class NationalAccount extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading db data
@@ -1463,14 +1439,16 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
 
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
-			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
-			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, "text");
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
+			foundation.threadWait(2000);
+			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
 
 			foundation.click(NationalAccounts.BTN_ADD_TO_NATIONAL_ACCOUNTS);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, org);
-
+			
+			foundation.threadWait(1000);
 			String city = foundation.getText(NationalAccounts.LBL_CITY);
 			String State = foundation.getText(NationalAccounts.LBL_STATE);
 
@@ -1500,7 +1478,7 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting Data by Deleting created National account
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2000);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
 			foundation.click(NationalAccounts.BTN_POPUP_YES);
@@ -1538,7 +1516,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2000);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
 
 			// Verify hint text of org and location dropdown
 			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_ORGANIZATION), defaultOrg);
@@ -1582,23 +1560,23 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10000);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10);
 
 			// Verify title
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
-			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
@@ -1640,7 +1618,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10000);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10);
 
 			// Verify title
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
@@ -1656,7 +1634,7 @@ public class NationalAccount extends TestInfra {
 			// verify selcted org and location displays in dropdown
 			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
-			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2000);
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 

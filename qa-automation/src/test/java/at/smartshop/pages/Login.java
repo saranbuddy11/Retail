@@ -12,7 +12,7 @@ public class Login extends Factory {
 	private static final By TXT_EMAIL = By.id("email");
 	private static final By TXT_PASSWORD = By.id("password");
 	private static final By BTN_SIGN_IN = By.cssSelector("#loginform > button");
-	private static final By LBL_USER_NAME = By.id("drop5");
+	public static final By LBL_USER_NAME = By.id("drop5");
 	private static final By MUN_LOGOUT = By.id("logout");
 	
 

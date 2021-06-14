@@ -116,6 +116,7 @@ public class CreatePromotions {
 	}
 
 	public void verifyPromotionPopupDetails(List<String> actualData, String promotionType, String promotionName) {
+		
 		List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 		List<String> popupField = null;
 		popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
