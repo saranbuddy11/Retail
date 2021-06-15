@@ -44,6 +44,7 @@ public class V5Test extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private LocationList locationList = new LocationList();
 	private DeviceSummary deviceSummary = new DeviceSummary();
+
 	
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -339,36 +340,35 @@ public class V5Test extends TestInfra {
 			
 			final String CASE_NUM ="142729";
 			
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			
-			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
-					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			 
-			 String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			 String deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-			 String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			 String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
-			 String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
-			 
-			 locationList.selectLocationName(locationName);
-			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
-			 locationSummary.selectDeviceName(deviceName);
-			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
-			 deviceSummary.setTimeOut(time);
-			 foundation.click(DeviceSummary.BTN_SAVE);
-			 navigationBar.navigateToMenuItem(menu);
-			 locationList.selectLocationName(locationName);
-			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
-			 foundation.click(LocationSummary.BTN_SYNC);
-			 foundation.click(LocationSummary.BTN_SAVE);
-			 foundation.waitforElement(LocationList.TXT_FILTER, 5);
-			 login.logout();
-			 browser.close();
+			  rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			  rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			  rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST,CASE_NUM);
+			  
+			  browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			  login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), 
+					  		  propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			  navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			  
+			  String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM); String
+			  deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			  String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			  String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA); 
+			  String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
+			  
+			  locationList.selectLocationName(locationName);
+			  foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
+			  locationSummary.selectDeviceName(deviceName);
+			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			  deviceSummary.setTimeOut(time); foundation.click(DeviceSummary.BTN_SAVE);
+			  navigationBar.navigateToMenuItem(menu);
+			  locationList.selectLocationName(locationName);
+			  foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			  foundation.click(LocationSummary.BTN_SYNC);
+			  foundation.click(LocationSummary.BTN_SAVE);
+			  foundation.waitforElement(LocationList.TXT_FILTER, 5); 
+			  login.logout();
+			  browser.close();			 
 			
 	        browser.launch(Constants.REMOTE,Constants.CHROME);
 	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -378,8 +378,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.threadWait(15000);
-			int value  = foundation.getSizeofListElement(Order.POP_UP_LBL_ORDER_TIMEOUT);
-			Assert.assertEquals(0, value);
+			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
