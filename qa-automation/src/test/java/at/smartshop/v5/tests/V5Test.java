@@ -515,4 +515,65 @@ public class V5Test extends TestInfra {
 		
 	}
 	
+	@Test(description = "142722-SOS-24494-V5 - Apply 'is disabled' for product and verify it on Kiosk machine cart page")
+	public void applyIsDisabled() {
+		final String CASE_NUM = "142722";
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		//launch browser and select org
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		// navigate to global product of V5 associated and update name and sync
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(1000);		
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);
+		foundation.threadWait(500);
+		navigationBar.navigateToMenuItem(menuItem.get(1));
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
+		browser.close();
+
+		// launch v5 application
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));		
+		foundation.click(landingPage.objLanguage(requiredData.get(4)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		
+		//reset data
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem.get(0));
+		foundation.threadWait(500);
+		foundation.click(GlobalProduct.ICON_FILTER);
+		globalProduct.selectFilter(requiredData.get(6));
+		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);			
+	}
+	
+	
 }
