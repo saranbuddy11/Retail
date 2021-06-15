@@ -333,4 +333,57 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "C142729 - This test validates the Order time out prompt when user decreases the time below 20 sec")
+	public void verifyPromptWithBelow20Sec() {
+		try {
+			
+			final String CASE_NUM ="142729";
+			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
+					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			 
+			 String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			 String deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			 String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			 String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			 String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
+			 
+			 locationList.selectLocationName(locationName);
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
+			 locationSummary.selectDeviceName(deviceName);
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			 deviceSummary.setTimeOut(time);
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			 navigationBar.navigateToMenuItem(menu);
+			 locationList.selectLocationName(locationName);
+			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			 foundation.click(LocationSummary.BTN_SYNC);
+			 foundation.click(LocationSummary.BTN_SAVE);
+			 foundation.waitforElement(LocationList.TXT_FILTER, 5);
+			 login.logout();
+			 browser.close();
+			
+	        browser.launch(Constants.REMOTE,Constants.CHROME);
+	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(language));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			foundation.threadWait(15000);
+			int value  = foundation.getSizeofListElement(Order.POP_UP_LBL_ORDER_TIMEOUT);
+			Assert.assertEquals(0, value);
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
