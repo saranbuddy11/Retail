@@ -78,7 +78,7 @@ public class CreatePromotions {
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
-
+	public static final By DPD_LOCATION_LIST = By.xpath("//ul[@id='select2-location-select-results']//li");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
