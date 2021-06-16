@@ -13,6 +13,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 
 public class AdminNationalAccounts extends Factory {
+	
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
 	public static final By TBL_NATIONAL_ACCOUNT_LIST = By.cssSelector("table#national-account-grid > tbody");
 	public static final By LNK_MANAGE_RULES = By.linkText("Manage Rules");

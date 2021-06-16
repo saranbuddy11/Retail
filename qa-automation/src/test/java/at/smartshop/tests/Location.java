@@ -193,13 +193,13 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 
 			// upload image
-			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2);
-			foundation.click(LocationList.BTN_HOME_COMMERCIAL);
-			foundation.click(LocationList.BTN_ADD_HOME_COMMERCIAL);
-			foundation.click(LocationList.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
-			textBox.enterText(LocationList.TXT_ADD_NAME, "Icecream");
-			foundation.click(LocationList.BTN_ADD);
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
+			textBox.enterText(LocationSummary.TXT_ADD_NAME, "Icecream");
+			foundation.click(LocationSummary.BTN_ADD);
 
 			// disabling location
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);

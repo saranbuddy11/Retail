@@ -59,6 +59,14 @@ public class LocationSummary extends Factory {
     private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
+	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
+	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
+	public static final By TXT_UPLOAD_NEW = By.xpath("//a[text()='Upload New']");
+	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
+	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
+	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
+	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 
     
 	public void selectTab(String tabName) {
@@ -149,7 +157,7 @@ public class LocationSummary extends Factory {
     public void updateLockerSettings(String enableORDisable) {    	
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
         foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LBL_SPINNER_MSG, 2);
+        foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 3);
     }
 
 }
