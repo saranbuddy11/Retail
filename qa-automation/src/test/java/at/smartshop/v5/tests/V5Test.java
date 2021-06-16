@@ -337,7 +337,8 @@ public class V5Test extends TestInfra {
 		List<String> timeOutPopupData = Arrays.asList(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP).split(Constants.DELIMITER_TILD));
 		Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES),timeOutPopupData.get(3));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0))));
-		
+		foundation.click(Order.POP_UP_TIMEOUT_YES);
+		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
 	    browser.close();
@@ -604,7 +605,8 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES),timeOutPopupData.get(3));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0))));
-		
+		foundation.click(Order.POP_UP_TIMEOUT_YES);
+		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
 	    browser.close();
@@ -642,7 +644,6 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
@@ -713,10 +714,10 @@ public class V5Test extends TestInfra {
         Assert.assertTrue(foundation.isDisplayed(cardPayment.objText(crditDebitPageData.get(1))));
         
         foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(Order.BTN_CANCEL_ORDER, 5);
+        foundation.waitforElement(order.objText(orderPageData.get(0)), 5);
         
         //verify Cancel Order Page
-  		foundation.click(Order.BTN_CANCEL_ORDER);
+  		foundation.click(order.objText(orderPageData.get(0)));
         Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 		
         
@@ -741,19 +742,21 @@ public class V5Test extends TestInfra {
 		foundation.click(CreateAccount.CHK_LABEL);
 		foundation.click(createAccount.objText(createAccountPageData.get(1)));
 		
-		foundation.waitforElement(createAccount.objText(createAccountPageData.get(8)), 5);
+		foundation.waitforElement(createAccount.objText(createAccountPageData.get(7)), 5);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(3))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(7))));
-		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(8))));
+		String fingerPrintHeader=foundation.getText(CreateAccount.LBL_FINGERPRINT_HEADER);
+		Assert.assertTrue(fingerPrintHeader.equals(createAccountPageData.get(8)));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(9))));
 				
 		foundation.click(createAccount.objText(createAccountPageData.get(9)));
 		foundation.waitforElement(createAccount.objText(createAccountPageData.get(4)), 5);
 		foundation.click(createAccount.objText(createAccountPageData.get(5)));
-		foundation.waitforElement(createAccount.objText(createAccountPageData.get(11)), 5);
+		foundation.waitforElement(createAccount.objText(createAccountPageData.get(10)), 5);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(3))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(10))));
-		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(createAccountPageData.get(11))));
+		String scanHeader=foundation.getText(CreateAccount.LBL_SCAN_HEADER);
+		Assert.assertTrue(scanHeader.equals(createAccountPageData.get(11)));
 		foundation.click(CreateAccount.BTN_CLOSE);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,5);
 		
@@ -803,11 +806,11 @@ public class V5Test extends TestInfra {
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(7))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(8))));
 		
-		//Verify Terms and Condition Page
-		foundation.click(createAccount.objText(accountPageData.get(9)));
-		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(9))));
-		Assert.assertEquals(foundation.getText(AccountDetails.BTN_OK),accountPageData.get(10));
-		foundation.click(AccountDetails.BTN_OK);
+//		//Verify Terms and Condition Page (Could not validate as there is no Ok button in terms and condition screen
+//		foundation.click(createAccount.objText(accountPageData.get(8)));
+//		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(accountPageData.get(8))));
+//		Assert.assertEquals(foundation.getText(AccountDetails.BTN_OK),accountPageData.get(9));
+//		foundation.click(AccountDetails.BTN_OK);
 		
 		//Verifying Fund with card page
 		List<String> fundPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE).split(Constants.DELIMITER_TILD));
@@ -829,7 +832,8 @@ public class V5Test extends TestInfra {
 		//Verifying Scan Setup page
 		List<String> scanSetupPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP).split(Constants.DELIMITER_TILD));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(scanSetupPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(scanSetupPageData.get(1))));
+		String frScanHeader=foundation.getText(CreateAccount.LBL_FR_SCAN_HEADER);
+		Assert.assertTrue(frScanHeader.equals(scanSetupPageData.get(1)));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(scanSetupPageData.get(2))));
 		
 		foundation.click(createAccount.objText(scanSetupPageData.get(2)));
@@ -837,9 +841,9 @@ public class V5Test extends TestInfra {
 		//Verifying Finger print Setup page
 		List<String> fingerPrintPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP).split(Constants.DELIMITER_TILD));
 		foundation.click(createAccount.objText(accountPageData.get(6)));
-
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(fingerPrintPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(fingerPrintPageData.get(1))));
+		String frFingerPrintHeader=foundation.getText(CreateAccount.LBL_FR_FINGERPRINT_HEADER);
+		Assert.assertTrue(frFingerPrintHeader.equals(fingerPrintPageData.get(1)));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(fingerPrintPageData.get(2))));
 		
 		foundation.click(createAccount.objText(fingerPrintPageData.get(2)));
@@ -866,11 +870,13 @@ public class V5Test extends TestInfra {
 		
 		foundation.click(createAccount.objText(accountEditPageData.get(6)));
 		//Verifying timeout popup
-		foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 30);
+
 		List<String> timeOutPopupData = Arrays.asList(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP).split(Constants.DELIMITER_TILD));
+		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES),timeOutPopupData.get(3));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0))));
-		
+		foundation.click(Order.POP_UP_TIMEOUT_YES);
+		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
 	    browser.close();
