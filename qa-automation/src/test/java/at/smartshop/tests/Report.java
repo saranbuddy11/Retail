@@ -213,10 +213,10 @@ public class Report extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
-                    propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-           
-            // run and read report
-            foundation.click(ReportList.BTN_RUN_REPORT);
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
@@ -366,7 +366,7 @@ public class Report extends TestInfra {
 			transactionCanned.updateSales(transactionCanned.getTableHeaders().get(5),
 					transactionCanned.getTableHeaders().get(1), transactionCanned.getTableHeaders().get(3));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(4),
-                    rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(5),
 					transactionCanned.getRequiredJsonData().get(0));
 			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(5),
@@ -485,7 +485,7 @@ public class Report extends TestInfra {
 
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-            rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 			// process sales API to generate data
 			badScan.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -529,7 +529,7 @@ public class Report extends TestInfra {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test(description = "This test validates Device By Category Report Data Calculation")
 	public void DeviceByCategoryReportData() {
 		try {
@@ -569,20 +569,23 @@ public class Report extends TestInfra {
 			deviceByCategory.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			deviceByCategory.getTblRecordsUI();
-			
+
 			// apply calculation and update data
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1), propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(2), requiredData.get(0));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3), deviceByCategory.getRequiredJsonData().get(1));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(4), deviceByCategory.getRequiredJsonData().get(2));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3),
+					deviceByCategory.getRequiredJsonData().get(1));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(4),
+					deviceByCategory.getRequiredJsonData().get(2));
 			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(5), requiredData.get(1));
 			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(6), requiredData.get(2));
-			deviceByCategory.updateTotal(deviceByCategory.getRequiredJsonData().get(0), deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
+			deviceByCategory.updateTotal(deviceByCategory.getRequiredJsonData().get(0),
+					deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
 			// verify report headers
 			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
@@ -673,20 +676,35 @@ public class Report extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			
+
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> reportName = Arrays
 					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> reason = Arrays
+					.asList(rstConsumerSummaryData.get(CNConsumerSummary.REASON).split(Constants.DELIMITER_TILD));
 
 			// process sales API to generate data
-			//itemStockout.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			// itemStockout.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
+			
+			// navigate to location and stockout
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
+					reason.get(0));
+			
+			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
@@ -694,30 +712,46 @@ public class Report extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
-                    propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-           
-            // run and read report
-            foundation.click(ReportList.BTN_RUN_REPORT);
-
-            itemStockout.verifyReportName(reportName.get(1));
-            itemStockout.getTblRecordsUI();
-            itemStockout.getIntialData().putAll(itemStockout.getReportsData());
-            itemStockout.getRequiredRecord((String) itemStockout.getJsonData().get(Reports.TRANS_DATE_TIME),
-            		itemStockout.getScancodeData());
-            
-			// apply calculation and update data
-            itemStockout.updateData(itemStockout.getTableHeaders().get(0),
-					(String) itemStockout.getJsonData().get(Reports.TRANS_DATE_TIME));
-            itemStockout.updateData(itemStockout.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-            itemStockout.updateData(itemStockout.getTableHeaders().get(2),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			itemStockout.verifyReportName(reportName.get(1));
+			itemStockout.getTblRecordsUI();
+			itemStockout.getIntialData().putAll(itemStockout.getReportsData());
+			itemStockout.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// navigate to location and stockout
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
+					reason.get(1));
+			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// apply calculation and update data
+			itemStockout.updateData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), actualData.get(1),
+					stockout);
+
 			// verify report headers
-            itemStockout.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			itemStockout.verifyReportHeaders(itemStockout.getTableHeaders(), columnName.get(0));
 
 			// verify report data
-            itemStockout.verifyReportData();
+			itemStockout.verifyReportData();
+
+			// navigate to Details
+			itemStockout.navigateToProductsEvents(columnName.get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// verify report headers
+			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
+
+			// verify report data
+			itemStockout.verifyReportData();
+
 		} catch (Exception exc) {
 			Assert.fail();
 		}
