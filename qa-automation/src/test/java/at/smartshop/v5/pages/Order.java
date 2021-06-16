@@ -17,6 +17,7 @@ public class Order {
     public static final By POP_UP_TIMEOUT_NO=By.id("time-out-btn-no-id");
     public static final By LBL_YOUR_ORDER = By.xpath("//h1[text()='Your Order']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
+    public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
     
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
