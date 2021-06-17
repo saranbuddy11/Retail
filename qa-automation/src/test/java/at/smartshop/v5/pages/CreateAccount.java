@@ -2,9 +2,6 @@ package at.smartshop.v5.pages;
 
 import org.openqa.selenium.By;
 
-import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
-
 public class CreateAccount {
 	//public static final By CHK_TERMS = By.xpath("//input[@id='cb1']");
 	public static final By CHK_TERMS = By.id("cb1");
@@ -15,6 +12,9 @@ public class CreateAccount {
 	public static final By LBL_FR_SCAN_HEADER = By.xpath("//h3[@data-reactid='.0.4.0.0.0.1.0.4.0.1.0']");
 	public static final By LBL_FR_FINGERPRINT_HEADER = By.xpath("//span[@data-reactid='.0.4.0.0.0.1.0.4.0.1.0']");
 	public static final By LBL_DUTCH_HEADER = By.xpath("//h2[@data-reactid='.0.4.0.0.0.1.0.0.0']");
+	public static final By LBL_NORWEGIAN_HEADER = By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.0.0']");
+	public static final By LBL_NW_FINGERPRINT_HEADER = By.id("create-account-fpid-btn");
+
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
 	}

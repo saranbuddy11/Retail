@@ -27,8 +27,6 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.v5.pages.CreateAccount;
-import org.openqa.selenium.JavascriptExecutor;
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime=new DateAndTime();
