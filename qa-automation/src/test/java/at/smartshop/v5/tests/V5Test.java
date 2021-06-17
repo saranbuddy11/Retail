@@ -133,14 +133,14 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 			// launching v5 device
-			browser.launch("Remote", "Chrome");
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), 10);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
 			assertEquals(actualData, requiredData.get(1));
 			browser.close();
 			// Remove home commercial
-			browser.launch("Local", "Chrome");
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -168,7 +168,7 @@ public class V5Test extends TestInfra {
 			browser.close();
 			// v5 device
 			foundation.threadWait(5000);
-			browser.launch("Remote", "Chrome");
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), 10);
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
