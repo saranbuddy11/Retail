@@ -63,6 +63,9 @@ public class LocationSummary extends Factory {
     
     public static final By BTN_FULL_SYNC =  By.id("fullsync");
     public static final By TXT_PRICE_IN_GRID =  By.id("fullsync");
+    public static final By BTN_ADD_PRODUCT =  By.id("addProd");
+    public static final By TXT_ADD_PRODUCT_SEARCH =  By.id("productFilterTypes");
+    public static final By BTN_ADD_PRODUCT_ADD =  By.id("modalsave");
 
     
 	public void selectTab(String tabName) {
@@ -164,6 +167,15 @@ public class LocationSummary extends Factory {
         textBox.enterText(priceInput,price);
     	ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is"+foundation.getText(priceLink));
     }
+
+	public void addProduct(String scancode) {
+		foundation.click(BTN_ADD_PRODUCT);
+		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, 3);
+		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, scancode);
+		foundation.click(By.xpath("//td[@aria-describedby='chooseprddt_scancode'][text()='" + scancode + "']"));
+		foundation.click(BTN_ADD_PRODUCT_ADD);
+		foundation.waitforElement(BTN_SAVE, 3);
+	}
 
 }
 

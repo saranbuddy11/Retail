@@ -480,8 +480,7 @@ public class V5Test extends TestInfra {
 		locationList.selectLocationName(requiredData.get(3));
 		locationSummary.selectTab(requiredData.get(8));
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
-		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
-		
+		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));		
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.click(LocationSummary.BTN_FULL_SYNC);
 		browser.close();
@@ -556,7 +555,7 @@ public class V5Test extends TestInfra {
 		textBox.enterKeypadText(requiredData.get(1));
 		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		
-		//reset data
+		//reset data- enable back product
 		browser.close();
 		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
@@ -572,7 +571,16 @@ public class V5Test extends TestInfra {
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);			
+		foundation.click(ProductSummary.BTN_SAVE);	
+		
+		//reset data-assign back the product to location
+		navigationBar.navigateToMenuItem(menuItem.get(1));
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		locationSummary.selectTab(requiredData.get(7));
+		foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT,2);
+		locationSummary.addProduct(requiredData.get(0));
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
 	}
 	
 	
