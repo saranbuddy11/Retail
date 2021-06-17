@@ -455,4 +455,62 @@ public class V5Test extends TestInfra {
 		foundation.click(ProductSummary.BTN_SAVE);		
 		
 	}
+	
+	@Test(description = "142718-SOS-24494-V5 - Add/Edit cost/price of the product and verify it on Kiosk machine cart page")
+	public void editPrice() {
+		final String CASE_NUM = "142718";
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		
+		//launch browser and select org
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		// navigate to global product of V5 associated and update name and sync		
+		navigationBar.navigateToMenuItem(menuItem);
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		locationSummary.selectTab(requiredData.get(8));
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
+		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));		
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
+		browser.close();
+
+		// launch v5 application
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));		
+		foundation.click(landingPage.objLanguage(requiredData.get(5)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+		assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+		
+		//reset data
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem);
+		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+		locationList.selectLocationName(requiredData.get(3));
+		locationSummary.selectTab(requiredData.get(8));
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
+		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
+		foundation.click(LocationSummary.BTN_SAVE);		
+		
+	}
 }
