@@ -666,7 +666,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142740 - SOS-24492 Verify alternate language is set to spanish in Kiosk when user set the Alternate Language as spanish and full sync is done in ADM")
+	@Test(description = "C142740 - SOS-24492 Verify alternate language is set to Danish in Kiosk when user set the Alternate Language as Danish and full sync is done in ADM")
 	public void alternateDanishLanguage() {
 		try {
 			final String CASE_NUM = "142740";
