@@ -258,18 +258,19 @@ public class V5Test extends TestInfra {
 		// login to application
 		foundation.click(landingPage.objLanguage(requiredData.get(0)));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.click(ProductSearch.BTN_123);
 		textBox.enterKeypadText(requiredData.get(1));
 		assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		textBox.deleteKeypadText(requiredData.get(1));
 		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 	}
 	
-	@Test(description = "142699-SOS-24494-V5 -validate the search functionality for scan code search")
+	@Test(description = "142699-SOS-24494-V5 - update product name and verify in kiosk machine cart page")
 	public void updateProductName() {
 		final String CASE_NUM = "142699";
 
