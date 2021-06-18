@@ -26,7 +26,7 @@ public class TestInfra {
 		ResultSets.getConnection();
 	}
 	
-	
+
 	@Parameters({"driver", "browser"})
     @BeforeMethod  
     public void beforeMethod(String drivers, String browsers) {          
@@ -36,6 +36,7 @@ public class TestInfra {
             Assert.fail(exc.toString());
         }
     }
+
 
 	@AfterMethod
 	public void afterMethod() {

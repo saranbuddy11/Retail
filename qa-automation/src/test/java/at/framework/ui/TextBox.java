@@ -13,6 +13,7 @@ public class TextBox extends Factory {
 	
 	private Foundation foundation= new Foundation();
 
+
 	public void enterText(By object, String text) {
 		try {
 			getDriver().findElement(object).clear();
@@ -53,7 +54,7 @@ public class TextBox extends Factory {
         }
        
     }
-	
+
 	public void enterKeypadText(String text) {        
         char[] charArray = text.toCharArray();
         for (char eachChar : charArray) {
@@ -81,4 +82,5 @@ public class TextBox extends Factory {
         }
     }
     
+
 }

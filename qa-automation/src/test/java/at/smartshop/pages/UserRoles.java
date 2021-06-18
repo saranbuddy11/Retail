@@ -7,6 +7,8 @@ public class UserRoles {
 	public static final By LBL_VIEW_ROLE = By.id("pagetitle");
 	public static final By TAB_ADMIN = By.xpath("//*[@id='nav-tabs']/li/a[text()='Admin']");  
 	public static final By TXT_SEARCH_FILTER = By.cssSelector("#dt_filter > label > input");
+	public static final By LBL_USER_LIST = By.id("User List");
+	
 
 	public By getRowByText(String text) {
 		return By.xpath("//td[text()='"+text+"']");			
