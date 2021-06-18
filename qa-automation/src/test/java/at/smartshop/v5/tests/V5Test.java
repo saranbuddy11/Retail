@@ -23,10 +23,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
-import at.smartshop.v5.pages.Policy;
-import at.smartshop.v5.pages.UserProfile;
 import at.smartshop.v5.pages.EditAccount;
-import at.smartshop.v5.pages.LandingPage;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -126,11 +123,12 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(landingPage.objLanguage(requiredData.get(0)));
-
+			foundation.waitforElement(landingPage.objText(actualData.get(0)), 10);
 			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
 			assertEquals(actualLanguage, actualData.get(0));
-
+			foundation.threadWait(5000);
 			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.waitforElement(landingPage.objText(actualData.get(1)), 5);
 			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
 			assertEquals(actualLanguage, actualData.get(1));
 			browser.close();
