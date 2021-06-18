@@ -47,12 +47,8 @@ public class V5Test extends TestInfra {
 	private Order order = new Order();
 	private CardPayment cardPayment = new CardPayment();
 	private CreateAccount createAccount = new CreateAccount();
-	
-
-
 
 	private Map<String, String> rstV5DeviceData;
-
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -460,7 +456,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(7))));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(8))));
 
-//        //Validating Credit/Debit Page
+			// Validating Credit/Debit Page
 			foundation.click(order.objText(orderPageData.get(8)));
 			List<String> crditDebitPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE).split(Constants.DELIMITER_TILD));
@@ -476,7 +472,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
-//		//Validating Create Account Page
+			// Validating Create Account Page
 			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, 5);
 			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
 			List<String> createAccountPageData = Arrays
@@ -630,20 +626,15 @@ public class V5Test extends TestInfra {
 
 			foundation.click(createAccount.objText(accountEditPageData.get(6)));
 			// Verifying timeout popup
-
 			List<String> timeOutPopupData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP).split(Constants.DELIMITER_TILD));
 			foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
-			// foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT_SPANISH,30);
-			Boolean actualValueNo = foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2)));
-			Boolean actualValueMsg = foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1)));
-			// Boolean actualValueTimeOut =
-			// foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0)));
-			String actual = foundation.getText(Order.POP_UP_TIMEOUT_YES);
-			Assert.assertEquals(actual, timeOutPopupData.get(3));
-			// Assert.assertTrue(actualValueTimeOut);
-			Assert.assertTrue(actualValueMsg);
-			Assert.assertTrue(actualValueNo);
+			Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES), timeOutPopupData.get(3));
+			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0))));
+			foundation.click(Order.POP_UP_TIMEOUT_YES);
+			foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
+			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
+			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
