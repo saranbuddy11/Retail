@@ -54,6 +54,7 @@ public class TextBox extends Factory {
        
     }
 	
+
 	public void enterKeypadText(String text) {        
         char[] charArray = text.toCharArray();
         for (char eachChar : charArray) {
@@ -80,4 +81,5 @@ public class TextBox extends Factory {
             foundation.click(By.xpath("//input[@value='" + number + "']"));
         }
     }
+
 }

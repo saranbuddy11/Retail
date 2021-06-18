@@ -26,4 +26,3 @@ public class AccountLogin {
 		foundation.click(BTN_PIN_NEXT);
 	}
 }
-
