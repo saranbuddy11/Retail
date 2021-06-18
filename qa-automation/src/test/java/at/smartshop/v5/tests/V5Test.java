@@ -92,9 +92,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			textBox.enterKeypadText(productName.get(0));
-			String zeroCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
-			String msg = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
-			String unMatchedProdMsg = zeroCount+" "+msg;
+			String prodCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
+			String prodFoundText = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
+			String unMatchedProdMsg = prodCount+" "+prodFoundText;
 			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			Assert.assertEquals(unMatchedProdMsg, requiredData.get(0));		
 			
@@ -102,7 +102,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName.get(1));
 			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
-			String matchedProdMsg = matchedCount+" "+msg;
+			String matchedProdMsg = matchedCount+" "+prodFoundText;
 			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
 			
 			
