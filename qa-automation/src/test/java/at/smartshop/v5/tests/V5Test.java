@@ -240,7 +240,7 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(2));
 	}
 	
 	@Test(description = "142697-SOS-24494-V5 -validate the search functionality for scan code search")
@@ -353,7 +353,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		
-		// navigate to global product of V5 associated and update name and sync
+		// navigate to global product of V5 associated and update tax category and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
 		foundation.threadWait(1000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
@@ -414,7 +414,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		
-		// navigate to global product of V5 associated and update name and sync
+		// navigate to global product of V5 associated and update deposit and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
 		foundation.threadWait(1000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
@@ -457,7 +457,7 @@ public class V5Test extends TestInfra {
 		
 	}
 	
-	@Test(description = "142718-SOS-24494-V5 - Add/Edit cost/price of the product and verify it on Kiosk machine cart page")
+	@Test(description = "142718-SOS-24494-V5 -Edit cost/price of the product and verify it on Kiosk machine cart page")
 	public void editPrice() {
 		final String CASE_NUM = "142718";
 
@@ -475,7 +475,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		
-		// navigate to global product of V5 associated and update name and sync		
+		// navigate to location summary and update price and sync		
 		navigationBar.navigateToMenuItem(menuItem);
 		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
 		locationList.selectLocationName(requiredData.get(3));
@@ -541,7 +541,7 @@ public class V5Test extends TestInfra {
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);
-		foundation.threadWait(500);
+		foundation.waitforElement(GlobalProduct.TXT_FILTER,3);
 		navigationBar.navigateToMenuItem(menuItem.get(1));
 		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
 		locationList.selectLocationName(requiredData.get(3));
@@ -566,7 +566,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(500);
+		foundation.waitforElement(GlobalProduct.TXT_FILTER,3);
 		foundation.click(GlobalProduct.ICON_FILTER);
 		globalProduct.selectFilter(requiredData.get(6));
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
