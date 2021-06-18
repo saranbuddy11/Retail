@@ -1,21 +1,17 @@
 package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -76,7 +72,7 @@ public class V5Test extends TestInfra {
 
 			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
 			assertEquals(actualLanguage, actualData.get(0));
-			Thread.sleep(5000);
+			
 
 			foundation.click(landingPage.objLanguage(requiredData.get(1)));
 			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
