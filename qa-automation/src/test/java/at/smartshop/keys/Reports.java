@@ -65,6 +65,7 @@ public class Reports {
 	public static final String PAYMENT_TYPE = "pt";
 	public static final String SALE = "sale";
 	public static final String SALES = "sales";
+	public static final String TIP = "tip";
 	public static final String GMA_TRANS = "gmatrans";
 	public static final String KIOSK_CASH_OUT_TRANS = "kioskcashouttrans";
 	public static final String SALE_CANCEL = "salecancel";
