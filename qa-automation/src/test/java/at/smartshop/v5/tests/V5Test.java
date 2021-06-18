@@ -19,22 +19,21 @@ public class V5Test extends TestInfra {
 		
 	private Foundation foundation=new Foundation();
 	private TextBox textBox = new TextBox();
-
+	private AdminMenu  adminMenu = new AdminMenu();
 	
 	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
 	public void verifyDriverLoginLogout() {
 		try {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LandingPage.LINK_ENGLISH);
-			foundation.doubleClick(LandingPage.IMG_LOGO);
-			foundation.doubleClick(LandingPage.IMG_LOGO);
-			foundation.click(LandingPage.IMG_LOGO);
+			adminMenu.navigateDriverLoginPage();
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
 			textBox.enterDriverPin(pin);
 			foundation.click(AdminMenu.BTN_SIGN_IN);
 			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
-
+			foundation.isDisplayed(AdminMenu.BTN_SIGN_IN);
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
