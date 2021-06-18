@@ -2,7 +2,6 @@ package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -75,8 +74,8 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 
-	@Test(description = "119928- This test validates account adjustment report")
-	public void accountAdjustmentReport() throws SQLException {
+	@Test(description = "119928- This test validates account adjustment report", enabled = false)
+	public void accountAdjustmentReport()  {
 		try {
 			Map<String, String> dbData = new HashMap<>();
 

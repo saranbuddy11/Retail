@@ -2007,13 +2007,14 @@ public class Locker extends TestInfra {
 			List<String> menuItems = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> hasLocker = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
 
-			navigationBar.navigateToMenuItem(menuItems.get(0));
+			navigationBar.navigateToMenuItem(menuItems.get(0));			
 			locationList.selectLocationName(locations.get(0));
 			locationSummary.updateLockerSettings(hasLocker.get(0));
 			locationList.selectLocationName(locations.get(1));
 			locationSummary.updateLockerSettings(hasLocker.get(1));
 
 			navigationBar.navigateToMenuItem(menuItems.get(1));
+			foundation.waitforElement(LockerSystem.BTN_CREATE_SYSTEM, 3);
 			boolean isSystemExist = foundation.isDisplayed(lockerSystem.objExpandLocationLocker(locations.get(0)));
 			if (isSystemExist == false) {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
