@@ -167,4 +167,10 @@ public class LocationSummary extends Factory {
 		return By.xpath("//td[text()='" + homeCommercial + "']");
 
 	}
+    public By objUploadStatus(String uploadMessage) {
+
+        return By.xpath("//*[text()='" + uploadMessage + "']");
+
+}
+
 }
