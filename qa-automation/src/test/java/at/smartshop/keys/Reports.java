@@ -93,6 +93,7 @@ public class Reports {
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String CREDIT = "CREDIT";
 	public static final String REJECTED = "REJECTED";
+	public static final String COMP = "COMP";
 	public static final String FORMAT_HHMMSS = "HHmmss";
 	public static final String FORMAT_DDMMYYY = "ddMMMYYYY";
 	public static final String FORMAT_MMDDYYYY = "MM/dd/yyyy";

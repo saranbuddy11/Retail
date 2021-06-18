@@ -50,6 +50,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
+
 	
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -78,7 +79,7 @@ public class Location extends TestInfra {
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Searching for Product and Validating the Location Name
 			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
@@ -87,9 +88,9 @@ public class Location extends TestInfra {
 
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
 			foundation.click(ProductSummary.BTN_REMOVE);
-			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10000);
+			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -128,14 +129,14 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
-			foundation.click(LocationSummary.TBL_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 		
 			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS)<= 0);
 			
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2000);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -170,7 +171,7 @@ public class Location extends TestInfra {
     }
 	
 	@Test(description = "verify Add Home commercial in Home commercial Tab and Disable Location")
-	public void Add_HomeCommercial() {
+	public void addHomeCommercial() {
 		try {
 			final String CASE_NUM = "114262";
 
@@ -190,22 +191,22 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 
 			// upload image
-			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2000);
+			foundation.waitforElement(LocationList.BTN_HOME_COMMERCIAL, 2);
 			foundation.click(LocationList.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationList.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationList.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, "C:\\Users\\ajaybabur\\Pictures\\icecream.jpg");
+			textBox.enterText(LocationList.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
 			textBox.enterText(LocationList.TXT_ADD_NAME, "Icecream");
 			foundation.click(LocationList.BTN_ADD);
 
 			// disabling location
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, "text");
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 
 			// Navigating to disabled location list
-			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), "text");
+			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), Constants.TEXT);
 
 			// validations
 			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName));
@@ -213,10 +214,10 @@ public class Location extends TestInfra {
 			
 			//resetting data
 			locationList.selectLocationName(locationName);
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2000);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, "text");
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-						
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, 2);			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
@@ -224,7 +225,7 @@ public class Location extends TestInfra {
 	}
 	
 	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
-    public void UpdateLoyaltyMultiplier() {
+    public void updateLoyaltyMultiplier() {
         try {
             final String CASE_NUM = "111001";             
             
@@ -252,6 +253,7 @@ public class Location extends TestInfra {
 			foundation.threadWait(2000);
 			foundation.click(GlobalProductChange.LBL_PRODUCT);
 			foundation.click(GlobalProductChange.BTN_NEXT);
+
 
             // Update loyalty filter
             dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
@@ -315,7 +317,7 @@ public class Location extends TestInfra {
             // Navigate to product's location
             textBox.enterText(ProductSummary.TXT_SEARCH, location);
             foundation.click(ProductSummary.TBL_DATA);
-            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10000);
+            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
             foundation.click(ProductSummary.BTN_EDIT_LOCATION);
 
             // navigate to product tab

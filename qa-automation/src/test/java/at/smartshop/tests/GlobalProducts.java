@@ -8,23 +8,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.*;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-
-import at.smartshop.pages.*;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class GlobalProducts extends TestInfra {
@@ -98,7 +101,7 @@ public class GlobalProducts extends TestInfra {
 			
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.waitforElement(GlobalProductChange.BTN_OK, 2000);
+			foundation.waitforElement(GlobalProductChange.BTN_OK, 2);
 	        foundation.click(GlobalProductChange.BTN_OK);
 	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
@@ -144,6 +147,7 @@ public class GlobalProducts extends TestInfra {
 			
 
 			// Selecting the Product
+			foundation.threadWait(2000);			
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -151,23 +155,24 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(productSummary.getLocationNamePath(locationName));
 
 			// Remove selected location
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2000);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2);
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 2000);
-			assertTrue(foundation.isDisplayed(productSummary.getLocationNamePath(locationName)));
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 3);
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
+		
 			
 			//resetting test data
-			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2000);
+			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
 			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);
 
-			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.click(ProductSummary.BTN_MODAL_SAVE);
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==1);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
