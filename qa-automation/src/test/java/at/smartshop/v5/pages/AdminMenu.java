@@ -1,8 +1,6 @@
 package at.smartshop.v5.pages;
 
 import java.util.List;
-
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import at.framework.ui.Foundation;
 
@@ -19,16 +17,11 @@ public class AdminMenu {
 		return By.xpath("//input[@value='"+number+"']");
 	}
 	
-	public void setPin(String pin) {
-		try {
-			for (int i = 0; i < pin.length(); i++) {
-				int number = Integer.parseInt(pin.substring(i, i + 1));
-				foundation.click(objNumPad(number));
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+	public void navigateDriverLoginPage() {
+		foundation.doubleClick(LandingPage.IMG_LOGO);
+		foundation.doubleClick(LandingPage.IMG_LOGO);
+		foundation.click(LandingPage.IMG_LOGO);
+	}	
 	
 	public void verifyOptions(List<String> options) {
 		for(int iter=0; iter<options.size(); iter++) {
