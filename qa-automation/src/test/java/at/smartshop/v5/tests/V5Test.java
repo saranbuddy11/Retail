@@ -235,7 +235,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -246,7 +246,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
@@ -503,7 +503,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -514,7 +514,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
@@ -771,7 +771,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -782,7 +782,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
@@ -1020,7 +1020,7 @@ public class V5Test extends TestInfra {
 		Assert.assertTrue(scanHeader.equals(createAccountPageData.get(11)));
 		foundation.click(CreateAccount.BTN_CLOSE);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,5);
-//		
+		
 		//Validating Account Login Page
 		foundation.click(LandingPage.BTN_LOGIN);
 		List<String> loginPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE).split(Constants.DELIMITER_TILD));
@@ -1040,7 +1040,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -1051,7 +1051,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
@@ -1310,7 +1310,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -1321,7 +1321,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
@@ -1581,7 +1581,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_NEXT),loginPageData.get(8));
 		  
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_ENTER);
         foundation.click(AccountLogin.BTN_NEXT);
         
@@ -1592,7 +1592,7 @@ public class V5Test extends TestInfra {
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_BACK),loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(AccountLogin.BTN_PIN_NEXT),loginPageData.get(10));
 		
-        textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
         
 		//Verifying Account info page
