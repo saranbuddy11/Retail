@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -29,7 +28,6 @@ import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.EditAccount;
-import at.smartshop.v5.pages.FundAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -49,14 +47,9 @@ public class V5Test extends TestInfra {
 	private Order order=new Order();
 	private CardPayment cardPayment=new CardPayment();
 	private CreateAccount createAccount=new CreateAccount();
-	private CheckBox checkBox=new CheckBox();
-	private AccountDetails accountDetails=new AccountDetails();
-	private FundAccount fundAccount=new FundAccount();
-	
-	private Map<String, String> rstNavigationMenuData;
+
 	private Map<String, String> rstV5DeviceData;	
-	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
+
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -109,7 +102,6 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
@@ -399,7 +391,7 @@ public class V5Test extends TestInfra {
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		
-		foundation.click(landingPage.BTN_LANG);
+		foundation.click(LandingPage.BTN_LANG);
 		//Validating Landing Page
 		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), 5);
 		List<String> landingPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANDING_PAGE).split(Constants.DELIMITER_TILD));

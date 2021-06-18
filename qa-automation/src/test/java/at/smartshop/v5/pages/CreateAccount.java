@@ -2,9 +2,6 @@ package at.smartshop.v5.pages;
 
 import org.openqa.selenium.By;
 
-import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
-
 public class CreateAccount {
 	//public static final By CHK_TERMS = By.xpath("//input[@id='cb1']");
 	public static final By CHK_TERMS = By.id("cb1");
