@@ -1,6 +1,5 @@
 package at.smartshop.v5.tests;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -40,12 +39,10 @@ public class V5Test extends TestInfra {
 	private EditAccount editAccount = new EditAccount();
 	private LocationList locationList = new LocationList();
 	private NavigationBar navigationBar = new NavigationBar();
-	
-
+	private LocationSummary locationSummary = new LocationSummary();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -121,11 +118,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_SIZE_MORE);
-			//foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
-			foundation.threadWait(20000);
-			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData,actualData);
-			
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), 5);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
