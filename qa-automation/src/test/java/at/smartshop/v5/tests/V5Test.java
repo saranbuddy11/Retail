@@ -279,7 +279,7 @@ public class V5Test extends TestInfra {
 		
 	}
 	
-	@Test(description="C142680 - This test validates the Order Timeout Prompt when user unable to process the payment")
+	@Test(description="C142680 - This test validates the Order Timeout Prompt when user not  perform any action")
 	public void verifyOrderTimePromptDetails() {
 		try {
 			
@@ -348,21 +348,16 @@ public class V5Test extends TestInfra {
 			  login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), 
 					  		  propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 			  navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			  
-			  String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM); String
-			  deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-			  String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			  String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA); 
-			  String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
-			  
-			  locationList.selectLocationName(locationName);
+				  
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			  foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
-			  locationSummary.selectDeviceName(deviceName);
+			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			  locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
-			  deviceSummary.setTimeOut(time); foundation.click(DeviceSummary.BTN_SAVE);
-			  navigationBar.navigateToMenuItem(menu);
-			  locationList.selectLocationName(locationName);
+			  deviceSummary.setTimeOut(rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP)); 
+			  foundation.click(DeviceSummary.BTN_SAVE);
+			  navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			  foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
 			  foundation.click(LocationSummary.BTN_SYNC);
 			  foundation.click(LocationSummary.BTN_SAVE);
@@ -372,7 +367,7 @@ public class V5Test extends TestInfra {
 			
 	        browser.launch(Constants.REMOTE,Constants.CHROME);
 	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(language));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
