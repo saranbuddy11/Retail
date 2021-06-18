@@ -5,14 +5,12 @@ import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
-import at.smartshop.database.columns.CNLocation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -21,9 +19,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
-import at.smartshop.v5.pages.Policy;
 import at.smartshop.v5.pages.UserProfile;
-
 import at.smartshop.v5.pages.EditAccount;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
