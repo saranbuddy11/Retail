@@ -12,4 +12,5 @@ public class FilePath {
 	public static final String JSON_KIOSK_CASH_OUT = PATH + "\\src\\test\\resources\\KioskCashOut.json";
 	public static final String JSON_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesCreation.json";
 	public static final String JSON_BAD_SCAN = PATH + "\\src\\test\\resources\\BadScan.json";
+	public static final String IMAGE_PATH = PATH+ "\\src\\test\\resources\\icecream.jpg";
 }
