@@ -47,7 +47,6 @@ public class V5Test extends TestInfra {
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -110,7 +109,6 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
