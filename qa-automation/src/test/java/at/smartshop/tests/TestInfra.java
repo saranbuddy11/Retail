@@ -11,7 +11,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 
 import at.framework.browser.Browser;
-import at.framework.browser.Factory;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.smartshop.pages.Login;
