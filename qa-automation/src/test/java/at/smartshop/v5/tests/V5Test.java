@@ -1,6 +1,5 @@
 package at.smartshop.v5.tests;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -14,7 +13,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
@@ -24,7 +22,6 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
-import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
@@ -42,12 +39,10 @@ public class V5Test extends TestInfra {
 	private EditAccount editAccount = new EditAccount();
 	private LocationList locationList = new LocationList();
 	private NavigationBar navigationBar = new NavigationBar();
-	private Strings string = new Strings();
 	private LocationSummary locationSummary = new LocationSummary();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -123,11 +118,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
-			//foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
-			foundation.threadWait(3000);
-			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData,actualData);
-			
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), 5);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
