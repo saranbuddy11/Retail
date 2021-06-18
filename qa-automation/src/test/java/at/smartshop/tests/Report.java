@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -666,7 +667,7 @@ public class Report extends TestInfra {
 	public void ItemStockoutReportData() {
 		try {
 
-			final String CASE_NUM = "120622";
+			final String CASE_NUM = "142756";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -676,6 +677,7 @@ public class Report extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
@@ -687,23 +689,24 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			List<String> actualData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> reason = Arrays
 					.asList(rstConsumerSummaryData.get(CNConsumerSummary.REASON).split(Constants.DELIMITER_TILD));
-
-			// process sales API to generate data
-			// itemStockout.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			// navigate to location and stockout
+
+			// navigate to location
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
 					reason.get(0));
-			
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
+					reason.get(1));
+			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(0));
 
@@ -715,25 +718,18 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.adjustBrowerSize(actualData.get(3));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.adjustBrowerSize(actualData.get(4));
 
 			itemStockout.verifyReportName(reportName.get(1));
 			itemStockout.getTblRecordsUI();
-			itemStockout.getIntialData().putAll(itemStockout.getReportsData());
+
 			itemStockout.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-
-			// navigate to location and stockout
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
-					reason.get(1));
-			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
+			itemStockout.getIntialData().putAll(itemStockout.getReportsData());
+			
 			// apply calculation and update data
-			itemStockout.updateData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), actualData.get(1),
-					stockout);
+			itemStockout.updateData(requiredData.get(0), actualData.get(1), stockout);
 
 			// verify report headers
 			itemStockout.verifyReportHeaders(itemStockout.getTableHeaders(), columnName.get(0));
@@ -745,12 +741,15 @@ public class Report extends TestInfra {
 			itemStockout.navigateToProductsEvents(columnName.get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			itemStockout.getItemStockoutDetails();
+			itemStockout.getIntialDetailsData().putAll(itemStockout.getReportsDetailsData());
+			itemStockout.updateDetailsData(stockout, requiredData.get(1), reason.get(1));
 
-			// verify report headers
+			// verify report details headers
 			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
 
-			// verify report data
-			itemStockout.verifyReportData();
+			// verify report details data
+			itemStockout.verifyReportDetailsData(stockout, reason.get(1));
 
 		} catch (Exception exc) {
 			Assert.fail();
