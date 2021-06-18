@@ -26,6 +26,6 @@ public class Configuration {
 	public static final String RNOUS_ORG = "second_org";
 	public static final String TRANS_BAD_SCAN = "trans_badscan";
 	public static final String TRANS_SALES = "trans_sales";
-	public static final String V5_USER = "V5_User";
-	public static final String V5_PIN = "V5_Password";
+	public static final String V5_USER = "v5_user";
+	public static final String V5_PIN = "v5_user_pin";
 }
