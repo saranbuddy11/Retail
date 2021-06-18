@@ -114,10 +114,6 @@ public class ItemStockoutReport extends Factory {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
 			for (int count = 0; count < value.size(); count++) {
 				intialData.get(recordCount).put(tableHeaders.get(count), value.get(count));
-//				intialData.get(recordCount).put(tableHeaders.get(1), value.get(1));
-//				intialData.get(recordCount).put(tableHeaders.get(2), value.get(2));
-//				intialData.get(recordCount).put(tableHeaders.get(3), value.get(3));
-//				intialData.get(recordCount).put(tableHeaders.get(4), value.get(4));
 			}
 			intialData.get(recordCount).put(tableHeaders.get(5), invValue);
 			intialData.get(recordCount).put(tableHeaders.get(6), stockoutTime);
@@ -200,11 +196,6 @@ public class ItemStockoutReport extends Factory {
 			intialDetailsData.get(rowCount).put(tableHeaders.get(0), stockoutTime);
 			for (int count = 0; count < value.size(); count++) {
 				intialDetailsData.get(rowCount).put(tableHeaders.get(count + 1), value.get(count));
-//			intialDetailsData.get(rowCount).put(tableHeaders.get(2), value.get(1));
-//			intialDetailsData.get(rowCount).put(tableHeaders.get(3), value.get(2));
-//			intialDetailsData.get(rowCount).put(tableHeaders.get(4), value.get(3));
-//			intialDetailsData.get(rowCount).put(tableHeaders.get(5), value.get(4));
-//			intialDetailsData.get(rowCount).put(tableHeaders.get(6), value.get(5));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -718,9 +717,9 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.adjustBrowerSize(actualData.get(3));
+			foundation.adjustBrowerSize(actualData.get(2));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.adjustBrowerSize(actualData.get(4));
+			foundation.adjustBrowerSize(actualData.get(3));
 
 			itemStockout.verifyReportName(reportName.get(1));
 			itemStockout.getTblRecordsUI();
