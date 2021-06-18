@@ -1,5 +1,6 @@
 package at.framework.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,24 @@ public class Table extends Factory{
 			Assert.fail(exc.toString());
 		}
 		return uiTblHeaders;
+	}
+	
+	public List<String> getColumnValues(String gridName) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver()
+					.findElements(By.xpath("//*[@aria-describedby='" + gridName + "']//a"));
+			for (int i = 1; i <= ListElement.size(); i++) {
+				text = getDriver()
+						.findElement(By.xpath("(//*[@aria-describedby='" + gridName + "']//a)" + "[" + i + "]"))
+						.getText();
+				elementsText.add(text);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
 	}
 
 }

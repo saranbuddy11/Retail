@@ -22,7 +22,7 @@ public class Listeners implements ITestListener {
 	
 
 	public void onTestStart(ITestResult result) {		
-		test = objReport.createTest("["+result.getMethod().getMethodName()+"]"+" - "+result.getMethod().getDescription());
+		test = objReport.createTest("["+result.getMethod().getRealClass().getName()+"]["+result.getMethod().getMethodName()+"]"+" - "+result.getMethod().getDescription());
 		ExtFactory.getInstance().setExtent(test);
 	}
 
