@@ -74,7 +74,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 
-	@Test(description = "119928- This test validates account adjustment report", enabled = false)
+	@Test(description = "119928- This test validates account adjustment report")
 	public void accountAdjustmentReport()  {
 		try {
 			Map<String, String> dbData = new HashMap<>();
