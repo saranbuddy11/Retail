@@ -29,6 +29,7 @@ public class ConsumerSearch extends Factory{
 	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
+	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
