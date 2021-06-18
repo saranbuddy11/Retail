@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -29,7 +28,6 @@ import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.EditAccount;
-import at.smartshop.v5.pages.FundAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -49,14 +47,12 @@ public class V5Test extends TestInfra {
 	private Order order = new Order();
 	private CardPayment cardPayment = new CardPayment();
 	private CreateAccount createAccount = new CreateAccount();
-	private CheckBox checkBox = new CheckBox();
-	private AccountDetails accountDetails = new AccountDetails();
-	private FundAccount fundAccount = new FundAccount();
+	
 
-	private Map<String, String> rstNavigationMenuData;
+
+
 	private Map<String, String> rstV5DeviceData;
-	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
+
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
