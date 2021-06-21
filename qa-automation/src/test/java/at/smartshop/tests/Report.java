@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -32,6 +31,7 @@ import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
@@ -65,6 +65,7 @@ public class Report extends TestInfra {
 	private BadScanReport badScan = new BadScanReport();
 	private TransactionCannedReport transactionCanned = new TransactionCannedReport();
 	private CurrenyConverter converter = new CurrenyConverter();
+	private ICEReport iceReport = new ICEReport();
 	private DeviceByCategoryReport deviceByCategory = new DeviceByCategoryReport();
 	private EmployeeCompDetailsReport employeeCompDetails = new EmployeeCompDetailsReport();
 	private ItemStockoutReport itemStockout = new ItemStockoutReport();
@@ -662,6 +663,104 @@ public class Report extends TestInfra {
 
 	}
 
+	@Test(description = "This test validates ICE Report Data Calculation")
+	public void ICEReportData() {
+		try {
+
+			final String CASE_NUM = "142642";
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> tabName = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			navigationBar.navigateToMenuItem(menu.get(0));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			iceReport.getTblRecordsUI();
+			iceReport.getIntialData().putAll(iceReport.getReportsData());
+
+			// get Location Data
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER));
+			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
+
+			// update Data
+			locationSummary.selectTab(tabName.get(0));
+			locationSummary.manageColumn(columnName.get(0));
+			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
+			locationSummary.selectTab(tabName.get(1));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
+					actualData.get(0));
+			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
+					requiredData.get(0));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
+					actualData.get(1));
+			foundation.refreshPage();
+			locationSummary.selectTab(tabName.get(0));
+			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
+					requiredData.get(1));
+			iceReport.updateSold(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
+
+			// Select the Report Date range and Location
+			iceReport.processAPI();
+			navigationBar.navigateToMenuItem(menu.get(0));
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			iceReport.getTblRecordsUI();
+
+			// verify report headers
+			iceReport.verifyReportHeaders(columnName.get(2));
+
+			// verify report data
+			iceReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
 	@Test(description = "This test validates Item Stockout Report Data Calculation")
 	public void ItemStockoutReportData() {
 		try {
@@ -726,7 +825,7 @@ public class Report extends TestInfra {
 
 			itemStockout.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			itemStockout.getIntialData().putAll(itemStockout.getReportsData());
-			
+
 			// apply calculation and update data
 			itemStockout.updateData(requiredData.get(0), actualData.get(1), stockout);
 
