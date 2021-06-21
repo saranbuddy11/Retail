@@ -13,6 +13,7 @@ public class ConsumerSummary {
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
+	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By BTN_SAVE=By.id("saveBtn");
 
 	public double getBalance() {

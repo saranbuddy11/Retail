@@ -7,13 +7,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.smartshop.pages.Login;
 
-//RunTimeSetup
+@Listeners(at.framework.reportsetup.Listeners.class)
 public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
@@ -24,10 +26,12 @@ public class TestInfra {
 		ResultSets.getConnection();
 	}
 	
-	@BeforeMethod
-	public void beforeMethod() {
-		try {
-			browser.launch();
+	
+	@Parameters({"drivers", "browsers"})
+	@BeforeMethod	
+	public void beforeMethod(String drivers, String browsers) {			
+		try {			
+			browser.launch(drivers,browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

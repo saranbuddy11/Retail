@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -147,22 +146,23 @@ public class LocationSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-	public void showTaxCategory() {
-		try {
-			foundation.click(BTN_MANAGE_COLUMNS);
-			foundation.click(BTN_SHOW);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		foundation.click(BTN_APPLY);
-	}
-
-	public void updateLockerSettings(String enableORDisable) {
-		dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LBL_SPINNER_MSG, 2000);
-	}
+    
+    public void showTaxCategory() {
+        try {
+        foundation.click(BTN_MANAGE_COLUMNS);
+        foundation.click(BTN_SHOW);
+        }
+        catch (Exception exc) { 
+        	Assert.fail(exc.toString());
+        }
+        foundation.click(BTN_APPLY);
+    }
+    
+    public void updateLockerSettings(String enableORDisable) {    	
+        dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
+        foundation.click(LocationSummary.BTN_SAVE);
+        foundation.waitforElement(LBL_SPINNER_MSG, 2);
+    }
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode

@@ -20,6 +20,7 @@ import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
+import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -73,10 +74,10 @@ public class Consumer extends TestInfra {
 
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String Balance = consumerTblRecords.get(columnName);
+			String balance = consumerTblRecords.get(columnName);
 
-			String Balance1 = Balance.substring(1);
-			float newBalance = Float.parseFloat(Balance1) + 2;
+			String balance1 = balance.substring(1);
+			Double newBalance = Double.parseDouble(balance1) + 2;
 			String expectedBalance = "$" + String.valueOf(newBalance);
 
 			// clicking consumer id
@@ -87,7 +88,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					"text");
+					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			// Enter fields in Consumer Search Page
@@ -105,7 +106,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 
 			String actualBalance1 = actualBalance.substring(1);
-			float newBalance2 = Float.parseFloat(actualBalance1) + 2;
+			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
 			String expectedBalance2 = "$" + String.valueOf(newBalance2);
 
 			// clicking consumer id
@@ -139,6 +140,12 @@ public class Consumer extends TestInfra {
 	public void cancelAdjustBalance() {
 		try {
 			final String CASE_NUM = "116747";
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -163,8 +170,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split("~"));
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			foundation.click(consumerSearch.objCell(requiredData.get(5)));
 
@@ -178,9 +184,9 @@ public class Consumer extends TestInfra {
 					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 
-			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					"text");
-			foundation.click(ConsumerSummary.BTN_SAVE);
+
+			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
 
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);

@@ -6,6 +6,8 @@
 	</listeners>
 
 	<test name="Test">
+	<parameter name = "drivers" value="Local" />
+	<parameter name = "browsers" value="Chrome" />
 		<classes>
 			<class name="at.smartshop.tests.Consumer"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
@@ -16,6 +18,7 @@
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
+
 		</classes>
 	</test> <!-- Test -->
 	

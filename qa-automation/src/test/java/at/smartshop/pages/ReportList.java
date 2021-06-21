@@ -44,12 +44,12 @@ public class ReportList extends Factory {
 		try {
 			foundation.click(DPD_DATE);
 			WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
-			foundation.waitforElement(DPD_DATE_OPTIONS, 30000);
-			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);
+			foundation.waitforElement(DPD_DATE_OPTIONS, 30);
+			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);			
 			for (WebElement dateOption : dateOptions) {
 				if (dateOption.getText().equals(optionName)) {
-					foundation.waitforElement(DPD_DATE_GRID, 30000);
- 					dateOption.click();
+				foundation.waitforElement(DPD_DATE_GRID, 30);					
+					dateOption.click();
 					break;
 				}
 			}
