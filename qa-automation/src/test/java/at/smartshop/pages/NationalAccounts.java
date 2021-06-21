@@ -59,6 +59,7 @@ public class NationalAccounts extends Factory {
     
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	public static final String id_tableNationalAccountsSummary = "nationalAccountsSummaryGrid";
+
 	
 	private Foundation foundation=new Foundation();
 
@@ -131,12 +132,13 @@ public class NationalAccounts extends Factory {
         }
     }
 	
-	public void verifyPromptMsg(String Message, String existsmsg) {
+	public void verifyPromptMsg(String message, String existsMsg) {
         try {
-            By TXT_ALREADYEXISTS = By.xpath("//b[normalize-space(text())='" + existsmsg + "']");
+
+            By TXT_ALREADYEXISTS = By.xpath("//b[normalize-space(text())='" + existsMsg + "']");
             Boolean status1 = foundation.isDisplayed(TXT_ALREADYEXISTS);
             Assert.assertTrue(status1);
-            By TXT_ALREADYEXIST_MSG = By.xpath("//p[normalize-space(text()) ='" + Message + "']");
+            By TXT_ALREADYEXIST_MSG = By.xpath("//p[normalize-space(text()) ='" + message + "']");
             Boolean status2 = foundation.isDisplayed(TXT_ALREADYEXIST_MSG);
             Assert.assertTrue(status2);
         } catch (Exception e) {

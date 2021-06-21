@@ -46,7 +46,7 @@ public class PromotionList extends Factory {
 	}
 
 	public void searchPromotion(String promoName) {
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2000);
+		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 	}
@@ -64,4 +64,5 @@ public class PromotionList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
 }

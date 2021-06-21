@@ -60,6 +60,7 @@ public class CreatePromotions {
 	public static final By DPD_APPLY_DISCOUNT_TO = By.id("appliesto");
 	public static final By TXT_TRANSACTION_MIN = By.id("transmin");
 	public static final By CHK_SUNDAY = By.xpath("//div[@id='recurringInput']//dd/input[@id='sunday']");
+	public static final By DPD_ITEM_SELECT = By.id("itemSelectInput");
 	public static final By TXT_DISCOUNT_PERCENTAGE = By.id("percentage");
 	public static final By DPD_DISCOUNT_BY = By.id("discountBy");
 	public static final By TXT_ITEMS = By.xpath("//*[@id='itemSelectInput']//..//input");
@@ -77,6 +78,7 @@ public class CreatePromotions {
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -114,6 +116,7 @@ public class CreatePromotions {
 	}
 
 	public void verifyPromotionPopupDetails(List<String> actualData, String promotionType, String promotionName) {
+		
 		List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 		List<String> popupField = null;
 		popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
