@@ -8,4 +8,5 @@ public class CNLocationList {
 	public static final String LOCATION_NAME = "LocationName";
 	public static final String COLUMN_NAME = "ColumnName";
 	public static final String INFO_MESSAGE = "InfoMsg";
+	public static final String SHOW_RECORDS = "ShowRecords";
 }

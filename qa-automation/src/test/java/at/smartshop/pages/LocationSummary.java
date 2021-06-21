@@ -55,8 +55,6 @@ public class LocationSummary extends Factory {
     public static final By TAB_PRODUCTS = By.id("loc-products");
     public static final By TXT_SEARCH = By.id("productFilterType");
     public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
-    private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
-    private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
@@ -143,16 +141,13 @@ public class LocationSummary extends Factory {
         }
     }
     
-    public void showTaxCategory() {
-        try {
-        foundation.click(BTN_MANAGE_COLUMNS);
-        foundation.click(BTN_SHOW);
-        }
-        catch (Exception exc) { 
-        	Assert.fail(exc.toString());
-        }
-        foundation.click(BTN_APPLY);
-    }
+	
+	/*
+	 * public void showTaxCategory() { try { foundation.click(BTN_MANAGE_COLUMNS);
+	 * foundation.click(BTN_SHOW); } catch (Exception exc) {
+	 * Assert.fail(exc.toString()); } foundation.click(BTN_APPLY); }
+	 */
+	 
     
     public void updateLockerSettings(String enableORDisable) {    	
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);

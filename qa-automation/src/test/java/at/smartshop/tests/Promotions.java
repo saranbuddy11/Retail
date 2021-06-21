@@ -648,10 +648,9 @@ public class Promotions extends TestInfra {
 		try {
 			final String CASE_NUM = "141785";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
@@ -659,13 +658,10 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String organization = propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE);
+			String organization = propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE);
 
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> actualData = Arrays
-					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 
 			String promotionName = strings.getRandomCharacter();
 
@@ -698,8 +694,7 @@ public class Promotions extends TestInfra {
 			createPromotions.verifyPromotionPopupDetails(actualData, promotionType, promotionName);
 			foundation.click(CreatePromotions.BTN_OK);
 
-			// navigate back to same promotion and verify all the details are populating as
-			// entered
+			// navigate back to same promotion and verify all the details are populating as entered
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1308,7 +1303,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C118621 -SOS-17646-Verify to create a promotion with Promotion Type as Bundle")
+	@Test(description = "C118621 - Verify to create a promotion with Promotion Type as Bundle")
 	public void verifyBundlePromotion() {
 		try {
 			final String CASE_NUM = "118621";

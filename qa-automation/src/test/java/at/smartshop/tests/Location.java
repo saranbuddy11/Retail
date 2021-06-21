@@ -286,8 +286,7 @@ public class Location extends TestInfra {
         try {
             final String CASE_NUM = "114899";            
             
-            browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+            browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
@@ -326,7 +325,7 @@ public class Location extends TestInfra {
             foundation.click(LocationSummary.TAB_PRODUCTS);
 
             // enable show tax cat column
-            locationSummary.showTaxCategory();
+            locationSummary.manageColumn(rstLocationListData.get(CNLocationList.SHOW_RECORDS));
             foundation.threadWait(3000);
             
             // ensure selected tax category from product summary page displays for the product here

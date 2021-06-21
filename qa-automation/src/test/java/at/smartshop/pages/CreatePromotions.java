@@ -84,8 +84,7 @@ public class CreatePromotions {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
-			String locationName) {
+	public void newPromotion(String promoType, String promoName, String displayName, String orgName,String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
@@ -94,7 +93,7 @@ public class CreatePromotions {
 		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-
+		foundation.threadWait(2000);
 	}
 
 	public List<String> getPopUpData() {
