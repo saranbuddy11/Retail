@@ -12,6 +12,7 @@ public class DeviceSummary extends Factory{
 	public static final By TXT_SCREEN_TIMEOUT = By.id("screentimeout");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By LBL_TIMEOUT_WARNING = By.id("v5TimeoutWarning");
+	public static final By DPD_SHOW_SEARCH_BTN = By.id("showprdlupdevice");
 	
 	public void setTimeOut(String time) {
 		getDriver().findElement(TXT_SCREEN_TIMEOUT).clear();
