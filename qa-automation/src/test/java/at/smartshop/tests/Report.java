@@ -38,6 +38,7 @@ import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
+import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductTaxReport;
@@ -69,6 +70,7 @@ public class Report extends TestInfra {
 	private DeviceByCategoryReport deviceByCategory = new DeviceByCategoryReport();
 	private EmployeeCompDetailsReport employeeCompDetails = new EmployeeCompDetailsReport();
 	private ItemStockoutReport itemStockout = new ItemStockoutReport();
+	private MemberPurchaseSummaryReport memberPurchaseSummary = new MemberPurchaseSummaryReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -662,6 +664,60 @@ public class Report extends TestInfra {
 		}
 
 	}
+	
+	@Test(description = "This test validates Product Tax Report Data Calculation")
+	public void MemberPurchaseSummaryReportData() {
+		try {
+			final String CASE_NUM = "142715";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			memberPurchaseSummary.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			memberPurchaseSummary.getTblRecordsUI();
+			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
+			
+			//Process GMA and sales API
+			memberPurchaseSummary.processAPI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			memberPurchaseSummary.getTblRecordsUI();
+			
+			// apply calculation and update data
+			memberPurchaseSummary.updateData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(3), memberPurchaseSummary.getRequiredJsonData().get(0));
+			memberPurchaseSummary.updateAmount(memberPurchaseSummary.getTableHeaders().get(4), memberPurchaseSummary.getRequiredJsonData().get(1));
+			memberPurchaseSummary.updateTotal();
+			
+			// verify report headers
+			memberPurchaseSummary.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			memberPurchaseSummary.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
 
 	@Test(description = "This test validates ICE Report Data Calculation")
 	public void ICEReportData() {
@@ -695,7 +751,8 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			
+			
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
@@ -718,25 +775,21 @@ public class Report extends TestInfra {
 			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
 			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER));
 			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
-
-			// update Data
+			
+			//update Data
 			locationSummary.selectTab(tabName.get(0));
 			locationSummary.manageColumn(columnName.get(0));
 			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			locationSummary.selectTab(tabName.get(1));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
-					actualData.get(0));
-			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
-					requiredData.get(0));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
-					actualData.get(1));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0), actualData.get(0));
+			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1), requiredData.get(0));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1), actualData.get(1));
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName.get(0));
-			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
-					requiredData.get(1));
+			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1), requiredData.get(1));
 			iceReport.updateSold(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
-
+			
 			// Select the Report Date range and Location
 			iceReport.processAPI();
 			navigationBar.navigateToMenuItem(menu.get(0));
@@ -825,7 +878,7 @@ public class Report extends TestInfra {
 
 			itemStockout.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			itemStockout.getIntialData().putAll(itemStockout.getReportsData());
-
+			
 			// apply calculation and update data
 			itemStockout.updateData(requiredData.get(0), actualData.get(1), stockout);
 
