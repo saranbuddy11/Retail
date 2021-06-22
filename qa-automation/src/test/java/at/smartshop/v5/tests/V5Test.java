@@ -30,6 +30,7 @@ import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -47,6 +48,7 @@ public class V5Test extends TestInfra {
 	private Order order=new Order();
 	private CardPayment cardPayment=new CardPayment();
 	private CreateAccount createAccount=new CreateAccount();
+	private Payments payments=new Payments();
 	
 
 	private Map<String, String> rstV5DeviceData;	
@@ -333,6 +335,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -601,6 +635,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -871,6 +937,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1141,6 +1239,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1411,6 +1541,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1682,6 +1844,38 @@ public class V5Test extends TestInfra {
 		foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
+		
+		//Verifying Product Purchase page
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+
+		foundation.objectFocus(order.objText(orderPageData.get(7)));
+		foundation.click(order.objText(orderPageData.get(7)));
+
+		foundation.waitforElement(AccountLogin.BTN_NEXT, 5);
+		  
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, 5);
+		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+		List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(3))));
+
+		foundation.click(payments.objText(paymentPageData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
