@@ -666,6 +666,8 @@ public class V5Test extends TestInfra {
 			Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES), timeOutPopupData.get(3));
 			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(0))));
 
+			foundation.click(Order.POP_UP_TIMEOUT_YES);
+			foundation.waitforElement(createAccount.objText(timeOutPopupData.get(0)), 30);
 			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(1))));
 			Assert.assertTrue(foundation.isDisplayed(createAccount.objText(timeOutPopupData.get(2))));
 
