@@ -135,7 +135,7 @@ public class V5Test extends TestInfra {
 
 			// Validating Landing Page
 			foundation.click(LandingPage.BTN_LANG);
-			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), 5);
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(1)), 5);
 			List<String> landingPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANDING_PAGE).split(Constants.DELIMITER_TILD));
 
