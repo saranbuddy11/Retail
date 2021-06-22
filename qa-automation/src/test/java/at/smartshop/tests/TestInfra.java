@@ -13,6 +13,7 @@ import org.testng.annotations.Parameters;
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -20,10 +21,13 @@ public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
+	public FilePath filePath=new FilePath();
 	
+	@Parameters({"environment"})
 	@BeforeSuite
-	public void beforeSuit() {
+	public void beforeSuit(String environment) {
 		ResultSets.getConnection();
+		filePath.setEnvironment(environment);
 	}
 	
 	
