@@ -365,8 +365,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -665,8 +663,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -967,8 +963,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1269,8 +1263,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1571,8 +1563,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
@@ -1874,8 +1864,6 @@ public class V5Test extends TestInfra {
 		foundation.click(payments.objText(paymentPageData.get(3)));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(6))));
-		Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(7))));
 	    browser.close();
 	    
 		
