@@ -36,32 +36,24 @@ public class TipSummaryReport extends Factory {
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
 
-	private static final By TBL_PRODUCT_TAX = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By TBL_PRODUCT_TAX_GRID = By.cssSelector("#rptdt > tbody");
+	private static final By TBL_TIP_SUMMARY = By.id("rptdt");
+	private static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	private static final By TBL_TIP_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-	private List<String> scancodeData = new LinkedList<>();
-	private List<String> productNameData = new LinkedList<>();
-	private List<String> priceData = new LinkedList<>();
-	private List<String> taxData = new LinkedList<>();
-	private List<String> category1Data = new LinkedList<>();
-	private List<String> category2Data = new LinkedList<>();
-	private List<String> category3Data = new LinkedList<>();
-	private List<String> discountData = new LinkedList<>();
-	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-	private List<Integer> requiredRecords = new LinkedList<>();
+	int rowCount = 0;
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public void getTblRecordsUI() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
-			WebElement tableReportsList = getDriver().findElement(TBL_PRODUCT_TAX_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_PRODUCT_TAX);
+			WebElement tableReportsList = getDriver().findElement(TBL_TIP_SUMMARY_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_TIP_SUMMARY);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
@@ -79,29 +71,31 @@ public class TipSummaryReport extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return reportsData;
 	}
 
-	public void getRequiredRecord(String transDate, List<String> scancodes) {
+	public void getRequiredRecord(String consumerName) {
+		List<String> name = Arrays.asList(consumerName.split(Constants.DELIMITER_HASH));
+		boolean flag = false;
+		int recordCount = 0;
 		try {
-			requiredRecords.clear();
-			for (int iter = 0; iter < scancodes.size(); iter++) {
+			for (recordCount = 0; recordCount < intialData.size(); recordCount++) {
 				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
-						requiredRecords.add(val);
+					if (intialData.get(val).get(tableHeaders.get(0)).equals(name.get(0))
+							&& intialData.get(val).get(tableHeaders.get(1)).equals(name.get(1))) {
+						flag = true;
+						rowCount = recordCount;
 						break;
 					}
 				}
-				if (requiredRecords.size() == scancodes.size()) {
-					break;
+				if (!flag) {
+					Assert.fail();
 				}
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
@@ -111,36 +105,25 @@ public class TipSummaryReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, List<String> values) {
+	public void updateData(String values) {
 		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String value = String.valueOf(values.get(iter));
-				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-			}
+			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
+			intialData.get(rowCount).put(tableHeaders.get(2), value.get(0));
+			intialData.get(rowCount).put(tableHeaders.get(4), value.get(1));
+			intialData.get(rowCount).put(tableHeaders.get(5), value.get(1));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	public void updateData(String columnName, String values) {
+	public void updateAmount(String columnName, String amount) {
 		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				intialData.get(requiredRecords.get(iter)).put(columnName, values);
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	public void updatePrice() {
-		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String price = priceData.get(iter);
-				String discount = discountData.get(iter);
-				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
-			}
+			String initialTip = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
+			double updatedTip = Double.parseDouble(initialTip)
+					+ Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+			updatedTip = Math.round(updatedTip * 100.0) / 100.0;
+			intialData.get(rowCount).put(columnName, String.valueOf(updatedTip));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -159,12 +142,9 @@ public class TipSummaryReport extends Factory {
 
 	public void verifyReportData() {
 		try {
-			int count = intialData.size();
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
-				}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
+						.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -173,13 +153,12 @@ public class TipSummaryReport extends Factory {
 
 	public void processAPI(String value) {
 		try {
-			generateJsonDetails(value);
-			salesJsonDataUpdate();
+			generateJsonDetails();
+			salesJsonDataUpdate(value);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
-			getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -188,47 +167,24 @@ public class TipSummaryReport extends Factory {
 	private void getJsonSalesData() {
 		try {
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
-			String delivery = sales.get(Reports.DELIVERY).getAsString();
-			requiredJsonData.add(delivery);
+			String total = sales.get(Reports.TOTAL).getAsString();
+			requiredJsonData.add(total);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	private void generateJsonDetails(String reportFormat) {
+
+	private void generateJsonDetails() {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
-			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	private void getJsonArrayData() {
-		try {
-			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-			for (JsonElement item : items) {
-				JsonObject element = item.getAsJsonObject();
-				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-				productNameData.add(element.get(Reports.NAME).getAsString());
-				priceData.add(element.get(Reports.PRICE).getAsString());
-				taxData.add(element.get(Reports.TAX).getAsString());
-				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -244,7 +200,7 @@ public class TipSummaryReport extends Factory {
 				json.addProperty(Reports.SALES_HEADER, salesheader);
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-				if(reqString.equals(Reports.PAYMENTS)) {
+				if (reqString.equals(Reports.PAYMENTS)) {
 					json.addProperty(Reports.TIP, tip);
 				}
 			}
@@ -253,7 +209,7 @@ public class TipSummaryReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String tip) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
@@ -266,8 +222,8 @@ public class TipSummaryReport extends Factory {
 			salesObj.addProperty(Reports.ID, salesHeaderID);
 			salesObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			salesObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID, "10");
-			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID, "10");
+			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID, tip);
+			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID, tip);
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
@@ -288,44 +244,12 @@ public class TipSummaryReport extends Factory {
 		return reportsData;
 	}
 
-	public List<String> getScancodeData() {
-		return scancodeData;
-	}
-
-	public List<String> getCategory1Data() {
-		return category1Data;
-	}
-	
-	public List<String> getTaxCatData() {
-		return taxcatData;
-	}
-
-	public List<String> getCategory2Data() {
-		return category2Data;
-	}
-
-	public List<String> getCategory3Data() {
-		return category3Data;
-	}
-
-	public List<String> getTaxData() {
-		return taxData;
-	}
-	
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
 	}
 
 	public List<String> getTableHeaders() {
 		return tableHeaders;
-	}
-
-	public List<String> getPriceData() {
-		return priceData;
-	}
-
-	public List<String> getProductNameData() {
-		return productNameData;
 	}
 
 }
