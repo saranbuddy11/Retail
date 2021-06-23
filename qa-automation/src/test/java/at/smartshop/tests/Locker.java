@@ -130,7 +130,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C135550 - This test validates 'Locker Systems' pickup location type under the Order Ahead Settings when there are NO locker systems created")
+	@Test(description = "135550 - This test validates 'Locker Systems' pickup location type under the Order Ahead Settings when there are NO locker systems created")
 	public void verifyNoLockerSystemsPickupLocation() {
 		try {
 			final String CASE_NUM = "135550";
@@ -226,7 +226,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C120330 - This test validates the Delete icon in the Location Locker")
+	@Test(description = "120330 - This test validates the Delete icon in the Location Locker")
 	public void verifyLockerDeleteIcon() {
 		try {
 			final String CASE_NUM = "120330";
@@ -258,7 +258,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C120331 - This test validates functionality of Delete' icon in the Location Locker")
+	@Test(description = "120331- This test validates functionality of Delete' icon in the Location Locker")
 	public void verifyDeletePopupMessage() {
 		try {
 			final String CASE_NUM = "120331";
@@ -314,7 +314,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C120332 - This test validates the functionality of Cancel button in the warning popup.")
+	@Test(description = "120332 - This test validates the functionality of Cancel button in the warning popup.")
 	public void verifyLockerSystemNotDeleted() {
 		try {
 			final String CASE_NUM = "120332";
@@ -375,7 +375,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C120333 - This test validates the functionality of Yes, Delete button in the warning popup.")
+	@Test(description = "120333 - This test validates the functionality of Yes, Delete button in the warning popup.")
 	public void verifyDeleteLockerSystems() {
 		try {
 			final String CASE_NUM = "120333";
@@ -568,13 +568,11 @@ public class Locker extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 
@@ -585,12 +583,11 @@ public class Locker extends TestInfra {
 			lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
 			login.logout();
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 
@@ -612,13 +609,11 @@ public class Locker extends TestInfra {
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -628,13 +623,11 @@ public class Locker extends TestInfra {
 					.contains(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE)));
 
 			login.logout();
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.LBL_PAGE_TITLE));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -1003,13 +996,13 @@ public class Locker extends TestInfra {
 		try {
 			final String CASE_NUM = "120328";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
+			
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			String locationName = rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME);
 			String systemName = rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME);
@@ -1017,8 +1010,7 @@ public class Locker extends TestInfra {
 			String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
@@ -1051,8 +1043,7 @@ public class Locker extends TestInfra {
 		try {
 			final String CASE_NUM = "120329";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -1065,8 +1056,7 @@ public class Locker extends TestInfra {
 			String lockerModel = rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// create new system
@@ -1187,7 +1177,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135751 - SOS-22234- Verify the System and Display Name fields in Create a System screen - Super")
+	@Test(description = "C135751- Verify the System and Display Name fields in Create a System screen - Super")
 	public void verifySuperSystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135751";
@@ -1318,7 +1308,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "C135756 - SOS-22234- Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
+	@Test(description = "135756 - Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
 	public void verifySuperCopySystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135756";
@@ -1740,7 +1730,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Super")
+	@Test(description = "135747-Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Super")
 	public void verifyCopyIconSuper() {
 		try {
 			final String CASE_NUM = "135747";
@@ -1812,7 +1802,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135748 - Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
+	@Test(description = "135748 - Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
 	public void verifyCopyIconOperator() {
 		try {
 			final String CASE_NUM = "135748";
@@ -1893,7 +1883,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135715 - This test validates the Edit functionality in Locker System page")
+	@Test(description = "135715- This test validates the Edit functionality in Locker System page")
 	public void verifyEditFunctionality() {
 		try {
 			final String CASE_NUM = "135715";

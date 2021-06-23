@@ -545,7 +545,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyCategoryInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141831";
@@ -1303,7 +1303,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C118621 - Verify to create a promotion with Promotion Type as Bundle")
+	@Test(description = "118621 - Verify to create a promotion with Promotion Type as Bundle")
 	public void verifyBundlePromotion() {
 		try {
 			final String CASE_NUM = "118621";
@@ -1727,7 +1727,7 @@ public class Promotions extends TestInfra {
 			foundation.isDisplayed(CreatePromotions.DPD_DISCOUNT_TYPE);
 			foundation.waitforElement(EditPromotion.BTN_UPDATE, 3);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			
+			foundation.threadWait(2000);
 			String expectedAlertHeader = foundation.getText(EditPromotion.TXT_POPUP_HEADER);
 			assertEquals(expectedAlertHeader, popupName.get(0));
 			String expectedAlertMsg = foundation.getText(EditPromotion.TXT_POPUP_ALERT_MSG);
