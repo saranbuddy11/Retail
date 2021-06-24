@@ -691,7 +691,23 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
 
 			// verify promotion details in popup
-			createPromotions.verifyPromotionPopupDetails(actualData, promotionType, promotionName);
+			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
+			List<String> popupField = null;
+			popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
+			popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
+			assertEquals(popupField.get(0), actualData.get(0));
+			assertEquals(popupField.get(1), actualData.get(1));
+			List<String> popupFieldArray = createPromotions.getPopUpData();
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			assertTrue(popupFieldArray.get(0).contains(promotionType));
+			assertTrue(popupFieldArray.get(1).contains(promotionName));
+			assertTrue(popupFieldArray.get(2).contains(promotionName));
+			assertEquals(popupFieldArray.get(3), actualData.get(2));
+			assertEquals(popupFieldArray.get(4), actualData.get(3));
+			assertEquals(popupFieldArray.get(5), actualData.get(4));
+			assertEquals(popupFieldArray.get(6), actualData.get(5));
+			assertTrue(popupFieldArray.get(7).contains(currentDate));
+			assertTrue(popupFieldArray.get(8).contains(currentDate));
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate back to same promotion and verify all the details are populating as entered
@@ -769,7 +785,23 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
 
 			// verify promotion details in popup
-			createPromotions.verifyPromotionPopupDetails(actualData, promotionType, promotionName);
+			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
+			List<String> popupField = null;
+			popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
+			popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
+			assertEquals(popupField.get(0), actualData.get(0));
+			assertEquals(popupField.get(1), actualData.get(1));
+			List<String> popupFieldArray = createPromotions.getPopUpData();
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			assertTrue(popupFieldArray.get(0).contains(promotionType));
+			assertTrue(popupFieldArray.get(1).contains(promotionName));
+			assertTrue(popupFieldArray.get(2).contains(promotionName));
+			assertEquals(popupFieldArray.get(3), actualData.get(2));
+			assertEquals(popupFieldArray.get(4), actualData.get(3));
+			assertEquals(popupFieldArray.get(5), actualData.get(4));
+			assertEquals(popupFieldArray.get(6), actualData.get(5));
+			assertTrue(popupFieldArray.get(7).contains(currentDate));
+			assertTrue(popupFieldArray.get(8).contains(currentDate));
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate back to same promotion and verify all the details are populating as
@@ -1202,7 +1234,23 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
 
 			// verify promotion details
-			createPromotions.verifyPromotionPopupDetails(actualData, promotionType, promotionName);
+			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
+			List<String> popupField = null;
+			popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
+			popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
+			assertEquals(popupField.get(0), actualData.get(0));
+			assertEquals(popupField.get(1), actualData.get(1));
+			List<String> popupFieldArray = createPromotions.getPopUpData();
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			assertTrue(popupFieldArray.get(0).contains(promotionType));
+			assertTrue(popupFieldArray.get(1).contains(promotionName));
+			assertEquals(popupFieldArray.get(2), actualData.get(2));
+			assertEquals(popupFieldArray.get(3), actualData.get(3));
+			assertEquals(popupFieldArray.get(4), actualData.get(4));
+			assertEquals(popupFieldArray.get(5), actualData.get(5));
+			assertEquals(popupFieldArray.get(6), actualData.get(6));
+			assertTrue(popupFieldArray.get(7).contains(currentDate));
+			assertTrue(popupFieldArray.get(8).contains(currentDate));			
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
@@ -1876,11 +1924,9 @@ public class Promotions extends TestInfra {
 
 			// verify start date sort
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
-			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,
-					Constants.REGEX_MMDDUU));
+			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,	Constants.REGEX_MMDDUU));
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
-			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.DESCENDING,
-					Constants.REGEX_MMDDUU));
+			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.DESCENDING,Constants.REGEX_MMDDUU));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

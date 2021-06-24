@@ -19,6 +19,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -45,6 +46,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstNationalAccountData;
 
 	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -137,12 +139,12 @@ public class GlobalProducts extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 						
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 
@@ -167,7 +169,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
-			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), locationName);
 
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==1);

@@ -21,6 +21,7 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -50,6 +51,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
+	private Map<String, String> rstNationalAccountData;
 
 	
 	@Test(description = "114280- This test validates Extend Product")
@@ -63,7 +65,7 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			
+			rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
@@ -77,7 +79,7 @@ public class Location extends TestInfra {
 
 			// Extend product to location
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			table.selectRow(Constants.PRODUCT_DATAGRID, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 

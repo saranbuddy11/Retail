@@ -11,7 +11,6 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
-import at.smartshop.keys.Constants;
 
 public class LockerSystem extends Factory {
 	private Foundation foundation = new Foundation();
@@ -78,8 +77,7 @@ public class LockerSystem extends Factory {
 	}
 
 	public By copyORDeleteSystem(String systemName, String title) {
-		return By.xpath(
-				"//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'" + title + "')]");
+		return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'" + title + "')]");
 	}
 
 	public void getLocationColumns() {
@@ -107,11 +105,11 @@ public class LockerSystem extends Factory {
 		}
 	}
 
-	public void deleteSystem(String location, String systemName) {
+	public void deleteSystem(String location, String systemName, String delete) {
 		try {
 			foundation.threadWait(1000);
 			foundation.click(objExpandLocationLocker(location));
-			foundation.click(copyORDeleteSystem(systemName, Constants.DELETE));
+			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
 		} catch (Exception exc) {
 

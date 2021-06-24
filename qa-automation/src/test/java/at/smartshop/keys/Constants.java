@@ -16,8 +16,8 @@ public class Constants {
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String TITLE = "title";
 	public static final String DATA = "data";
-	public static final String ASCENDING = "Ascending";
-	public static final String DESCENDING = "Descending";
+    public static final String ASCENDING = "Ascending"; 
+	public static final String DESCENDING = "Descending";	 
 	public static final String LOCAL = "Local";
 	public static final String REMOTE = "Remote";
 	public static final String CHROME = "Chrome";
@@ -30,29 +30,13 @@ public class Constants {
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
-	public static final String SHEETNAME = "Sheet1";
 	public static final String YES = "yes";
 	public static final String ACCOUNT_NAME = "Test";
 	public static final String REPORT_NAME= "\\Results.html";
 	public static final String REPORTS= "\\Reports\\";
 	public static final String DELIMITER_BACKSLASH= "\\";
-	public static final String NATIONACCOUNT_RULETYPE= "Rule Type";
-	public static final String NATIONACCOUNT_UPCS = "UPCs";
-	public static final String NATIONACCOUNT_NATIONAL_CATEGORY= "National Categories";
 	public static final String NA= "N/A";
-	public static final String PRODUCT_DATAGRID= "productDataGrid_locname";
 	public static final String TIME_ZONE_INDIA= "Asia/Kolkata";
-	public static final String RULETYPE= "Rule Type";
-	public static final String UPCS = "UPCs";
-	public static final String NATIONAL_CATEGORY= "National Categories";
-	public static final String MIN_PRICE= "Min Price";
-	public static final String MAX_PRICE= "Max Price";
-	public static final String EXACT_PRICE= "Exact Price";
-	public static final String RULE_STATUS= "Rule Status";
-	public static final String LOCATION= "#Locations";
-	public static final String DELETE= "Delete";
-	public static final String COPY= "Copy";
-	public static final String NEW_LINE ="\n";
-	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
-	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
+	public static final String NEW_LINE ="\n";	
+
 }

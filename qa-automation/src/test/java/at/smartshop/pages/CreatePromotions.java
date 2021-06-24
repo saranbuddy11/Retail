@@ -1,8 +1,5 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
-import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -22,7 +18,6 @@ public class CreatePromotions {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
@@ -113,38 +108,7 @@ public class CreatePromotions {
 	public By objFieldSet(String filedSetText) {
 		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
 	}
-
-	public void verifyPromotionPopupDetails(List<String> actualData, String promotionType, String promotionName) {
-		
-		List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
-		List<String> popupField = null;
-		popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
-		popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
-		assertEquals(popupField.get(0), actualData.get(0));
-		assertEquals(popupField.get(1), actualData.get(1));
-		List<String> popupFieldArray = getPopUpData();
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
-		assertTrue(popupFieldArray.get(0).contains(promotionType));
-		assertTrue(popupFieldArray.get(1).contains(promotionName));
-		if (promotionType.equalsIgnoreCase(Constants.PROMOTION_TYPE_TENDER_DISCOUNT)) {
-			assertEquals(popupFieldArray.get(2), actualData.get(2));
-			assertEquals(popupFieldArray.get(3), actualData.get(3));
-			assertEquals(popupFieldArray.get(4), actualData.get(4));
-			assertEquals(popupFieldArray.get(5), actualData.get(5));
-			assertEquals(popupFieldArray.get(6), actualData.get(6));
-			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
-		} else if (promotionType.equalsIgnoreCase(Constants.PROMOTION_TYPE_ON_SCREEN)) {
-			assertTrue(popupFieldArray.get(2).contains(promotionName));
-			assertEquals(popupFieldArray.get(3), actualData.get(2));
-			assertEquals(popupFieldArray.get(4), actualData.get(3));
-			assertEquals(popupFieldArray.get(5), actualData.get(4));
-			assertEquals(popupFieldArray.get(6), actualData.get(5));
-			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
-		}
-	}
-
+	
 	public By filterOptions(String fieldName) {
 		return By.xpath("//dt[text()='" + fieldName + "']");
 	}
