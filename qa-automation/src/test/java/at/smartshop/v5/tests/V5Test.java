@@ -174,7 +174,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 
-			browser.close();
+			
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
