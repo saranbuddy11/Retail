@@ -169,7 +169,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
-			browser.close();
+			
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
