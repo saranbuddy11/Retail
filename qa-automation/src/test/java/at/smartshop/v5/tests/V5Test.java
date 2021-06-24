@@ -87,7 +87,7 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM = "141863";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
-
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(landingPage.objLanguage(requiredData));
 			foundation.click(LandingPage.BTN_LOGIN);
@@ -109,6 +109,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> actualData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(landingPage.objLanguage(requiredData.get(0)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
