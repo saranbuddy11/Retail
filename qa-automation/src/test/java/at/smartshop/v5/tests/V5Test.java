@@ -282,6 +282,8 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		//launch browser and select org
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
 				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -346,6 +348,8 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		//launch browser and select org
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
 				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -407,6 +411,8 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		//launch browser and select org
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
 				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -468,6 +474,8 @@ public class V5Test extends TestInfra {
 		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 		
 		//launch browser and select org
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
 				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -510,7 +518,7 @@ public class V5Test extends TestInfra {
 		locationList.selectLocationName(requiredData.get(3));
 		locationSummary.selectTab(requiredData.get(8));
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
-		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
+		locationSummary.enterPrice(requiredData.get(0), requiredData.get(7));
 		foundation.click(LocationSummary.BTN_SAVE);		
 		
 	}
@@ -527,6 +535,8 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		//launch browser and select org
+		browser.close();
+		browser.launch(Constants.LOCAL, Constants.CHROME);
 		browser.navigateURL(
 				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
