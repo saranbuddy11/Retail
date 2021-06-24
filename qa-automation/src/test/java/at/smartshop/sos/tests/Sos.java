@@ -75,9 +75,10 @@ public class Sos extends TestInfra {
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
 
-			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
-					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
-					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
+			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
+										rstGmaUser.get(CNGmaUser.PIN_VALUE),
+										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
+										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
 		} catch (Exception exc) {

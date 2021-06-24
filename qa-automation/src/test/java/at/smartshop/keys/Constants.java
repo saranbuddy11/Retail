@@ -14,7 +14,6 @@ public class Constants {
 	public static final String VALUE = "value";
 	public static final String TEXT = "text";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
-	public static final String TITLE = "title";
 	public static final String DATA = "data";
     public static final String ASCENDING = "Ascending"; 
 	public static final String DESCENDING = "Descending";	 
@@ -30,7 +29,6 @@ public class Constants {
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
-	public static final String YES = "yes";
 	public static final String ACCOUNT_NAME = "Test";
 	public static final String REPORT_NAME= "\\Results.html";
 	public static final String REPORTS= "\\Reports\\";
