@@ -237,7 +237,7 @@ public class V5Test extends TestInfra {
 		textBox.deleteKeypadText(requiredData.get(1));
 		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(2)));
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(2));
@@ -359,7 +359,7 @@ public class V5Test extends TestInfra {
 		
 		// navigate to global product of V5 associated and update tax category and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(1000);
+		foundation.threadWait(2000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
@@ -455,7 +455,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(500);
+		foundation.threadWait(2000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(7), Constants.TEXT);
