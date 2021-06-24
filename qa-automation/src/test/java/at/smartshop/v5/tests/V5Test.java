@@ -171,13 +171,7 @@ public class V5Test extends TestInfra {
 			browser.launch("Remote", "Chrome");
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
-			browser.close();
-			
-			browser.launch("Local", "Chrome");
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+	
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
