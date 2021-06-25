@@ -13,6 +13,8 @@ import org.testng.annotations.Parameters;
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.framework.reportsetup.ExtReport;
+import at.framework.triggeremail.SendReport;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -20,6 +22,7 @@ public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
+	private SendReport sendReport=new SendReport();
 	
 	@BeforeSuite
 	public void beforeSuit() {
@@ -51,6 +54,7 @@ public class TestInfra {
 	public void afterSuit() {
 		try {			
 			ResultSets.connection.close();
+			sendReport.triggerMail(ExtReport.reportFullPath);
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
