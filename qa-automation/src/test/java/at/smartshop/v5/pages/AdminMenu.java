@@ -14,7 +14,6 @@ public class AdminMenu {
 	public static final By TXT_PRODUCT_SEARCH = By.cssSelector("input.search-input");
 	public static final By LINK_DRIVER_LOGOUT = By.xpath("//span[text()='Logout']");
 	public static final By LINK_INVENTORY = By.xpath("//span[text()='Inventory']");
-	public static final By BTN_SELF_SERVICE= By.xpath("//*[@id='cancelMM']/span[2]");
 	public static final By BTN_REBOOT= By.id("reboot");
 	
 	public By objNumPad(int number) {
