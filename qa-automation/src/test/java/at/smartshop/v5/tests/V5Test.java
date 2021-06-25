@@ -1,6 +1,5 @@
 package at.smartshop.v5.tests;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -41,10 +40,8 @@ public class V5Test extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private NavigationBar navigationBar = new NavigationBar();
 
-
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstLocationListData;
-	
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -111,19 +108,17 @@ public class V5Test extends TestInfra {
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
-			textBox.enterText(LocationList.TXT_FILTER, locationName);
 			locationList.selectLocationName(locationName);
 
 			// upload image-1
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
-			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, 5);
-			String expectedData=foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData,actualData);
-			
+			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
