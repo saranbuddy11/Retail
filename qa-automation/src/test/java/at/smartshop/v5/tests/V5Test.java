@@ -328,7 +328,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(500);
+		foundation.threadWait(2000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(2)));
 		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(1));
@@ -359,7 +359,7 @@ public class V5Test extends TestInfra {
 		
 		// navigate to global product of V5 associated and update tax category and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);
+		foundation.threadWait(3000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
@@ -391,7 +391,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(500);
+		foundation.threadWait(3000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(7), Constants.TEXT);
@@ -422,7 +422,7 @@ public class V5Test extends TestInfra {
 		
 		// navigate to global product of V5 associated and update deposit and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(1000);
+		foundation.threadWait(2000);
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
@@ -488,6 +488,7 @@ public class V5Test extends TestInfra {
 		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
 		locationList.selectLocationName(requiredData.get(3));
 		locationSummary.selectTab(requiredData.get(8));
+		foundation.threadWait(2000);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
 		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));		
 		foundation.click(LocationSummary.BTN_SAVE);
@@ -517,6 +518,7 @@ public class V5Test extends TestInfra {
 		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
 		locationList.selectLocationName(requiredData.get(3));
 		locationSummary.selectTab(requiredData.get(8));
+		foundation.threadWait(2000);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
 		locationSummary.enterPrice(requiredData.get(0), requiredData.get(7));
 		foundation.click(LocationSummary.BTN_SAVE);		
@@ -546,7 +548,7 @@ public class V5Test extends TestInfra {
 		
 		// navigate to global product of V5 associated and update name and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(1000);		
+		foundation.threadWait(2000);		
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
