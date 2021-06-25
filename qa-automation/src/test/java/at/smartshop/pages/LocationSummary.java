@@ -166,4 +166,30 @@ public class LocationSummary extends Factory {
 		return By.xpath("//td[text()='" + homeCommercial + "']");
 
 	}
+
+	public void addHomeCommercial(String imageName, String imagePath) {
+
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.click(BTN_ADD_HOME_COMMERCIAL);
+		foundation.click(TXT_UPLOAD_NEW);
+		textBox.enterText(BTN_UPLOAD_INPUT, imagePath);
+		textBox.enterText(TXT_ADD_NAME, imageName);
+		foundation.click(BTN_ADD);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+
+	}
+
+	public void removeHomeCommercial(String imageName) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.click(objHomeCommercial(imageName));
+		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_REMOVE);
+		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
+		foundation.click(BTN_SYNC);
+	}
 }
