@@ -17,6 +17,7 @@ public class GlobalProduct extends Factory {
 	
 	public void selectFilter(String filterType) {
 		foundation.click(ICON_FILTER);
+		foundation.threadWait(500);
 		foundation.click(By.xpath("//*[@id='dataGrid_dd_enabled']//span[text()='"+filterType+"']"));
 	}
 }

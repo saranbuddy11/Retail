@@ -237,10 +237,10 @@ public class V5Test extends TestInfra {
 		textBox.deleteKeypadText(requiredData.get(1));
 		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(2)));
+		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(2));
+		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 	}
 	
 	@Test(description = "142697-SOS-24494-V5 -validate the search functionality for scan code search")
@@ -548,7 +548,9 @@ public class V5Test extends TestInfra {
 		
 		// navigate to global product of V5 associated and update name and sync
 		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);		
+		foundation.threadWait(2000);
+		foundation.click(GlobalProduct.ICON_FILTER);
+		globalProduct.selectFilter(requiredData.get(6));
 		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
