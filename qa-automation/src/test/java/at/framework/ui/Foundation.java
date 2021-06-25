@@ -105,6 +105,9 @@ public class Foundation extends Factory {
 		String textAttribute = null;
 		try {
 			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is "+ textAttribute);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
