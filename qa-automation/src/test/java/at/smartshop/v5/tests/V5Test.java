@@ -131,7 +131,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -279,7 +279,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -427,7 +427,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -573,7 +573,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -719,7 +719,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -865,7 +865,7 @@ public class V5Test extends TestInfra {
         login.logout();
         browser.close();
         
-        foundation.threadWait(5000);
+        foundation.threadWait(Constants.SHORT_TIME);
         //login into Kiosk Device
         browser.launch(Constants.REMOTE,Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1016,7 +1016,7 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 
-			foundation.threadWait(5000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1169,7 +1169,7 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 
-			foundation.threadWait(5000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1323,7 +1323,7 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 
-			foundation.threadWait(5000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1478,7 +1478,7 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 
-			foundation.threadWait(5000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1632,7 +1632,7 @@ public class V5Test extends TestInfra {
 			login.logout();
 			browser.close();
 
-			foundation.threadWait(5000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
