@@ -1836,4 +1836,107 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "142846-QAA-45-Verify the Stock reduced in ADM when Sales transaction with email is completed in Kiosk")
+	public void salesTransactionViaEmailProductCount() {
+		try {
+			final String CASE_NUM = "142846";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			locationSummary.selectTab(requiredData.get(2));
+			
+			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			Map<String, String> invCountBeforeSale=locationSummary.getProductDetails(requiredData.get(3));
+			
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			
+			//Navigating to product search page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.waitforElement(AccountLogin.BTN_CAMELCASE,Constants.SHORT_TIME);
+
+			//searching for product
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+	        foundation.click(ProductSearch.BTN_PRODUCT);
+	        
+	        //verify Order Page     
+	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+	       Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+
+			foundation.objectFocus(order.objText(orderPageData.get(1)));
+			foundation.click(order.objText(orderPageData.get(1)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+			  
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			
+			List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+
+			foundation.click(payments.objText(paymentPageData.get(1)));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			
+			browser.close();
+			
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			locationSummary.selectTab(requiredData.get(2));
+			
+			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
+			textBox.enterText(locationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			Map<String, String> invCountAfterSale=locationSummary.getProductDetails(requiredData.get(3));
+       
+	        Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3)))==Integer.valueOf(invCountBeforeSale.get(requiredData.get(3)))-1);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
 }

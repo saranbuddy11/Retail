@@ -184,5 +184,20 @@ public class LocationSummary extends Factory {
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
 	}
+	
+	public Map<String, String> getProductDetails(String name) {
+		Map<String, String> productsRecord = new LinkedHashMap<>();
+		try {
+			List<String> tableHeaders = getProductsHeaders();
+			for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+				WebElement column = getDriver().findElement(By.xpath("//table[@id='productDataGrid']//tr//span[text()='"+ name +"']//..//..//..//..//tbody//td[" + columnCount + "]"));
+				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return productsRecord;
+
+	}
 
 }
