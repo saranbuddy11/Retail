@@ -15,6 +15,7 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtReport;
 import at.framework.triggeremail.SendReport;
+import at.smartshop.keys.Constants;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -50,11 +51,14 @@ public class TestInfra {
 		
 	}
 	
+	@Parameters({"SendEmail"})
 	@AfterSuite
-	public void afterSuit() {
+	public void afterSuit(String sendEmail) {
 		try {			
 			ResultSets.connection.close();
+			if(sendEmail.equals(Constants.YES)) {
 			sendReport.triggerMail(ExtReport.reportFullPath);
+			}
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
