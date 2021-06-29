@@ -152,7 +152,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
@@ -164,9 +164,9 @@ public class Promotions extends TestInfra {
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
 			foundation.click(CreatePromotions.CHK_SUNDAY);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK,2);		
+			foundation.waitforElement(CreatePromotions.BTN_OK,Constants.SHORT_TIME);		
 			 			 
 			  List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 				List<String> popupField = null;
@@ -193,14 +193,14 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.searchPromotion(promotionName);
 			dropdown.selectItem(PromotionList.DPD_STATUS,requiredData.get(6) ,Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			// Resetting the data
 			
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -225,20 +225,20 @@ public class Promotions extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menu.get(0));
-			foundation.waitforElement(UserRoles.LBL_USER_LIST, 2);
+			foundation.waitforElement(UserRoles.LBL_USER_LIST,  Constants.SHORT_TIME);
 			textBox.enterText(UserRoles.TXT_SEARCH_FILTER,propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
-			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 2);
+			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, Constants.SHORT_TIME);
 			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
 			List<String> orgs = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
 			userList.selectOrgs(UserList.DPD_ORG, orgs);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String allOption = rstLocationListData.get(CNLocationList.COLUMN_NAME);
 			foundation.objectFocus(UserList.TXT_SEARCH_LOC);
 			dropdown.selectItem(UserList.TXT_SEARCH_LOC, allOption, Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.waitforElement(UserRoles.LBL_USER_LIST, 3);
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, Constants.SHORT_TIME);
 			login.logout();
 
 			// Operator User
@@ -265,7 +265,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			List<String> orgData = dropdown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 			for (int iter = 0; iter < orgData.size(); iter++) {
 				Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
@@ -287,14 +287,14 @@ public class Promotions extends TestInfra {
 			List<String> discountType = Arrays.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, discountType.get(2));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM, discountType.get(3));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.POP_UP_MESSAGES, 2);
+			foundation.waitforElement(CreatePromotions.POP_UP_MESSAGES, Constants.SHORT_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -320,12 +320,12 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.verifyPromotionName(promotionName);
 
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			login.logout();
 			
 		} catch (Exception exc) {
@@ -349,13 +349,13 @@ public class Promotions extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
 			promotionList.searchPromotion(promotionName);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 
 			// Basic Information Page
-			foundation.waitforElement(CreatePromotions.LBL_BASIC_INFORMATION, 3);
+			foundation.waitforElement(CreatePromotions.LBL_BASIC_INFORMATION, Constants.SHORT_TIME);
 			String title = rstLocationListData.get(CNLocationList.INFO_MESSAGE);
 			Assert.assertTrue(foundation.getText(EditPromotion.PAGE_TITLE).contains(title));
 			Assert.assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
@@ -371,39 +371,39 @@ public class Promotions extends TestInfra {
 
 			dropdown.deSelectItem(CreatePromotions.DPD_ORGANIZATION, org.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ORG, org.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, location.get(1), Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Details page
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM, requiredData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
 
-			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, 3);
+			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
 			foundation.click(EditPromotion.BTN_SAVE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_ORG_NAME, 3);
+			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
 			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
 			Assert.assertEquals(org.get(1), orgName);
 			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, 3);
+			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, Constants.SHORT_TIME);
 			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
 			Assert.assertEquals(location.get(1), locName);
 
@@ -413,35 +413,35 @@ public class Promotions extends TestInfra {
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 
 			// Basic Information Page
-			foundation.waitforElement(CreatePromotions.LBL_BASIC_INFORMATION, 3);
+			foundation.waitforElement(CreatePromotions.LBL_BASIC_INFORMATION, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
 			dropdown.deSelectItem(CreatePromotions.DPD_ORGANIZATION, org.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ORG, org.get(0));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, location.get(0), Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Details page
 			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, actualData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, actualData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
 
-			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, 3);
+			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
 			foundation.click(EditPromotion.BTN_SAVE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -464,7 +464,7 @@ public class Promotions extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
@@ -482,55 +482,55 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Detail page
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(0));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Updating the Item to Category
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, 2);
+			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, actualData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Verify Item correctly updated in Promotion Screen
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String bundleOption = dropdown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			Assert.assertEquals(bundleOption, requiredData.get(0));
 			String itemValue = dropdown.getSelectedItem(EditPromotion.DPD_ITEM);
 			Assert.assertEquals(itemValue, actualData.get(0));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Expire Promotion
@@ -538,7 +538,7 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.BTN_SEARCH);
 
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -561,7 +561,7 @@ public class Promotions extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -580,62 +580,62 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ORG,	propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Detail page
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, actualData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Updating the Item to Category
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, 2);
+			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(0));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Verify Item correctly updated in Promotion Screen
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String bundleOption = dropdown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			Assert.assertEquals(bundleOption, requiredData.get(0));
 			String itemValue = dropdown.getSelectedItem(EditPromotion.DPD_ITEM);
 			Assert.assertEquals(itemValue, actualData.get(0));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Expire Promotion
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 
@@ -675,7 +675,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEMS, requiredData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEMS, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(2), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_DISCOUNT_PERCENTAGE, requiredData.get(3));
@@ -686,9 +686,9 @@ public class Promotions extends TestInfra {
 			assertFalse(foundation.isDisplayed(CreatePromotions.TXT_PER_TRANSACTION_LIMIT));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DURATION, requiredData.get(6), Constants.TEXT);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 
 			// verify promotion details in popup
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
@@ -718,13 +718,13 @@ public class Promotions extends TestInfra {
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_PROMO_TYPE).equals(promotionType));
 			assertTrue(textBox.getTextFromInput(CreatePromotions.TXT_PROMO_NAME).equals(promotionName));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION).equals(organization));
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION).equals(locationName));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
@@ -769,7 +769,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_CATEGORYS, requiredData.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_CATEGORYS, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(2), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
@@ -780,9 +780,9 @@ public class Promotions extends TestInfra {
 			assertFalse(foundation.isDisplayed(CreatePromotions.TXT_PER_TRANSACTION_LIMIT));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DURATION, requiredData.get(6), Constants.TEXT);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 
 			// verify promotion details in popup
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
@@ -813,21 +813,21 @@ public class Promotions extends TestInfra {
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_PROMO_TYPE).equals(promotionType));
 			assertTrue(textBox.getTextFromInput(CreatePromotions.TXT_PROMO_NAME).equals(promotionName));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.DPD_ORGANIZATION, 3);
+			foundation.waitforElement(CreatePromotions.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION).equals(organization));
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION).equals(locationName));
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
 			promotionList.searchPromotion(promotionName);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -889,7 +889,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// validate UI of enter promotion filter page
 			assertTrue(foundation.isDisplayed(CreatePromotions.DPD_ORG));
@@ -903,10 +903,10 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// validate UI of enter promotion filter page
 			assertTrue(foundation.isDisplayed(CreatePromotions.MULTI_SELECT_TENDER_TYPES));
@@ -919,10 +919,10 @@ public class Promotions extends TestInfra {
 			assertEquals(foundation.getText(CreatePromotions.LBL_SET_PROMO_DETAILS), requiredData.get(10));
 
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(11), Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			promotionList.searchPromotion(promotionName);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
@@ -971,7 +971,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -982,9 +982,9 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -1013,7 +1013,7 @@ public class Promotions extends TestInfra {
 			
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1055,15 +1055,15 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData, Constants.TEXT);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			promotionList.searchPromotion(promotionName);
@@ -1123,24 +1123,24 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> category = Arrays	.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, category.get(0), Constants.TEXT);
 
 			foundation.click(CreatePromotions.SEARCH_CATEGORY);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, category.get(1));
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 
 			String categorySelected = dropdown.getSelectedItem(CreatePromotions.DPD_CATEGORY);
 			assertTrue(categorySelected.equals(category.get(1)));
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.searchPromotion(promotionName);
 
 			// Validating promotion is displayed
@@ -1148,7 +1148,7 @@ public class Promotions extends TestInfra {
 
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1171,14 +1171,14 @@ public class Promotions extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menu.get(0));
-			foundation.waitforElement(UserRoles.LBL_USER_LIST, 5);
+			foundation.waitforElement(UserRoles.LBL_USER_LIST, Constants.SHORT_TIME);
 			textBox.enterText(UserRoles.TXT_SEARCH_FILTER,propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(userRoles.getRowByText(rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL)));
-			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, 5);
+			foundation.waitforElement(UserRoles.LBL_VIEW_ROLE, Constants.SHORT_TIME);
 			foundation.click(UserList.LNK_ORG_REMOVE_ALL);
 			List<String> orgs = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
 			userList.selectOrgs(UserList.DPD_ORG, orgs);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
 
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1207,7 +1207,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
-			foundation.waitforElement(CreatePromotions.DPD_ORG, 5);
+			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
 			List<String> orgData = dropdown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 			for (int iter = 0; iter < orgData.size(); iter++) {
 				Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
@@ -1218,7 +1218,7 @@ public class Promotions extends TestInfra {
 				assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
 			}
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// select promotion details
@@ -1229,9 +1229,9 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
 			foundation.click(CreatePromotions.CHK_SUNDAY);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 
 			// verify promotion details
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
@@ -1258,7 +1258,7 @@ public class Promotions extends TestInfra {
 			dropdown.selectItem(PromotionList.DPD_STATUS,requiredData.get(6) ,Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			login.logout();
 			
 		} catch (Exception exc) {
@@ -1294,12 +1294,12 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
 					locationName.get(0));
 			
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate to same promotion and validate update promotion
@@ -1308,43 +1308,43 @@ public class Promotions extends TestInfra {
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			assertTrue(foundation.getText(CreatePromotions.LBL_PAGE_TITLE)	.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION)
 							.equals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE)));
 			assertTrue(dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION).equals(locationName.get(0)));
 			foundation.click(EditPromotion.ICON_CLR_LOCATION);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(1), Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			// select promotion details
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
 			foundation.click(EditPromotion.BTN_SAVE_WITH_CHANGES);
 			foundation.click(EditPromotion.BTN_SAVE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 3);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_ORG_NAME, 2);
+			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
 			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
 			Assert.assertEquals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), orgName);
 			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, 3);
+			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, Constants.SHORT_TIME);
 			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
 			Assert.assertEquals(locationName.get(1), locName);
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			
 			// Resetting the data
 			promotionList.searchPromotion(promotionName);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1382,11 +1382,11 @@ public class Promotions extends TestInfra {
 			List<String> orgs = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
 			dropdown.selectItem(UserList.DPD_ORG, orgs.get(0), Constants.TEXT);
 			dropdown.selectItem(UserList.DPD_ORG, orgs.get(1), Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropdown.selectItem(UserList.TXT_SEARCH_LOC, rstLocationData.get(CNLocation.LOCATIONLIST_DPDN_VALUE),Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(UserList.BTN_UPDATE_USER);
-			foundation.waitforElement(UserList.LBL_USER_LIST, 3);
+			foundation.waitforElement(UserList.LBL_USER_LIST, Constants.SHORT_TIME);
 			login.logout();
 
 			// operator user
@@ -1405,7 +1405,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			// Filter Page
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			createPromotions.verifyOrgField(orgs);
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
@@ -1415,19 +1415,17 @@ public class Promotions extends TestInfra {
 				assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
 			}
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			// Promotion Details Page
 			List<String> discountType = Arrays.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, discountType.get(1));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 5);
-			//foundation.click(CreatePromotions.BTN_OK);
-			//foundation.threadWait(2000);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			
 			// popup message validations
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
@@ -1455,13 +1453,13 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// PromotionName validation
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			login.logout();
 			
 		} catch (Exception exc) {
@@ -1516,22 +1514,22 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_ORGANIZATION, requiredData.get(3), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
 			assertEquals(actualValue, requiredData.get(2));
 
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(4));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(5));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 
 			// popup validations
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
@@ -1559,7 +1557,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// PromotionName Validations
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
@@ -1600,10 +1598,10 @@ public class Promotions extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(locationName);
 
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 
 			List<String> requiredData = Arrays
@@ -1660,11 +1658,11 @@ public class Promotions extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(locationName);
 
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledYes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 
 			List<String> requiredData = Arrays
@@ -1686,8 +1684,8 @@ public class Promotions extends TestInfra {
 
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(1));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
-			foundation.click(CreatePromotions.TXT_LOCATION);
-			textBox.enterText(CreatePromotions.TXT_LOCATION, locationName);
+			foundation.click(CreatePromotions.DPD_LOCATION);
+			textBox.enterText(CreatePromotions.DPD_LOCATION, locationName);
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.objLocation(requiredData.get(2))));
 
 			login.logout();
@@ -1699,10 +1697,10 @@ public class Promotions extends TestInfra {
 
 			dropdown.selectItem(LocationList.DPD_LOCATION_LIST, locationListDpd, Constants.TEXT);
 			locationList.selectLocationName(locationName);
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledNo, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, 2);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1748,55 +1746,55 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(0), Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(1), Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Validating promotion is displayed
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			table.selectRow(gridName, promotionName);
 			promotionList.clickSelectedRow(gridName, promotionName);
 			assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			assertEquals(requiredData.get(0), dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION));
 			dropdown.deSelectItem(CreatePromotions.DPD_LOCATION, locationName.get(0), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(1), Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.isDisplayed(CreatePromotions.DPD_DISCOUNT_TYPE);
-			foundation.waitforElement(EditPromotion.BTN_UPDATE, 3);
+			foundation.waitforElement(EditPromotion.BTN_UPDATE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String expectedAlertHeader = foundation.getText(EditPromotion.TXT_POPUP_HEADER);
 			assertEquals(expectedAlertHeader, popupName.get(0));
 			String expectedAlertMsg = foundation.getText(EditPromotion.TXT_POPUP_ALERT_MSG);
 			List<String> expecetedData = Arrays.asList(expectedAlertMsg.split(Constants.NEW_LINE));
 			assertEquals(expecetedData.get(0), popupName.get(1));
 			assertEquals(expecetedData.get(2), popupName.get(2));
-			foundation.waitforElement(EditPromotion.BTN_SAVE_AS, 2);
+			foundation.waitforElement(EditPromotion.BTN_SAVE_AS, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_SAVE_AS);
 			String newPromotionName = strings.getRandomCharacter();
 
 			textBox.enterText(EditPromotion.TXT_PROMOTION_NAME, newPromotionName);
 			foundation.click(EditPromotion.BTN_CONTINUE);
-			foundation.waitforElement(EditPromotion.BTN_OK, 3);
+			foundation.waitforElement(EditPromotion.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_OK);
 			// new promotion name validation
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, newPromotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(newPromotionName));
 			// old promotion name validation
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
@@ -1804,10 +1802,10 @@ public class Promotions extends TestInfra {
 			//Expire Promotion
 			promotionList.searchPromotion(newPromotionName);
 			editPromotion.expirePromotion(gridName, newPromotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.searchPromotion(promotionName);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, 5);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1855,16 +1853,16 @@ public class Promotions extends TestInfra {
 				textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
 				textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 				dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(iter), Constants.TEXT);
-				foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+				foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 				foundation.click(CreatePromotions.BTN_NEXT);
 				dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(1), Constants.TEXT);
 
-				foundation.threadWait(2000);
+				foundation.threadWait(Constants.TWO_SECOND);
 				textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(2));
 				textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(3));
 				foundation.click(CreatePromotions.BTN_NEXT);
-				foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+				foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 				// validating popup msg
 				List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 				List<String> popupField = null;
@@ -1892,7 +1890,7 @@ public class Promotions extends TestInfra {
 				foundation.click(CreatePromotions.BTN_OK);
 
 				// Validating promotion is displayed
-				foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+				foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 				textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 				foundation.click(PromotionList.BTN_SEARCH);
 				Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
@@ -1981,60 +1979,60 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(4));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(5));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(6));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// editing item field
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			assertEquals(requiredData.get(0), dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION));
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// category field validation
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_NEXT);
-			foundation.waitforElement(EditPromotion.DPD_ITEM, 2);
+			foundation.waitforElement(EditPromotion.DPD_ITEM, Constants.SHORT_TIME);
 			String actualData = dropdown.getSelectedItem(EditPromotion.DPD_ITEM);
 			assertEquals(actualData, requiredData.get(2));
 			// end promotion
 			foundation.click(EditPromotion.BTN_CANCEL);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_CANCEL);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.click(EditPromotion.BTN_EXPIRE);
 
@@ -2084,61 +2082,61 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
 			assertEquals(actualValue, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(5));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(6));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// editing category field
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			assertEquals(requiredData.get(0), dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION));
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(4));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, 2);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// category field validation
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, 2);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_NEXT);
-			foundation.waitforElement(EditPromotion.DPD_CATEGORY, 2);
+			foundation.waitforElement(EditPromotion.DPD_CATEGORY, Constants.SHORT_TIME);
 			String actualData = dropdown.getSelectedItem(EditPromotion.DPD_CATEGORY);
 			assertEquals(actualData, requiredData.get(4));
 			// end promotion
 			foundation.click(EditPromotion.BTN_CANCEL);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_CANCEL);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.click(EditPromotion.BTN_EXPIRE);
 

@@ -27,9 +27,9 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
 import at.smartshop.pages.AdminNationalAccounts;
 import at.smartshop.pages.CreateNewNationalAccountCategory;
 import at.smartshop.pages.CreateNewRule;
@@ -138,7 +138,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_SAVE);
 
 			// Selecting Orginization and Location
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION,
 					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), Constants.TEXT);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION,
@@ -157,7 +157,7 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting Data by Deleting created National Product
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICO_DELETE);
@@ -198,7 +198,7 @@ public class NationalAccount extends TestInfra {
 
 			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
@@ -212,7 +212,7 @@ public class NationalAccount extends TestInfra {
 
 			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
@@ -374,14 +374,14 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
-			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2);
+			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 		} catch (Exception exc) {
@@ -542,14 +542,14 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, 2);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
-			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, 2);
+			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 		} catch (Exception exc) {
@@ -578,7 +578,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -614,7 +614,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -652,7 +652,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -692,7 +692,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -730,7 +730,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			nationalAccountRules.objRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -759,7 +759,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 																		rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 			nationalAccountRules.clickRulesLink(ruleName);
@@ -767,7 +767,7 @@ public class NationalAccount extends TestInfra {
 			assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
 			foundation.click(CreateNewRule.BTN_DELETE);
 
-			foundation.waitforElement(CreateNewRule.DELETE_PROMPT, 5);
+			foundation.waitforElement(CreateNewRule.DELETE_PROMPT, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.DELETE_PROMPT));
 			String title = foundation.getText(CreateNewRule.DELETE_PROMPT_TITLE);
 			Assert.assertEquals(title, rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
@@ -782,7 +782,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY),
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CREATE_NEW_RULE, 3);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 			foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName));
 
 		} catch (Exception exc) {
@@ -812,7 +812,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
@@ -912,7 +912,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
@@ -957,7 +957,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
@@ -1004,13 +1004,13 @@ public class NationalAccount extends TestInfra {
 
 			// filtering rule
 			textBox.enterText(AdminNationalAccounts.TXT_FLITER_INPUT, nationalAccountName);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			nationalAccountRules.clickRulesLink(ruleName);
 
 			// Rule Page Validations
 			String rulePageTitle = rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE);
-			foundation.waitforElement(createNewRule.objClientRuleName(rulePageTitle), 4);
+			foundation.waitforElement(createNewRule.objClientRuleName(rulePageTitle), Constants.SHORT_TIME);
 			Boolean clientRuleName = foundation.isDisplayed(createNewRule.objClientRuleName(rulePageTitle));
 			Assert.assertTrue(clientRuleName);
 			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
@@ -1057,12 +1057,12 @@ public class NationalAccount extends TestInfra {
             // create new rule
             foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
             createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
-            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2);
+            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, Constants.SHORT_TIME);
             textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
 
             foundation.click(NationalAccountRules.ICON_DELETE);
             // delete pop up validations
-            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
 
             Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
             Assert.assertTrue(popupWindow);
@@ -1077,7 +1077,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(NationalAccountRules.BTN_CANCEL);
             assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             foundation.click(NationalAccountRules.ICON_DELETE);
-            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
             Assert.assertTrue(popupYesButton);
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
@@ -1122,11 +1122,11 @@ public class NationalAccount extends TestInfra {
             // create new rule
             foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
             createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
-            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, 2);
+            foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, Constants.SHORT_TIME);
             textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
             foundation.click(NationalAccountRules.ICON_DELETE);
             // delete pop up validations
-            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
             Assert.assertTrue(popupWindow);
             String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
@@ -1138,7 +1138,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(NationalAccountRules.BTN_CANCEL);
             assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             foundation.click(NationalAccountRules.ICON_DELETE);
-            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), 2);
+            foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
             Assert.assertTrue(popupYesButton);
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
@@ -1182,7 +1182,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, "text");
 			foundation.click(NationalAccounts.BTN_SAVE);
 			// Selecting Organization and Location
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, "text");
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, "text");
 
@@ -1197,7 +1197,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyNationalAccountSummaryTableBody(location);
 			foundation.click(NationalAccounts.ICON_DELETE);
 
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
 			Boolean popupWindow = foundation.isDisplayed(NationalAccounts.BTN_POP_UP_YES);
 			Assert.assertTrue(popupWindow);
 
@@ -1210,12 +1210,12 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyNationalAccountSummaryTableBody(locationsTagged);
 
 			// Resetting data
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -1249,26 +1249,26 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
-			foundation.waitforElement(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT, 3);
+			foundation.waitforElement(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
 
 			// Location field validation
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
 			String actualColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
 			nationalAccounts.verifyBackgroundColour(location, actualColour);
 
 			// Resetting data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 
 		} catch (Exception exc) {
@@ -1308,14 +1308,14 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// creating duplicate account
-			foundation.waitforElement(NationalAccounts.BTN_CREATE, 2);
+			foundation.waitforElement(NationalAccounts.BTN_CREATE, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_CREATE);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
 
 			// Alert message Validations
-			foundation.waitforElement(nationalAccounts.nationalAccountDetails(accountName), 2);
+			foundation.waitforElement(nationalAccounts.nationalAccountDetails(accountName), Constants.SHORT_TIME);
 			Boolean status1 = foundation.isDisplayed(nationalAccounts.nationalAccountDetails(accountName));
 			Assert.assertTrue(status1);
 			nationalAccounts.verifyPromptMsg(promptTitle.get(0), promptTitle.get(1));
@@ -1328,10 +1328,10 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, 2);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 			
 		} catch (Exception exc) {
@@ -1368,16 +1368,16 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
 
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
 
 			foundation.click(NationalAccounts.BTN_ADD_TO_NATIONAL_ACCOUNTS);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, org);
 			
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			String city = foundation.getText(NationalAccounts.LBL_CITY);
 			String State = foundation.getText(NationalAccounts.LBL_STATE);
 
@@ -1407,7 +1407,7 @@ public class NationalAccount extends TestInfra {
 
 			// Resetting Data by Deleting created National account
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElement(NationalAccounts.TBL_BODY, 2);
+			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 			foundation.click(NationalAccounts.ICON_DELETE);
 			foundation.click(NationalAccounts.BTN_POPUP_YES);
@@ -1445,7 +1445,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, 2);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 
 			// Verify hint text of org and location dropdown
 			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_ORGANIZATION), defaultOrg);
@@ -1489,7 +1489,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
 			// Verify title
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
@@ -1505,7 +1505,7 @@ public class NationalAccount extends TestInfra {
 			// verify selcted org and location displays in dropdown
 			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
-			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2);
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
@@ -1547,7 +1547,7 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
-			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, 10);
+			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
 			// Verify title
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
@@ -1563,7 +1563,7 @@ public class NationalAccount extends TestInfra {
 			// verify selcted org and location displays in dropdown
 			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
-			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, 2);
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 

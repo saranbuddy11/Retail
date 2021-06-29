@@ -103,7 +103,7 @@ public class GlobalProducts extends TestInfra {
 			
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.waitforElement(GlobalProductChange.BTN_OK, 2);
+			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
 	        foundation.click(GlobalProductChange.BTN_OK);
 	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
@@ -149,7 +149,7 @@ public class GlobalProducts extends TestInfra {
 			
 
 			// Selecting the Product
-			foundation.threadWait(2000);			
+			foundation.threadWait(Constants.TWO_SECOND);			
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -157,16 +157,16 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(productSummary.getLocationNamePath(locationName));
 
 			// Remove selected location
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 3);
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
 		
 			
 			//resetting test data
-			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
+			foundation.waitforElement(ProductSummary.BTN_EXTEND, Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
 			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), locationName);

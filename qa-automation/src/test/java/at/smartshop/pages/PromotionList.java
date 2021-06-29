@@ -12,6 +12,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class PromotionList extends Factory {
 	private Foundation foundation = new Foundation();
@@ -45,7 +46,7 @@ public class PromotionList extends Factory {
 	}
 
 	public void searchPromotion(String promoName) {
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 	}

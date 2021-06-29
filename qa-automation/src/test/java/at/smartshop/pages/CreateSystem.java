@@ -8,9 +8,11 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class CreateSystem {
+	
 	private Dropdown dropDown=new Dropdown();
 	private TextBox textBox=new TextBox();
 	private Foundation foundation=new Foundation();	
+	
 	public static final By LBL_CREATE_SYSTEM = By.id("create-form");
 	public static final By DPD_LOCATION = By.id("locs");
     public static final By TXT_SYSTEM_NAME = By.id("systemName");
@@ -34,7 +36,7 @@ public class CreateSystem {
         dropDown.selectItem(DPD_LOCKER_MODEL, lockerModel, Constants.TEXT);
         foundation.click(TXT_TIMER);
         foundation.click(BTN_SAVE);
-        foundation.threadWait(2000);
+        foundation.threadWait(Constants.TWO_SECOND);
 	}
 	
 	

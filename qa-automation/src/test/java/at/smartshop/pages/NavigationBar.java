@@ -21,7 +21,7 @@ public class NavigationBar extends Factory {
 
 	public void selectOrganization(String selectText) {	
 		try {
-			foundation.waitforElement(DPD_ORG, 5);
+			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 			foundation.click(DPD_ORG);
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);

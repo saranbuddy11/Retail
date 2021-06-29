@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class LockerSystem extends Factory {
 	private Foundation foundation = new Foundation();
@@ -35,7 +36,7 @@ public class LockerSystem extends Factory {
 
 	public void expandLocationLocker(String location) {
 		try {
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(objExpandLocationLocker(location));
 		} catch (Exception exc) {
 			Assert.fail();

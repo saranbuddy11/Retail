@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class CreateNewNationalAccountCategory {
 	private Foundation foundation=new Foundation();
@@ -31,7 +32,7 @@ public class CreateNewNationalAccountCategory {
 		
 		foundation.click(BTN_CREATE_NEW_CATEGORY);
 		textBox.enterText(TXT_CATEGORY_NAME, categoryName);
-		foundation.threadWait(2000);
+		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(BTN_SAVE_CATEGORY_NAME);
 		textBox.enterText(TXT_SEARCH, categoryName);
 		foundation.click(LNK_UPC_MAPPED);
@@ -46,9 +47,9 @@ public class CreateNewNationalAccountCategory {
 		textBox.enterText(TXT_SEARCH, Keys.CLEAR);
 		textBox.enterText(TXT_SEARCH, ruleCategory);
 		foundation.click(LNK_UPC_MAPPED);
-		foundation.waitforElement(BTN_DELETE_CATEGORY, 10);
+		foundation.waitforElement(BTN_DELETE_CATEGORY, Constants.MEDIUM_TIME);
 		foundation.click(BTN_DELETE_CATEGORY);	
-		foundation.waitforElement(BTN_YES_DELETE_CATEGORY, 5);
+		foundation.waitforElement(BTN_YES_DELETE_CATEGORY, Constants.SHORT_TIME);
 		foundation.click(BTN_YES_DELETE_CATEGORY);
 	}
 	

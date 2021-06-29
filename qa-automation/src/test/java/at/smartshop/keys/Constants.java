@@ -35,6 +35,11 @@ public class Constants {
 	public static final String DELIMITER_BACKSLASH= "\\";
 	public static final String NA= "N/A";
 	public static final String TIME_ZONE_INDIA= "Asia/Kolkata";
-	public static final String NEW_LINE ="\n";	
-
+	public static final String NEW_LINE ="\n";
+	public static final int ONE_SECOND =1;
+	public static final int TWO_SECOND =2;
+	public static final int SHORT_TIME = 5;
+    public static final int MEDIUM_TIME = 10;
+    public static final int LONG_TIME = 20;
+    public static final int EXTRA_LONG_TIME=30;
 }

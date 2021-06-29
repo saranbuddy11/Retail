@@ -120,7 +120,7 @@ public class Sos extends TestInfra {
 										loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));			
-			foundation.waitforElement(LoadGMA.LBL_SUCCESS, 3);				
+			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			
 		} catch (Exception exc) {

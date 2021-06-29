@@ -131,7 +131,7 @@ public class LocationSummary extends Factory {
 
     public void verifyHasLockerField(String defaultValue) {
         try {
-            foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
+            foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
             Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
             String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
             Assert.assertEquals(value, defaultValue);
@@ -139,20 +139,13 @@ public class LocationSummary extends Factory {
         }catch(Exception exc) {
             Assert.fail(exc.toString());
         }
-    }
-    
+    }    
 	
-	/*
-	 * public void showTaxCategory() { try { foundation.click(BTN_MANAGE_COLUMNS);
-	 * foundation.click(BTN_SHOW); } catch (Exception exc) {
-	 * Assert.fail(exc.toString()); } foundation.click(BTN_APPLY); }
-	 */
-	 
-    
+   
     public void updateLockerSettings(String enableORDisable) {    	
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
         foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 3);
+        foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
 
 }

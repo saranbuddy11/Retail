@@ -90,9 +90,9 @@ public class Location extends TestInfra {
 
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
-			foundation.waitforElement(ProductSummary.TXT_SEARCH, 10);
+			foundation.waitforElement(ProductSummary.TXT_SEARCH, Constants.MEDIUM_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -138,7 +138,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
 			
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, 2);
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -159,7 +159,7 @@ public class Location extends TestInfra {
            
             navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
             locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-            foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, 2);
+            foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, Constants.SHORT_TIME);
             foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
             dropDown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
             Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX));
@@ -195,7 +195,7 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 
 			// upload image
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
@@ -204,7 +204,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD);
 
 			// disabling location
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
@@ -218,10 +218,10 @@ public class Location extends TestInfra {
 			
 			//resetting data
 			locationList.selectLocationName(locationName);
-			foundation.waitforElement(LocationSummary.DPD_DISABLED, 2);
+			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, 2);			
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
@@ -254,7 +254,7 @@ public class Location extends TestInfra {
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(GlobalProductChange.LBL_PRODUCT);
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
@@ -309,7 +309,7 @@ public class Location extends TestInfra {
             foundation.click(globalProduct.getGlobalProduct(product));
 
             //select tax category
-            dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, 2);
+            dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, Constants.TWO_SECOND);
             String selectedTaxCat = dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY);
             foundation.click(ProductSummary.BTN_SAVE);
 
@@ -320,7 +320,7 @@ public class Location extends TestInfra {
             // Navigate to product's location
             textBox.enterText(ProductSummary.TXT_SEARCH, location);
             foundation.click(ProductSummary.TBL_DATA);
-            foundation.waitforElement(ProductSummary.BTN_REMOVE, 10);
+            foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
             foundation.click(ProductSummary.BTN_EDIT_LOCATION);
 
             // navigate to product tab
@@ -328,7 +328,7 @@ public class Location extends TestInfra {
 
             // enable show tax cat column
             locationSummary.manageColumn(rstLocationListData.get(CNLocationList.SHOW_RECORDS));
-            foundation.threadWait(3000);
+            foundation.threadWait(Constants.TWO_SECOND);
             
             // ensure selected tax category from product summary page displays for the product here
             textBox.enterText(LocationSummary.TXT_SEARCH, product);            

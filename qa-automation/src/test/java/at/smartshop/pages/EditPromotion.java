@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
+import at.smartshop.keys.Constants;
 
 public class EditPromotion extends Factory {
 
@@ -37,7 +38,7 @@ public class EditPromotion extends Factory {
 		
 		table.selectRow(dataGridname, promoName);
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
-		foundation.waitforElement(EditPromotion.BTN_END_PROMO, 2000);
+		foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_END_PROMO);
 		foundation.click(EditPromotion.BTN_EXPIRE);
 

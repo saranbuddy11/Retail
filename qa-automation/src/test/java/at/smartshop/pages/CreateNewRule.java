@@ -62,7 +62,7 @@ public class CreateNewRule extends Factory {
 		try {
 			foundation.click(DPD_ORG);
 			foundation.click(By.xpath("//ul[@id='select2-orgdt-results']//li[text()='" + org + "']"));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -72,7 +72,7 @@ public class CreateNewRule extends Factory {
 		try {
 			foundation.click(DPD_LOCATION);
 			foundation.click(By.xpath("//ul[@id='select2-locdt-results']//li[text()='" + location + "']"));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -119,9 +119,9 @@ public class CreateNewRule extends Factory {
 	public void verifyYesButton() {
 		try {
 			foundation.click(BTN_DELETE);
-			foundation.waitforElement(BTN_YES, 5);
+			foundation.waitforElement(BTN_YES, Constants.SHORT_TIME);
 			foundation.click(BTN_YES);
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

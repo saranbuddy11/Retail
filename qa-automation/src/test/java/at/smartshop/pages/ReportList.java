@@ -10,6 +10,7 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class ReportList extends Factory {
 	private TextBox textBox = new TextBox();
@@ -44,11 +45,11 @@ public class ReportList extends Factory {
 		try {
 			foundation.click(DPD_DATE);
 			WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
-			foundation.waitforElement(DPD_DATE_OPTIONS, 30);
+			foundation.waitforElement(DPD_DATE_OPTIONS, Constants.EXTRA_LONG_TIME);
 			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);			
 			for (WebElement dateOption : dateOptions) {
 				if (dateOption.getText().equals(optionName)) {
-				foundation.waitforElement(DPD_DATE_GRID, 30);					
+				foundation.waitforElement(DPD_DATE_GRID, Constants.EXTRA_LONG_TIME);					
 					dateOption.click();
 					break;
 				}

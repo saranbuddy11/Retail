@@ -26,8 +26,7 @@ public class CreatePromotions {
 	public static final By LBL_SELECT_CRITERIA = By.xpath("//div[@id='multiple-filters']//i");
 	public static final By LBL_DETAILS = By.xpath("//div[@id='section3']//h4");
 	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
-	public static final By BTN_CANCEL = By.id("cancelBtn");
-	public static final By TXT_LOCATION = By.xpath("//input[@placeholder='Select Location(s) to include']");
+	public static final By BTN_CANCEL = By.id("cancelBtn");	
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
