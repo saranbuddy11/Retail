@@ -1755,4 +1755,56 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "C142836-QAA-45 - Verify Sales transaction with email is completed in Kiosk")
+	public void salesTransactionViaEmail() {
+		try {
+			final String CASE_NUM = "142836";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			
+			//Navigating to product search page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.waitforElement(AccountLogin.BTN_CAMELCASE,Constants.SHORT_TIME);
+
+			//searching for product
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+	        foundation.click(ProductSearch.BTN_PRODUCT);
+	        
+	        //verify Order Page     
+	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+			  
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			
+			List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
+
+			foundation.click(payments.objText(paymentPageData.get(3)));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+
+		    browser.close();
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
 }
