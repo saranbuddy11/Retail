@@ -206,7 +206,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -354,7 +354,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -501,7 +501,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -647,7 +647,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -793,7 +793,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -939,7 +939,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1091,7 +1091,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1244,7 +1244,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1399,7 +1399,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1554,7 +1554,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1708,7 +1708,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1756,17 +1756,41 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "C142836-QAA-45 - Verify Sales transaction with email is completed in Kiosk")
+	@Test(description = "142836-QAA-45 - Verify Sales transaction with email is completed in Kiosk")
 	public void salesTransactionViaEmail() {
 		try {
 			final String CASE_NUM = "142836";
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			
 			//Navigating to product search page
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
@@ -1780,24 +1804,25 @@ public class V5Test extends TestInfra {
 	        
 	        //verify Order Page     
 	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+	       Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
 
-			foundation.objectFocus(order.objText(orderPageData.get(7)));
-			foundation.click(order.objText(orderPageData.get(7)));
+			foundation.objectFocus(order.objText(orderPageData.get(1)));
+			foundation.click(order.objText(orderPageData.get(1)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 			  
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER,FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			
 			List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
 
-			foundation.click(payments.objText(paymentPageData.get(3)));
+			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 
 		    browser.close();
