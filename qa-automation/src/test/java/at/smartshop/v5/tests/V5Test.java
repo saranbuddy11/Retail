@@ -15,13 +15,18 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNGlobalProductChange;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
@@ -59,8 +64,11 @@ public class V5Test extends TestInfra {
 	private ScanPayment scanPayment=new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment=new FingerPrintPayment();
 	private ChangePin changePin=new ChangePin();
+	private LocationSummary locationSummary=new LocationSummary();
 	
 	private Map<String, String> rstV5DeviceData;	
+	private Map<String, String> rstNavigationMenuData;
+	private Map<String, String> rstGlobalProductChangeData;
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -1762,8 +1770,6 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM = "142836";
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
@@ -1829,4 +1835,5 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
 }
