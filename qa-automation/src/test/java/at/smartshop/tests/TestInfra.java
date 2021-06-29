@@ -55,12 +55,13 @@ public class TestInfra {
 	@AfterSuite
 	public void afterSuit(String sendEmail) {
 		try {			
-			ResultSets.connection.close();
-			if(sendEmail.equals(Constants.YES)) {
-			sendReport.triggerMail(ExtReport.reportFullPath);
-			}
+			ResultSets.connection.close();	
+			if(sendEmail.equals(Constants.YES)) {				
+				sendReport.triggerMail(ExtReport.reportFullPath,at.framework.reportsetup.Listeners.passedCount,at.framework.reportsetup.Listeners.failedCount,at.framework.reportsetup.Listeners.skippedCount);
+				}
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 }

@@ -28,4 +28,6 @@ public class Configuration {
 	public static final String TRANS_SALES = "trans_sales";
 	public static final String TRANS_GMA = "trans_gma";
 	public static final String TRANS_MKA = "trans_mka";
+	public static final String EMAIL_TO = "emailTo";
+	public static final String EMAIL_HOST_NAME= "emailHostName";
 }

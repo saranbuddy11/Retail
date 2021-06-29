@@ -55,4 +55,16 @@ public class Constants {
 	public static final String NEW_LINE ="\n";
 	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
 	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
+	public static final String EMAIL_NAME= "Results.html";
+	public static final String EMAIL_SUBJECT= "Automation Execution Report";
+	public static final String EMAIL_MESSAGE1= "Hi Dinesh,\r\n"
+			+ "<br>\r\n"
+			+ "Please find the execution report as placed in the link below, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
+			+ "<br>\r\n"
+			+ "Link to shared folder- file://NIBC2101/Users/sandeepab/Desktop/Daily%20Reports";
+	public static final String EMAIL_MESSAGE2= "Thank you,\r\n"
+			+ "<br>\r\n"
+			+ "Sandeep";
+	public static final String EMAIL_TWO_BREAK="<br><br>";
+	public static final String EMAIL_THREE_BREAK="<br><br><br>";
 }
