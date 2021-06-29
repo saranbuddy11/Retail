@@ -206,7 +206,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -354,7 +354,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -501,7 +501,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -647,7 +647,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -793,7 +793,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -939,7 +939,7 @@ public class V5Test extends TestInfra {
 		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1091,7 +1091,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1244,7 +1244,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1399,7 +1399,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1554,7 +1554,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -1708,7 +1708,7 @@ public class V5Test extends TestInfra {
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
 			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,5);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
