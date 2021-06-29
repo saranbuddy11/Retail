@@ -33,7 +33,7 @@ public class Factory {
 					Map<String, Object> chromePrefs = new HashMap<>();
 					chromePrefs.put("credientials enable service", false);
 					chromeOptions.setExperimentalOption("prefs", chromePrefs);
-					chromeOptions.addArguments("Zoom 75%", "--disable-plugins", "--disable-extensions","--disable.popup.blocking");
+					chromeOptions.addArguments("--disable-plugins", "--disable-extensions","--disable.popup.blocking");
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setCapability("applicationCacheEnabled", false);
 					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);

@@ -1,5 +1,7 @@
 package at.framework.ui;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +12,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -88,6 +93,17 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return element;
+	}
+	
+	public WebElement waitforClikableElement(By object, int waitTime) {
+		WebElement element = null;
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+			element = wait.until(ExpectedConditions.elementToBeClickable(object));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -214,4 +230,23 @@ public class Foundation extends Factory {
 		}
 		return isSorted;
 	}
+	
+	public void adjustBrowerSize(String size) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+			executor.executeScript("document.body.style.zoom = '" + size + "'");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+    public void objectClick(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+		    executor.executeScript("arguments[0].click();", getDriver().findElement(object));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 }
