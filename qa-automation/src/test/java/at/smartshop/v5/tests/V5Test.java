@@ -1805,7 +1805,6 @@ public class V5Test extends TestInfra {
 	        //verify Order Page     
 	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 	       Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -1824,8 +1823,6 @@ public class V5Test extends TestInfra {
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-
-		    browser.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
