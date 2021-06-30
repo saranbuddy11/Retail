@@ -1836,10 +1836,10 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "142846-QAA-45-Verify the Stock reduced in ADM when Sales transaction with email is completed in Kiosk")
+	@Test(description = "142845-QAA-45-Verify the product stock reduced in ADM when Sales transaction with email is completed in Kiosk")
 	public void salesTransactionViaEmailProductCount() {
 		try {
-			final String CASE_NUM = "142846";
+			final String CASE_NUM = "142845";
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			List<String> requiredData = Arrays
