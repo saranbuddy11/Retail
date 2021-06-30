@@ -9,15 +9,18 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
 import at.smartshop.keys.Constants;
 
 public class Excel {
-	
+
 	PropertyFile propertyFile = new PropertyFile();
 
-	public void writeToExcel(String fileName, String workSheetName, String iterator, String cellValue)  {
+	public void writeToExcel(String fileName, String workSheetName, String iterator, String cellValue) {
 		HSSFWorkbook wb = null;
 		try {
 			wb = new HSSFWorkbook();
@@ -41,7 +44,8 @@ public class Excel {
 				}
 			} else {
 				List<String> reqValue = Arrays.asList(cellValue.split(Constants.DELIMITER_HASH));
-				for (int i = (Integer.parseInt(iterationCount.get(1))); i < Integer.parseInt(iterationCount.get(2)); i++) {
+				for (int i = (Integer.parseInt(iterationCount.get(1))); i < Integer
+						.parseInt(iterationCount.get(2)); i++) {
 					HSSFRow row = workSheet.getRow(i);
 					for (int j = 0; j < columnCount; j++) {
 						Cell cell = row.getCell(j);
@@ -53,13 +57,52 @@ public class Excel {
 			exc.printStackTrace();
 		} finally {
 			try {
-			FileOutputStream out = new FileOutputStream(new File(fileName));
-			wb.write(out);
-			out.close();
-			}catch(Exception exc) {
+				FileOutputStream out = new FileOutputStream(new File(fileName));
+				wb.write(out);
+				out.close();
+			} catch (Exception exc) {
 				Assert.fail(exc.toString());
 			}
 		}
+	}
+
+	public boolean readExcel(List<String> uiList, String workSheetName) {
+		XSSFWorkbook workBook = null;
+
+		try {
+			File file = new File("C:\\Users\\ajaybabur\\Desktop\\products (1).xlsx"); // creating a new file instance
+			FileInputStream fis = new FileInputStream(file); // obtaining bytes from the file
+			// creating Workbook instance that refers to .xlsx file
+			workBook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workBook.getSheetAt(0); // creating a Sheet object to retrieve object
+			XSSFRow row = sheet.getRow(0);
+
+			for (String uiCelldata : uiList) {
+				Boolean isTest = false;
+				for (Cell cell : row) {
+
+					if (uiCelldata.equals(cell.getStringCellValue())) {
+						isTest = true;
+
+						break;
+					}
+				}
+				if (isTest.equals(false)) {
+					return false;
+				}
+			}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} finally {
+			try {
+
+				workBook.close();
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return true;
+
 	}
 
 }

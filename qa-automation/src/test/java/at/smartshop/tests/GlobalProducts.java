@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.files.Excel;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -39,8 +41,9 @@ public class GlobalProducts extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private LocationList locationList = new LocationList();
 	private Table table = new Table();
-	private GlobalProductChange globalProductChange=new GlobalProductChange();
-	
+	private Excel excel = new Excel();
+	private GlobalProductChange globalProductChange = new GlobalProductChange();
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationSummaryData;
@@ -48,106 +51,118 @@ public class GlobalProducts extends TestInfra {
 
 	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
-		try {			
+		try {
 			final String CASE_NUM = "110985";
 			double price = 0.00;
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-			
+
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			
+
 			// Searching for Product
-			String product= rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
-			foundation.click(globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));			
-			
-			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-			Map<String, String> productsRecord=productSummary.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-			List<String> columnName=Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-			price=Double.parseDouble(productsRecord.get(columnName.get(3)));
+			foundation.click(
+					globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
+
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
+					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			Map<String, String> productsRecord = productSummary
+					.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			List<String> columnName = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			price = Double.parseDouble(productsRecord.get(columnName.get(3)));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			
-			foundation.click(globalProductChange.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+
+			foundation.click(globalProductChange
+					.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
-			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);			
-			       
-	        foundation.click(globalProductChange.objTableRow(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
-	        
+			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+
+			foundation.click(globalProductChange
+					.objTableRow(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+
 			foundation.click(GlobalProductChange.BTN_NEXT);
-			
-			//increment the price			
+
+			// increment the price
 			foundation.click(GlobalProductChange.BTN_INCREMENT);
-			String priceText=foundation.getText(GlobalProductChange.LBL_PRICE);
-			String minText=foundation.getText(GlobalProductChange.LBL_MIN);
-			String maxText=foundation.getText(GlobalProductChange.LBL_MAX);
-			
-			//Validate the fields
-			List<String> lblPrice = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_LABEL).split(Constants.DELIMITER_TILD));
+			String priceText = foundation.getText(GlobalProductChange.LBL_PRICE);
+			String minText = foundation.getText(GlobalProductChange.LBL_MIN);
+			String maxText = foundation.getText(GlobalProductChange.LBL_MAX);
+
+			// Validate the fields
+			List<String> lblPrice = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_LABEL)
+					.split(Constants.DELIMITER_TILD));
 			assertEquals(priceText, lblPrice.get(0));
 			assertEquals(minText, lblPrice.get(1));
 			assertEquals(maxText, lblPrice.get(2));
-			
-			double Incrementprice =Double.parseDouble(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE));
+
+			double Incrementprice = Double
+					.parseDouble(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE));
 			textBox.enterText(GlobalProductChange.TXT_PRICE, Double.toString(Incrementprice));
-			
-			
+
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.waitforElement(GlobalProductChange.BTN_OK, 2);
-	        foundation.click(GlobalProductChange.BTN_OK);
-	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-	       
-	        // Select Menu and Global product	       
-	        navigationBar.navigateToMenuItem(menuItem.get(1));
-	        
-	       
-	        // Search and select product
-	        textBox.enterText(LocationList.TXT_FILTER, product);
-	        foundation.click(globalProduct.getGlobalProduct(product));
-	        textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-	        double updatedPrice = price+Incrementprice;
-	        
-	        Map<String, String> updatedProductsRecord=productSummary.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-    	    
+			foundation.click(GlobalProductChange.BTN_OK);
+			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+
+			// Select Menu and Global product
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+
+			// Search and select product
+			textBox.enterText(LocationList.TXT_FILTER, product);
+			foundation.click(globalProduct.getGlobalProduct(product));
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
+					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			double updatedPrice = price + Incrementprice;
+
+			Map<String, String> updatedProductsRecord = productSummary
+					.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+
 			assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
-	
+
 	@Test(description = "This test validates Removed Extended Location")
 	public void RemoveLocation() {
 		try {
 			final String CASE_NUM = "116004";
-			
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-						
+
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			
+
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
 
 			// Selecting the Product
-			foundation.threadWait(2000);			
+			foundation.threadWait(2000);
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -160,20 +175,47 @@ public class GlobalProducts extends TestInfra {
 
 			// Validations
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 3);
-			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
-		
-			
-			//resetting test data
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
+
+			// resetting test data
 			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
 			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);
 
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
-			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==1);
+			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 1);
 
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+	}
+
+	@Test(description = "test validates Removed Extended Location")
+	public void productExport() {
+		try {
+			final String CASE_NUM = "1163";
+			browser.launch(Constants.LOCAL, Constants.CHROME);;
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+		//	rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			//navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			Map<String, String> uidata = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			//System.out.println(list);
+		Assert.assertTrue(excel.readExcel(uiList, CASE_NUM));
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 }
