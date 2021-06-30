@@ -24,6 +24,8 @@ import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.DriverHomePage;
+import at.smartshop.v5.pages.DriverLoginPage;
 import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
@@ -40,6 +42,8 @@ public class V5Test extends TestInfra {
 	private EditAccount editAccount=new EditAccount();
 	private NavigationBar navigationBar = new NavigationBar();
 	private DeviceSummary deviceSummary = new DeviceSummary();
+	private DriverLoginPage driverLoginPage = new DriverLoginPage();
+	private DriverHomePage driverHomePage = new DriverHomePage();
 
 	
 	private Map<String, String> rstV5DeviceData;
@@ -309,4 +313,19 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
+	public void verifyTabsDsiplayed() {
+		
+		final String CASE_NUM = "142850";
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+		landingPage.navigateDriverLoginPage();
+		driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(DriverLoginPage.BTN_SIGN_IN);
+		Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		driverHomePage.verifyTabs(tabNames);
+		foundation.click(DriverHomePage.LINK_LOGOUT);
+	}
 }
