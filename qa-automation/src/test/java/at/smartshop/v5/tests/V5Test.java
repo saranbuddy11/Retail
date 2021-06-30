@@ -315,7 +315,8 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
 	public void verifyTabsDsiplayed() {
-		
+		try {
+			
 		final String CASE_NUM = "142850";
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -327,5 +328,30 @@ public class V5Test extends TestInfra {
 		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		driverHomePage.verifyTabs(tabNames);
 		foundation.click(DriverHomePage.LINK_LOGOUT);
+	}catch(Exception exc) {
+		Assert.fail(exc.toString());
 	}
+}
+	
+	@Test(description="142853-Verify the Logout tab from Driver menu")
+	public void verifyLogoutTab() {
+		try {
+		
+			final String CASE_NUM = "142853";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			landingPage.navigateDriverLoginPage();
+			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(DriverLoginPage.BTN_SIGN_IN);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_LOGOUT);
+			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
+			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
+		
+	}catch(Exception exc) {
+		Assert.fail(exc.toString());
+	}
+}
 }
