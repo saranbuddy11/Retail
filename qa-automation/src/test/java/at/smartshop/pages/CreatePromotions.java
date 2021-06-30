@@ -87,7 +87,7 @@ public class CreatePromotions {
 		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-		foundation.threadWait(2000);
+		foundation.threadWait(Constants.TWO_SECOND);
 	}
 
 	public List<String> getPopUpData() {

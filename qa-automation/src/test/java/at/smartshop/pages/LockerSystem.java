@@ -108,7 +108,7 @@ public class LockerSystem extends Factory {
 
 	public void deleteSystem(String location, String systemName, String delete) {
 		try {
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(objExpandLocationLocker(location));
 			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
