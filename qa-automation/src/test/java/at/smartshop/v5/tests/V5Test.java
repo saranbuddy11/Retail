@@ -1956,13 +1956,18 @@ public class V5Test extends TestInfra {
 			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 
-			List<String> NavigationMenu = Arrays
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			List<String> navigationMenu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(NavigationMenu.get(0));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -1980,9 +1985,12 @@ public class V5Test extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			
+			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
+
 
 			// Select Menu and Menu Item
-			navigationBar.navigateToMenuItem(NavigationMenu.get(1));
+			navigationBar.navigateToMenuItem(navigationMenu.get(1));
 			
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -2054,7 +2062,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.navigateToMenuItem(NavigationMenu.get(0));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -2115,9 +2123,6 @@ public class V5Test extends TestInfra {
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			locationSummary.selectTab(requiredData.get(2));
-			
-			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(4), requiredData.get(5));
 
 			foundation.click(LocationSummary.BTN_SYNC);

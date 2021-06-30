@@ -68,6 +68,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -167,18 +168,18 @@ public class LocationSummary extends Factory {
     }
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
-		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
-		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
-		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
 		textBox.enterText(
-				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
-		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
