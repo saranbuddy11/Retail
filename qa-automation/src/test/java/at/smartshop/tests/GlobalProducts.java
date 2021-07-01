@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -194,24 +195,34 @@ public class GlobalProducts extends TestInfra {
 	@Test(description = "test validates Removed Extended Location")
 	public void productExport() {
 		try {
-			final String CASE_NUM = "1163";
-			browser.launch(Constants.LOCAL, Constants.CHROME);;
+			final String CASE_NUM = "142865";
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
-		//	rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			//navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
+
+			foundation.click(GlobalProduct.BTN_EXPORT);
+			// download assertion
+			Assert.assertTrue(excel.isFileDownloaded());
 			Map<String, String> uidata = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
 			List<String> uiList = new ArrayList<String>(uidata.values());
-			//System.out.println(list);
-		Assert.assertTrue(excel.readExcel(uiList, CASE_NUM));
+			// excel headers validation
+			Assert.assertTrue(excel.verifyExcelHeaders(uiList, CASE_NUM));
+			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+
+			Assert.assertEquals( String.valueOf(excelCount),uiData[0]);
+
+			File f1 = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			f1.delete();
 
 		} catch (Exception exc) {
 			Assert.fail();

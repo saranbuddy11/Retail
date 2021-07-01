@@ -3,6 +3,7 @@ package at.framework.files;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -14,11 +15,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
+import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class Excel {
 
 	PropertyFile propertyFile = new PropertyFile();
+	Foundation foundation = new Foundation();
 
 	public void writeToExcel(String fileName, String workSheetName, String iterator, String cellValue) {
 		HSSFWorkbook wb = null;
@@ -66,15 +69,15 @@ public class Excel {
 		}
 	}
 
-	public boolean readExcel(List<String> uiList, String workSheetName) {
+	public boolean verifyExcelHeaders(List<String> uiList, String filePath) {
 		XSSFWorkbook workBook = null;
 
 		try {
-			File file = new File("C:\\Users\\ajaybabur\\Desktop\\products (1).xlsx"); // creating a new file instance
-			FileInputStream fis = new FileInputStream(file); // obtaining bytes from the file
-			// creating Workbook instance that refers to .xlsx file
+			File file = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			FileInputStream fis = new FileInputStream(file);
+
 			workBook = new XSSFWorkbook(fis);
-			XSSFSheet sheet = workBook.getSheetAt(0); // creating a Sheet object to retrieve object
+			XSSFSheet sheet = workBook.getSheetAt(0);
 			XSSFRow row = sheet.getRow(0);
 
 			for (String uiCelldata : uiList) {
@@ -83,7 +86,6 @@ public class Excel {
 
 					if (uiCelldata.equals(cell.getStringCellValue())) {
 						isTest = true;
-
 						break;
 					}
 				}
@@ -103,6 +105,38 @@ public class Excel {
 		}
 		return true;
 
+	}
+
+	public int getExcelRowCount(String filePath) {
+		int rowNum = 0;
+		try {
+			FileInputStream fis = new FileInputStream(filePath);
+			XSSFWorkbook workBook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workBook.getSheetAt(0);
+			rowNum = sheet.getLastRowNum() - 1;
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return rowNum;
+
+	}
+
+	public boolean isFileDownloaded()  {
+	    final int sleepTimeMS = 100;
+	    File file = new File("C:\\Users\\\\ajaybabur\\Downloads\\products.xlsx");
+	    final int timeout = 60* sleepTimeMS;
+	    int timeElapsed = 0;
+	    while (timeElapsed<timeout){
+	        if (file.exists()) {
+	            System.out.println("products.xlsx is present");
+	            return true;
+	        } else {
+	            timeElapsed +=sleepTimeMS;
+	          foundation.threadWait(sleepTimeMS);
+	        }
+	    }
+	    return false;
 	}
 
 }
