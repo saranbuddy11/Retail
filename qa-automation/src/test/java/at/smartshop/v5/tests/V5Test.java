@@ -326,7 +326,7 @@ public class V5Test extends TestInfra {
 		foundation.click(DriverLoginPage.BTN_SIGN_IN);
 		Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		driverHomePage.verifyTabs(tabNames);
+		driverHomePage.verifyData(tabNames);
 		foundation.click(DriverHomePage.LINK_LOGOUT);
 		
 	}catch(Exception exc) {

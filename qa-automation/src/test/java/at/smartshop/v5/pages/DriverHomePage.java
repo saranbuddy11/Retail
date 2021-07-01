@@ -16,7 +16,7 @@ public class DriverHomePage {
 		return By.xpath("//input[@value='"+number+"']");
 	}	
 	
-	public void verifyTabs(List<String> tabName) {
+	public void verifyData(List<String> tabName) {
 		for(int iter=0; iter<tabName.size(); iter++) {
 			foundation.isDisplayed(By.xpath("//span[text()='"+tabName.get(iter)+"']"));
 		}
