@@ -1979,7 +1979,7 @@ public class V5Test extends TestInfra {
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME)));
 			foundation.click(ConsumerSearch.BTN_ADJUST);
 
-			// enter new balance with reason
+			// Enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
@@ -1995,6 +1995,7 @@ public class V5Test extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(0));
 
+			//update Kiosk Language
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -2040,7 +2041,6 @@ public class V5Test extends TestInfra {
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			//foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
 			
 			browser.close();
 			

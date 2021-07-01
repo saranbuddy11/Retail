@@ -24,7 +24,7 @@ public class CreatePromotions {
 	private TextBox textBox = new TextBox();
 	private DateAndTime dateAndTime = new DateAndTime();
 
-	public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
+	//public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
 	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
