@@ -17,7 +17,6 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
-import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -25,12 +24,9 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
-import at.smartshop.pages.GlobalProduct;
-import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
-import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
@@ -75,7 +71,6 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstConsumerSummaryData;
-	private Map<String, String> rstProductSummaryData;
 	
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -1935,7 +1930,7 @@ public class V5Test extends TestInfra {
 			locationSummary.selectTab(requiredData.get(2));
 			
 			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
-			textBox.enterText(locationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> invCountAfterSale=locationSummary.getProductDetails(requiredData.get(3));
        
 	        Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3)))==Integer.valueOf(invCountBeforeSale.get(requiredData.get(3)))-1);
@@ -2050,10 +2045,10 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
+			
+			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// Enter fields in Consumer Search Page
