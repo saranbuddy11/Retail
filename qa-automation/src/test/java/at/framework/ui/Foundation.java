@@ -34,7 +34,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
 public class Foundation extends Factory {
-	DateAndTime dateAndTime=new DateAndTime();
+	DateAndTime dateAndTime = new DateAndTime();
 
 	public boolean isDisplayed(By object) {
 		boolean isElementDisplayed = false;
@@ -97,7 +97,7 @@ public class Foundation extends Factory {
 		}
 		return element;
 	}
-	
+
 	public WebElement waitforClikableElement(By object, int waitTime) {
 		WebElement element = null;
 		try {
@@ -156,9 +156,10 @@ public class Foundation extends Factory {
 		return sizeofObj;
 	}
 
-	public void threadWait(int milliSeconds) {
+	public void threadWait(int seconds) {
 		try {
-			Thread.sleep(milliSeconds);
+			long timeMilliSec = seconds * 1000;
+			Thread.sleep(timeMilliSec);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -204,47 +205,49 @@ public class Foundation extends Factory {
 		}
 		return elementsText;
 	}
-	
-	public boolean verifySortDate(By object,String type,String pattern) {
-		boolean isSorted=false;		
-		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object),pattern);
-		if(type.equals(Constants.ASCENDING)) {
-			isSorted=listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listDate);
-		}
-		else if(type.equals(Constants.DESCENDING)) {
-			isSorted=listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listDate);
+
+	public boolean verifySortDate(By object, String type, String pattern) {
+		boolean isSorted = false;
+		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object), pattern);
+		if (type.equals(Constants.ASCENDING)) {
+			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listDate);
+		} else if (type.equals(Constants.DESCENDING)) {
+			isSorted = listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listDate);
 		}
 		return isSorted;
 	}
-	
-	public boolean verifySortText(By object,String type) {
-		boolean isSorted=false;
+
+	public boolean verifySortText(By object, String type) {
+		boolean isSorted = false;
 		List<String> listOfText = getTextofListElement(object);
-		if(type.equals(Constants.ASCENDING)) {
-			isSorted=listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listOfText);
-		}
-		else if(type.equals(Constants.DESCENDING)) {
-			isSorted=listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listOfText);
+		if (type.equals(Constants.ASCENDING)) {
+			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listOfText);
+		} else if (type.equals(Constants.DESCENDING)) {
+			isSorted = listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listOfText);
 		}
 		return isSorted;
 	}
-	
+
 	public void adjustBrowerSize(String size) {
 		try {
-			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("document.body.style.zoom = '" + size + "'");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-    public void objectClick(By object) {
+
+	public void objectClick(By object) {
 		try {
-			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-		    executor.executeScript("arguments[0].click();", getDriver().findElement(object));
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 }

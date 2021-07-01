@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -43,6 +44,7 @@ public class GlobalProducts extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private Table table = new Table();
 	private Excel excel = new Excel();
+	private Strings strings = new Strings();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -192,7 +194,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "test validates Removed Extended Location")
+	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file is downloaded.")
 	public void productExport() {
 		try {
 			final String CASE_NUM = "142865";
@@ -206,23 +208,104 @@ public class GlobalProducts extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.threadWait(Constants.LONG_TIME);
+			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
+			foundation.click(GlobalProduct.BTN_EXPORT);
+			// download assertion
+			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			Map<String, String> uidata = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			// excel headers validation
+			Assert.assertTrue(
+					excel.verifyExcelData(uiList, "C:\\\\Users\\\\ajaybabur\\\\Downloads\\\\products.xlsx", 0));
+			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			productsfile.delete();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file doesnot contains any records when filtered product is not available")
+	public void zeroRecords() {
+		try {
+			final String CASE_NUM = "142868";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = strings.getRandomCharacter();
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded());
-			Map<String, String> uidata = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
+			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			productsfile.delete();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file records are matching as per the filter applied in ui.Select AVIFoodSystems org and Verify Global Products exported file records are matching as per the filter applied in ui.")
+	public void verifyExportData() {
+		try {
+			final String CASE_NUM = "142867";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);	
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+			foundation.threadWait(Constants.SHORT_TIME);
+			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
+
+			foundation.click(GlobalProduct.BTN_EXPORT);
+			// download assertion
+			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(GlobalProduct.TBL_GRID,GlobalProduct.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			// excel headers validation
-			Assert.assertTrue(excel.verifyExcelHeaders(uiList, CASE_NUM));
-			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
-
-			Assert.assertEquals( String.valueOf(excelCount),uiData[0]);
-
-			File f1 = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
-			f1.delete();
+			Assert.assertTrue(
+					excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx",1));
+			
+			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			productsfile.delete();
 
 		} catch (Exception exc) {
 			Assert.fail();

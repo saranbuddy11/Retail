@@ -3,7 +3,6 @@ package at.framework.files;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -69,16 +68,16 @@ public class Excel {
 		}
 	}
 
-	public boolean verifyExcelHeaders(List<String> uiList, String filePath) {
+	public boolean verifyExcelData(List<String> uiList, String filePath,int rowNum) {
 		XSSFWorkbook workBook = null;
 
 		try {
-			File file = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			File file = new File(filePath);
 			FileInputStream fis = new FileInputStream(file);
 
 			workBook = new XSSFWorkbook(fis);
 			XSSFSheet sheet = workBook.getSheetAt(0);
-			XSSFRow row = sheet.getRow(0);
+			XSSFRow row = sheet.getRow(rowNum);
 
 			for (String uiCelldata : uiList) {
 				Boolean isTest = false;
@@ -113,8 +112,8 @@ public class Excel {
 			FileInputStream fis = new FileInputStream(filePath);
 			XSSFWorkbook workBook = new XSSFWorkbook(fis);
 			XSSFSheet sheet = workBook.getSheetAt(0);
-			rowNum = sheet.getLastRowNum() - 1;
-
+			rowNum = sheet.getLastRowNum();
+			workBook.close();
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
@@ -122,9 +121,9 @@ public class Excel {
 
 	}
 
-	public boolean isFileDownloaded()  {
+	public boolean isFileDownloaded(String filePath)  {
 	    final int sleepTimeMS = 100;
-	    File file = new File("C:\\Users\\\\ajaybabur\\Downloads\\products.xlsx");
+	    File file = new File(filePath);
 	    final int timeout = 60* sleepTimeMS;
 	    int timeElapsed = 0;
 	    while (timeElapsed<timeout){
