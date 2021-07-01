@@ -315,7 +315,8 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
 	public void verifyTabsDsiplayed() {
-		
+		try {
+			
 		final String CASE_NUM = "142850";
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -327,5 +328,10 @@ public class V5Test extends TestInfra {
 		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		driverHomePage.verifyTabs(tabNames);
 		foundation.click(DriverHomePage.LINK_LOGOUT);
+		
+	}catch(Exception exc) {
+		Assert.fail(exc.toString());
 	}
+}
+	
 }
