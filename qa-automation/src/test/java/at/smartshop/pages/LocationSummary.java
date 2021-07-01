@@ -29,8 +29,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
-	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
-			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
+	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
@@ -54,7 +53,7 @@ public class LocationSummary extends Factory {
     private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
     public static final By TAB_PRODUCTS = By.id("loc-products");
     public static final By TXT_SEARCH = By.id("productFilterType");
-    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
+    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'][text()]");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
@@ -85,6 +84,7 @@ public class LocationSummary extends Factory {
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
+			
 			foundation.click(POP_UP_BTN_APPLY);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

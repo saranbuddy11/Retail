@@ -44,6 +44,7 @@ public class Location extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
+	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio=new Radio();
 	
 	private Map<String, String> rstGlobalProductChangeData;
@@ -233,8 +234,7 @@ public class Location extends TestInfra {
         try {
             final String CASE_NUM = "111001";             
             
-            browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+            browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
@@ -255,7 +255,7 @@ public class Location extends TestInfra {
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(GlobalProductChange.LBL_PRODUCT);
+			foundation.click(globalProductChange.objLocation(product));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
 

@@ -43,14 +43,13 @@ public class CreateNewRule extends Factory {
 	public static final By TXT_CLIENTRULE_NAME = By
 			.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
 
-	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,
-			String price) {
+	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,String price) {
 		try {
 			selectOrg(org);
 			selectLocation(location);
 			textbox.enterText(TXT_RULE_NAME, ruleName);
 			dropdown.selectItem(DPD_RULE_TYPE, ruleType, Constants.TEXT);
-			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);
+			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);			
 			textbox.enterText(TXT_PRICE, price);
 			foundation.click(BTN_SAVE);
 		} catch (Exception exc) {

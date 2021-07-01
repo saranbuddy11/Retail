@@ -387,7 +387,7 @@ public class Promotions extends TestInfra {
 
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
-			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
+			foundation.click(EditPromotion.BTN_CONTINUE);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -434,7 +434,7 @@ public class Promotions extends TestInfra {
 
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
-			foundation.click(EditPromotion.BTN_SAVE_CHANGES);
+			foundation.click(EditPromotion.BTN_CONTINUE);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -1320,7 +1320,7 @@ public class Promotions extends TestInfra {
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.click(EditPromotion.BTN_SAVE_WITH_CHANGES);
+			foundation.click(EditPromotion.BTN_CONTINUE);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -1577,8 +1577,7 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
@@ -1588,8 +1587,7 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
-			List<String> locationDisabled = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 
 			String locationDisabled_No = locationDisabled.get(1);
 			// Selecting location
@@ -1630,31 +1628,28 @@ public class Promotions extends TestInfra {
 		try {
 			final String CASE_NUM = "141773";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 			String promotionName = strings.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String locationListDpd = rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST);
+			
 
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-			List<String> locationDisabled = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			String locationDisabledYes = locationDisabled.get(0);
 			String locationDisabledNo = locationDisabled.get(1);
 			// Selecting location
 			locationList.selectLocationName(locationName);
-
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledYes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1662,14 +1657,12 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Org,Menu and Menu Item
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// New Promotion
@@ -1681,8 +1674,10 @@ public class Promotions extends TestInfra {
 
 			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(1));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
-			foundation.click(CreatePromotions.DPD_LOCATION);
-			textBox.enterText(CreatePromotions.DPD_LOCATION, locationName);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(CreatePromotions.DPD_LOC);			
+			textBox.enterText(CreatePromotions.DPD_LOC, locationName);
+			textBox.enterText(CreatePromotions.DPD_LOC, Keys.ENTER);
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.objLocation(requiredData.get(2))));
 
 			login.logout();
@@ -2031,7 +2026,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_CANCEL);
 			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
-			foundation.click(EditPromotion.BTN_EXPIRE);
+			foundation.click(EditPromotion.BTN_CONTINUE);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -2135,7 +2130,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_CANCEL);
 			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
-			foundation.click(EditPromotion.BTN_EXPIRE);
+			foundation.click(EditPromotion.BTN_CONTINUE);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

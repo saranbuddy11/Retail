@@ -699,21 +699,15 @@ public class Locker extends TestInfra {
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
 
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
 			Assert.assertTrue(foundation.isDisplayed(LockerEquipment.TXT_PAGE_TITLE));
 
-			List<String> requiredData = Arrays
-					.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-
+			List<String> requiredData = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 			List<String> requiredData_Locker_20 = Arrays.asList(requiredData.get(0).split(Constants.DELIMITER_TILD));
-
 			List<String> requiredData_Locker_18 = Arrays.asList(requiredData.get(1).split(Constants.DELIMITER_TILD));
 
-			List<String> columnNames = Arrays
-					.asList(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+			List<String> columnNames = Arrays.asList(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 
 			// Add db data to Array list
 			// locker system 20
@@ -737,8 +731,7 @@ public class Locker extends TestInfra {
 			uiData_locker_20.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 			assertEquals(uiData_locker_20, dbData_Locker_20);
 
-			Map<String, String> uiData_locker_18 = table
-					.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
+			Map<String, String> uiData_locker_18 = table.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
 			uiData_locker_18.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 			assertEquals(uiData_locker_18, dbData_Locker_18);
 
@@ -888,6 +881,7 @@ public class Locker extends TestInfra {
 			// validate copy functionality
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA)));
+			foundation.waitforElement(CreateSystem.DPD_LOCATION, Constants.SHORT_TIME);
 			assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);
 			assertTrue(foundation.isDisplayed(CreateSystem.LBL_CREATE_SYSTEM));
 			assertEquals(textBox.getTextFromInput(CreateSystem.TXT_SYSTEM_NAME), "");
@@ -1026,6 +1020,7 @@ public class Locker extends TestInfra {
 			}
 
 			// validate copy functionality
+			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA)));
 			assertEquals(dropDown.getSelectedItem(CreateSystem.DPD_LOCATION), locationName);

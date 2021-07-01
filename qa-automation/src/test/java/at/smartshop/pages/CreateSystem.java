@@ -38,7 +38,5 @@ public class CreateSystem {
         foundation.click(BTN_SAVE);
         foundation.threadWait(Constants.TWO_SECOND);
 	}
-	
-	
 
 }

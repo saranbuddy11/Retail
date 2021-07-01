@@ -32,7 +32,7 @@ public class CreateNewNationalAccountCategory {
 		
 		foundation.click(BTN_CREATE_NEW_CATEGORY);
 		textBox.enterText(TXT_CATEGORY_NAME, categoryName);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE_CATEGORY_NAME);
 		textBox.enterText(TXT_SEARCH, categoryName);
 		foundation.click(LNK_UPC_MAPPED);

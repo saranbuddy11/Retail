@@ -1058,7 +1058,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
             createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
             foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, Constants.SHORT_TIME);
-            textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
+            textBox.enterText(NationalAccountRules.SEARCH_BOX, ruleName);
 
             foundation.click(NationalAccountRules.ICON_DELETE);
             // delete pop up validations
@@ -1123,7 +1123,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
             createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
             foundation.waitforElement(NationalAccountRules.TBL_NATIONALACCOUNT_BODY, Constants.SHORT_TIME);
-            textBox.enterText(NationalAccountRules.TXT_FILTERTYPE, ruleName);
+            textBox.enterText(NationalAccountRules.SEARCH_BOX, ruleName);
             foundation.click(NationalAccountRules.ICON_DELETE);
             // delete pop up validations
             foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);

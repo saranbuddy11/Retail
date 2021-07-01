@@ -23,14 +23,11 @@ public class LockerSystem extends Factory {
 	public static final By POP_UP_MESSAGE = By.cssSelector("div.ajs-content");
 	public static final By MSG_DELETE_SUCCESS = By.xpath("//div[text()='Deleted Successfully']");
 	public static final By ICO_SIBLING_DELETE = By.xpath("//a[contains(@title,'Copy')]//..//following-sibling::td");
-	public static final By BTN_DELETE = By.xpath("button:contains(Yes, Delete)");
 	public static final By LBL_PAGE_TITLE = By.xpath("//div[text()='Location Locker Systems']");
 	public static final By BTN_SCHEDULING = By.xpath("//a[text()='Scheduling']");
-	private static final By TABLE_LOCATION_HEADER = By
-			.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
+	private static final By TABLE_LOCATION_HEADER = By.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
 	public static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
-	public static final By ICO_SIBLING_COPY = By
-			.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
+	public static final By ICO_SIBLING_COPY = By.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
 
 	public static List<String> columnNamesList = new ArrayList<>();
 
