@@ -859,7 +859,7 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// validate UI of promotion list page
-			assertTrue(foundation.isDisplayed(PromotionList.TXT_SEARCH));
+			assertTrue(foundation.isDisplayed(PromotionList.TXT_SEARCH_PROMONAME));
 			assertTrue(foundation.isDisplayed(PromotionList.CALENDER_DATE_RANGE));
 			assertTrue(foundation.isDisplayed(PromotionList.DPD_LOCATION));
 			assertTrue(foundation.isDisplayed(PromotionList.DPD_STATUS));

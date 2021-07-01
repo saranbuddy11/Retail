@@ -85,7 +85,7 @@ public class Location extends TestInfra {
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Searching for Product and Validating the Location Name
-			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
@@ -93,7 +93,7 @@ public class Location extends TestInfra {
 			foundation.click(ProductSummary.TBL_DATA);
 			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
-			foundation.waitforElement(ProductSummary.TXT_SEARCH, Constants.MEDIUM_TIME);
+			foundation.waitforElement(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.MEDIUM_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail();
@@ -318,7 +318,7 @@ public class Location extends TestInfra {
             foundation.click(globalProduct.getGlobalProduct(product));
 
             // Navigate to product's location
-            textBox.enterText(ProductSummary.TXT_SEARCH, location);
+            textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, location);
             foundation.click(ProductSummary.TBL_DATA);
             foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
             foundation.click(ProductSummary.BTN_EDIT_LOCATION);

@@ -1373,7 +1373,7 @@ public class NationalAccount extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
 
-			foundation.click(NationalAccounts.BTN_ADD_TO_NATIONAL_ACCOUNTS);
+			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
 
 			textBox.enterText(NationalAccounts.TXT_FILTER, org);
 			
