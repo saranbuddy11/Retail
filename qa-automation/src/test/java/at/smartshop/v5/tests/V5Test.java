@@ -1985,9 +1985,7 @@ public class V5Test extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			
 			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
-
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(navigationMenu.get(1));
@@ -1998,12 +1996,6 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-//			locationSummary.selectTab(requiredData.get(2));
-//			
-//			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
-//			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-//			Map<String, String> invCountBeforeSale=locationSummary.getProductDetails(requiredData.get(3));
-//			
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
@@ -2080,18 +2072,7 @@ public class V5Test extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-//
-//			// Selecting location
-//			locationList.selectLocationName(requiredData.get(0));
-//
-//			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-//			locationSummary.selectTab(requiredData.get(2));
-//			
-//			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
-//			textBox.enterText(locationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-//			Map<String, String> invCountAfterSale=locationSummary.getProductDetails(requiredData.get(3));
-//       
-//	        Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3)))==Integer.valueOf(invCountBeforeSale.get(requiredData.get(3)))-1);
+			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -2165,11 +2146,11 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			
 			List<String> paymentPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+			
 			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));     
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-			
 			browser.close();
 			
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -2185,12 +2166,13 @@ public class V5Test extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(0));
 
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);			
 			locationSummary.selectTab(requiredData.get(2));
-			
-			foundation.waitforElement(LocationSummary.TBL_PRODUCTS_GRID, Constants.SHORT_TIME);
-			textBox.enterText(locationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(6), requiredData.get(7));
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		
 		} catch (Exception exc) {
 			exc.printStackTrace();
