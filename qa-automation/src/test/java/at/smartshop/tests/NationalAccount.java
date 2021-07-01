@@ -249,10 +249,10 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(1));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 1);
+			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(2));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 0);
+			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
 
 			// Verifying Ascending order sorting functionality
 			foundation.refreshPage();
@@ -416,10 +416,10 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(1));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 1);
+			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(2));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 0);
+			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
 
 			// Verifying Ascending order sorting functionality
 			foundation.refreshPage();
@@ -880,7 +880,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST) == 1);
+			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -1631,7 +1631,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
-			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_RULE_LIST), 1);
+			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

@@ -19,7 +19,6 @@ public class AdminNationalAccounts extends Factory {
 	public static final By LNK_MANAGE_RULES = By.linkText("Manage Rules");
 	public static final By TBL_NATIONAL_ACCOUNT_TITLE = By.id(" National Account Rules");
 	public static final By TXT_FILTER = By.id("filterType");
-	public static final By TBL_NATIONAL_ACCOUNT_RULE_LIST = By.cssSelector("#dataGrid> tbody > tr");
 	public static final By TBL_NATIONAL_ACCOUNT_HEADER = By.cssSelector("table#dataGrid > thead > tr");
 	public static final By DPD_RULE_TYPE = By.id("ruletype");
 	public static final By TBL_DATA_GRID = By.id("dataGrid");
@@ -37,7 +36,6 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_CANCEL = By.id("btn-cancel");
 	public static final By ICO_DELETE = By.cssSelector("a.fa.fa-trash.icon");
 	public static final By POP_UP_BTN_CANCEL = By.cssSelector(".ajs-button.ajs-cancel");
-	public static final By LBL_RULE_NAME = By.xpath("//*[@aria-describedby='dataGrid_name']//a");
 	public static final By LBL_RULE_NAME_HEADER = By.id("dataGrid_name");
 	public static final By DPD_ORG = By.id("orgdt");
 	public static final By DPD_LOCATION = By.id("loc");
@@ -49,9 +47,7 @@ public class AdminNationalAccounts extends Factory {
 	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_location";
 	public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
 	
-	public static final By TEXT_RULE_NAME = By.cssSelector("td[aria-describedby='dataGrid_name'] > a");
 	public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
-	public static final String COLUMNNATIONALACCOUNTS = "aria-describedby=national-account-grid_nationalAccount";
 	public static final By TXT_FLITER_INPUT = By.xpath("//input[@placeholder='Contains...']");
 	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
 	public static final By BTN_NO = By.xpath("//button[text()='NO']");
