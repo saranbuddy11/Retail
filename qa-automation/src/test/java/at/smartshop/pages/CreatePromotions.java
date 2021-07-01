@@ -19,7 +19,6 @@ public class CreatePromotions {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 
-	public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
 	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
@@ -62,12 +61,10 @@ public class CreatePromotions {
 	public static final By TXT_PER_TRANSACTION_LIMIT = By.id("promolimit");
 	public static final By CHK_PROMO_RESTRICTION = By.id("haspromolimit");
 	public static final By DPD_DURATION = By.id("duration");
-	public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
-	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");

@@ -287,9 +287,9 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(1), Constants.TEXT);
-			textBox.enterText(CreatePromotions.DPD_ITEM, discountType.get(3));
+			textBox.enterText(CreatePromotions.TXT_ITEM, discountType.get(3));
 			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.POP_UP_MESSAGES, Constants.SHORT_TIME);
 
@@ -378,9 +378,9 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.DPD_ITEM, requiredData.get(1));
+			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
@@ -425,9 +425,9 @@ public class Promotions extends TestInfra {
 			// Details page
 			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(1));
+			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, actualData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, actualData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
@@ -488,9 +488,9 @@ public class Promotions extends TestInfra {
 
 			// Detail page
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(0));
+			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -603,9 +603,9 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.DPD_ITEM, actualData.get(0));
+			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ITEM, Keys.ENTER);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
