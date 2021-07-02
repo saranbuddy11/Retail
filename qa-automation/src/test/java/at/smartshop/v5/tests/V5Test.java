@@ -27,6 +27,7 @@ import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.DriverHomePage;
 import at.smartshop.v5.pages.DriverLoginPage;
 import at.smartshop.v5.pages.EditAccount;
+import at.smartshop.v5.pages.InventoryHomePage;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -44,7 +45,7 @@ public class V5Test extends TestInfra {
 	private DeviceSummary deviceSummary = new DeviceSummary();
 	private DriverLoginPage driverLoginPage = new DriverLoginPage();
 	private DriverHomePage driverHomePage = new DriverHomePage();
-
+	private InventoryHomePage inventoryHomePage = new InventoryHomePage();
 	
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -376,6 +377,33 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C142852-Verify Inventory Tab details after login with Driver")
+	public void verifyInventoryTab() {
+		try {
+			
+			final String CASE_NUM="142852";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			landingPage.navigateDriverLoginPage();
+			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(DriverLoginPage.BTN_SIGN_IN);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_INVENTORY);
+			foundation.waitforElement(InventoryHomePage.TXT_SELECT_ACTION, Constants.SHORT_TIME);
+			Assert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			List<String> options = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			inventoryHomePage.verifyInventoryOptions(options);
+			foundation.click(InventoryHomePage.BTN_LOGOUT);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_LOGOUT);
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
