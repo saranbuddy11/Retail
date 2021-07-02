@@ -43,6 +43,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.ReportList;
+import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.utilities.CurrenyConverter;
@@ -73,6 +74,7 @@ public class Report extends TestInfra {
 	private TipSummaryReport tipSummary = new TipSummaryReport();
 	private ItemStockoutReport itemStockout = new ItemStockoutReport();
 	private MemberPurchaseSummaryReport memberPurchaseSummary = new MemberPurchaseSummaryReport();
+	private TipDetailsReport tipDetails = new TipDetailsReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -964,7 +966,71 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+	}
 
+	@Test(description = "This test validates Tip Details Report Data Calculation")
+	public void tipDetailsReportData() {
+		try {
+
+			final String CASE_NUM = "142814";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> requiredOption = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+			// process sales API to generate data
+			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			tipDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			tipDetails.getTblRecordsUI();
+			tipDetails.getIntialData().putAll(tipDetails.getReportsData());
+			tipDetails.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					(String) tipDetails.getJsonData().get(Reports.TRANS_ID));
+
+//			// process API
+//			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1));
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+//			tipDetails.getTblRecordsUI();
+
+			// apply calculation and update data
+			tipDetails.updateData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredOption.get(1));
+//			tipDetails.updateAmount(tipDetails.getTableHeaders().get(3),
+//					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+//			tipDetails.updateAmount(tipDetails.getTableHeaders().get(6), tipDetails.getRequiredJsonData().get(0));
+
+			// verify report headers
+			tipDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			tipDetails.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
 	}
 
 }
