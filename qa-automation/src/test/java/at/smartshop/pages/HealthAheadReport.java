@@ -42,17 +42,7 @@ public class HealthAheadReport extends Factory {
 	private static final By TBL_HEALTH_AHEAD_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-//	private List<String> scancodeData = new LinkedList<>();
-//	private List<String> productNameData = new LinkedList<>();
-//	private List<String> priceData = new LinkedList<>();
-//	private List<String> taxData = new LinkedList<>();
-//	private List<String> category1Data = new LinkedList<>();
-//	private List<String> category2Data = new LinkedList<>();
-//	private List<String> category3Data = new LinkedList<>();
-//	private List<String> discountData = new LinkedList<>();
-//	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-//	private List<Integer> requiredRecords = new LinkedList<>();
 	private int recordCount = 0;
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -168,7 +158,6 @@ public class HealthAheadReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
-			// getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -201,26 +190,6 @@ public class HealthAheadReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader) {
 		try {
