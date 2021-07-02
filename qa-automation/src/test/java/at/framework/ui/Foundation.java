@@ -2,6 +2,11 @@ package at.framework.ui;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime = new DateAndTime();
@@ -250,4 +256,35 @@ public class Foundation extends Factory {
 		}
 	}
 
+	public void copyFile(String from, String to) {
+
+		Path sourceDirectory = Paths.get(from);
+		Path targetDirectory = Paths.get(to);
+
+		try {
+			Files.copy(sourceDirectory, targetDirectory);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Copied Successfully");
+			}
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void deleteFile(String filePath) {
+		try {
+			File file = new File(filePath);
+			file.delete();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
+			}
+
+		} catch (
+
+		Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
 }

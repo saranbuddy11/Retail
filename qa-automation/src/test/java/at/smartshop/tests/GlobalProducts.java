@@ -2,19 +2,13 @@ package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-
-import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.List;
 import java.util.Map;
-
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
@@ -217,14 +211,15 @@ public class GlobalProducts extends TestInfra {
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			Map<String, String> uiData = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
 			List<String> uiList = new ArrayList<String>(uiData.values());
 			// excel headers validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx", 0));
-
-			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
-			productsfile.delete();
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 0));
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
 			Assert.fail();
@@ -253,12 +248,14 @@ public class GlobalProducts extends TestInfra {
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			// record count validation
-			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
-			productsfile.delete();
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
 			Assert.fail();
@@ -278,6 +275,8 @@ public class GlobalProducts extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			String expectedMsg = rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE);
 			String productName = strings.getRandomCharacter();
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -286,21 +285,20 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			foundation.threadWait(Constants.SHORT_TIME);
-			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
+			String actualMsg=foundation.getText(GlobalProduct.TXT_RECORD_COUNT);
+			Assert.assertEquals(actualMsg, expectedMsg);
+			String[] uiData = actualMsg.split(" ");
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			System.out.println(FilePath.EXCEL_PROD_SRC);
-			System.out.println(FilePath.EXCEL_PROD_TAR);
-
-			// File file = new File(home+"/Downloads/" + fileName + ".txt");
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
-			excel.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
+			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			File productsfile = new File(FilePath.EXCEL_PROD_TAR);
-			productsfile.delete();
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
 			Assert.fail();
@@ -334,17 +332,19 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
-			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(GlobalProduct.TBL_GRID, GlobalProduct.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			// excel data validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx", 1));
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 1));
 
-			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
-			productsfile.delete();
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
 			Assert.fail();

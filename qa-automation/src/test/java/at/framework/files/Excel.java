@@ -200,17 +200,4 @@ public class Excel {
 		return singleRowData;
 	}
 
-	public void copyFile(String from, String to) {
-
-		Path sourceDirectory = Paths.get(from);
-		Path targetDirectory = Paths.get(to);
-
-		// copy source to target using Files Class
-		try {
-			Files.copy(sourceDirectory, targetDirectory);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
