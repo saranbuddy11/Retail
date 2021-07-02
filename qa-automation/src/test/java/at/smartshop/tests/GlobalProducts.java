@@ -290,7 +290,7 @@ public class GlobalProducts extends TestInfra {
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-
+			System.out.println(FilePath.EXCEL_PROD_SRC);
 			System.out.println(FilePath.EXCEL_PROD_TAR);
 
 			// File file = new File(home+"/Downloads/" + fileName + ".txt");
