@@ -36,6 +36,7 @@ public class Reports {
 	public static final String BILLS6 = "bills6";
 	public static final String BILLS7 = "bills7";
 	public static final String PRICE = "price";
+	public static final String TIP = "tip";
 	public static final String TOTAL_PRICE = "totalprice";
 	public static final String AMOUNT = "amount";
 	public static final String POINTS = "points";
@@ -67,6 +68,7 @@ public class Reports {
 	public static final String PAYMENT_TYPE = "pt";
 	public static final String SALE = "sale";
 	public static final String SALES = "sales";
+	public static final String TIP = "tip";
 	public static final String GMA_TRANS = "gmatrans";
 	public static final String KIOSK_CASH_OUT_TRANS = "kioskcashouttrans";
 	public static final String SALE_CANCEL = "salecancel";
