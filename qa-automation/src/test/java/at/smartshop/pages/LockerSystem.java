@@ -110,7 +110,7 @@ public class LockerSystem extends Factory {
 			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
 		} catch (Exception exc) {
-
+			Assert.fail(exc.toString());
 		}
 	}
 }

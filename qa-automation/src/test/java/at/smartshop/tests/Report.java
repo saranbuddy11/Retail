@@ -164,7 +164,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "This test validates Product Tax Report Data Calculation")
-	public void ProductTaxReportData() {
+	public void productTaxReportData() {
 		try {
 
 			final String CASE_NUM = "120622";
@@ -231,7 +231,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "This test validates Product Pricing Report Data Calculation")
-	public void ProductPricingReportData() {
+	public void productPricingReportData() {
 		try {
 
 			final String CASE_NUM = "135696";
@@ -291,7 +291,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "This test validates Transaction Canned Report Data Calculation")
-	public void TransactionCannedReportData() {
+	public void transactionCannedReportData() {
 		try {
 
 			final String CASE_NUM = "130612";
@@ -389,7 +389,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "This test validates Member Purchase Details Report Data Calculation")
-	public void MemberPurchaseDetailsReport() {
+	public void memberPurchaseDetailsReport() {
 		try {
 
 			final String CASE_NUM = "120269";
@@ -507,7 +507,7 @@ public class Report extends TestInfra {
 	}
 	
 	@Test(description = "This test validates Device By Category Report Data Calculation")
-	public void DeviceByCategoryReportData() {
+	public void deviceByCategoryReportData() {
 		try {
 
 			final String CASE_NUM = "141644";
@@ -570,7 +570,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "This test validates Employee Comp Details Report Data Calculation")
-	public void EmployeeCompDetailsReportData() {
+	public void employeeCompDetailsReportData() {
 		try {
 
 			final String CASE_NUM = "141636";

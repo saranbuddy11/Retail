@@ -100,7 +100,7 @@ public class Location extends TestInfra {
 		}
 	}
 	
-	@Test(description = "This test to Verify Products are removed from the Location when location is disabled")
+	@Test(description = "110650-This test to Verify Products are removed from the Location when location is disabled")
 	public void RemoveProductFromLocation() {
 		try {			
 			final String CASE_NUM = "110650";
@@ -147,7 +147,7 @@ public class Location extends TestInfra {
 
 	}
 	
-	@Test(description ="This test to verify the Error Message validation for Retrieve Account Methods")
+	@Test(description ="130658-This test to verify the Error Message validation for Retrieve Account Methods")
     public void validateErrorMessage() {
         try {
             final String CASE_NUM="130658";
@@ -173,7 +173,7 @@ public class Location extends TestInfra {
         }
     }
 	
-	@Test(description = "verify Add Home commercial in Home commercial Tab and Disable Location")
+	@Test(description = "114262-verify Add Home commercial in Home commercial Tab and Disable Location")
 	public void addHomeCommercial() {
 		try {
 			final String CASE_NUM = "114262";
@@ -229,7 +229,7 @@ public class Location extends TestInfra {
 		}
 	}
 	
-	@Test(description = "Update Loyalty Multiplier for a product in Operator Product Catalog Change")
+	@Test(description = "11101-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
     public void updateLoyaltyMultiplier() {
         try {
             final String CASE_NUM = "111001";             
@@ -255,7 +255,7 @@ public class Location extends TestInfra {
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(globalProductChange.objLocation(product));
+			foundation.click(globalProductChange.objProductName(product));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
 
@@ -328,10 +328,9 @@ public class Location extends TestInfra {
 
             // enable show tax cat column
             locationSummary.manageColumn(rstLocationListData.get(CNLocationList.SHOW_RECORDS));
-            foundation.threadWait(Constants.TWO_SECOND);
             
             // ensure selected tax category from product summary page displays for the product here
-            textBox.enterText(LocationSummary.TXT_SEARCH, product);            
+            textBox.enterText(LocationSummary.TXT_SEARCH, product);
             assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
         } catch (Exception exc) {
             exc.printStackTrace();

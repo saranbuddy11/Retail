@@ -53,7 +53,7 @@ public class LocationSummary extends Factory {
     private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
     public static final By TAB_PRODUCTS = By.id("loc-products");
     public static final By TXT_SEARCH = By.id("productFilterType");
-    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'][text()]");
+    public static final By LBL_TAX_CATEGORY= By.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
@@ -80,11 +80,9 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				foundation.click(By.xpath(
-						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
-								+ columnName.get(count) + "']"));
+				foundation.click(By.xpath("//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"+ columnName.get(count) + "']"));
 			}
-			
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(POP_UP_BTN_APPLY);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
