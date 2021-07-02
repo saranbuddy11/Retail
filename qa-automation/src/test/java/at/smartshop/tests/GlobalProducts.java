@@ -4,8 +4,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.List;
 import java.util.Map;
 
@@ -212,17 +214,48 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.threadWait(Constants.LONG_TIME);
+
+			foundation.click(GlobalProduct.BTN_EXPORT);
+			// download assertion
+			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
+			Map<String, String> uiData = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
+			List<String> uiList = new ArrayList<String>(uiData.values());
+			// excel headers validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx", 0));
+
+			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			productsfile.delete();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file  record count should match with ui.")
+	public void verifyRecordCount() {
+		try {
+			final String CASE_NUM = "142866";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.threadWait(Constants.LONG_TIME);
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
-			Map<String, String> uidata = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
-			List<String> uiList = new ArrayList<String>(uidata.values());
-			// excel headers validation
-			Assert.assertTrue(
-					excel.verifyExcelData(uiList, "C:\\\\Users\\\\ajaybabur\\\\Downloads\\\\products.xlsx", 0));
-			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
 			// record count validation
+			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
 			productsfile.delete();
@@ -257,11 +290,16 @@ public class GlobalProducts extends TestInfra {
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
-			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+
+			System.out.println(FilePath.EXCEL_PROD_TAR);
+
+			// File file = new File(home+"/Downloads/" + fileName + ".txt");
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			excel.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
+			File productsfile = new File(FilePath.EXCEL_PROD_TAR);
 			productsfile.delete();
 
 		} catch (Exception exc) {
@@ -269,6 +307,7 @@ public class GlobalProducts extends TestInfra {
 		}
 
 	}
+
 	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file records are matching as per the filter applied in ui.Select AVIFoodSystems org and Verify Global Products exported file records are matching as per the filter applied in ui.")
 	public void verifyExportData() {
 		try {
@@ -281,7 +320,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);	
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -293,17 +332,17 @@ public class GlobalProducts extends TestInfra {
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 
 			foundation.click(GlobalProduct.BTN_EXPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded("C:\\Users\\ajaybabur\\Downloads\\products.xlsx"));
 			int excelCount = excel.getExcelRowCount("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
 			// record count validation
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			Map<String, String> uidata = table.getTblSingleRowRecordUI(GlobalProduct.TBL_GRID,GlobalProduct.TBL_ROW);
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(GlobalProduct.TBL_GRID, GlobalProduct.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
-			// excel headers validation
-			Assert.assertTrue(
-					excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx",1));
-			
+			// excel data validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, "C:\\Users\\ajaybabur\\Downloads\\products.xlsx", 1));
+
 			File productsfile = new File("C:\\Users\\ajaybabur\\Downloads\\products.xlsx");
 			productsfile.delete();
 
@@ -312,4 +351,5 @@ public class GlobalProducts extends TestInfra {
 		}
 
 	}
+
 }

@@ -3,16 +3,28 @@ package at.framework.files;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+import org.springframework.util.FileCopyUtils;
 
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
@@ -68,9 +80,9 @@ public class Excel {
 		}
 	}
 
-	public boolean verifyExcelData(List<String> uiList, String filePath,int rowNum) {
+	public boolean verifyExcelData(List<String> uiList, String filePath, int rowNum) {
 		XSSFWorkbook workBook = null;
-
+		Boolean isTest = false;
 		try {
 			File file = new File(filePath);
 			FileInputStream fis = new FileInputStream(file);
@@ -80,11 +92,24 @@ public class Excel {
 			XSSFRow row = sheet.getRow(rowNum);
 
 			for (String uiCelldata : uiList) {
-				Boolean isTest = false;
-				for (Cell cell : row) {
+				isTest = false;
+				String.valueOf(uiCelldata);
+				String uiRecord = uiCelldata.trim();
 
-					if (uiCelldata.equals(cell.getStringCellValue())) {
+				for (Cell cell : row) {
+					String cellValue;
+					if (cell.getCellType() == 0) {
+						double cellVal = cell.getNumericCellValue();
+						cellValue = "$" + String.valueOf(cellVal) + 0;
+
+					} else if (cell.getCellType() == 4) {
+						cellValue = String.valueOf(cell.getBooleanCellValue());
+					} else {
+						cellValue = String.valueOf(cell.getStringCellValue());
+					}
+					if (uiRecord.equals(cellValue)) {
 						isTest = true;
+						System.out.println(uiCelldata);
 						break;
 					}
 				}
@@ -102,7 +127,8 @@ public class Excel {
 				Assert.fail(exc.toString());
 			}
 		}
-		return true;
+
+		return isTest;
 
 	}
 
@@ -121,21 +147,70 @@ public class Excel {
 
 	}
 
-	public boolean isFileDownloaded(String filePath)  {
-	    final int sleepTimeMS = 100;
-	    File file = new File(filePath);
-	    final int timeout = 60* sleepTimeMS;
-	    int timeElapsed = 0;
-	    while (timeElapsed<timeout){
-	        if (file.exists()) {
-	            System.out.println("products.xlsx is present");
-	            return true;
-	        } else {
-	            timeElapsed +=sleepTimeMS;
-	          foundation.threadWait(sleepTimeMS);
-	        }
-	    }
-	    return false;
+	public boolean isFileDownloaded(String filePath) {
+		final int sleepTimeMS = 100;
+		File file = new File(filePath);
+		final int timeout = 60 * sleepTimeMS;
+		int timeElapsed = 0;
+		while (timeElapsed < timeout) {
+			if (file.exists()) {
+				System.out.println("products.xlsx is present");
+				return true;
+			} else {
+				timeElapsed += sleepTimeMS;
+				foundation.threadWait(sleepTimeMS);
+			}
+		}
+		return false;
 	}
 
+	public Map<String, String> getExcelAsMap(String filePath) throws IOException {
+		FileInputStream fis = new FileInputStream(filePath);
+		XSSFWorkbook workBook = new XSSFWorkbook(fis);
+		XSSFSheet sheet = workBook.getSheetAt(0);
+		Map<String, String> singleRowData = new HashMap<>();
+		List<String> columnHeader = new ArrayList<String>();
+		Row row = sheet.getRow(0);
+		Iterator<Cell> cellIterator = row.cellIterator();
+		while (cellIterator.hasNext()) {
+			columnHeader.add(cellIterator.next().getStringCellValue());
+		}
+		int rowCount = sheet.getLastRowNum();
+		int columnCount = row.getLastCellNum();
+		for (int i = 1; i <= rowCount; i++) {
+
+			Row row1 = sheet.getRow(i);
+			for (int j = 0; j < columnCount; j++) {
+				Cell cell = row1.getCell(j);
+				int cellType = cell.getCellType();
+
+				if (cellType == 0) {
+					singleRowData.put(columnHeader.get(j), String.valueOf(cell.getNumericCellValue()));
+
+				} else if (cellType == 4) {
+					singleRowData.put(columnHeader.get(j), String.valueOf(cell.getBooleanCellValue()));
+				} else {
+
+					singleRowData.put(columnHeader.get(j), cell.getStringCellValue());
+				}
+
+			}
+
+		}
+		return singleRowData;
+	}
+
+	public void copyFile(String from, String to) {
+
+		Path sourceDirectory = Paths.get(from);
+		Path targetDirectory = Paths.get(to);
+
+		// copy source to target using Files Class
+		try {
+			Files.copy(sourceDirectory, targetDirectory);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
