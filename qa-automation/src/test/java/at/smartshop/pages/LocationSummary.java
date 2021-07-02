@@ -67,6 +67,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
+	public static final By TBL_INVENTORY= By.id("inventoryDataGrid");
 
 	
 	public void selectTab(String tabName) {

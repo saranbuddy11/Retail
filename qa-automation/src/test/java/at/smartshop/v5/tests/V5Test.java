@@ -2099,6 +2099,8 @@ public class V5Test extends TestInfra {
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			locationSummary.selectTab(requiredData.get(2));
+			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.SHORT_TIME);
+			
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(4), requiredData.get(5));
 
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -2163,6 +2165,7 @@ public class V5Test extends TestInfra {
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);			
 			locationSummary.selectTab(requiredData.get(2));
+			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(6), requiredData.get(7));
 
 			foundation.click(LocationSummary.BTN_SYNC);
