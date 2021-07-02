@@ -34,6 +34,7 @@ import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
+import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
@@ -74,8 +75,9 @@ public class Report extends TestInfra {
 	private TipSummaryReport tipSummary = new TipSummaryReport();
 	private ItemStockoutReport itemStockout = new ItemStockoutReport();
 	private MemberPurchaseSummaryReport memberPurchaseSummary = new MemberPurchaseSummaryReport();
+	private HealthAheadReport healthAhead = new HealthAheadReport();
 	private TipDetailsReport tipDetails = new TipDetailsReport();
-
+  
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
@@ -1033,4 +1035,59 @@ public class Report extends TestInfra {
 		}
 	}
 
+	@Test(description = "This test validates Health Ahead Report Data Calculation")
+	public void healthAheadReportData() {
+		try {
+
+			final String CASE_NUM = "142863";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			healthAhead.getTblRecordsUI();
+			healthAhead.getIntialData().putAll(healthAhead.getReportsData());
+			healthAhead.getRequiredRecord(propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			healthAhead.updateData(healthAhead.getTableHeaders().get(2), healthAhead.getRequiredJsonData().get(0));
+			healthAhead.updateData(healthAhead.getTableHeaders().get(3), healthAhead.getRequiredJsonData().get(1));
+			healthAhead.updateHealthAheadNet();
+			// verify report headers
+			healthAhead.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			healthAhead.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
 }
+

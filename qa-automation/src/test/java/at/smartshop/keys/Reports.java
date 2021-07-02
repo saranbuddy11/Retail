@@ -51,6 +51,8 @@ public class Reports {
 	public static final String QUANTITY = "qty";
 	public static final String TAX = "tax";
 	public static final String DELIVERY = "delivery";
+	public static final String REDEEMED = "redeemed";
+	public static final String COUPON = "coupon";
 	public static final String MARKET_ACCOUNT_ID = "marketaccountid";
 	public static final String CATEGORY1 = "category1";
 	public static final String CATEGORY2 = "category2";
