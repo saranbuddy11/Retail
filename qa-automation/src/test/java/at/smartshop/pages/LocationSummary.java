@@ -38,6 +38,9 @@ public class LocationSummary extends Factory {
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
+    public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
+    public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
+    public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
 	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
@@ -65,6 +68,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
+
 
 	public void selectTab(String tabName) {
 		try {
