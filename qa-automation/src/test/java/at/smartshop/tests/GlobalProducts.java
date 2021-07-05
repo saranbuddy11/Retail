@@ -190,7 +190,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "Select AVIFoodSystems org and Verify Global Products exported file is downloaded.")
+	@Test(description = "142865-Select AVIFoodSystems org and Verify Global Products exported file is downloaded.")
 	public void productExport() {
 		try {
 			final String CASE_NUM = "142865";
@@ -212,6 +212,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			Map<String, String> uiData = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
 			List<String> uiList = new ArrayList<String>(uiData.values());
@@ -351,5 +352,6 @@ public class GlobalProducts extends TestInfra {
 		}
 
 	}
+
 
 }

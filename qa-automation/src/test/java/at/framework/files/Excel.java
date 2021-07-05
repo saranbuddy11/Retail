@@ -4,17 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,8 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
-import org.springframework.util.FileCopyUtils;
-
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -109,7 +102,7 @@ public class Excel {
 					}
 					if (uiRecord.equals(cellValue)) {
 						isTest = true;
-						System.out.println(uiCelldata);
+
 						break;
 					}
 				}
@@ -148,17 +141,16 @@ public class Excel {
 	}
 
 	public boolean isFileDownloaded(String filePath) {
-		final int sleepTimeMS = 100;
+		final int sleepTime = 2;
 		File file = new File(filePath);
-		final int timeout = 60 * sleepTimeMS;
+		final int timeout = 10 * sleepTime;
 		int timeElapsed = 0;
 		while (timeElapsed < timeout) {
 			if (file.exists()) {
-				System.out.println("products.xlsx is present");
 				return true;
 			} else {
-				timeElapsed += sleepTimeMS;
-				foundation.threadWait(sleepTimeMS);
+				timeElapsed += sleepTime;
+				foundation.threadWait(sleepTime);
 			}
 		}
 		return false;
@@ -197,6 +189,7 @@ public class Excel {
 			}
 
 		}
+		workBook.close();
 		return singleRowData;
 	}
 
