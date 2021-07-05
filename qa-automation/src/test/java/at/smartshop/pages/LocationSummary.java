@@ -20,7 +20,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
-    private Dropdown dropDown=new Dropdown();
+	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 
@@ -29,6 +29,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
+	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
@@ -64,8 +65,15 @@ public class LocationSummary extends Factory {
 	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
+    public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
+    public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
+    public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
+	public static final By TXT_CUSTOMER = By.id("customer");
+	public static final By DPD_ROUTE = By.id("route");
+	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
+	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
+	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 
-    
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -82,13 +90,16 @@ public class LocationSummary extends Factory {
 			for (int count = 0; count < columnCount; count++) {
 				foundation.click(By.xpath("//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"+ columnName.get(count) + "']"));
 			}
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(POP_UP_BTN_APPLY);
+			foundation.objectFocus(POP_UP_BTN_APPLY);
+			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
+			if(foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
+				foundation.click(POP_UP_BTN_APPLY);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public List<String> getProductsHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
@@ -108,7 +119,9 @@ public class LocationSummary extends Factory {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
 		try {
+			foundation.waitforElement(TBL_PRODUCTS_GRID, 5);
 			List<String> tableHeaders = getProductsHeaders();
+			foundation.waitforElement(TXT_PRODUCT_FILTER, 2);
 			textBox.enterText(TXT_PRODUCT_FILTER, recordValue);
 			WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
 			List<WebElement> rows = tableProductsGrid.findElements(By.tagName("tr"));
@@ -138,13 +151,29 @@ public class LocationSummary extends Factory {
             Assert.fail(exc.toString());
         }
     }    
-	
-   
+
     public void updateLockerSettings(String enableORDisable) {    	
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
 
-}
+	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
+		
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		textBox.enterText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),inventoryValue);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+	}
 
+}

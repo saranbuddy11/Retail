@@ -42,4 +42,5 @@ public class Constants {
     public static final int MEDIUM_TIME = 10;
     public static final int LONG_TIME = 20;
     public static final int EXTRA_LONG_TIME=30;
+
 }
