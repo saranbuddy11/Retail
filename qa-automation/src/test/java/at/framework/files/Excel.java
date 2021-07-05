@@ -141,7 +141,7 @@ public class Excel {
 	}
 
 	public boolean isFileDownloaded(String filePath) {
-		final int sleepTime = 2;
+		final int sleepTime = 10;
 		File file = new File(filePath);
 		final int timeout = 10 * sleepTime;
 		int timeElapsed = 0;
