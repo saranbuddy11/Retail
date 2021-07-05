@@ -401,7 +401,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "C142799 - Verify the Search button in Device when user set the Inherit from Location")
+	@Test(description = "C142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
 	public void verifySearchButton() {
 		try {
 			
@@ -420,18 +420,18 @@ public class V5Test extends TestInfra {
 			  foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			  locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
 			  List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			  dropDown.selectItem(DeviceSummary.DPD_SHOW_SEARCH_BTN, requiredData.get(0), Constants.TEXT);
 			  foundation.click(DeviceSummary.BTN_SAVE);
 			  navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			  foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			  foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			  foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
 			  dropDown.selectItem(LocationSummary.DPD_SHOW_PROD_LOOKUP, requiredData.get(1), Constants.TEXT);
 			  foundation.click(LocationSummary.BTN_SYNC);
 			  foundation.click(LocationSummary.BTN_SAVE);
-			  foundation.waitforElement(LocationList.TXT_FILTER, 5); 
+			  foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME); 
 			  login.logout();
 			  browser.close();	
 			  
