@@ -20,7 +20,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
-    private Dropdown dropDown=new Dropdown();
+	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 
@@ -29,6 +29,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
+	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
@@ -37,33 +38,38 @@ public class LocationSummary extends Factory {
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
-	public static final By BTN_LOCATION_SETTINGS =  By.id("toggleinfo");
-	public static final By DPD_HAS_LOCKER =  By.id("haslocker");
-	public static final By DPD_HAS_ORDER_AHEAD =  By.id("hasonlineordering");
-	public static final By DPD_HAS_PICK_UP_LOCATIONS =  By.id("haspickuplocations");
-	public static final By LNK_PICK_UP_LOCATION =  By.id("pickupLocationToggle");
-	public static final By LBL_LOCKER_PICK_UP_TITLE =  By.xpath("//*[@id='lockersystempickuptitle']/i");
-	public static final By LNK_LOCKER_NAME=  By.xpath("//*[@id='pickuplockersystems']/div/a");
-	public static final By TXT_SYSTEM_NAME=  By.id("systemName");
-	public static final By LBL_SHELF_LIFE=  By.xpath("//*[@id='pickuplockersystems']/div/span");
-    public static final By BUTTON_LOCATION_INFO = By.cssSelector("button#toggleinfo");
-    public static final By DPD_RETRIEVE_ACCOUNT = By.cssSelector("select#retrieveaccount");
-    public static final  By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
-    public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
-    private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
-    private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
-    public static final By TAB_PRODUCTS = By.id("loc-products");
-    public static final By TXT_SEARCH = By.id("productFilterType");
-    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
-    private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
-    private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
-    public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
-    public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
     public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
     public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
     public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
+	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
+	public static final By DPD_HAS_LOCKER = By.id("haslocker");
+	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
+	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
+	public static final By LNK_PICK_UP_LOCATION = By.id("pickupLocationToggle");
+	public static final By LBL_LOCKER_PICK_UP_TITLE = By.xpath("//*[@id='lockersystempickuptitle']/i");
+	public static final By LNK_LOCKER_NAME = By.xpath("//*[@id='pickuplockersystems']/div/a");
+	public static final By TXT_SYSTEM_NAME = By.id("systemName");
+	public static final By LBL_SHELF_LIFE = By.xpath("//*[@id='pickuplockersystems']/div/span");
+	public static final By BUTTON_LOCATION_INFO = By.cssSelector("button#toggleinfo");
+	public static final By DPD_RETRIEVE_ACCOUNT = By.cssSelector("select#retrieveaccount");
+	public static final By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
+	public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
+	private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
+	private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
+	public static final By TAB_PRODUCTS = By.id("loc-products");
+	public static final By TXT_SEARCH = By.id("productFilterType");
+	public static final By LBL_TAX_CATEGORY = By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
+	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
+	private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
+	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By TXT_CUSTOMER = By.id("customer");
+	public static final By DPD_ROUTE = By.id("route");
+	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
+	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
+	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 
-    
+
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -82,12 +88,16 @@ public class LocationSummary extends Factory {
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
-			foundation.click(POP_UP_BTN_APPLY);
+			foundation.objectFocus(POP_UP_BTN_APPLY);
+			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
+			if(foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
+				foundation.click(POP_UP_BTN_APPLY);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public List<String> getProductsHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
@@ -107,7 +117,9 @@ public class LocationSummary extends Factory {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
 		try {
+			foundation.waitforElement(TBL_PRODUCTS_GRID, 5);
 			List<String> tableHeaders = getProductsHeaders();
+			foundation.waitforElement(TXT_PRODUCT_FILTER, 2);
 			textBox.enterText(TXT_PRODUCT_FILTER, recordValue);
 			WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
 			List<WebElement> rows = tableProductsGrid.findElements(By.tagName("tr"));
@@ -126,17 +138,18 @@ public class LocationSummary extends Factory {
 		return productsData;
 	}
 
-    public void verifyHasLockerField(String defaultValue) {
-        try {
-            foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
-            Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
-            String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
-            Assert.assertEquals(value, defaultValue);
-            ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the has Locker default Value"+ defaultValue);
-        }catch(Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
+	public void verifyHasLockerField(String defaultValue) {
+		try {
+			foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
+			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
+			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
+			Assert.assertEquals(value, defaultValue);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Validated the has Locker default Value" + defaultValue);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
     
     public void showTaxCategory() {
         try {
@@ -155,5 +168,23 @@ public class LocationSummary extends Factory {
         foundation.waitforElement(LBL_SPINNER_MSG, 2);
     }
 
-}
+	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				inventoryValue);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+	}
 
+}

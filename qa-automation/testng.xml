@@ -6,8 +6,8 @@
 	</listeners>
 
 	<test name="Test">
-	<parameter name = "drivers" value="Local" />
-	<parameter name = "browsers" value="Chrome" />
+	<parameter name = "driver" value="Local" /> 	
+	<parameter name = "browser" value="Chrome" /> 
 		<classes>
 			<class name="at.smartshop.tests.Consumer"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
