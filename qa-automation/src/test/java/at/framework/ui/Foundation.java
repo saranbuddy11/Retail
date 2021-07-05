@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
@@ -32,8 +33,6 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.v5.pages.CreateAccount;
-import org.openqa.selenium.JavascriptExecutor;
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime=new DateAndTime();
@@ -158,9 +157,10 @@ public class Foundation extends Factory {
 		return sizeofObj;
 	}
 
-	public void threadWait(int milliSeconds) {
+	public void threadWait(int seconds) {
 		try {
-			Thread.sleep(milliSeconds);
+			long timeMilliSec = seconds * 1000;
+			Thread.sleep(timeMilliSec);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

@@ -1,6 +1,13 @@
 package at.smartshop.v5.pages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.testng.Assert;
+
+import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class Order {
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
@@ -19,7 +26,22 @@ public class Order {
     public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
     
+    private Foundation foundation=new Foundation();
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
+	}
+    
+	public void verifyOrderPageLanguage(String order) {
+	    List<String> orderPageData = Arrays.asList(order.split(Constants.DELIMITER_TILD));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(0))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(1))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(2))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(3))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(4))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(5))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(6))));
+	    foundation.objectFocus(objText(orderPageData.get(7)));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
+	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
 	}
 }

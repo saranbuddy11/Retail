@@ -1,6 +1,13 @@
 package at.smartshop.v5.pages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.testng.Assert;
+
+import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class LandingPage {
 	
@@ -18,8 +25,21 @@ public class LandingPage {
 	public static final By LBL_SEARCH= By.xpath("//span[@class='category-label']");
 	public static final By LBL_SCAN= By.xpath("//div[@class='footer']//h2");
 	
+	private Foundation foundation=new Foundation();
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='"+languageName+"']");
 	}
 	
+	public void verifyHomeScreenLanguage(String landingPage) {
+		List<String> landingPageData = Arrays.asList(landingPage.split(Constants.DELIMITER_TILD));
+
+		//Validating Landing Page
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN),landingPageData.get(0));
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT),landingPageData.get(1));
+		Assert.assertTrue(foundation.isDisplayed(objLanguage(landingPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(objLanguage(landingPageData.get(3))));
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER),landingPageData.get(4));
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH),landingPageData.get(5));
+		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN),landingPageData.get(6));
+	}
 }
