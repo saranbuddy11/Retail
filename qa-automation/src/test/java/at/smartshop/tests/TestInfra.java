@@ -16,7 +16,7 @@ import at.framework.files.PropertyFile;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
-public class TestInfra {
+public class TestInfra{
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
