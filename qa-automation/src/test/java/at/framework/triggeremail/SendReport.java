@@ -57,7 +57,7 @@ public class SendReport {
 					+ "</table>\r\n"
 					+ "</body></html>";
 			
-			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+Constants.EMAIL_TWO_BREAK+result+Constants.EMAIL_THREE_BREAK+Constants.EMAIL_MESSAGE2);
+			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+result+"<br><br><br>"+Constants.EMAIL_MESSAGE2);
 			for (String toEmailID : toEmailIDs) {
 				email.addTo(toEmailID);
 			}

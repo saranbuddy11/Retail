@@ -64,7 +64,5 @@ public class Constants {
 			+ "Link to shared folder- file://NIBC2101/Users/sandeepab/Desktop/Daily%20Reports";
 	public static final String EMAIL_MESSAGE2= "Thank you,\r\n"
 			+ "<br>\r\n"
-			+ "Sandeep";
-	public static final String EMAIL_TWO_BREAK="<br><br>";
-	public static final String EMAIL_THREE_BREAK="<br><br><br>";
+			+ "Sandeep";	
 }
