@@ -2,10 +2,8 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
