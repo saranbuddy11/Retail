@@ -363,13 +363,14 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM="142851";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			foundation.click(landingPage.objLanguage(actualData.get(0)));
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
 			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			String value = foundation.getBGColor(DriverHomePage.LINK_CASHOUT);
-			Assert.assertEquals("#00bf6f",value);
+			Assert.assertEquals(actualData.get(1),value);
 			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
 			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
 			List<String> currency = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -404,6 +405,8 @@ public class V5Test extends TestInfra {
 			foundation.click(InventoryHomePage.BTN_LOGOUT);
 			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
+			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
+			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
