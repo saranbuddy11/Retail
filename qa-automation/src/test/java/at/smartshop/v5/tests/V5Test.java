@@ -2,8 +2,12 @@ package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -12,15 +16,19 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.DateAndTime;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.MicroMarketMenuList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
@@ -60,8 +68,12 @@ public class V5Test extends TestInfra {
 	private ScanPayment scanPayment = new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
+	private CheckBox checkBox = new CheckBox();
+	private MicroMarketMenuList microMarketMenu = new MicroMarketMenuList();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstNavigationMenuData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -424,6 +436,84 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142894 SOS-7338: V5>Item Level Buttons>Menu")
+	public void verifyMenuItem() {
+		try {
+			final String CASE_NUM = "142894";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			dropDown.selectItem(MicroMarketMenuList.DPD_LOCATION, requiredData.get(0), Constants.TEXT);
+			foundation.click(MicroMarketMenuList.BTN_CREATE_NEW);
+			textBox.enterText(MicroMarketMenuList.TXT_MENU_NAME, requiredData.get(1));
+			checkBox.check(microMarketMenu.getCurrentDayObj(dateAndTime.getCurrentDay()));
+			foundation.click(MicroMarketMenuList.BTN_ADD_ITEM);
+			textBox.enterText(MicroMarketMenuList.TXT_PROD_SEARCH, requiredData.get(2));
+			foundation.click(MicroMarketMenuList.LBL_PROD_NAME);
+			foundation.click(MicroMarketMenuList.BTN_ADD);
+			foundation.click(MicroMarketMenuList.BTN_SUBMENU_ADD);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.objectFocus(MicroMarketMenuList.BTN_SAVE);
+			foundation.click(MicroMarketMenuList.BTN_SAVE);
+			foundation.waitforElement(MicroMarketMenuList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			// navigating to Home Page
+			foundation.click(LocationList.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objText(requiredData.get(2)), Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
+			// resetting testdata
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			textBox.enterText(MicroMarketMenuList.FILTER_MENU, requiredData.get(1));
+			foundation.click(microMarketMenu.menuNameObj(requiredData.get(1)));
+			foundation.click(MicroMarketMenuList.BTN_DELETE);
+			foundation.alertAccept();
+			// navigating to Home Page
+			foundation.refreshPage();
+			foundation.click(LocationList.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			//browser.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
