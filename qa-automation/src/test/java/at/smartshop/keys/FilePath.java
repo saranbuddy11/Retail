@@ -16,14 +16,14 @@ public class FilePath {
 	public static final String IMAGE_PATH = PATH+ "\\src\\test\\resources\\icecream.jpg";
 	
 	public void setEnvironment(String environment) {
-		if(environment.equals("test4")) {
-			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest4.properties";
+		if(environment.equals(Constants.PRE_PROD)) {
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigPreProd.properties";
 		}
-		else if(environment.equals("test3")) {
+		else if(environment.equals(Constants.TEST3)) {
 			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest3.properties";
 		}
-		else {
-			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigPreProd.properties";
+		else{
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest4.properties";
 		}
 	}
 }

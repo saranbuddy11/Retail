@@ -55,4 +55,6 @@ public class Constants {
 	public static final String NEW_LINE ="\n";
 	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
 	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
+	public static final String PRE_PROD= "PreProd";
+	public static final String TEST3= "Test3";
 }
