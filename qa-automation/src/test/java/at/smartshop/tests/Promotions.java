@@ -594,6 +594,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Updating the Item to Category
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1623,7 +1624,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141773-SOS-7519 - Verify Create Promotion page display only active location when location filter is selected")
+	@Test(description = "141773- Verify Create Promotion page display only active location when location filter is selected")
 	public void verifyPromotionsDisabledLocation() {
 		try {
 			final String CASE_NUM = "141773";
@@ -1679,20 +1680,19 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.DPD_LOC, locationName);
 			textBox.enterText(CreatePromotions.DPD_LOC, Keys.ENTER);
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.objLocation(requiredData.get(2))));
-
 			login.logout();
+			editPromotion.switchAlert(rstLocationData.get(CNLocation.ACTUAL_DATA));
 			// Resetting test data
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropdown.selectItem(LocationList.DPD_LOCATION_LIST, locationListDpd, Constants.TEXT);
 			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropdown.selectItem(LocationSummary.DPD_DISABLED, locationDisabledNo, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

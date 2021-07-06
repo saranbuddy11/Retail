@@ -74,20 +74,17 @@ public class Location extends TestInfra {
 
 			// Searching for Product
 			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-			
+			foundation.click(globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));			
 			foundation.click(ProductSummary.BTN_EXTEND);
 
 			// Extend product to location
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Searching for Product and Validating the Location Name
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
-					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA)).equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
@@ -110,11 +107,11 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);			
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			
 			// Searching for Product
+			foundation.waitforElement(locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)), Constants.SHORT_TIME);
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			
@@ -124,8 +121,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 			
-			List<String> dropDownList = Arrays
-					.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+			List<String> dropDownList = Arrays.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
 			dropDown.selectItem(LocationList.DPD_LOCATION_LIST,dropDownList.get(1),Constants.TEXT);
 			
 			// Searching for Product
@@ -193,6 +189,7 @@ public class Location extends TestInfra {
 			String locationDisabled_No = locationDisabled.get(1);
 			// Selecting location
 			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			 foundation.waitforElement(locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)), Constants.SHORT_TIME);
 			locationList.selectLocationName(locationName);
 
 			// upload image

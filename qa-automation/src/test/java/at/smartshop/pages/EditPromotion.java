@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
@@ -38,8 +39,15 @@ public class EditPromotion extends Factory {
 		foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_END_PROMO);
 		foundation.click(EditPromotion.BTN_CONTINUE);
-
-
+	}
+	
+	public void switchAlert(String action) {
+		
+		Alert alert = getDriver().switchTo().alert();
+		if(action.equals("ok"))
+			alert.accept();
+		else
+			alert.dismiss();
 	}
 
 }

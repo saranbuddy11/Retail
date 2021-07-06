@@ -876,8 +876,8 @@ public class Locker extends TestInfra {
 				foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 				newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
 			}
-
 			// validate copy functionality
+			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA)));
 			foundation.waitforElement(CreateSystem.DPD_LOCATION, Constants.SHORT_TIME);
