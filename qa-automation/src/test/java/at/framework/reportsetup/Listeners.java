@@ -13,13 +13,14 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.testrail.Testrail;
 
 public class Listeners implements ITestListener {
 
 	static ExtentReports objReport;
 	ExtReport objReportName;
 	ExtentTest test;
-	
+	Testrail testRail=new Testrail();
 
 	public void onTestStart(ITestResult result) {		
 		test = objReport.createTest("["+result.getMethod().getRealClass().getName()+"]["+result.getMethod().getMethodName()+"]"+" - "+result.getMethod().getDescription());
@@ -29,12 +30,16 @@ public class Listeners implements ITestListener {
 	public void onTestSuccess(ITestResult result) {
 		ExtFactory.getInstance().getExtent().log(Status.PASS,
 				" method[" + result.getMethod().getMethodName() + "] is passed");
+		String testCaseId=result.getMethod().getDescription().split("-")[0];		
+		testRail.testRailPassResult(testCaseId);
 	}
 
 	public void onTestFailure(ITestResult result) {		
 		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case" + result.getMethod().getMethodName() + " is failed due to " +result.getThrowable());
-		WebDriver driver = Factory.getDriver();
-
+		String testCaseId=result.getMethod().getDescription().split("-")[0];
+		testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
+		
+		WebDriver driver = Factory.getDriver();		
 		String testmethodName = result.getMethod().getMethodName();
 
 		try {					

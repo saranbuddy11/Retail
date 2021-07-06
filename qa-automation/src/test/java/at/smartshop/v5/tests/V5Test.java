@@ -77,4 +77,34 @@ public class V5Test extends TestInfra {
 		foundation.click(EditAccount.BTN_SAVE);
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
+	
+	@Test(description ="142721 - SOS-24494-V5 - Apply Discount ( Discount field ) for product and verify it on Kiosk machine cart page")
+	public void testRailForPass() {
+		final String CASE_NUM = "142721";
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			//foundation.click(LandingPage.BTN_LOGIN);
+		}
+		catch (Exception exc) {
+			// TODO: handle exception
+		}
+	}
+	
+	@Test(description ="142722-SOS-24494-V5 - Apply Discount ( Discount field ) for product and verify it on Kiosk machine cart page")
+	public void testRailForFail() {
+		final String CASE_NUM = "142722";
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LandingPage.BTN_LOGIN);
+		}
+		catch (Exception exc) {
+			// TODO: handle exception
+		}
+	}
 }
