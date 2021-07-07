@@ -323,7 +323,7 @@ public class GlobalProducts extends TestInfra {
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
