@@ -8,6 +8,7 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.keys.Constants;
 
 public class TextBox extends Factory {
 	Foundation foundation=new Foundation();
@@ -59,7 +60,7 @@ public class TextBox extends Factory {
 			if(eachChar==' ') {
 				foundation.click(By.xpath("//*[text()='Space']"));
 				foundation.click(By.xpath("//*[text()='abc']"));
-				foundation.threadWait(100);
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 			else {
 			foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
