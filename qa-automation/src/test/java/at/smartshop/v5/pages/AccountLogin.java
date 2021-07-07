@@ -19,7 +19,7 @@ public class AccountLogin {
 
 	public static final By BTN_EMAIL_LOGIN = By.id("email-account-login-btn-id");
 	public static final By TXT_EMAIL = By.id("emailLoginInput");
-	public static final By BTN_ENTER = By.xpath("//*[@id='accountModal']//div[text()='Enter']");
+	public static final By BTN_ENTER = By.xpath("//*[text()='Enter']");
 	public static final By BTN_NEXT = By.id("emaillogin-input-btn-go-id");
 	public static final By LBL_ENTER_PIN_TITLE = By.className("input-label");
 	public static final By BTN_CAMELCASE = By.xpath("//div[text()='abc']");

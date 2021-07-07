@@ -25,6 +25,7 @@ public class Order {
     public static final By LBL_YOUR_ORDER = By.xpath("//h1[text()='Your Order']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
+    public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");
     
     private Foundation foundation=new Foundation();
     public By objText(String text) {

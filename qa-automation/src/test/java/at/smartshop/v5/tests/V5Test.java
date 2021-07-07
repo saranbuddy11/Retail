@@ -33,6 +33,7 @@ import at.smartshop.v5.pages.FingerPrintPayment;
 import at.smartshop.v5.pages.FundAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.PaymentSuccess;
 import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
@@ -429,5 +430,26 @@ public class V5Test extends TestInfra {
 			exc.printStackTrace();
 			Assert.fail();
 		}
+	}
+	
+	@Test(description = "142905-QAA-44-Place Order with valid email id")
+	public void placeOrderWithEmailID() {
+		final String CASE_NUM = "142905";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		
+		//navigate to payment success page and validate No receipt
+		foundation.click(landingPage.objLanguage(requiredData.get(0)));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		textBox.enterKeypadText(requiredData.get(1));
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+		foundation.click(Order.LBL_EMAIL);
+		accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+		
 	}
 }
