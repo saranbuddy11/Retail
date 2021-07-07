@@ -432,7 +432,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "142905-QAA-44-Place Order with valid email id")
+	@Test(description = "142905-QAA-44-Place Order with valid email id", priority = -1)
 	public void placeOrderWithEmailID() {
 		final String CASE_NUM = "142905";
 
