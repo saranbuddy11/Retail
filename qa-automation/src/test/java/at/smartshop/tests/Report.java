@@ -249,8 +249,7 @@ public class Report extends TestInfra {
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -259,29 +258,26 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
 
 			// get Location Data
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
 
@@ -460,7 +456,7 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "120821 - This test validates Bad Scan Report Data Calculation")
-	public void BadScanReportData() {
+	public void badScanReportData() {
 		try {
 
 			final String CASE_NUM = "120821";
@@ -523,8 +519,7 @@ public class Report extends TestInfra {
 
 			final String CASE_NUM = "141644";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -535,9 +530,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			deviceByCategory.processAPI();
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -545,8 +538,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -558,26 +550,24 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI();
 
 			// apply calculation and update data
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(0),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(0),propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1), propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			foundation.threadWait(Constants.TWO_SECOND);
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(2), requiredData.get(0));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3),
-					deviceByCategory.getRequiredJsonData().get(1));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(4),
-					deviceByCategory.getRequiredJsonData().get(2));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3),deviceByCategory.getRequiredJsonData().get(1));
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(4),deviceByCategory.getRequiredJsonData().get(2));
 			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(5), requiredData.get(1));
 			deviceByCategory.updateCount(deviceByCategory.getTableHeaders().get(6), requiredData.get(2));
 			deviceByCategory.updateTotal(deviceByCategory.getRequiredJsonData().get(0),
-					deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
+			deviceByCategory.getTableHeaders().get(5), deviceByCategory.getTableHeaders().get(7));
+			
 			// verify report headers
 			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			deviceByCategory.verifyReportData();
+			
 		} catch (Exception exc) {
 			Assert.fail();
 		}
