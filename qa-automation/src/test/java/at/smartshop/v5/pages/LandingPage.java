@@ -26,6 +26,7 @@ public class LandingPage {
 	public static final By LBL_SCAN= By.xpath("//div[@class='footer']//h2");
 	
 	private Foundation foundation=new Foundation();
+	
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='"+languageName+"']");
 	}
