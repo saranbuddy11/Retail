@@ -22,6 +22,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
@@ -62,16 +63,15 @@ public class V5Test extends TestInfra {
 	private ChangePin changePin = new ChangePin();
 
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstNavigationMenuData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
 		final String CASE_NUM = "141874";
 
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 		// login to application
 		foundation.click(landingPage.objLanguage(requiredData.get(0)));
@@ -405,14 +405,12 @@ public class V5Test extends TestInfra {
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(0));
@@ -429,5 +427,28 @@ public class V5Test extends TestInfra {
 			exc.printStackTrace();
 			Assert.fail();
 		}
+	}
+	
+	@Test(description="142993>V5-Ensure canadian Currency Cash Funding")
+	public void verifyCADCurrency() {
+		
+		final String CASE_NUM = "142993";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem("Super~RNous Org");
+		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_CURRENCY, "CAD-Canadian dollar", Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
+		navigationBar.navigateToMenuItem("Location");
+		
+		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_CURRENCY, "USD-United States dollar", Constants.TEXT);
+
 	}
 }
