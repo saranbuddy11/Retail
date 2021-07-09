@@ -28,5 +28,3 @@ public class CNV5Device {
 	public static final String PAYMENTS_PAGE="PaymentsPage";
 
 }
-
-

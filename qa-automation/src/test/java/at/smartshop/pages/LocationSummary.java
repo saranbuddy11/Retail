@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -57,6 +58,11 @@ public class LocationSummary extends Factory {
     public static final By LBL_TAX_CATEGORY= By.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+    public static final By BTN_FULL_SYNC =  By.id("fullsync");
+    public static final By TXT_PRICE_IN_GRID =  By.id("fullsync");
+    public static final By BTN_ADD_PRODUCT =  By.id("addProd");
+    public static final By TXT_ADD_PRODUCT_SEARCH =  By.id("productFilterTypes");
+    public static final By BTN_ADD_PRODUCT_ADD =  By.id("modalsave");
     public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
     public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
@@ -74,7 +80,6 @@ public class LocationSummary extends Factory {
 	public static final By DPD_ROUTE = By.id("route");
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
-	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
 	public void selectTab(String tabName) {
@@ -160,7 +165,23 @@ public class LocationSummary extends Factory {
         foundation.click(LocationSummary.BTN_SAVE);
         foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
-    
+    public void enterPrice(String scancode,String price) {
+    	By priceLink=By.xpath("//td[text()='"+scancode+"']//..//td[@aria-describedby='productDataGrid_price']");
+    	By priceInput=By.xpath("//td[text()='"+scancode+"']//..//td[@aria-describedby='productDataGrid_price']//input");
+    	foundation.click(priceLink);
+    	textBox.enterText(priceInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+        textBox.enterText(priceInput,price);
+    	ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is"+foundation.getText(priceLink));
+    }
+
+	public void addProduct(String scancode) {
+		foundation.click(BTN_ADD_PRODUCT);
+		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, 3);
+		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, scancode);
+		foundation.click(By.xpath("//td[@aria-describedby='chooseprddt_scancode'][text()='" + scancode + "']"));
+		foundation.click(BTN_ADD_PRODUCT_ADD);
+		foundation.waitforElement(BTN_SAVE, 3);
+	}
 
 	public void selectDeviceName(String deviceName) {
 		foundation.click(By.xpath("//a[text()='"+deviceName+"']"));		

@@ -1,6 +1,5 @@
 package at.smartshop.v5.pages;
 
-
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -9,7 +8,6 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class Order {
-	
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
 	public static final By LBL_ORDER_CANCELLED = By.xpath("//span[text()='Transaction Cancelled']");
 	public static final By LBL_PRODUCT_PRICE = By.className("product-price");
@@ -44,6 +42,4 @@ public class Order {
 	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
 	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
 	}
-
 }
-
