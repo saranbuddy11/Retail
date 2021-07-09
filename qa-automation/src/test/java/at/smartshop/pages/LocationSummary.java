@@ -57,8 +57,8 @@ public class LocationSummary extends Factory {
     public static final By LBL_TAX_CATEGORY= By.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
-  	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
-	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
+    public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
+    public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
 	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
 	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
