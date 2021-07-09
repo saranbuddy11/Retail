@@ -77,6 +77,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
+
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));

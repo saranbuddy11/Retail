@@ -8,8 +8,7 @@ import org.testng.Assert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
-public class ProductSearch {
-	
+public class ProductSearch {	
 
 	public static final By LBL_PRODUCT_NAME = By.className("product-name");
 	public static final By BTN_PRODUCT=By.xpath("//button[@class='product search-product']");	

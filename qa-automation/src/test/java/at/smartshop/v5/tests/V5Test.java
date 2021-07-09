@@ -69,7 +69,6 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 
-
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
 		try {
@@ -488,14 +487,13 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(productName.get(1));
 			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String matchedProdMsg = matchedCount+" "+prodFoundText;
-			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
-			
+			Assert.assertEquals(matchedProdMsg, requiredData.get(1));		
+
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-
 	
 	@Test(description ="C141872 - This test validates the item in the Your order screen")
 	public void verifyItemInOrderScreen() {
@@ -519,6 +517,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+		
 	@Test(description = "C142663 - This test validates the functionality of Cancel order functionality")
 	public void verifyCancelOrderFunctionality() {
 		try {
@@ -545,18 +544,44 @@ public class V5Test extends TestInfra {
 		try {
 			
 			final String CASE_NUM = "142664";
+			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
+					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH,  rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			 locationSummary.selectDeviceName( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			 deviceSummary.setTimeOut(rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP));
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			 navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			 foundation.click(LocationSummary.BTN_SYNC);
+			 foundation.click(LocationSummary.BTN_SAVE);
+			 foundation.waitforElement(LocationList.TXT_FILTER, 5);
+			 login.logout();
+			 browser.close();
+			 
+			 browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
-			foundation.click(landingPage.objLanguage(language));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.threadWait(20000);
+			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, 22);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			
+
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -609,5 +634,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 
 }

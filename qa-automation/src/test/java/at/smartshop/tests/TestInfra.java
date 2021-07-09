@@ -25,7 +25,7 @@ public class TestInfra{
 	public void beforeSuit() {
 		ResultSets.getConnection();
 	}
-	
+
 	@Parameters({"driver", "browser"})
     @BeforeMethod  
     public void beforeMethod(String drivers, String browsers) {          
