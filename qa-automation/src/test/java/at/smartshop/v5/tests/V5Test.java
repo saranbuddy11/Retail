@@ -1,14 +1,16 @@
 package at.smartshop.v5.tests;
 
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Dropdown;
@@ -22,14 +24,9 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.AdminMenu;
-import at.smartshop.v5.pages.LandingPage;
-import at.smartshop.v5.pages.Order;
-import at.smartshop.v5.pages.ProductSearch;
-import at.smartshop.v5.pages.AccountLogin;
-import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.ChangePin;
 import at.smartshop.v5.pages.CreateAccount;
@@ -43,16 +40,17 @@ import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 
 
+
 @Listeners(at.framework.reportsetup.Listeners.class)
-public class V5Test extends TestInfra {
-		
-	private Foundation foundation=new Foundation();	
+public class V5Test extends TestInfra {		
+
+	private Foundation foundation=new Foundation();
+	private AdminMenu adminMenu = new AdminMenu();
 	private TextBox textBox=new TextBox();
 	private ResultSets dataBase = new ResultSets();
 	private LandingPage landingPage=new LandingPage();
 	private AccountLogin accountLogin=new AccountLogin();
 	private EditAccount editAccount=new EditAccount();
-	private AdminMenu adminMenu = new AdminMenu();
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
@@ -66,6 +64,7 @@ public class V5Test extends TestInfra {
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
 	private Payments payments = new Payments();
+
 
 	private Map<String, String> rstV5DeviceData;
 
@@ -422,7 +421,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}	
-
 	
 	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
 	public void verifyDriverLoginLogout() {
@@ -496,6 +494,7 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	
 	@Test(description ="C141872 - This test validates the item in the Your order screen")
 	public void verifyItemInOrderScreen() {
@@ -518,5 +517,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 
 }
