@@ -2,12 +2,8 @@ package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertTrue;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -523,11 +519,13 @@ public class V5Test extends TestInfra {
 	@Test(description = "142994 SOS-11643 V5 > Menu Updates")
 	public void verifyMenuLevelUpdates() {
 		try {
-			final String CASE_NUM = "142894";
+			final String CASE_NUM = "142994";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -543,11 +541,18 @@ public class V5Test extends TestInfra {
 			foundation.click(MicroMarketMenuList.BTN_CREATE_NEW);
 			textBox.enterText(MicroMarketMenuList.TXT_MENU_NAME, requiredData.get(1));
 			checkBox.check(microMarketMenu.getCurrentDayObj(dateAndTime.getCurrentDay()));
-			foundation.click(MicroMarketMenuList.BTN_ADD_ITEM);
-			textBox.enterText(MicroMarketMenuList.TXT_PROD_SEARCH, requiredData.get(2));
-			foundation.click(MicroMarketMenuList.LBL_PROD_NAME);
-			foundation.click(MicroMarketMenuList.BTN_ADD);
+			foundation.click(MicroMarketMenuList.BTN_MENU_ADD);
+			foundation.waitforElement(MicroMarketMenuList.TXT_BTN_NAME, Constants.SHORT_TIME);
+			textBox.enterText(MicroMarketMenuList.TXT_BTN_NAME, requiredData.get(2));
 			foundation.click(MicroMarketMenuList.BTN_SUBMENU_ADD);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(MicroMarketMenuList.LBL_ADD_PRODUCTS);
+			foundation.waitforElement(MicroMarketMenuList.TXT_SEARCH_PRODUCT, Constants.SHORT_TIME);
+			textBox.enterText(MicroMarketMenuList.TXT_SEARCH_PRODUCT, requiredData.get(3));
+			foundation.waitforElement(MicroMarketMenuList.LBL_PRODUCT_NAME, Constants.SHORT_TIME);
+			foundation.click(MicroMarketMenuList.LBL_PRODUCT_NAME);
+			foundation.click(MicroMarketMenuList.LBL_BTN_ADD);
+			//foundation.click(MicroMarketMenuList.BTN_SUBMENU_ADD);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.objectFocus(MicroMarketMenuList.BTN_SAVE);
 			foundation.click(MicroMarketMenuList.BTN_SAVE);
@@ -566,6 +571,11 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objText(requiredData.get(2)), Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
+			foundation.click(landingPage.objText(requiredData.get(2)));
+			foundation.click(landingPage.objText(requiredData.get(3)));
+		    Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+		    Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+		    Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
 			// resetting testdata
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(

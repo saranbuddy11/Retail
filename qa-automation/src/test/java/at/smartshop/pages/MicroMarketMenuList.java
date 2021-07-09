@@ -16,7 +16,12 @@ public class MicroMarketMenuList {
 	public static final By BTN_ADD = By.xpath("//div[@id='menuprd-add']");
 	public static final By BTN_DELETE = By.xpath("//button[text()='Delete']");
 	public static final By TXT_SPINNER_MSG = By.className("humane");
-
+	public static final By BTN_MENU_ADD =  By.cssSelector("#menu-addsubmenu");
+	public static final By TXT_BTN_NAME =  By.xpath("//input[@id='menu-addname']");
+	public static final By LBL_ADD_PRODUCTS=  By.cssSelector("#menu-addproducts");
+	public static final By TXT_SEARCH_PRODUCT=  By.xpath("//div[@class='span12 children ui-sortable']//input[@class='search']");
+	public static final By LBL_PRODUCT_NAME=  By.xpath("//div[@class='span12 children ui-sortable']//td[@id='menuprd-name_0']");
+	public static final By LBL_BTN_ADD = By.xpath("//div[@class='span12 children ui-sortable']//div[@id='menuprd-add']");
 	public By getCurrentDayObj(String day) {
 		By CHK_BOX_DAY;
 		switch (day) {
