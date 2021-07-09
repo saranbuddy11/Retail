@@ -1,5 +1,6 @@
 package at.smartshop.v5.pages;
 
+
 import java.util.List;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -19,8 +20,9 @@ public class AdminMenu {
 	
 	public By objNumPad(int number) {
 		return By.xpath("//input[@value='"+number+"']");
+
 	}
-	
+
 
 	public void navigateDriverLoginPage() {
 		foundation.doubleClick(LandingPage.IMG_LOGO);
@@ -45,5 +47,6 @@ public class AdminMenu {
 			foundation.isDisplayed(By.xpath("//div[text()='"+options.get(iter)+"']"));
 		}
 	}
+
 
 }
