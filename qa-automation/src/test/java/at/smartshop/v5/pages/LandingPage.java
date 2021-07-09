@@ -34,6 +34,10 @@ public class LandingPage {
 		return By.xpath("//button[text()='" + languageName + "']");
 	}
 
+	public By objText(String text) {
+		return By.xpath("//*[text()='" + text + "']");
+	}
+
 	public By objImageDisplay(String imageName) {
 		return By.xpath("//img[contains(@src,'" + imageName + "')]");
 	}
@@ -49,6 +53,7 @@ public class LandingPage {
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
+
 	}
 
 }

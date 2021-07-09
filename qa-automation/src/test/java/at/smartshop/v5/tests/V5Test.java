@@ -1823,4 +1823,53 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	@Test(description = "141857 Kiosk 'Default' Landing UI > Language Selection")
+	public void verifyLanguageSelection() {
+		try {
+			final String CASE_NUM = "141857";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(2));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(1), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.waitforElement(landingPage.objText(actualData.get(0)), Constants.MEDIUM_TIME);
+			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
+			assertEquals(actualLanguage, actualData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.waitforElement(landingPage.objText(actualData.get(1)), Constants.SHORT_TIME);
+			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
+			assertEquals(actualLanguage, actualData.get(1));
+			browser.close();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
 }
