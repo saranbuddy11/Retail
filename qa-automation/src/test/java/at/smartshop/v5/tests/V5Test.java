@@ -1323,7 +1323,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142690-SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
+	@Test(description = "142690 SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
 	public void verifyHomeCommercialJPG() {
 		try {
 			final String CASE_NUM = "142690";
@@ -1372,7 +1372,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142691-SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
+	@Test(description = "142691 SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
 	public void verifyHomeCommercialPNG() {
 		try {
 			final String CASE_NUM = "142691";
@@ -1417,6 +1417,126 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(locationName);
 			// removing home commercial
 			locationSummary.removeHomeCommercial(imageName);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142692 SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
+	public void verifyRemoveHomeCommercialJPG() {
+		try {
+			final String CASE_NUM = "142692";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// upload Home Commercial image
+			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PATH);
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData);
+			browser.close();
+			// Remove home commercial
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing home commercial image
+			locationSummary.removeHomeCommercial(imageName);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142693 SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
+	public void verifyRemoveHomeCommercialPNG() {
+		try {
+			final String CASE_NUM = "142693";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// upload Home Commercial image
+			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PNG_PATH);
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData);
+			browser.close();
+			// Remove home commercial
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing home commercial image
+			locationSummary.removeHomeCommercial(imageName);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
 		} catch (Exception exc) {
 			exc.printStackTrace();

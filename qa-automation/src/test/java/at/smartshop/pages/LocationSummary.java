@@ -238,6 +238,10 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, 5);
+		foundation.refreshPage();
+
 	}
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
