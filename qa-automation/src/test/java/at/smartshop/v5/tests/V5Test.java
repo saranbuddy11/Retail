@@ -1,6 +1,7 @@
 package at.smartshop.v5.tests;
 
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,11 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AdminMenu;
+import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.ProductSearch;
+import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.EditAccount;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.CardPayment;
@@ -36,29 +42,30 @@ import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 
+
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
-
-	private Foundation foundation = new Foundation();
-	private TextBox textBox = new TextBox();
+		
+	private Foundation foundation=new Foundation();	
+	private TextBox textBox=new TextBox();
 	private ResultSets dataBase = new ResultSets();
-	private LandingPage landingPage = new LandingPage();
-	private AccountLogin accountLogin = new AccountLogin();
-	private EditAccount editAccount = new EditAccount();
+	private LandingPage landingPage=new LandingPage();
+	private AccountLogin accountLogin=new AccountLogin();
+	private EditAccount editAccount=new EditAccount();
+	private AdminMenu adminMenu = new AdminMenu();
 	private NavigationBar navigationBar = new NavigationBar();
-	private Dropdown dropDown = new Dropdown();
 	private LocationList locationList = new LocationList();
+	private Dropdown dropDown = new Dropdown();
+	private ProductSearch productSearch = new ProductSearch();
 	private Order order = new Order();
 	private CardPayment cardPayment = new CardPayment();
 	private CreateAccount createAccount = new CreateAccount();
-	private Payments payments = new Payments();
-	private ProductSearch productSearch = new ProductSearch();
 	private AccountDetails accountDetails = new AccountDetails();
 	private FundAccount fundAccount = new FundAccount();
 	private ScanPayment scanPayment = new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
-	private AdminMenu adminMenu = new AdminMenu();
+	private Payments payments = new Payments();
 
 	private Map<String, String> rstV5DeviceData;
 
@@ -415,11 +422,12 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}	
+
 	
 	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
 	public void verifyDriverLoginLogout() {
 		try {
-			
+
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LandingPage.LINK_ENGLISH);
 			adminMenu.navigateDriverLoginPage();
@@ -433,8 +441,7 @@ public class V5Test extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}	
-
+	}
 	
 	@Test(description = "C141868-Thsi test validates the Inventory options")
 	public void verifyInventoryOptions() {
@@ -458,4 +465,58 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "C141873 - Verify the products as per the user search")
+	public void verifyProductSearch() {
+		try {
+			
+			final String CASE_NUM ="141873";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			textBox.enterKeypadText(productName.get(0));
+			String prodCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
+			String prodFoundText = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
+			String unMatchedProdMsg = prodCount+" "+prodFoundText;
+			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			Assert.assertEquals(unMatchedProdMsg, requiredData.get(0));		
+			
+			foundation.click(ProductSearch.LINK_CLOSE_POPUP);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName.get(1));
+			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
+			String matchedProdMsg = matchedCount+" "+prodFoundText;
+			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
+			
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description ="C141872 - This test validates the item in the Your order screen")
+	public void verifyItemInOrderScreen() {
+		try {
+			
+			final String CASE_NUM ="141872";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			
+		    // search and click product
+	         foundation.click(LandingPage.IMG_SEARCH_ICON);
+	        textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+	        foundation.click(ProductSearch.BTN_PRODUCT);       
+	        assertEquals(foundation.getText(Order.TXT_HEADER),rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));       
+	        assertEquals(foundation.getText(Order.TXT_PRODUCT),rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 }

@@ -25,16 +25,17 @@ public class TestInfra{
 	public void beforeSuit() {
 		ResultSets.getConnection();
 	}
+	
 
 	@Parameters({"driver", "browser"})
-	@BeforeMethod	
-	public void beforeMethod(String drivers, String browsers) {			
-		try {			
-			browser.launch(drivers,browsers);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+    @BeforeMethod  
+    public void beforeMethod(String drivers, String browsers) {          
+        try {          
+            browser.launch(drivers,browsers);
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 
 
 	@AfterMethod
