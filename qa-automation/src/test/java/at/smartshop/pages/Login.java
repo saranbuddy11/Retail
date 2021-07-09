@@ -9,6 +9,7 @@ import at.framework.ui.*;
 public class Login extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	
 	private static final By TXT_EMAIL = By.id("email");
 	private static final By TXT_PASSWORD = By.id("password");
 	private static final By BTN_SIGN_IN = By.cssSelector("#loginform > button");
