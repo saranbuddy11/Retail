@@ -16,8 +16,9 @@ public class LocationList extends Factory {
 
 	public void selectLocationName(String locationName) {
 		textBox.enterText(TXT_FILTER, locationName);
-		foundation.click(getlocationElement(locationName));
+		foundation.click(By.xpath("//a[text()='" + locationName + "']"));
 	}
+
 	public By objGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}

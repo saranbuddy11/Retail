@@ -78,6 +78,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
 	public static final By TXT_CMR_FILTER = By.id("cmrHomeFilterType");
 	public static final By BTN_REMOVE = By.xpath("//a[@id='previewremove']");
+	public static final By TXT_UPLOAD_STATUS = By.xpath("//span[@class='qq-upload-status-text']");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
 	public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
@@ -87,6 +88,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
+
 
 	public void selectTab(String tabName) {
 		try {
