@@ -20,7 +20,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
-    private Dropdown dropDown=new Dropdown();
+	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 
@@ -29,8 +29,8 @@ public class LocationSummary extends Factory {
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
-	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
-			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
+	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
+	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
@@ -54,13 +54,27 @@ public class LocationSummary extends Factory {
     private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
     public static final By TAB_PRODUCTS = By.id("loc-products");
     public static final By TXT_SEARCH = By.id("productFilterType");
-    public static final By LBL_TAX_CATEGORY= By.xpath("(//td[@aria-describedby='productDataGrid_taxcat'])[2]");
-    private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
-    private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+    public static final By LBL_TAX_CATEGORY= By.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
     public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
     public static final By LBL_SPINNER_MSG =By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
+	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
+	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
+	public static final By TXT_UPLOAD_NEW = By.xpath("//a[text()='Upload New']");
+	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
+	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
+	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
+	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
+    public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
+    public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
+    public static final By BTN_SYNC =By.xpath("//button[text()='Update Prices & Full Sync']");
+	public static final By TXT_CUSTOMER = By.id("customer");
+	public static final By DPD_ROUTE = By.id("route");
+	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
+	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
+	public static final By BTN_ADD_PRODUCT = By.id("addProd");
+	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
-    
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -75,16 +89,18 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				foundation.click(By.xpath(
-						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
-								+ columnName.get(count) + "']"));
+				foundation.click(By.xpath("//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"+ columnName.get(count) + "']"));
 			}
-			foundation.click(POP_UP_BTN_APPLY);
+			foundation.objectFocus(POP_UP_BTN_APPLY);
+			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
+			if(foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
+				foundation.click(POP_UP_BTN_APPLY);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public List<String> getProductsHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
@@ -104,7 +120,9 @@ public class LocationSummary extends Factory {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
 		try {
+			foundation.waitforElement(TBL_PRODUCTS_GRID, 5);
 			List<String> tableHeaders = getProductsHeaders();
+			foundation.waitforElement(TXT_PRODUCT_FILTER, 2);
 			textBox.enterText(TXT_PRODUCT_FILTER, recordValue);
 			WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
 			List<WebElement> rows = tableProductsGrid.findElements(By.tagName("tr"));
@@ -125,7 +143,7 @@ public class LocationSummary extends Factory {
 
     public void verifyHasLockerField(String defaultValue) {
         try {
-            foundation.waitforElement(LBL_LOCATION_SUMMARY, 5);
+            foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
             Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
             String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
             Assert.assertEquals(value, defaultValue);
@@ -133,24 +151,30 @@ public class LocationSummary extends Factory {
         }catch(Exception exc) {
             Assert.fail(exc.toString());
         }
-    }
-    
-    public void showTaxCategory() {
-        try {
-        foundation.click(BTN_MANAGE_COLUMNS);
-        foundation.click(BTN_SHOW);
-        }
-        catch (Exception exc) { 
-        	Assert.fail(exc.toString());
-        }
-        foundation.click(BTN_APPLY);
-    }
-    
+    }    
+
     public void updateLockerSettings(String enableORDisable) {    	
         dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
         foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LBL_SPINNER_MSG, 2);
+        foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
 
-}
+	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
+		
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
+		textBox.enterText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),inventoryValue);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"), 2);
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+	}
 
+}
