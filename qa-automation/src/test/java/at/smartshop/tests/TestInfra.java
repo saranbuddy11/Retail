@@ -16,22 +16,21 @@ import at.framework.files.PropertyFile;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
-public class TestInfra{
+public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
-	
+
 	@BeforeSuite
 	public void beforeSuit() {
 		ResultSets.getConnection();
 	}
-	
-	
-	@Parameters({"driver", "browser"})
-	@BeforeMethod	
-	public void beforeMethod(String drivers, String browsers) {			
-		try {			
-			browser.launch(drivers,browsers);
+
+	@Parameters({ "driver", "browser" })
+	@BeforeMethod
+	public void beforeMethod(String drivers, String browsers) {
+		try {
+			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -39,17 +38,18 @@ public class TestInfra{
 
 	@AfterMethod
 	public void afterMethod() {
-		try {			
+		try {
 			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+
 		}
-		
+
 	}
-	
+
 	@AfterSuite
 	public void afterSuit() {
-		try {			
+		try {
 			ResultSets.connection.close();
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());

@@ -40,8 +40,7 @@ public class ResultSets extends Connections {
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
-					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
-							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
 			}
 		} catch (Exception exc) {
@@ -702,8 +701,9 @@ public class ResultSets extends Connections {
 		}
 		return rstLocation;
 	}
-
+	
 	public Map<String, String> getV5DeviceData(String query, String testcaseID) {
+
 		Map<String, String> rstV5Device = new HashMap<>();
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
@@ -718,6 +718,7 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
 					rstV5Device.put(CNV5Device.PIN, resultSet.getString(CNV5Device.PIN));
 					rstV5Device.put(CNV5Device.EMAIL_ID, resultSet.getString(CNV5Device.EMAIL_ID));
+					rstV5Device.put(CNV5Device.TIMEOUT_POPUP, resultSet.getString(CNV5Device.TIMEOUT_POPUP));
 					rstV5Device.put(CNV5Device.LANDING_PAGE, resultSet.getString(CNV5Device.LANDING_PAGE));
 					rstV5Device.put(CNV5Device.ORDER_PAGE, resultSet.getString(CNV5Device.ORDER_PAGE));
 					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE, resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
@@ -747,4 +748,5 @@ public class ResultSets extends Connections {
 		}
 		return rstV5Device;
 	}
+
 }
