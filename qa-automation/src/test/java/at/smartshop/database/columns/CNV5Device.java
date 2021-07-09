@@ -8,6 +8,7 @@ public class CNV5Device {
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String ACTUAL_DATA ="ActualData";
 	public static final String EMAIL_ID ="EmailID";
+	public static final String TIMEOUT_POPUP = "TimeoutPopup";
 	public static final String PIN ="Pin";
 	public static final String LANDING_PAGE="LandingPage";
 	public static final String ORDER_PAGE="OrderPage";
@@ -27,6 +28,3 @@ public class CNV5Device {
 	public static final String PAYMENTS_PAGE="PaymentsPage";
 
 }
-
-
-

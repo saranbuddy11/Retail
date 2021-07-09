@@ -1,9 +1,14 @@
 package at.smartshop.v5.pages;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class EditAccount {
 	private Foundation foundation=new Foundation();
@@ -23,13 +28,40 @@ public class EditAccount {
 	public static final By BTN_SAVE_PIN=By.id("pin-reset-btn-go-id");
 	public static final By BTN_CAMEL_CASE=By.xpath("//div[text()='abc']");
 	public static final By BTN_DELETE=By.xpath("//*[text()='Del']");
-	
-	public void updateText(By obj,String text,String priviousText) {
-		foundation.click(obj);		
-		textBox.deleteKeypadText(priviousText);		
+
+	public void updateText(By obj, String text, String priviousText) {
+		
 		foundation.click(obj);
-		textBox.enterKeypadText(text);	
+		for (int i = 0; i <= priviousText.length(); i++) {
+			foundation.click(BTN_DELETE);
+		}
+		foundation.click(obj);
+		textBox.enterKeypadText(text);
+	}
+
+	public By objText(String text) {
+		return By.xpath("//*[text()='" + text + "']");
+	}
+
+	public void verifyEditAccountPageLanguage(String editAccountPage) {
+		List<String> accountEditPageData = Arrays.asList(editAccountPage.split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(0))));
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(2))));		
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(3))));
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(5))));	
+		Assert.assertTrue(foundation.isDisplayed(objText(accountEditPageData.get(6))));
 	}
 	
-
+	public void verifyTimeOutPopLanguage(String timeOutPopup) {
+		List<String> timeOutPopupData = Arrays.asList(timeOutPopup.split(Constants.DELIMITER_TILD));
+		foundation.waitforElement(objText(timeOutPopupData.get(0)), Constants.EXTRA_LONG_TIME);
+		Assert.assertTrue(foundation.isDisplayed(objText(timeOutPopupData.get(0))));
+		Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES),timeOutPopupData.get(3));
+		foundation.click(Order.POP_UP_TIMEOUT_YES);
+		foundation.waitforElement(objText(timeOutPopupData.get(0)), Constants.EXTRA_LONG_TIME);
+		Assert.assertTrue(foundation.isDisplayed(objText(timeOutPopupData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(objText(timeOutPopupData.get(2))));
+	}
 }
