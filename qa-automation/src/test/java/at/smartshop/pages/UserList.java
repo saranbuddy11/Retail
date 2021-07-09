@@ -18,6 +18,7 @@ public class UserList {
     public static final By BTN_UPDATE_USER = By.id("saveBtn");
     public static final By DPD_ORG = By.cssSelector("select#org-dropdown");
  	public static final By LBL_USER_LIST = By.id("User List");
+ 	public static final By LNK_ORG_REMOVE = By.xpath("//div[@id='org-select']//li/span");
 	public static final By LNK_ORG_REMOVE_ALL = By.xpath("//div[@id='org-select']//span//ul/span");
 	public static final By LNK_LOCATION_REMOVE_ALL = By.xpath("//div[@id='location-select']//span//ul/span");
 		
@@ -30,5 +31,6 @@ public class UserList {
 		for(int i=0; i<orgName.size(); i++) {
 		dropdown.selectItem(object, orgName.get(i), Constants.TEXT);
 		}
-	}
+	}   
+
 }

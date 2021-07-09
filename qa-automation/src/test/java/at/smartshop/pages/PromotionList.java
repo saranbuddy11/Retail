@@ -12,6 +12,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class PromotionList extends Factory {
 	private Foundation foundation = new Foundation();
@@ -19,11 +20,9 @@ public class PromotionList extends Factory {
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
-	public static final By TXT_SEARCH = By.id("search");
 	public static final By LBL_START_DATE_HEADER = By.id("hierarchicalGrid_datestart");
 	public static final By LBL_START_DATE_LIST = By.xpath("//td[@aria-describedby='hierarchicalGrid_datestart']");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
-	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
 	public static final By TXT_SEARCH_PROMONAME = By.id("search");
 	public static final By BTN_SEARCH = By.id("searchbtn");
 	public static final By TBL_COLUMN_NAME = By.xpath("//td[@aria-describedby='hierarchicalGrid_name']");
@@ -38,15 +37,14 @@ public class PromotionList extends Factory {
 	public static final By LBL_PROMOTYPE = By.xpath("//select[@id='promotype']//..//..//dt");
 	public static final By LBL_ORG_NAME = By.xpath("//td[contains(@aria-describedby,'orgs_child_orgname')]");
 	public static final By LINK_EXPAND = By.xpath("//span[@title='Expand Row']");
-	public static final By LBL_LOCATION_NAME = By
-			.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
+	public static final By LBL_LOCATION_NAME = By.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 	}
 
 	public void searchPromotion(String promoName) {
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, 2);
+		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 	}
