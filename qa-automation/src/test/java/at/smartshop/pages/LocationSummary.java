@@ -240,7 +240,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-		foundation.waitforElement(Login.LBL_USER_NAME, 5);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
 		foundation.refreshPage();
 
 	}
@@ -248,7 +248,7 @@ public class LocationSummary extends Factory {
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.TWO_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
@@ -263,7 +263,7 @@ public class LocationSummary extends Factory {
 				2);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
-		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
 	}
 
 	public By objUploadStatus(String uploadMessage) {
