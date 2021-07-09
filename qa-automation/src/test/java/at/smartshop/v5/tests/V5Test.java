@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -26,15 +27,12 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.CurrenyConverter;
 import at.smartshop.pages.DeviceSummary;
-import at.smartshop.pages.LocationList;
-import at.smartshop.pages.LocationSummary;
-import at.smartshop.pages.NavigationBar;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.AdminMenu;
@@ -79,6 +77,7 @@ public class V5Test extends TestInfra {
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
 	private Payments payments = new Payments();
+	private Strings string = new Strings();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -1322,6 +1321,76 @@ public class V5Test extends TestInfra {
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "C142691-SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
+	public void verifyHomeCommercialPNG() {
+		try {
+			final String CASE_NUM = "142691";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			// upload image
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PNG_PATH);
+			textBox.enterText(LocationSummary.TXT_ADD_NAME, imageName);
+			foundation.click(LocationSummary.BTN_ADD);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			foundation.waitforElement(Login.LBL_USER_NAME, 5);
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), 10);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData);
+
+			// resetting test data
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, 2);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			textBox.enterText(LocationSummary.TXT_CMR_FILTER, imageName);
+			foundation.click(locationSummary.objHomeCommercial(imageName));
+			foundation.waitforElement(LocationSummary.BTN_REMOVE, 5);
+			foundation.click(LocationSummary.BTN_REMOVE);
+			foundation.waitforElement(LocationSummary.BTN_SYNC, 5);
+			foundation.click(LocationSummary.BTN_SYNC);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
 		}
 	}
 }
