@@ -1355,6 +1355,7 @@ public class V5Test extends TestInfra {
 			assertEquals(actualData, requiredData);
 
 			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1406,6 +1407,7 @@ public class V5Test extends TestInfra {
 			assertEquals(actualData, requiredData);
 
 			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1602,6 +1604,68 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "C142695-SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
+	public void verifyMultipleHomeCommercial() {
+		try {
+			final String CASE_NUM = "142695";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String cmrName1 = string.getRandomCharacter();
+			final String cmrName2 = string.getRandomCharacter();
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			locationSummary.addHomeCommercial(cmrName1, FilePath.IMAGE_PATH);
+			// upload image-2
+			locationSummary.addHomeCommercial(cmrName2, FilePath.IMAGE_PNG_PATH);
+
+			login.logout();
+			browser.close();
+			// launching v5 device
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+
+			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing cmr1
+			locationSummary.removeHomeCommercial(cmrName1);
+			// removing cmr2
+			locationSummary.removeHomeCommercial(cmrName2);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
