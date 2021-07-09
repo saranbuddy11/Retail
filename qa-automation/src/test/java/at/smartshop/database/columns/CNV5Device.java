@@ -7,8 +7,8 @@ public class CNV5Device {
 	public static final String REQUIRED_DATA = "RequiredData";
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String ACTUAL_DATA ="ActualData";
-	public static final String PIN ="Pin";
 	public static final String EMAIL_ID ="EmailID";
+	public static final String PIN ="Pin";
 	public static final String LANDING_PAGE="LandingPage";
 	public static final String ORDER_PAGE="OrderPage";
 	public static final String PRODUCT_SEARCH_PAGE="ProductSearchPage";
@@ -25,4 +25,7 @@ public class CNV5Device {
 	public static final String TRANSACTION_CANCEL="TransactionCancelPage";
 	public static final String CHANGE_PIN="ChangePinPage";
 	public static final String PAYMENTS_PAGE="PaymentsPage";
+
 }
+
+

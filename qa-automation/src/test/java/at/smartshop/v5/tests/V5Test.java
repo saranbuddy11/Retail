@@ -1,5 +1,6 @@
 package at.smartshop.v5.tests;
 
+
 import static org.testng.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.ChangePin;
 import at.smartshop.v5.pages.CreateAccount;
@@ -35,7 +37,6 @@ import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
-
 public class V5Test extends TestInfra {
 
 	private Foundation foundation = new Foundation();
@@ -57,6 +58,7 @@ public class V5Test extends TestInfra {
 	private ScanPayment scanPayment = new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
+	private AdminMenu adminMenu = new AdminMenu();
 
 	private Map<String, String> rstV5DeviceData;
 
@@ -88,7 +90,6 @@ public class V5Test extends TestInfra {
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		
 
 		// login to application
 		foundation.click(landingPage.objLanguage(requiredData.get(1)));
@@ -410,6 +411,25 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}	
+	
+	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
+	public void verifyDriverLoginLogout() {
+		try {
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LandingPage.LINK_ENGLISH);
+			adminMenu.navigateDriverLoginPage();
+			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
+			textBox.enterDriverPin(pin);
+			foundation.click(AdminMenu.BTN_SIGN_IN);
+			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
+			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
+			foundation.isDisplayed(AdminMenu.BTN_SIGN_IN);
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

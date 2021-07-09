@@ -11,7 +11,8 @@ import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
 public class TextBox extends Factory {
-	Foundation foundation=new Foundation();
+	
+	private Foundation foundation = new Foundation();
 
 	public void enterText(By object, String text) {
 		try {
@@ -54,6 +55,7 @@ public class TextBox extends Factory {
        
     }
 	
+
 	public void enterKeypadText(String text) {		
 		char[] charArray = text.toCharArray();
 		for (char eachChar : charArray) {
@@ -68,11 +70,19 @@ public class TextBox extends Factory {
 		}		
 	}
 
-	public void enterPin(String pin) {
-		for (int i = 0; i < pin.length(); i++) {
-			int number = Integer.parseInt(pin.substring(i, i + 1));
-			foundation.click(By.xpath("//td[text()='" + number + "']"));
-		}
 
-	}
+    public void enterPin(String pin) {
+        for (int i = 0; i < pin.length(); i++) {
+            int number = Integer.parseInt(pin.substring(i, i + 1));
+            foundation.click(By.xpath("//td[text()='" + number + "']"));
+        }
+    }
+    
+    public void enterDriverPin(String pin) {
+        for (int i = 0; i < pin.length(); i++) {
+            int number = Integer.parseInt(pin.substring(i, i + 1));
+            foundation.click(By.xpath("//input[@value='" + number + "']"));
+        }
+    }
+
 }

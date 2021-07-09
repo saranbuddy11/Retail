@@ -702,8 +702,9 @@ public class ResultSets extends Connections {
 		}
 		return rstLocation;
 	}
-
+	
 	public Map<String, String> getV5DeviceData(String query, String testcaseID) {
+
 		Map<String, String> rstV5Device = new HashMap<>();
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
@@ -747,4 +748,5 @@ public class ResultSets extends Connections {
 		}
 		return rstV5Device;
 	}
+
 }
