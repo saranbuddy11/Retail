@@ -719,6 +719,7 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
 					rstV5Device.put(CNV5Device.PIN, resultSet.getString(CNV5Device.PIN));
 					rstV5Device.put(CNV5Device.EMAIL_ID, resultSet.getString(CNV5Device.EMAIL_ID));
+					rstV5Device.put(CNV5Device.TIMEOUT_POPUP, resultSet.getString(CNV5Device.TIMEOUT_POPUP));
 					rstV5Device.put(CNV5Device.LANDING_PAGE, resultSet.getString(CNV5Device.LANDING_PAGE));
 					rstV5Device.put(CNV5Device.ORDER_PAGE, resultSet.getString(CNV5Device.ORDER_PAGE));
 					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE, resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
