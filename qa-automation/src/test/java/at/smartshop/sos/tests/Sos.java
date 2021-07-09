@@ -75,9 +75,10 @@ public class Sos extends TestInfra {
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
 
-			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
-					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
-					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
+			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
+										rstGmaUser.get(CNGmaUser.PIN_VALUE),
+										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
+										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
 		} catch (Exception exc) {
@@ -98,16 +99,12 @@ public class Sos extends TestInfra {
 			rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
 
 			// Login into SOS application
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// select Organization
-			sosHome.selectOrginazation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// click on the Menu
+			sosHome.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(SOSHome.MENU);
 
 			// construct string with no value for payroll id and payroll group
@@ -115,17 +112,17 @@ public class Sos extends TestInfra {
 			int requiredValue = numbers.generateRandomNumber(0, 999999);
 			String requiredData = strings.getRandomCharacter();
 			String requiredString = (requiredData + "#" + requiredData + "#" + requiredData + "#" + "5" + "#"
-					+ requiredData + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredData + "#" + " "
-					+ "#" + " ");
+					+ requiredData + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredData + "#" + " "	+ "#" + " ");
 
 			// Write excel and upload file
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
-					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);			
-			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
-					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
-					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-
+										rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);			
+										loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
+										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
+										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));			
+			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail(exc.toString());
