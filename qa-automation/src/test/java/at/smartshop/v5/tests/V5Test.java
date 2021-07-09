@@ -63,7 +63,7 @@ public class V5Test extends TestInfra {
 	private ScanPayment scanPayment = new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
-	private Payments payments = new Payments();
+	private Payments payments = new Payments();	
 	
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -638,12 +638,12 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "C142666 - This test validates the Order Time out prompt will disapper after time out")
+	@Test(description = "C142666 - This test validates the Order Time out prompt will disapper after 5 sec")
 	public void verifyPromptAfterTimeOut() {
 		try {
 			
 			final String CASE_NUM = "142666";
-			
+
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
@@ -653,21 +653,15 @@ public class V5Test extends TestInfra {
 					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			 
-			 String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			 String deviceName = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-			 String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			 String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
-			 String time = rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP);
-			 
-			 locationList.selectLocationName(locationName);
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
-			 locationSummary.selectDeviceName(deviceName);
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			 locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
-			 deviceSummary.setTimeOut(time);
+			 deviceSummary.setTimeOut(rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP));
 			 foundation.click(DeviceSummary.BTN_SAVE);
-			 navigationBar.navigateToMenuItem(menu);
-			 locationList.selectLocationName(locationName);
+			 navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
 			 foundation.click(LocationSummary.BTN_SYNC);
 			 foundation.click(LocationSummary.BTN_SAVE);
@@ -675,15 +669,16 @@ public class V5Test extends TestInfra {
 			 login.logout();
 			 browser.close();
 			 
-			 browser.launch(Constants.REMOTE,Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+			 browser.launch(Constants.REMOTE, Constants.CHROME);
+			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			foundation.click(landingPage.objLanguage(language));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 20);
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 22);
 			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, 5);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -691,7 +686,7 @@ public class V5Test extends TestInfra {
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		
+
 	}
 	
 	@Test(description="C142680 - This test validates the Order Timeout Prompt when user unable to process the payment")
@@ -743,5 +738,5 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 }
