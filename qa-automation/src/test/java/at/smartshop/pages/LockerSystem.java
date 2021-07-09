@@ -23,20 +23,17 @@ public class LockerSystem extends Factory {
 	public static final By POP_UP_MESSAGE = By.cssSelector("div.ajs-content");
 	public static final By MSG_DELETE_SUCCESS = By.xpath("//div[text()='Deleted Successfully']");
 	public static final By ICO_SIBLING_DELETE = By.xpath("//a[contains(@title,'Copy')]//..//following-sibling::td");
-	public static final By BTN_DELETE = By.xpath("button:contains(Yes, Delete)");
 	public static final By LBL_PAGE_TITLE = By.xpath("//div[text()='Location Locker Systems']");
 	public static final By BTN_SCHEDULING = By.xpath("//a[text()='Scheduling']");
-	private static final By TABLE_LOCATION_HEADER = By
-			.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
+	private static final By TABLE_LOCATION_HEADER = By.xpath("//table[@id='lockersystemtable']//table/thead/tr/th/span[text()]");
 	public static final By LBL_CUBBY_SCHEDULING_SCREEN = By.cssSelector("div.cubbyscheduleback > span");
-	public static final By ICO_SIBLING_COPY = By
-			.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
+	public static final By ICO_SIBLING_COPY = By.xpath("//a[text()='Reset Lockers']//../following-sibling::td//a[@title='Copy']");
 
 	public static List<String> columnNamesList = new ArrayList<>();
 
 	public void expandLocationLocker(String location) {
 		try {
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(objExpandLocationLocker(location));
 		} catch (Exception exc) {
 			Assert.fail();
@@ -78,8 +75,7 @@ public class LockerSystem extends Factory {
 	}
 
 	public By copyORDeleteSystem(String systemName, String title) {
-		return By.xpath(
-				"//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'" + title + "')]");
+		return By.xpath("//a[@id='linksystemname'][text()='" + systemName + "']//..//..//a[contains(@title,'" + title + "')]");
 	}
 
 	public void getLocationColumns() {
@@ -107,14 +103,14 @@ public class LockerSystem extends Factory {
 		}
 	}
 
-	public void deleteSystem(String location, String systemName) {
+	public void deleteSystem(String location, String systemName, String delete) {
 		try {
-			foundation.threadWait(500);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(objExpandLocationLocker(location));
-			foundation.click(copyORDeleteSystem(systemName, Constants.DELETE));
+			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
 		} catch (Exception exc) {
-
+			Assert.fail(exc.toString());
 		}
 	}
 }

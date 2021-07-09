@@ -3,14 +3,14 @@ package at.framework.ui;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.keys.Constants;
 
 public class TextBox extends Factory {
 	
+
 	private Foundation foundation= new Foundation();
 
 
@@ -49,37 +49,39 @@ public class TextBox extends Factory {
             }
            
         } catch (Exception exc) {
-            exc.printStackTrace();
             Assert.fail(exc.toString());
         }
-       
-    }	
 
-	public void enterKeypadText(String text) {        
-        char[] charArray = text.toCharArray();
-        for (char eachChar : charArray) {
-            if(eachChar==' ') {
-                foundation.click(By.xpath("//*[text()='Space']"));
-                foundation.click(By.xpath("//*[text()='abc']"));                
-            }
-            else {
-            foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
-            }
-        }        
-    }
+	}
+	
 
-    public void enterPin(String pin) {
-        for (int i = 0; i < pin.length(); i++) {
-            int number = Integer.parseInt(pin.substring(i, i + 1));
-            foundation.click(By.xpath("//td[text()='" + number + "']"));
-        }
+	public void enterKeypadText(String text) {		
+		char[] charArray = text.toCharArray();
+		for (char eachChar : charArray) {
+			if(eachChar==' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+				foundation.click(By.xpath("//*[text()='abc']"));
+				foundation.threadWait(Constants.ONE_SECOND);
+			}
+			else {
+			foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
+			}
+		}		
+	}        
+
+        public void enterPin(String pin) {
+            for (int i = 0; i < pin.length(); i++) {
+                int number = Integer.parseInt(pin.substring(i, i + 1));
+                foundation.click(By.xpath("//td[text()='" + number + "']"));
+            }         
     }
-    
-    public void enterDriverPin(String pin) {
-        for (int i = 0; i < pin.length(); i++) {
-            int number = Integer.parseInt(pin.substring(i, i + 1));
-            foundation.click(By.xpath("//input[@value='" + number + "']"));
+        
+        public void enterDriverPin(String pin) {
+            for (int i = 0; i < pin.length(); i++) {
+                int number = Integer.parseInt(pin.substring(i, i + 1));
+                foundation.click(By.xpath("//input[@value='" + number + "']"));
+            }
         }
-    }
+
 
 }
