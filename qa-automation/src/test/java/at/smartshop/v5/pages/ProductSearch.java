@@ -1,5 +1,6 @@
 package at.smartshop.v5.pages;
 
+
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -28,6 +29,5 @@ public class ProductSearch {
 		Assert.assertEquals(foundation.getText(LBL_PRODUCT_SEARCH_HEADER),productSearchPage.get(1));
 		Assert.assertEquals(foundation.getText(LBL_PRODUCT_FOUND),productSearchPage.get(2));
 	}
-
 
 }

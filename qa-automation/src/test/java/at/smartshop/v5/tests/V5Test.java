@@ -39,8 +39,6 @@ import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 
-
-
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {		
 
@@ -512,6 +510,27 @@ public class V5Test extends TestInfra {
 	        foundation.click(ProductSearch.BTN_PRODUCT);       
 	        assertEquals(foundation.getText(Order.TXT_HEADER),rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));       
 	        assertEquals(foundation.getText(Order.TXT_PRODUCT),rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C142663 - This test validates the functionality of Cancel order functionality")
+	public void verifyCancelOrderFunctionality() {
+		try {
+			
+			final String CASE_NUM = "142663";
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			String language = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 			
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
