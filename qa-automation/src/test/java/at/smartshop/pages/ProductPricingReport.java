@@ -20,8 +20,7 @@ public class ProductPricingReport extends Factory {
 	private LocationSummary locationSummary = new LocationSummary();
 
 	private static final By TBL_PRODUCT_PRICING = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By
-			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_PRODUCT_PRICING_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();

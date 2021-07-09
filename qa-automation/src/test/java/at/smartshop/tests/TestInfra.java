@@ -42,6 +42,7 @@ public class TestInfra {
 			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+
 		}
 
 	}

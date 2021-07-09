@@ -19,6 +19,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -45,6 +46,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstNationalAccountData;
 
 	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -101,7 +103,7 @@ public class GlobalProducts extends TestInfra {
 			
 			
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.waitforElement(GlobalProductChange.BTN_OK, 2);
+			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
 	        foundation.click(GlobalProductChange.BTN_OK);
 	        foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 	       
@@ -137,17 +139,17 @@ public class GlobalProducts extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 						
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-					FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 
 			// Selecting the Product
-			foundation.threadWait(2000);			
+			foundation.threadWait(Constants.TWO_SECOND);			
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -155,19 +157,19 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(productSummary.getLocationNamePath(locationName));
 
 			// Remove selected location
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, 2);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 
 			// Validations
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, 3);
+			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==0);
 		
 			
 			//resetting test data
-			foundation.waitforElement(ProductSummary.BTN_EXTEND, 2);
+			foundation.waitforElement(ProductSummary.BTN_EXTEND, Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_EXTEND);
 			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
-			table.selectRow(Constants.PRODUCT_DATAGRID, locationName);
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), locationName);
 
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName))==1);
