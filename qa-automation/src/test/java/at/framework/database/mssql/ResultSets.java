@@ -40,8 +40,7 @@ public class ResultSets extends Connections {
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
-					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
-							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
 			}
 		} catch (Exception exc) {

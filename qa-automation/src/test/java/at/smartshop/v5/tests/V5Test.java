@@ -563,6 +563,7 @@ public class V5Test extends TestInfra {
 			 foundation.click(DeviceSummary.BTN_SAVE);
 			 navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
 			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
 			 foundation.click(LocationSummary.BTN_SYNC);
 			 foundation.click(LocationSummary.BTN_SAVE);
@@ -570,7 +571,7 @@ public class V5Test extends TestInfra {
 			 login.logout();
 			 browser.close();
 			 
-			 browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
@@ -578,7 +579,7 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, 22);
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 20);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
@@ -600,6 +601,7 @@ public class V5Test extends TestInfra {
 			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
 					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+
 			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));			 
 					 
 			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
@@ -611,6 +613,7 @@ public class V5Test extends TestInfra {
 			 foundation.click(DeviceSummary.BTN_SAVE);
 			 navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
 			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
 			 foundation.click(LocationSummary.BTN_SYNC);
 			 foundation.click(LocationSummary.BTN_SAVE);
@@ -618,7 +621,7 @@ public class V5Test extends TestInfra {
 			 login.logout();
 			 browser.close();
 			 
-			 browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
@@ -626,7 +629,7 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.waitforElement(Order.POP_UP_TIMEOUT_NO, 22);
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 20);
 			foundation.click(Order.POP_UP_TIMEOUT_NO);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 			
@@ -640,7 +643,7 @@ public class V5Test extends TestInfra {
 		try {
 			
 			final String CASE_NUM = "142666";
-			
+
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
@@ -670,6 +673,7 @@ public class V5Test extends TestInfra {
 			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -682,7 +686,57 @@ public class V5Test extends TestInfra {
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		
-	}	
+
+	}
+	
+	@Test(description="C142680 - This test validates the Order Timeout Prompt when user unable to process the payment")
+	public void verifyOrderTimePromptDetails() {
+		try {
+			
+			final String CASE_NUM ="142680";
+			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData =  dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
+					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			 
+						 
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			 locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, 2);
+			 deviceSummary.setTimeOut( rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP));
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			 navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.waitforElement(LocationSummary.BTN_SAVE, 5);
+			 foundation.click(LocationSummary.BTN_SYNC);
+			 foundation.click(LocationSummary.BTN_SAVE);
+			 foundation.waitforElement(LocationList.TXT_FILTER, 5);
+			 login.logout();
+			 browser.close();
+			
+	        browser.launch(Constants.REMOTE,Constants.CHROME);
+	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, 32);
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT_MSG));
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
+			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));	
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 }

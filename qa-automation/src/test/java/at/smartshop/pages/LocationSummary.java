@@ -77,7 +77,6 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
-
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -162,7 +161,8 @@ public class LocationSummary extends Factory {
         foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
     
-    public void selectDeviceName(String deviceName) {
+
+	public void selectDeviceName(String deviceName) {
 		foundation.click(By.xpath("//a[text()='"+deviceName+"']"));		
 	}
 
