@@ -407,6 +407,7 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNLocationList.LOCATION_NAME));
 					rstLocationList.put(CNLocationList.COLUMN_NAME, resultSet.getString(CNLocationList.COLUMN_NAME));
 					rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
+					rstLocationList.put(CNLocationList.SHOW_RECORDS, resultSet.getString(CNLocationList.SHOW_RECORDS));
 				}
 			}
 		} catch (Exception exc) {

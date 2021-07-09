@@ -17,7 +17,7 @@ public class LandingPage {
 	public static final By LINK_ENGLISH = By.xpath("//button[text()='English']");
 	public static final By BTN_LOGIN=By.id("account-login-id");
 	public static final By BTN_CREATE_ACCOUNT=By.id("create-account-id");
-	public static final By BTN_LANG=By.xpath("//button[2]");
+	public static final By BTN_LANG=By.xpath("//button[@data-reactid='.0.0.0.2.1']");
 	public static final By LBL_=By.xpath("//h2");
 	public static final By LBL_PRODUCT_NAME=By.id("");
 	

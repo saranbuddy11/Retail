@@ -26,6 +26,7 @@ public class EditAccount {
 	public static final By BTN_DELETE = By.xpath("//*[text()='Del']");
 
 	public void updateText(By obj, String text, String priviousText) {
+		
 		foundation.click(obj);
 		for (int i = 0; i <= priviousText.length(); i++) {
 			foundation.click(BTN_DELETE);

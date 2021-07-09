@@ -21,6 +21,7 @@ public class NavigationBar extends Factory {
 
 	public void selectOrganization(String selectText) {	
 		try {
+			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 			foundation.click(DPD_ORG);
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
@@ -34,13 +35,10 @@ public class NavigationBar extends Factory {
             List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
             foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
             if (optionName.size() == 2) {
-                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-                        + "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
             } else if(optionName.size() > 2) {
-                foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-                + "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
-                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-                + "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
+                foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
             }
         } catch (Exception exc) {
             Assert.fail(exc.toString());
