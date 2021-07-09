@@ -24,17 +24,17 @@ public class LoadGMA extends Factory {
 	private static final By TXT_FILE_NAME = By.name("myfile");
 	private static final By RADIO_YES = By.id("delete-y");
 	private static final By RADIO_NO = By.id("delete-n");
+	private static final By LBL_RADIO_YES = By.xpath("//label[text()='Yes']");
 	
 	public final String SHEET="Sheet1";
 	
-	public void gMAUser(String location, String pinValue, String startBalance, String filePath,
-			String deleteProductStatus) {
+	public void gMAUser(String location, String pinValue, String startBalance, String filePath,String deleteProductStatus) {
 		try {
 			dropDown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 			dropDown.selectItem(DPD_PIN_VALUE, pinValue, Constants.TEXT);
 			dropDown.selectItem(DPD_START_BALANCE, startBalance, Constants.TEXT);
 			textBox.enterText(TXT_FILE_NAME, filePath);
-			if (deleteProductStatus.equalsIgnoreCase(Constants.YES))
+			if (deleteProductStatus.equalsIgnoreCase(foundation.getText(LBL_RADIO_YES)))
 				radio.set(RADIO_YES);
 			else {
 				radio.set(RADIO_NO);
