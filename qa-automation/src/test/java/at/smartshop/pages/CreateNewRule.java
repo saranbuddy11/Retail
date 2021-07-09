@@ -43,14 +43,13 @@ public class CreateNewRule extends Factory {
 	public static final By TXT_CLIENTRULE_NAME = By
 			.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
 
-	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,
-			String price) {
+	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,String price) {
 		try {
 			selectOrg(org);
 			selectLocation(location);
 			textbox.enterText(TXT_RULE_NAME, ruleName);
 			dropdown.selectItem(DPD_RULE_TYPE, ruleType, Constants.TEXT);
-			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);
+			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);			
 			textbox.enterText(TXT_PRICE, price);
 			foundation.click(BTN_SAVE);
 		} catch (Exception exc) {
@@ -62,7 +61,7 @@ public class CreateNewRule extends Factory {
 		try {
 			foundation.click(DPD_ORG);
 			foundation.click(By.xpath("//ul[@id='select2-orgdt-results']//li[text()='" + org + "']"));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -72,7 +71,7 @@ public class CreateNewRule extends Factory {
 		try {
 			foundation.click(DPD_LOCATION);
 			foundation.click(By.xpath("//ul[@id='select2-locdt-results']//li[text()='" + location + "']"));
-			foundation.threadWait(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -119,9 +118,9 @@ public class CreateNewRule extends Factory {
 	public void verifyYesButton() {
 		try {
 			foundation.click(BTN_DELETE);
-			foundation.waitforElement(BTN_YES, 5);
+			foundation.waitforElement(BTN_YES, Constants.SHORT_TIME);
 			foundation.click(BTN_YES);
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, 5);
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
