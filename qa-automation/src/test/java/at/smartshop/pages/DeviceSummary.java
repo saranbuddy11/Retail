@@ -18,3 +18,4 @@ public class DeviceSummary extends Factory{
 	}
 
 }
+
