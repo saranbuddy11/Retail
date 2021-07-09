@@ -161,7 +161,8 @@ public class LocationSummary extends Factory {
         foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
     }
     
-    public void selectDeviceName(String deviceName) {
+
+	public void selectDeviceName(String deviceName) {
 		foundation.click(By.xpath("//a[text()='"+deviceName+"']"));		
 	}
 

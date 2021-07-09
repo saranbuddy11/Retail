@@ -595,7 +595,6 @@ public class V5Test extends TestInfra {
 			 browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
 			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
 					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-
 			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
 			 
 			 deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
@@ -614,6 +613,7 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_NO);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -678,11 +678,11 @@ public class V5Test extends TestInfra {
 			 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile
 					 							.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
 			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-		
 			 deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
 														rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), 
 														rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP), 
 														rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+						 
 			 login.logout();
 			 browser.close();
 			
@@ -703,7 +703,7 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "C142729 - This test validates the Order time out prompt when user decreases the time below 20 sec")
 	public void verifyPromptWithBelow20Sec() {
 		try {
