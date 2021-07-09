@@ -37,4 +37,12 @@ public class DeviceSummary extends Factory {
 		 foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 	}
 
-}
+	
+	public void setTimeOut(String time) {
+		getDriver().findElement(TXT_SCREEN_TIMEOUT).clear();
+		textBox.enterText(TXT_SCREEN_TIMEOUT, time);		
+	}
+	}
+
+
+
