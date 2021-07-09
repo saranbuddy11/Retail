@@ -21,9 +21,9 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
-import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.ChangePin;
 import at.smartshop.v5.pages.CreateAccount;
@@ -62,11 +62,11 @@ public class V5Test extends TestInfra {
 
 	private Map<String, String> rstV5DeviceData;
 
+
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
 		try {
 		final String CASE_NUM = "141874";
-		
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -431,6 +431,30 @@ public class V5Test extends TestInfra {
 			foundation.isDisplayed(AdminMenu.BTN_SIGN_IN);
 			
 		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}	
+
+	
+	@Test(description = "C141868-Thsi test validates the Inventory options")
+	public void verifyInventoryOptions() {
+		try {
+			final String CASE_NUM= "141868";
+			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+			String language = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+			foundation.click(landingPage.objLanguage(language));
+			adminMenu.navigateDriverLoginPage();
+			String pin =  propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
+			textBox.enterPin(pin);
+			foundation.click(AdminMenu.BTN_SIGN_IN);
+			foundation.isDisplayed(AdminMenu.LINK_DRIVER_LOGOUT);
+			foundation.click(AdminMenu.LINK_INVENTORY);
+			List<String> optionNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD)); 
+			adminMenu.verifyOptions(optionNames);			
+			
+		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}

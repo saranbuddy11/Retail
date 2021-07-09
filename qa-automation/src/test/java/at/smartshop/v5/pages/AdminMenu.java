@@ -20,7 +20,9 @@ public class AdminMenu {
 	
 	public By objNumPad(int number) {
 		return By.xpath("//input[@value='"+number+"']");
-	}	
+
+	}
+
 
 	public void navigateDriverLoginPage() {
 		foundation.doubleClick(LandingPage.IMG_LOGO);
@@ -38,6 +40,7 @@ public class AdminMenu {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	
 	public void verifyOptions(List<String> options) {
 		for(int iter=0; iter<options.size(); iter++) {

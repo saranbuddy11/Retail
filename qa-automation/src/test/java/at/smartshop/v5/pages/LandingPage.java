@@ -20,7 +20,6 @@ public class LandingPage {
 	public static final By BTN_LANG=By.xpath("//button[@data-reactid='.0.0.0.2.1']");
 	public static final By LBL_=By.xpath("//h2");
 	public static final By LBL_PRODUCT_NAME=By.id("");
-	
 	public static final By LBL_ACCOUNT_LOGIN= By.xpath("//div[@id='account-login-id']//h3");
 	public static final By LBL_CREATE_ACCOUNT= By.xpath("//div[@id='create-account-id']/div//h3");
 	public static final By LBL_SEARCH= By.xpath("//span[@class='category-label']");
