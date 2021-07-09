@@ -24,6 +24,7 @@ public class LandingPage {
 	public static final By LBL_CREATE_ACCOUNT= By.xpath("//div[@id='create-account-id']/div//h3");
 	public static final By LBL_SEARCH= By.xpath("//span[@class='category-label']");
 	public static final By LBL_SCAN= By.xpath("//div[@class='footer']//h2");
+
 	
 	private Foundation foundation=new Foundation();
 	public By objLanguage(String languageName) {

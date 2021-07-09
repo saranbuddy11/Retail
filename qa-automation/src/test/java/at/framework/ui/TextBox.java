@@ -51,6 +51,7 @@ public class TextBox extends Factory {
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }
+
 	}
 	
 
@@ -81,6 +82,6 @@ public class TextBox extends Factory {
                 foundation.click(By.xpath("//input[@value='" + number + "']"));
             }
         }
-	
+
 
 }
