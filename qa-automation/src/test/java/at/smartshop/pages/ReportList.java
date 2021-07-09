@@ -42,13 +42,14 @@ public class ReportList extends Factory {
 
 	public void selectDate(String optionName) {
 		try {
+			foundation.waitforElement(DPD_DATE, 1);
 			foundation.click(DPD_DATE);
 			WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
-			foundation.waitforElement(DPD_DATE_OPTIONS, 30);
+			foundation.waitforElement(DPD_DATE_OPTIONS, 2);
 			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);			
 			for (WebElement dateOption : dateOptions) {
 				if (dateOption.getText().equals(optionName)) {
-				foundation.waitforElement(DPD_DATE_GRID, 30);					
+				foundation.waitforElement(DPD_DATE_GRID, 2);					
 					dateOption.click();
 					break;
 				}

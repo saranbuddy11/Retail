@@ -703,32 +703,49 @@ public class ResultSets extends Connections {
 	}
 	
 	public Map<String, String> getV5DeviceData(String query, String testcaseID) {
-        Map<String, String> rstV5Device = new HashMap<>();
-        Statement statement = null;
-        String sqlQuery = Constants.EMPTY_STRING;
-        try {
-            if (connection != null) {
-                statement = connection.createStatement();
-                sqlQuery = query + testcaseID;
-                ResultSet resultSet = statement.executeQuery(sqlQuery);
-                while (resultSet.next()) {
-                    rstV5Device.put(CNV5Device.PRODUCT_NAME, resultSet.getString(CNV5Device.PRODUCT_NAME));
-                    rstV5Device.put(CNV5Device.REQUIRED_DATA, resultSet.getString(CNV5Device.REQUIRED_DATA));
-                    rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
-                    rstV5Device.put(CNV5Device.PIN,resultSet.getString(CNV5Device.PIN));
-                    rstV5Device.put(CNV5Device.EMAIL_ID,resultSet.getString(CNV5Device.EMAIL_ID));
-                   }
-            }
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        } finally {
-            try {
-                statement.close();
-            } catch (SQLException exc) {
-                Assert.fail(exc.toString());
-            }
-        }
-        return rstV5Device;
-    }
+
+		Map<String, String> rstV5Device = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstV5Device.put(CNV5Device.PRODUCT_NAME, resultSet.getString(CNV5Device.PRODUCT_NAME));
+					rstV5Device.put(CNV5Device.REQUIRED_DATA, resultSet.getString(CNV5Device.REQUIRED_DATA));
+					rstV5Device.put(CNV5Device.ACTUAL_DATA, resultSet.getString(CNV5Device.ACTUAL_DATA));
+					rstV5Device.put(CNV5Device.PIN, resultSet.getString(CNV5Device.PIN));
+					rstV5Device.put(CNV5Device.EMAIL_ID, resultSet.getString(CNV5Device.EMAIL_ID));
+					rstV5Device.put(CNV5Device.LANDING_PAGE, resultSet.getString(CNV5Device.LANDING_PAGE));
+					rstV5Device.put(CNV5Device.ORDER_PAGE, resultSet.getString(CNV5Device.ORDER_PAGE));
+					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE, resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
+					rstV5Device.put(CNV5Device.DRIVER_PAGE, resultSet.getString(CNV5Device.DRIVER_PAGE));
+					rstV5Device.put(CNV5Device.FUND_ACCOUNT_PAGE, resultSet.getString(CNV5Device.FUND_ACCOUNT_PAGE));
+					rstV5Device.put(CNV5Device.LOGIN_PAGE, resultSet.getString(CNV5Device.LOGIN_PAGE));
+					rstV5Device.put(CNV5Device.CREDIT_DEBIT_PAGE, resultSet.getString(CNV5Device.CREDIT_DEBIT_PAGE));
+					rstV5Device.put(CNV5Device.CREATE_ACCOUNT, resultSet.getString(CNV5Device.CREATE_ACCOUNT));
+					rstV5Device.put(CNV5Device.ACCOUNT_DETAILS, resultSet.getString(CNV5Device.ACCOUNT_DETAILS));
+					rstV5Device.put(CNV5Device.QUICK_SCAN_SETUP, resultSet.getString(CNV5Device.QUICK_SCAN_SETUP));
+					rstV5Device.put(CNV5Device.FINGER_PRINT_SETUP, resultSet.getString(CNV5Device.FINGER_PRINT_SETUP));
+					rstV5Device.put(CNV5Device.EDIT_ACCOUNT_DETAILS, resultSet.getString(CNV5Device.EDIT_ACCOUNT_DETAILS));
+					rstV5Device.put(CNV5Device.TIME_OUT_POPUP, resultSet.getString(CNV5Device.TIME_OUT_POPUP));
+					rstV5Device.put(CNV5Device.TRANSACTION_CANCEL, resultSet.getString(CNV5Device.TRANSACTION_CANCEL));
+					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
+					rstV5Device.put(CNV5Device.PAYMENTS_PAGE, resultSet.getString(CNV5Device.PAYMENTS_PAGE));
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstV5Device;
+	}
 
 }
