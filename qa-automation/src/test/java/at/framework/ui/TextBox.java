@@ -6,6 +6,7 @@ import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.keys.Constants;
 
 public class TextBox extends Factory {
 	
@@ -46,23 +47,24 @@ public class TextBox extends Factory {
             }
            
         } catch (Exception exc) {
-            exc.printStackTrace();
             Assert.fail(exc.toString());
         }
-	}
-        
-        public void enterKeypadText(String text) {        
-            char[] charArray = text.toCharArray();
-            for (char eachChar : charArray) {
-                if(eachChar==' ') {
-                    foundation.click(By.xpath("//*[text()='Space']"));
-                    foundation.click(By.xpath("//*[text()='abc']"));                
-                }
-                else {
-                foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
-                }
-            }        
-        }    
+  }
+	
+	public void enterKeypadText(String text) {		
+		char[] charArray = text.toCharArray();
+		for (char eachChar : charArray) {
+			if(eachChar==' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+				foundation.click(By.xpath("//*[text()='abc']"));
+				foundation.threadWait(Constants.ONE_SECOND);
+			}
+			else {
+			foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
+			}
+		}		
+	}        
+  
 
         public void enterPin(String pin) {
             for (int i = 0; i < pin.length(); i++) {
