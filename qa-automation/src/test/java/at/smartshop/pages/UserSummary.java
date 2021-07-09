@@ -4,5 +4,5 @@ import org.openqa.selenium.By;
 
 public class UserSummary {
 
-	public static final By DPD_CLIENT = By.id("client");
+	public static final By DPD_CLIENT = By.cssSelector("select#client");
 }
