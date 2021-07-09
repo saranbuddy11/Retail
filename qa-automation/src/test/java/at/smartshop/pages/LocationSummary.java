@@ -89,7 +89,6 @@ public class LocationSummary extends Factory {
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
-
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -265,6 +264,12 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+	}
+
+	public By objUploadStatus(String uploadMessage) {
+
+		return By.xpath("//*[text()='" + uploadMessage + "']");
+
 	}
 
 }

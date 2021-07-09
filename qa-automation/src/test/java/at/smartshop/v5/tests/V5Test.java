@@ -1611,7 +1611,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142695-SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
+	@Test(description = "142695 SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
 	public void verifyMultipleHomeCommercial() {
 		try {
 			final String CASE_NUM = "142695";
@@ -1673,7 +1673,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142720-SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
+	@Test(description = "142720 SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
 	public void verifyHomeCommercialJSON() {
 		try {
 			final String CASE_NUM = "142720";
@@ -1701,6 +1701,43 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
 			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+	@Test(description = "142723 SOS-24493-Verify error message is displayed when home commercial image is uploaded in Text format")
+	public void verifyHomeCommercialText() {
+		try {
+			final String CASE_NUM = "142723";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), 5);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData, actualData);
 
