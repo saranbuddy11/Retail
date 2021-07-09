@@ -50,6 +50,7 @@ import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
+import at.smartshop.v5.pages.UserProfile;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -1237,6 +1238,7 @@ public class V5Test extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+
 	}
 
 	@Test(description = "C142729 - This test validates the Order time out prompt when user decreases the time below 20 sec")
@@ -1272,6 +1274,51 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.threadWait(15000);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "141863 -Kiosk Account Login > Email")
+	public void verifyLoginScreen() {
+		try {
+			final String CASE_NUM = "141863";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData));
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "141886 Kiosk Checkout UI > Cart Contents")
+	public void verifyOrderScreen() {
+		try {
+			final String CASE_NUM = "141886";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText((requiredData.get(1)));
+			foundation.click(LandingPage.BTN_PRODUCT);
+			String actualHeader = foundation.getText(LandingPage.TXT_HEADER);
+			assertEquals(actualHeader, actualData.get(1));
+			String actualProduct = foundation.getText(LandingPage.TXT_PRODUCT);
+			assertEquals(actualProduct, actualData.get(0));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
