@@ -511,12 +511,13 @@ public class V5Test extends TestInfra {
 	        foundation.click(ProductSearch.BTN_PRODUCT);       
 	        assertEquals(foundation.getText(Order.TXT_HEADER),rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));       
 	        assertEquals(foundation.getText(Order.TXT_PRODUCT),rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-			
+
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 	
+		
 	@Test(description = "C142663 - This test validates the functionality of Cancel order functionality")
 	public void verifyCancelOrderFunctionality() {
 		try {
@@ -585,4 +586,5 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 }

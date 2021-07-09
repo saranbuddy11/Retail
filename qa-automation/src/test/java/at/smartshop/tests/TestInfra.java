@@ -36,7 +36,6 @@ public class TestInfra{
         }
     }
 
-
 	@AfterMethod
 	public void afterMethod() {
 		try {			

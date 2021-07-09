@@ -8,7 +8,6 @@ import org.testng.Assert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
-
 public class Order {
 	
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
