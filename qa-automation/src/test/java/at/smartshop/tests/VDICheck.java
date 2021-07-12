@@ -17,7 +17,6 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
-import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -84,6 +83,36 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			Assert.assertTrue(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
 
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+	@Test(description = "143025 QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Org summary.")
+	public void verifyVDIUnCheckOrg() {
+		try {
+			final String CASE_NUM = "143025";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(OrgSummary.CHK_VDI);
+			checkBox.unCheck(OrgSummary.CHK_VDI);
+			foundation.threadWait(Constants.ONE_SECOND);
+			Assert.assertFalse(foundation.isDisplayed(OrgSummary.DPD_VDI_PROVDIER));
+			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
+			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
