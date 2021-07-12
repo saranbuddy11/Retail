@@ -213,4 +213,80 @@ public class VDICheck extends TestInfra {
 			Assert.fail();
 		}
 	}
+	@Test(description = "143022 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
+	public void verifyVDICheckLoc() {
+		try {
+			final String CASE_NUM = "143022";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+		
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			//location summary page
+			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(LocationSummary.CHK_VDI);
+			
+			foundation.waitforElement(LocationSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			String actualDpd = dropDown.getSelectedItem(OrgSummary.DPD_VDI_PROVDIER);
+			Assert.assertEquals(actualDpd, requiredData.get(1));
+			Assert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+			Assert.assertFalse(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
+			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
+			Assert.assertEquals(popup_Header, requiredData.get(1));
+			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
+			Assert.assertEquals(popup_Msg, requiredData.get(3));
+			foundation.click(OrgSummary.BTN_NO);
+			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			Assert.assertTrue(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
+		
+			
+			//resetting test data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_SAVE);
+			
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

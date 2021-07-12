@@ -88,7 +88,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
-	public static final By DPD_VDI_PROVDIER=By.xpath("//select [@id='vdiprovider-added']");
+	public static final By DPD_VDI_PROVDIER=By.xpath("//select[@id='vdiprovideradded']");
 	public static final By CHK_VDI =By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS =By.xpath("//button[@id='vdi-plus-btn']");
 	public static final By BTN_VDI_DEL =By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
