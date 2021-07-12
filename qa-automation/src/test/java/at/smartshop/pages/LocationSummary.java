@@ -21,9 +21,13 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
+	
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	private NavigationBar navigationBar = new NavigationBar();
+	private LocationList locationList = new LocationList();
+	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -31,16 +35,13 @@ public class LocationSummary extends Factory {
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
-	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
-			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
+	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
-	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
-	private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
@@ -48,7 +49,7 @@ public class LocationSummary extends Factory {
 	public static final By LNK_PICK_UP_LOCATION = By.id("pickupLocationToggle");
 	public static final By LBL_LOCKER_PICK_UP_TITLE = By.xpath("//*[@id='lockersystempickuptitle']/i");
 	public static final By LNK_LOCKER_NAME = By.xpath("//*[@id='pickuplockersystems']/div/a");
-	public static final By TXT_SYSTEM_NAME = By.id("systemName");
+	public static final By TXT_SYSTEM_NAME = By.cssSelector("input#systemName");
 	public static final By LBL_SHELF_LIFE = By.xpath("//*[@id='pickuplockersystems']/div/span");
 	public static final By BUTTON_LOCATION_INFO = By.cssSelector("button#toggleinfo");
 	public static final By DPD_RETRIEVE_ACCOUNT = By.cssSelector("select#retrieveaccount");
@@ -58,8 +59,7 @@ public class LocationSummary extends Factory {
 	private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
 	public static final By TXT_SEARCH = By.id("productFilterType");
-	public static final By LBL_TAX_CATEGORY = By
-			.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
+	public static final By LBL_TAX_CATEGORY = By.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
 	public static final By ROW_PRODUCTS = By.cssSelector("#productDataGrid > tbody > tr");
 	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_FULL_SYNC = By.id("fullsync");
@@ -104,9 +104,7 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				foundation.click(By.xpath(
-						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
-								+ columnName.get(count) + "']"));
+				foundation.click(By.xpath("//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
@@ -122,8 +120,7 @@ public class LocationSummary extends Factory {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
 			WebElement tableProducts = getDriver().findElement(TBL_PRODUCTS);
-			List<WebElement> columnHeaders = tableProducts
-					.findElements(By.cssSelector("thead > tr > th > span.ui-iggrid-headertext"));
+			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th > span.ui-iggrid-headertext"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -158,18 +155,8 @@ public class LocationSummary extends Factory {
 		return productsData;
 	}
 
-	public void showTaxCategory() {
-		try {
-			foundation.click(BTN_MANAGE_COLUMNS);
-			foundation.click(BTN_SHOW);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		foundation.click(BTN_APPLY);
-	}
 
 	public By objHomeCommercial(String homeCommercial) {
-
 		return By.xpath("//td[text()='" + homeCommercial + "']");
 
 	}
@@ -180,8 +167,7 @@ public class LocationSummary extends Factory {
 			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
 			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
 			Assert.assertEquals(value, defaultValue);
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					"Validated the has Locker default Value" + defaultValue);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -194,9 +180,9 @@ public class LocationSummary extends Factory {
 	}
 
 	public void enterPrice(String scancode, String price) {
+		
 		By priceLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']");
-		By priceInput = By
-				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']//input");
+		By priceInput = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']//input");
 		foundation.click(priceLink);
 		textBox.enterText(priceInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(priceInput, price);
@@ -204,6 +190,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void addProduct(String scancode) {
+		
 		foundation.click(BTN_ADD_PRODUCT);
 		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, 3);
 		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, scancode);
@@ -232,6 +219,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void removeHomeCommercial(String imageName) {
+		
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
@@ -254,23 +242,28 @@ public class LocationSummary extends Factory {
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
-		textBox.enterText(
-				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
-				inventoryValue);
+		textBox.enterText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
+						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),inventoryValue);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
-				2);
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),2);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
 	}
 
 	public By objUploadStatus(String uploadMessage) {
-
 		return By.xpath("//*[text()='" + uploadMessage + "']");
 
 	}
-
+	
+	public void languageSetting(String org, String location, String language){
+		
+		navigationBar.selectOrganization(org);
+		locationList.selectLocationName(location);
+		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, language, Constants.TEXT);
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+	}
 }

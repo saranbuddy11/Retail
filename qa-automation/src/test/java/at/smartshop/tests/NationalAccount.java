@@ -389,8 +389,8 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate grid columns in Master National Account:Client List screen for Master National Account user")
-	public void verifGridColumnInMasterNationalAccount() {
+	@Test(description = "120713-This test is to validate grid columns in Master National Account:Client List screen for Master National Account user")
+	public void verifyGridColumnInMasterNationalAccount() {
 		try {
 			final String CASE_NUM = "120713";
 			Map<String, String> dbData = new HashMap<>();
