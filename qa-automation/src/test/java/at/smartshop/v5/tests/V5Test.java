@@ -24,14 +24,13 @@ import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.utilities.CurrenyConverter;
-import at.smartshop.pages.DeviceSummary;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.AdminMenu;
@@ -43,8 +42,8 @@ import at.smartshop.v5.pages.FingerPrintPayment;
 import at.smartshop.v5.pages.FundAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
-import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.Payments;
+import at.smartshop.v5.pages.Policy;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 import at.smartshop.v5.pages.UserProfile;
@@ -57,7 +56,6 @@ public class V5Test extends TestInfra {
 	private LandingPage landingPage = new LandingPage();
 	private AccountLogin accountLogin = new AccountLogin();
 	private EditAccount editAccount = new EditAccount();
-	private CurrenyConverter currenyConverter = new CurrenyConverter();
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private LocationList locationList = new LocationList();
@@ -1872,4 +1870,28 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "C141881 - Kiosk Privacy Policy (if applicable)")
+	public void verifyPrivacyPolicy() {
+		try {
+			final String CASE_NUM = "141881";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+                    .asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
+	        foundation.click(landingPage.objLanguage(requiredData.get(1)));
+	        foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+
+			foundation.click(UserProfile.BTN_PRIVACY);
+			String title=foundation.getText(Policy.LBL_POLICY_TITLE);
+			Assert.assertTrue(title.equals(requiredData.get(0)));
+			
+			foundation.click(Policy.BTN_OK);
+			
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+}
 }
