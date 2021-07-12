@@ -491,7 +491,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -509,13 +509,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
-			//browser.close();
+			// browser.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
+
 	@Test(description = "142994 SOS-11643 V5 > Menu Updates")
 	public void verifyMenuLevelUpdates() {
 		try {
@@ -552,7 +553,6 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(MicroMarketMenuList.LBL_PRODUCT_NAME, Constants.SHORT_TIME);
 			foundation.click(MicroMarketMenuList.LBL_PRODUCT_NAME);
 			foundation.click(MicroMarketMenuList.LBL_BTN_ADD);
-			//foundation.click(MicroMarketMenuList.BTN_SUBMENU_ADD);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.objectFocus(MicroMarketMenuList.BTN_SAVE);
 			foundation.click(MicroMarketMenuList.BTN_SAVE);
@@ -562,7 +562,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -573,16 +573,16 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
 			foundation.click(landingPage.objText(requiredData.get(2)));
 			foundation.click(landingPage.objText(requiredData.get(3)));
-		    Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-		    Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
-		    Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
 			// resetting testdata
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -598,9 +598,8 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
-			//browser.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
