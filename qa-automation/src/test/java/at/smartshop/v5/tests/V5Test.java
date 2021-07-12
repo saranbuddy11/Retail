@@ -1320,7 +1320,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142690-SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
+	@Test(description = "142690 SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
 	public void verifyHomeCommercialJPG() {
 		try {
 			final String CASE_NUM = "142690";
@@ -1352,6 +1352,7 @@ public class V5Test extends TestInfra {
 			assertEquals(actualData, requiredData);
 
 			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1369,7 +1370,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142691-SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
+	@Test(description = "142691 SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
 	public void verifyHomeCommercialPNG() {
 		try {
 			final String CASE_NUM = "142691";
@@ -1403,6 +1404,7 @@ public class V5Test extends TestInfra {
 			assertEquals(actualData, requiredData);
 
 			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1417,6 +1419,453 @@ public class V5Test extends TestInfra {
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142692 SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
+	public void verifyRemoveHomeCommercialJPG() {
+		try {
+			final String CASE_NUM = "142692";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// upload Home Commercial image
+			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PATH);
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData);
+			browser.close();
+			// Remove home commercial
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing home commercial image
+			locationSummary.removeHomeCommercial(imageName);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142693 SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
+	public void verifyRemoveHomeCommercialPNG() {
+		try {
+			final String CASE_NUM = "142693";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String imageName = string.getRandomCharacter();
+			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// upload Home Commercial image
+			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PNG_PATH);
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData);
+			browser.close();
+			// Remove home commercial
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing home commercial image
+			locationSummary.removeHomeCommercial(imageName);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142694 SOS-24493- verify default home commercial image is displayed when all the existing images are removed from location summary in Adm")
+	public void verifyDefaultHomeCommercial() {
+		try {
+			final String CASE_NUM = "142694";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String cmrName = string.getRandomCharacter();
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image
+			locationSummary.addHomeCommercial(cmrName, FilePath.IMAGE_PNG_PATH);
+
+			login.logout();
+			browser.close();
+			// launching v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE);
+			assertEquals(actualData, requiredData.get(1));
+			browser.close();
+			// Remove home commercial
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// remove home commercial
+			locationSummary.removeHomeCommercial(cmrName);
+
+			login.logout();
+			browser.close();
+			// v5 device
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142695 SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
+	public void verifyMultipleHomeCommercial() {
+		try {
+			final String CASE_NUM = "142695";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			final String cmrName1 = string.getRandomCharacter();
+			final String cmrName2 = string.getRandomCharacter();
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			locationSummary.addHomeCommercial(cmrName1, FilePath.IMAGE_PATH);
+			// upload image-2
+			locationSummary.addHomeCommercial(cmrName2, FilePath.IMAGE_PNG_PATH);
+
+			login.logout();
+			browser.close();
+			// launching v5 device
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
+			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+
+			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Selecting location
+			locationList.selectLocationName(locationName);
+			// removing cmr1
+			locationSummary.removeHomeCommercial(cmrName1);
+			// removing cmr2
+			locationSummary.removeHomeCommercial(cmrName2);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142720 SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
+	public void verifyHomeCommercialJSON() {
+		try {
+			final String CASE_NUM = "142720";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
+			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142723 SOS-24493-Verify error message is displayed when home commercial image is uploaded in Text format")
+	public void verifyHomeCommercialText() {
+		try {
+			final String CASE_NUM = "142723";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "142724 SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
+	public void verifyHomeCommercialImageSize() {
+		try {
+			final String CASE_NUM = "142724";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_SIZE_MORE);
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "C142725-SOS-24493-Verify error message is displayed when uploaded home commercial image pixel length is greater than 1024x520")
+	public void verifyHomeCommercialPixelLength() {
+		try {
+			final String CASE_NUM = "142725";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
+
+			// Selecting location
+			textBox.enterText(LocationList.TXT_FILTER, locationName);
+			locationList.selectLocationName(locationName);
+
+			// upload image-1
+			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
+			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
+			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+	@Test(description = "141857 Kiosk 'Default' Landing UI > Language Selection")
+	public void verifyLanguageSelection() {
+		try {
+			final String CASE_NUM = "141857";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(2));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(1), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.waitforElement(landingPage.objText(actualData.get(0)), Constants.MEDIUM_TIME);
+			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
+			assertEquals(actualLanguage, actualData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.waitforElement(landingPage.objText(actualData.get(1)), Constants.SHORT_TIME);
+			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
+			assertEquals(actualLanguage, actualData.get(1));
+			browser.close();
+		} catch (Exception exc) {
 			Assert.fail();
 		}
 	}

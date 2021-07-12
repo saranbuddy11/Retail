@@ -78,6 +78,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD = By.xpath("//a[text()= 'Add']");
 	public static final By TXT_CMR_FILTER = By.id("cmrHomeFilterType");
 	public static final By BTN_REMOVE = By.xpath("//a[@id='previewremove']");
+	public static final By TXT_UPLOAD_STATUS = By.xpath("//span[@class='qq-upload-status-text']");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
 	public static final By DPD_ALTERNATE_LANGUAGE = By.id("altlanguage");
@@ -87,6 +88,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
+
 
 	public void selectTab(String tabName) {
 		try {
@@ -238,12 +240,16 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.refreshPage();
+
 	}
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), 2);
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.TWO_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
@@ -258,7 +264,13 @@ public class LocationSummary extends Factory {
 				2);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
-		foundation.waitforElement(TXT_INVENTORY_FILTER, 1);
+		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
+	}
+
+	public By objUploadStatus(String uploadMessage) {
+
+		return By.xpath("//*[text()='" + uploadMessage + "']");
+
 	}
 
 }
