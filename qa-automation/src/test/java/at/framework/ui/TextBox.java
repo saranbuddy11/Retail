@@ -9,9 +9,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
 public class TextBox extends Factory {
-
-	private Foundation foundation = new Foundation();
-
+	private Foundation foundation=new Foundation();
 	public void enterText(By object, String text) {
 		try {
 			getDriver().findElement(object).clear();
@@ -84,4 +82,5 @@ public class TextBox extends Factory {
 			foundation.click(By.xpath("//*[text()='Del']"));
 		}
 	}
+
 }
