@@ -19,6 +19,7 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
@@ -747,5 +748,31 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstV5Device;
+	}
+	public Map<String, String> getOrgSummaryData(String query, String testcaseID) {
+		Map<String, String> rstOrg = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstOrg.put(CNOrgSummary.NAME, resultSet.getString(CNOrgSummary.NAME));
+					rstOrg.put(CNOrgSummary.REQUIRED_DATA, resultSet.getString(CNOrgSummary.REQUIRED_DATA));
+		
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstOrg;
 	}
 }
