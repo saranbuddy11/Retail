@@ -88,6 +88,14 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
+	public static final By DPD_VDI_PROVDIER=By.xpath("//select [@id='vdiprovider-added']");
+	public static final By CHK_VDI =By.xpath("//input[@id='vdicbx']");
+	public static final By BTN_VDI_PLUS =By.xpath("//button[@id='vdi-plus-btn']");
+	public static final By BTN_VDI_DEL =By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
+	public static final By TXT_USER_KEY =By.xpath("//input[@placeholder='- Enter User Key -']");
+	public static final By BTN_YES =By.xpath("//button[text()='Yes']");
+	public static final By BTN_NO =By.xpath("//button[text()='No ']");
+	public static final By LBL_USER_KEY =By.xpath("//input[@id='vdiuserkey-added']");
 
 
 	public void selectTab(String tabName) {

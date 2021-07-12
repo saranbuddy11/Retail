@@ -188,16 +188,16 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
 			foundation.refreshPage();
-			//location
+			//location summary page
 			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LINK_HOME_PAGE);
 			locationList.selectLocationName(requiredData);
-			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
-			checkBox.check(OrgSummary.CHK_VDI);
-			checkBox.unCheck(OrgSummary.CHK_VDI);
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(LocationSummary.CHK_VDI);
+			checkBox.unCheck(LocationSummary.CHK_VDI);
 			foundation.threadWait(Constants.ONE_SECOND);
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.DPD_VDI_PROVDIER));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
+			Assert.assertFalse(foundation.isDisplayed(LocationSummary.DPD_VDI_PROVDIER));
+			Assert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
 			
 			//resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
