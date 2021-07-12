@@ -78,4 +78,5 @@ public class AccountLogin {
 		Assert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
 		Assert.assertEquals(foundation.getText(BTN_PIN_NEXT), loginPageData.get(10));
 	}
+
 }
