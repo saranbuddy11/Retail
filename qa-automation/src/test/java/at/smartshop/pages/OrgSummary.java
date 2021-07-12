@@ -1,13 +1,9 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
-
-import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
-import at.framework.reportsetup.ExtFactory;
-import at.smartshop.keys.Constants;
+
 
 public class OrgSummary  extends Factory{
 	public static final By DPD_VDI_PROVDIER=By.xpath("//select [@id='vdiprovider-added']");
@@ -23,18 +19,11 @@ public class OrgSummary  extends Factory{
 	public static final By LBL_POPUP_HEADER =By.xpath("//div[@class='ajs-header']");
 	public static final By LBL_POPUP_MSG =By.xpath("//div[@class='ajs-content']");
 	public static final By LBL_VDI_PROVIDER =By.xpath("//tr[@class='vdirow']//td//input");
+	public static final By LBL_ORG_LIST =By.xpath("//div[@class='dataTables_info']");
 	
 	
-	public String getAttributeValue(By object) {
-		String textAttribute = null;
-		try {
-			textAttribute = getDriver().findElement(object).getAttribute(Constants.ATTRIBUTE);
-			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is "+ textAttribute);
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return textAttribute;
+	public By objVDI(String text) {
+		
+		return By.xpath("//input[@value='"+text+"']");
 	}
 }

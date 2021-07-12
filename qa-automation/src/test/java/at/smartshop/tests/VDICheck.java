@@ -20,6 +20,8 @@ import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 
@@ -33,6 +35,7 @@ public class VDICheck extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private Strings string = new Strings();
 	private OrgSummary orgSummary = new OrgSummary();
+	private LocationList locationList = new LocationList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstOrgSummaryData;
@@ -59,6 +62,7 @@ public class VDICheck extends TestInfra {
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			String actualDpd = dropDown.getSelectedItem(OrgSummary.DPD_VDI_PROVDIER);
 			Assert.assertEquals(actualDpd, requiredData.get(0));
 			Assert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
@@ -73,8 +77,7 @@ public class VDICheck extends TestInfra {
 			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
 			Assert.assertEquals(popup_Msg, requiredData.get(2));
 			foundation.click(OrgSummary.BTN_NO);
-			String actualDpdText = orgSummary.getAttributeValue(OrgSummary.LBL_VDI_PROVIDER);
-			Assert.assertEquals(actualDpdText, rstOrgSummaryData.get(CNOrgSummary.NAME));
+			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
@@ -112,6 +115,44 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.DPD_VDI_PROVDIER));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
+			
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143023 QAA-36-SOS-18920 - Verify when vdi is disabled for org then vdi option for location disabled and should see \"Can not enable VDI here until VDI is enabled for the org\"")
+	public void verifyVDIUnCheckOrgDisable() {
+		try {
+			final String CASE_NUM = "143023";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.unCheck(OrgSummary.CHK_VDI);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(orgSummary.objVDI(requiredData.get(1)), Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(requiredData.get(1))));
+			
 			
 		} catch (Exception exc) {
 			exc.printStackTrace();
