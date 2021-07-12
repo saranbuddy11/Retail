@@ -1894,4 +1894,29 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 }
+	
+	@Test(description = "C141883 - Kiosk Terms and Conditions (if applicable)")
+	public void verifyTermsAndCondition() {
+		try {
+			final String CASE_NUM = "141883";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+
+			foundation.click(UserProfile.BTN_TERMS_CONDITION);
+			String title = foundation.getText(Policy.LBL_TERMS_CONDITION_TITLE);
+			Assert.assertTrue(title.equals(requiredData.get(0)));
+
+			foundation.click(Policy.BTN_OK);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }

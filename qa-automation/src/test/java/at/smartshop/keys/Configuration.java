@@ -30,5 +30,4 @@ public class Configuration {
 	public static final String TRANS_MKA = "trans_mka";
 	public static final String V5_USER = "v5_user";
 	public static final String V5_PIN = "v5_user_pin";
-
 }
