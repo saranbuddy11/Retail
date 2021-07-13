@@ -9,6 +9,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
@@ -88,15 +89,14 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
-	public static final By DPD_VDI_PROVDIER=By.xpath("//select[@id='vdiprovideradded']");
-	public static final By CHK_VDI =By.xpath("//input[@id='vdicbx']");
-	public static final By BTN_VDI_PLUS =By.xpath("//button[@id='vdi-plus-btn']");
-	public static final By BTN_VDI_DEL =By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
-	public static final By TXT_USER_KEY =By.xpath("//input[@placeholder='- Enter User Key -']");
-	public static final By BTN_YES =By.xpath("//button[text()='Yes']");
-	public static final By BTN_NO =By.xpath("//button[text()='No ']");
-	public static final By LBL_USER_KEY =By.xpath("//input[@id='vdiuserkey-added']");
-
+	public static final By DPD_VDI_PROVDIER = By.xpath("//select[@id='vdiprovideradded']");
+	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
+	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
+	public static final By BTN_VDI_DEL = By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
+	public static final By TXT_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
+	public static final By BTN_NO = By.xpath("//button[text()='No ']");
+	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -281,4 +281,36 @@ public class LocationSummary extends Factory {
 
 	}
 
+	public By objProductPrice(String productName) {
+		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
+	}
+
+	public String getTextAttribute(By object) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute("aria-readonly");
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
+	}
+
+	public void verifyDPDValue(String text) {
+		Boolean flag = true;
+		WebElement drpdwn = getDriver().findElement(DPD_VDI_PROVDIER);
+		Select dpdSel = new Select(drpdwn);
+		List<WebElement> DrpDwnList = dpdSel.getOptions();
+		for (WebElement webElement : DrpDwnList) {
+
+			if (webElement.getText().contains(text)) {
+				flag = false;
+				break;
+			}
+		}
+		Assert.assertTrue(flag);
+
+	}
 }

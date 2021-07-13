@@ -36,6 +36,7 @@ public class VDICheck extends TestInfra {
 	private Strings string = new Strings();
 	private OrgSummary orgSummary = new OrgSummary();
 	private LocationList locationList = new LocationList();
+	private LocationSummary locationSummary = new LocationSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstOrgSummaryData;
@@ -91,6 +92,7 @@ public class VDICheck extends TestInfra {
 			Assert.fail();
 		}
 	}
+
 	@Test(description = "143025 QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Org summary.")
 	public void verifyVDIUnCheckOrg() {
 		try {
@@ -102,7 +104,6 @@ public class VDICheck extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -115,7 +116,7 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.DPD_VDI_PROVDIER));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
@@ -152,13 +153,13 @@ public class VDICheck extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.waitforElement(orgSummary.objVDI(requiredData.get(1)), Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(requiredData.get(1))));
-			
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
+
 	@Test(description = "143024 QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Location summary")
 	public void verifyVDIUnCheckLoc() {
 		try {
@@ -181,14 +182,15 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
-		
+
 			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
 			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(OrgSummary.BTN_VDI_PLUS);
 			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			//location summary page
+
+			// location summary page
 			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LINK_HOME_PAGE);
 			locationList.selectLocationName(requiredData);
@@ -198,8 +200,8 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.DPD_VDI_PROVDIER));
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
-			
-			//resetting test data
+
+			// resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
@@ -207,12 +209,13 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_SAVE);
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
+
 	@Test(description = "143022 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
 	public void verifyVDICheckLoc() {
 		try {
@@ -236,46 +239,52 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
-		
+
 			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
 			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(OrgSummary.BTN_VDI_PLUS);
 			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			//location summary page
+			// foundation.refreshPage();
+			// location summary page
 			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LINK_HOME_PAGE);
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
 			checkBox.check(LocationSummary.CHK_VDI);
-			
+
 			foundation.waitforElement(LocationSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
-			String actualDpd = dropDown.getSelectedItem(OrgSummary.DPD_VDI_PROVDIER);
+			String actualDpd = dropDown.getSelectedItem(LocationSummary.DPD_VDI_PROVDIER);
 			Assert.assertEquals(actualDpd, requiredData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
-			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
-			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
-			foundation.click(OrgSummary.BTN_VDI_PLUS);
-			Assert.assertFalse(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
-			foundation.click(OrgSummary.BTN_VDI_DEL);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
+			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME),
+					Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(LocationSummary.BTN_VDI_PLUS);
+			Assert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			foundation.click(LocationSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
 			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
-			Assert.assertEquals(popup_Header, requiredData.get(1));
+			Assert.assertEquals(popup_Header, requiredData.get(2));
 			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
 			Assert.assertEquals(popup_Msg, requiredData.get(3));
-			foundation.click(OrgSummary.BTN_NO);
+			foundation.click(LocationSummary.BTN_NO);
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
-			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
-			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
-			foundation.click(OrgSummary.BTN_VDI_DEL);
-			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
-			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(LocationSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_VDI_DEL);
+			foundation.waitforElement(LocationSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			Assert.assertTrue(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
-		
-			
-			//resetting test data
+			Assert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			locationSummary.selectTab(requiredData.get(4));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			// price validation
+			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
+			Assert.assertFalse(Boolean.parseBoolean(isReadOnly));
+
+			// resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
@@ -283,7 +292,214 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_SAVE);
-			
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143150 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
+	public void verifyVDICheckLocPrice() {
+		try {
+			final String CASE_NUM = "143150";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
+			// foundation.refreshPage();
+			// location summary page
+			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(LocationSummary.CHK_VDI);
+
+			foundation.waitforElement(LocationSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			String actualDpd = dropDown.getSelectedItem(LocationSummary.DPD_VDI_PROVDIER);
+			Assert.assertEquals(actualDpd, requiredData.get(1));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
+			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME),
+					Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(LocationSummary.BTN_VDI_PLUS);
+			Assert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			foundation.click(LocationSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
+			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
+			Assert.assertEquals(popup_Header, requiredData.get(2));
+			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
+			Assert.assertEquals(popup_Msg, requiredData.get(3));
+			foundation.click(LocationSummary.BTN_NO);
+			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+
+			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			locationSummary.selectTab(requiredData.get(4));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			// price validation
+			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
+			Assert.assertTrue(Boolean.parseBoolean(isReadOnly));
+			// resetting test data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_SAVE);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143151 QAA-36-SOS-18920-Verify already selected VDI option should not display in Vdi provider Dropdown in Org Summary")
+	public void verifyVDIDropDownValue() {
+		try {
+			final String CASE_NUM = "143151";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+
+			orgSummary.verifyDPDValue(rstOrgSummaryData.get(CNOrgSummary.NAME));
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143150 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
+	public void verifyMultipleVDI() {
+		try {
+			final String CASE_NUM = "143150";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+
+			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, "Legacytesting", Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_VDI_PLUS);
+
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(OrgSummary.LBL_ORG_LIST, Constants.SHORT_TIME);
+			// foundation.refreshPage();
+			// location summary page
+			foundation.waitforElement(LocationSummary.LINK_HOME_PAGE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LINK_HOME_PAGE);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			checkBox.check(LocationSummary.CHK_VDI);
+
+			foundation.waitforElement(LocationSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			String actualDpd = dropDown.getSelectedItem(LocationSummary.DPD_VDI_PROVDIER);
+			Assert.assertEquals(actualDpd, requiredData.get(1));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
+			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME),
+					Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
+			foundation.click(LocationSummary.BTN_VDI_PLUS);
+			Assert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			locationSummary.verifyDPDValue(rstOrgSummaryData.get(CNOrgSummary.NAME));
+			foundation.click(LocationSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
+			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
+			Assert.assertEquals(popup_Header, requiredData.get(2));
+			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
+			Assert.assertEquals(popup_Msg, requiredData.get(3));
+			foundation.click(LocationSummary.BTN_NO);
+			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
+			locationSummary.selectTab(requiredData.get(4));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			// price validation
+//			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
+//			Assert.assertTrue(Boolean.parseBoolean(isReadOnly));
+			// resetting test data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_SAVE);
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
