@@ -47,6 +47,10 @@ public class Reports {
 	public static final String TAX_2 = "tax2";
 	public static final String TAX_3 = "tax3";
 	public static final String TAX_4 = "tax4";
+	public static final String TAX_1_LABEL = "tax1label";
+	public static final String TAX_2_LABEL = "tax2label";
+	public static final String TAX_3_LABEL = "tax3label";
+	public static final String TAX_4_LABEL = "tax4label";
 	public static final String TAXCAT = "taxcat";
 	public static final String COST = "cost";
 	public static final String QUANTITY = "qty";
