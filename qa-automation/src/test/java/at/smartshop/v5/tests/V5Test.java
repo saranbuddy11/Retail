@@ -16,6 +16,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -68,6 +69,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -441,6 +443,7 @@ public class V5Test extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -448,17 +451,20 @@ public class V5Test extends TestInfra {
 		
 		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> country = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
+		
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menu.get(0));		
 		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
-		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "Canada", Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
 		dropDown.selectItem(OrgSummary.DPD_CURRENCY, requiredData.get(0), Constants.TEXT);
 		foundation.click(OrgSummary.BTN_SAVE);
 		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 		navigationBar.navigateToMenuItem(menu.get(1));
 		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE,rstV5DeviceData.get(CNV5Device.ACTUAL_DATA), Constants.TEXT);
-		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE,"French", Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE,actualData.get(0), Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE,actualData.get(1), Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -468,7 +474,7 @@ public class V5Test extends TestInfra {
 		foundation.threadWait(Constants.SHORT_TIME);
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+		foundation.click(landingPage.objLanguage(actualData.get(0)));
 		foundation.click(LandingPage.LBL_ACCOUNT_LOGIN);
 		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -492,7 +498,7 @@ public class V5Test extends TestInfra {
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menu.get(0));
 		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
-		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United States", Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(1), Constants.TEXT);
 		dropDown.selectItem(OrgSummary.DPD_CURRENCY,requiredData.get(1), Constants.TEXT);
 		foundation.click(OrgSummary.BTN_SAVE);
 		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
