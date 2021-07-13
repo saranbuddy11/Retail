@@ -81,6 +81,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_YES);
@@ -88,8 +89,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertTrue(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -118,8 +118,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -155,8 +154,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(requiredData.get(1))));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -211,8 +209,7 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -294,8 +291,7 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -376,8 +372,7 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -409,8 +404,7 @@ public class VDICheck extends TestInfra {
 
 			orgSummary.verifyDPDValue(rstOrgSummaryData.get(CNOrgSummary.NAME));
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -484,25 +478,27 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
-			// price validation
-//			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
-//			Assert.assertTrue(Boolean.parseBoolean(isReadOnly));
 			// resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			login.logout();
+		
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+		
+			Assert.fail(exc.toString());
 		}
 	}
 }
