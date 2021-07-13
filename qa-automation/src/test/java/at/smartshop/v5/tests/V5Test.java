@@ -434,7 +434,7 @@ public class V5Test extends TestInfra {
 	}
 	
 	@Test(description="142993>V5-Ensure canadian Currency Cash Funding")
-	public void verifyCADCurrency() {
+	public void verifyCADCashFunding() {
 		
 		final String CASE_NUM = "142993";
 		
@@ -449,14 +449,16 @@ public class V5Test extends TestInfra {
 		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menu.get(0));
+		navigationBar.navigateToMenuItem(menu.get(0));		
 		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "Canada", Constants.TEXT);
 		dropDown.selectItem(OrgSummary.DPD_CURRENCY, requiredData.get(0), Constants.TEXT);
 		foundation.click(OrgSummary.BTN_SAVE);
 		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 		navigationBar.navigateToMenuItem(menu.get(1));
 		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE,rstV5DeviceData.get(CNV5Device.ACTUAL_DATA), Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE,"French", Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -487,8 +489,10 @@ public class V5Test extends TestInfra {
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menu.get(0));
 		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United States", Constants.TEXT);
 		dropDown.selectItem(OrgSummary.DPD_CURRENCY,requiredData.get(1), Constants.TEXT);
 		foundation.click(OrgSummary.BTN_SAVE);
 		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
