@@ -29,6 +29,7 @@ import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
@@ -3411,15 +3412,51 @@ public class V5Test extends TestInfra {
 		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		navigationBar.navigateToMenuItem(menu.get(0));
-		
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United Kingdom", Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, "VAT Tax", Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+		navigationBar.navigateToMenuItem(menu.get(1));
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 		locationList.selectLocationName("Hsr Loc");
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "English", Constants.TEXT);
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "French", Constants.TEXT);
+		locationSummary.taxMapping("TAXCAT", "UK_VAT_143");
+		Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate("UK_VAT_143")));
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		login.logout();
+		browser.close();
 		
+		//Reset the data
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		navigationBar.navigateToMenuItem(menu.get(0));
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United States", Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, "United States", Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+		navigationBar.navigateToMenuItem(menu.get(1));
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		locationList.selectLocationName("Hsr Loc");
+		foundation.click(LocationSummary.LNK_TAX_MAPPING);		
+		foundation.click(locationSummary.objVerifyTaxRate("UK_VAT_143"));
+		foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_POPUP_REMOVE);
+		foundation.click(LocationSummary.LNK_TAX_MAPPING);
+		Assert.assertFalse(foundation.isDisplayed(locationSummary.objVerifyTaxRate("UK_VAT_143")));
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 	}
 	
 }
