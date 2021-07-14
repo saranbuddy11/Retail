@@ -481,491 +481,546 @@ public class V5Test extends TestInfra {
 
 	@Test(description = "141875-Kiosk Manage Account > Edit Account > Change PIN")
 	public void editAccountChangePin() {
-		final String CASE_NUM = "141875";
+		try {
+			final String CASE_NUM = "141875";
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.BTN_LOGIN);
-		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-		accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 
-		// navigate to edit account and update pin
-		foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
-		foundation.click(EditAccount.BTN_CHANGE_PIN);
-		textBox.enterPin(requiredData.get(1));
-		foundation.click(EditAccount.BTN_EDIT_NEXT);
-		textBox.enterPin(requiredData.get(1));
-		foundation.click(EditAccount.BTN_SAVE_PIN);
-		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			// navigate to edit account and update pin
+			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
+			foundation.click(EditAccount.BTN_CHANGE_PIN);
+			textBox.enterPin(requiredData.get(1));
+			foundation.click(EditAccount.BTN_EDIT_NEXT);
+			textBox.enterPin(requiredData.get(1));
+			foundation.click(EditAccount.BTN_SAVE_PIN);
+			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 
-		// reset data
-		foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
-		foundation.click(EditAccount.BTN_CHANGE_PIN);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(EditAccount.BTN_EDIT_NEXT);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(EditAccount.BTN_SAVE_PIN);
-		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			// reset data
+			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
+			foundation.click(EditAccount.BTN_CHANGE_PIN);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(EditAccount.BTN_EDIT_NEXT);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(EditAccount.BTN_SAVE_PIN);
+			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "141887-Kiosk Checkout UI > Canceling Cart")
 	public void cancellingCart() {
-		final String CASE_NUM = "141887";
+		try {
+			final String CASE_NUM = "141887";
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		// cancel order
-		foundation.click(Order.BTN_CANCEL_ORDER);
-		assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			// cancel order
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "141889-Kiosk Checkout UI > Taxes Applied")
 	public void taxesApplied() {
 
-		final String CASE_NUM = "141889";
+		try {
+			final String CASE_NUM = "141889";
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		// verify the display of total section
-		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-		String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-		Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
-		assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-		assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(2));
+			// verify the display of total section
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(2));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "141890-Kiosk Checkout UI > Bottle Deposits Applied")
 	public void bottleDepositApplied() {
-		final String CASE_NUM = "141890";
+		try {
+			final String CASE_NUM = "141890";
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		// verify the display of total section
-		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-		String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-		Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
-		assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-		assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			// verify the display of total section
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142696-SOS-24494-V5 -validate the search functionality for product search")
 	public void searchFunctionalityProduct() {
-		final String CASE_NUM = "142696";
+		try {
+			final String CASE_NUM = "142696";
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.deleteKeypadText(requiredData.get(1));
-		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			textBox.deleteKeypadText(requiredData.get(1));
+			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			textBox.enterKeypadText(requiredData.get(2));
+			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142697-SOS-24494-V5 -validate the search functionality for scan code search")
 	public void searchFunctionalityScancode() {
-		final String CASE_NUM = "142697";
+		try {
 
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142697";
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		// login to application
-		foundation.click(landingPage.objLanguage(requiredData.get(0)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		foundation.click(ProductSearch.BTN_123);
-		textBox.enterKeypadText(requiredData.get(1));
-		assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.deleteKeypadText(requiredData.get(1));
-		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+
+			// login to application
+			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.click(ProductSearch.BTN_123);
+			textBox.enterKeypadText(requiredData.get(1));
+			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			textBox.deleteKeypadText(requiredData.get(1));
+			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			textBox.enterKeypadText(requiredData.get(2));
+			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142699-SOS-24494-V5 - update product name and verify in kiosk machine cart page")
 	public void updateProductName() {
-		final String CASE_NUM = "142699";
+		try {
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			final String CASE_NUM = "142699";
 
-		// launch browser and select org
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
-		// navigate to global product of V5 associated and update name and sync
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(1000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(2));
-		foundation.click(ProductSummary.BTN_SAVE);
-		navigationBar.navigateToMenuItem(menuItem.get(1));
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
-		browser.close();
+			// launch browser and select org
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		// launch v5 application
-		browser.launch(Constants.REMOTE, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(requiredData.get(5)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		textBox.deleteKeypadText(requiredData.get(1));
-		textBox.enterKeypadText(requiredData.get(2));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+			// navigate to global product of V5 associated and update name and sync
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(2));
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			browser.close();
 
-		// reset data
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(2)));
-		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(1));
-		foundation.click(ProductSummary.BTN_SAVE);
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(5)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			textBox.deleteKeypadText(requiredData.get(1));
+			textBox.enterKeypadText(requiredData.get(2));
+			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
 
+			// reset data
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(2)));
+			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(1));
+			foundation.click(ProductSummary.BTN_SAVE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142700-SOS-24494-V5 - update tax category and verify in kiosk machine cart page")
 	public void updateTaxCategory() {
-		final String CASE_NUM = "142700";
+		try {
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			final String CASE_NUM = "142700";
 
-		// launch browser and select org
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
-		// navigate to global product of V5 associated and update tax category and sync
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(3000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
-		navigationBar.navigateToMenuItem(menuItem.get(1));
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
-		browser.close();
+			// launch browser and select org
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		// launch v5 application
-		browser.launch(Constants.REMOTE, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(requiredData.get(5)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-		assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(6));
+			// navigate to global product of V5 associated and update tax category and sync
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			browser.close();
 
-		// reset data
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(3000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(7), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(5)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(6));
 
+			// reset data
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(7), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142717-SOS-24494-V5 - Assign Deposit value of product and verify it on Kiosk machine cart page")
 	public void assignDepositValue() {
-		final String CASE_NUM = "142717";
+		try {
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			final String CASE_NUM = "142717";
 
-		// launch browser and select org
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
-		// navigate to global product of V5 associated and update deposit and sync
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
-		navigationBar.navigateToMenuItem(menuItem.get(1));
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
-		browser.close();
+			// launch browser and select org
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		// launch v5 application
-		browser.launch(Constants.REMOTE, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(requiredData.get(5)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-		assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-		assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
+			// navigate to global product of V5 associated and update deposit and sync
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			browser.close();
 
-		// reset data
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(7), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(5)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
 
+			// reset data
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(7), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142718-SOS-24494-V5 -Edit cost/price of the product and verify it on Kiosk machine cart page")
 	public void editPrice() {
-		final String CASE_NUM = "142718";
+		try {
+			final String CASE_NUM = "142718";
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
-		// launch browser and select org
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// launch browser and select org
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		// navigate to location summary and update price and sync
-		navigationBar.navigateToMenuItem(menuItem);
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		locationSummary.selectTab(requiredData.get(8));
-		foundation.threadWait(2000);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
-		locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
-		browser.close();
+			// navigate to location summary and update price and sync
+			navigationBar.navigateToMenuItem(menuItem);
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			locationSummary.selectTab(requiredData.get(8));
+			foundation.threadWait(2000);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
+			locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			browser.close();
 
-		// launch v5 application
-		browser.launch(Constants.REMOTE, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(requiredData.get(5)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		foundation.click(ProductSearch.BTN_PRODUCT);
-		assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-		assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(5)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
 
-		// reset data
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem);
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		locationSummary.selectTab(requiredData.get(8));
-		foundation.threadWait(2000);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
-		locationSummary.enterPrice(requiredData.get(0), requiredData.get(7));
-		foundation.click(LocationSummary.BTN_SAVE);
-
+			// reset data
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem);
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			locationSummary.selectTab(requiredData.get(8));
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
+			locationSummary.enterPrice(requiredData.get(0), requiredData.get(7));
+			foundation.click(LocationSummary.BTN_SAVE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "142722-SOS-24494-V5 - Apply 'is disabled' for product and verify it on Kiosk machine cart page")
 	public void applyIsDisabled() {
-		final String CASE_NUM = "142722";
+		try {
+			final String CASE_NUM = "142722";
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
-		// launch browser and select org
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// launch browser and select org
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		// navigate to global product of V5 associated and update name and sync
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.threadWait(2000);
-		foundation.click(GlobalProduct.ICON_FILTER);
-		globalProduct.selectFilter(requiredData.get(6));
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
-		foundation.waitforElement(GlobalProduct.TXT_FILTER, 3);
-		navigationBar.navigateToMenuItem(menuItem.get(1));
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
-		browser.close();
+			// navigate to global product of V5 associated and update name and sync
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(GlobalProduct.ICON_FILTER);
+			globalProduct.selectFilter(requiredData.get(6));
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.waitforElement(GlobalProduct.TXT_FILTER, 3);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			browser.close();
 
-		// launch v5 application
-		browser.launch(Constants.REMOTE, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(landingPage.objLanguage(requiredData.get(4)));
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		textBox.enterKeypadText(requiredData.get(1));
-		assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(4)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(1));
+			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 
-		// reset data- enable back product
-		browser.close();
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem.get(0));
-		foundation.waitforElement(GlobalProduct.TXT_FILTER, 3);
-		foundation.click(GlobalProduct.ICON_FILTER);
-		globalProduct.selectFilter(requiredData.get(6));
-		textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
-		foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
-		dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
-		foundation.click(ProductSummary.BTN_SAVE);
+			// reset data- enable back product
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.waitforElement(GlobalProduct.TXT_FILTER, 3);
+			foundation.click(GlobalProduct.ICON_FILTER);
+			globalProduct.selectFilter(requiredData.get(6));
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
 
-		// reset data-assign back the product to location
-		navigationBar.navigateToMenuItem(menuItem.get(1));
-		textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-		locationList.selectLocationName(requiredData.get(3));
-		locationSummary.selectTab(requiredData.get(7));
-		foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT, 2);
-		locationSummary.addProduct(requiredData.get(0));
-		foundation.click(LocationSummary.BTN_FULL_SYNC);
+			// reset data-assign back the product to location
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
+			locationList.selectLocationName(requiredData.get(3));
+			locationSummary.selectTab(requiredData.get(7));
+			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT, 2);
+			locationSummary.addProduct(requiredData.get(0));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Test(description = "C141868-Thsi test validates the Inventory options")
@@ -1270,7 +1325,7 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.threadWait(15);
+			foundation.threadWait(Constants.FIFTEEN_SECOND);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
 		} catch (Exception exc) {
@@ -1368,8 +1423,7 @@ public class V5Test extends TestInfra {
 			locationSummary.removeHomeCommercial(imageName);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1421,8 +1475,7 @@ public class V5Test extends TestInfra {
 			locationSummary.removeHomeCommercial(imageName);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1481,8 +1534,7 @@ public class V5Test extends TestInfra {
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1541,8 +1593,7 @@ public class V5Test extends TestInfra {
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1606,8 +1657,7 @@ public class V5Test extends TestInfra {
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1668,8 +1718,7 @@ public class V5Test extends TestInfra {
 			locationSummary.removeHomeCommercial(cmrName2);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1705,8 +1754,7 @@ public class V5Test extends TestInfra {
 			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1743,8 +1791,7 @@ public class V5Test extends TestInfra {
 			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1781,8 +1828,7 @@ public class V5Test extends TestInfra {
 			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -1819,10 +1865,10 @@ public class V5Test extends TestInfra {
 			assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
+
 	@Test(description = "141857 Kiosk 'Default' Landing UI > Language Selection")
 	public void verifyLanguageSelection() {
 		try {
@@ -1869,34 +1915,34 @@ public class V5Test extends TestInfra {
 			assertEquals(actualLanguage, actualData.get(1));
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "C141881 - Kiosk Privacy Policy (if applicable)")
 	public void verifyPrivacyPolicy() {
 		try {
 			final String CASE_NUM = "141881";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			List<String> requiredData = Arrays
-                    .asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-	        browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL , FilePath.PROPERTY_CONFIG_FILE));
-	        foundation.click(landingPage.objLanguage(requiredData.get(1)));
-	        foundation.click(LandingPage.BTN_LOGIN);
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 
 			foundation.click(UserProfile.BTN_PRIVACY);
-			String title=foundation.getText(Policy.LBL_POLICY_TITLE);
+			String title = foundation.getText(Policy.LBL_POLICY_TITLE);
 			Assert.assertTrue(title.equals(requiredData.get(0)));
-			
+
 			foundation.click(Policy.BTN_OK);
-			
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-}
-	
+	}
+
 	@Test(description = "C141883 - Kiosk Terms and Conditions (if applicable)")
 	public void verifyTermsAndCondition() {
 		try {
@@ -1921,886 +1967,962 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "C142667 - SOS-24492- Kiosk Language selection")
 	public void englishDefaultLanguage() {
 		try {
-		final String CASE_NUM = "142667";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142667";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));       
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(Order.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-  		foundation.click(Order.BTN_CANCEL_ORDER);
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-	    //Resetting the data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-}
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
 
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(Order.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Resetting the data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	@Test(description = "C142733 - SOS-24492 Verify alternate language is set to Italian in Kiosk when user set the Alternate Language as italian and full sync is done in ADM")
 	public void alternateItalianLanguage() {
 		try {
-		final String CASE_NUM = "142733";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-	
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142733";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		foundation.click(LandingPage.BTN_LANG);
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-  		foundation.click(order.objText(orderPageData.get(0)));
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-	    //Resetting the data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LandingPage.BTN_LANG);
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-			
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Resetting the data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
 	}
-	
+
 	@Test(description = "C142734 - SOS-24492 Verify default language is set to french in Kiosk when user set the Default Language as french and full sync is done in ADM")
 	public void frenchDefaultLanguage() {
 		try {
-		final String CASE_NUM = "142734";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142734";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-  		foundation.click(order.objText(orderPageData.get(0)));
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-		//Resetting the data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-}
-	
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Resetting the data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	@Test(description = "C142735 - SOS-24492 Verify default language is set to Dutch in Kiosk when user set the Default Language as Dutch and full sync is done in ADM")
 	public void dutchDefaultLanguage() {
 		try {
-		final String CASE_NUM = "142735";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142735";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-  		foundation.click(order.objText(orderPageData.get(0)));
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-		//resetting the data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-}
-	
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// resetting the data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	@Test(description = "C142736 - SOS-24492 Verify default language is set to Swedish in Kiosk when user set the Default Language as Swedish and full sync is done in ADM")
 	public void swedishDefaultLanguage() {
 		try {
-		final String CASE_NUM = "142736";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142736";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-  		foundation.click(order.objText(orderPageData.get(0)));
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-		//Resetting data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-}
-	
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Resetting data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	@Test(description = "C142737 - SOS-24492 Verify default language is set to Norwegian in Kiosk when user set the Default Language as Norwegian and full sync is done in ADM")
 	public void norwegianDefaultLanguage() {
 		try {
-		final String CASE_NUM = "142737";
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			final String CASE_NUM = "142737";
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-        browser.close();
-        
-        foundation.threadWait(Constants.SHORT_TIME);
-        //login into Kiosk Device
-        browser.launch(Constants.REMOTE,Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-		
-		//Validating Landing Page
-		foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
-		landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-		//Validating Search Page
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
-		productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-        foundation.click(ProductSearch.BTN_PRODUCT);
-        
-        //verify Order Page     
-        List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-        
-        //Validating Credit/Debit Page
-        foundation.click(order.objText(orderPageData.get(8)));
-        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-        
-        foundation.click(CardPayment.BTN_CLOSE);
-        foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
-        
-        //verify Cancel Order Page
-        foundation.click(cardPayment.objText(orderPageData.get(0)));
-        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-	
-		//Validating Create Account Page
-        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
-		foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-		createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Validating Account Login Page
-		foundation.click(LandingPage.BTN_LOGIN);
-		accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-			
-        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-        
-		//Verifying Account info page
-		List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Fund with card page
-		foundation.click(fundAccount.objText(accountPageData.get(1)));
-		fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-		
-		//Verifying Scan Setup page
-		foundation.click(fundAccount.objText(accountPageData.get(4)));
-		scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-		
-		//Verifying Finger print Setup page
-		foundation.click(createAccount.objText(accountPageData.get(6)));
-		fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-		
-		//Verifying Edit account page
-		foundation.click(createAccount.objText(accountPageData.get(7)));
-		editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-		
-		//verify Change pin
-		List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-		foundation.click(createAccount.objText(accountEditPageData.get(3)));
-		changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
-		foundation.click(createAccount.objText(accountEditPageData.get(6)));
-		
-		//Verifying timeout popup
-		editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
 
-		//Verifying Product Purchase page
-		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
-		foundation.click(LandingPage.IMG_SEARCH_ICON);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-		foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
 
-		foundation.objectFocus(order.objText(orderPageData.get(7)));
-		foundation.click(order.objText(orderPageData.get(7)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		  
-		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-		foundation.click(AccountLogin.BTN_NEXT);
-		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-	    browser.close();
-	    
-		//Resetting data
-	    browser.launch(Constants.LOCAL,Constants.CHROME);
-	    browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-	
-		// Select Menu and Menu Item
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			// Validating Landing Page
+			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
+			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-        // Selecting location
-        locationList.selectLocationName(requiredData.get(0));
-        
-        dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-        dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-        
-        foundation.click(LocationSummary.BTN_SYNC);
-        foundation.click(LocationSummary.BTN_SAVE);
-        foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-        login.logout();
-                    
-    } catch (Exception exc) {
-        exc.printStackTrace();
-        Assert.fail();
-    }
-}
-	
+			// Validating Search Page
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(cardPayment.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
+			foundation.click(LandingPage.BTN_LOGIN);
+			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
+			foundation.click(fundAccount.objText(accountPageData.get(1)));
+			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
+
+			// Verifying Scan Setup page
+			foundation.click(fundAccount.objText(accountPageData.get(4)));
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
+			foundation.click(createAccount.objText(accountPageData.get(6)));
+			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
+
+			// Verifying Edit account page
+			foundation.click(createAccount.objText(accountPageData.get(7)));
+			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			foundation.click(createAccount.objText(accountEditPageData.get(3)));
+			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
+			foundation.click(createAccount.objText(accountEditPageData.get(6)));
+
+			// Verifying timeout popup
+			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
+
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			foundation.objectFocus(order.objText(orderPageData.get(7)));
+			foundation.click(order.objText(orderPageData.get(7)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Resetting data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	@Test(description = "142738 - SOS-24492 Verify alternate language is set to spanish in Kiosk when user set the Alternate Language as spanish and full sync is done in ADM")
 	public void alternateSpanishLanguage() {
@@ -2837,77 +2959,84 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LandingPage.BTN_LANG);
-			
-			//Validating Landing Page
+
+			// Validating Landing Page
 			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
 			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-			//Validating Search Page
+			// Validating Search Page
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-	        foundation.click(ProductSearch.BTN_PRODUCT);
-	        
-	        //verify Order Page     
-	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-	        
-	        //Validating Credit/Debit Page
-	        foundation.click(order.objText(orderPageData.get(8)));
-	        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-	        
-	        foundation.click(CardPayment.BTN_CLOSE);
-	        foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
-	        
-	        //verify Cancel Order Page
-	  		foundation.click(order.objText(orderPageData.get(0)));
-	        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-		
-			//Validating Create Account Page
-	        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
 			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Validating Account Login Page
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
 			foundation.click(LandingPage.BTN_LOGIN);
 			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-				
-	        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-	        
-			//Verifying Account info page
-			List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Fund with card page
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
 			foundation.click(fundAccount.objText(accountPageData.get(1)));
 			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-			
-			//Verifying Scan Setup page
+
+			// Verifying Scan Setup page
 			foundation.click(fundAccount.objText(accountPageData.get(4)));
-			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Finger print Setup page
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
 			foundation.click(createAccount.objText(accountPageData.get(6)));
 			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-			
-			//Verifying Edit account page
+
+			// Verifying Edit account page
 			foundation.click(createAccount.objText(accountPageData.get(7)));
 			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-			
-			//verify Change pin
-			List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
 			foundation.click(createAccount.objText(accountEditPageData.get(3)));
 			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
 			foundation.click(createAccount.objText(accountEditPageData.get(6)));
-			
-			//Verifying timeout popup
+
+			// Verifying timeout popup
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
-			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -2918,7 +3047,7 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-			  
+
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -2926,7 +3055,7 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-		    browser.close();
+			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -2950,11 +3079,10 @@ public class V5Test extends TestInfra {
 			login.logout();
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "C142739 - SOS-24492 Verify alternate language is set to German in Kiosk when user set the Alternate Language as German and full sync is done in ADM")
 	public void alternateGermanLanguage() {
 		try {
@@ -2990,77 +3118,84 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LandingPage.BTN_LANG);
-			
-			//Validating Landing Page
+
+			// Validating Landing Page
 			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
 			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-			//Validating Search Page
+			// Validating Search Page
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-	        foundation.click(ProductSearch.BTN_PRODUCT);
-	        
-	        //verify Order Page     
-	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-	        
-	        //Validating Credit/Debit Page
-	        foundation.click(order.objText(orderPageData.get(8)));
-	        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-	        
-	        foundation.click(CardPayment.BTN_CLOSE);
-	        foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
-	        
-	        //verify Cancel Order Page
-	  		foundation.click(order.objText(orderPageData.get(0)));
-	        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-		
-			//Validating Create Account Page
-	        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
 			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Validating Account Login Page
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
 			foundation.click(LandingPage.BTN_LOGIN);
 			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-				
-	        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-	        
-			//Verifying Account info page
-			List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Fund with card page
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
 			foundation.click(fundAccount.objText(accountPageData.get(1)));
 			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-			
-			//Verifying Scan Setup page
+
+			// Verifying Scan Setup page
 			foundation.click(fundAccount.objText(accountPageData.get(4)));
-			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Finger print Setup page
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
 			foundation.click(createAccount.objText(accountPageData.get(6)));
 			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-			
-			//Verifying Edit account page
+
+			// Verifying Edit account page
 			foundation.click(createAccount.objText(accountPageData.get(7)));
 			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-			
-			//verify Change pin
-			List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
 			foundation.click(createAccount.objText(accountEditPageData.get(3)));
 			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
 			foundation.click(createAccount.objText(accountEditPageData.get(6)));
-			
-			//Verifying timeout popup
+
+			// Verifying timeout popup
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
-			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -3071,7 +3206,7 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-			  
+
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3079,7 +3214,7 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-		    browser.close();
+			browser.close();
 
 			// resetting test data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -3104,11 +3239,10 @@ public class V5Test extends TestInfra {
 			login.logout();
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "C142740 - SOS-24492 Verify alternate language is set to Danish in Kiosk when user set the Alternate Language as Danish and full sync is done in ADM")
 	public void alternateDanishLanguage() {
 		try {
@@ -3145,77 +3279,84 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(LandingPage.BTN_LANG);
-			
-			//Validating Landing Page
+
+			// Validating Landing Page
 			foundation.waitforElement(landingPage.objLanguage(requiredData.get(3)), Constants.SHORT_TIME);
 			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
-			//Validating Search Page
+			// Validating Search Page
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			productSearch.verifyProductSearhPageLanguage(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE));
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-	        foundation.click(ProductSearch.BTN_PRODUCT);
-	        
-	        //verify Order Page     
-	       List<String> orderPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-	        order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
-	        
-	        //Validating Credit/Debit Page
-	        foundation.click(order.objText(orderPageData.get(8)));
-	        cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
-	        
-	        foundation.click(CardPayment.BTN_CLOSE);
-	        foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
-	        
-	        //verify Cancel Order Page
-	  		foundation.click(order.objText(orderPageData.get(0)));
-	        Assert.assertTrue(foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
-		
-			//Validating Create Account Page
-	        foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			order.verifyOrderPageLanguage(rstV5DeviceData.get(CNV5Device.ORDER_PAGE));
+
+			// Validating Credit/Debit Page
+			foundation.click(order.objText(orderPageData.get(8)));
+			cardPayment.verifyCardPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.CREDIT_DEBIT_PAGE));
+
+			foundation.click(CardPayment.BTN_CLOSE);
+			foundation.waitforElement(order.objText(orderPageData.get(0)), Constants.SHORT_TIME);
+
+			// verify Cancel Order Page
+			foundation.click(order.objText(orderPageData.get(0)));
+			Assert.assertTrue(
+					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
+
+			// Validating Create Account Page
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
 			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
-			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Validating Account Login Page
+			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Validating Account Login Page
 			foundation.click(LandingPage.BTN_LOGIN);
 			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
-				
-	        textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN,FilePath.PROPERTY_CONFIG_FILE));
+
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-	        
-			//Verifying Account info page
-			List<String> accountPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
-			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Fund with card page
+
+			// Verifying Account info page
+			List<String> accountPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+			accountDetails.verifyAccountDetailsPageLanguage(rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Fund with card page
 			foundation.click(fundAccount.objText(accountPageData.get(1)));
 			fundAccount.verifyFundAccountScreenLanguage(rstV5DeviceData.get(CNV5Device.FUND_ACCOUNT_PAGE));
-			
-			//Verifying Scan Setup page
+
+			// Verifying Scan Setup page
 			foundation.click(fundAccount.objText(accountPageData.get(4)));
-			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),requiredData.get(3),rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			
-			//Verifying Finger print Setup page
+			scanPayment.verifyScanPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.QUICK_SCAN_SETUP),
+					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+
+			// Verifying Finger print Setup page
 			foundation.click(createAccount.objText(accountPageData.get(6)));
 			fingerPrintPayment.verifyFingerPrintPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.FINGER_PRINT_SETUP));
-			
-			//Verifying Edit account page
+
+			// Verifying Edit account page
 			foundation.click(createAccount.objText(accountPageData.get(7)));
 			editAccount.verifyEditAccountPageLanguage(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS));
-			
-			//verify Change pin
-			List<String> accountEditPageData = Arrays.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
+
+			// verify Change pin
+			List<String> accountEditPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.EDIT_ACCOUNT_DETAILS).split(Constants.DELIMITER_TILD));
 			foundation.click(createAccount.objText(accountEditPageData.get(3)));
 			changePin.verifyChangePinPageLanguage(rstV5DeviceData.get(CNV5Device.CHANGE_PIN));
 			foundation.click(createAccount.objText(accountEditPageData.get(6)));
-			
-			//Verifying timeout popup
+
+			// Verifying timeout popup
 			editAccount.verifyTimeOutPopLanguage(rstV5DeviceData.get(CNV5Device.TIME_OUT_POPUP));
 
-			//Verifying Product Purchase page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON,Constants.SHORT_TIME);
+			// Verifying Product Purchase page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
@@ -3226,7 +3367,7 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-			  
+
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3234,9 +3375,9 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-		    browser.close();
+			browser.close();
 
-			//resetting test data
+			// resetting test data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -3259,8 +3400,8 @@ public class V5Test extends TestInfra {
 			login.logout();
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+
+			Assert.fail(exc.toString());
 		}
 	}
 }
