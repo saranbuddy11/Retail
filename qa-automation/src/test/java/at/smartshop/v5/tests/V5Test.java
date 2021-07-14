@@ -3398,7 +3398,6 @@ public class V5Test extends TestInfra {
 			login.logout();
 
 		} catch (Exception exc) {
-
 			Assert.fail(exc.toString());
 		}
 	}
@@ -3408,13 +3407,18 @@ public class V5Test extends TestInfra {
 		
 		final String CASE_NUM = "143143";
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);		
-
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
 		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+		navigationBar.navigateToMenuItem(menu.get(0));
+		
+		locationList.selectLocationName("Hsr Loc");
+		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "English", Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "French", Constants.TEXT);
 		
 	}
 	
