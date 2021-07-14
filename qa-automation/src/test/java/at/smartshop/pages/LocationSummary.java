@@ -298,19 +298,19 @@ public class LocationSummary extends Factory {
 		return textAttribute;
 	}
 
-	public void verifyDPDValue(String text) {
-		Boolean flag = true;
+	public Boolean verifyDPDValue(String text) {
+		Boolean flag = false;
 		WebElement drpdwn = getDriver().findElement(DPD_VDI_PROVDIER);
 		Select dpdSel = new Select(drpdwn);
 		List<WebElement> DrpDwnList = dpdSel.getOptions();
 		for (WebElement webElement : DrpDwnList) {
 
 			if (webElement.getText().contains(text)) {
-				flag = false;
+				flag = true;
 				break;
 			}
 		}
-		Assert.assertTrue(flag);
-
+		return flag;
+		
 	}
 }
