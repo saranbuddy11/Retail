@@ -1,13 +1,17 @@
 package at.smartshop.v5.pages;
 
+
+import org.openqa.selenium.By;
 import java.util.Arrays;
 import java.util.List;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class Order {
+	
+	 private Foundation foundation=new Foundation();
+
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
 	public static final By LBL_ORDER_CANCELLED = By.xpath("//span[text()='Transaction Cancelled']");
 	public static final By LBL_PRODUCT_PRICE = By.className("product-price");
@@ -26,7 +30,7 @@ public class Order {
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
     public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
     
-    private Foundation foundation=new Foundation();
+   
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
 	}
