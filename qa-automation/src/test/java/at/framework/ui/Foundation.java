@@ -1,7 +1,5 @@
 package at.framework.ui;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,11 +7,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,10 +19,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
-
 import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
@@ -121,6 +114,9 @@ public class Foundation extends Factory {
 		String textAttribute = null;
 		try {
 			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is "+ textAttribute);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -156,13 +152,16 @@ public class Foundation extends Factory {
 		return sizeofObj;
 	}
 
-	public void threadWait(int milliSeconds) {
-		try {
-			Thread.sleep(milliSeconds);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+	public void threadWait(int seconds) {
+
+        try {
+            long timeMilliSec = seconds * 1000;
+            Thread.sleep(timeMilliSec);
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
+
 
 	public String getBGColor(By object) {
 		String hexColor = null;
