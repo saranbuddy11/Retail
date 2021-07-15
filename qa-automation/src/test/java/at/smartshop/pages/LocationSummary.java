@@ -66,7 +66,6 @@ public class LocationSummary extends Factory {
 	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_FULL_SYNC = By.id("fullsync");
 	public static final By TXT_PRICE_IN_GRID = By.id("fullsync");
-	public static final By BTN_ADD_PRODUCT = By.id("addProd");
 	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterTypes");
 	public static final By BTN_ADD_PRODUCT_ADD = By.id("modalsave");
 	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
@@ -89,8 +88,9 @@ public class LocationSummary extends Factory {
 	public static final By DPD_ROUTE = By.id("route");
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
+	public static final By BTN_ADD_PRODUCT = By.id("addProd");
+	public static final By DPD_SHOW_PROD_LOOKUP = By.id("showprdlup");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
-
 
 	public void selectTab(String tabName) {
 		try {
