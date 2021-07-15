@@ -13,25 +13,28 @@ import org.testng.annotations.Parameters;
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
-public class TestInfra{
+public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
+	public FilePath filePath=new FilePath();
 	
+	@Parameters({"environment"})
 	@BeforeSuite
-	public void beforeSuit() {
+	public void beforeSuit(String environment) {
 		ResultSets.getConnection();
+		filePath.setEnvironment(environment);
 	}
-	
-	
-	@Parameters({"driver", "browser"})
-	@BeforeMethod	
-	public void beforeMethod(String drivers, String browsers) {			
-		try {			
-			browser.launch(drivers,browsers);
+
+	@Parameters({ "driver", "browser" })
+	@BeforeMethod
+	public void beforeMethod(String drivers, String browsers) {
+		try {
+			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -39,17 +42,18 @@ public class TestInfra{
 
 	@AfterMethod
 	public void afterMethod() {
-		try {			
+		try {
 			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+
 		}
-		
+
 	}
-	
+
 	@AfterSuite
 	public void afterSuit() {
-		try {			
+		try {
 			ResultSets.connection.close();
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
