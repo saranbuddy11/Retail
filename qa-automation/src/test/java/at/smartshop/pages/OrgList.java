@@ -1,12 +1,11 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 
 public class OrgList {
-	
+
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	
