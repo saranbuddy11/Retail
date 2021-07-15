@@ -18,7 +18,7 @@ public class AccountLogin {
 
 	public static final By BTN_EMAIL_LOGIN = By.id("email-account-login-btn-id");
 	public static final By TXT_EMAIL = By.id("emailLoginInput");
-	public static final By BTN_ENTER = By.xpath("//*[@id='accountModal']//div[text()='Enter']");
+	public static final By BTN_ENTER = By.xpath("//*[text()='Enter']");
 	public static final By BTN_NEXT = By.id("emaillogin-input-btn-go-id");
 	public static final By LBL_ENTER_PIN_TITLE = By.className("input-label");
 	public static final By BTN_CAMELCASE = By.xpath("//div[text()='abc']");
@@ -34,6 +34,9 @@ public class AccountLogin {
 	public static final By BTN_PIN_BACK = By.id("pin-input-btn-back-id");
 	public static final By LBL_PIN_PAGE_TITLE = By.xpath("//h1[@data-reactid='.0.q.0.0.0.1']");
 	public static final By LBL_PIN_HEADER = By.xpath("//label[@data-reactid='.0.q.0.0.1.0.0']");
+	
+	public static final By LBL_ACCOUNT_NOT_AVAILABLE = By.xpath("//*[@id='errorModal']//h1");
+	public static final By LBL_GEO_GRAPHIC_LOCATION = By.xpath("//*[@id='errorModal']//h2");
 
 	private PropertyFile propertyFile = new PropertyFile();
 
