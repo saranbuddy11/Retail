@@ -16,6 +16,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -86,6 +87,8 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
+	private Map<String, String> rstLocationSummaryData;
+
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -204,6 +207,7 @@ public class V5Test extends TestInfra {
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
+
 	}
 	
 
@@ -488,14 +492,12 @@ public class V5Test extends TestInfra {
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(0));
@@ -863,6 +865,86 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
+	
+	@Test(description="142993>V5-Ensure canadian Currency Cash Funding")
+	public void verifyCADCashFunding() {
+		try {
+		final String CASE_NUM = "142993";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		
+		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> country = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
+		
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menu.get(0));		
+		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_CURRENCY, requiredData.get(0), Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+		navigationBar.navigateToMenuItem(menu.get(1));
+		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE,actualData.get(0), Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE,actualData.get(1), Constants.TEXT);
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		login.logout();
+		browser.close();
+		
+		foundation.threadWait(Constants.SHORT_TIME);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(landingPage.objLanguage(actualData.get(0)));
+		foundation.click(LandingPage.LBL_ACCOUNT_LOGIN);
+		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.click(AccountDetails.BTN_FUND_CASH);
+		Assert.assertTrue(foundation.isDisplayed(fundAccount.objText(requiredData.get(2))));	
+		foundation.click(fundAccount.objText(requiredData.get(3)));
+		Assert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
+		browser.close();
+		
+		//reset the data
+		browser.launch(Constants.LOCAL, Constants.CHROME);
+		browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		
+		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menu.get(0));
+		foundation.waitforElement(OrgSummary.DPD_CURRENCY, Constants.SHORT_TIME);
+		dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(1), Constants.TEXT);
+		dropDown.selectItem(OrgSummary.DPD_CURRENCY,requiredData.get(1), Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+		navigationBar.navigateToMenuItem(menu.get(1));
+		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 
 	@Test(description = "142717-SOS-24494-V5 - Assign Deposit value of product and verify it on Kiosk machine cart page")
 	public void assignDepositValue() {
@@ -3768,6 +3850,5 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-
 
 }
