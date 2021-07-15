@@ -16,6 +16,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -86,6 +87,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
+	private Map<String,String> rstLocationSummaryData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -3509,7 +3511,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			List<String> lblTaxes = foundation.getTextofListElement(Order.LBL_TAX);
-			List<String> lblTaxValues = foundation.getTextofListElement(Order.LBL_TAX_VALUE);
+			List<String> lblTaxValues = foundation.getTextofListElement(Order.LBL_VAT_VALUE);
 			Assert.assertEquals(lblTaxes.get(0), taxes.get(0));
 			Assert.assertEquals(lblTaxes.get(1), taxes.get(1));
 			Assert.assertEquals(lblTaxValues.get(0), taxes.get(2));
@@ -3524,7 +3526,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
 			Assert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
-			Assert.assertEquals(foundation.getText(Order.LBL_TAX_VALUE), taxes.get(4));
+			Assert.assertEquals(foundation.getText(Order.LBL_VAT_VALUE), taxes.get(4));
 			
 			//add rate 8 product and verify the display of tax
 			foundation.click(Order.BTN_CANCEL_ORDER);
@@ -3535,7 +3537,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
 			Assert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
-			Assert.assertEquals(foundation.getText(Order.LBL_TAX_VALUE), taxes.get(6));
+			Assert.assertEquals(foundation.getText(Order.LBL_VAT_VALUE), taxes.get(6));
 			
 			//add no tax assigned product and verify the display of tax section
 			foundation.click(Order.BTN_CANCEL_ORDER);
@@ -3546,7 +3548,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_VALUE));
+			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 			
 			//Reset data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -3771,57 +3773,87 @@ public class V5Test extends TestInfra {
 
 	@Test(description = "143143>V5-Verify the VAT on Kiosk when user set only Tax Rate1 in ADM for UK")
 	public void verifyVATwithTaxRate1() {
-		
-		final String CASE_NUM = "143143";
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);		
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		navigationBar.navigateToMenuItem(menu.get(0));
-		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United Kingdom", Constants.TEXT);
-		dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, "VAT Tax", Constants.TEXT);
-		foundation.click(OrgSummary.BTN_SAVE);
-		foundation.threadWait(Constants.TWO_SECOND);
-		navigationBar.navigateToMenuItem(menu.get(1));
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		locationList.selectLocationName("Hsr Loc");
-		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, "English", Constants.TEXT);
-		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, "French", Constants.TEXT);
-		locationSummary.taxMapping("TAXCAT", "UK_VAT_143");
-		Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate("UK_VAT_143")));
-		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		login.logout();
-		browser.close();
-		
-		//Reset the data
-		browser.launch(Constants.LOCAL, Constants.CHROME);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		
-		navigationBar.navigateToMenuItem(menu.get(0));
-		dropDown.selectItem(OrgSummary.DPD_COUNTRY, "United States", Constants.TEXT);
-		dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, "United States", Constants.TEXT);
-		foundation.click(OrgSummary.BTN_SAVE);
-		foundation.threadWait(Constants.TWO_SECOND);
-		navigationBar.navigateToMenuItem(menu.get(1));
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		locationList.selectLocationName("Hsr Loc");
-		foundation.click(LocationSummary.LNK_TAX_MAPPING);		
-		foundation.click(locationSummary.objVerifyTaxRate("UK_VAT_143"));
-		foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_POPUP_REMOVE);
-		foundation.click(LocationSummary.LNK_TAX_MAPPING);
-		Assert.assertFalse(foundation.isDisplayed(locationSummary.objVerifyTaxRate("UK_VAT_143")));
-		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		try {
+			final String CASE_NUM = "143143";
+
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> country = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
+			navigationBar.navigateToMenuItem(menu.get(0));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgList.TXT_ORG_LIST, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, language.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, language.get(1), Constants.TEXT);
+			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
+			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME))));
+			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+			foundation.click(Order.LBL_EMAIL);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			browser.close();
+			
+			// Reset the data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menu.get(0));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(1), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgList.TXT_ORG_LIST, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.LNK_TAX_MAPPING);
+			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
+			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
+			foundation.click(LocationSummary.LNK_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 }
