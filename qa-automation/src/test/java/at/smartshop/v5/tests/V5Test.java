@@ -3,15 +3,12 @@ package at.smartshop.v5.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.Strings;
@@ -51,6 +48,7 @@ import at.smartshop.v5.pages.Policy;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 import at.smartshop.v5.pages.UserProfile;
+
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -160,6 +158,52 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "C142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
+	public void verifySearchButton() {
+		try {
+			
+			final String CASE_NUM = "142799";
+			
+			  rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			  rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			  rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST,CASE_NUM);
+			  
+			  browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			  login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), 
+					  		  propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			  navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			  
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			  foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			  locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
+			  List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			  dropDown.selectItem(DeviceSummary.DPD_SHOW_SEARCH_BTN, requiredData.get(0), Constants.TEXT);
+			  foundation.click(DeviceSummary.BTN_SAVE);
+			  navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			  foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			  foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
+			  dropDown.selectItem(LocationSummary.DPD_SHOW_PROD_LOOKUP, requiredData.get(1), Constants.TEXT);
+			  foundation.click(LocationSummary.BTN_SYNC);
+			  foundation.click(LocationSummary.BTN_SAVE);
+			  foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME); 
+			  login.logout();
+			  browser.close();	
+			  
+			  browser.launch(Constants.REMOTE,Constants.CHROME);
+		      browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		      foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+		      foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);			  
+			  
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 
 	@Test(description = "C142741 - SOS-24492 Verify alternate language is set to Finnish in Kiosk when user set the Alternate Language as Finnish and full sync is done in ADM")
 	public void alternateFinnishLanguage() {
