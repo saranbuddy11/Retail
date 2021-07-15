@@ -29,13 +29,12 @@ public class TestInfra {
 		ResultSets.getConnection();
 		filePath.setEnvironment(environment);
 	}
-	
-	
-	@Parameters({"driver", "browser"})
-	@BeforeMethod	
-	public void beforeMethod(String drivers, String browsers) {			
-		try {			
-			browser.launch(drivers,browsers);
+
+	@Parameters({ "driver", "browser" })
+	@BeforeMethod
+	public void beforeMethod(String drivers, String browsers) {
+		try {
+			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -43,17 +42,18 @@ public class TestInfra {
 
 	@AfterMethod
 	public void afterMethod() {
-		try {			
+		try {
 			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+
 		}
-		
+
 	}
-	
+
 	@AfterSuite
 	public void afterSuit() {
-		try {			
+		try {
 			ResultSets.connection.close();
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());

@@ -14,6 +14,10 @@ public class FilePath {
 	public static final String JSON_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesCreation.json";
 	public static final String JSON_BAD_SCAN = PATH + "\\src\\test\\resources\\BadScan.json";
 	public static final String IMAGE_PATH = PATH+ "\\src\\test\\resources\\icecream.jpg";
+	public static final String IMAGE_PNG_PATH = PATH+ "\\src\\test\\resources\\fruits.png";
+	public static final String IMAGE_SIZE_MORE = PATH+ "\\src\\test\\resources\\Earth.jpg";
+	public static final String IMAGE_TEXT_PATH = PATH+ "\\src\\test\\resources\\Capture.txt";
+	public static final String IMAGE_PIXEL_SIZE = PATH+ "\\src\\test\\resources\\pixelsize1.jpg";
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {
