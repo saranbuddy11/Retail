@@ -10,7 +10,6 @@ public class NationalAccountRules extends Factory {
 	
 	public static final  By BTN_POPUP_YES = By.xpath("//button[text()='YES']");
 	public static final  By ICON_DELETE = By.xpath("//a[@class='fa fa-trash icon']");
-	public static final  By TXT_FILTERTYPE = By.id("filterType");	
 	public static final By BTN_CANCEL = By.xpath("//button[text()='CANCEL']");
 	public static final By TBL_NATIONALACCOUNT_BODY = By.cssSelector("#dataGrid > tbody");
 	public static final By SEARCH_BOX = By.cssSelector("input#filterType");
