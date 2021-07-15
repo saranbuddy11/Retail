@@ -20,7 +20,6 @@ public class LandingPage {
 	public static final By BTN_LOGIN = By.id("account-login-id");
 	public static final By BTN_CREATE_ACCOUNT = By.id("create-account-id");
 	public static final By BTN_LANG = By.xpath("//button[@data-reactid='.0.0.0.2.1']");
-	public static final By LBL_ = By.xpath("//h2");
 	public static final By LBL_ACCOUNT_LOGIN = By.xpath("//div[@id='account-login-id']//h3");
 	public static final By LBL_CREATE_ACCOUNT = By.xpath("//div[@id='create-account-id']/div//h3");
 	public static final By LBL_SEARCH = By.xpath("//span[@class='category-label']");
@@ -30,15 +29,15 @@ public class LandingPage {
 
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='" + languageName + "']");
+
 	}
 
 	public void navigateDriverLoginPage() {
-		
+
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.click(LandingPage.IMG_LOGO);
-	}	
-
+	}
 
 	public By objText(String text) {
 		return By.xpath("//*[text()='" + text + "']");

@@ -9,11 +9,11 @@ public class LocationList extends Factory {
 
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
-	
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
+	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 
 	public void selectLocationName(String locationName) {
 		textBox.enterText(TXT_FILTER, locationName);
