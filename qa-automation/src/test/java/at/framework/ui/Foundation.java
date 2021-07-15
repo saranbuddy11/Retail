@@ -1,5 +1,9 @@
 package at.framework.ui;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.openqa.selenium.Alert;
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 import at.framework.browser.Factory;
@@ -26,8 +31,9 @@ import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 
+
 public class Foundation extends Factory {
-	DateAndTime dateAndTime=new DateAndTime();
+	DateAndTime dateAndTime = new DateAndTime();
 
 	public boolean isDisplayed(By object) {
 		boolean isElementDisplayed = false;
@@ -90,7 +96,7 @@ public class Foundation extends Factory {
 		}
 		return element;
 	}
-	
+
 	public WebElement waitforClikableElement(By object, int waitTime) {
 		WebElement element = null;
 		try {
@@ -115,7 +121,7 @@ public class Foundation extends Factory {
 		try {
 			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is "+ textAttribute);
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -153,15 +159,13 @@ public class Foundation extends Factory {
 	}
 
 	public void threadWait(int seconds) {
-
-        try {
-            long timeMilliSec = seconds * 1000;
-            Thread.sleep(timeMilliSec);
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
-
+		try {
+			long timeMilliSec = seconds * 1000;
+			Thread.sleep(timeMilliSec);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	public String getBGColor(By object) {
 		String hexColor = null;
@@ -203,47 +207,111 @@ public class Foundation extends Factory {
 		}
 		return elementsText;
 	}
-	
-	public boolean verifySortDate(By object,String type,String pattern) {
-		boolean isSorted=false;		
-		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object),pattern);
-		if(type.equals(Constants.ASCENDING)) {
-			isSorted=listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listDate);
-		}
-		else if(type.equals(Constants.DESCENDING)) {
-			isSorted=listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listDate);
+
+	public boolean verifySortDate(By object, String type, String pattern) {
+		boolean isSorted = false;
+		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object), pattern);
+		if (type.equals(Constants.ASCENDING)) {
+			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listDate);
+		} else if (type.equals(Constants.DESCENDING)) {
+			isSorted = listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listDate);
 		}
 		return isSorted;
 	}
-	
-	public boolean verifySortText(By object,String type) {
-		boolean isSorted=false;
+
+	public boolean verifySortText(By object, String type) {
+		boolean isSorted = false;
 		List<String> listOfText = getTextofListElement(object);
-		if(type.equals(Constants.ASCENDING)) {
-			isSorted=listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()).equals(listOfText);
-		}
-		else if(type.equals(Constants.DESCENDING)) {
-			isSorted=listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()).equals(listOfText);
+		if (type.equals(Constants.ASCENDING)) {
+			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listOfText);
+		} else if (type.equals(Constants.DESCENDING)) {
+			isSorted = listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listOfText);
 		}
 		return isSorted;
 	}
-	
+
 	public void adjustBrowerSize(String size) {
 		try {
-			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("document.body.style.zoom = '" + size + "'");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-    public void objectClick(By object) {
+
+	public void objectClick(By object) {
 		try {
-			JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-		    executor.executeScript("arguments[0].click();", getDriver().findElement(object));
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
+	public void copyFile(String from, String to) {
+
+		Path sourceDirectory = Paths.get(from);
+		Path targetDirectory = Paths.get(to);
+
+		try {
+			Files.copy(sourceDirectory, targetDirectory);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Copied Successfully");
+			}
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void deleteFile(String filePath) {
+		try {
+			File file = new File(filePath);
+			file.delete();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
+			}
+
+		} catch (
+
+		Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void alertAccept() {
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			alert.accept();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void alertDismiss() {
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			alert.dismiss();
+			;
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public Boolean waitforElementToDisappear(By object, int waitTime) {
+		Boolean element = null;
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return element;
+	}
+
 }
