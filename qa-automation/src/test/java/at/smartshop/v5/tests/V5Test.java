@@ -3668,7 +3668,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-
 	
 	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
 	public void verifyTabsDsiplayed() {
@@ -3707,11 +3706,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
-		
+
 	}catch(Exception exc) {
 		Assert.fail(exc.toString());
-	}
-}
+	}}
 	
 	@Test(description="C142851-Verify the deafult selected tab after login with Driver")
 	public void verifyDefaultSelectedTab() {
@@ -3740,6 +3738,7 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	
 	@Test(description = "C142852-Verify Inventory Tab details after login with Driver")
 	public void verifyInventoryTab() {
@@ -3769,5 +3768,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 
 }

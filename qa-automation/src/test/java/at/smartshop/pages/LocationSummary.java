@@ -88,7 +88,6 @@ public class LocationSummary extends Factory {
 	public static final By DPD_SHOW_PROD_LOOKUP = By.id("showprdlup");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
 
-
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
