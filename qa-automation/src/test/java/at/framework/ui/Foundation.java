@@ -1,9 +1,6 @@
 package at.framework.ui;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,11 +11,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,15 +23,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import org.openqa.selenium.Alert;
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
-
 import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
+
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime = new DateAndTime();
@@ -127,6 +120,9 @@ public class Foundation extends Factory {
 		String textAttribute = null;
 		try {
 			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -287,4 +283,35 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
+	public void alertAccept() {
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			alert.accept();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void alertDismiss() {
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			alert.dismiss();
+			;
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public Boolean waitforElementToDisappear(By object, int waitTime) {
+		Boolean element = null;
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return element;
+	}
+
 }

@@ -1,23 +1,19 @@
 package at.smartshop.pages;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
 import at.framework.browser.Factory;
+import at.framework.ui.Foundation;
 
 public class GlobalProduct extends Factory {
+	Foundation foundation = new Foundation();
 	public static final By TXT_FILTER = By.id("filterType");
+	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
 	public static final By TBL_GRID = By.id("dataGrid");
 	public static final By BTN_EXPORT = By.xpath("//button[text()='Export']");
 	public static final By TXT_RECORD_COUNT = By.cssSelector("#dataGrid_pager_label");
@@ -71,4 +67,9 @@ public class GlobalProduct extends Factory {
 
 	}
 
+	public void selectFilter(String filterType) {
+		foundation.click(ICON_FILTER);
+		foundation.threadWait(500);
+		foundation.click(By.xpath("//*[@id='dataGrid_dd_enabled']//span[text()='" + filterType + "']"));
+	}
 }
