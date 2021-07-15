@@ -3682,6 +3682,7 @@ public class V5Test extends TestInfra {
 		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		driverHomePage.verifyData(tabNames);
 		foundation.click(DriverHomePage.LINK_LOGOUT);
+		
 	}catch(Exception exc) {
 		Assert.fail(exc.toString());
 	}
@@ -3703,12 +3704,12 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
-		
+			
 	}catch(Exception exc) {
 		Assert.fail(exc.toString());
-	}
-}
+	}}
 	
+
 	@Test(description="C142851-Verify the deafult selected tab after login with Driver")
 	public void verifyDefaultSelectedTab() {
 		try {
@@ -3735,5 +3736,6 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 
 }

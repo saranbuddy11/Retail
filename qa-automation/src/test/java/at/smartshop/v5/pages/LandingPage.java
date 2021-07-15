@@ -2,10 +2,8 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -33,12 +31,14 @@ public class LandingPage {
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='" + languageName + "']");
 	}
+
 	public void navigateDriverLoginPage() {
 		
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.click(LandingPage.IMG_LOGO);
 	}	
+
 
 	public By objText(String text) {
 		return By.xpath("//*[text()='" + text + "']");
