@@ -24,7 +24,6 @@ public class DriverHomePage {
 		for(int iter=0; iter<tabName.size(); iter++) {
 			foundation.isDisplayed(By.xpath("//span[text()='"+tabName.get(iter)+"']"));
 		}
-	}
-	
+	}	
 	
 }
