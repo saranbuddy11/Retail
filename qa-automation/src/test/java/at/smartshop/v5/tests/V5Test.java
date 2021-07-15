@@ -3,15 +3,12 @@ package at.smartshop.v5.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.Strings;
@@ -29,16 +26,20 @@ import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.DriverHomePage;
+import at.smartshop.v5.pages.DriverLoginPage;
 import at.smartshop.v5.pages.AdminMenu;
 import at.smartshop.v5.pages.CardPayment;
 import at.smartshop.v5.pages.ChangePin;
 import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.EditAccount;
+import at.smartshop.v5.pages.InventoryHomePage;
 import at.smartshop.v5.pages.FingerPrintPayment;
 import at.smartshop.v5.pages.FundAccount;
 import at.smartshop.v5.pages.LandingPage;
@@ -48,6 +49,7 @@ import at.smartshop.v5.pages.Policy;
 import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.ScanPayment;
 import at.smartshop.v5.pages.UserProfile;
+
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5Test extends TestInfra {
@@ -64,6 +66,9 @@ public class V5Test extends TestInfra {
 	private Dropdown dropdown = new Dropdown();
 	private AdminMenu adminMenu = new AdminMenu();
 	private DeviceSummary deviceSummary = new DeviceSummary();
+	private DriverLoginPage driverLoginPage = new DriverLoginPage();
+	private DriverHomePage driverHomePage = new DriverHomePage();
+	private InventoryHomePage inventoryHomePage = new InventoryHomePage();
 	private Dropdown dropDown = new Dropdown();
 	private ProductSearch productSearch = new ProductSearch();
 	private Order order = new Order();
@@ -74,9 +79,10 @@ public class V5Test extends TestInfra {
 	private ScanPayment scanPayment = new ScanPayment();
 	private FingerPrintPayment fingerPrintPayment = new FingerPrintPayment();
 	private ChangePin changePin = new ChangePin();
+	private OrgList orgList=new OrgList();
 	private Payments payments = new Payments();
 	private Strings string = new Strings();
-
+	
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -154,6 +160,52 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "C142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
+	public void verifySearchButton() {
+		try {
+			
+			final String CASE_NUM = "142799";
+			
+			  rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			  rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			  rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST,CASE_NUM);
+			  
+			  browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
+			  login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), 
+					  		  propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
+			  navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			  
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			  foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			  textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			  locationSummary.selectDeviceName(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			  foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
+			  List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			  dropDown.selectItem(DeviceSummary.DPD_SHOW_SEARCH_BTN, requiredData.get(0), Constants.TEXT);
+			  foundation.click(DeviceSummary.BTN_SAVE);
+			  navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			  locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			  foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			  foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
+			  dropDown.selectItem(LocationSummary.DPD_SHOW_PROD_LOOKUP, requiredData.get(1), Constants.TEXT);
+			  foundation.click(LocationSummary.BTN_SYNC);
+			  foundation.click(LocationSummary.BTN_SAVE);
+			  foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME); 
+			  login.logout();
+			  browser.close();	
+			  
+			  browser.launch(Constants.REMOTE,Constants.CHROME);
+		      browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		      foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+		      foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);			  
+			  
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 
 	@Test(description = "C142741 - SOS-24492 Verify alternate language is set to Finnish in Kiosk when user set the Alternate Language as Finnish and full sync is done in ADM")
 	public void alternateFinnishLanguage() {
@@ -3403,6 +3455,320 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+
+	@Test(description = "142892-Manitoba > v5 Kiosk Taxes")
+	public void manitobaTaxes() {
+		try {
+			final String CASE_NUM = "142892";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			
+			List<String> menuItem =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> products =Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> taxes =Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			List<String> requiredData =Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			
+			//select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);	
+			foundation.click(OrgSummary.BTN_SAVE);
+			
+			//sync machine
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			browser.close();
+			
+			// login into Kiosk Device add both rate 5 and rate 8 product and verify the display of tax
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(3)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(products.get(0));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			List<String> lblTaxes = foundation.getTextofListElement(Order.LBL_TAX);
+			List<String> lblTaxValues = foundation.getTextofListElement(Order.LBL_TAX_VALUE);
+			Assert.assertEquals(lblTaxes.get(0), taxes.get(0));
+			Assert.assertEquals(lblTaxes.get(1), taxes.get(1));
+			Assert.assertEquals(lblTaxValues.get(0), taxes.get(2));
+			Assert.assertEquals(lblTaxValues.get(1), taxes.get(3));
+			
+			//add rate 5 product and verify the display of tax
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			foundation.click(Order.LBL_ORDER_CANCELLED);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(products.get(1));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
+			Assert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
+			Assert.assertEquals(foundation.getText(Order.LBL_TAX_VALUE), taxes.get(4));
+			
+			//add rate 8 product and verify the display of tax
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			foundation.click(Order.LBL_ORDER_CANCELLED);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(products.get(2));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
+			Assert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
+			Assert.assertEquals(foundation.getText(Order.LBL_TAX_VALUE), taxes.get(6));
+			
+			//add no tax assigned product and verify the display of tax section
+			foundation.click(Order.BTN_CANCEL_ORDER);
+			foundation.click(Order.LBL_ORDER_CANCELLED);
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(products.get(3));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));			
+			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
+			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_VALUE));
+			
+			//Reset data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));			
+			//select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(5), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(6), Constants.TEXT);	
+			foundation.click(OrgSummary.BTN_SAVE);			
+			//sync machine
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			browser.close();
+			
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143019-SOS-11371 v5 > International GMA Login to Account Error")
+	public void gmaLoginError() {
+		try {
+
+			final String CASE_NUM = "143019";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			// select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+
+			// sync machine
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(requiredData.get(1));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			browser.close();
+			
+			//verify login error
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_ENTER);
+			foundation.click(AccountLogin.BTN_NEXT);
+			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
+			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(4));
+			browser.close();
+			
+			//resetData
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			// select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(5), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(5), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			
+			//verify login error
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
+	public void verifyTabsDsiplayed() {
+		try {
+			
+		final String CASE_NUM = "142850";
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+		landingPage.navigateDriverLoginPage();
+		driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+		foundation.click(DriverLoginPage.BTN_SIGN_IN);
+		Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+		List<String> tabNames = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		driverHomePage.verifyData(tabNames);
+		foundation.click(DriverHomePage.LINK_LOGOUT);
+		
+	}catch(Exception exc) {
+		Assert.fail(exc.toString());
+	}
+}
+	
+	@Test(description="142853-Verify the Logout tab from Driver menu")
+	public void verifyLogoutTab() {
+		try {
+		
+			final String CASE_NUM = "142853";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			landingPage.navigateDriverLoginPage();
+			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(DriverLoginPage.BTN_SIGN_IN);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_LOGOUT);
+			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
+			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
+
+	}catch(Exception exc) {
+		Assert.fail(exc.toString());
+	}}
+	
+	@Test(description="C142851-Verify the deafult selected tab after login with Driver")
+	public void verifyDefaultSelectedTab() {
+		try {
+			
+			final String CASE_NUM="142851";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> actualData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			foundation.click(landingPage.objLanguage(actualData.get(0)));
+			landingPage.navigateDriverLoginPage();
+			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(DriverLoginPage.BTN_SIGN_IN);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			String value = foundation.getBGColor(DriverHomePage.LINK_CASHOUT);
+			Assert.assertEquals(actualData.get(1),value);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
+			List<String> currency = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			driverHomePage.verifyData(currency);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
+			foundation.click(DriverHomePage.LINK_LOGOUT);
+			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	
+	@Test(description = "C142852-Verify Inventory Tab details after login with Driver")
+	public void verifyInventoryTab() {
+		try {
+			
+			final String CASE_NUM="142852";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			landingPage.navigateDriverLoginPage();
+			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(DriverLoginPage.BTN_SIGN_IN);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_INVENTORY);
+			foundation.waitforElement(InventoryHomePage.TXT_SELECT_ACTION, Constants.SHORT_TIME);
+			Assert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			List<String> options = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			inventoryHomePage.verifyInventoryOptions(options);
+			foundation.click(InventoryHomePage.BTN_LOGOUT);
+			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			foundation.click(DriverHomePage.LINK_LOGOUT);
+			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
+			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	@Test(description = "143143>V5-Verify the VAT on Kiosk when user set only Tax Rate1 in ADM for UK")
 	public void verifyVATwithTaxRate1() {
 		
@@ -3458,5 +3824,4 @@ public class V5Test extends TestInfra {
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 	}
-	
 }

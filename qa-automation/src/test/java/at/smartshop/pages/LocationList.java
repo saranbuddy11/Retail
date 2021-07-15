@@ -9,6 +9,7 @@ public class LocationList extends Factory {
 
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
