@@ -1,11 +1,11 @@
 package at.smartshop.keys;
 
 public class FilePath {
-	private FilePath() {
+	public FilePath() {
 		
 	}
 	public static final String PATH = System.getProperty("user.dir");
-	public static final String PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\Config.properties";
+	public static String PROPERTY_CONFIG_FILE;
 	public static final String DRIVER_CHROME= PATH + "\\src\\test\\resources\\chromedriver.exe";
 	public static final String GMA_ACCOUNT_TEMPLATE = PATH+"\\src\\test\\resources\\SOS_GMA_Account_template.xls";
 	public static final String JSON_GMA_ADD_VALUE = PATH + "\\src\\test\\resources\\GMAAddValue.json";
@@ -18,6 +18,16 @@ public class FilePath {
 	public static final String IMAGE_SIZE_MORE = PATH+ "\\src\\test\\resources\\Earth.jpg";
 	public static final String IMAGE_TEXT_PATH = PATH+ "\\src\\test\\resources\\Capture.txt";
 	public static final String IMAGE_PIXEL_SIZE = PATH+ "\\src\\test\\resources\\pixelsize1.jpg";
-
-
+	
+	public void setEnvironment(String environment) {
+		if(environment.equals(Constants.PRE_PROD)) {
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigPreProd.properties";
+		}
+		else if(environment.equals(Constants.TEST3)) {
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest3.properties";
+		}
+		else{
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest4.properties";
+		}
+	}
 }
