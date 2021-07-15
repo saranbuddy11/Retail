@@ -16,7 +16,8 @@ public class Order {
 	public static final By LBL_ORDER_CANCELLED = By.xpath("//span[text()='Transaction Cancelled']");
 	public static final By LBL_PRODUCT_PRICE = By.className("product-price");
 	public static final By LBL_SUB_TOTAL = By.xpath("//*[@class='total subtotal']//*[@class='total-value']");
-	public static final By LBL_TAX = By.xpath("//*[@class='total total-tax']//*[@class='total-value']");
+	public static final By LBL_TAX_VALUE = By.xpath("//*[@class='total total-tax']//*[@class='total-value']");
+	public static final By LBL_TAX = By.xpath("//*[@class='total total-tax']//*[@class='total-label']");
 	public static final By LBL_DEPOSIT = By.xpath("//*[@class='total']//*[@class='total-value']");
 	public static final By LBL_BALANCE_DUE = By.xpath("//*[@class='total grand-total']//*[@class='total-value']");
 	public static final By TXT_HEADER=By.xpath("//div[@class='user-bar']/h1");
@@ -27,6 +28,7 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
+    public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
     
    
     public By objText(String text) {
