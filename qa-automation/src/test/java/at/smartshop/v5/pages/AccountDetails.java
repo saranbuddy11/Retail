@@ -10,8 +10,10 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class AccountDetails {
+	
 	public static final By BTN_OK= By.id("term-condition-btn-go-id");
 	public static final By LBL_QUICK_GERMAN = By.xpath("//h2[@data-reactid='.0.4.0.0.0.1.0.0.0']");
+	public static final By BTN_FUND_CASH = By.xpath("//span[text()='Fund with cash']");
 	private Foundation foundation=new Foundation();
 	
     public By objText(String text) {
