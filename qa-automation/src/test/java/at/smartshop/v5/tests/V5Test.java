@@ -4171,7 +4171,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
+			
 			List<String> navigationMenu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
@@ -4191,8 +4191,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_ADJUST);
 
 			// Enter new balance with reason
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,
-					rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
@@ -4201,13 +4200,13 @@ public class V5Test extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(navigationMenu.get(1));
-
+			
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(0));
-
-			// update Kiosk Language
+			
+			//update Kiosk Language
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -4256,7 +4255,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-
+			
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -4267,7 +4266,7 @@ public class V5Test extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
+			
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
