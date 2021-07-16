@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class GlobalProduct extends Factory {
 	Foundation foundation = new Foundation();
@@ -69,7 +70,7 @@ public class GlobalProduct extends Factory {
 
 	public void selectFilter(String filterType) {
 		foundation.click(ICON_FILTER);
-		foundation.threadWait(500);
+		foundation.threadWait(Constants.ONE_SECOND);
 		foundation.click(By.xpath("//*[@id='dataGrid_dd_enabled']//span[text()='" + filterType + "']"));
 	}
 }

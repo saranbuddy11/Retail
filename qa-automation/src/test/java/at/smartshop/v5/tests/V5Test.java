@@ -1057,7 +1057,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
 			locationList.selectLocationName(requiredData.get(3));
 			locationSummary.selectTab(requiredData.get(8));
-			foundation.threadWait(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
 			locationSummary.enterPrice(requiredData.get(0), requiredData.get(2));
 			foundation.click(LocationSummary.BTN_SAVE);

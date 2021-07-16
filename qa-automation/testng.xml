@@ -10,6 +10,7 @@
 	<parameter name = "driver" value="Local" />
 	<parameter name = "browser" value="Chrome" />
 		<classes>
+			<class name="at.smartshop.v5.tests.V5Test"/>
 			<class name="at.smartshop.tests.Consumer"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
 			<class name="at.smartshop.tests.Location"/>	
