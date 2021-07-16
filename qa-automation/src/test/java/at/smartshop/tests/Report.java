@@ -28,6 +28,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
+import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.ICEReport;
@@ -78,6 +79,7 @@ public class Report extends TestInfra {
 	private MemberPurchaseSummaryReport memberPurchaseSummary = new MemberPurchaseSummaryReport();
 	private HealthAheadReport healthAhead = new HealthAheadReport();
 	private TipDetailsReport tipDetails = new TipDetailsReport();
+	private CanadaMultiTaxReport canadaMultiTax = new CanadaMultiTaxReport();
 	private ProductSalesByCategoryReport productSalesCategory = new ProductSalesByCategoryReport();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1034,6 +1036,81 @@ public class Report extends TestInfra {
 
 			// verify report data
 			healthAhead.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "This test validates Canada Multi Tax Report Data Calculation")
+	public void canadaMultiTaxReportData() {
+		try {
+
+			final String CASE_NUM = "143034";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			canadaMultiTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			canadaMultiTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			canadaMultiTax.getTblRecordsUI();
+			canadaMultiTax.getIntialData().putAll(canadaMultiTax.getReportsData());
+			canadaMultiTax.getRequiredRecord((String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME),
+					canadaMultiTax.getScancodeData());
+
+			// apply calculation and update data
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(1),
+					(propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)).toUpperCase());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(2), canadaMultiTax.getCategory1Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(3), canadaMultiTax.getCategory2Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(4), canadaMultiTax.getCategory3Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(5), canadaMultiTax.getProductNameData());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(6), canadaMultiTax.getScancodeData());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(7), canadaMultiTax.getPriceData());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(8), canadaMultiTax.getDepositData());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(9), canadaMultiTax.getDiscountData());
+			canadaMultiTax.updateTotalPrice();
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(11), canadaMultiTax.getTaxCatData());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(12), (String) canadaMultiTax.getJsonData().get(Reports.TAX_1_LABEL));
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(13), canadaMultiTax.getTax1Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(14), (String) canadaMultiTax.getJsonData().get(Reports.TAX_2_LABEL));
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(15), canadaMultiTax.getTax2Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(16), (String) canadaMultiTax.getJsonData().get(Reports.TAX_3_LABEL));
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(17), canadaMultiTax.getTax3Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(18), (String) canadaMultiTax.getJsonData().get(Reports.TAX_4_LABEL));
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(19), canadaMultiTax.getTax4Data());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(20), (String) canadaMultiTax.getJsonData().get(Reports.TAX));
+			
+			// verify report headers
+			canadaMultiTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			canadaMultiTax.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
