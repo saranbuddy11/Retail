@@ -74,8 +74,5 @@ public class ConsumerSearch extends Factory{
             Assert.fail(exc.toString());
         }
         return consumerRecord;
-
- 
-
     }
 }

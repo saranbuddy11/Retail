@@ -10,8 +10,8 @@ import at.framework.ui.CheckBox;
 public class ViewRole extends Factory {
 	private CheckBox checkBox=new CheckBox();
 	
-	public static final By LBL_NATIONAL_ACCOUNT_CATEGORIES = By.xpath("//*[@id='dt5']/tbody/tr[1]/td[1]");
-	public static final By LBL_NATIONAL_ACCOUNT_LOCKS_RULES = By.xpath("//*[@id='dt5']/tbody/tr[2]/td[1]");
+	public static final By LBL_NATIONAL_ACCOUNT_CATEGORIES = By.xpath("//*[@id='dt5']//td[text()='Admin:National Account Categories']");
+	public static final By LBL_NATIONAL_ACCOUNT_LOCKS_RULES = By.xpath("//*[@id='dt5']//td[text()='Admin:National Accounts Locks & Rules']");
 	
 	public void isAllCheckboxChecked(String text) {
 		List<WebElement> checkboxes=getDriver().findElements(By.xpath("//td[text()='"+text+"']//..//input"));
