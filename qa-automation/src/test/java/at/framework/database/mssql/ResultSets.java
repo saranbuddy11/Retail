@@ -19,6 +19,7 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
@@ -40,7 +41,8 @@ public class ResultSets extends Connections {
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
 				while (resultSet.next()) {
 					rstNavigationMenu.put(CNNavigationMenu.MENU_ITEM, resultSet.getString(CNNavigationMenu.MENU_ITEM));
-					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
+							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
 			}
 		} catch (Exception exc) {
@@ -702,7 +704,6 @@ public class ResultSets extends Connections {
 		return rstLocation;
 	}
 
-	
 	public Map<String, String> getV5DeviceData(String query, String testcaseID) {
 		Map<String, String> rstV5Device = new HashMap<>();
 		Statement statement = null;
@@ -721,7 +722,8 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.TIMEOUT_POPUP, resultSet.getString(CNV5Device.TIMEOUT_POPUP));
 					rstV5Device.put(CNV5Device.LANDING_PAGE, resultSet.getString(CNV5Device.LANDING_PAGE));
 					rstV5Device.put(CNV5Device.ORDER_PAGE, resultSet.getString(CNV5Device.ORDER_PAGE));
-					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE, resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
+					rstV5Device.put(CNV5Device.PRODUCT_SEARCH_PAGE,
+							resultSet.getString(CNV5Device.PRODUCT_SEARCH_PAGE));
 					rstV5Device.put(CNV5Device.DRIVER_PAGE, resultSet.getString(CNV5Device.DRIVER_PAGE));
 					rstV5Device.put(CNV5Device.FUND_ACCOUNT_PAGE, resultSet.getString(CNV5Device.FUND_ACCOUNT_PAGE));
 					rstV5Device.put(CNV5Device.LOGIN_PAGE, resultSet.getString(CNV5Device.LOGIN_PAGE));
@@ -730,7 +732,8 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.ACCOUNT_DETAILS, resultSet.getString(CNV5Device.ACCOUNT_DETAILS));
 					rstV5Device.put(CNV5Device.QUICK_SCAN_SETUP, resultSet.getString(CNV5Device.QUICK_SCAN_SETUP));
 					rstV5Device.put(CNV5Device.FINGER_PRINT_SETUP, resultSet.getString(CNV5Device.FINGER_PRINT_SETUP));
-					rstV5Device.put(CNV5Device.EDIT_ACCOUNT_DETAILS, resultSet.getString(CNV5Device.EDIT_ACCOUNT_DETAILS));
+					rstV5Device.put(CNV5Device.EDIT_ACCOUNT_DETAILS,
+							resultSet.getString(CNV5Device.EDIT_ACCOUNT_DETAILS));
 					rstV5Device.put(CNV5Device.TIME_OUT_POPUP, resultSet.getString(CNV5Device.TIME_OUT_POPUP));
 					rstV5Device.put(CNV5Device.TRANSACTION_CANCEL, resultSet.getString(CNV5Device.TRANSACTION_CANCEL));
 					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
@@ -747,5 +750,34 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstV5Device;
+	}
+
+	public Map<String, String> getPickListData(String query, String testcaseID) {
+		Map<String, String> rstPickList = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+					rstPickList.put(CNPickList.LOCATIONS, resultSet.getString(CNPickList.LOCATIONS));
+					rstPickList.put(CNPickList.PRODUCT_NAME, resultSet.getString(CNPickList.PRODUCT_NAME));
+					rstPickList.put(CNPickList.NEED, resultSet.getString(CNPickList.NEED));
+					rstPickList.put(CNPickList.RECORDS, resultSet.getString(CNPickList.RECORDS));
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstPickList;
 	}
 }

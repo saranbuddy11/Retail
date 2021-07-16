@@ -13,6 +13,7 @@ public class TextBox extends Factory {
 	public void enterText(By object, String text) {
 		try {
 			getDriver().findElement(object).clear();
+//			foundation.threadWait(Constants.TWO_SECOND);
 			getDriver().findElement(object).sendKeys(text);
 
 			if (ExtFactory.getInstance().getExtent() != null) {
