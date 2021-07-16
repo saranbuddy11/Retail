@@ -9,5 +9,7 @@ private CNPickList() {
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String NEED = "Need";
 	public static final String RECORDS = "HShowRecords";
+	public static final String COLUMN_HEADERS = "ColumnHeaders";
+	public static final String ROW_VALUES = "RowValues";
 
 }

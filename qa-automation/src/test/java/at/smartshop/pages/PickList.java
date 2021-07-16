@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +25,12 @@ public class PickList extends Factory {
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
 	public static final By TBL_NEED = By.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
-	public static final By TXT_NEED = By.xpath("//span//input[@type='text' and @class='ui-igedit-input']");
+	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");//span//input[@type='tel' and @class='ui-igedit-input']");
+	public static final By TXT_NEED1 = By.xpath("//span//input[@type='text' and @class='ui-igedit-input']");
 	public static final By TBL_PRODUCT_GRID = By.id("filter-prd-grid");
 	public static final By PAGE_TITLE = By.id("//li[@id='Pick List Manager']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-success']");
+	public static final By TBL_ROW = By.xpath("//*[@id='filter-prd-grid']/tbody/tr");
 
 	public By objPickList(String text) {
 		By element = null;
@@ -42,17 +43,24 @@ public class PickList extends Factory {
 		return element;
 	}
 	
-	public List<String> getProductsHeaders() {
-		List<String> tableHeaders = new ArrayList<>();
+
+	public Map<String, String> getTblSingleRowRecordUI(By tableGrid, By tableRow) {
+		Map<String, String> uiTblRowValues = new HashMap<>();
 		try {
-			WebElement tableProducts = getDriver().findElement(TBL_PRODUCT_GRID);
-			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+			int index = 2;
+
+			WebElement tableReports = getDriver().findElement(tableGrid);
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th")).subList(1, 13);
+			WebElement row = getDriver().findElement(tableRow);
+			
 			for (WebElement columnHeader : columnHeaders) {
-				tableHeaders.add(columnHeader.getText());
+				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + index + ")"));
+				uiTblRowValues.put(columnHeader.getText(), column.getText());
+				index++;
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-		return tableHeaders;
+		return uiTblRowValues;
 	}
 }
