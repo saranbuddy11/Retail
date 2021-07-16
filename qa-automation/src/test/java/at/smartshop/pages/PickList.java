@@ -14,7 +14,7 @@ public class PickList extends Factory {
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
-	public static final By LBL_SELECT_ALL = By.xpath("//a[@id='loc-select-all']");
+	public static final By LBL_SELECT_ALL = By.xpath("//a[text()='Select All']");
 	public static final By BTN_APPLY = By.xpath("//button[@id='loc-filter-apply']");
 	public static final By BTN_PICKLIST_PLAN = By.xpath("//button[text()='Plan Pick List(s)']");
 	public static final By LBL_REMOVE = By.xpath("//a[text()='Remove ']");

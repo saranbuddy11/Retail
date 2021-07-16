@@ -66,7 +66,9 @@ public class PickLists extends TestInfra {
 					Constants.SHORT_TIME);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
-
+			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
+			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.click(PickList.LBL_REMOVE);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
@@ -82,6 +84,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_PREVIEW);
 			foundation.click(PickList.LBL_Add);
 			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			//Table validations
 			Map<String, String> uiData = pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID, PickList.TBL_ROW);
 			Assert.assertEquals(dbData_Product, uiData);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
@@ -128,7 +131,9 @@ public class PickLists extends TestInfra {
 					Constants.SHORT_TIME);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
-
+			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
+			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.click(PickList.LBL_REMOVE);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
