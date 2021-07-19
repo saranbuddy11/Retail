@@ -4574,4 +4574,157 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "143064-Validate v5 transactions with expired Bundle promotions")
+	public void expiredbundleFlashSale() {
+		try {
+			final String CASE_NUM = "143064";
+			
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			final String promotionName = string.getRandomCharacter();
+			String displayName = string.getRandomCharacter();
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+
+			// New Promotion
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+			String basicInfoPageTitle = foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
+			assertTrue(basicInfoPageTitle.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
+			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+			textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, displayName);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			String filtersPageTitle = foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
+			assertTrue(filtersPageTitle.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
+			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
+			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
+			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+			foundation.threadWait(Constants.TWO_SECOND);
+			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
+			assertEquals(actualValue, requiredData.get(2));
+			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
+			textBox.enterText(CreatePromotions.TXT_BUNDLE_PRICE, requiredData.get(6));	
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(3), Constants.TEXT);	
+			dropdown.selectItem(CreatePromotions.DPD_DURATION, requiredData.get(7), Constants.TEXT);	
+	
+			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
+			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+			
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			
+			// Expiring the Promotion
+			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.click(PromotionList.BTN_SEARCH);
+			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			promotionList.clickSelectedRow(gridName, promotionName);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_END_PROMO);
+			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			
+			navigationBar.navigateToMenuItem(navigationMenu.get(1));
+			
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(8), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(9), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();			
+			browser.close();
+			
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(2));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			
+			Assert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			
+			// verify the display of total section
+            String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+            
+            List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+            foundation.objectFocus(order.objText(orderPageData.get(1)));
+			foundation.click(order.objText(orderPageData.get(1)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			List<String> paymentPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+
+			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+
+			foundation.click(payments.objText(paymentPageData.get(1)));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
