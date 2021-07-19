@@ -29,7 +29,7 @@ public class CreatePromotions {
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
-	public static final By BTN_NEXT = By.id("submitBtn");
+	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
@@ -70,6 +70,10 @@ public class CreatePromotions {
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_LOCATION_LIST = By.xpath("//ul[@id='select2-location-select-results']//li");
+	public static final By TXT_QUANTITY=By.id("bundleItem0");
+	public static final By TXT_BUNDLE_PRICE =By.id("bundleprice");
+	public static final By LBL_TOTAL_PRICE =By.id("totalprice");
+	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

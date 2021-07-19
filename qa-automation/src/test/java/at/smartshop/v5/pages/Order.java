@@ -23,6 +23,10 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
+    public static final By LBL_PROMOTION_NAME = By.className("product-name");
+    public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
+    public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
+    
     
     private Foundation foundation=new Foundation();
     public By objText(String text) {
@@ -41,5 +45,5 @@ public class Order {
 	    foundation.objectFocus(objText(orderPageData.get(7)));
 	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
 	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
-	}
+	}	
 }
