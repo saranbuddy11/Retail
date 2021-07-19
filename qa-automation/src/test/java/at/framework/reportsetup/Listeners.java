@@ -14,6 +14,8 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.testrail.Testrail;
+import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Listeners implements ITestListener {
 
@@ -30,14 +32,18 @@ public class Listeners implements ITestListener {
 	public void onTestSuccess(ITestResult result) {
 		ExtFactory.getInstance().getExtent().log(Status.PASS,
 				" method[" + result.getMethod().getMethodName() + "] is passed");
+		if(TestInfra.updateTestRail.equals(Constants.YES)) {
 		String testCaseId=result.getMethod().getDescription().split("-")[0];		
 		testRail.testRailPassResult(testCaseId);
+		}
 	}
 
 	public void onTestFailure(ITestResult result) {		
 		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case" + result.getMethod().getMethodName() + " is failed due to " +result.getThrowable());
+		if(TestInfra.updateTestRail.equals(Constants.YES)) {
 		String testCaseId=result.getMethod().getDescription().split("-")[0];
 		testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
+		}
 		
 		WebDriver driver = Factory.getDriver();		
 		String testmethodName = result.getMethod().getMethodName();

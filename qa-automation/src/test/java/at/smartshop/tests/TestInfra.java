@@ -20,10 +20,13 @@ public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
+	public static String updateTestRail="";
 	
+	@Parameters("UpdateTestRail")
 	@BeforeSuite
-	public void beforeSuit() {
+	public void beforeSuit(String testRail) {
 		ResultSets.getConnection();
+		updateTestRail=testRail;
 	}
 	
 	

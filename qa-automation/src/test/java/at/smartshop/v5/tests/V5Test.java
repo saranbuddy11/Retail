@@ -78,9 +78,9 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 	}
 	
-	@Test(description ="142721 - SOS-24494-V5 - Apply Discount ( Discount field ) for product and verify it on Kiosk machine cart page")
+	@Test(description ="142718 - SOS-24494-V5 - Apply Discount ( Discount field ) for product and verify it on Kiosk machine cart page")
 	public void testRailForPass() {
-		final String CASE_NUM = "142721";
+		final String CASE_NUM = "142721";	
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
