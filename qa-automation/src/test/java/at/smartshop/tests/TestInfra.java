@@ -16,6 +16,7 @@ import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtReport;
 import at.framework.triggeremail.SendReport;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -24,18 +25,20 @@ public class TestInfra {
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
 	private SendReport sendReport=new SendReport();
+	public FilePath filePath=new FilePath();
 	
+	@Parameters({"environment"})
 	@BeforeSuite
-	public void beforeSuit() {
+	public void beforeSuit(String environment) {
 		ResultSets.getConnection();
+		filePath.setEnvironment(environment);
 	}
-	
-	
-	@Parameters({"driver", "browser"})
-	@BeforeMethod	
-	public void beforeMethod(String drivers, String browsers) {			
-		try {			
-			browser.launch(drivers,browsers);
+
+	@Parameters({ "driver", "browser" })
+	@BeforeMethod
+	public void beforeMethod(String drivers, String browsers) {
+		try {
+			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -43,12 +46,13 @@ public class TestInfra {
 
 	@AfterMethod
 	public void afterMethod() {
-		try {			
+		try {
 			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+
 		}
-		
+
 	}
 	
 	@Parameters({"SendEmail"})
