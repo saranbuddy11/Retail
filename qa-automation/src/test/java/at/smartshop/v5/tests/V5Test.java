@@ -434,14 +434,15 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id", priority = -1)
 	public void placeOrderWithEmailID() {
-		final String CASE_NUM = "142905";
-
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));	
+		final String CASE_NUM = "142905";	
 
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		
 		//navigate to payment success page and validate No receipt
+		browser.close();
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(landingPage.objLanguage(requiredData.get(0)));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		textBox.enterKeypadText(requiredData.get(1));
@@ -449,7 +450,6 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 		foundation.click(Order.LBL_EMAIL);
 		accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
-		
+		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));		
 	}
 }
