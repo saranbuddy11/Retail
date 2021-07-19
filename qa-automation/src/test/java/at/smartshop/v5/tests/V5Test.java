@@ -4508,6 +4508,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.waitforElement(LocationSummary.DPD_KIOSK_LANGUAGE,Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, language.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, language.get(1), Constants.TEXT);
 			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
@@ -4532,7 +4533,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 			foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(product.get(0));
+			textBox.enterKeypadText(product.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));

@@ -294,8 +294,8 @@ public class LocationSummary extends Factory {
 		foundation.click(LNK_TAX_MAPPING);
 		foundation.click(BTN_ADD_MAPPING);
 		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
-		dropDown.selectItem(DPD_TAXCAT, "TAXCAT", Constants.TEXT);
-		dropDown.selectItem(DPD_RATE, "UK_VAT_143", Constants.TEXT);
+		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
+		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
 		foundation.click(BTN_POPUP_SAVE);
 		foundation.click(LNK_TAX_MAPPING);		
 	}
