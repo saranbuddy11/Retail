@@ -11,13 +11,13 @@
 	<parameter name = "browser" value="Chrome" />
 		<classes>
 			<class name="at.smartshop.v5.tests.V5Test"/>
+			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.Consumer"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
 			<class name="at.smartshop.tests.Location"/>	
 			<class name="at.smartshop.tests.Locker"/>	
 			<class name="at.smartshop.tests.NationalAccount"/>	
-			<class name="at.smartshop.tests.Promotions"/>	
-			<class name="at.smartshop.tests.Report"/>
+			<class name="at.smartshop.tests.Promotions"/>				
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
 		</classes>
