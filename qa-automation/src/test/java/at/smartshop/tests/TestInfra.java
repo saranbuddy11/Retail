@@ -56,8 +56,8 @@ public class TestInfra {
 	public void afterSuit(String sendEmail) {
 		try {			
 			ResultSets.connection.close();	
-			if(sendEmail.equals(Constants.YES)) {				
-				sendReport.triggerMail(ExtReport.reportFullPath,at.framework.reportsetup.Listeners.passedCount,at.framework.reportsetup.Listeners.failedCount,at.framework.reportsetup.Listeners.skippedCount);
+			if(sendEmail.equals(Constants.YES)) {
+				sendReport.triggerMail(ExtReport.reportFullPath);
 				}
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());

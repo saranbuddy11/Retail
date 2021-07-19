@@ -55,6 +55,9 @@ public class Constants {
 	public static final String NEW_LINE ="\n";
 	public static final String PROMOTION_TYPE_TENDER_DISCOUNT= "Tender Discount";
 	public static final String PROMOTION_TYPE_ON_SCREEN= "On-Screen";
+	public static final String PASS= "Pass";
+	public static final String FAIL= "Fail";
+	public static final String SKIP= "Skip";
 	public static final String EMAIL_NAME= "Results.html";
 	public static final String EMAIL_SUBJECT= "Automation Execution Report";
 	public static final String EMAIL_MESSAGE1= "Hi Dinesh,\r\n"
@@ -62,7 +65,23 @@ public class Constants {
 			+ "Please find the execution report as placed in the link below, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
 			+ "<br>\r\n"
 			+ "Link to shared folder- file://NIBC2101/Users/sandeepab/Desktop/Daily%20Reports";
+	public static final String EMAIL_OVERALL_RESULT="<b>Overall Result:</b>";
+	public static final String EMAIL_MODULE_RESULT="<b>Module wise Result:</b>";
 	public static final String EMAIL_MESSAGE2= "Thank you,\r\n"
 			+ "<br>\r\n"
-			+ "Sandeep";	
+			+ "Sandeep";
+	public static final String EMAIL_RESULT_BODY="<html><body>\r\n"
+			+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
+			+ "   <tbody>\r\n"
+			+ "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
+			+ "         <td align=\"center\"><b>Module</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Total</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Pass</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Fail</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Skip</b></td>\r\n"
+			+ "      </tr>\r\n";
+	public static final String EMAIL_RESULT_TAIL="   </tbody>\r\n"
+			+ "</table>\r\n"
+			+ "</body></html>";
+	
 }
