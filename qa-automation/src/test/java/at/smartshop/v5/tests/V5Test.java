@@ -4561,4 +4561,45 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "143115-Edit existing INVREASON category name and verify edits applied to product or not on product summary page")
+	public void editInvReason() {
+		try {
+			final String CASE_NUM = "143115";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			//edit invReason code and verify the edits on product page
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ProductSummary.LBL_REASON_CODE);
+			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
+			assertTrue(listReasonCode.contains(requiredData.get(1)));
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
 }
