@@ -4450,6 +4450,7 @@ public class V5Test extends TestInfra {
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -4458,14 +4459,12 @@ public class V5Test extends TestInfra {
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
 			assertEquals(actualValue, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
-			textBox.enterText(CreatePromotions.TXT_QUANTITY, requiredData.get(5));
+			textBox.enterText(CreatePromotions.TXT_BUNDLE_PRICE, requiredData.get(6));	
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(3), Constants.TEXT);	
 			dropdown.selectItem(CreatePromotions.DPD_DURATION, requiredData.get(7), Constants.TEXT);	
-			textBox.enterText(CreatePromotions.TXT_BUNDLE_PRICE, requiredData.get(6));		
-			
+	
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
-			
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -4508,26 +4507,46 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			
-			Assert.assertTrue(promotionName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 			
 			// verify the display of total section
             String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-            String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-            Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
+            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-            assertEquals(foundation.getText(Order.LBL_DISCOUNT),bundleDiscount);
+            assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
             
-            
-            
-            
-            
+            List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+            foundation.objectFocus(order.objText(orderPageData.get(1)));
+			foundation.click(order.objText(orderPageData.get(1)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+
+			List<String> paymentPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+
+			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+
+			foundation.click(payments.objText(paymentPageData.get(1)));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+                  
             browser.close();
             browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
