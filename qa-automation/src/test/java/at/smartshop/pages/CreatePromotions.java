@@ -1,8 +1,5 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
-import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -22,17 +18,14 @@ public class CreatePromotions {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private DateAndTime dateAndTime = new DateAndTime();
 
-	public static final By TXT_SELECTION = By.xpath("(//li[@class='select2-selection__choice'])[2]");
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
 	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
 	public static final By LBL_SELECT_CRITERIA = By.xpath("//div[@id='multiple-filters']//i");
 	public static final By LBL_DETAILS = By.xpath("//div[@id='section3']//h4");
 	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
-	public static final By BTN_CANCEL = By.id("cancelBtn");
-	public static final By TXT_LOCATION = By.xpath("//input[@placeholder='Select Location(s) to include']");
+	public static final By BTN_CANCEL = By.id("cancelBtn");	
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
@@ -68,24 +61,21 @@ public class CreatePromotions {
 	public static final By TXT_PER_TRANSACTION_LIMIT = By.id("promolimit");
 	public static final By CHK_PROMO_RESTRICTION = By.id("haspromolimit");
 	public static final By DPD_DURATION = By.id("duration");
-	public static final By SEARCH_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
-	public static final By DPD_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
-
+	public static final By DPD_LOCATION_LIST = By.xpath("//ul[@id='select2-location-select-results']//li");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promoType, String promoName, String displayName, String orgName,
-			String locationName) {
+	public void newPromotion(String promoType, String promoName, String displayName, String orgName,String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
@@ -94,7 +84,7 @@ public class CreatePromotions {
 		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
 		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-
+		foundation.threadWait(Constants.TWO_SECOND);
 	}
 
 	public List<String> getPopUpData() {
@@ -114,38 +104,7 @@ public class CreatePromotions {
 	public By objFieldSet(String filedSetText) {
 		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
 	}
-
-	public void verifyPromotionPopupDetails(List<String> actualData, String promotionType, String promotionName) {
-		
-		List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
-		List<String> popupField = null;
-		popupField = Arrays.asList(popupFieldType.get(0).split(Constants.DELIMITER_COMMA));
-		popupField = Arrays.asList(popupField.get(0).split(Constants.NEW_LINE));
-		assertEquals(popupField.get(0), actualData.get(0));
-		assertEquals(popupField.get(1), actualData.get(1));
-		List<String> popupFieldArray = getPopUpData();
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
-		assertTrue(popupFieldArray.get(0).contains(promotionType));
-		assertTrue(popupFieldArray.get(1).contains(promotionName));
-		if (promotionType.equalsIgnoreCase(Constants.PROMOTION_TYPE_TENDER_DISCOUNT)) {
-			assertEquals(popupFieldArray.get(2), actualData.get(2));
-			assertEquals(popupFieldArray.get(3), actualData.get(3));
-			assertEquals(popupFieldArray.get(4), actualData.get(4));
-			assertEquals(popupFieldArray.get(5), actualData.get(5));
-			assertEquals(popupFieldArray.get(6), actualData.get(6));
-			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
-		} else if (promotionType.equalsIgnoreCase(Constants.PROMOTION_TYPE_ON_SCREEN)) {
-			assertTrue(popupFieldArray.get(2).contains(promotionName));
-			assertEquals(popupFieldArray.get(3), actualData.get(2));
-			assertEquals(popupFieldArray.get(4), actualData.get(3));
-			assertEquals(popupFieldArray.get(5), actualData.get(4));
-			assertEquals(popupFieldArray.get(6), actualData.get(5));
-			assertTrue(popupFieldArray.get(7).contains(currentDate));
-			assertTrue(popupFieldArray.get(8).contains(currentDate));
-		}
-	}
-
+	
 	public By filterOptions(String fieldName) {
 		return By.xpath("//dt[text()='" + fieldName + "']");
 	}
