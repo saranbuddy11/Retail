@@ -307,7 +307,7 @@ public class NationalAccount extends TestInfra {
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE)));
+			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE,Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
 
 			// Setting rule to No More Than
@@ -475,7 +475,7 @@ public class NationalAccount extends TestInfra {
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE)));
+			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE,Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
 
 			// Setting rule to No More Than

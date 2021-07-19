@@ -116,10 +116,10 @@ public class Foundation extends Factory {
 		}
 	}
 
-	public String getTextAttribute(By object) {
+	public String getTextAttribute(By object, String attribute) {
 		String textAttribute = null;
 		try {
-			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+			textAttribute = getDriver().findElement(object).getAttribute(attribute);
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}

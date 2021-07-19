@@ -110,7 +110,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(shelfLife.equals(Name.get(1)));
 
 			foundation.click(LocationSummary.LNK_LOCKER_NAME);
-			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME);
+			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME,Constants.VALUE);
 			Assert.assertTrue(systemName.equals(Name.get(0)));
 
 		} catch (Exception exc) {
@@ -1107,8 +1107,8 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
 
 			login.logout();
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1121,8 +1121,8 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME,Constants.VALUE).isEmpty());
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

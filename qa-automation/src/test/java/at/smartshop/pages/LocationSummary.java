@@ -259,7 +259,7 @@ public class LocationSummary extends Factory {
 
 	}
 	
-	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {		
+	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {	
 		
 		locationList.selectLocationName(location);
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
@@ -269,5 +269,6 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 		login.logout();
 		browser.close();
+		
 	}
 }

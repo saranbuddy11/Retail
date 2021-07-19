@@ -740,8 +740,8 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
-			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER,Constants.VALUE));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER,Constants.VALUE));
 			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
 
 			// update Data
