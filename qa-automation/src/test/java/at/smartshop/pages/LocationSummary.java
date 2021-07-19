@@ -89,9 +89,10 @@ public class LocationSummary extends Factory {
 	public static final By TXT_LOCATION_NUMBER = By.id("locationnumber");
 	public static final By TXT_INVENTORY_FILTER = By.id("inventoryFilterType");
 	public static final By BTN_ADD_PRODUCT = By.id("addProd");
+	public static final By TBL_INVENTORY= By.id("inventoryDataGrid");
 	public static final By DPD_SHOW_PROD_LOOKUP = By.id("showprdlup");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
-
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -243,12 +244,15 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), 1);
-		textBox.enterText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),inventoryValue);
+				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"), Constants.ONE_SECOND);
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				inventoryValue);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),2);
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
+				Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
@@ -271,4 +275,20 @@ public class LocationSummary extends Factory {
 		browser.close();
 		
 	}
+
+	public Map<String, String> getProductDetails(String name) {
+		Map<String, String> productsRecord = new LinkedHashMap<>();
+		try {
+			List<String> tableHeaders = getProductsHeaders();
+			for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+				WebElement column = getDriver().findElement(By.xpath("//table[@id='productDataGrid']//tr//span[text()='"+ name +"']//..//..//..//..//tbody//td[" + columnCount + "]"));
+				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return productsRecord;
+
+	}
+
 }

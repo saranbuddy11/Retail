@@ -48,5 +48,4 @@ public class Constants {
 	public static final int FIFTEEN_SECOND = 15;
 	public static final String PRE_PROD= "PreProd";
 	public static final String TEST3= "Test3";
-
 }

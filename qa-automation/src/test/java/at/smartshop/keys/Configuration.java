@@ -31,5 +31,4 @@ public class Configuration {
 	public static final String AVI_ORG = "avi_org";
 	public static final String V5_USER = "v5_user";
 	public static final String V5_PIN = "v5_user_pin";
-
 }
