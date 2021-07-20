@@ -1,5 +1,8 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +14,7 @@ import org.testng.Assert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.keys.Constants;
 
 public class CreatePromotions {
@@ -117,6 +121,50 @@ public class CreatePromotions {
 		List<String> orgData = dropDown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 		for (int iter = 0; iter < orgData.size(); iter++) {
 			Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
+		}
+	}
+	
+	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,String locationName) {
+		try {
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(LBL_CREATE_PROMOTION);
+			newPromotion(promotionType, promotionName, displayName, orgName, locationName);
+			foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(BTN_NEXT);
+			foundation.waitforElement(DPD_DISCOUNT_BY, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}		
+			
+	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin) {
+		try {
+			dropDown.selectItem(DPD_DISCOUNT_BY, discountBy, Constants.TEXT);
+			textBox.enterText(TXT_ITEM, item);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(TXT_ITEM, Keys.ENTER);
+			foundation.threadWait(Constants.TWO_SECOND);
+			String actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
+			assertEquals(actualValue, item);
+			textBox.enterText(TXT_TRANSACTION_MIN, transactionMin);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void selectBundlePromotionPricing(String bundlePrice) {
+		try {
+			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);	
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	public void selectBundlePromotionTimes(String discountTime,String discountDuration) {
+		try {
+			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);	
+			dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 	}
 }
