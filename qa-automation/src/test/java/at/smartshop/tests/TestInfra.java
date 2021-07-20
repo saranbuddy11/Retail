@@ -24,14 +24,17 @@ public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
-	private SendReport sendReport=new SendReport();
 	public FilePath filePath=new FilePath();
+	private SendReport sendReport=new SendReport();
 	
-	@Parameters({"environment"})
+	public static String updateTestRail="";
+	
+	@Parameters({"environment","UpdateTestRail"})
 	@BeforeSuite
-	public void beforeSuit(String environment) {
+	public void beforeSuit(String environment,String testRail) {
 		ResultSets.getConnection();
 		filePath.setEnvironment(environment);
+		updateTestRail=testRail;
 	}
 
 	@Parameters({ "driver", "browser" })
