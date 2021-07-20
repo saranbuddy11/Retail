@@ -10,7 +10,10 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class FundAccount {
-	private Foundation foundation = new Foundation();
+	
+	private Foundation foundation = new Foundation();	
+	
+	
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
 	}
