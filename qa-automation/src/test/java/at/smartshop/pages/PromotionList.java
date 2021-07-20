@@ -17,7 +17,7 @@ import at.smartshop.keys.Constants;
 public class PromotionList extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textbox = new TextBox();
-
+	
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
 	public static final By LBL_START_DATE_HEADER = By.id("hierarchicalGrid_datestart");
@@ -63,4 +63,18 @@ public class PromotionList extends Factory {
 		}
 	}
 
+	public void expirePromotion(String promotionName,String gridName) {
+		try {
+			searchPromotion(promotionName);
+			Assert.assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
+			clickSelectedRow(gridName, promotionName);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_END_PROMO);
+			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.waitforElement(TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
