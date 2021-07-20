@@ -141,14 +141,23 @@ public class CreatePromotions {
 		}
 	}		
 			
-	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin) {
+	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,String discountType) {
 		try {
+			String actualValue;
 			dropDown.selectItem(DPD_DISCOUNT_BY, discountBy, Constants.TEXT);
+			if (!discountBy.equalsIgnoreCase(discountType)) {
 			textBox.enterText(TXT_ITEM, item);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(TXT_ITEM, Keys.ENTER);
 			foundation.threadWait(Constants.TWO_SECOND);
-			String actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
+			actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
+			}else {
+				textBox.enterText(SEARCH_CATEGORY, item);
+				foundation.threadWait(Constants.ONE_SECOND);
+				textBox.enterText(SEARCH_CATEGORY, Keys.ENTER);
+				foundation.threadWait(Constants.TWO_SECOND);
+				actualValue = dropDown.getSelectedItem(DPD_CATEGORY);
+			}
 			assertEquals(actualValue, item);
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionMin);
 		} catch (Exception exc) {
