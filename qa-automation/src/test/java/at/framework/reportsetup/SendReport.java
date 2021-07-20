@@ -1,4 +1,4 @@
-package at.framework.triggeremail;
+package at.framework.reportsetup;
 
 import java.util.Arrays;
 import java.util.List;
