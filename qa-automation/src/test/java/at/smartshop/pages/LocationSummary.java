@@ -328,4 +328,24 @@ public class LocationSummary extends Factory {
 		return flag;
 		
 	}
+	
+	public void showHideManageColumn(String showOrHide, String columnName) {
+		By xpathHideOrShow = By.xpath("//div[@id='productDataGrid_hiding_modalDialog']//span[text()='"+columnName+"']//..//a");
+		String hideOrShow = foundation.getText(xpathHideOrShow);
+		if(showOrHide.equals(Constants.SHOW)) {
+			if(hideOrShow.equals(Constants.SHOW)) {
+				foundation.click(xpathHideOrShow);
+			}
+		}
+		else {
+			if(hideOrShow.equals(Constants.HIDE)) {
+				foundation.click(xpathHideOrShow);
+			}
+		}
+		foundation.click(BTN_APPLY);		
+	}
+	
+	public String getCellData(String ariaDescribedby) {
+		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='"+ariaDescribedby+"']"));
+	}
 }
