@@ -278,7 +278,7 @@ public class VDICheck extends TestInfra {
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
 			// price validation
-			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
+			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),Constants.ATTRIBUTE_READ);
 			Assert.assertFalse(Boolean.parseBoolean(isReadOnly));
 
 			// resetting test data
@@ -359,7 +359,7 @@ public class VDICheck extends TestInfra {
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
 			// price validation
-			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)));
+			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),Constants.ATTRIBUTE_READ);
 			Assert.assertTrue(Boolean.parseBoolean(isReadOnly));
 			// resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
