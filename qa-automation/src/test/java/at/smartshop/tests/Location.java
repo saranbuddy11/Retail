@@ -280,7 +280,7 @@ public class Location extends TestInfra {
 
  
 
-    @Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
+    @Test(description = "114899-Update Tax for Product and verify in Location Summary -> Products Tab")
     public void updateTaxForProduct() {
         try {
             final String CASE_NUM = "114899";            

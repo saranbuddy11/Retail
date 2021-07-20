@@ -169,7 +169,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
+	@Test(description = "142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
 	public void verifySearchButton() {
 		try {
 
@@ -214,7 +214,7 @@ public class V5Test extends TestInfra {
 
 	}
 
-	@Test(description = "C142741 - SOS-24492 Verify alternate language is set to Finnish in Kiosk when user set the Alternate Language as Finnish and full sync is done in ADM")
+	@Test(description = "142741- SOS-24492 Verify alternate language is set to Finnish in Kiosk when user set the Alternate Language as Finnish and full sync is done in ADM")
 	public void alternateFinnishLanguage() {
 		try {
 			final String CASE_NUM = "142741";
@@ -365,7 +365,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142742 -Verify default and Alternative languages in Kiosk when user sets same language and full sync is done in ADM")
+	@Test(description = "142742-Verify default and Alternative languages in Kiosk when user sets same language and full sync is done in ADM")
 	public void englishDefaultAltLanguage() {
 		try {
 			final String CASE_NUM = "142742";
@@ -518,7 +518,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141867 - This test validates the Driver Login and Log Out")
+	@Test(description = "141867- This test validates the Driver Login and Log Out")
 	public void verifyDriverLoginLogout() {
 		try {
 
@@ -727,7 +727,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142696 SOS-24494-V5 -validate the search functionality for product search")
+	@Test(description = "142696-SOS-24494-V5 -validate the search functionality for product search")
 	public void searchFunctionalityProduct() {
 		try {
 			final String CASE_NUM = "142696";
@@ -931,7 +931,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142993>V5-Ensure canadian Currency Cash Funding")
+	@Test(description = "142993-V5-Ensure canadian Currency Cash Funding")
 	public void verifyCADCashFunding() {
 		try {
 			final String CASE_NUM = "142993";
@@ -1261,7 +1261,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141873 - Verify the products as per the user search")
+	@Test(description = "141873- Verify the products as per the user search")
 	public void verifyProductSearch() {
 		try {
 
@@ -1301,7 +1301,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141872 - This test validates the item in the Your order screen")
+	@Test(description = "141872-This test validates the item in the Your order screen")
 	public void verifyItemInOrderScreen() {
 		try {
 
@@ -1334,7 +1334,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142663 - This test validates the functionality of Cancel order")
+	@Test(description = "142663- This test validates the functionality of Cancel order")
 
 	public void verifyCancelOrderFunctionality() {
 		try {
@@ -1369,7 +1369,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142664 - This test validates the Yes button functionality on Order Screen")
+	@Test(description = "142664- This test validates the Yes button functionality on Order Screen")
 	public void verifyYesButtonFunctionality() {
 		try {
 
@@ -1410,7 +1410,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142665 - This test validates the No button functionality on Order Screen")
+	@Test(description = "142665- This test validates the No button functionality on Order Screen")
 	public void verifyNoButtonFunctionality() {
 		try {
 
@@ -1453,7 +1453,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142666 - This test validates the Order Time out prompt will disapper after 5 sec")
+	@Test(description = "142666- This test validates the Order Time out prompt will disapper after 5 sec")
 	public void verifyPromptAfterTimeOut() {
 		try {
 
@@ -1496,7 +1496,7 @@ public class V5Test extends TestInfra {
 
 	}
 
-	@Test(description = "C142680 - This test validates the Order Timeout Prompt when user not  perform any action")
+	@Test(description = "142680- This test validates the Order Timeout Prompt when user not  perform any action")
 	public void verifyOrderTimePromptDetails() {
 		try {
 
@@ -1539,7 +1539,7 @@ public class V5Test extends TestInfra {
 
 	}
 
-	@Test(description = "C142729 - This test validates the Order time out prompt when user decreases the time below 20 sec")
+	@Test(description = "142729- This test validates the Order time out prompt when user decreases the time below 20 sec")
 	public void verifyPromptWithBelow20Sec() {
 		try {
 
@@ -1579,7 +1579,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "141863 -Kiosk Account Login > Email")
+	@Test(description = "141863-Kiosk Account Login > Email")
 	public void verifyLoginScreen() {
 		try {
 			final String CASE_NUM = "141863";
@@ -1598,7 +1598,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "141886 Kiosk Checkout UI > Cart Contents")
+	@Test(description = "141886-Kiosk Checkout UI > Cart Contents")
 	public void verifyOrderScreen() {
 		try {
 			final String CASE_NUM = "141886";
@@ -1624,7 +1624,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142690 SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
+	@Test(description = "142690-SOS-24493-Verify added Home Commercial Image(JPG) is displayed on V5 Device")
 	public void verifyHomeCommercialJPG() {
 		try {
 			final String CASE_NUM = "142690";
@@ -1673,7 +1673,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142691 SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
+	@Test(description = "142691-SOS-24493-Verify added Home Commercial Image(PNG) is displayed on V5 Device")
 	public void verifyHomeCommercialPNG() {
 		try {
 			final String CASE_NUM = "142691";
@@ -1725,7 +1725,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142692 SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
+	@Test(description = "142692-SOS-24493-Verify removed Home Commercial Image(JPG) is not display in V5 Device.")
 	public void verifyRemoveHomeCommercialJPG() {
 		try {
 			final String CASE_NUM = "142692";
@@ -1784,7 +1784,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142693 SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
+	@Test(description = "142693-SOS-24493-Verify removed Home Commercial Image(PNG) is not display in V5 Device.")
 	public void verifyRemoveHomeCommercialPNG() {
 		try {
 			final String CASE_NUM = "142693";
@@ -1843,7 +1843,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142694 SOS-24493- verify default home commercial image is displayed when all the existing images are removed from location summary in Adm")
+	@Test(description = "142694-SOS-24493- verify default home commercial image is displayed when all the existing images are removed from location summary in Adm")
 	public void verifyDefaultHomeCommercial() {
 		try {
 			final String CASE_NUM = "142694";
@@ -1907,7 +1907,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142695 SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
+	@Test(description = "142695-SOS-24493-verify multiple home commercials are displayed on V5 Device when multiple homecommercials are uploaded in Adm")
 	public void verifyMultipleHomeCommercial() {
 		try {
 			final String CASE_NUM = "142695";
@@ -1968,7 +1968,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142720 SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
+	@Test(description = "142720-SOS-24493-Verify error message is displayed when home commercial image is uploaded in JSON format")
 	public void verifyHomeCommercialJSON() {
 		try {
 			final String CASE_NUM = "142720";
@@ -2004,7 +2004,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142723 SOS-24493-Verify error message is displayed when home commercial image is uploaded in Text format")
+	@Test(description = "142723-SOS-24493-Verify error message is displayed when home commercial image is uploaded in Text format")
 	public void verifyHomeCommercialText() {
 		try {
 			final String CASE_NUM = "142723";
@@ -2041,7 +2041,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142724 SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
+	@Test(description = "142724-SOS-24493-Verify error message is displayed when uploaded home commercial image size is more than 2MB")
 	public void verifyHomeCommercialImageSize() {
 		try {
 			final String CASE_NUM = "142724";
@@ -2078,7 +2078,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142725-SOS-24493-Verify error message is displayed when uploaded home commercial image pixel length is greater than 1024x520")
+	@Test(description = "142725-SOS-24493-Verify error message is displayed when uploaded home commercial image pixel length is greater than 1024x520")
 	public void verifyHomeCommercialPixelLength() {
 		try {
 			final String CASE_NUM = "142725";
@@ -2115,7 +2115,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "141857 Kiosk 'Default' Landing UI > Language Selection")
+	@Test(description = "141857-Kiosk 'Default' Landing UI > Language Selection")
 	public void verifyLanguageSelection() {
 		try {
 			final String CASE_NUM = "141857";
@@ -2165,7 +2165,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141881 - Kiosk Privacy Policy (if applicable)")
+	@Test(description = "141881- Kiosk Privacy Policy (if applicable)")
 	public void verifyPrivacyPolicy() {
 		try {
 			final String CASE_NUM = "141881";
@@ -2189,7 +2189,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141883 - Kiosk Terms and Conditions (if applicable)")
+	@Test(description = "141883- Kiosk Terms and Conditions (if applicable)")
 	public void verifyTermsAndCondition() {
 		try {
 			final String CASE_NUM = "141883";
@@ -2214,7 +2214,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142667 - SOS-24492- Kiosk Language selection")
+	@Test(description = "142667- SOS-24492- Kiosk Language selection")
 	public void englishDefaultLanguage() {
 		try {
 			final String CASE_NUM = "142667";
@@ -2373,7 +2373,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142733 - SOS-24492 Verify alternate language is set to Italian in Kiosk when user set the Alternate Language as italian and full sync is done in ADM")
+	@Test(description = "142733- SOS-24492 Verify alternate language is set to Italian in Kiosk when user set the Alternate Language as italian and full sync is done in ADM")
 	public void alternateItalianLanguage() {
 		try {
 			final String CASE_NUM = "142733";
@@ -2534,7 +2534,7 @@ public class V5Test extends TestInfra {
 
 	}
 
-	@Test(description = "C142734 - SOS-24492 Verify default language is set to french in Kiosk when user set the Default Language as french and full sync is done in ADM")
+	@Test(description = "142734- SOS-24492 Verify default language is set to french in Kiosk when user set the Default Language as french and full sync is done in ADM")
 	public void frenchDefaultLanguage() {
 		try {
 			final String CASE_NUM = "142734";
@@ -2693,7 +2693,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142735 - SOS-24492 Verify default language is set to Dutch in Kiosk when user set the Default Language as Dutch and full sync is done in ADM")
+	@Test(description = "142735- SOS-24492 Verify default language is set to Dutch in Kiosk when user set the Default Language as Dutch and full sync is done in ADM")
 	public void dutchDefaultLanguage() {
 		try {
 			final String CASE_NUM = "142735";
@@ -2852,7 +2852,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142736 - SOS-24492 Verify default language is set to Swedish in Kiosk when user set the Default Language as Swedish and full sync is done in ADM")
+	@Test(description = "142736- SOS-24492 Verify default language is set to Swedish in Kiosk when user set the Default Language as Swedish and full sync is done in ADM")
 	public void swedishDefaultLanguage() {
 		try {
 			final String CASE_NUM = "142736";
@@ -3011,7 +3011,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142737 - SOS-24492 Verify default language is set to Norwegian in Kiosk when user set the Default Language as Norwegian and full sync is done in ADM")
+	@Test(description = "142737- SOS-24492 Verify default language is set to Norwegian in Kiosk when user set the Default Language as Norwegian and full sync is done in ADM")
 	public void norwegianDefaultLanguage() {
 		try {
 			final String CASE_NUM = "142737";
@@ -3170,7 +3170,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142738 - SOS-24492 Verify alternate language is set to spanish in Kiosk when user set the Alternate Language as spanish and full sync is done in ADM")
+	@Test(description = "142738- SOS-24492 Verify alternate language is set to spanish in Kiosk when user set the Alternate Language as spanish and full sync is done in ADM")
 	public void alternateSpanishLanguage() {
 		try {
 			final String CASE_NUM = "142738";
@@ -3329,7 +3329,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142739 - SOS-24492 Verify alternate language is set to German in Kiosk when user set the Alternate Language as German and full sync is done in ADM")
+	@Test(description = "142739- SOS-24492 Verify alternate language is set to German in Kiosk when user set the Alternate Language as German and full sync is done in ADM")
 	public void alternateGermanLanguage() {
 		try {
 			final String CASE_NUM = "142739";
@@ -3489,7 +3489,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142740 - SOS-24492 Verify alternate language is set to Danish in Kiosk when user set the Alternate Language as Danish and full sync is done in ADM")
+	@Test(description = "142740- SOS-24492 Verify alternate language is set to Danish in Kiosk when user set the Alternate Language as Danish and full sync is done in ADM")
 	public void alternateDanishLanguage() {
 		try {
 			final String CASE_NUM = "142740";
@@ -3867,7 +3867,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142850-Verify all the Tabs displayed after login with Driver user")
+	@Test(description = "142850-Verify all the Tabs displayed after login with Driver user")
 	public void verifyTabsDsiplayed() {
 		try {
 
@@ -3937,7 +3937,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142851-Verify the deafult selected tab after login with Driver")
+	@Test(description = "142851-Verify the deafult selected tab after login with Driver")
 	public void verifyDefaultSelectedTab() {
 		try {
 
@@ -3979,7 +3979,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "C142852-Verify Inventory Tab details after login with Driver")
+	@Test(description = "142852-Verify Inventory Tab details after login with Driver")
 	public void verifyInventoryTab() {
 		try {
 

@@ -67,7 +67,7 @@ public class Promotions extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstUserRolesData;
 
-	@Test(description = "Verify All option is displayed in Location Dropdown")
+	@Test(description = "141771-Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
 		try {
 			final String CASE_NUM = "141771";
@@ -104,7 +104,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141779 - Verify the Tender Discount Promotion with Tender type as Cash")
+	@Test(description = "141779-Verify the Tender Discount Promotion with Tender type as Cash")
 	public void verifyTenderDiscountWithTenderTypeCash() {
 		try {
 			final String CASE_NUM = "141779";
@@ -205,7 +205,7 @@ public class Promotions extends TestInfra {
 	}
 
 
-	@Test(description = "C118620 - This test validates the Create Promotion with Promotion Type as On Screen")
+	@Test(description = "118620-This test validates the Create Promotion with Promotion Type as On Screen")
 	public void verifyCreatePromotionWithOnScreen() {
 		try {
 			final String CASE_NUM = "118620";
@@ -330,7 +330,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141821 - This test verifies the existing Promotion with new Org and Location")
+	@Test(description = "141821-This test verifies the existing Promotion with new Org and Location")
 	public void verifyExistingPromotionWithNewOrgLocation() {
 		try {
 			final String CASE_NUM = "141821";
@@ -445,7 +445,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyItemInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141830";
@@ -933,7 +933,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141780 - To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
+	@Test(description = "141780 - To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
 	public void verifyTenderDiscountPromotions() {
 		try {
 			final String CASE_NUM = "141780";
@@ -1018,7 +1018,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141774 - SOS-7519 - Verify Create Promotion page display only active location when Org  filter is selected")
+	@Test(description = "141774 - SOS-7519 - Verify Create Promotion page display only active location when Org  filter is selected")
 	public void verifyActiveLocationPromotions() {
 		try {
 			final String CASE_NUM = "141774";
@@ -1075,7 +1075,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
+	@Test(description = "141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
 	public void verifyOnscreenPromotionsCategory() {
 		try {
 			final String CASE_NUM = "141804";
@@ -1465,7 +1465,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141803 - Veirfy if the select item field loads properly for Onscreen promotions when user chooses the ORG filter")
+	@Test(description = "141803 - Veirfy if the select item field loads properly for Onscreen promotions when user chooses the ORG filter")
 	public void verifyItemFieldOption() {
 		try {
 			final String CASE_NUM = "141803";
@@ -1569,7 +1569,7 @@ public class Promotions extends TestInfra {
 
 	}
 
-	@Test(description = "C141772-SOS-7520 - Verify Promotion List page display only active location")
+	@Test(description = "141772-SOS-7520 - Verify Promotion List page display only active location")
 	public void verifyPromotionsActiveLocation() {
 		try {
 			final String CASE_NUM = "141772";
@@ -1624,7 +1624,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141773- Verify Create Promotion page display only active location when location filter is selected")
+	@Test(description = "141773-Verify Create Promotion page display only active location when location filter is selected")
 	public void verifyPromotionsDisabledLocation() {
 		try {
 			final String CASE_NUM = "141773";
@@ -1699,7 +1699,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141822 - Verify Operator will update the existing Promotion with New Location")
+	@Test(description = "141822-Verify Operator will update the existing Promotion with New Location")
 	public void verifyItemFieldtOption() {
 		try {
 			final String CASE_NUM = "141822";

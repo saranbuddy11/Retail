@@ -235,7 +235,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120331- This test validates functionality of Delete' icon in the Location Locker")
+	@Test(description = "120331-This test validates functionality of Delete' icon in the Location Locker")
 	public void verifyDeletePopupMessage() {
 		try {
 			final String CASE_NUM = "120331";
@@ -291,7 +291,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120332 - This test validates the functionality of Cancel button in the warning popup.")
+	@Test(description = "120332-This test validates the functionality of Cancel button in the warning popup.")
 	public void verifyLockerSystemNotDeleted() {
 		try {
 			final String CASE_NUM = "120332";
@@ -345,7 +345,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120333 - This test validates the functionality of Yes, Delete button in the warning popup.")
+	@Test(description = "120333-This test validates the functionality of Yes, Delete button in the warning popup.")
 	public void verifyDeleteLockerSystems() {
 		try {
 			final String CASE_NUM = "120333";
@@ -1090,7 +1090,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135731 - This test validates the Functionality of an Create System button")
+	@Test(description = "135731-This test validates the Functionality of an Create System button")
 	public void verifyCreateSystemButtonFunctionality() {
 		try {
 			final String CASE_NUM = "135731";
@@ -1129,7 +1129,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135751- Verify the System and Display Name fields in Create a System screen - Super")
+	@Test(description = "135751-Verify the System and Display Name fields in Create a System screen - Super")
 	public void verifySuperSystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135751";
@@ -1260,7 +1260,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "135756 - Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
+	@Test(description = "135756-Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
 	public void verifySuperCopySystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135756";
@@ -1416,7 +1416,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Super")
+	@Test(description = "135737-Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Super")
 	public void verifyDisabledLocationSuper() {
 		try {
 			final String CASE_NUM = "135737";
@@ -1462,7 +1462,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Operator")
+	@Test(description = "135739-Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Operator")
 	public void verifyDisabledLocationOperator() {
 		try {
 			final String CASE_NUM = "135739";
@@ -1518,7 +1518,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings enabled in Location Summary - Super")
+	@Test(description = "135738-Verify the 'Location' dropdown in Create a system screen for Locker settings enabled in Location Summary - Super")
 	public void verifyEnabledLocationSuper() {
 		try {
 			final String CASE_NUM = "135738";
@@ -1742,7 +1742,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "135748 - Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
+	@Test(description = "135748-Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
 	public void verifyCopyIconOperator() {
 		try {
 			final String CASE_NUM = "135748";
@@ -1823,7 +1823,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "135715- This test validates the Edit functionality in Locker System page")
+	@Test(description = "135715-This test validates the Edit functionality in Locker System page")
 	public void verifyEditFunctionality() {
 		try {
 			final String CASE_NUM = "135715";
@@ -1877,7 +1877,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Create System button in Locker System page")
+	@Test(description = "135730-This test validates the Create System button in Locker System page")
 	public void verifyCreateSystemButton() {
 		try {
 			final String CASE_NUM = "135730";

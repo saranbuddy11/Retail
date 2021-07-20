@@ -53,7 +53,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
 
-	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
+	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
 		try {
 			final String CASE_NUM = "110985";
@@ -143,7 +143,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Removed Extended Location")
+	@Test(description = "116004-This test validates Removed Extended Location")
 	public void RemoveLocation() {
 		try {
 			final String CASE_NUM = "116004";

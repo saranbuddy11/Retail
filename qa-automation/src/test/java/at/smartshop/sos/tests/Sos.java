@@ -42,7 +42,7 @@ public class Sos extends TestInfra {
 	private Map<String, String> rstGmaUser;
 	private Map<String, String> rstNavigationMenuData;
 
-	@Test(description = "This test validate the Success message after updaloding the GMA Template")
+	@Test(description = "117462-This test validate the Success message after updaloding the GMA Template")
 	public void verifySuccessMessage() {
 		try {
 			final String CASE_NUM = "117462";
@@ -86,7 +86,7 @@ public class Sos extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify whether Payroll ID and Pay Cycle Group are mandatory to be entered in template")
+	@Test(description = "117465-Verify whether Payroll ID and Pay Cycle Group are mandatory to be entered in template")
 	public void PayrollIDAndPayCycleUploadNonMandatory() {
 		try {
 			final String CASE_NUM = "117465";
