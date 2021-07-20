@@ -10,7 +10,7 @@ public class Configuration {
 	public static final String CURRENT_URL = "current_url";
 	public static final String HUB_URL = "Hub_url";
 	public static final String V5_APP_URL = "V5_application_url";
-	
+	public static final String V5_DRIVER_PIN ="V5_Driver_Pin";	
 	public static final String SOS_CURRENT_URL = "sos_current_url";
 	public static final String CURRENT_ROLE = "current_role";
 	public static final String CURRENT_PASS = "current_pass";
@@ -28,7 +28,7 @@ public class Configuration {
 	public static final String TRANS_SALES = "trans_sales";
 	public static final String TRANS_GMA = "trans_gma";
 	public static final String TRANS_MKA = "trans_mka";
+	public static final String AVI_ORG = "avi_org";
 	public static final String V5_USER = "v5_user";
 	public static final String V5_PIN = "v5_user_pin";
-
 }
