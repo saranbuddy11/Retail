@@ -30,6 +30,16 @@ public class OrgSummary extends Factory {
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
+	public static final By TXT_DISPLAYNAME = By.id("displayname");
+	public static final By TXT_ADDRESS = By.xpath("//input[@id='address']");
+	public static final By TXT_ZIP = By.xpath("//input[@id='zip']");
+	public static final By TXT_CITY = By.xpath("//input[@id='city']");
+	public static final By DPD_STATE = By.xpath("//select[@id='state']");
+	public static final By DPD_USG_DATA = By.xpath("//select[@id='usg_datafeed']");
+	public static final By DPD_USG_ID = By.xpath("//input[@id='usgfeedid']");
+	public static final By TXT_ERROR_MSG = By.xpath("//*[text()='Error 500: Internal Server Error']");
+	public static final By BTN_REMOVE = By.xpath("//button[text()='Remove']");
+	public static final By LBL_UPLOAD = By.xpath("//input[@id='fileUpload']");
 
 	public By objVDI(String text) {
 
@@ -51,6 +61,7 @@ public class OrgSummary extends Factory {
 		Assert.assertTrue(flag);
 
 	}
+
 
 
 }
