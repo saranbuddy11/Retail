@@ -32,8 +32,7 @@ public class Order {
     public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
     public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
     public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
-    
-   
+
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
 	}
