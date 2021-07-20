@@ -434,28 +434,5 @@ public class V5Test extends TestInfra {
 		}
 	}
 		
-	@Test(description = "142907-QAA-44-verify daily revenue on location page",priority = 1)
-	public void verifyDailyRevenue() {
-		try {
-			final String CASE_NUM = "142907";
-			// Reading test data from DataBase
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			
-			//verify daily revenue			
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(0));
-			String dailyRevenue=foundation.getText(locationList.objDailyRevenue(requiredData.get(0)));
-			assertNotEquals(dailyRevenue, requiredData.get(1));
-		}
-		catch (Exception exc) {
-			Assert.fail();
-		}
-	}
+	
 }
