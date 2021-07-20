@@ -4398,21 +4398,4 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
-	
-	@Test
-	public void testTriggerEmailForPass() {
-		browser.navigateURL(
-				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-	}
-	
-	@Test
-	public void testTriggerEmailForFail() {
-		browser.navigateURL(
-				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		foundation.click(EditAccount.BTN_CAMEL_CASE);
-	}
 }
