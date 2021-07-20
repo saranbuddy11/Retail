@@ -29,6 +29,8 @@ import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.CategoryList;
+import at.smartshop.pages.CategorySummary;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.DeviceSummary;
@@ -96,6 +98,8 @@ public class V5Test extends TestInfra {
 	private CheckBox checkBox = new CheckBox();
 	private MicroMarketMenuList microMarketMenu = new MicroMarketMenuList();
 	private DateAndTime dateAndTime = new DateAndTime();
+	private CategoryList categoryList=new CategoryList();
+	private CategorySummary categorySummary=new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 
 	private Map<String, String> rstV5DeviceData;
@@ -4395,6 +4399,206 @@ public class V5Test extends TestInfra {
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143112-Edit existing tax category name and verify edits applied to product or not on product summary page")
+	public void editTaxCategory() {
+		try {
+			final String CASE_NUM = "143112";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), requiredData.get(1));
+			
+			//reset data
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143114-QA-19-Edit existing category name and verify edits applied to product or not on product summary page")
+	public void editCategories() {
+		try {
+			final String CASE_NUM = "143114";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			//update tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(3));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(4));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredData.get(2));
+			categorySummary.updateName(requiredData.get(5));
+			
+			//verify edits applied to product or not
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
+			
+			//reset data
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredData.get(6), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredData.get(6), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredData.get(6), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));			
+			categoryList.selectCategory(requiredData.get(3));
+			categorySummary.updateName(requiredData.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredData.get(4));
+			categorySummary.updateName(requiredData.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredData.get(5));
+			categorySummary.updateName(requiredData.get(2));					
+			
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143113-Edit existing deposit category name and verify edits applied to product or not on product summary page")
+	public void editDepositCategory() {
+		try {
+			final String CASE_NUM = "143113";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(0), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), requiredData.get(1));
+			
+			//reset data
+			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143115-Edit existing INVREASON category name and verify edits applied to product or not on product summary page")
+	public void editInvReason() {
+		try {
+			final String CASE_NUM = "143115";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			//edit invReason code and verify the edits on product page
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ProductSummary.LBL_REASON_CODE);
+			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
+			assertTrue(listReasonCode.contains(requiredData.get(1)));
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));								
+		} catch (Exception exc) {
 			Assert.fail();
 		}
 	}
