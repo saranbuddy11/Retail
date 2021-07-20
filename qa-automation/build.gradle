@@ -82,4 +82,8 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp
 	implementation group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+	
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-email
+	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+	
 }

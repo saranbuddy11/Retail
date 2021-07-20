@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -25,6 +26,10 @@ public class OrgSummary extends Factory {
 	public static final By LBL_VDI_PROVIDER = By.xpath("//tr[@class='vdirow']//td//input");
 	public static final By LBL_ORG_LIST = By.xpath("//div[@class='dataTables_info']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
+	public static final By DPD_COUNTRY = By.id("country");
+	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
+	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
+	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
 
 	public By objVDI(String text) {
 
@@ -46,4 +51,6 @@ public class OrgSummary extends Factory {
 		Assert.assertTrue(flag);
 
 	}
+
+
 }

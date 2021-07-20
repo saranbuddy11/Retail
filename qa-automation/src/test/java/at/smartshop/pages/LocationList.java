@@ -13,6 +13,7 @@ public class LocationList extends Factory {
 	public static final By DPD_LOCATION_LIST = By.id("filtervalues");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
+	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 
 	public void selectLocationName(String locationName) {
 		textBox.enterText(TXT_FILTER, locationName);
@@ -25,6 +26,10 @@ public class LocationList extends Factory {
 
 	public By getlocationElement(String locationName) {
 		return By.xpath("//a[text()='" + locationName + "']");
+	}
+	
+	public By objDailyRevenue(String locationName) {
+		return By.xpath("//a[text()='"+locationName+"']//..//..//*[@aria-describedby='dataGrid_table_revenue']");
 	}
 
 }
