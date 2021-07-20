@@ -9,6 +9,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
@@ -95,6 +96,15 @@ public class LocationSummary extends Factory {
 	public static final By DPD_RATE = By.cssSelector("select#taxname");
 	public static final By BTN_POPUP_SAVE = By.cssSelector("a#taxcatsave");
 	public static final By BTN_POPUP_REMOVE = By.cssSelector("a#taxcatremove");
+	public static final By DPD_VDI_PROVDIER = By.xpath("//select[@id='vdiprovideradded']");
+	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
+	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
+	public static final By BTN_VDI_DEL = By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
+	public static final By TXT_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
+	public static final By BTN_NO = By.xpath("//button[text()='No ']");
+	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+
 
 	public void selectTab(String tabName) {
 		try {
@@ -302,5 +312,38 @@ public class LocationSummary extends Factory {
 	
 	public By objVerifyTaxRate(String taxRate) {
 		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='"+taxRate+"']");
+	}
+	public By objProductPrice(String productName) {
+		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
+	}
+
+	public String getTextAttribute(By object,String attribute) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(attribute);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
+	}
+
+	public Boolean verifyDPDValue(String text) {
+		Boolean flag = false;
+		WebElement drpdwn = getDriver().findElement(DPD_VDI_PROVDIER);
+		Select dpdSel = new Select(drpdwn);
+		List<WebElement> DrpDwnList = dpdSel.getOptions();
+		for (WebElement webElement : DrpDwnList) {
+
+			if (webElement.getText().contains(text)) {
+				flag = true;
+				break;
+			}
+		}
+		return flag;
+		
+
 	}
 }
