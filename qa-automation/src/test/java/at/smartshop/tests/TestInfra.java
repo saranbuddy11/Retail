@@ -13,6 +13,9 @@ import org.testng.annotations.Parameters;
 import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.framework.reportsetup.ExtReport;
+import at.framework.triggeremail.SendReport;
+import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
 
@@ -22,12 +25,16 @@ public class TestInfra {
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
 	public FilePath filePath=new FilePath();
+	private SendReport sendReport=new SendReport();
 	
-	@Parameters({"environment"})
+	public static String updateTestRail="";
+	
+	@Parameters({"environment","UpdateTestRail"})
 	@BeforeSuite
-	public void beforeSuit(String environment) {
+	public void beforeSuit(String environment,String testRail) {
 		ResultSets.getConnection();
 		filePath.setEnvironment(environment);
+		updateTestRail=testRail;
 	}
 
 	@Parameters({ "driver", "browser" })
@@ -50,13 +57,18 @@ public class TestInfra {
 		}
 
 	}
-
+	
+	@Parameters({"SendEmail"})
 	@AfterSuite
-	public void afterSuit() {
-		try {
-			ResultSets.connection.close();
+	public void afterSuit(String sendEmail) {
+		try {			
+			ResultSets.connection.close();	
+			if(sendEmail.equals(Constants.YES)) {
+				sendReport.triggerMail(ExtReport.reportFullPath);
+				}
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 }
