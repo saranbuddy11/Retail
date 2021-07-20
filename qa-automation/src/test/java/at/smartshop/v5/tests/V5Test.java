@@ -2,7 +2,6 @@ package at.smartshop.v5.tests;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertNotSame;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
