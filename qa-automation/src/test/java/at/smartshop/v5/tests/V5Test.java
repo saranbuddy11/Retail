@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -37,6 +38,7 @@ import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.DeviceSummary;
+import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
@@ -107,7 +109,7 @@ public class V5Test extends TestInfra {
 	private CategoryList categoryList=new CategoryList();
 	private CategorySummary categorySummary=new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
-	private PromotionList promotionList=new PromotionList();
+	private EditPromotion editPromotion=new EditPromotion();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -4771,7 +4773,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			promotionList.expirePromotion(promotionName,gridName);
+			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4820,7 +4822,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			
 			// Expiring the Promotion
-			promotionList.expirePromotion(promotionName,gridName);
+			editPromotion.expirePromotion(gridName, promotionName);
 			
 			navigationBar.navigateToMenuItem(navigationMenu.get(1));
 			
@@ -4913,9 +4915,17 @@ public class V5Test extends TestInfra {
 
 			// New Promotion
 			createPromotions.BundlePromotion(promotionType, promotionName, displayName, requiredData.get(0),locationName);
-			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4));
+			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5));
+
+			textBox.enterText(CreatePromotions.TXT_ITEM1, requiredData.get(3));
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(CreatePromotions.TXT_ITEM1, Keys.ENTER);
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(5));
+			
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3),requiredData.get(7));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
+			createPromotions.recurringDay();
 			
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
@@ -4965,6 +4975,11 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(3));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
@@ -4972,7 +4987,7 @@ public class V5Test extends TestInfra {
 			// verify the display of total section
             String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
             String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
+            Double expectedBalanceDue = Double.parseDouble(priceTotal) - Double.parseDouble(discount);
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
             assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
@@ -4997,7 +5012,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			promotionList.expirePromotion(promotionName,gridName);
+			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

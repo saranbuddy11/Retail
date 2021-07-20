@@ -62,19 +62,4 @@ public class PromotionList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-	public void expirePromotion(String promotionName,String gridName) {
-		try {
-			searchPromotion(promotionName);
-			Assert.assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
-			clickSelectedRow(gridName, promotionName);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
-			foundation.click(EditPromotion.BTN_END_PROMO);
-			foundation.click(EditPromotion.BTN_CONTINUE);
-			foundation.waitforElement(TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
 }

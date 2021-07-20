@@ -3,8 +3,10 @@ package at.smartshop.pages;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -78,7 +80,9 @@ public class CreatePromotions {
 	public static final By TXT_BUNDLE_PRICE =By.id("bundleprice");
 	public static final By LBL_TOTAL_PRICE =By.id("totalprice");
 	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
-
+	public static final By TXT_ITEM1 = By.xpath("//*[@id='itemSelect']//li/input");
+	public static final By CHK_NO_END_DATE =By.id("hasnoenddate");
+	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
@@ -161,10 +165,23 @@ public class CreatePromotions {
 	}
 	public void selectBundlePromotionTimes(String discountTime,String discountDuration) {
 		try {
-			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);	
-			dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
+			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
+			if (!Constants.DELIMITER_SPACE.equals(discountDuration))
+				dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public void recurringDay() {
+		try {
+			Calendar calendar = Calendar.getInstance();
+			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
+			
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 }
