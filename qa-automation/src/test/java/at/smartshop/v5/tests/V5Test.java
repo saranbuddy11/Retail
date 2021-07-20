@@ -880,10 +880,10 @@ public class V5Test extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
 			// launch browser and select org
-			browser.close();
-			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					        propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -896,11 +896,7 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
-			locationList.selectLocationName(requiredData.get(3));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			browser.close();
+			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0),language.get(1));
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1034,8 +1030,6 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
 			// launch browser and select org
-			browser.close();
-			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1052,8 +1046,6 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0), language.get(1));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			browser.close();
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -3689,11 +3681,9 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
-			locationList.selectLocationName(requiredData.get(2));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			browser.close();
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(requiredData.get(2), language.get(0), language.get(1));
 
 			// login into Kiosk Device add both rate 5 and rate 8 product and verify the
 			// display of tax
@@ -3812,11 +3802,9 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
-			locationList.selectLocationName(requiredData.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			browser.close();
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(requiredData.get(1), language.get(0), language.get(1));
 
 			// verify login error
 			browser.launch(Constants.REMOTE, Constants.CHROME);
