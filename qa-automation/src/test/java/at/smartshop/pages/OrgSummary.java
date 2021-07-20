@@ -36,7 +36,7 @@ public class OrgSummary extends Factory {
 	public static final By TXT_CITY = By.xpath("//input[@id='city']");
 	public static final By DPD_STATE = By.xpath("//select[@id='state']");
 	public static final By DPD_USG_DATA = By.xpath("//select[@id='usg_datafeed']");
-	public static final By DPD_USG_ID = By.xpath("//input[@id='usgfeedid']");
+	public static final By TXT_USG_ID = By.xpath("//input[@id='usgfeedid']");
 	public static final By TXT_ERROR_MSG = By.xpath("//*[text()='Error 500: Internal Server Error']");
 	public static final By BTN_REMOVE = By.xpath("//button[text()='Remove']");
 	public static final By LBL_UPLOAD = By.xpath("//input[@id='fileUpload']");

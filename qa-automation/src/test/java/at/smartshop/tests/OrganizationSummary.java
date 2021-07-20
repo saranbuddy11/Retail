@@ -158,5 +158,46 @@ public class OrganizationSummary extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	@Test(description = "143246-QAA-17-Verify when USG Data Feed option is updated, it should not throw Error 500: Internal Server Error")
+	public void verifyUpdatingUSGData() {
+		try {
+			final String CASE_NUM = "143246";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.AUTO_TEST, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			//disable usg
+			dropDown.selectItem(OrgSummary.DPD_USG_DATA, requiredData.get(1), Constants.TEXT);
+			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USG_ID));
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
+			Assert.assertEquals(actualData, requiredData.get(2));
+			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			
+			//Enable USG Feed 
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			dropDown.selectItem(OrgSummary.DPD_USG_DATA, requiredData.get(0), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_USG_ID, string.getRandomCharacter());
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
+			Assert.assertEquals(actualData, requiredData.get(2));
+			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}		
 }
