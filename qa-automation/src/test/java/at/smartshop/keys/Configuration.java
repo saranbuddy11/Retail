@@ -36,4 +36,6 @@ public class Configuration {
 	public static final String TEST_RAIL_USER_NAME = "testRailUsername";
 	public static final String TEST_RAIL_PASSWORD = "testRailPassword";
 	public static final String TEST_RAIL_RUNID = "testRailRunID";
+	public static final String EMAIL_TO = "emailTo";
+	public static final String EMAIL_HOST_NAME= "emailHostName";
 }
