@@ -21,6 +21,8 @@
 			<class name="at.smartshop.tests.NationalAccount"/>	
 			<class name="at.smartshop.tests.Promotions"/>				
 			<class name="at.smartshop.tests.UserRoles"/>
+			<class name="at.smartshop.tests.PickLists"/>
+			<class name="at.smartshop.tests.VDICheck"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
 		</classes>
 	</test> <!-- Test -->
