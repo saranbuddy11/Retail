@@ -4824,7 +4824,7 @@ public class V5Test extends TestInfra {
 			
 			// Expiring the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-			
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);	
 			navigationBar.navigateToMenuItem(navigationMenu.get(1));
 			
 			// Selecting location
@@ -4928,7 +4928,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			
-			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
+			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE).split(Constants.DOLLAR)[1];
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -5098,7 +5098,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 						
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(2));
+			textBox.enterKeypadText(requiredData.get(9));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 						
@@ -5134,6 +5134,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 					
 			// Deleting the Promotion
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(3), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
