@@ -82,6 +82,7 @@ public class CreatePromotions {
 	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
 	public static final By TXT_ITEM1 = By.xpath("//*[@id='itemSelect']//li/input");
 	public static final By CHK_NO_END_DATE =By.id("hasnoenddate");
+	public static final By RB_BUNDLE_AMOUNT=By.id("bundleAmountCheckbox");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
