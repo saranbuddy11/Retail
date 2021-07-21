@@ -24,6 +24,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -52,6 +53,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
+	private Map<String, String> rstOrgSummaryData;
 
 	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -201,20 +203,18 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142865";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+					
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			foundation.threadWait(Constants.LONG_TIME);
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
@@ -229,7 +229,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -239,19 +239,19 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142866";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			foundation.threadWait(Constants.LONG_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
@@ -265,7 +265,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}

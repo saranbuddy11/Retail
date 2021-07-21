@@ -814,6 +814,7 @@ public class ResultSets extends Connections {
 
 					rstOrg.put(CNOrgSummary.NAME, resultSet.getString(CNOrgSummary.NAME));
 					rstOrg.put(CNOrgSummary.REQUIRED_DATA, resultSet.getString(CNOrgSummary.REQUIRED_DATA));
+					rstOrg.put(CNOrgSummary.ORG_NAME, resultSet.getString(CNOrgSummary.ORG_NAME));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
