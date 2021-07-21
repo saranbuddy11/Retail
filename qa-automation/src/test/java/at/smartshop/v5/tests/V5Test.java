@@ -5264,8 +5264,8 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "143068-Validate v5 transactions with Less than Min Transaction amount for Bundle Promotion")
-	public void belowMinTransactionbundlePromotion() {
+	@Test(description = "143068-Validate v5 transactions with discount more than Transaction amount for Bundle Promotion")
+	public void discountTransactionbundlePromotion() {
 		try {
 			final String CASE_NUM = "143068";
 			
@@ -5299,11 +5299,13 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionTimes(requiredData.get(3),Constants.DELIMITER_SPACE);
 						
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT).split(Constants.DOLLAR)[1];;
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-						
+			
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
 			navigationBar.navigateToMenuItem(navigationMenu.get(1));
 						
@@ -5378,8 +5380,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 					
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(3), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
