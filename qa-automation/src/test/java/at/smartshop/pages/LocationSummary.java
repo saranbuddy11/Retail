@@ -227,7 +227,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
 		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
-
+		foundation.click(BTN_SAVE);
 	}
 
 	public void removeHomeCommercial(String imageName) {
