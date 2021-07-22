@@ -40,7 +40,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
 	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
-	private static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
@@ -341,8 +341,7 @@ public class LocationSummary extends Factory {
 			if(hideOrShow.equals(Constants.HIDE)) {
 				foundation.click(xpathHideOrShow);
 			}
-		}
-		foundation.click(BTN_APPLY);		
+		}		
 	}
 	
 	public String getCellData(String ariaDescribedby) {

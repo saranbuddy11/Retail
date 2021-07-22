@@ -4689,6 +4689,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
+			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 			
@@ -4743,6 +4744,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
+			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 			
@@ -4754,6 +4756,89 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(requiredData.get(1));
 			categorySummary.updateName(requiredData.get(0));								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143119-QA-19-Edit existing category name and verify edits applied to product or not on location summary page")
+	public void editCategoriesLocation() {
+		try {
+			final String CASE_NUM = "143119";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredDataV5Device = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredDataLocationSummary = Arrays
+					.asList(rstLocationSummaryData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredDataV5Device.get(0), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredDataV5Device.get(1), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredDataV5Device.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			//update tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredDataV5Device.get(0));
+			categorySummary.updateName(requiredDataV5Device.get(3));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredDataV5Device.get(1));
+			categorySummary.updateName(requiredDataV5Device.get(4));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredDataV5Device.get(2));
+			categorySummary.updateName(requiredDataV5Device.get(5));
+			
+			//-verify categories edits applied on location summary page-
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			//select show categories
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(1));
+			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(2));
+			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(3));
+			foundation.click(LocationSummary.BTN_APPLY);
+			//verify edits
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(4)), requiredDataV5Device.get(3));
+			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)), requiredDataV5Device.get(4));
+			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)), requiredDataV5Device.get(5));
+			
+			//-reset data-
+			//reset categories on products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredDataV5Device.get(6), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredDataV5Device.get(6), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredDataV5Device.get(6), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			//reset categories names
+			navigationBar.navigateToMenuItem(menuItem.get(1));			
+			categoryList.selectCategory(requiredDataV5Device.get(3));
+			categorySummary.updateName(requiredDataV5Device.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredDataV5Device.get(4));
+			categorySummary.updateName(requiredDataV5Device.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(requiredDataV5Device.get(5));
+			categorySummary.updateName(requiredDataV5Device.get(2));					
+			
 		} catch (Exception exc) {
 			Assert.fail();
 		}
