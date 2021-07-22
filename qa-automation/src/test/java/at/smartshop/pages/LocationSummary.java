@@ -14,6 +14,7 @@ import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
+import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
@@ -26,6 +27,9 @@ public class LocationSummary extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	private LocationList locationList = new LocationList();
+	private Login login = new Login();
+	private Browser browser = new Browser();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -343,7 +347,16 @@ public class LocationSummary extends Factory {
 			}
 		}
 		return flag;
-		
-
+	}
+	
+	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {			
+		locationList.selectLocationName(location);
+		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
+		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		login.logout();
+		browser.close();		
 	}
 }
