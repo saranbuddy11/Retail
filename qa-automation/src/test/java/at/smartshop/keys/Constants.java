@@ -57,12 +57,12 @@ public class Constants {
 	public static final String SKIP = "Skip";
 	public static final String EMAIL_NAME = "Results.html";
 	public static final String EMAIL_SUBJECT = "Automation Execution Report";
-	public static final String EMAIL_MESSAGE1 = "Hi Dinesh,\r\n" + "<br>\r\n"
-			+ "Please find the execution report as placed in the link below, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
-			+ "<br>\r\n" + "Link to shared folder- file://NIBC2101/Users/sandeepab/Desktop/Daily%20Reports";
+	public static final String EMAIL_MESSAGE1 = "Hi Team,\r\n" + "<br>\r\n"
+			+ "Please find the execution report on Test Rail on the below link, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
+			+ "<br>\r\n" + "Link to TestRail Run- https://365retailmarkets.testrail.net/index.php?/runs/view/1775";
 	public static final String EMAIL_OVERALL_RESULT = "<b>Overall Result:</b>";
 	public static final String EMAIL_MODULE_RESULT = "<b>Module wise Result:</b>";
-	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "Sandeep";
+	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "This is an automated triggerd mail";
 	public static final String EMAIL_RESULT_BODY = "<html><body>\r\n"
 			+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
 			+ "   <tbody>\r\n" + "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
