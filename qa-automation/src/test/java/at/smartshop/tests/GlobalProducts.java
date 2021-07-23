@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -24,6 +25,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProduct;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -46,12 +48,14 @@ public class GlobalProducts extends TestInfra {
 	private Excel excel = new Excel();
 	private Strings strings = new Strings();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
+	private Numbers numbers = new Numbers();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
+	private Map<String, String> rstProductData;
 
 	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -357,5 +361,290 @@ public class GlobalProducts extends TestInfra {
 			Assert.fail();
 		}
 
+	}
+
+	@Test(description = "143342-verify when entered product scancode character length <25 , it should show scancode Ok message.")
+	public void verifyScancodelessthan25() {
+		try {
+			final String CASE_NUM = "143342";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+			String expectedData = rstProductData.get(CNProduct.SUCCESS_SCANCODE);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+			Assert.assertEquals(actualData, expectedData);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+	}
+
+	@Test(description = "143343-verify when entered product scancode character length =25 , it should show scancode Ok message.")
+	public void verifyScancodeequals25() {
+		try {
+			final String CASE_NUM = "143343";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+			String scanCode = rstProductData.get(CNProduct.SCANCODE);
+			String expectedData = rstProductData.get(CNProduct.SUCCESS_SCANCODE);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, scanCode);
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+			Assert.assertEquals(actualData, expectedData);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+	}
+
+	@Test(description = "143344-verify when product entered scancode character length >25 , it should show \"Scancode cannot exceed 25 characters!\" message.")
+	public void verifyScancodeGreaterthan25() {
+		try {
+			final String CASE_NUM = "143344";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+			String scanCode = rstProductData.get(CNProduct.SCANCODE);
+			List<String> expectedError = Arrays
+					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, scanCode);
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+			Assert.assertEquals(actualData, expectedError.get(0));
+			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
+			Assert.assertEquals(actualData, expectedError.get(1));
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
+			Assert.assertEquals(actualData, expectedError.get(0));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143345-verify when product entered scancode has invalid characters('.','~'), it should show \"Only letters and numbers allowed.\" message.")
+	public void verifyScancodeGHasInvalidCharacters() {
+		try {
+			final String CASE_NUM = "143345";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+
+			List<String> scanCode = Arrays
+					.asList(rstProductData.get(CNProduct.SCANCODE).split(Constants.DELIMITER_TILD));
+			String expectedScancodeError = rstProductData.get(CNProduct.SCANCODE_ERROR);
+			String expectedScancodeSuccess = rstProductData.get(CNProduct.SUCCESS_SCANCODE);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+			for (int i = 0; i < scanCode.size(); i++) {
+				textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+				textBox.enterText(GlobalProduct.TXT_SCAN_CODE, scanCode.get(i));
+				textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+				textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
+				textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+				String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+				Assert.assertEquals(actualData, expectedScancodeSuccess);
+				String actualErrorMsg = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
+				Assert.assertEquals(actualErrorMsg, expectedScancodeError);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143348-verify when scancode field is empty,it should throw \"Scancode is required.\" & \"Missing scancode!\"")
+	public void verifyScancodeMissing() {
+		try {
+			final String CASE_NUM = "143348";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+
+			List<String> expectedError = Arrays
+					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.click(GlobalProduct.LBL_SAVE_DONE);
+			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+			Assert.assertEquals(actualData, expectedError.get(1));
+			actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
+			Assert.assertEquals(actualData, expectedError.get(0));
+
+			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
+			Assert.assertEquals(actualData, expectedError.get(2));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143346-verify when duplicate scancode is entered, it should show \"Scancode already exists\"")
+	public void verifyDuplicateScancode() {
+		try {
+			final String CASE_NUM = "143346";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+
+			List<String> expectedError = Arrays
+					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+
+			String productName = rstProductData.get(CNProduct.PRODUCT_NAME);
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
+			foundation.waitforElement(GlobalProduct.LBL_EXISTING_SCANCODE, Constants.SHORT_TIME);
+			String existingScancode = foundation.getText(GlobalProduct.LBL_EXISTING_SCANCODE);
+			foundation.click(GlobalProduct.BTN_CREATE);
+
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, existingScancode);
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
+
+			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+			Assert.assertEquals(actualData, expectedError.get(0));
+			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
+			Assert.assertEquals(actualData, expectedError.get(1));
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
+			Assert.assertEquals(actualData, expectedError.get(0));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143347-verify when entered product scancode has invalid characters('.','~') with length >25, it should show \"Scancode cannot exceed 25 characters!\" and \"Only letters and numbers allowed.\" error messages")
+	public void verifyInvalidScancode() {
+		try {
+			final String CASE_NUM = "143347";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+
+			List<String> expectedError = Arrays
+					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+			String scanCode = rstProductData.get(CNProduct.SCANCODE);
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(GlobalProduct.BTN_CREATE);
+
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, scanCode);
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
+			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
+
+			Assert.assertEquals(actualData, expectedError.get(1));
+			actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
+			Assert.assertEquals(actualData, expectedError.get(0));
+
+			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
+			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
+			Assert.assertEquals(actualData, expectedError.get(2));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 }

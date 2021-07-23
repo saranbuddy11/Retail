@@ -20,6 +20,7 @@ import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
+import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
@@ -811,6 +812,40 @@ public class ResultSets extends Connections {
 		}
 
 		return rstOrg;
+
+	}
+	public Map<String, String> getProductData(String query, String testcaseID) {
+		Map<String, String> rstProduct = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+
+					rstProduct.put(CNProduct.SCANCODE, resultSet.getString(CNProduct.SCANCODE));
+					rstProduct.put(CNProduct.SCANCODE_ERROR, resultSet.getString(CNProduct.SCANCODE_ERROR));
+					rstProduct.put(CNProduct.SUCCESS_SCANCODE, resultSet.getString(CNProduct.SUCCESS_SCANCODE));
+					rstProduct.put(CNProduct.SCANCODE, resultSet.getString(CNProduct.SCANCODE));
+					rstProduct.put(CNProduct.REQUIRED_DATA, resultSet.getString(CNProduct.REQUIRED_DATA));
+					rstProduct.put(CNProduct.PRODUCT_NAME, resultSet.getString(CNProduct.PRODUCT_NAME));
+
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		return rstProduct;
 
 	}
 }
