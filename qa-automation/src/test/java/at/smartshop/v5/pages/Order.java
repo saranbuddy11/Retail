@@ -51,15 +51,16 @@ public class Order {
 	
 	public void verifyVAT(String taxRate) {			
 		
-		int tax = Integer.valueOf(taxRate);
-		String subTotal = foundation.getText(LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
-		double totalProductAmount = Double.parseDouble(subTotal) - (tax/100);
-		totalProductAmount = Math.round(totalProductAmount * 100.0) / 100.0;
-		double vatAmount = totalProductAmount*(tax/100);
-		vatAmount = Math.round(vatAmount * 100.0) / 100.0;
-		double balanceDueAmount = totalProductAmount + vatAmount;
-		Assert.assertEquals(totalProductAmount, balanceDueAmount);
+		double tax = Double.valueOf(taxRate);
+		String uiSubTotal = foundation.getText(LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
+		String uiVat = foundation.getText(LBL_VAT_VALUE).replace("$", Constants.EMPTY_STRING);
+		String uiBalanceDue = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
 		
+		double taxAmount = 1+(tax/100);
+		double totalProductCost = Double.parseDouble(uiSubTotal)-Double.parseDouble(uiVat);
+		double balanceDue = totalProductCost*taxAmount;
+		balanceDue = Math.round(balanceDue);
+		Assert.assertEquals(Double.parseDouble(uiBalanceDue), balanceDue);		
 	}
 	
 }
