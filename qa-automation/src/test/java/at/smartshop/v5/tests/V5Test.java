@@ -4408,10 +4408,10 @@ public class V5Test extends TestInfra {
 					rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 					rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 					
-//					browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-//					login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-//							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-//					navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+					login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+					navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 					
 					List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 					List<String> country = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
@@ -4419,21 +4419,21 @@ public class V5Test extends TestInfra {
 					List<String> actualData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 					List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 					
-//					navigationBar.navigateToMenuItem(menu.get(0));
-//					dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
-//					dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(0), Constants.TEXT);
-//					foundation.click(OrgSummary.BTN_SAVE);
-//					foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
-//					navigationBar.navigateToMenuItem(menu.get(1));
-//					foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-//					locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-//					locationSummary.taxMapping(actualData.get(0), actualData.get(1));
-//					Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-//					foundation.click(LocationSummary.BTN_SAVE);
-//					locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
-//										
-//					foundation.threadWait(Constants.SHORT_TIME);
-//					browser.launch(Constants.REMOTE, Constants.CHROME);
+					navigationBar.navigateToMenuItem(menu.get(0));
+					dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
+					dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(0), Constants.TEXT);
+					foundation.click(OrgSummary.BTN_SAVE);
+					foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+					navigationBar.navigateToMenuItem(menu.get(1));
+					foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+					locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+					locationSummary.taxMapping(actualData.get(0), actualData.get(1));
+					Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+					foundation.click(LocationSummary.BTN_SAVE);
+					locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
+										
+					foundation.threadWait(Constants.SHORT_TIME);
+					browser.launch(Constants.REMOTE, Constants.CHROME);
 					browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 					foundation.click(landingPage.objLanguage(language.get(0)));
 					foundation.refreshPage();

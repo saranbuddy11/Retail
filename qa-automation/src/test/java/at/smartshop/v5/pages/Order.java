@@ -1,12 +1,12 @@
 package at.smartshop.v5.pages;
 
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.testng.Assert;
+
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -58,12 +58,16 @@ public class Order {
 		String uiVat = foundation.getText(LBL_VAT_VALUE).replace("$", Constants.EMPTY_STRING);
 		String uiBalanceDue = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
 		
+		String VATValue = foundation.getText(LBL_TAX).replaceAll("[A-Z%@]", " ");
+		Assert.assertTrue(taxRate.equals(VATValue.trim()));
+		
 		Double taxAmount = 1+(tax/100);
 		double totalProductCost = Double.parseDouble(uiSubTotal)-Double.parseDouble(uiVat);
 		double balanceDue = (totalProductCost)*(taxAmount);
-		balanceDue = Math.round(balanceDue);
-		Assert.assertTrue(uiBalanceDue.contains(String.valueOf(balanceDue)));
+		balanceDue = Math.round(balanceDue*100.0)/100.0;
+		Assert.assertTrue(uiBalanceDue.equals(String.valueOf(balanceDue)));
 		
 	}
+	
 	
 }
