@@ -1,7 +1,5 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.fail;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,7 +37,8 @@ public class VoidedProductReport extends Factory {
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_VOIDED_PRODUCT = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	private static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_VOIDED_PRODUCT_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_FILTER = By.cssSelector("input[aria-controls='rptdt']");
 
@@ -99,7 +98,7 @@ public class VoidedProductReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
@@ -167,7 +166,7 @@ public class VoidedProductReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	private void generateJsonDetails(String reportFormat) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
@@ -175,8 +174,8 @@ public class VoidedProductReport extends Factory {
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
 			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
@@ -209,7 +208,7 @@ public class VoidedProductReport extends Factory {
 				json.addProperty(Reports.SALES_HEADER, salesheader);
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-				if(reqString.equals(Reports.ITEMS)) {
+				if (reqString.equals(Reports.ITEMS)) {
 					json.addProperty(Reports.VOIDED, voidedFlag);
 				}
 			}
