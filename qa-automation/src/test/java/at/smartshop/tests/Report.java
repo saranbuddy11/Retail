@@ -47,6 +47,7 @@ import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
+import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.utilities.CurrenyConverter;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -79,6 +80,7 @@ public class Report extends TestInfra {
 	private HealthAheadReport healthAhead = new HealthAheadReport();
 	private TipDetailsReport tipDetails = new TipDetailsReport();
 	private ProductSalesByCategoryReport productSalesCategory = new ProductSalesByCategoryReport();
+	private UnfinishedCloseReport unfinishedClose = new UnfinishedCloseReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1103,6 +1105,69 @@ public class Report extends TestInfra {
 			Assert.fail();
 		}
 
+	}
+	
+	@Test(description = "This test validates Unfinished Close Report Data Calculation")
+	public void unfinishedCloseReportData() {
+		try {
+
+			final String CASE_NUM = "142906";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			unfinishedClose.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range ,Location and Group By
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectFocus(ReportList.DPD_GROUP_BY);
+			dropdown.selectItem(ReportList.DPD_GROUP_BY, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					Constants.TEXT);
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			productSalesCategory.getTblRecordsUI();
+			productSalesCategory.getIntialData().putAll(productSalesCategory.getReportsData());
+
+			// Process API and read updated data
+			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			productSalesCategory.getTblRecordsUI();
+			productSalesCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+
+			// apply calculation and update data
+			productSalesCategory.updateSalesAmount();
+			productSalesCategory.updateTax();
+			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(3));
+			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(4));
+
+			// verify report headers
+			productSalesCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			productSalesCategory.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
 	}
 
 }
