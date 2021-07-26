@@ -1366,7 +1366,6 @@ public class V5Test extends TestInfra {
 		try {
 
 			final String CASE_NUM = "142664";
-
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
@@ -1383,8 +1382,8 @@ public class V5Test extends TestInfra {
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME),language.get(0),language.get(1));
+			
 			foundation.threadWait(Constants.SHORT_TIME);
-
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
@@ -1393,7 +1392,7 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
+			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
@@ -2160,9 +2159,21 @@ public class V5Test extends TestInfra {
 		try {
 			final String CASE_NUM = "141883";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));	
+			
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.refreshPage();
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -2170,8 +2181,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(UserProfile.BTN_TERMS_CONDITION);
 			String title = foundation.getText(Policy.LBL_TERMS_CONDITION_TITLE);
-			Assert.assertTrue(title.equals(requiredData.get(0)));
-
+			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
 		} catch (Exception exc) {
