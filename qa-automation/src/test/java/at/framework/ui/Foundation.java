@@ -313,5 +313,21 @@ public class Foundation extends Factory {
 		}
 		return element;
 	}
+	
+	public List<String> getAttributeValueofListElement(By object,String attribute) {
+		String attributeValue = null;
+		List<String> elementsAttributeValue = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				attributeValue = webElement.getAttribute(attribute);
+				elementsAttributeValue.add(attributeValue);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsAttributeValue;
+	}
 
 }

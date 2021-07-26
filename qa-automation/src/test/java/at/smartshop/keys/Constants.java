@@ -14,6 +14,7 @@ public class Constants {
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
 	public static final String VALUE = "src";
 	public static final String TEXT = "text";
+	public static final String INNER_TEXT = "innerText";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String DATA = "data";
 	public static final String ASCENDING = "Ascending";

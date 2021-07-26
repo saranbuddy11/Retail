@@ -97,6 +97,8 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By LBL_REASON_CODE=By.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
+	public static final By LIST_REASON_CODE = By.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 
 	public void selectTab(String tabName) {
 		try {
