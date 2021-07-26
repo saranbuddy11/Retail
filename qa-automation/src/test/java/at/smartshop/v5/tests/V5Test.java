@@ -5268,7 +5268,7 @@ public class V5Test extends TestInfra {
 	public void discountTransactionbundlePromotion() {
 		try {
 			final String CASE_NUM = "143068";
-			
+
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
@@ -5299,7 +5299,8 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionTimes(requiredData.get(3),Constants.DELIMITER_SPACE);
 						
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT).split(Constants.DOLLAR)[1];;
+			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT).split(Constants.REPLACE_DOLLOR)[1];
+			System.out.println(bundleDiscount);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_CONTINUE);
@@ -5348,17 +5349,12 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 						
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
-			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			Assert.assertTrue(requiredData.get(9).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 						
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(priceTotal)));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
 			            
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
