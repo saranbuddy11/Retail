@@ -1,6 +1,8 @@
 package at.smartshop.v5.pages;
 
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -51,15 +53,17 @@ public class Order {
 	
 	public void verifyVAT(String taxRate) {			
 		
-		float tax = Float.valueOf(taxRate);
+		Double tax = Double.valueOf(taxRate);
 		String uiSubTotal = foundation.getText(LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
 		String uiVat = foundation.getText(LBL_VAT_VALUE).replace("$", Constants.EMPTY_STRING);
 		String uiBalanceDue = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
 		
-		float taxAmount = 1+(tax/100);
-		float totalProductCost = Float.parseFloat(uiSubTotal)-Float.parseFloat(uiVat);
-		float balanceDue = (totalProductCost)*(taxAmount);		
-		Assert.assertTrue(String.valueOf(balanceDue).contains(uiBalanceDue));		
+		Double taxAmount = 1+(tax/100);
+		double totalProductCost = Double.parseDouble(uiSubTotal)-Double.parseDouble(uiVat);
+		double balanceDue = (totalProductCost)*(taxAmount);
+		balanceDue = Math.round(balanceDue);
+		Assert.assertTrue(uiBalanceDue.contains(String.valueOf(balanceDue)));
+		
 	}
 	
 }
