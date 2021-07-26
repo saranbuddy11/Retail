@@ -573,6 +573,7 @@ public class GlobalProducts extends TestInfra {
 					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
 
 			String productName = rstProductData.get(CNProduct.PRODUCT_NAME);
+			String scanName = rstProductData.get(CNProduct.SCANCODE);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -598,6 +599,20 @@ public class GlobalProducts extends TestInfra {
 			Assert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
 			Assert.assertEquals(actualData, expectedError.get(0));
+			foundation.click(GlobalProduct.LBL_ALERT_OK);
+			foundation.refreshPage();
+
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE, scanName);
+			foundation.click(GlobalProduct.BUTTON_ADD);
+			textBox.enterText(GlobalProduct.TXT_SCAN_CODE_2, scanName);
+			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
+			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
+			actualData = foundation.getText(GlobalProduct.TXT_SCAN_CODE_ERROR);
+
+			Assert.assertEquals(actualData, expectedError.get(2));
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
