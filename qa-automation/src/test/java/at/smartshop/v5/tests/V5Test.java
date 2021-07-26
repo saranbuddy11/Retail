@@ -4010,13 +4010,12 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(MicroMarketMenuList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			// navigating to Home Page
 			foundation.click(LocationList.LINK_HOME_PAGE);
-			locationList.selectLocationName(requiredData.get(0));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
-			foundation.threadWait(Constants.SHORT_TIME);
+			
+			//update language pre-condition and sync
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(requiredData.get(0), language.get(0), language.get(1));
+
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -4404,14 +4403,10 @@ public class V5Test extends TestInfra {
 
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(4), requiredData.get(5));
 
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
-			login.logout();
-			browser.close();
-
-			foundation.threadWait(Constants.SHORT_TIME);
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(requiredData.get(0), language.get(0), language.get(1));
+			
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
