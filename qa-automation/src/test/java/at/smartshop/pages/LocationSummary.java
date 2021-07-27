@@ -97,7 +97,12 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
-	public static final By LBL_TAX_MAPPING = By.xpath("//a[text()='Tax Mapping']");
+	public static final By LBL_TAX_MAPPING = By.xpath("//a[@id='addMapping']");
+	public static final By DPD_TAX_CAT = By.xpath("//select[@id='taxcat']");
+	public static final By DPD_TAX_RATE = By.xpath("//select[@id='taxname']");
+	public static final By LBL_TAX_CAT_SAVE = By.xpath("//a[@id='taxcatsave']");
+	public static final By LBL_TAX_CAT_REMOVE = By.xpath("//a[@id='taxcatremove']");
+	public static final By LBL_TAX_CAT_CANCEL = By.xpath("//a[@id='taxcatcancel']");
 
 	public void selectTab(String tabName) {
 		try {

@@ -19,6 +19,7 @@ import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
@@ -56,7 +57,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstOrgSummaryData;
-
+	private Map<String, String> rstLocationData;
 
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -380,7 +381,8 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
 			// Split database data
-			List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> subMenu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(0));
@@ -388,23 +390,65 @@ public class Location extends TestInfra {
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		
+
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			List<String> requiredData = Arrays
 					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(0), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			//Location
+			// Location
 			navigationBar.navigateToMenuItem(subMenu.get(1));
 			locationList.selectLocationName(locationName);
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
-			
-			//resetting test data
+
+			// resetting test data
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(1), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143468-Verify already assigned category should not display in tax category dropdown")
+	public void verifyTaxCategoryDpd() {
+		try {
+			final String CASE_NUM = "143468";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			locationList.selectLocationName(locationName);
+			locationSummary.selectTab(tabName);
+			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+			locationSummary.selectTab(tabName);
+			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			Assert.assertFalse(dropDown.verifyItemPresent(LocationSummary.DPD_TAX_CAT, requiredData.get(0)));
+			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
+			table.selectRow(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
