@@ -97,6 +97,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By LBL_TAX_MAPPING = By.xpath("//a[text()='Tax Mapping']");
 
 	public void selectTab(String tabName) {
 		try {

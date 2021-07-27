@@ -23,6 +23,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -31,6 +32,7 @@ import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -40,156 +42,182 @@ public class Location extends TestInfra {
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
-	private Table table=new Table();
+	private Table table = new Table();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
-	private Radio radio=new Radio();
-	
+	private Radio radio = new Radio();
+
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountData;
+	private Map<String, String> rstOrgSummaryData;
 
-	
+
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
-		try {			
+		try {
 			final String CASE_NUM = "114280";
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			
+
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Searching for Product
 			textBox.enterText(GlobalProduct.TXT_FILTER, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));			
+			foundation.click(globalProduct.getGlobalProduct(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			foundation.click(ProductSummary.BTN_EXTEND);
 
 			// Extend product to location
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Searching for Product and Validating the Location Name
-			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA)).equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
+					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
 			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.MEDIUM_TIME);
-			
+
 		} catch (Exception exc) {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test(description = "110650-This test to Verify Products are removed from the Location when location is disabled")
 	public void RemoveProductFromLocation() {
-		try {			
+		try {
 			final String CASE_NUM = "110650";
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);			
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Searching for Product
-			foundation.waitforElement(locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)), Constants.SHORT_TIME);
+			foundation.waitforElement(
+					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)),
+					Constants.SHORT_TIME);
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			
-			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(0), Constants.TEXT);
-			
+
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
-			
-			List<String> dropDownList = Arrays.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			dropDown.selectItem(LocationList.DPD_LOCATION_LIST,dropDownList.get(1),Constants.TEXT);
-			
+
+			List<String> dropDownList = Arrays.asList(
+					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, dropDownList.get(1), Constants.TEXT);
+
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			
+
 			foundation.click(LocationSummary.TAB_PRODUCTS);
-		
-			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS)<= 0);
-			
+
+			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS) <= 0);
+
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
-			
+
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
-			
+
 		} catch (Exception exc) {
 			Assert.fail();
 		}
 
 	}
-	
-	@Test(description ="130658-This test to verify the Error Message validation for Retrieve Account Methods")
-    public void validateErrorMessage() {
-        try {
-            final String CASE_NUM="130658";
-            browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-            login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-           
-            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-            rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);           
-           
-            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-            foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, Constants.SHORT_TIME);
-            foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-            dropDown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT, rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
-            Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX));
-            foundation.click(LocationSummary.BTN_SAVE);
-           
-            Assert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG), rstLocationListData.get(CNLocationList.INFO_MESSAGE));  
-                   
-        }catch(Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
-	
+
+	@Test(description = "130658-This test to verify the Error Message validation for Retrieve Account Methods")
+	public void validateErrorMessage() {
+		try {
+			final String CASE_NUM = "130658";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.waitforElement(LocationSummary.BUTTON_LOCATION_INFO, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
+			dropDown.selectItem(LocationSummary.DPD_RETRIEVE_ACCOUNT,
+					rstLocationSummaryData.get(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT), Constants.TEXT);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.FIELD_RETRIEVE_CHECKBOX));
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG),
+					rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	@Test(description = "114262-verify Add Home commercial in Home commercial Tab and Disable Location")
 	public void addHomeCommercial() {
 		try {
 			final String CASE_NUM = "114262";
 
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL,FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,FilePath.PROPERTY_CONFIG_FILE));
-			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			List<String> locationList_Dpd_Values = Arrays.asList(rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			
-			List<String> locationDisabled = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			List<String> locationList_Dpd_Values = Arrays.asList(
+					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			String locationDisabled_Yes = locationDisabled.get(0);
 			String locationDisabled_No = locationDisabled.get(1);
 			// Selecting location
-			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-			 foundation.waitforElement(locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)), Constants.SHORT_TIME);
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(
+					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)),
+					Constants.SHORT_TIME);
 			locationList.selectLocationName(locationName);
 
 			// upload image
@@ -203,7 +231,7 @@ public class Location extends TestInfra {
 
 			// disabling location
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_Yes, Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 
@@ -213,41 +241,43 @@ public class Location extends TestInfra {
 			// validations
 			Boolean status = foundation.isDisplayed(locationList.getlocationElement(locationName));
 			Assert.assertTrue(status);
-			
-			//resetting data
+
+			// resetting data
 			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
-			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);			
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
-	
+
 	@Test(description = "11101-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
-    public void updateLoyaltyMultiplier() {
-        try {
-            final String CASE_NUM = "111001";             
-            
-            browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+	public void updateLoyaltyMultiplier() {
+		try {
+			final String CASE_NUM = "111001";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
-            // Reading test data from DataBase
-            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-            rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-            
-            //Split database data
-            List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split("~"));
-            
-            // Select Menu and Menu Item
-            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            navigationBar.navigateToMenuItem(subMenu.get(0));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+			// Split database data
+			List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split("~"));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(subMenu.get(0));
 
 			// Searching for Product
-            radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
+			radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
@@ -255,83 +285,128 @@ public class Location extends TestInfra {
 			foundation.click(globalProductChange.objProductName(product));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
+			// Update loyalty filter
+			dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
+			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.click(GlobalProductChange.BTN_OK);
+			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 
-            // Update loyalty filter
-            dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
-            foundation.click(GlobalProductChange.BTN_SUBMIT);
-            foundation.click(GlobalProductChange.BTN_OK);
-            foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+			// Select Menu and Global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(subMenu.get(1));
 
-            // Select Menu and Global product
-            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            navigationBar.navigateToMenuItem(subMenu.get(1));
+			// Search and select product
+			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+			foundation.click(globalProduct.getGlobalProduct(product));
 
-            // Search and select product
-            textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            foundation.click(globalProduct.getGlobalProduct(product));
+			// verify value in loyalty dropdown
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
 
-            // verify value in loyalty dropdown
-            assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
-        } catch (Exception exc) {
-            exc.printStackTrace();
-            Assert.fail();
-        }
-    }
+	@Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
+	public void updateTaxForProduct() {
+		try {
+			final String CASE_NUM = "114899";
 
- 
-
-    @Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
-    public void updateTaxForProduct() {
-        try {
-            final String CASE_NUM = "114899";            
-            
-            browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+			String product = rstDeviceListData.get(CNLocationSummary.PRODUCT_NAME);
+			String location = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Searching for Product
+			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+			foundation.click(globalProduct.getGlobalProduct(product));
+
+			// select tax category
+			dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, Constants.TWO_SECOND);
+			String selectedTaxCat = dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			// naviagate back to product summary page
+			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+			foundation.click(globalProduct.getGlobalProduct(product));
+
+			// Navigate to product's location
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, location);
+			foundation.click(ProductSummary.TBL_DATA);
+			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
+			foundation.click(ProductSummary.BTN_EDIT_LOCATION);
+
+			// navigate to product tab
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// enable show tax cat column
+			locationSummary.manageColumn(rstLocationListData.get(CNLocationList.SHOW_RECORDS));
+
+			// ensure selected tax category from product summary page displays for the
+			// product here
+			textBox.enterText(LocationSummary.TXT_SEARCH, product);
+			assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "143463-Verify Verify when tax method is set to Item level in OrgSummary Page , Tax mapping should not display in Location Summary Page.")
+	public void verifyItemLevelTax() {
+		try {
+			final String CASE_NUM = "143463";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			// Split database data
+			List<String> subMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(subMenu.get(0));
+
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			//Location
+			navigationBar.navigateToMenuItem(subMenu.get(1));
+			locationList.selectLocationName(locationName);
+			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
 			
-            // Reading test data from DataBase
-            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-            rstDeviceListData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-            rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
-            String product = rstDeviceListData.get(CNLocationSummary.PRODUCT_NAME);
-            String location = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-
-            // Select Menu and Menu Item
-            navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG,FilePath.PROPERTY_CONFIG_FILE));
-            navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-            // Searching for Product
-            textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            foundation.click(globalProduct.getGlobalProduct(product));
-
-            //select tax category
-            dropDown.selectItemByIndex(ProductSummary.DPD_TAX_CATEGORY, Constants.TWO_SECOND);
-            String selectedTaxCat = dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY);
-            foundation.click(ProductSummary.BTN_SAVE);
-
-            // naviagate back to product summary page
-            textBox.enterText(GlobalProduct.TXT_FILTER, product);
-            foundation.click(globalProduct.getGlobalProduct(product));
-
-            // Navigate to product's location
-            textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, location);
-            foundation.click(ProductSummary.TBL_DATA);
-            foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
-            foundation.click(ProductSummary.BTN_EDIT_LOCATION);
-
-            // navigate to product tab
-            foundation.click(LocationSummary.TAB_PRODUCTS);
-
-            // enable show tax cat column
-            locationSummary.manageColumn(rstLocationListData.get(CNLocationList.SHOW_RECORDS));
-            
-            // ensure selected tax category from product summary page displays for the product here
-            textBox.enterText(LocationSummary.TXT_SEARCH, product);
-            assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-            Assert.fail();
-        }
-    }
+			//resetting test data
+			navigationBar.navigateToMenuItem(subMenu.get(0));
+			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(1), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
