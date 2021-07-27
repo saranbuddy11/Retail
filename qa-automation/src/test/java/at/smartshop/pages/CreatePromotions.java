@@ -84,6 +84,7 @@ public class CreatePromotions {
 	public static final By CHK_NO_END_DATE =By.id("hasnoenddate");
 	public static final By RB_BUNDLE_AMOUNT=By.id("bundleAmountCheckbox");
 	public static final By CHK_BUNDLE_OVERFLOW =By.id("hasoverflow");
+	public static final By DPD_DEVICE =By.id("device-select");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
