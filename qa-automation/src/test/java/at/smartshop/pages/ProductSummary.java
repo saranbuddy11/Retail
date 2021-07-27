@@ -30,6 +30,12 @@ public class ProductSummary extends Factory {
 	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
 	public static final By DPD_IS_DISABLED = By.id("isdisabled");
 	public static final By BTN_MODAL_SAVE = By.cssSelector("a#modalsave");
+	public static final By DPD_CATEGORY1 = By.id("category1");
+	public static final By DPD_CATEGORY2 = By.id("category2");
+	public static final By DPD_CATEGORY3 = By.id("category3");
+	public static final By LBL_REASON_CODE=By.xpath("//td[contains(@class,'column-reasonCode')]");
+	public static final By DPD_REASON_CODE = By.xpath("//td[contains(@class,'column-reasonCode')]//select");
+	
 
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");

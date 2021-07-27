@@ -53,4 +53,21 @@ public class CheckBox extends Factory {
 		}
 		return isChecked;
 	}
+	public boolean isChkEnabled(By object) {
+		boolean isEnabled=false;
+		try {
+			WebElement element = getDriver().findElement(object);
+			
+			if (element.isEnabled()) {
+				isEnabled=true;
+			}
+			else {
+				isEnabled=false;
+			}
+			
+		} catch (Exception exc) {			
+			Assert.fail(exc.toString());			
+		}
+		return isEnabled;
+	}
 }
