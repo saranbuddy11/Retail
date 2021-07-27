@@ -36,6 +36,7 @@ import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class GlobalProducts extends TestInfra {
+	
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();

@@ -27,6 +27,7 @@ public class Constants {
 	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
 	public static final String REGEX_MMDDUU = "MM/dd/uu";
 	public static final String REGEX_MMDDYY = "MM/dd/YY";
+	public static final String REGEX_DDMMYY = "dd/MM/YY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";

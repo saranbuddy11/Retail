@@ -169,11 +169,11 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142799 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
+	@Test(description = "143464 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
 	public void verifySearchButton() {
 		try {
 
-			final String CASE_NUM = "142799";
+			final String CASE_NUM = "143464";
 
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -4673,12 +4673,13 @@ public class V5Test extends TestInfra {
 			categoryList.selectCategory(requiredData.get(1));
 			categorySummary.updateName(requiredData.get(0));								
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id", priority = -1)
 	public void placeOrderWithEmailID() {
+		try {
 		final String CASE_NUM = "142905";	
 
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
@@ -4695,7 +4696,12 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 		foundation.click(Order.LBL_EMAIL);
 		accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));		
+		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+		
+		}catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		
 	}
 
 	@Test(description = "142907-QAA-44-verify daily revenue on location page",priority = 1)
@@ -4704,22 +4710,19 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM = "142907";
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			
 			//verify daily revenue			
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(0));
 			String dailyRevenue=foundation.getText(locationList.objDailyRevenue(requiredData.get(0)));
 			assertNotEquals(dailyRevenue, requiredData.get(1));
 		}
 		catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 	}
 }

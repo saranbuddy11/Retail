@@ -696,7 +696,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -709,6 +709,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate back to same promotion and verify all the details are populating as entered
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1899,22 +1900,18 @@ public class Promotions extends TestInfra {
 		try {
 			final String CASE_NUM = "141775";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// verify start date sort
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
-			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,	Constants.REGEX_MMDDUU));
+			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,Constants.REGEX_MMDDUU));
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
 			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.DESCENDING,Constants.REGEX_MMDDUU));
 
