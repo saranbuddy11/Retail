@@ -1111,7 +1111,7 @@ public class Report extends TestInfra {
 	public void unfinishedCloseReportData() {
 		try {
 
-			final String CASE_NUM = "142906";
+			final String CASE_NUM = "143433";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1124,7 +1124,8 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			unfinishedClose.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			unfinishedClose.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1132,42 +1133,44 @@ public class Report extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Select the Report Date range ,Location and Group By
+			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.objectFocus(ReportList.DPD_GROUP_BY);
-			dropdown.selectItem(ReportList.DPD_GROUP_BY, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					Constants.TEXT);
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			productSalesCategory.getTblRecordsUI();
-			productSalesCategory.getIntialData().putAll(productSalesCategory.getReportsData());
-
-			// Process API and read updated data
-			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			productSalesCategory.getTblRecordsUI();
-			productSalesCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			unfinishedClose.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			String[] orderID = ((String) unfinishedClose.getJsonData().get(Reports.TRANS_ID))
+					.split(Constants.DELIMITER_HYPHEN);
+			textBox.enterText(UnfinishedCloseReport.TXT_FILTER, orderID[1]);
+			unfinishedClose.getTblRecordsUI();
+			unfinishedClose.getIntialData().putAll(unfinishedClose.getReportsData());
+			unfinishedClose.getRequiredRecord(orderID[1]);
 
 			// apply calculation and update data
-			productSalesCategory.updateSalesAmount();
-			productSalesCategory.updateTax();
-			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(3));
-			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(4));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(0), orderID[1]);
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(1),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(3),
+					(String) unfinishedClose.getJsonData().get(Reports.TRANS_DATE_TIME));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(4),
+					unfinishedClose.getRequiredJsonData().get(0));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(5),
+					unfinishedClose.getRequiredJsonData().get(1));
 
 			// verify report headers
-			productSalesCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			unfinishedClose.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productSalesCategory.verifyReportData();
+			unfinishedClose.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+
 	}
 
 }
