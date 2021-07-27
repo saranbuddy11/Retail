@@ -4429,7 +4429,7 @@ public class V5Test extends TestInfra {
 					locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 					locationSummary.taxMapping(actualData.get(0), actualData.get(1));
 					Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-					foundation.click(LocationSummary.BTN_SAVE);
+					//foundation.click(LocationSummary.BTN_SAVE);
 					locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 										
 					foundation.threadWait(Constants.SHORT_TIME);
@@ -4449,6 +4449,7 @@ public class V5Test extends TestInfra {
 					foundation.click(AccountLogin.BTN_NEXT);
 					textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 					foundation.click(AccountLogin.BTN_PIN_NEXT);
+					Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 					browser.close();
 					
 					// Reset the data
@@ -4472,8 +4473,8 @@ public class V5Test extends TestInfra {
 					foundation.click(LocationSummary.BTN_POPUP_REMOVE);
 					foundation.click(LocationSummary.LNK_TAX_MAPPING);
 					foundation.click(LocationSummary.BTN_SYNC);
-					foundation.click(LocationSummary.BTN_SAVE);
-					foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//					foundation.click(LocationSummary.BTN_SAVE);
+//					foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 					
 			} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4512,7 +4513,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-			foundation.click(LocationSummary.BTN_SAVE);
+			//foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4541,6 +4542,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 			// Reset the data
@@ -4564,8 +4566,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4604,7 +4606,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-		    foundation.click(LocationSummary.BTN_SAVE);
+		   // foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4648,8 +4650,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4688,7 +4690,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-			foundation.click(LocationSummary.BTN_SAVE);
+			//foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4732,8 +4734,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4768,6 +4770,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4806,8 +4809,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -4846,7 +4849,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.taxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
-			foundation.click(LocationSummary.BTN_SAVE);
+			//foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0), language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4896,8 +4899,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

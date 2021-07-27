@@ -350,13 +350,15 @@ public class LocationSummary extends Factory {
 	}
 	
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {			
-		locationList.selectLocationName(location);
+		//locationList.selectLocationName(location);
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
+		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		login.logout();
+		//foundation.click(LocationSummary.BTN_SAVE);
+		//foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		//login.logout();
 		browser.close();		
 	}
 }

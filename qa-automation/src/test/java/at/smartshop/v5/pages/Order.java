@@ -65,7 +65,7 @@ public class Order {
 		double totalProductCost = Double.parseDouble(uiSubTotal)-Double.parseDouble(uiVat);
 		double balanceDue = (totalProductCost)*(taxAmount);
 		balanceDue = Math.round(balanceDue*100.0)/100.0;
-		Assert.assertTrue(uiBalanceDue.equals(String.valueOf(balanceDue)));
+		Assert.assertTrue(uiBalanceDue.contains(String.valueOf(balanceDue)));
 		
 	}
 	
