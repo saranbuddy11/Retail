@@ -5579,8 +5579,8 @@ public class V5Test extends TestInfra {
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_CONTINUE);
+//			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 						
