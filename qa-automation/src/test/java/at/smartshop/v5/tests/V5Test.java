@@ -5083,4 +5083,53 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "143126-Add new INVREASON category and Edit it's name and verify edits applied to product or not")
+	public void addEditInvReason() {
+		try {
+			final String CASE_NUM = "143126";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//navigate to category page		
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			
+			//add deposit category
+			String newInvReason = string.getRandomCharacter().toUpperCase();
+			String editedInvReason=requiredData.get(0)+newInvReason;
+			categorySummary.addCategory(newInvReason,requiredData.get(1));
+			
+			//verify newly added category displays in category list page
+			assertTrue(categoryList.verifyCategoryExist(newInvReason));
+			
+			//edit invReason code and verify the edits on product page			
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newInvReason);
+			categorySummary.updateName(editedInvReason);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ProductSummary.LBL_REASON_CODE);
+			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
+			assertTrue(listReasonCode.contains(editedInvReason));
+			
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
 }
