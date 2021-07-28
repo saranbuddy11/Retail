@@ -41,6 +41,8 @@ public class Order {
     public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
     public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
     public static final By LBL_MULTI_PRODUCTS= By.xpath("//*[@class='product-price']");
+    public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
+    
     
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");

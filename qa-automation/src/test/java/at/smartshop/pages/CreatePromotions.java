@@ -1,9 +1,7 @@
 package at.smartshop.pages;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -13,10 +11,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.keys.Constants;
 
 public class CreatePromotions {
@@ -195,5 +195,4 @@ public class CreatePromotions {
 			Assert.fail(exc.toString());
 		}
 	}
-
 }
