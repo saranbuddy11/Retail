@@ -169,7 +169,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "143464 - Verify the Search button in Device when user set 'Yes' the Inherit from Location")
+	@Test(description = "143464-Verify the Search button in Device when user set 'Yes' the Inherit from Location")
 	public void verifySearchButton() {
 		try {
 
@@ -1220,7 +1220,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "141868 Thsi test validates the Inventory options")
+	@Test(description = "141868-This test validates the Inventory options")
 	public void verifyInventoryOptions() {
 		try {
 			final String CASE_NUM = "141868";
@@ -3968,7 +3968,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "142994 SOS-11643 V5 > Menu Updates")
+	@Test(description = "142994-SOS-11643 V5 > Menu Updates")
 	public void verifyMenuLevelUpdates() {
 		try {
 			final String CASE_NUM = "142994";
