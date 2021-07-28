@@ -226,7 +226,7 @@ public class Location extends TestInfra {
 		}
 	}
 	
-	@Test(description = "11101-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
+	@Test(description = "111001-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
     public void updateLoyaltyMultiplier() {
         try {
             final String CASE_NUM = "111001";             
