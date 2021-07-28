@@ -265,6 +265,16 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public boolean isFileExists(String filePath) {
+		File file = new File(filePath);
+		if(!file.exists()) {
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
+			return true;		
+		}
+		else
+			return false;
+	}
 
 	public void deleteFile(String filePath) {
 		try {

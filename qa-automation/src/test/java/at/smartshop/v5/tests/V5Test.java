@@ -202,10 +202,12 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
-
+			
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			foundation.refreshPage();
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
 		} catch (Exception exc) {

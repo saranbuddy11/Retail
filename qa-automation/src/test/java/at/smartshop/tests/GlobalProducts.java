@@ -294,12 +294,20 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String actualMsg = foundation.getText(GlobalProduct.TXT_RECORD_COUNT);
-			Assert.assertEquals(actualMsg, expectedMsg);
+			Assert.assertEquals(actualMsg, expectedMsg);			
 			String[] uiData = actualMsg.split(" ");
 
+			boolean fileExistsSrc = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExistsSrc==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			boolean fileExistsTar = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
+			if(fileExistsTar==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
@@ -309,7 +317,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -319,28 +327,34 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142867";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
 			foundation.threadWait(Constants.SHORT_TIME);
+			boolean fileExists = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExists==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
-
+			
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			boolean fileExists1 = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
+			if(fileExists1==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
@@ -355,7 +369,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}

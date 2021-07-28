@@ -791,7 +791,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -803,8 +803,8 @@ public class Promotions extends TestInfra {
 			assertTrue(popupFieldArray.get(8).contains(currentDate));
 			foundation.click(CreatePromotions.BTN_OK);
 
-			// navigate back to same promotion and verify all the details are populating as
-			// entered
+			// navigate back to same promotion and verify all the details are populating as entered
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -823,6 +823,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.searchPromotion(promotionName);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
@@ -993,7 +994,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
@@ -1302,6 +1303,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate to same promotion and validate update promotion
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1326,7 +1328,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.LONG_TIME);
 
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
