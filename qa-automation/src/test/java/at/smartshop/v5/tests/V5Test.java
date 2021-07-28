@@ -5773,7 +5773,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
-			//List<String> productPrice=foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
+
 			// verify the display of total section
             String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
             String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
@@ -5802,8 +5802,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-//			dropDown.selectItem(PromotionList.DPD_STATUS, rstV5DeviceData.get(CNV5Device.REQUIRED_DATA), Constants.TEXT);
-//			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
