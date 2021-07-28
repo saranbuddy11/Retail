@@ -93,7 +93,7 @@ public class Listeners implements ITestListener {
 
 	public void onTestSkipped(ITestResult result) {
 		ExtFactory.getInstance().getExtent().log(Status.SKIP,
-				"Test Case" + result.getMethod().getMethodName() + "is skipped");
+				"Test Case" + result.getMethod().getMethodName() + "is skipped due to "+result.getThrowable());
 		ExtFactory.getInstance().removeExtentObject();
 		skippedCount++;
 		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());

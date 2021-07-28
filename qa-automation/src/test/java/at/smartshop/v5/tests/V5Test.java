@@ -4971,11 +4971,11 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			//navigate to tax category			
+			//navigate to category page		
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
 			
-			//add tax category
+			//add deposit category
 			String newDepositCat = string.getRandomCharacter().toUpperCase();
 			String editedDepositCat=requiredData.get(1)+newDepositCat;
 			categorySummary.addCategory(newDepositCat,requiredData.get(3));
@@ -4984,8 +4984,6 @@ public class V5Test extends TestInfra {
 			assertTrue(categoryList.verifyCategoryExist(newDepositCat));
 			
 			// Select Menu and Menu Item and add the tax category to a global product
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
@@ -5005,6 +5003,81 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(editedDepositCat);
 			categorySummary.updateName(newDepositCat);								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143125-QA-19-Add new category and Edit it's name and verify edits applied to product or not")
+	public void addeditCategories() {
+		try {
+			final String CASE_NUM = "143125";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			//add categories
+			String newCategory1 = string.getRandomCharacter().toUpperCase();
+			String newCategory2 = string.getRandomCharacter().toUpperCase();
+			String newCategory3 = string.getRandomCharacter().toUpperCase();
+			String editedCategory1=requiredData.get(0)+newCategory1;
+			String editedCategory2=requiredData.get(0)+newCategory2;
+			String editedCategory3=requiredData.get(0)+newCategory3;
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory1,requiredData.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory2,requiredData.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory3,requiredData.get(1));
+			
+			//add categories to products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, newCategory1, Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, newCategory2, Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, newCategory3, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			//update tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newCategory1);
+			categorySummary.updateName(editedCategory1);
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(newCategory2);
+			categorySummary.updateName(editedCategory2);
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(newCategory3);
+			categorySummary.updateName(editedCategory3);
+			
+			//verify edits applied to product or not
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
+			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
+			
+			//reset data
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredData.get(2), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredData.get(2), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);					
+			
 		} catch (Exception exc) {
 			Assert.fail();
 		}
