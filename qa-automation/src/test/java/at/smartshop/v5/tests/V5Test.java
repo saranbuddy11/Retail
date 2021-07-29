@@ -20,6 +20,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
+import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -722,7 +723,8 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			String expBalanceDue = String. format("%.2f", expectedBalanceDue);
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(expBalanceDue));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 			
 		} catch (Exception exc) {
@@ -3766,7 +3768,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
@@ -3789,6 +3791,7 @@ public class V5Test extends TestInfra {
 			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(5), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			browser.close();
 			
 			// verify login error
@@ -3798,8 +3801,7 @@ public class V5Test extends TestInfra {
 			foundation.click(landingPage.objLanguage(requiredData.get(2)));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
-										propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 
 		} catch (Exception exc) {
@@ -4652,7 +4654,7 @@ public class V5Test extends TestInfra {
 	}
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id")
-	public void placeOrderWithEmailID() {
+	public void anOrderWithEmailID() {
 		try {
 		final String CASE_NUM = "142905";	
 
