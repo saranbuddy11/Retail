@@ -259,8 +259,7 @@ public class GlobalProducts extends TestInfra {
 			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
@@ -269,6 +268,10 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			foundation.threadWait(Constants.SHORT_TIME);
+			boolean fileExists = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExists==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion

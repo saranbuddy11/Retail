@@ -13,6 +13,7 @@ public class Constants {
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
 	public static final String VALUE = "value";
+	public static final String SRC = "src";
 	public static final String TEXT = "text";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String DATA = "data";

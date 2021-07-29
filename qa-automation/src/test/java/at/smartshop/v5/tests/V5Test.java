@@ -1277,6 +1277,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.refreshPage();
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			List<String> productName = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			textBox.enterKeypadText(productName.get(0));
@@ -1665,7 +1666,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.VALUE);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
 			assertEquals(actualData, requiredData);
 
@@ -1712,7 +1713,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.VALUE);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
 			assertEquals(actualData, requiredData);
 
@@ -1759,7 +1760,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.VALUE);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			assertEquals(actualData, requiredData);
 			browser.close();
 			
@@ -1805,15 +1806,16 @@ public class V5Test extends TestInfra {
 
 			// Selecting location
 			locationList.selectLocationName(locationName);
-			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PNG_PATH);
+			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PNG_PATH);			
 			locationSummary.kiosklanguageSetting(locationName, language.get(0), language.get(1));	
 			
 			// launching v5 device
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.VALUE);
+			foundation.refreshPage();
+			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.LONG_TIME);			
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			assertEquals(actualData, requiredData);
 			browser.close();
 			
@@ -2150,16 +2152,15 @@ public class V5Test extends TestInfra {
 			
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			foundation.click(landingPage.objLanguage( language.get(0)));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 
 			foundation.click(UserProfile.BTN_PRIVACY);
 			String title = foundation.getText(Policy.LBL_POLICY_TITLE);
-			Assert.assertTrue(title.equals(requiredData.get(0)));
+			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
 		} catch (Exception exc) {
