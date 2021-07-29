@@ -103,6 +103,8 @@ public class LocationSummary extends Factory {
 	public static final By LBL_TAX_CAT_SAVE = By.xpath("//a[@id='taxcatsave']");
 	public static final By LBL_TAX_CAT_REMOVE = By.xpath("//a[@id='taxcatremove']");
 	public static final By LBL_TAX_CAT_CANCEL = By.xpath("//a[@id='taxcatcancel']");
+	public static final By TBL_TAX_GRID = By.id("taxmapdt");
+	public static final By TBL_ROW = By.xpath("//*[@id='taxmapdt']/tbody/tr");
 
 	public void selectTab(String tabName) {
 		try {

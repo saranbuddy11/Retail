@@ -36,6 +36,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
+
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Location extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
@@ -49,6 +50,7 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio = new Radio();
+	
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -58,6 +60,7 @@ public class Location extends TestInfra {
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstLocationData;
+
 
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -453,4 +456,6 @@ public class Location extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
+
 }

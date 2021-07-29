@@ -691,6 +691,7 @@ public class ResultSets extends Connections {
 					rstLocation.put(CNLocation.PRODUCT_NAME, resultSet.getString(CNLocation.PRODUCT_NAME));
 					rstLocation.put(CNLocation.COLUMN_VALUE, resultSet.getString(CNLocation.COLUMN_VALUE));
 					rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
+					rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 				}
 			}
 		} catch (Exception exc) {
