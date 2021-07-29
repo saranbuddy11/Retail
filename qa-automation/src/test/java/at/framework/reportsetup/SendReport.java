@@ -1,4 +1,4 @@
-package at.framework.triggeremail;
+package at.framework.reportsetup;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +60,7 @@ public class SendReport {
 			}
 			
 			String moduleResult=Constants.EMAIL_RESULT_BODY+rows+Constants.EMAIL_RESULT_TAIL;
-			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br>"+result+"<br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br>"+moduleResult+"<br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
+			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br>"+result+"<br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br>"+moduleResult+"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
 			for (String toEmailID : toEmailIDs) {
 				email.addTo(toEmailID);
 			}

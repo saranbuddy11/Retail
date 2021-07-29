@@ -67,7 +67,7 @@ public class Promotions extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstUserRolesData;
 
-	@Test(description = "Verify All option is displayed in Location Dropdown")
+	@Test(description = "141771-Verify All option is displayed in Location Dropdown")
 	public void verifyPromotions() {
 		try {
 			final String CASE_NUM = "141771";
@@ -104,7 +104,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141779 - Verify the Tender Discount Promotion with Tender type as Cash")
+	@Test(description = "141779-Verify the Tender Discount Promotion with Tender type as Cash")
 	public void verifyTenderDiscountWithTenderTypeCash() {
 		try {
 			final String CASE_NUM = "141779";
@@ -205,7 +205,7 @@ public class Promotions extends TestInfra {
 	}
 
 
-	@Test(description = "C118620 - This test validates the Create Promotion with Promotion Type as On Screen")
+	@Test(description = "118620-This test validates the Create Promotion with Promotion Type as On Screen")
 	public void verifyCreatePromotionWithOnScreen() {
 		try {
 			final String CASE_NUM = "118620";
@@ -330,7 +330,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141821 - This test verifies the existing Promotion with new Org and Location")
+	@Test(description = "141821-This test verifies the existing Promotion with new Org and Location")
 	public void verifyExistingPromotionWithNewOrgLocation() {
 		try {
 			final String CASE_NUM = "141821";
@@ -445,7 +445,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyItemInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141830";
@@ -542,7 +542,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion",enabled=false)
 	public void verifyCategoryInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141831";
@@ -696,7 +696,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -709,6 +709,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate back to same promotion and verify all the details are populating as entered
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -790,7 +791,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -802,8 +803,8 @@ public class Promotions extends TestInfra {
 			assertTrue(popupFieldArray.get(8).contains(currentDate));
 			foundation.click(CreatePromotions.BTN_OK);
 
-			// navigate back to same promotion and verify all the details are populating as
-			// entered
+			// navigate back to same promotion and verify all the details are populating as entered
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -822,6 +823,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Resetting the data
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.searchPromotion(promotionName);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
@@ -933,7 +935,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141780 - To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
+	@Test(description = "141780 - To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
 	public void verifyTenderDiscountPromotions() {
 		try {
 			final String CASE_NUM = "141780";
@@ -992,7 +994,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
 
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
@@ -1018,7 +1020,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141774 - SOS-7519 - Verify Create Promotion page display only active location when Org  filter is selected")
+	@Test(description = "141774 - SOS-7519 - Verify Create Promotion page display only active location when Org  filter is selected")
 	public void verifyActiveLocationPromotions() {
 		try {
 			final String CASE_NUM = "141774";
@@ -1075,7 +1077,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
+	@Test(description = "141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
 	public void verifyOnscreenPromotionsCategory() {
 		try {
 			final String CASE_NUM = "141804";
@@ -1301,6 +1303,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate to same promotion and validate update promotion
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1325,7 +1328,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.LONG_TIME);
 
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
@@ -1465,7 +1468,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C141803 - Veirfy if the select item field loads properly for Onscreen promotions when user chooses the ORG filter")
+	@Test(description = "141803 - Veirfy if the select item field loads properly for Onscreen promotions when user chooses the ORG filter")
 	public void verifyItemFieldOption() {
 		try {
 			final String CASE_NUM = "141803";
@@ -1569,7 +1572,7 @@ public class Promotions extends TestInfra {
 
 	}
 
-	@Test(description = "C141772-SOS-7520 - Verify Promotion List page display only active location")
+	@Test(description = "141772-SOS-7520 - Verify Promotion List page display only active location")
 	public void verifyPromotionsActiveLocation() {
 		try {
 			final String CASE_NUM = "141772";
@@ -1624,7 +1627,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141773- Verify Create Promotion page display only active location when location filter is selected")
+	@Test(description = "141773-Verify Create Promotion page display only active location when location filter is selected")
 	public void verifyPromotionsDisabledLocation() {
 		try {
 			final String CASE_NUM = "141773";
@@ -1699,7 +1702,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141822 - Verify Operator will update the existing Promotion with New Location")
+	@Test(description = "141822-Verify Operator will update the existing Promotion with New Location")
 	public void verifyItemFieldtOption() {
 		try {
 			final String CASE_NUM = "141822";
@@ -1899,22 +1902,18 @@ public class Promotions extends TestInfra {
 		try {
 			final String CASE_NUM = "141775";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// verify start date sort
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
-			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,	Constants.REGEX_MMDDUU));
+			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.ASCENDING,Constants.REGEX_MMDDUU));
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
 			assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.DESCENDING,Constants.REGEX_MMDDUU));
 

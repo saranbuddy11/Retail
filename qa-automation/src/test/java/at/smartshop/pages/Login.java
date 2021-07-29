@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.*;
+import at.smartshop.keys.Constants;
 
 
 public class Login extends Factory {
@@ -19,6 +20,7 @@ public class Login extends Factory {
 
 	public void insertLoginFields(String userName, String password) {
 		try {
+			foundation.waitforElement(TXT_EMAIL, Constants.TWO_SECOND);
 			textBox.enterText(TXT_EMAIL, userName);
 			textBox.enterText(TXT_PASSWORD, password);
 		} catch (Exception exc) {

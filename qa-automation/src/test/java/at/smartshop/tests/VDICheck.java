@@ -41,7 +41,7 @@ public class VDICheck extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstOrgSummaryData;
 
-	@Test(description = "143021 QAA-36-SOS-18920-Verify Enable VDI checkbox flow in Org Summary")
+	@Test(description = "143021-QAA-36-SOS-18920-Verify Enable VDI checkbox flow in Org Summary")
 	public void verifyVDICheckOrg() {
 		try {
 			final String CASE_NUM = "143021";
@@ -93,7 +93,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143025 QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Org summary.")
+	@Test(description = "143025-QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Org summary.")
 	public void verifyVDIUnCheckOrg() {
 		try {
 			final String CASE_NUM = "143025";
@@ -122,7 +122,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143023 QAA-36-SOS-18920 - Verify when vdi is disabled for org then vdi option for location disabled and should see \"Can not enable VDI here until VDI is enabled for the org\"")
+	@Test(description = "143023-QAA-36-SOS-18920 - Verify when vdi is disabled for org then vdi option for location disabled and should see \"Can not enable VDI here until VDI is enabled for the org\"")
 	public void verifyVDIUnCheckOrgDisable() {
 		try {
 			final String CASE_NUM = "143023";
@@ -158,7 +158,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143024 QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Location summary")
+	@Test(description = "143024-QAA-36-Verify when Enable VDI is unchecked, vdi provider dropdown and user key are not displayed in Location summary")
 	public void verifyVDIUnCheckLoc() {
 		try {
 			final String CASE_NUM = "143024";
@@ -213,7 +213,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143022 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
+	@Test(description = "143022-QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
 	public void verifyVDICheckLoc() {
 		try {
 			final String CASE_NUM = "143022";
@@ -295,7 +295,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143150 QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
+	@Test(description = "143150-QAA-36-SOS-18920 - Verify Enable VDI in Location Summary")
 	public void verifyVDICheckLocPrice() {
 		try {
 			final String CASE_NUM = "143150";
@@ -375,7 +375,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143151 QAA-36-SOS-18920-Verify already selected VDI option should not display in Vdi provider Dropdown in Org Summary")
+	@Test(description = "143151-QAA-36-SOS-18920-Verify already selected VDI option should not display in Vdi provider Dropdown in Org Summary")
 	public void verifyVDIDropDownValue() {
 		try {
 			final String CASE_NUM = "143151";
@@ -406,7 +406,7 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143152 QAA-36-SOS-18920 - Verify Added multiple vdi providers in org summary is displayed in VDI Providers dropdown in Location Summary")
+	@Test(description = "143152-QAA-36-SOS-18920 - Verify Added multiple vdi providers in org summary is displayed in VDI Providers dropdown in Location Summary")
 	public void verifyMultipleVDI() {
 		try {
 			final String CASE_NUM = "143152";
