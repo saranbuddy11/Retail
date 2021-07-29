@@ -304,10 +304,6 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
-			boolean fileExistsTar = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
-			if(fileExistsTar==false) {
-			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
-			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
@@ -351,10 +347,6 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
-			boolean fileExists1 = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
-			if(fileExists1==false) {
-			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
-			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
