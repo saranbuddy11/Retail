@@ -445,7 +445,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141830-This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyItemInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141830";
@@ -542,7 +542,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion",enabled=false)
+	@Test(description = "141831-This test validates the Category getting updated in Promotion Screen- Bundle Promotion",enabled=false)
 	public void verifyCategoryInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141831";
