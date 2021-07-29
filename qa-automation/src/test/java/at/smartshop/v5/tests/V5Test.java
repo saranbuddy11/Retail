@@ -5197,4 +5197,80 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "143128-QAA19-Add new tax category and Edit it's category name and verify edits applied to product or not on location page - tax mapping tab")
+	public void addEditTaxCategoryTaxMapping() {
+		try {
+			final String CASE_NUM = "143128";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//add tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			String newTaxCategory1 = string.getRandomCharacter().toUpperCase();
+			String newTaxCategory2 = string.getRandomCharacter().toUpperCase();
+			String editedTaxCategory1=requiredData.get(2)+newTaxCategory1;
+			String editedTaxCategory2=requiredData.get(2)+newTaxCategory2;
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newTaxCategory1,requiredData.get(3));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newTaxCategory2,requiredData.get(3));
+
+			//save tax mapping on location summary page as precondition
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, newTaxCategory1, Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newTaxCategory1);
+			categorySummary.updateName(editedTaxCategory1);
+			categoryList.selectCategory(newTaxCategory2);
+			categorySummary.updateName(editedTaxCategory2);
+			
+			//verify tax edits on location summary page- tax mapping tab- for saved category
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCategory1);
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCategory1)));
+			//reset data- remove added mapping
+			foundation.click(locationSummary.objTaxCategory(editedTaxCategory1));
+			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
+			
+			//verify tax edits on location summary page- tax mapping tab- on tax category list
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
+			assertTrue(listTaxCategory.contains(editedTaxCategory2));
+			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedTaxCategory1);
+			categorySummary.updateName(newTaxCategory1);
+			categoryList.selectCategory(editedTaxCategory2);
+			categorySummary.updateName(newTaxCategory2);
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
 }
