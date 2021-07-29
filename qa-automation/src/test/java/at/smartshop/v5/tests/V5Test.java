@@ -4679,7 +4679,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "142905-QAA-44-Place Order with valid email id", priority = -1)
+	@Test(description = "142905-QAA-44-Place Order with valid email id")
 	public void placeOrderWithEmailID() {
 		try {
 		final String CASE_NUM = "142905";	
@@ -4706,7 +4706,7 @@ public class V5Test extends TestInfra {
 		
 	}
 
-	@Test(description = "142907-QAA-44-verify daily revenue on location page",priority = 1)
+	@Test(description = "142907-QAA-44-verify daily revenue on location page")
 	public void verifyDailyRevenue() {
 		try {
 			final String CASE_NUM = "142907";
