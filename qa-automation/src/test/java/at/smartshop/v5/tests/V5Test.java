@@ -5132,4 +5132,69 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "143122-QAA19-Edit existing tax category and verify edits applied to product or not on location page- tax mapping tab")
+	public void editTaxCategoryTaxMapping() {
+		try {
+			final String CASE_NUM = "143122";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//verify tax edits on location summary page
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, requiredData.get(1), Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(5), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(2));
+			categoryList.selectCategory(requiredData.get(3));
+			categorySummary.updateName(requiredData.get(4));
+			
+			//verify tax edits on location summary page- tax mapping tab- for saved category
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(2));
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(2))));
+			//reset data- remove added mapping
+			foundation.click(locationSummary.objTaxCategory(requiredData.get(2)));
+			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
+			
+			//verify tax edits on location summary page- tax mapping tab- on tax category list
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
+			assertTrue(listTaxCategory.contains(requiredData.get(4)));
+			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(2));
+			categorySummary.updateName(requiredData.get(1));
+			categoryList.selectCategory(requiredData.get(4));
+			categorySummary.updateName(requiredData.get(3));
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
 }
