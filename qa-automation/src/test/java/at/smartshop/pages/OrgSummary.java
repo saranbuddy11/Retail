@@ -29,7 +29,7 @@ public class OrgSummary extends Factory {
 	public static final By DPD_COUNTRY = By.id("country");
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
-	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
+	public static final By DPD_CROSS_ORG_ACCOUNT = By.name("coa");
 
 	public By objVDI(String text) {
 
