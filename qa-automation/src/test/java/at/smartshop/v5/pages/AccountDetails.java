@@ -20,6 +20,10 @@ public class AccountDetails {
 		return By.xpath("//*[text()='"+text+"']");
 	}
     
+    public By objAccountBalance(String text) {
+    	return By.xpath("//h2[text()='"+text+"']");
+    }
+    
     public void verifyAccountDetailsPageLanguage(String accountDetailsPage,String requiredData, String actualData) {
     	List<String> accountPageData = Arrays.asList(accountDetailsPage.split(Constants.DELIMITER_TILD));
 		Assert.assertTrue(foundation.isDisplayed(objText(accountPageData.get(0))));
@@ -28,7 +32,7 @@ public class AccountDetails {
 			String quickOptions = foundation.getText(LBL_QUICK_GERMAN);
 			Assert.assertEquals(quickOptions, accountPageData.get(2));
 		}else {
-			Assert.assertTrue(foundation.isDisplayed(objText(accountPageData.get(2))));
+			Assert.assertTrue(foundation.isDisplayed(objAccountBalance(accountPageData.get(2))));
 		}
 		Assert.assertTrue(foundation.isDisplayed(objText(accountPageData.get(3))));
 		Assert.assertTrue(foundation.isDisplayed(objText(accountPageData.get(4))));

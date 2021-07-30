@@ -17,7 +17,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import at.framework.generic.DateAndTime;
-import at.framework.triggeremail.SendReport;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 

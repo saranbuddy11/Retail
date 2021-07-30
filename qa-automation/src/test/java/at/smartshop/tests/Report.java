@@ -91,14 +91,13 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 
-	@Test(description = "119928- This test validates account adjustment report")
+	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
 		try {
 			Map<String, String> dbData = new HashMap<>();
 
 			final String CASE_NUM = "119928";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -111,10 +110,8 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			List<String> menuItems = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> menuItems = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 
 			// Enter fields in Consumer Search Page
@@ -124,11 +121,9 @@ public class Report extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.click(consumerSearch.objCell(requiredData.get(5)));
-			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			List<String> tblColumnHeader = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
 
 			// reading Balance and add to the array list
@@ -138,16 +133,13 @@ public class Report extends TestInfra {
 
 			// converting string to double and adding the adjusted value
 			double adustedBalance = Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
-			double updatedbalance = initialbalance
-					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			double updatedbalance = initialbalance+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
-			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					Constants.TEXT);
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
-			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+			String updatedTime = String.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
 			// Navigate to Reports
@@ -479,7 +471,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "120821 - This test validates Bad Scan Report Data Calculation")
+	@Test(description = "120821-This test validates Bad Scan Report Data Calculation")
 	public void badScanReportData() {
 		try {
 
@@ -537,7 +529,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "141644 - This test validates Device By Category Report Data Calculation")
+	@Test(description = "141644- This test validates Device By Category Report Data Calculation")
 	public void deviceByCategoryReportData() {
 		try {
 
@@ -605,7 +597,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "141-636-This test validates Employee Comp Details Report Data Calculation")
+	@Test(description = "141636-This test validates Employee Comp Details Report Data Calculation")
 	public void employeeCompDetailsReportData() {
 		try {
 
@@ -779,8 +771,8 @@ public class Report extends TestInfra {
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER));
-			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER,Constants.VALUE));
+			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_LOCATION_NUMBER,Constants.VALUE));
 			iceReport.getADMData().add(dropdown.getSelectedItem(LocationSummary.DPD_ROUTE));
 
 			// update Data
@@ -825,7 +817,7 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "This test validates Tip Summary Report Data Calculation")
+	@Test(description = "142802-This test validates Tip Summary Report Data Calculation")
 
 	public void tipSummaryReportData() {
 		try {
@@ -886,7 +878,7 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "This test validates Item Stockout Report Data Calculation")
+	@Test(description = "142756-This test validates Item Stockout Report Data Calculation")
 	public void itemStockoutReportData() {
 		try {
 
@@ -976,7 +968,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Tip Details Report Data Calculation")
+	@Test(description = "142814-This test validates Tip Details Report Data Calculation")
 	public void tipDetailsReportData() {
 		try {
 
@@ -1041,7 +1033,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Health Ahead Report Data Calculation")
+	@Test(description = "142863-This test validates Health Ahead Report Data Calculation")
 	public void healthAheadReportData() {
 		try {
 
@@ -1095,7 +1087,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Canada Multi Tax Report Data Calculation")
+	@Test(description = "143034-This test validates Canada Multi Tax Report Data Calculation")
 	public void canadaMultiTaxReportData() {
 		try {
 
@@ -1171,7 +1163,7 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "This test validates Product Sales By Category Report Data Calculation")
+	@Test(description = "142906-This test validates Product Sales By Category Report Data Calculation")
 	public void productSalesByCategoryReportData() {
 		try {
 
@@ -1236,7 +1228,7 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "This test validates Folio Billing Report Data Calculation")
+	@Test(description = "143189-This test validates Folio Billing Report Data Calculation")
 	public void folioBillingReportData() {
 		try {
 

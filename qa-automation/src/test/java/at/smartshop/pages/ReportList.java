@@ -19,13 +19,13 @@ public class ReportList extends Factory {
 
 	private static final By TXT_SEARCH = By.id("Search");
 	private static final By DPD_DATE = By.id("reportrange1");
-	private static final By GRID_SCHEDULED_REPORT = By.id("scheduled-report-grid_editor_list");
-	private static final By DPD_DATE_OPTIONS = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul > li");
-	private static final By DPD_DATE_GRID = By.cssSelector("#scheduled-report-grid_editor_list + div > div.ranges > ul");
+	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
+	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span > ul > li > input");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
+
 
 	public void selectReport(String reportName) {
 		try {
@@ -48,7 +48,7 @@ public class ReportList extends Factory {
 			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);			
 			for (WebElement dateOption : dateOptions) {
 				if (dateOption.getText().equals(optionName)) {
-				foundation.waitforElement(DPD_DATE_GRID, Constants.EXTRA_LONG_TIME);					
+				foundation.waitforElement(GRID_SCHEDULED_REPORT, Constants.EXTRA_LONG_TIME);					
 					dateOption.click();
 					break;
 				}
