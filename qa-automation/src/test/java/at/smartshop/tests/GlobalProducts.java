@@ -16,6 +16,7 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.generic.Strings;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -32,6 +33,7 @@ import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -48,6 +50,7 @@ public class GlobalProducts extends TestInfra {
 	private Excel excel = new Excel();
 	private Strings strings = new Strings();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
+	private Dropdown dropDown = new Dropdown();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -213,8 +216,14 @@ public class GlobalProducts extends TestInfra {
 					
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
@@ -250,9 +259,19 @@ public class GlobalProducts extends TestInfra {
 			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			foundation.threadWait(Constants.SHORT_TIME);
+			boolean fileExists = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExists==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
@@ -304,10 +323,6 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
-			boolean fileExistsTar = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
-			if(fileExistsTar==false) {
-			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
-			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
@@ -333,11 +348,18 @@ public class GlobalProducts extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -345,16 +367,12 @@ public class GlobalProducts extends TestInfra {
 			if(fileExists==false) {
 			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
 			}
-			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			
+			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
-			boolean fileExists1 = foundation.isFileExists(FilePath.EXCEL_PROD_TAR);
-			if(fileExists1==false) {
-			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
-			}
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation

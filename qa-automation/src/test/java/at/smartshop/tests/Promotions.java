@@ -445,7 +445,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141830 - This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
+	@Test(description = "141830-This test validates the Item getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyItemInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141830";
@@ -542,7 +542,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141831 - This test validates the Category getting updated in Promotion Screen- Bundle Promotion",enabled=false)
+	@Test(description = "141831-This test validates the Category getting updated in Promotion Screen- Bundle Promotion",enabled=false)
 	public void verifyCategoryInPromotionScreen() {
 		try {
 			final String CASE_NUM = "141831";
@@ -696,7 +696,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -791,7 +791,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DDMMYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -1077,13 +1077,12 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141804 - Veirfy if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
+	@Test(description = "141804 - Verify if the select Category field loads properly for Onscreen promotions when user choose the filter ORG")
 	public void verifyOnscreenPromotionsCategory() {
 		try {
 			final String CASE_NUM = "141804";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -1096,19 +1095,15 @@ public class Promotions extends TestInfra {
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Creating New Promotion
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
-
 			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-
 			String basicInfoPageTitle = foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
 			assertTrue(basicInfoPageTitle.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
-
 			String promotionName = strings.getRandomCharacter();
 			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
 			String displayName = strings.getRandomCharacter();

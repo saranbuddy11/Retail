@@ -13,6 +13,7 @@ public class Constants {
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
 	public static final String VALUE = "value";
+	public static final String SRC = "src";
 	public static final String TEXT = "text";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String DATA = "data";
@@ -63,7 +64,7 @@ public class Constants {
 			+ "<br>\r\n" + "Link to TestRail Run- https://365retailmarkets.testrail.net/index.php?/runs/view/1775";
 	public static final String EMAIL_OVERALL_RESULT = "<b>Overall Result:</b>";
 	public static final String EMAIL_MODULE_RESULT = "<b>Module wise Result:</b>";
-	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "This is an automated triggerd mail";
+	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "This is an auto triggerd email";
 	public static final String EMAIL_RESULT_BODY = "<html><body>\r\n"
 			+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
 			+ "   <tbody>\r\n" + "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"

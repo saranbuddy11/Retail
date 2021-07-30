@@ -34,7 +34,7 @@ public class SendReport {
 			email.setSubject(Constants.EMAIL_SUBJECT);
 			
 			String result="<html><body>\r\n"
-					+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
+					+ "   <table cellpadding=\"2\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
 					+ "   <tbody>\r\n"
 					+ "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
 					+ "         <td align=\"center\"><b>Total</b></td>\r\n"
@@ -60,7 +60,7 @@ public class SendReport {
 			}
 			
 			String moduleResult=Constants.EMAIL_RESULT_BODY+rows+Constants.EMAIL_RESULT_TAIL;
-			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br>"+result+"<br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br>"+moduleResult+"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
+			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br>"+result+"<br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br>"+moduleResult+"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
 			for (String toEmailID : toEmailIDs) {
 				email.addTo(toEmailID);
 			}
