@@ -21,6 +21,8 @@ public class TaxList {
 	public static final By TXT_EFFECTIVETIME = By.cssSelector("input#starttime");
 	public static final By LBL_TAXRATE_SAVE = By.cssSelector("a#modalsave");
 	public static final By LBL_SEARCH = By.cssSelector("#dt_filter > label > input[type=text]");
+	public static final By TBL_TAX_GRID = By.id("dataGrid");
+	public static final By TBL_ROW = By.xpath("//*[@id='dataGrid']/tbody/tr");
 
 	public void selectDate(String text) {
 		try {
@@ -31,10 +33,12 @@ public class TaxList {
 		}
 	}
 
-	public float getTaxAmount(String taxRate) {
-		float tax = Float.parseFloat(taxRate);
+	public double getTaxAmount(String taxRate, String price) {
+		double tax = Double.parseDouble(taxRate);
 
-		float taxAmount = (float) (tax) / 100;
+		double taxPercent = (double) (tax) / 100;
+		double taxAmount = taxPercent * Double.parseDouble(price);
+		taxAmount = Math.round(taxAmount * 100.0) / 100.0;
 		return taxAmount;
 
 	}

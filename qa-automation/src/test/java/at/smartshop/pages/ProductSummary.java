@@ -35,7 +35,7 @@ public class ProductSummary extends Factory {
 	public static final By DPD_CATEGORY3 = By.id("category3");
 	public static final By LBL_REASON_CODE=By.xpath("//td[contains(@class,'column-reasonCode')]");
 	public static final By DPD_REASON_CODE = By.xpath("//td[contains(@class,'column-reasonCode')]//select");
-	
+	public static final By TXT_PRICE = By.xpath("//input[@id='price']");
 
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");

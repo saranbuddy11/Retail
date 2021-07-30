@@ -105,6 +105,8 @@ public class LocationSummary extends Factory {
 	public static final By LBL_TAX_CAT_CANCEL = By.xpath("//a[@id='taxcatcancel']");
 	public static final By TBL_TAX_GRID = By.id("taxmapdt");
 	public static final By TBL_ROW = By.xpath("//*[@id='taxmapdt']/tbody/tr");
+	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
+	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -184,7 +186,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_APPLY);
 	}
 
-	public By objHomeCommercial(String homeCommercial) {
+	public By objTable(String homeCommercial) {
 
 		return By.xpath("//td[text()='" + homeCommercial + "']");
 
@@ -251,7 +253,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
-		foundation.click(objHomeCommercial(imageName));
+		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);

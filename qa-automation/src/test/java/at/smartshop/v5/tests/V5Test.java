@@ -4684,7 +4684,8 @@ public class V5Test extends TestInfra {
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
 			String timeZone = rstLocationData.get(CNLocation.TIMEZONE);
@@ -4708,10 +4709,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(TaxList.TXT_RATE_2, requiredData.get(3));
 			textBox.enterText(TaxList.TXT_RATE_3, requiredData.get(4));
 			textBox.enterText(TaxList.TXT_RATE_4, requiredData.get(5));
-			float expectedTaxRate1 = taxList.getTaxAmount(requiredData.get(2));
-			float expectedTaxRate2 = taxList.getTaxAmount(requiredData.get(3));
-			float expectedTaxRate3 = taxList.getTaxAmount(requiredData.get(4));
-			float expectedTaxRate4 = taxList.getTaxAmount(requiredData.get(5));
+
 			foundation.click(TaxList.LBL_CALENDER);
 			taxList.selectDate(currentDay);
 			textBox.enterText(TaxList.TXT_EFFECTIVETIME, requiredData.get(6));
@@ -4723,6 +4721,11 @@ public class V5Test extends TestInfra {
 			table.selectRow(product);
 			foundation.waitforElement(ProductSummary.DPD_TAX_CATEGORY, Constants.SHORT_TIME);
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(1), Constants.TEXT);
+			String expectedPrice = foundation.getTextAttribute(ProductSummary.TXT_PRICE);
+			double expectedTaxRate1 = taxList.getTaxAmount(requiredData.get(2), expectedPrice);
+			double expectedTaxRate2 = taxList.getTaxAmount(requiredData.get(3), expectedPrice);
+			double expectedTaxRate3 = taxList.getTaxAmount(requiredData.get(4), expectedPrice);
+			double expectedTaxRate4 = taxList.getTaxAmount(requiredData.get(5), expectedPrice);
 			foundation.click(ProductSummary.BTN_SAVE);
 			// org summary
 			navigationBar.navigateToMenuItem(menuItem.get(2));
@@ -4739,14 +4742,14 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, taxRateName, Constants.TEXT);
 			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
 			locationSummary.selectTab(tabName);
-			Map<String, String> uiData =table.getTblSingleRowRecordUI(LocationSummary.TBL_TAX_GRID, LocationSummary.TBL_ROW);
-           
+			textBox.enterText(LocationSummary.TXT_TAX_FILTER, taxRateName);
+			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_TAX_GRID,
+					LocationSummary.TBL_ROW);
+
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(9), taxRateName);
-			Assert.assertEquals(dbData_Tax, uiData);
-			System.out.println(uiData);
-			System.out.println(dbData_Tax);
+			Assert.assertEquals(uiData, dbData_Tax);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -4767,7 +4770,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
 
 			// searching for product
-			foundation.click(AccountLogin.BTN_CAMELCASE);
+
 			textBox.enterKeypadText(product);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 
@@ -4775,20 +4778,269 @@ public class V5Test extends TestInfra {
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			String actualTaxRate1 = foundation.getText(Order.LBL_TAX_1);
+			String actualTaxRate2 = foundation.getText(Order.LBL_TAX_2);
+			String actualTaxRate3 = foundation.getText(Order.LBL_TAX_3);
+			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
+			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
+			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
+			Assert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
+			Assert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
+			Assert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
+			Assert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
+			Assert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
 
+			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
+					+ expectedTaxRate3 + expectedTaxRate4);
+			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(
-					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			List<String> paymentPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
+			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+
+			foundation.click(payments.objText(paymentPageData.get(1)));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			browser.close();
+			// resetting test data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(locationName);
+			locationSummary.selectTab(tabName);
+			textBox.enterText(LocationSummary.TXT_TAX_FILTER, taxRateName);
+			table.selectRow(taxRateName);
+			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
+			foundation.waitforElement(LocationSummary.BTN_CLOSE_COMMERCIAL, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143528-QAA-192-Verify when tax rate is removed, it should not display in tax Mapping Field and should not applied in sales of product in Kiosk.")
+	public void verifyRemovingTaxMapping() {
+		try {
+			final String CASE_NUM = "143528";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+			table.selectRow(product);
+			foundation.waitforElement(ProductSummary.DPD_TAX_CATEGORY, Constants.SHORT_TIME);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
+			String expectedPrice = foundation.getTextAttribute(ProductSummary.TXT_PRICE);
+
+			foundation.click(ProductSummary.BTN_SAVE);
+			// org summary
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA),
+					Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			// navigating location-- Mapping Tax
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(locationName);
+			locationSummary.selectTab(tabName);
+			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(2), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+
+			// Navigating to product search page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
+
+			// searching for product
+
+			textBox.enterKeypadText(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			Assert.assertTrue(foundation.isDisplayed(Order.LBL_TAX_1));
+
+			// removing Tax Mapping
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(locationName);
+			locationSummary.selectTab(tabName);
+			textBox.enterText(LocationSummary.TXT_TAX_FILTER, requiredData.get(1));
+			table.selectRow(requiredData.get(1));
+			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
+			Assert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+
+			// Navigating to product search page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
+
+			// searching for product
+
+			textBox.enterKeypadText(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
+			Assert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
+			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
+//			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, Constants.SHORT_TIME);
+//			foundation.click(Order.POP_UP_TIMEOUT_YES);
+//			foundation.objectFocus(order.objText(orderPageData.get(1)));
+//			foundation.click(order.objText(orderPageData.get(1)));
+//
+//			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+//
+//			foundation.click(AccountLogin.BTN_CAMELCASE);
+//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+//			foundation.click(AccountLogin.BTN_NEXT);
+//			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+//			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.click(AccountLogin.BTN_PIN_NEXT);
+//			List<String> paymentPageData = Arrays
+//					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+//
+//			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+//
+//			foundation.click(payments.objText(paymentPageData.get(1)));
+//			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+//			browser.close();
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143529-Verify when tax rate is replaced with another tax rate in tax mapping page, it should display in tax mapping grid page in ADM and sales of product in Kiosk.")
+	public void verifyReplaceTaxRate() {
+		try {
+			final String CASE_NUM = "143529";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			
+			textBox.enterText(TaxList.LBL_SEARCH, requiredData.get(1));
+			table.selectRow(requiredData.get(1));
+			Map<String, String> uiTaxRates = table.getTblSingleRowRecordUI(TaxList.TBL_TAX_GRID, TaxList.TBL_ROW);
+			String taxRate1=uiTaxRates.get(requiredData.get(3)).substring(0, 4);
+			String taxRate2=uiTaxRates.get(requiredData.get(4)).substring(0, 4);
+			String taxRate3=uiTaxRates.get(requiredData.get(5)).substring(0, 4);
+			String taxRate4=uiTaxRates.get(requiredData.get(6)).substring(0, 4);
+		
+			
+//			foundation.threadWait(Constants.MEDIUM_TIME);
+//			textBox.enterText(GlobalProduct.TXT_FILTER, product);
+//			table.selectRow(product);
+//			foundation.waitforElement(ProductSummary.DPD_TAX_CATEGORY, Constants.SHORT_TIME);
+//			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
+//			String expectedPrice = foundation.getTextAttribute(ProductSummary.TXT_PRICE);
+//
+//			foundation.click(ProductSummary.BTN_SAVE);
+//			// org summary
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA),
+//					Constants.TEXT);
+//			foundation.click(OrgSummary.BTN_SAVE);
+//			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
