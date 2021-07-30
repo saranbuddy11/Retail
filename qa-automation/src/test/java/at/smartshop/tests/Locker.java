@@ -110,7 +110,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(shelfLife.equals(Name.get(1)));
 
 			foundation.click(LocationSummary.LNK_LOCKER_NAME);
-			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME);
+			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME,Constants.VALUE);
 			Assert.assertTrue(systemName.equals(Name.get(0)));
 
 		} catch (Exception exc) {
@@ -235,7 +235,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120331- This test validates functionality of Delete' icon in the Location Locker")
+	@Test(description = "120331-This test validates functionality of Delete' icon in the Location Locker")
 	public void verifyDeletePopupMessage() {
 		try {
 			final String CASE_NUM = "120331";
@@ -244,10 +244,10 @@ public class Locker extends TestInfra {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -255,13 +255,10 @@ public class Locker extends TestInfra {
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),
 																						rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, Constants.SHORT_TIME);
-
-			List<String> popUpMessage = Arrays
-					.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> popUpMessage = Arrays	.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_YES_DELETE));
 			Assert.assertTrue(foundation.isDisplayed(LockerSystem.BTN_CANCEL));
-
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_TITLE).equals(popUpMessage.get(0)));
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
 
@@ -270,6 +267,7 @@ public class Locker extends TestInfra {
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -291,7 +289,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120332 - This test validates the functionality of Cancel button in the warning popup.")
+	@Test(description = "120332-This test validates the functionality of Cancel button in the warning popup.")
 	public void verifyLockerSystemNotDeleted() {
 		try {
 			final String CASE_NUM = "120332";
@@ -345,7 +343,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120333 - This test validates the functionality of Yes, Delete button in the warning popup.")
+	@Test(description = "120333-This test validates the functionality of Yes, Delete button in the warning popup.")
 	public void verifyDeleteLockerSystems() {
 		try {
 			final String CASE_NUM = "120333";
@@ -1090,7 +1088,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "C135731 - This test validates the Functionality of an Create System button")
+	@Test(description = "135731-This test validates the Functionality of an Create System button")
 	public void verifyCreateSystemButtonFunctionality() {
 		try {
 			final String CASE_NUM = "135731";
@@ -1107,8 +1105,8 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
 
 			login.logout();
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1121,15 +1119,15 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME).isEmpty());
-			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME,Constants.VALUE).isEmpty());
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	@Test(description = "C135751- Verify the System and Display Name fields in Create a System screen - Super")
+	@Test(description = "135751-Verify the System and Display Name fields in Create a System screen - Super")
 	public void verifySuperSystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135751";
@@ -1260,7 +1258,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "135756 - Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
+	@Test(description = "135756-Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
 	public void verifySuperCopySystemAndDisplayFields() {
 		try {
 			final String CASE_NUM = "135756";
@@ -1416,7 +1414,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Super")
+	@Test(description = "135737-Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Super")
 	public void verifyDisabledLocationSuper() {
 		try {
 			final String CASE_NUM = "135737";
@@ -1462,7 +1460,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Operator")
+	@Test(description = "135739-Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Operator")
 	public void verifyDisabledLocationOperator() {
 		try {
 			final String CASE_NUM = "135739";
@@ -1518,7 +1516,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify the 'Location' dropdown in Create a system screen for Locker settings enabled in Location Summary - Super")
+	@Test(description = "135738-Verify the 'Location' dropdown in Create a system screen for Locker settings enabled in Location Summary - Super")
 	public void verifyEnabledLocationSuper() {
 		try {
 			final String CASE_NUM = "135738";
@@ -1742,7 +1740,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "135748 - Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
+	@Test(description = "135748-Verify the 'Location' dropdown in Create a system(Copy button) screen for Locker settings disabled in Location Summary - Operator")
 	public void verifyCopyIconOperator() {
 		try {
 			final String CASE_NUM = "135748";
@@ -1823,7 +1821,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "135715- This test validates the Edit functionality in Locker System page")
+	@Test(description = "135715-This test validates the Edit functionality in Locker System page")
 	public void verifyEditFunctionality() {
 		try {
 			final String CASE_NUM = "135715";
@@ -1877,7 +1875,7 @@ public class Locker extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates the Create System button in Locker System page")
+	@Test(description = "135730-This test validates the Create System button in Locker System page")
 	public void verifyCreateSystemButton() {
 		try {
 			final String CASE_NUM = "135730";
