@@ -30,7 +30,7 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Login login = new Login();
 	private Browser browser = new Browser();
-	
+
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -93,6 +93,12 @@ public class LocationSummary extends Factory {
 	public static final By TBL_INVENTORY= By.id("inventoryDataGrid");
 	public static final By DPD_SHOW_PROD_LOOKUP = By.id("showprdlup");
 	public static final By LNK_INVENTORY = By.cssSelector("a#loc-inventory");
+	public static final By LNK_TAX_MAPPING = By.xpath("//a[text()='Tax Mapping']");
+	public static final By BTN_ADD_MAPPING = By.cssSelector("a#addMapping");
+	public static final By DPD_TAXCAT = By.cssSelector("select#taxcat");
+	public static final By DPD_RATE = By.cssSelector("select#taxname");
+	public static final By BTN_POPUP_SAVE = By.cssSelector("a#taxcatsave");
+	public static final By BTN_POPUP_REMOVE = By.cssSelector("a#taxcatremove");
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select[@id='vdiprovideradded']");
 	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
@@ -101,6 +107,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+
 
 	public void selectTab(String tabName) {
 		try {
@@ -255,13 +262,13 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()="+scancode+"]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()="+reasonCode+"]"),Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()="+reasonCode+"]"));
+
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
 	}
 
 	public By objUploadStatus(String uploadMessage) {
 		return By.xpath("//*[text()='" + uploadMessage + "']");
-
 	}
 	
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {	
@@ -292,6 +299,20 @@ public class LocationSummary extends Factory {
 
 	}
 
+	public void taxMapping(String taxCategory, String rate) {
+		
+		foundation.click(LNK_TAX_MAPPING);
+		foundation.click(BTN_ADD_MAPPING);
+		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
+		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
+		foundation.click(BTN_POPUP_SAVE);
+		foundation.click(LNK_TAX_MAPPING);		
+	}
+	
+	public By objVerifyTaxRate(String taxRate) {
+		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='"+taxRate+"']");
+	}
 	public By objProductPrice(String productName) {
 		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
 	}
@@ -322,6 +343,7 @@ public class LocationSummary extends Factory {
 			}
 		}
 		return flag;
-		
 	}
+	
+	
 }
