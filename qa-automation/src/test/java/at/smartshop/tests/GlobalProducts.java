@@ -16,6 +16,7 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.generic.Strings;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -24,6 +25,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -31,10 +33,12 @@ import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class GlobalProducts extends TestInfra {
+	
 	private NavigationBar navigationBar = new NavigationBar();
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private TextBox textBox = new TextBox();
@@ -46,14 +50,16 @@ public class GlobalProducts extends TestInfra {
 	private Excel excel = new Excel();
 	private Strings strings = new Strings();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
+	private Dropdown dropDown = new Dropdown();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
+	private Map<String, String> rstOrgSummaryData;
 
-	@Test(description = "This test to Increment Price value for a product in Global Product Change for Location(s)")
+	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
 		try {
 			final String CASE_NUM = "110985";
@@ -143,7 +149,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test validates Removed Extended Location")
+	@Test(description = "116004-This test validates Removed Extended Location")
 	public void RemoveLocation() {
 		try {
 			final String CASE_NUM = "116004";
@@ -201,20 +207,24 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142865";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+					
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			foundation.threadWait(Constants.LONG_TIME);
-
+			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
@@ -229,7 +239,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -239,19 +249,29 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142866";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			foundation.threadWait(Constants.LONG_TIME);
+			
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			boolean fileExists = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExists==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
@@ -265,7 +285,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -275,27 +295,31 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142868";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			String expectedMsg = rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE);
 			String productName = strings.getRandomCharacter();
+			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.AVI_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(rstOrgSummaryData.get(CNOrgSummary.ORG_NAME));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String actualMsg = foundation.getText(GlobalProduct.TXT_RECORD_COUNT);
-			Assert.assertEquals(actualMsg, expectedMsg);
+			Assert.assertEquals(actualMsg, expectedMsg);			
 			String[] uiData = actualMsg.split(" ");
 
+			boolean fileExistsSrc = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExistsSrc==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
@@ -308,7 +332,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -318,24 +342,33 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "142867";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product);
 			foundation.threadWait(Constants.SHORT_TIME);
+			boolean fileExists = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
+			if(fileExists==false) {
+			foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
+			}
+			
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
-
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
@@ -354,7 +387,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.deleteFile(FilePath.EXCEL_PROD_TAR);
 
 		} catch (Exception exc) {
-			Assert.fail();
+			Assert.fail(exc.toString());
 		}
 
 	}
