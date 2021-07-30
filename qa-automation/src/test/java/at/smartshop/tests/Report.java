@@ -49,6 +49,7 @@ import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
+import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
 
@@ -83,6 +84,7 @@ public class Report extends TestInfra {
 	private TipDetailsReport tipDetails = new TipDetailsReport();
 	private CanadaMultiTaxReport canadaMultiTax = new CanadaMultiTaxReport();
 	private ProductSalesByCategoryReport productSalesCategory = new ProductSalesByCategoryReport();
+	private UnfinishedCloseReport unfinishedClose = new UnfinishedCloseReport();
 	private FolioBillingReport folioBilling = new FolioBillingReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
 
@@ -1230,6 +1232,72 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSalesCategory.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+	
+	@Test(description = "This test validates Unfinished Close Report Data Calculation")
+	public void unfinishedCloseReportData() {
+		try {
+
+			final String CASE_NUM = "143433";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			unfinishedClose.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			unfinishedClose.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			String[] orderID = ((String) unfinishedClose.getJsonData().get(Reports.TRANS_ID))
+					.split(Constants.DELIMITER_HYPHEN);
+			textBox.enterText(UnfinishedCloseReport.TXT_FILTER, orderID[1]);
+			unfinishedClose.getTblRecordsUI();
+			unfinishedClose.getIntialData().putAll(unfinishedClose.getReportsData());
+			unfinishedClose.getRequiredRecord(orderID[1]);
+
+			// apply calculation and update data
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(0), orderID[1]);
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(1),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(3),
+					(String) unfinishedClose.getJsonData().get(Reports.TRANS_DATE_TIME));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(4),
+					unfinishedClose.getRequiredJsonData().get(0));
+			unfinishedClose.updateData(unfinishedClose.getTableHeaders().get(5),
+					unfinishedClose.getRequiredJsonData().get(1));
+
+			// verify report headers
+			unfinishedClose.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			unfinishedClose.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
