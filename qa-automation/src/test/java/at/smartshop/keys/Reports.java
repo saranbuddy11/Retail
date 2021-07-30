@@ -20,6 +20,7 @@ public class Reports {
 	public static final String PAYMENTS = "payments";
 	public static final String SUBTOTAL = "subtotal";
 	public static final String TOTAL = "total";
+	public static final String DUE = "due";
 	public static final String KIOSK = "kiosk";
 	public static final String DEVICE_NAME = "devicename";
 	public static final String ORG = "org";
