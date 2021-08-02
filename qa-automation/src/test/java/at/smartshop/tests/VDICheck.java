@@ -45,20 +45,17 @@ public class VDICheck extends TestInfra {
 	public void verifyVDICheckOrg() {
 		try {
 			final String CASE_NUM = "143021";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -80,7 +77,7 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_NO);
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
-			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.LONG_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
@@ -97,8 +94,7 @@ public class VDICheck extends TestInfra {
 	public void verifyVDIUnCheckOrg() {
 		try {
 			final String CASE_NUM = "143025";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -106,8 +102,7 @@ public class VDICheck extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -122,24 +117,21 @@ public class VDICheck extends TestInfra {
 		}
 	}
 
-	@Test(description = "143023-QAA-36-SOS-18920 - Verify when vdi is disabled for org then vdi option for location disabled and should see \"Can not enable VDI here until VDI is enabled for the org\"")
+	@Test(description = "143023-QAA-36-SOS-18920 - Verify when vdi is disabled for org then vdi option for location disabled and should see 'Can not enable VDI here until VDI is enabled for the org'")
 	public void verifyVDIUnCheckOrgDisable() {
 		try {
 			final String CASE_NUM = "143023";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -162,8 +154,7 @@ public class VDICheck extends TestInfra {
 	public void verifyVDIUnCheckLoc() {
 		try {
 			final String CASE_NUM = "143024";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -173,8 +164,7 @@ public class VDICheck extends TestInfra {
 			String requiredData = rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -299,20 +289,17 @@ public class VDICheck extends TestInfra {
 	public void verifyVDICheckLocPrice() {
 		try {
 			final String CASE_NUM = "143150";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -336,8 +323,7 @@ public class VDICheck extends TestInfra {
 			String actualDpd = dropDown.getSelectedItem(LocationSummary.DPD_VDI_PROVDIER);
 			Assert.assertEquals(actualDpd, requiredData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
-			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME),
-					Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME),Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(LocationSummary.BTN_VDI_PLUS);
 			Assert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
@@ -379,8 +365,7 @@ public class VDICheck extends TestInfra {
 	public void verifyVDIDropDownValue() {
 		try {
 			final String CASE_NUM = "143151";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -389,8 +374,7 @@ public class VDICheck extends TestInfra {
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
             //org Summary Page
    			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
@@ -401,6 +385,7 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_VDI_PLUS);
                //VDI Provider   drop down validations
 			orgSummary.verifyDPDValue(rstOrgSummaryData.get(CNOrgSummary.NAME));
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
