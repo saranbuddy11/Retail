@@ -103,6 +103,7 @@ public class V5Test extends TestInfra {
 	private CategoryList categoryList=new CategoryList();
 	private CategorySummary categorySummary=new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
+	private ConsumerSummary consumerSummary = new ConsumerSummary();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -5268,6 +5269,71 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(newTaxCategory1);
 			categoryList.selectCategory(editedTaxCategory2);
 			categorySummary.updateName(newTaxCategory2);
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
+	@Test(description = "143116-QAA-19-Edit existing BALREASON category name and verify edits applied on consumer page or not")
+	public void editBalReason() {
+		try {
+			final String CASE_NUM = "143116";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);	
+			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+			//String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			
+			//navigate to consumer summary page and verify edits applied ot not for balance reason
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+			
+			//Map<String, String> consumerTblRecords = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			String balance = textBox.getTextFromInput(ConsumerSummary.TXT_ADJUST_BALANCE);
+			//String balance1 = balance.substring(1);
+			Double newBalance = Double.parseDouble(balance) + 2;
+			//String expectedBalance = "$" + String.valueOf(newBalance);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
+			dropDown.selectItem(ConsumerSummary.DPD_REASON,requiredData.get(1),Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.refreshPage();
+			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
+			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));								
 		} catch (Exception exc) {
 			Assert.fail();
 		}

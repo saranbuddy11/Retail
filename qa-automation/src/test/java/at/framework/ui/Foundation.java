@@ -112,7 +112,7 @@ public class Foundation extends Factory {
 		try {
 			getDriver().navigate().refresh();
 		} catch (Exception exc) {
-			exc.printStackTrace();
+			Assert.fail(exc.toString());
 		}
 	}
 
