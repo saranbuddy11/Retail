@@ -107,6 +107,8 @@ public class LocationSummary extends Factory {
 	public static final By TBL_ROW = By.xpath("//*[@id='taxmapdt']/tbody/tr");
 	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
 	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
+	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
+
 
 	public void selectTab(String tabName) {
 		try {
