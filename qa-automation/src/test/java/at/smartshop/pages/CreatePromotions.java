@@ -85,6 +85,9 @@ public class CreatePromotions {
 	public static final By RB_BUNDLE_AMOUNT=By.id("bundleAmountCheckbox");
 	public static final By CHK_BUNDLE_OVERFLOW =By.id("hasoverflow");
 	public static final By DPD_DEVICE =By.id("device-select");
+	public static final By RB_BUNDLE_PRICE=By.id("bundlePriceCheckbox");
+	public static final By DPD_LOCATION_REMOVE=By.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -98,7 +101,8 @@ public class CreatePromotions {
 		foundation.click(BTN_NEXT);
 		textBox.enterText(DPD_ORG, orgName);
 		textBox.enterText(DPD_ORG, Keys.ENTER);
-		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+		textBox.enterText(DPD_LOC, locationName);
+		textBox.enterText(DPD_LOC, Keys.ENTER);
 		foundation.threadWait(Constants.TWO_SECOND);
 	}
 
