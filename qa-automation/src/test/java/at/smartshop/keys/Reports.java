@@ -15,10 +15,12 @@ public class Reports {
 	public static final String CC_TYPE = "cctype";
 	public static final String HOSTREF = "hostref";
 	public static final String VOID = "void";
+	public static final String VOIDED = "voided";
 	public static final String REASON = "reason";
 	public static final String PAYMENTS = "payments";
 	public static final String SUBTOTAL = "subtotal";
 	public static final String TOTAL = "total";
+	public static final String DUE = "due";
 	public static final String KIOSK = "kiosk";
 	public static final String DEVICE_NAME = "devicename";
 	public static final String ORG = "org";
