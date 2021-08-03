@@ -307,7 +307,7 @@ public class NationalAccount extends TestInfra {
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE)));
+			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE,Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
 
 			// Setting rule to No More Than
@@ -389,8 +389,8 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	@Test(description = "This test is to validate grid columns in Master National Account:Client List screen for Master National Account user")
-	public void verifGridColumnInMasterNationalAccount() {
+	@Test(description = "120713-This test is to validate grid columns in Master National Account:Client List screen for Master National Account user")
+	public void verifyGridColumnInMasterNationalAccount() {
 		try {
 			final String CASE_NUM = "120713";
 			Map<String, String> dbData = new HashMap<>();
@@ -475,7 +475,7 @@ public class NationalAccount extends TestInfra {
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE)));
+			double uiRulePrice = Double.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE,Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
 
 			// Setting rule to No More Than

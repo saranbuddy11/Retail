@@ -198,7 +198,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME, "Icecream");
+			textBox.enterText(LocationSummary.TXT_ADD_NAME, rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 			foundation.click(LocationSummary.BTN_ADD);
 
 			// disabling location
@@ -226,7 +226,7 @@ public class Location extends TestInfra {
 		}
 	}
 	
-	@Test(description = "11101-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
+	@Test(description = "111001-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
     public void updateLoyaltyMultiplier() {
         try {
             final String CASE_NUM = "111001";             
@@ -280,7 +280,7 @@ public class Location extends TestInfra {
 
  
 
-    @Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
+    @Test(description = "114899-Update Tax for Product and verify in Location Summary -> Products Tab")
     public void updateTaxForProduct() {
         try {
             final String CASE_NUM = "114899";            

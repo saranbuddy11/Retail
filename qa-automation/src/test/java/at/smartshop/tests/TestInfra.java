@@ -14,7 +14,7 @@ import at.framework.browser.Browser;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtReport;
-import at.framework.triggeremail.SendReport;
+import at.framework.reportsetup.SendReport;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Login;
