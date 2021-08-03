@@ -116,10 +116,10 @@ public class Foundation extends Factory {
 		}
 	}
 
-	public String getTextAttribute(By object) {
+	public String getTextAttribute(By object, String attribute) {
 		String textAttribute = null;
 		try {
-			textAttribute = getDriver().findElement(object).getAttribute(Constants.VALUE);
+			textAttribute = getDriver().findElement(object).getAttribute(attribute);
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
@@ -201,7 +201,6 @@ public class Foundation extends Factory {
 				text = webElement.getText();
 				elementsText.add(text);
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -263,9 +262,18 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Copied Successfully");
 			}
 		} catch (Exception exc) {
-
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public boolean isFileExists(String filePath) {
+		File file = new File(filePath);
+		if(!file.exists()) {
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
+			return true;		
+		}
+		else
+			return false;
 	}
 
 	public void deleteFile(String filePath) {
@@ -275,11 +283,7 @@ public class Foundation extends Factory {
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
 			}
-
-		} catch (
-
-		Exception exc) {
-
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
@@ -296,8 +300,7 @@ public class Foundation extends Factory {
 	public void alertDismiss() {
 		try {
 			Alert alert = getDriver().switchTo().alert();
-			alert.dismiss();
-			;
+			alert.dismiss();			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

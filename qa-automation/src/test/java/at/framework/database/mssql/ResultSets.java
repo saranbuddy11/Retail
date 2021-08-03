@@ -20,6 +20,7 @@ import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
+import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
@@ -36,7 +37,8 @@ public class ResultSets extends Connections {
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
 
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -45,7 +47,7 @@ public class ResultSets extends Connections {
 					rstNavigationMenu.put(CNNavigationMenu.REQUIRED_OPTION,
 							resultSet.getString(CNNavigationMenu.REQUIRED_OPTION));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -66,7 +68,8 @@ public class ResultSets extends Connections {
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
 
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -85,7 +88,7 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNConsumerSearch.SHEET_NAME));
 					rstConsumerSearch.put(CNConsumerSearch.ATTRIBUTE, resultSet.getString(CNConsumerSearch.ATTRIBUTE));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -104,7 +107,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -185,7 +189,7 @@ public class ResultSets extends Connections {
 					rstProductSummary.put(CNProductSummary.RECORDS_PER_PAGE_LIST,
 							resultSet.getString(CNProductSummary.RECORDS_PER_PAGE_LIST));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -204,7 +208,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -277,7 +282,7 @@ public class ResultSets extends Connections {
 					rstLocationSummary.put(CNLocationSummary.HAS_LOCKERS,
 							resultSet.getString(CNLocationSummary.HAS_LOCKERS));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -296,7 +301,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -318,7 +324,7 @@ public class ResultSets extends Connections {
 					rstConsumerSummary.put(CNConsumerSummary.EMAIL, resultSet.getString(CNConsumerSummary.EMAIL));
 					rstConsumerSummary.put(CNConsumerSummary.AMOUNT, resultSet.getString(CNConsumerSummary.AMOUNT));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -337,7 +343,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -352,7 +359,7 @@ public class ResultSets extends Connections {
 					rstReportList.put(CNReportList.START_MONTH, resultSet.getString(CNReportList.START_MONTH));
 					rstReportList.put(CNReportList.END_MONTH, resultSet.getString(CNReportList.END_MONTH));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -370,7 +377,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -379,7 +387,7 @@ public class ResultSets extends Connections {
 					rstDeviceList.put(CNDeviceList.CC_PROCESSOR, resultSet.getString(CNDeviceList.CC_PROCESSOR));
 					rstDeviceList.put(CNDeviceList.PRODUCT_NAME, resultSet.getString(CNDeviceList.PRODUCT_NAME));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -397,7 +405,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -410,7 +419,7 @@ public class ResultSets extends Connections {
 					rstLocationList.put(CNLocationList.COLUMN_NAME, resultSet.getString(CNLocationList.COLUMN_NAME));
 					rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
 					rstLocationList.put(CNLocationList.SHOW_RECORDS, resultSet.getString(CNLocationList.SHOW_RECORDS));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -429,7 +438,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -437,7 +447,7 @@ public class ResultSets extends Connections {
 				while (resultSet.next()) {
 					rstGmaUser.put(CNGmaUser.START_BALANCE, resultSet.getString(CNGmaUser.START_BALANCE));
 					rstGmaUser.put(CNGmaUser.PIN_VALUE, resultSet.getString(CNGmaUser.PIN_VALUE));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -456,7 +466,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -465,7 +476,7 @@ public class ResultSets extends Connections {
 					rstLoadProduct.put(CNLoadProduct.DELETE_EXISTING_PRODUCT,
 							resultSet.getString(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 					rstLoadProduct.put(CNLoadProduct.LOAD_TYPE, resultSet.getString(CNLoadProduct.LOAD_TYPE));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -485,7 +496,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -515,7 +527,7 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNGlobalProductChange.INCREMENT_LABEL));
 					rstGlobalProductChange.put(CNGlobalProductChange.INCREMENT_PRICE,
 							resultSet.getString(CNGlobalProductChange.INCREMENT_PRICE));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -535,7 +547,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 
@@ -545,7 +558,7 @@ public class ResultSets extends Connections {
 					rstUserRoles.put(CNUserRoles.ROW_RECORD, resultSet.getString(CNUserRoles.ROW_RECORD));
 					rstUserRoles.put(CNUserRoles.CLIENT_DROPDOWN, resultSet.getString(CNUserRoles.CLIENT_DROPDOWN));
 				}
-			}
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -564,7 +577,8 @@ public class ResultSets extends Connections {
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
 
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -609,7 +623,7 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNNationalAccounts.RULE_PAGE_TITLE));
 					rstNationalAccounts.put(CNNationalAccounts.RULE_PRICE,
 							resultSet.getString(CNNationalAccounts.RULE_PRICE));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -629,7 +643,8 @@ public class ResultSets extends Connections {
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
 
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -655,7 +670,7 @@ public class ResultSets extends Connections {
 					rstLockerSystem.put(CNLockerSystem.ERROR_MESSAGE,
 							resultSet.getString(CNLockerSystem.ERROR_MESSAGE));
 
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -675,7 +690,8 @@ public class ResultSets extends Connections {
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
 
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -691,7 +707,7 @@ public class ResultSets extends Connections {
 					rstLocation.put(CNLocation.PRODUCT_NAME, resultSet.getString(CNLocation.PRODUCT_NAME));
 					rstLocation.put(CNLocation.COLUMN_VALUE, resultSet.getString(CNLocation.COLUMN_VALUE));
 					rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
-				}
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -710,7 +726,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -739,7 +756,8 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.TRANSACTION_CANCEL, resultSet.getString(CNV5Device.TRANSACTION_CANCEL));
 					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
 					rstV5Device.put(CNV5Device.PAYMENTS_PAGE, resultSet.getString(CNV5Device.PAYMENTS_PAGE));
-				}
+					rstV5Device.put(CNV5Device.LANGUAGE, resultSet.getString(CNV5Device.LANGUAGE));
+				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -758,7 +776,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-			if (connection != null) {
+			if (connection == null)
+				getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -768,8 +787,7 @@ public class ResultSets extends Connections {
 					rstPickList.put(CNPickList.NEED, resultSet.getString(CNPickList.NEED));
 					rstPickList.put(CNPickList.RECORDS, resultSet.getString(CNPickList.RECORDS));
 					rstPickList.put(CNPickList.ROW_VALUES, resultSet.getString(CNPickList.ROW_VALUES));
-					rstPickList.put(CNPickList.COLUMN_HEADERS, resultSet.getString(CNPickList.COLUMN_HEADERS));
-				}
+					rstPickList.put(CNPickList.COLUMN_HEADERS, resultSet.getString(CNPickList.COLUMN_HEADERS));				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -788,8 +806,8 @@ public class ResultSets extends Connections {
 		Statement statement = null;
 		String sqlQuery = Constants.EMPTY_STRING;
 		try {
-
-			if (connection != null) {
+			if (connection == null)
+			getConnection();
 				statement = connection.createStatement();
 				sqlQuery = query + testcaseID;
 				ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -798,7 +816,7 @@ public class ResultSets extends Connections {
 					rstOrg.put(CNOrgSummary.NAME, resultSet.getString(CNOrgSummary.NAME));
 					rstOrg.put(CNOrgSummary.REQUIRED_DATA, resultSet.getString(CNOrgSummary.REQUIRED_DATA));
 					rstOrg.put(CNOrgSummary.ORG_NAME, resultSet.getString(CNOrgSummary.ORG_NAME));
-				}
+
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -811,6 +829,40 @@ public class ResultSets extends Connections {
 		}
 
 		return rstOrg;
+
+	}
+	public Map<String, String> getProductData(String query, String testcaseID) {
+		Map<String, String> rstProduct = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+
+			if (connection != null) {
+				statement = connection.createStatement();
+				sqlQuery = query + testcaseID;
+				ResultSet resultSet = statement.executeQuery(sqlQuery);
+				while (resultSet.next()) {
+
+					rstProduct.put(CNProduct.SCANCODE, resultSet.getString(CNProduct.SCANCODE));
+					rstProduct.put(CNProduct.SCANCODE_ERROR, resultSet.getString(CNProduct.SCANCODE_ERROR));
+					rstProduct.put(CNProduct.SUCCESS_SCANCODE, resultSet.getString(CNProduct.SUCCESS_SCANCODE));
+					rstProduct.put(CNProduct.SCANCODE, resultSet.getString(CNProduct.SCANCODE));
+					rstProduct.put(CNProduct.REQUIRED_DATA, resultSet.getString(CNProduct.REQUIRED_DATA));
+					rstProduct.put(CNProduct.PRODUCT_NAME, resultSet.getString(CNProduct.PRODUCT_NAME));
+
+				}
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		return rstProduct;
 
 	}
 }

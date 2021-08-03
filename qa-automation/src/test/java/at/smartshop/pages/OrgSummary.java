@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -43,23 +42,23 @@ public class OrgSummary extends Factory {
 	public static final By CHK_SHOW_HISTORY = By.xpath("//input[@id='invappshowhistory']");
 	public static final By CHK_SHOW_CHECKLIST_COUNT = By.xpath("//input[@id='invappshowchecklistcount']");
 	public static final By CHK_SHOW_CHECKLIST_REVIEW = By.xpath("//input[@id='invappshowchecklistcountreview']");
-	public static final By TXT_GMA_RATE= By.xpath("//input[@id='gmaratepercent']");
-	public static final By TXT_CREDIT_RATE= By.xpath("//input[@id='creditratepercent']");
-	public static final By TXT_NANO_GMA_RATE= By.xpath("//input[@id='nanogmaratepercent']");
-	public static final By TXT_NANO_CREDIT_RATE= By.xpath("//input[@id='nanocreditratepercent']");
+	public static final By TXT_GMA_RATE = By.xpath("//input[@id='gmaratepercent']");
+	public static final By TXT_CREDIT_RATE = By.xpath("//input[@id='creditratepercent']");
+	public static final By TXT_NANO_GMA_RATE = By.xpath("//input[@id='nanogmaratepercent']");
+	public static final By TXT_NANO_CREDIT_RATE = By.xpath("//input[@id='nanocreditratepercent']");
 	public static final By CHK_REPORT_VIEW = By.xpath("//input[@id='Checkbox1']");
 	public static final By DPD_POLICIES = By.xpath("//select[@id='hasgdpr']");
-	public static final By TXT_OPERATOR= By.xpath("//input[@id='operatorname']");
-	public static final By CHK_DISBURSEMENT= By.xpath("//input[@id='cbx.disbursementdays.6']");
-	public static final By TXT_DISBURSEMENT_EMAIL= By.xpath("//input[@id='disbursementemail']");
-	public static final By TXT_DISBURSEMENT_EMAIL_CC= By.xpath("//input[@id='disbursementemailcc']");
-	public static final By CHK_FREEZER= By.xpath("//div[text()='Freezer']");
-	public static final By CHK_COOLER= By.xpath("//div[text()='Cooler']");
-	public static final By LBL_SENSOR_TYPE= By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']");
-	public static final By LBL_COOLER= By.xpath("//div[@id='cooler']//p[@class='green-highlighter']");
-	public static final By LBL_FREEZER= By.xpath("//div[@id='freezer']//p[@class='green-highlighter']");
+	public static final By TXT_OPERATOR = By.xpath("//input[@id='operatorname']");
+	public static final By CHK_DISBURSEMENT = By.xpath("//input[@id='cbx.disbursementdays.6']");
+	public static final By TXT_DISBURSEMENT_EMAIL = By.xpath("//input[@id='disbursementemail']");
+	public static final By TXT_DISBURSEMENT_EMAIL_CC = By.xpath("//input[@id='disbursementemailcc']");
+	public static final By CHK_FREEZER = By.xpath("//div[text()='Freezer']");
+	public static final By CHK_COOLER = By.xpath("//div[text()='Cooler']");
+	public static final By LBL_SENSOR_TYPE = By
+			.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']");
+	public static final By LBL_COOLER = By.xpath("//div[@id='cooler']//p[@class='green-highlighter']");
+	public static final By LBL_FREEZER = By.xpath("//div[@id='freezer']//p[@class='green-highlighter']");
 	public static final By DPD_TAX_METHOD = By.xpath("//select[@id='taxmethod']");
-	
 	public static final By DPD_PROCESSORACCOUNT = By.cssSelector("select#processoraccount");
 	public static final By TXT_TAXID = By.cssSelector("#operatortaxid");
 	public static final By DPD_GMA_ACCOUNT = By.cssSelector("select#gma");
@@ -85,18 +84,18 @@ public class OrgSummary extends Factory {
 	public static final By TXT_POS_PROVIDER_ADDRESS = By.cssSelector("input#posprovideraddress");
 	public static final By TXT_POS_PROVIDER_CITY = By.cssSelector("input#posprovidercity");
 	public static final By TXT_POS_STATE = By.cssSelector("input#posstate");
-	public static final By TXT_POS_ZIP= By.cssSelector("input#poszip");
-	public static final By TXT_POS_COUNTRY= By.cssSelector("input#poscountry");
-	public static final By TXT_IMG_URL= By.cssSelector("input#imgsvrurl");
-	public static final By TXT_CC_OFFLINE_THRESHOLD= By.cssSelector("input#ccofflinethreshold");
-	public static final By TXT_CC_MAXVALUE= By.cssSelector("input#ccmaxvalue");
-	public static final By TXT_MONTHLY_FEE= By.cssSelector("input#monthlyfee");
-	public static final By TXT_LOCKERFLAT_FEE= By.cssSelector("input#lockerflatfee");
-	public static final By TXT_LOCKERPERCENT_FEE= By.cssSelector("input#lockerpercentfee");
-	public static final By TXT_LOCKER_FEE_CAP= By.cssSelector("input#lockerfeecap");
-	public static final By TXT_LOCKER_MONTHLY_FEE= By.cssSelector("input#lockermonthlyfee");
-	public static final By TXT_OPERATOR_TAX_ID= By.cssSelector("input#operatortaxid");
-	public static final By TXT_CANTEENID= By.cssSelector("input#userkey");
+	public static final By TXT_POS_ZIP = By.cssSelector("input#poszip");
+	public static final By TXT_POS_COUNTRY = By.cssSelector("input#poscountry");
+	public static final By TXT_IMG_URL = By.cssSelector("input#imgsvrurl");
+	public static final By TXT_CC_OFFLINE_THRESHOLD = By.cssSelector("input#ccofflinethreshold");
+	public static final By TXT_CC_MAXVALUE = By.cssSelector("input#ccmaxvalue");
+	public static final By TXT_MONTHLY_FEE = By.cssSelector("input#monthlyfee");
+	public static final By TXT_LOCKERFLAT_FEE = By.cssSelector("input#lockerflatfee");
+	public static final By TXT_LOCKERPERCENT_FEE = By.cssSelector("input#lockerpercentfee");
+	public static final By TXT_LOCKER_FEE_CAP = By.cssSelector("input#lockerfeecap");
+	public static final By TXT_LOCKER_MONTHLY_FEE = By.cssSelector("input#lockermonthlyfee");
+	public static final By TXT_OPERATOR_TAX_ID = By.cssSelector("input#operatortaxid");
+	public static final By TXT_CANTEENID = By.cssSelector("input#userkey");
 	public static final By DPD_HAS_DIFF = By.cssSelector("select#hasdif");
 	public static final By DPD_HAS_SOGO = By.cssSelector("select#hassogo");
 	public static final By DPD_HAS_GUEST_PASS = By.cssSelector("select#hasguestpass");
@@ -118,7 +117,7 @@ public class OrgSummary extends Factory {
 		Select dpdSel = new Select(drpdwn);
 		List<WebElement> DrpDwnList = dpdSel.getOptions();
 		for (WebElement webElement : DrpDwnList) {
-			
+
 			if (webElement.getText().contains(text)) {
 				flag = false;
 				break;
@@ -127,7 +126,5 @@ public class OrgSummary extends Factory {
 		Assert.assertTrue(flag);
 
 	}
-
-
 
 }
