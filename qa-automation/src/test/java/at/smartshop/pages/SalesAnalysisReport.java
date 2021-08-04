@@ -3,15 +3,16 @@ package at.smartshop.pages;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.openqa.selenium.By;
 import org.testng.Assert;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
@@ -31,7 +32,7 @@ public class SalesAnalysisReport {
 	
 	
 	private Map<String, Object> jsonData = new HashMap<>();
-	private List<String> requiredJsonData = new LinkedList<>();
+
 	
 	public void verifyReportName(String reportName) {
 		try {
@@ -103,18 +104,7 @@ public class SalesAnalysisReport {
 						UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
 				json.addProperty(Reports.SALES_HEADER, salesheader);
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
-				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-				if(reqString.equals(Reports.PAYMENTS)) {
-					json.addProperty(Reports.STATUS, Reports.REJECTED);
-					String name = json.get(Reports.NAME).getAsString();
-					requiredJsonData.add(name);
-					String ccType = json.get(Reports.CC_TYPE).getAsString();
-					requiredJsonData.add(ccType);
-					String pan = json.get(Reports.PAN).getAsString();
-					requiredJsonData.add(pan);
-					String amount = json.get(Reports.AMOUNT).getAsString();
-					requiredJsonData.add(amount);
-				}
+				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));				
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
