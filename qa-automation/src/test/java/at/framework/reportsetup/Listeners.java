@@ -71,11 +71,19 @@ public class Listeners implements ITestListener {
 
 	public void onTestFailure(ITestResult result) {		
 		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case" + result.getMethod().getMethodName() + " is failed due to " +result.getThrowable());
+		
+		//update fail count
+		failedCount++;
+		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
+		updateCount(listResultSet.get(index),Constants.FAIL, result.getMethod().getRealClass().getSimpleName());
+		
+		//update test rail
 		if(TestInfra.updateTestRail.equals(Constants.YES)) {
 		String testCaseId=result.getMethod().getDescription().split("-")[0];
 		testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
 		}
 		
+		//get screenshot
 		WebDriver driver = Factory.getDriver();		
 		String testmethodName = result.getMethod().getMethodName();
 
@@ -86,9 +94,7 @@ public class Listeners implements ITestListener {
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
-		failedCount++;
-		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
-		updateCount(listResultSet.get(index),Constants.FAIL, result.getMethod().getRealClass().getSimpleName());
+		
 	}
 
 	public void onTestSkipped(ITestResult result) {
