@@ -36,7 +36,6 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
-
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Location extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
@@ -50,7 +49,6 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio = new Radio();
-	
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -60,7 +58,6 @@ public class Location extends TestInfra {
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstLocationData;
-
 
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -372,31 +369,31 @@ public class Location extends TestInfra {
 
 	@Test(description = "143463-Verify Verify when tax method is set to Item level in OrgSummary Page , Tax mapping should not display in Location Summary Page.")
 	public void verifyItemLevelTax() {
+		final String CASE_NUM = "143463";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		// Split database data
+		List<String> subMenu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
 		try {
-			final String CASE_NUM = "143463";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-			// Split database data
-			List<String> subMenu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 
-			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
 			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(0), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
@@ -405,13 +402,15 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
 
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+
 			// resetting test data
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, requiredData.get(1), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
@@ -456,6 +455,5 @@ public class Location extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-
 
 }

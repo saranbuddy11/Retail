@@ -4968,27 +4968,7 @@ public class V5Test extends TestInfra {
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			Assert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
-//			foundation.waitforElement(Order.POP_UP_TIMEOUT_YES, Constants.SHORT_TIME);
-//			foundation.click(Order.POP_UP_TIMEOUT_YES);
-//			foundation.objectFocus(order.objText(orderPageData.get(1)));
-//			foundation.click(order.objText(orderPageData.get(1)));
-//
-//			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-//
-//			foundation.click(AccountLogin.BTN_CAMELCASE);
-//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-//			foundation.click(AccountLogin.BTN_NEXT);
-//			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-//			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-//			foundation.click(AccountLogin.BTN_PIN_NEXT);
-//			List<String> paymentPageData = Arrays
-//					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-//
-//			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
-//
-//			foundation.click(payments.objText(paymentPageData.get(1)));
-//			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-//			browser.close();
+
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
