@@ -6476,9 +6476,6 @@ public class V5Test extends TestInfra {
 	@Test(description = "143073-Validate v5 transactions with Discount on multiple Line items with Flash Sale for Onscreen Promotion")
 	public void recurrenceOnScreenPromotion() {
 		try { 
-			String str="(, $1.00,  )";
-			str=str.replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING);
-			
 			final String CASE_NUM = "143073";
 			
 			// Reading test data from database
@@ -6571,20 +6568,19 @@ public class V5Test extends TestInfra {
 
 			List<String> productPrice=foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
+			System.out.println(Double.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)));
+			System.out.println(Double.parseDouble(productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)));
+			System.out.println(Double.parseDouble(discountList.get(2).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)));
+			System.out.println(Double.parseDouble(discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)));
+			
 			Double expectedBalanceDue = Double.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING))+Double.parseDouble(productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING))
-				- Double.parseDouble(discountList.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)) -Double.parseDouble(discountList.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING));
+				- Double.parseDouble(discountList.get(2).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)) -Double.parseDouble(discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING));
 
-//			List<String> productPrice=foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
-//			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-//			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
-//			
-//			// verify the display of total section
-//            String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-//            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-//            Double expectedBalanceDue = Double.parseDouble(priceTotal) - Double.parseDouble(discount);
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(Double.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING))+Double.parseDouble(productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)))));
-            assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double.parseDouble(discountList.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)) +Double.parseDouble(discountList.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)))));
+            double subToal = Double.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING))+Double.parseDouble(productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING));
+            double expectedTotalRoundUp = Math.round(subToal*100.0)/100.0;
+            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(expectedTotalRoundUp)));
+            assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double.parseDouble(discountList.get(2).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)) +Double.parseDouble(discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR,Constants.EMPTY_STRING)))));
  
            
            List<String> orderPageData = Arrays
