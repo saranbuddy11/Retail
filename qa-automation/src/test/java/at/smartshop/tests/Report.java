@@ -46,6 +46,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductSalesByCategoryReport;
 import at.smartshop.pages.ProductTaxReport;
+import at.smartshop.pages.QueuedCreditTransactionsReport;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -87,6 +88,7 @@ public class Report extends TestInfra {
 	private ProductSalesByCategoryReport productSalesCategory = new ProductSalesByCategoryReport();
 	private UnfinishedCloseReport unfinishedClose = new UnfinishedCloseReport();
 	private FolioBillingReport folioBilling = new FolioBillingReport();
+	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
 	private IntegrationPaymentReport integrationPayments = new IntegrationPaymentReport();
 
@@ -1375,6 +1377,68 @@ public class Report extends TestInfra {
 
 			// verify report data
 			folioBilling.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+	
+	@Test(description = "120622-This test validates Queued Credit Transactions Report Data Calculation")
+	public void queuedCreditTransactionsReportData() {
+		try {
+
+			final String CASE_NUM = "143527";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			queuedCreditTrans.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			queuedCreditTrans.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			queuedCreditTrans.getTblRecordsUI();
+			queuedCreditTrans.getIntialData().putAll(queuedCreditTrans.getReportsData());
+			queuedCreditTrans.getRequiredRecord((String) queuedCreditTrans.getJsonData().get(Reports.TRANS_DATE_TIME));
+			
+			// apply calculation and update data
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(2), queuedCreditTrans.getRequiredJsonData().get(0));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(3), queuedCreditTrans.getRequiredJsonData().get(1));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(4), queuedCreditTrans.getRequiredJsonData().get(2));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(5), queuedCreditTrans.getRequiredJsonData().get(3));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(6), (String) queuedCreditTrans.getJsonData().get(Reports.TRANS_DATE_TIME));
+		
+			// verify report headers
+			queuedCreditTrans.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			queuedCreditTrans.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
