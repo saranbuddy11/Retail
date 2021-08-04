@@ -1382,7 +1382,7 @@ public class Report extends TestInfra {
 		}
 
 	}
-	
+
 	@Test(description = "120622-This test validates Queued Credit Transactions Report Data Calculation")
 	public void queuedCreditTransactionsReportData() {
 		try {
@@ -1422,18 +1422,23 @@ public class Report extends TestInfra {
 			queuedCreditTrans.getTblRecordsUI();
 			queuedCreditTrans.getIntialData().putAll(queuedCreditTrans.getReportsData());
 			queuedCreditTrans.getRequiredRecord((String) queuedCreditTrans.getJsonData().get(Reports.TRANS_DATE_TIME));
-			
+
 			// apply calculation and update data
 			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(2), queuedCreditTrans.getRequiredJsonData().get(0));
-			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(3), queuedCreditTrans.getRequiredJsonData().get(1));
-			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(4), queuedCreditTrans.getRequiredJsonData().get(2));
-			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(5), queuedCreditTrans.getRequiredJsonData().get(3));
-			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(6), (String) queuedCreditTrans.getJsonData().get(Reports.TRANS_DATE_TIME));
-		
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(2),
+					queuedCreditTrans.getRequiredJsonData().get(0));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(3),
+					queuedCreditTrans.getRequiredJsonData().get(1));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(4),
+					queuedCreditTrans.getRequiredJsonData().get(2));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(5),
+					queuedCreditTrans.getRequiredJsonData().get(3));
+			queuedCreditTrans.updateData(queuedCreditTrans.getTableHeaders().get(6),
+					(String) queuedCreditTrans.getJsonData().get(Reports.TRANS_DATE_TIME));
+
 			// verify report headers
 			queuedCreditTrans.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
@@ -1509,11 +1514,11 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "120622-This test validates Integration Payments Report Data Calculation")
+	@Test(description = "143547 -This test validates Integration Payments Report Data Calculation")
 	public void integrationPaymentsReportData() {
 		try {
 
-			final String CASE_NUM = "120622";
+			final String CASE_NUM = "143547";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1526,8 +1531,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			integrationPayments.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1549,14 +1553,20 @@ public class Report extends TestInfra {
 			integrationPayments.getTblRecordsUI();
 			integrationPayments.getIntialData().putAll(integrationPayments.getReportsData());
 			integrationPayments.getRequiredRecord(
-					(String) integrationPayments.getJsonData().get(Reports.TRANS_DATE_TIME),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			integrationPayments.getTblRecordsUI();
 
 			// apply calculation and update data
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			integrationPayments.updateValue(integrationPayments.getTableHeaders().get(2),
+					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.calculateAmount(integrationPayments.getAmountData());
 
 			// verify report headers
 			integrationPayments.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));

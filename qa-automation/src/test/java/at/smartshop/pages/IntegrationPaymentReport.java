@@ -42,16 +42,7 @@ public class IntegrationPaymentReport extends Factory {
 	private static final By TBL_INTEGRATION_PAYMENTS_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-//	private List<String> scancodeData = new LinkedList<>();
-//	private List<String> productNameData = new LinkedList<>();
-//	private List<String> priceData = new LinkedList<>();
-//	private List<String> taxData = new LinkedList<>();
-//	private List<String> category1Data = new LinkedList<>();
-//	private List<String> category2Data = new LinkedList<>();
-//	private List<String> category3Data = new LinkedList<>();
-//	private List<String> discountData = new LinkedList<>();
-//	private List<String> taxcatData = new LinkedList<>();
-	private List<String> requiredJsonData = new LinkedList<>();
+	private List<String> amountData = new LinkedList<>();
 	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -124,6 +115,31 @@ public class IntegrationPaymentReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public void updateData(String columnName, List<String> values) {
+		try {
+			for (int iter = 0; iter < requiredRecords.size(); iter++) {
+				String data = String.valueOf(values.get(iter));
+				intialData.get(requiredRecords.get(iter)).put(columnName, data);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void calculateAmount(List<String> amount) {
+		try {
+			for (int iter = 0; iter < requiredRecords.size(); iter++) {
+				String initialAmount = intialData.get(requiredRecords.get(iter)).get(tableHeaders.get(3));
+				String data = String.valueOf(amount.get(iter));
+				double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(data);
+				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(3), String.valueOf(updatedAmount));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	public void updateData(String columnName, String value) {
 		try {
@@ -160,71 +176,35 @@ public class IntegrationPaymentReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value, String paymentType) {
+	public void processAPI(String paymentType) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_TILD));
 			for (int iter = 0; iter < payType.size(); iter++) {
-				generateJsonDetails(value);
+				generateJsonDetails();
 				salesJsonDataUpdate(payType.get(iter));
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
-				getJsonSalesData();
-//				getJsonArrayData();
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	private void getJsonSalesData() {
-		try {
-			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
-			String delivery = sales.get(Reports.DELIVERY).getAsString();
-			requiredJsonData.add(delivery);
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail(exc.toString());
-		}
-	}
-
-	private void generateJsonDetails(String reportFormat) {
+	private void generateJsonDetails() {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String reportDate = tranDate.format(reqFormat);
 			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
 					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
-			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader, String paymentType) {
 		try {
@@ -237,7 +217,8 @@ public class IntegrationPaymentReport extends Factory {
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 				if (reqString.equals(Reports.PAYMENTS)) {
-					json.addProperty(Reports.PAYMENT_TYPE, paymentType);
+					json.addProperty(Reports.TYPE, paymentType);
+					amountData.add(json.get(Reports.AMOUNT).getAsString());
 				}
 			}
 		} catch (Exception exc) {
@@ -280,12 +261,12 @@ public class IntegrationPaymentReport extends Factory {
 		return reportsData;
 	}
 
-	public List<String> getRequiredJsonData() {
-		return requiredJsonData;
-	}
-
 	public List<String> getTableHeaders() {
 		return tableHeaders;
+	}
+	
+	public List<String> getAmountData() {
+		return amountData;
 	}
 
 }
