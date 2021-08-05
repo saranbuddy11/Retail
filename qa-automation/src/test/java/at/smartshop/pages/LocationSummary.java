@@ -43,7 +43,7 @@ public class LocationSummary extends Factory {
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
-	public static final By TXT_PRODUCT_FILTER = By.id("productFilterType");
+	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
 	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
@@ -107,6 +107,10 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By DPD_PRINTGROUP = By.cssSelector("select#printer");
+	public static final By LBL_PRINT_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_printer']");
+	public static final By LBL_PRINT_DOWN_ARROW = By.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
+
 
 
 	public void selectTab(String tabName) {
@@ -345,5 +349,7 @@ public class LocationSummary extends Factory {
 		return flag;
 	}
 	
-	
+	public By objPrintGroup(String text) { 
+			return By.xpath("//li[@data-value='"+text+"']");
+	}
 }
