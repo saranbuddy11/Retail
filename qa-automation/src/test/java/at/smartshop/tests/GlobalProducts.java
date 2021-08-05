@@ -468,8 +468,7 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "143344";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -477,11 +476,10 @@ public class GlobalProducts extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
 			String scanCode = rstProductData.get(CNProduct.SCANCODE);
-			List<String> expectedError = Arrays
-					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+			List<String> expectedError = Arrays.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(GlobalProduct.BTN_CREATE);
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
@@ -496,6 +494,7 @@ public class GlobalProducts extends TestInfra {
 			Assert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
 			Assert.assertEquals(actualData, expectedError.get(0));
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -506,8 +505,7 @@ public class GlobalProducts extends TestInfra {
 		try {
 			final String CASE_NUM = "143345";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -515,8 +513,7 @@ public class GlobalProducts extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
 
-			List<String> scanCode = Arrays
-					.asList(rstProductData.get(CNProduct.SCANCODE).split(Constants.DELIMITER_TILD));
+			List<String> scanCode = Arrays.asList(rstProductData.get(CNProduct.SCANCODE).split(Constants.DELIMITER_TILD));
 			String expectedScancodeError = rstProductData.get(CNProduct.SCANCODE_ERROR);
 			String expectedScancodeSuccess = rstProductData.get(CNProduct.SUCCESS_SCANCODE);
 			// Select Org,Menu and Menu Item
