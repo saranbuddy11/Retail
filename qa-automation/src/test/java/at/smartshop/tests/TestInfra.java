@@ -61,11 +61,11 @@ public class TestInfra {
 	@Parameters({"SendEmail"})
 	@AfterSuite
 	public void afterSuit(String sendEmail) {
-		try {			
-			ResultSets.connection.close();	
+		try {					
 			if(sendEmail.equals(Constants.YES)) {
 				sendReport.triggerMail(ExtReport.reportFullPath);
 				}
+			ResultSets.connection.close();
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
