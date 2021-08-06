@@ -5982,4 +5982,76 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "143129-QAA-19-Add new BALREASON category and Edit it's name and verify edits applied on consumer page or not")
+	public void addEditBalReason() {
+		try {
+			final String CASE_NUM = "143129";
+			
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);	
+			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));			
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//navigate to new category page
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			
+			//add balance category
+			String newBalCat = string.getRandomCharacter().toUpperCase();
+			String editedBalCat=requiredData.get(0)+newBalCat;
+			categorySummary.addCategory(newBalCat,requiredData.get(1));
+			
+			//verify newly added category displays in category list page
+			assertTrue(categoryList.verifyCategoryExist(newBalCat));
+			
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(newBalCat);
+			categorySummary.updateName(editedBalCat);
+			
+			//navigate to consumer summary page and verify edits applied ot not for balance reason
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+			
+			//Map<String, String> consumerTblRecords = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			String balance = textBox.getTextFromInput(ConsumerSummary.TXT_ADJUST_BALANCE);
+			Double newBalance = Double.parseDouble(balance) + 2;
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
+			dropDown.selectItem(ConsumerSummary.DPD_REASON,editedBalCat,Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.refreshPage();
+			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
+			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
+			
+			//reset data
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(editedBalCat);
+			categorySummary.updateName(newBalCat);								
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
 }
