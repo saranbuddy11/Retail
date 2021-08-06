@@ -5895,4 +5895,91 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
+	@Test(description = "143121-QAA19-Edit existing tax category percentage (tax rate) and verify edits applied to product or not on V5 order page")
+	public void editTaxRateCategory() {
+		try {
+			final String CASE_NUM = "143121";
+		
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);			
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//add categories to products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(0));
+			categorySummary.updateName(requiredData.get(1));
+			
+			//verify tax edits on location summary page- tax mapping tab- for saved category
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
+			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(2), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			
+			// set language and sync machine
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationSummary.kiosklanguageSetting(rstV5DeviceData.get(CNV5Device.LOCATION), language.get(0),
+					language.get(1));
+
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			order.verifyTax(requiredData.get(3));
+			
+			//reset data
+			//reset- category name
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			//reset mapping
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
+			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(4), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			//reset category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(requiredData.get(1));
+			categorySummary.updateName(requiredData.get(0));
+			
+			
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	
 }

@@ -756,6 +756,7 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
 					rstV5Device.put(CNV5Device.PAYMENTS_PAGE, resultSet.getString(CNV5Device.PAYMENTS_PAGE));
 					rstV5Device.put(CNV5Device.LANGUAGE, resultSet.getString(CNV5Device.LANGUAGE));
+					rstV5Device.put(CNV5Device.LOCATION, resultSet.getString(CNV5Device.LOCATION));
 				
 			}
 		} catch (Exception exc) {

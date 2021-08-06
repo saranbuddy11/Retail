@@ -112,6 +112,7 @@ public class LocationSummary extends Factory {
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE = By.id("taxname");
+	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
 	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
