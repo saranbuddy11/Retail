@@ -66,13 +66,12 @@ public class NationalAccount extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountsData;
 
-	@Test(description = "118214-This test verifies Master National Account PresetRole Permissions")
+	@Test(description = "118214-This test verifies Master National Account Preset Role Permissions")
 	public void verifyMasterNationalAccountPermission() {
 		try {
 			final String CASE_NUM = "118214";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -81,16 +80,13 @@ public class NationalAccount extends TestInfra {
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.click(UserList.BTN_MANAGE_ROLES);
 			assertTrue(foundation.isDisplayed(UserRoles.BTN_CREATE_NEW_ROLE));
-
-			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, "Master National Account");
-			List<String> requiredData = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, requiredData.get(0));			
 			foundation.click(userRoles.getRowByText(requiredData.get(0)));
 
 			assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));

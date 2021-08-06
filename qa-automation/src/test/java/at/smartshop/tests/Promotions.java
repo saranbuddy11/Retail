@@ -191,8 +191,8 @@ public class Promotions extends TestInfra {
 
 			// Validating promotion is displayed
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
-			promotionList.searchPromotion(promotionName);
 			dropdown.selectItem(PromotionList.DPD_STATUS,requiredData.get(6) ,Constants.TEXT);
+			promotionList.searchPromotion(promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			// Resetting the data
 			
@@ -840,8 +840,7 @@ public class Promotions extends TestInfra {
 		try {
 			final String CASE_NUM = "141776";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -854,12 +853,10 @@ public class Promotions extends TestInfra {
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			// String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// validate UI of promotion list page
@@ -900,13 +897,11 @@ public class Promotions extends TestInfra {
 			assertEquals(foundation.getText(CreatePromotions.LBL_SELECT_CRITERIA), requiredData.get(8));
 
 			// choose promotion filter
-			textBox.enterText(CreatePromotions.DPD_ORG,
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(CreatePromotions.DPD_ORG,	propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-
 			foundation.threadWait(Constants.ONE_SECOND);
 
 			// validate UI of enter promotion filter page
