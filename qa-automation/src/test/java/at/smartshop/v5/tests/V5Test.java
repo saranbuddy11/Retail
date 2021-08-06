@@ -6054,4 +6054,112 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "143128-QAA19-Add new tax category and Edit it's category name and verify edits applied to product or not on location page - tax mapping tab")
+	public void addEditTaxRateCategory() {
+		try {
+			final String CASE_NUM = "143128";
+		
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			String location = rstV5DeviceData.get(CNV5Device.LOCATION);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));			
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to new category page
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			
+			//add tax category
+			String newTaxCat = string.getRandomCharacter().toUpperCase();
+			String newTaxRateCat = string.getRandomCharacter().toUpperCase();
+			String editedTaxCat=requiredData.get(0)+newTaxCat;
+			categorySummary.addCategory(newTaxCat,requiredData.get(4));
+			
+			//verify newly added category displays in category list page
+			assertTrue(categoryList.verifyCategoryExist(newTaxCat));
+						
+			//save tax mapping on location summary page as precondition
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			
+			//add categories to products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			
+			//edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newTaxCat);
+			categorySummary.updateName(editedTaxCat);
+			
+			//verify tax edits on location summary page- tax mapping tab- for saved category
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AUTOTAXPERCENTAGE2", Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			
+			// set language and sync machine
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
+
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			//foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			order.verifyTax(requiredData.get(2));
+			
+			//reset data
+			//reset- category name
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			//reset mapping
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
+			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
+			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
+			//reset category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedTaxCat);
+			categorySummary.updateName(newTaxCat);
+			
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
 }
