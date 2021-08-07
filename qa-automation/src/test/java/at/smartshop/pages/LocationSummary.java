@@ -274,6 +274,7 @@ public class LocationSummary extends Factory {
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {	
 		
 		locationList.selectLocationName(location);
+		foundation.waitforElement(LocationSummary.DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
