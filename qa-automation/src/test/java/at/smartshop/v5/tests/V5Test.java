@@ -5244,7 +5244,8 @@ public class V5Test extends TestInfra {
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
@@ -5253,7 +5254,7 @@ public class V5Test extends TestInfra {
 			createPromotions.BundlePromotion(promotionType, promotionName, displayName, requiredData.get(0),locationName);
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3),requiredData.get(7));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(3),requiredData.get(5));
 			
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
@@ -5280,18 +5281,8 @@ public class V5Test extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Selecting location
-			locationList.selectLocationName(locationName);
-
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(8), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(9), Constants.TEXT);
-
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();			
-			browser.close();
+			
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
@@ -5365,7 +5356,8 @@ public class V5Test extends TestInfra {
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
@@ -5374,7 +5366,7 @@ public class V5Test extends TestInfra {
 			createPromotions.BundlePromotion(promotionType, promotionName, displayName, requiredData.get(0),locationName);
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3),requiredData.get(7));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(3),requiredData.get(5));
 				
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -5405,17 +5397,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Selecting location
-			locationList.selectLocationName(locationName);
-
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(8), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(9), Constants.TEXT);
-
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();			
-			browser.close();
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
@@ -5470,7 +5452,8 @@ public class V5Test extends TestInfra {
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
@@ -5515,17 +5498,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Selecting location
-			locationList.selectLocationName(locationName);
-
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(8), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(9), Constants.TEXT);
-
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();			
-			browser.close();
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
@@ -5604,16 +5577,17 @@ public class V5Test extends TestInfra {
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// New Promotion
 			createPromotions.BundlePromotion(promotionType, promotionName, displayName, requiredData.get(0),locationName);
-			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
+			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3),Constants.DELIMITER_SPACE);
+			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 						
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
@@ -5640,26 +5614,16 @@ public class V5Test extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Selecting location
-			locationList.selectLocationName(locationName);
-
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(8), Constants.TEXT);
-
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();			
-			browser.close();
-						
+		
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
+			
 			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 						
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(9));
+			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 						
@@ -5695,8 +5659,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 					
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(3), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
+			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 
 		} catch (Exception exc) {
@@ -5727,7 +5691,8 @@ public class V5Test extends TestInfra {
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
@@ -5764,18 +5729,20 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Selecting location
-			locationList.selectLocationName(locationName);
-
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(8), Constants.TEXT);
-
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();			
-			browser.close();
-						
+//			// Selecting location
+//			locationList.selectLocationName(locationName);
+//
+//			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(8), Constants.TEXT);
+//
+//			foundation.click(LocationSummary.BTN_SYNC);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			login.logout();			
+//			browser.close();
+			
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
+			
 			foundation.threadWait(Constants.SHORT_TIME);
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);

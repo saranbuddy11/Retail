@@ -73,6 +73,7 @@ public class Order {
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.click(objText(email));
 		Assert.assertTrue(foundation.isDisplayed(objText(purchaseComplete)));
 
 		foundation.click(objText(yesButton));
