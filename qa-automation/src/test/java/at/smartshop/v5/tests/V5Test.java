@@ -7175,6 +7175,9 @@ public class V5Test extends TestInfra {
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
             assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 			
+            double discountamount=Double.parseDouble(productPrice)*Double.parseDouble(requiredData.get(7))/100;
+            assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
+            
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
             List<String> paymentPageData = Arrays
