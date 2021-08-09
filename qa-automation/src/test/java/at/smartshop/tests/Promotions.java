@@ -98,7 +98,7 @@ public class Promotions extends TestInfra {
 			// Validating "All" option in Location field
 			String uiData = dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION);
 			assertEquals(uiData, locationName);
-
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -1120,7 +1120,7 @@ public class Promotions extends TestInfra {
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			List<String> category = Arrays	.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> category = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, category.get(0), Constants.TEXT);
 
 			foundation.click(CreatePromotions.SEARCH_CATEGORY);
