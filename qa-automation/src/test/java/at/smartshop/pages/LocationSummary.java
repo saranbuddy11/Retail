@@ -278,7 +278,8 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);		
 		login.logout();
 		browser.close();
 		
