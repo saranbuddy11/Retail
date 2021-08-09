@@ -533,17 +533,13 @@ public class V5Test extends TestInfra {
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			List<String> language = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
-					language.get(1));
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1509,7 +1505,7 @@ public class V5Test extends TestInfra {
 
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			foundation.click(landingPage.objLanguage(language.get(0)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -1553,7 +1549,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			foundation.click(landingPage.objLanguage(language.get(0)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
