@@ -6852,8 +6852,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	
-	@Test(description = "143077-Validate v5 transactions with Less than Min Transaction amount for Onscreen Promotion")
+	@Test(description = "143077-Validate v5 transactions without Discount when different device type is selected for Onscreen Promotion")
 	public void deviceOnScreenPromotion() {
 		try { 
 			final String CASE_NUM = "143077";
@@ -6944,6 +6943,122 @@ public class V5Test extends TestInfra {
            // assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
            // assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
            
+           
+           List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+            List<String> paymentPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+            foundation.objectFocus(order.objText(orderPageData.get(1)));
+			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
+                  
+            browser.close();
+            browser.launch(Constants.LOCAL, Constants.CHROME);
+            browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+		
+			// Deleting the Promotion
+			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			//foundation.click(PromotionList.BTN_SEARCH);
+			editPromotion.expirePromotion(gridName, promotionName);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "143078-Validate v5 transactions with Discount type is Amount for Onscreen Promotion")
+	public void discountAmountOnScreenPromotion() {
+		try { 
+			final String CASE_NUM = "143078";
+			
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			final String promotionName = string.getRandomCharacter();
+			String displayName = string.getRandomCharacter();
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+
+			// New Promotion
+			foundation.waitforElement(PromotionList.BTN_CREATE,Constants.SHORT_TIME);
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+			createPromotions.newPromotion(promotionType, promotionName,displayName,  requiredData.get(0),locationName);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE,requiredData.get(5), Constants.TEXT);
+			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
+			
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+			
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
+			navigationBar.navigateToMenuItem(navigationMenu.get(2));
+			
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
+			
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(3));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			
+			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			
+	        // verify the display of total section
+            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+            assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			           
            
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
