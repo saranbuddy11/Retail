@@ -903,6 +903,7 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0),language.get(1));
 
 			// launch v5 application
@@ -5331,7 +5332,7 @@ public class V5Test extends TestInfra {
 			List<String> requiredDataV5Device = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> requiredDataLocationSummary = Arrays
-					.asList(rstLocationSummaryData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+					.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
@@ -5367,6 +5368,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			//select show categories
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.threadWait(Constants.ONE_SECOND);
 			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(1));
 			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(2));
 			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0), requiredDataLocationSummary.get(3));
