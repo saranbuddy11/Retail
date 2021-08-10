@@ -5480,6 +5480,7 @@ public class V5Test extends TestInfra {
 			//verify newly added category displays in category list page
 			assertTrue(categoryList.verifyCategoryExist(newTaxCat));
 			
+			foundation.threadWait(Constants.TWO_SECOND);
 			// Select Menu and Menu Item and add the tax category to a global product
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -5773,7 +5774,7 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//add tax categories
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -5782,13 +5783,13 @@ public class V5Test extends TestInfra {
 			String editedTaxCategory1=requiredData.get(2)+newTaxCategory1;
 			String editedTaxCategory2=requiredData.get(2)+newTaxCategory2;
 			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
-			categorySummary.addCategory(newTaxCategory1,requiredData.get(3));
+			categorySummary.addCategory(newTaxCategory1,requiredData.get(4));
 			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
-			categorySummary.addCategory(newTaxCategory2,requiredData.get(3));
+			categorySummary.addCategory(newTaxCategory2,requiredData.get(4));
 
 			//save tax mapping on location summary page as precondition
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			locationList.selectLocationName(requiredData.get(0));
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_ADD_MAPPING);
 			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, newTaxCategory1, Constants.TEXT);
@@ -5803,8 +5804,8 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(editedTaxCategory2);
 			
 			//verify tax edits on location summary page- tax mapping tab- for saved category
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			locationList.selectLocationName(requiredData.get(0));
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCategory1);
 			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCategory1)));
