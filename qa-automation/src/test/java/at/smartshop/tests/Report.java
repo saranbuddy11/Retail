@@ -1563,7 +1563,7 @@ public class Report extends TestInfra {
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			integrationPayments.updateValue(integrationPayments.getTableHeaders().get(2),
 					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
 			integrationPayments.calculateAmount(integrationPayments.getAmountData());

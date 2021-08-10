@@ -115,7 +115,7 @@ public class IntegrationPaymentReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void updateData(String columnName, List<String> values) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
@@ -126,11 +126,12 @@ public class IntegrationPaymentReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void calculateAmount(List<String> amount) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String initialAmount = intialData.get(requiredRecords.get(iter)).get(tableHeaders.get(3));
+				String initialAmount = intialData.get(requiredRecords.get(iter)).get(tableHeaders.get(3))
+						.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
 				String data = String.valueOf(amount.get(iter));
 				double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(data);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
@@ -264,7 +265,7 @@ public class IntegrationPaymentReport extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-	
+
 	public List<String> getAmountData() {
 		return amountData;
 	}
