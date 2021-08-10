@@ -47,4 +47,6 @@ public class CNProductSummary {
 	public static final String MAX_SELECTIONS = "MaxSelections";
 	public static final String TOOL_TIP_MESSAGE = "ToolTipMessage";
 	public static final String RECORDS_PER_PAGE_LIST = "RecordsPerPageList";
+	public static final String PRODUCT_NAME = "ProductName";
+
 }

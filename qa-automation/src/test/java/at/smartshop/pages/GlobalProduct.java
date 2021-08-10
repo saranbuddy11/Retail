@@ -23,7 +23,24 @@ public class GlobalProduct extends Factory {
 	public static final By BTN_EXPORT = By.xpath("//button[text()='Export']");
 	public static final By TXT_RECORD_COUNT = By.cssSelector("#dataGrid_pager_label");
 	public static final By TBL_ROW = By.xpath("//*[@id='dataGrid']/tbody");
-
+	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TXT_PRODUCTNAME = By.xpath("//dd//input[@id='name']");
+	public static final By TXT_SCAN_CODE = By.xpath("//input[@name='scancode']");
+	public static final By BUTTON_ADD = By.xpath("//button[text()='Add']");
+	public static final By LBL_SCANCODE_MSG = By.xpath("//div[@class='scmsg error']");
+	public static final By TXT_PRICE = By.xpath("//input[@id='price']");
+	public static final By BUTTON_SAVE = By.xpath("//button[text()='Save And Extend']");
+	public static final By LBL_SCANCODE_ERROR = By.xpath("//label[@id='scancode-error']");
+	public static final By LBL_COST = By.xpath("//input[@id='cost']");
+	public static final By LBL_SHORT_NAME = By.xpath("//input[@id='shortname']");
+	public static final By LBL_SAVE_DONE = By.xpath("//a[text()='Save and Done']");
+	public static final By LBL_ALERT_HEADER = By.xpath("//div[@class='ajs-header']");
+	public static final By LBL_ALERT_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By LBL_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
+	public static final By LBL_EXISTING_SCANCODE = By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode']");
+	public static final By TXT_SCAN_CODE_2 = By.xpath("(//input[@name='scancode'])[2]");
+	public static final By TXT_SCAN_CODE_ERROR = By.xpath("//div[@class='scmsg error' and @style='color: rgb(255, 0, 0);']");
+	
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
