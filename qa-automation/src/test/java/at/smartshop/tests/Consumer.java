@@ -314,8 +314,7 @@ public class Consumer extends TestInfra {
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-
+		
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
@@ -336,6 +335,45 @@ public class Consumer extends TestInfra {
 			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
 			
+		
+		} catch (
+
+		Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	@Test(description = "143684-QAA-23-verify when invalid email id is provided for consumer creation ,error message \"Invalid Email Address\" is displayed")
+	public void verifyInvalidEmail() {
+		try {
+			final String CASE_NUM = "143684";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+		
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+			String name = rstConsumerData.get(CNConsumer.LAST_NAME);
+			List<String> emailId = Arrays
+					.asList(rstConsumerData.get(CNConsumer.EMAIL).split(Constants.DELIMITER_TILD));
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			for (int i=0;i<emailId.size();i++) {
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+					Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_EMAIL,emailId.get(i));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
+			}
 		
 		} catch (
 
