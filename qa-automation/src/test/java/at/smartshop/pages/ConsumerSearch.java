@@ -30,6 +30,8 @@ public class ConsumerSearch extends Factory{
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
