@@ -421,4 +421,44 @@ public class Consumer extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	@Test(description = "143719-QAA-23-verify when provided pin is greater than 4 digits for consumer creation, error message \"PIN must be exactly 4 digits.\" is displayed.")
+	public void verifyPinLength() {
+		try {
+			final String CASE_NUM = "143719";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+		
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+		
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+					Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+		
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
+			 actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
+			
+		
+		} catch (
+
+		Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
