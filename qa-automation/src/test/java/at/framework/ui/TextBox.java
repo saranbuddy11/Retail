@@ -62,6 +62,17 @@ public class TextBox extends Factory {
 			}
 		}
 	}
+	
+	public void enterKeypadNumber(String number) {
+		char[] charArray = number.toCharArray();
+		for (char eachChar : charArray) {
+			if (eachChar == ' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+			} else {
+				foundation.click(By.xpath("//*[@class='keyboardNumber']//*[text()='" + eachChar + "']"));
+			}
+		}
+	}
 
 	public void enterPin(String pin) {
 		for (int i = 0; i < pin.length(); i++) {
