@@ -1,19 +1,13 @@
 package at.smartshop.pages;
 
 import static org.testng.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
-
-import com.aventstack.extentreports.Status;
-
-import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -199,4 +193,18 @@ public class CreatePromotions {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public void tenderDiscountDetails(String tenderType, String discountType,String applyDIscountTo, String discountAmount, String transactionAmount) {
+		try {
+			dropDown.selectItem(MULTI_SELECT_TENDER_TYPES, tenderType, Constants.TEXT);
+			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
+			dropDown.selectItem(DPD_APPLY_DISCOUNT_TO, applyDIscountTo, Constants.TEXT);
+			textBox.enterText(TXT_AMOUNT,discountAmount);
+			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	
 }
