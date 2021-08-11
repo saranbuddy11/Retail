@@ -356,7 +356,7 @@ public class Consumer extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
-			String name = rstConsumerData.get(CNConsumer.LAST_NAME);
+
 			List<String> emailId = Arrays.asList(rstConsumerData.get(CNConsumer.EMAIL).split(Constants.DELIMITER_TILD));
 			foundation.click(ConsumerSearch.BTN_CREATE);
 			for (int i = 0; i < emailId.size(); i++) {
@@ -582,7 +582,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_CREATE);
 
 			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
-		
+
 			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
@@ -596,6 +596,7 @@ public class Consumer extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	@Test(description = "145230-QAA-23-verify when invalid first name or last name are provided for consumer creation, error message \"Special characters not permitted\" is displayed.")
 	public void verifyInvalidNames() {
 		try {
@@ -619,8 +620,8 @@ public class Consumer extends TestInfra {
 
 			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
 			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, rstConsumerData.get(CNConsumer.FIRST_NAME));
-			textBox.enterText(ConsumerSummary.TXT_LASTNAME,rstConsumerData.get(CNConsumer.LAST_NAME));
-		
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, rstConsumerData.get(CNConsumer.LAST_NAME));
+
 			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 //			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 //			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
