@@ -123,7 +123,7 @@ public class Menu extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
-			// foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -151,19 +151,9 @@ public class Menu extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-//			navigationBar.navigateToMenuItem(menuItem.get(0));
-//			
-//			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, rstLocationData.get(CNLocation.LOCATION_NAME), Constants.TEXT);
-//			foundation.click(PrintGroupLists.BTN_CREATENEW);
-//			final String printGroupName=requiredData.get(0)+strings.getRandomCharacter();
-//			textBox.enterText(PrintGroupLists.TXT_NAME,printGroupName);
-//			foundation.click(PrintGroupLists.BTN_SAVE);
-//
-//			foundation.waitforElement(PrintGroupLists.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
-//			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-//			dropDown.selectItem(LocationSummary.DPD_PRINTGROUP, "AutomationPrinter", Constants.TEXT);
+
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
