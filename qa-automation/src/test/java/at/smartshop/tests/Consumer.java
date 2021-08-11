@@ -279,28 +279,26 @@ public class Consumer extends TestInfra {
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
 			String name = rstConsumerData.get(CNConsumer.FIRST_NAME);
-			consumerSearch.enterSearchFields(rstConsumerData.get(CNConsumer.SEARCH_BY),
-					name,
-					rstConsumerData.get(CNConsumer.LOCATION),
-					rstConsumerData.get(CNConsumer.STATUS));
-			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,ConsumerSearch.TBL_ROW);
+			consumerSearch.enterSearchFields(rstConsumerData.get(CNConsumer.SEARCH_BY), name,
+					rstConsumerData.get(CNConsumer.LOCATION), rstConsumerData.get(CNConsumer.STATUS));
+			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,
+					ConsumerSearch.TBL_ROW);
 			foundation.click(ConsumerSearch.BTN_CREATE);
-			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
-					Constants.TEXT);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
 			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_SCANID, tableData.get(rstConsumerData.get(CNConsumer.COLUMN_NAME)));
 			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 			String actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
-		
+
 		} catch (
 
 		Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "143625-QAA-23-verify when existing email id is provided for consumer creation ,error message \"Email is invalid or already in use\" is displayed")
 	public void verifyDuplicateEmail() {
 		try {
@@ -314,34 +312,32 @@ public class Consumer extends TestInfra {
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-		
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
 			String name = rstConsumerData.get(CNConsumer.LAST_NAME);
-			consumerSearch.enterSearchFields(rstConsumerData.get(CNConsumer.SEARCH_BY),
-					name,
-					rstConsumerData.get(CNConsumer.LOCATION),
-					rstConsumerData.get(CNConsumer.STATUS));
-			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,ConsumerSearch.TBL_ROW);
+			consumerSearch.enterSearchFields(rstConsumerData.get(CNConsumer.SEARCH_BY), name,
+					rstConsumerData.get(CNConsumer.LOCATION), rstConsumerData.get(CNConsumer.STATUS));
+			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,
+					ConsumerSearch.TBL_ROW);
 			foundation.click(ConsumerSearch.BTN_CREATE);
-			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
-					Constants.TEXT);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
 			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_EMAIL, tableData.get(rstConsumerData.get(CNConsumer.COLUMN_NAME)));
 			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
-			
-		
+
 		} catch (
 
 		Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	@Test(description = "143684-QAA-23-verify when invalid email id is provided for consumer creation ,error message \"Invalid Email Address\" is displayed")
 	public void verifyInvalidEmail() {
 		try {
@@ -355,32 +351,30 @@ public class Consumer extends TestInfra {
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-		
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
 			String name = rstConsumerData.get(CNConsumer.LAST_NAME);
-			List<String> emailId = Arrays
-					.asList(rstConsumerData.get(CNConsumer.EMAIL).split(Constants.DELIMITER_TILD));
+			List<String> emailId = Arrays.asList(rstConsumerData.get(CNConsumer.EMAIL).split(Constants.DELIMITER_TILD));
 			foundation.click(ConsumerSearch.BTN_CREATE);
-			for (int i=0;i<emailId.size();i++) {
-			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
-					Constants.TEXT);
-			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
-			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
-			textBox.enterText(ConsumerSummary.TXT_EMAIL,emailId.get(i));
-			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
-			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
-			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
+			for (int i = 0; i < emailId.size(); i++) {
+				dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+						Constants.TEXT);
+				textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+				textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+				textBox.enterText(ConsumerSummary.TXT_EMAIL, emailId.get(i));
+				textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+				String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
+				Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
 			}
-		
-		} catch (
 
-		Exception exc) {
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	@Test(description = "143718-QAA-23-verify when email id and scan id are not provided for consumer creation, error message \"Email or Scan ID required\" is displayed")
 	public void verifyWhenNoEmail() {
 		try {
@@ -394,33 +388,29 @@ public class Consumer extends TestInfra {
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-		
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
-		
 
 			foundation.click(ConsumerSearch.BTN_CREATE);
-			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
-					Constants.TEXT);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
 			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
-		
+
 			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 			foundation.click(ConsumerSummary.BTN_CREATE);
 			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
-			 actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
+			actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
-			
-		
-		} catch (
 
-		Exception exc) {
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	@Test(description = "143719-QAA-23-verify when provided pin is greater than 4 digits for consumer creation, error message \"PIN must be exactly 4 digits.\" is displayed.")
 	public void verifyPinLength() {
 		try {
@@ -434,30 +424,213 @@ public class Consumer extends TestInfra {
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-		
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
-		
 
 			foundation.click(ConsumerSearch.BTN_CREATE);
-			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
-					Constants.TEXT);
+			List<String> pins = Arrays.asList(rstConsumerData.get(CNConsumer.PIN).split(Constants.DELIMITER_TILD));
+
+			for (int i = 0; i < pins.size(); i++) {
+				dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+						Constants.TEXT);
+				textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+				textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+
+				textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+				textBox.enterText(ConsumerSummary.TXT_PIN, pins.get(i));
+				textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+
+				String actualData = foundation.getText(ConsumerSummary.TXT_PIN_ERROR);
+				Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143720-QAA-23-verify when location is not provided for consumer creation, error message \"This field is required.\" is displayed.")
+	public void verifyWhenNoLocation() {
+		try {
+			final String CASE_NUM = "143720";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
 			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
-		
-			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
-			foundation.click(ConsumerSummary.BTN_CREATE);
-			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
-			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
-			 actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
-			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
-			
-		
-		} catch (
 
-		Exception exc) {
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+
+			String actualData = foundation.getText(ConsumerSummary.TXT_LOC_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "143721-QAA-23-verify when invalid pin is provided for consumer creation, error message \"Please enter only digits\" is displayed.")
+	public void verifyInvalidPin() {
+		try {
+			final String CASE_NUM = "143721";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
+
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+
+			String actualData = foundation.getText(ConsumerSummary.TXT_PIN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "145231-QAA-23-verify when pin is not provided for consumer creation,error message \"This field is required.\" is displayed.")
+	public void verifyNoPin() {
+		try {
+			final String CASE_NUM = "145231";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
+
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			String actualData = foundation.getText(ConsumerSummary.TXT_PIN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "145229-QAA-23-verify when first name is not provided for consumer creation, error message \"This field is required.\" is displayed.")
+	public void verifyFNField() {
+		try {
+			final String CASE_NUM = "145229";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
+
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+		
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			String actualData = foundation.getText(ConsumerSummary.TXT_FN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
+			actualData = foundation.getText(ConsumerSummary.TXT_LN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	@Test(description = "145230-QAA-23-verify when invalid first name or last name are provided for consumer creation, error message \"Special characters not permitted\" is displayed.")
+	public void verifyInvalidNames() {
+		try {
+			final String CASE_NUM = "145230";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			foundation.click(ConsumerSearch.BTN_CREATE);
+
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, rstConsumerData.get(CNConsumer.FIRST_NAME));
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME,rstConsumerData.get(CNConsumer.LAST_NAME));
+		
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+//			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+//			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+//			foundation.click(ConsumerSummary.BTN_CREATE);
+			String actualData = foundation.getText(ConsumerSummary.TXT_FN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
+			actualData = foundation.getText(ConsumerSummary.TXT_LN_ERROR);
+			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
+
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}

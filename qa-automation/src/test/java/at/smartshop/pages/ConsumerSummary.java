@@ -26,7 +26,10 @@ public class ConsumerSummary {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
 	public static final By TXT_SCANID_ERROR = By.xpath("//label[@id='scanid-error']");
 	public static final By TXT_EMAILID_ERROR = By.xpath("//label[@id='email-error']");
-	
+	public static final By TXT_PIN_ERROR = By.xpath("//label[@id='pin-error']");
+	public static final By TXT_LOC_ERROR = By.xpath("//label[@id='loc-dropdown-error']");
+	public static final By TXT_FN_ERROR = By.xpath("//label[@id='firstname-error']");
+	public static final By TXT_LN_ERROR = By.xpath("//label[@id='lastname-error']");
 	
 	
 
