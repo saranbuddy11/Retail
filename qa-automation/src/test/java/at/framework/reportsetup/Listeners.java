@@ -29,7 +29,7 @@ import at.smartshop.tests.TestInfra;
 public class Listeners implements ITestListener {
 
 	static ExtentReports objReport;
-	ExtReport objReportName;
+	public static ExtReport objReportName;
 	ExtentTest test;
 	private Testrail testRail=new Testrail();
 	
@@ -88,8 +88,7 @@ public class Listeners implements ITestListener {
 		String testmethodName = result.getMethod().getMethodName();
 
 		try {					
-			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(objReportName.getScreenshot(testmethodName,driver),
-					result.getMethod().getMethodName());
+			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(objReportName.getScreenshot(driver));
 			ExtFactory.getInstance().removeExtentObject();
 		} catch (Exception exc) {
 			exc.printStackTrace();

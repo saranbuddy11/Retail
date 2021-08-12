@@ -91,12 +91,13 @@ public class ExtReport {
 		return presentSubFolderName;
 	}
 	
-	public String getScreenshot(String methodName, WebDriver driver) {
-		String destinationFile = null;
+	public String getScreenshot(WebDriver driver) {
+		String timeStamp=objDate.getDateAndTime(Constants.TIME_STAMP, Constants.TIME_ZONE_INDIA);
+		String destinationFile = null;		
 		try {
 			TakesScreenshot ts = (TakesScreenshot) driver;
 			File source = ts.getScreenshotAs(OutputType.FILE);
-			destinationFile = getPresentSubFolderPath() + "\\"+methodName+".png";
+			destinationFile = getPresentSubFolderPath() + "\\"+timeStamp+".png";
 			FileUtils.copyFile(source, new File(destinationFile));
 		} catch (Exception exc) {			
 			//Assert.fail(exc.toString());

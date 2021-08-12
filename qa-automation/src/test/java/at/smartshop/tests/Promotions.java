@@ -58,8 +58,7 @@ public class Promotions extends TestInfra {
 	private UserRoles userRoles = new UserRoles();
 	private UserList userList = new UserList();
 	private CheckBox checkBox = new CheckBox();
-	private Table table = new Table();
-
+	private Table table = new Table();	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -644,7 +643,6 @@ public class Promotions extends TestInfra {
 	public void verifyOnScreenPromotionDiscountTypePercentage() {
 		try {
 			final String CASE_NUM = "141785";
-
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -695,7 +693,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -791,7 +789,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -1230,7 +1228,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertEquals(popupFieldArray.get(2), actualData.get(2));
@@ -2115,6 +2113,5 @@ public class Promotions extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}
-
+	}	
 }
