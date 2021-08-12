@@ -12,7 +12,7 @@ import at.smartshop.keys.Constants;
 
 public class Order {
 	
-	 private Foundation foundation=new Foundation();
+	private Foundation foundation=new Foundation();
 
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
 	public static final By LBL_ORDER_CANCELLED = By.xpath("//span[text()='Transaction Cancelled']");
@@ -30,8 +30,8 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
-    public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");    
-   
+    public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");
+    
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
 	}

@@ -6167,4 +6167,88 @@ public class V5Test extends TestInfra {
 			Assert.fail();
 		}
 	}
+	
+	@Test(description = "143020-SOS-10567: v5 > International GMA Pay by Account Error")
+	public void gmaPayByAccountError() {
+		try {
+
+			final String CASE_NUM = "143020";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			// select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(0), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+
+			// sync machine
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(requiredData.get(1));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			browser.close();
+			
+			//try navigate to payment page and validate error messages
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(3));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			foundation.click(Order.LBL_EMAIL);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(AccountLogin.BTN_ENTER);
+			foundation.click(AccountLogin.BTN_NEXT);
+			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
+			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(5));
+			
+			//resetData
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			// select the org and update country and tax system
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(6), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(6), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
