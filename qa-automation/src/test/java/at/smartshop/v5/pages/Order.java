@@ -36,13 +36,13 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT = By.xpath("//h1[text()='Order Timeout']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
     public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
+
     public static final By LBL_PROMOTION_NAME = By.className("product-name");
     public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
     public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
     public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
     public static final By LBL_MULTI_PRODUCTS= By.xpath("//*[@class='product-price']");
     public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
-    
     
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
@@ -98,5 +98,13 @@ public class Order {
 		
 	}
 	
-	
+	public void verifyTax(String taxRate) {
+		String uiSubTotal = foundation.getText(LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
+		String uiTax = foundation.getText(LBL_VAT_VALUE).replace("$", Constants.EMPTY_STRING);
+
+		double calculatedTax = Double.parseDouble(uiSubTotal)*(Double.valueOf(taxRate)/100);
+		double expectedTaxWithRoundUp = Math.round(calculatedTax*100.0)/100.0;
+		
+		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
+	}
 }
