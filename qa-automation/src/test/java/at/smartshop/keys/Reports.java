@@ -56,7 +56,9 @@ public class Reports {
 	public static final String TAXCAT = "taxcat";
 	public static final String COST = "cost";
 	public static final String QUANTITY = "qty";
+	public static final String TAXRATE = "taxrate";
 	public static final String TAX = "tax";
+	public static final String UM = "um";
 	public static final String DELIVERY = "delivery";
 	public static final String REDEEMED = "redeemed";
 	public static final String COUPON = "coupon";

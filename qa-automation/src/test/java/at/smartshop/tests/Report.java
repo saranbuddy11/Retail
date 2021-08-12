@@ -32,6 +32,7 @@ import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.ICEReport;
+import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.FolioBillingReport;
@@ -89,6 +90,7 @@ public class Report extends TestInfra {
 	private FolioBillingReport folioBilling = new FolioBillingReport();
 	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
+	private InvoiceDetailsReport invoiceDetails = new InvoiceDetailsReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1499,11 +1501,11 @@ public class Report extends TestInfra {
 
 	}
 	
-	@Test(description = "120622-This test validates Invoice Details Report Data Calculation")
+	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
 	public void invoiceDetailsReportData() {
 		try {
 
-			final String CASE_NUM = "120622";
+			final String CASE_NUM = "145249";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1516,7 +1518,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			productTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			invoiceDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1534,32 +1536,29 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
-			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			productTax.getTblRecordsUI();
-			productTax.getIntialData().putAll(productTax.getReportsData());
-			productTax.getRequiredRecord((String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME),
-					productTax.getScancodeData());
+			invoiceDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			invoiceDetails.getTblRecordsUI();
+			invoiceDetails.getIntialData().putAll(invoiceDetails.getReportsData());
+			invoiceDetails.getRequiredRecord((String) invoiceDetails.getJsonData().get(Reports.TRANS_ID),
+					invoiceDetails.getScancodeData());
 			// apply calculation and update data
-			productTax.updateData(productTax.getTableHeaders().get(0),
-					(String) productTax.getJsonData().get(Reports.TRANS_DATE_TIME));
-			productTax.updateData(productTax.getTableHeaders().get(1),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			productTax.updateData(productTax.getTableHeaders().get(2),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			productTax.updateData(productTax.getTableHeaders().get(3), productTax.getProductNameData());
-			productTax.updateData(productTax.getTableHeaders().get(4), productTax.getScancodeData());
-			productTax.updateData(productTax.getTableHeaders().get(5), productTax.getCategory1Data());
-			productTax.updateData(productTax.getTableHeaders().get(6), productTax.getCategory2Data());
-			productTax.updateData(productTax.getTableHeaders().get(7), productTax.getCategory3Data());
-			productTax.updatePrice();
-			productTax.updateData(productTax.getTableHeaders().get(9), productTax.getTaxCatData());
-			productTax.updateData(productTax.getTableHeaders().get(10), productTax.getTaxData());
-			productTax.updateData(productTax.getTableHeaders().get(11), productTax.getRequiredJsonData().get(0));
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(0),
+					(String) invoiceDetails.getJsonData().get(Reports.TRANS_ID));
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(1),
+					(String) invoiceDetails.getJsonData().get(Reports.TRANS_DATE_TIME));
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(2),
+					invoiceDetails.getScancodeData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(3), invoiceDetails.getProductNameData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(4), invoiceDetails.getUnitMeasureData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(5), invoiceDetails.getQuantityData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(6), invoiceDetails.getPriceData());
+			invoiceDetails.updateVAT();
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(8), invoiceDetails.getTaxData());
 			// verify report headers
-			productTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			invoiceDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productTax.verifyReportData();
+			invoiceDetails.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}

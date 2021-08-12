@@ -36,20 +36,18 @@ public class InvoiceDetailsReport extends Factory {
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
 
-	private static final By TBL_PRODUCT_TAX = By.id("rptdt");
+	private static final By TBL_INVOICE_DETAILS = By.id("rptdt");
 	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By TBL_PRODUCT_TAX_GRID = By.cssSelector("#rptdt > tbody");
+	private static final By TBL_INVOICE_DETAILS_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> scancodeData = new LinkedList<>();
 	private List<String> productNameData = new LinkedList<>();
 	private List<String> priceData = new LinkedList<>();
 	private List<String> taxData = new LinkedList<>();
-	private List<String> category1Data = new LinkedList<>();
-	private List<String> category2Data = new LinkedList<>();
-	private List<String> category3Data = new LinkedList<>();
-	private List<String> discountData = new LinkedList<>();
-	private List<String> taxcatData = new LinkedList<>();
+	private List<String> unitMeasureData = new LinkedList<>();
+	private List<String> quantityData = new LinkedList<>();
+	private List<String> taxrateData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -60,8 +58,8 @@ public class InvoiceDetailsReport extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
-			WebElement tableReportsList = getDriver().findElement(TBL_PRODUCT_TAX_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_PRODUCT_TAX);
+			WebElement tableReportsList = getDriver().findElement(TBL_INVOICE_DETAILS_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_INVOICE_DETAILS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
@@ -82,13 +80,13 @@ public class InvoiceDetailsReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord(String transDate, List<String> scancodes) {
+	public void getRequiredRecord(String transID, List<String> scancodes) {
 		try {
 			requiredRecords.clear();
 			for (int iter = 0; iter < scancodes.size(); iter++) {
 				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
+					if (intialData.get(val).get(tableHeaders.get(0)).equals(transID)
+							&& intialData.get(val).get(tableHeaders.get(2)).equals(scancodes.get(iter))) {
 						requiredRecords.add(val);
 						break;
 					}
@@ -132,14 +130,13 @@ public class InvoiceDetailsReport extends Factory {
 		}
 	}
 
-	public void updatePrice() {
+	public void updateVAT() {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String price = priceData.get(iter);
-				String discount = discountData.get(iter);
-				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
+				String taxrate = taxrateData.get(iter);
+				double updatedVAT = Double.parseDouble(taxrate) * 100;
+				updatedVAT = Math.round(updatedVAT * 100.0) / 100.0;
+				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedVAT));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -178,20 +175,8 @@ public class InvoiceDetailsReport extends Factory {
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
-			getJsonSalesData();
 			getJsonArrayData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	private void getJsonSalesData() {
-		try {
-			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
-			String delivery = sales.get(Reports.DELIVERY).getAsString();
-			requiredJsonData.add(delivery);
-		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 	}
@@ -223,11 +208,9 @@ public class InvoiceDetailsReport extends Factory {
 				productNameData.add(element.get(Reports.NAME).getAsString());
 				priceData.add(element.get(Reports.PRICE).getAsString());
 				taxData.add(element.get(Reports.TAX).getAsString());
-				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
+				unitMeasureData.add(element.get(Reports.UM).getAsString());
+				quantityData.add(element.get(Reports.QUANTITY).getAsString());
+				taxrateData.add(element.get(Reports.TAXRATE).getAsString());
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -288,21 +271,13 @@ public class InvoiceDetailsReport extends Factory {
 	public List<String> getScancodeData() {
 		return scancodeData;
 	}
-
-	public List<String> getCategory1Data() {
-		return category1Data;
+	
+	public List<String> getUnitMeasureData() {
+		return unitMeasureData;
 	}
 	
-	public List<String> getTaxCatData() {
-		return taxcatData;
-	}
-
-	public List<String> getCategory2Data() {
-		return category2Data;
-	}
-
-	public List<String> getCategory3Data() {
-		return category3Data;
+	public List<String> getQuantityData() {
+		return quantityData;
 	}
 
 	public List<String> getTaxData() {
@@ -319,6 +294,10 @@ public class InvoiceDetailsReport extends Factory {
 
 	public List<String> getPriceData() {
 		return priceData;
+	}
+	
+	public List<String> getTaxRateData() {
+		return taxrateData;
 	}
 
 	public List<String> getProductNameData() {
