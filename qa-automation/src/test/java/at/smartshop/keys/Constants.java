@@ -12,8 +12,10 @@ public class Constants {
 	public static final String DELIMITER_COMMA = ",";
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
-	public static final String VALUE = "src";
+	public static final String VALUE = "value";
+	public static final String SRC = "src";
 	public static final String TEXT = "text";
+	public static final String INNER_TEXT = "innerText";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String DATA = "data";
 	public static final String ASCENDING = "Ascending";
@@ -27,6 +29,7 @@ public class Constants {
 	public static final String REGEX_DDMMMYYYY = "ddMMMYYYY";
 	public static final String REGEX_MMDDUU = "MM/dd/uu";
 	public static final String REGEX_MMDDYY = "MM/dd/YY";
+	public static final String REGEX_DDMMYY = "dd/MM/YY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
 	public static final String REGEX_NUMBER = "0123456789";
@@ -38,8 +41,6 @@ public class Constants {
 	public static final String TIME_ZONE_INDIA = "Asia/Kolkata";
 	public static final String NEW_LINE = "\n";
 	public static final String DOLLAR = "\\$";
-	public static final String PROMOTION_TYPE_TENDER_DISCOUNT = "Tender Discount";
-	public static final String PROMOTION_TYPE_ON_SCREEN = "On-Screen";
 	public static final int ONE_SECOND = 1;
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
@@ -47,5 +48,35 @@ public class Constants {
 	public static final int MEDIUM_TIME = 10;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
-
+	public static final String ATTRIBUTE_VALUE = "value";
+	public static final int FIFTEEN_SECOND = 15;
+	public static final String PRE_PROD = "PreProd";
+	public static final String TEST3 = "Test3";
+	public static final String TEST_RAIL_PASS_MESSAGE = "QA PASS";
+	public static final String TEST_RAIL_PASS_STATUSID = "1";
+	public static final String TEST_RAIL_FAIL_STATUSID = "5";
+	public static final String PASS = "Pass";
+	public static final String FAIL = "Fail";
+	public static final String SKIP = "Skip";
+	public static final String EMAIL_NAME = "Results.html";
+	public static final String EMAIL_SUBJECT = "Automation Execution Report";
+	public static final String EMAIL_MESSAGE1 = "Hi Team,\r\n" + "<br>\r\n"
+			+ "Please find the execution report on Test Rail on the below link, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
+			+ "<br>\r\n" + "Link to TestRail Run- https://365retailmarkets.testrail.net/index.php?/runs/view/1775";
+	public static final String EMAIL_OVERALL_RESULT = "<b>Overall Result:</b>";
+	public static final String EMAIL_MODULE_RESULT = "<b>Module wise Result:</b>";
+	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "This is an auto triggerd email";
+	public static final String EMAIL_RESULT_BODY = "<html><body>\r\n"
+			+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
+			+ "   <tbody>\r\n" + "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
+			+ "         <td align=\"center\"><b>Module</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Total</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Pass</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Fail</b></td>\r\n"
+			+ "         <td align=\"center\"><b>Skip</b></td>\r\n" + "      </tr>\r\n";
+	public static final String EMAIL_RESULT_TAIL = "   </tbody>\r\n" + "</table>\r\n" + "</body></html>";
+	public static final String YES = "Yes";
+	public static final String ATTRIBUTE_READ = "aria-readonly";
+	public static final String SHOW = "Show";
+	public static final String HIDE = "Hide";
 }

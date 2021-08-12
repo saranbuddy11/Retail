@@ -26,6 +26,8 @@ public class ExtReport {
 	private String presentSubFolderName = Constants.EMPTY_STRING;
 	private String presentRootFolderPath;
 	private DateAndTime objDate;
+	
+	public static String reportFullPath;
 
 	ExtentSparkReporter objSparkReporter;
 	ExtentReports objExtentReport;
@@ -56,13 +58,13 @@ public class ExtReport {
 	}
 
 	public ExtentReports getReporter() {
-		try {			
-			objSparkReporter = new ExtentSparkReporter(createReportSubFolder() + Constants.REPORT_NAME);			
+		try {
+			reportFullPath = createReportSubFolder() + Constants.REPORT_NAME;
+			objSparkReporter = new ExtentSparkReporter(reportFullPath);		
 			objSparkReporter.config().setReportName(this.reportMainTitleName);
 			objSparkReporter.config().setDocumentTitle(this.reportBrowserTitleName);
 			objExtentReport = new ExtentReports();
 			objExtentReport.attachReporter(objSparkReporter);			
-
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail(exc.toString());

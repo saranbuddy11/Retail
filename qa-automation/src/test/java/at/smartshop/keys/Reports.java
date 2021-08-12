@@ -15,10 +15,12 @@ public class Reports {
 	public static final String CC_TYPE = "cctype";
 	public static final String HOSTREF = "hostref";
 	public static final String VOID = "void";
+	public static final String VOIDED = "voided";
 	public static final String REASON = "reason";
 	public static final String PAYMENTS = "payments";
 	public static final String SUBTOTAL = "subtotal";
 	public static final String TOTAL = "total";
+	public static final String DUE = "due";
 	public static final String KIOSK = "kiosk";
 	public static final String DEVICE_NAME = "devicename";
 	public static final String ORG = "org";
@@ -47,6 +49,10 @@ public class Reports {
 	public static final String TAX_2 = "tax2";
 	public static final String TAX_3 = "tax3";
 	public static final String TAX_4 = "tax4";
+	public static final String TAX_1_LABEL = "tax1label";
+	public static final String TAX_2_LABEL = "tax2label";
+	public static final String TAX_3_LABEL = "tax3label";
+	public static final String TAX_4_LABEL = "tax4label";
 	public static final String TAXCAT = "taxcat";
 	public static final String COST = "cost";
 	public static final String QUANTITY = "qty";
@@ -98,6 +104,7 @@ public class Reports {
 	public static final String CREDIT = "CREDIT";
 	public static final String REJECTED = "REJECTED";
 	public static final String COMP = "COMP";
+	public static final String ROOM = "ROOM";
 	public static final String FORMAT_HHMMSS = "HHmmss";
 	public static final String FORMAT_DDMMYYY = "ddMMMYYYY";
 	public static final String FORMAT_MMDDYYYY = "MM/dd/yyyy";
