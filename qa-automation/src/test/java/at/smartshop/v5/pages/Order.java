@@ -69,5 +69,13 @@ public class Order {
 		
 	}
 	
-	
+	public void verifyTax(String taxRate) {
+		String uiSubTotal = foundation.getText(LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
+		String uiTax = foundation.getText(LBL_VAT_VALUE).replace("$", Constants.EMPTY_STRING);
+
+		double calculatedTax = Double.parseDouble(uiSubTotal)*(Double.valueOf(taxRate)/100);
+		double expectedTaxWithRoundUp = Math.round(calculatedTax*100.0)/100.0;
+		
+		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
+	}
 }

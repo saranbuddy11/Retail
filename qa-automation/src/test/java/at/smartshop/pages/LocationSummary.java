@@ -107,6 +107,18 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By LBL_REASON_CODE=By.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
+	public static final By LIST_REASON_CODE = By.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
+	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
+	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
+	public static final By DPD_TAX_RATE = By.id("taxname");
+	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
+	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
+	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
+	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
+	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
+	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
+	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 
 
 	public void selectTab(String tabName) {
@@ -279,7 +291,7 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		login.logout();
+		//login.logout();
 		browser.close();
 		
 	}
@@ -345,5 +357,26 @@ public class LocationSummary extends Factory {
 		return flag;
 	}
 	
+	public void showHideManageColumn(String showOrHide, String columnName) {
+		By xpathHideOrShow = By.xpath("//div[@id='productDataGrid_hiding_modalDialog']//span[text()='"+columnName+"']//..//a");
+		String hideOrShow = foundation.getText(xpathHideOrShow);
+		if(showOrHide.equals(Constants.SHOW)) {
+			if(hideOrShow.equals(Constants.SHOW)) {
+				foundation.click(xpathHideOrShow);
+			}
+		}
+		else {
+			if(hideOrShow.equals(Constants.HIDE)) {
+				foundation.click(xpathHideOrShow);
+			}
+		}		
+	}
 	
+	public String getCellData(String ariaDescribedby) {
+		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='"+ariaDescribedby+"']"));
+	}
+	
+	public By objTaxCategory(String taxCategory) {
+		return By.xpath("//table[@id='taxmapdt']//*[text()='"+taxCategory+"']");
+	}
 }
