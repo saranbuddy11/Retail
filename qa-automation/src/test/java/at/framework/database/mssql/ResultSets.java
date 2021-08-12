@@ -188,6 +188,9 @@ public class ResultSets extends Connections {
 							resultSet.getString(CNProductSummary.TOOL_TIP_MESSAGE));
 					rstProductSummary.put(CNProductSummary.RECORDS_PER_PAGE_LIST,
 							resultSet.getString(CNProductSummary.RECORDS_PER_PAGE_LIST));
+					rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
+							resultSet.getString(CNProductSummary.PRODUCT_NAME));
+					
 				}
 			
 		} catch (Exception exc) {
@@ -757,6 +760,7 @@ public class ResultSets extends Connections {
 					rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
 					rstV5Device.put(CNV5Device.PAYMENTS_PAGE, resultSet.getString(CNV5Device.PAYMENTS_PAGE));
 					rstV5Device.put(CNV5Device.LANGUAGE, resultSet.getString(CNV5Device.LANGUAGE));
+					rstV5Device.put(CNV5Device.LOCATION, resultSet.getString(CNV5Device.LOCATION));
 				
 			}
 		} catch (Exception exc) {

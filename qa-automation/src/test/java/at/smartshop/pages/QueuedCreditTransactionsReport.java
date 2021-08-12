@@ -37,8 +37,7 @@ public class QueuedCreditTransactionsReport extends Factory {
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_QUEUED_CREDIT_TRANSACTIONS = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By
-			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_QUEUED_CREDIT_TRANSACTIONS_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
@@ -192,8 +191,7 @@ public class QueuedCreditTransactionsReport extends Factory {
 
 	private void salesJsonDataUpdate() {
 		try {
-			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
-					Constants.EMPTY_STRING);
+			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,Constants.EMPTY_STRING);
 			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));

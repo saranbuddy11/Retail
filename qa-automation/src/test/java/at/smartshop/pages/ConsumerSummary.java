@@ -15,6 +15,7 @@ public class ConsumerSummary {
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By BTN_SAVE=By.id("saveBtn");
+	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT=By.xpath("//div[@id='aadt_filter']//input");
 
 	public double getBalance() {
 		double initBalance = 0;
@@ -25,6 +26,10 @@ public class ConsumerSummary {
 			Assert.fail();
 		}
 		return initBalance;
+	}
+	
+	public By objTaxCategory(String reasonCode) {
+		return By.xpath("//table[@id='aadt']//*[text()='"+reasonCode+"']");
 	}
 
 }
