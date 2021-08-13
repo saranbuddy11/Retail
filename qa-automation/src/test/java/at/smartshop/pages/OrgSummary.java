@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -126,5 +127,4 @@ public class OrgSummary extends Factory {
 		Assert.assertTrue(flag);
 
 	}
-
 }

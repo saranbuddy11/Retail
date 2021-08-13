@@ -15,6 +15,7 @@ public class Constants {
 	public static final String VALUE = "value";
 	public static final String SRC = "src";
 	public static final String TEXT = "text";
+	public static final String INNER_TEXT = "innerText";
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String DATA = "data";
 	public static final String ASCENDING = "Ascending";
@@ -78,5 +79,6 @@ public class Constants {
 	public static final String EMAIL_RESULT_TAIL = "   </tbody>\r\n" + "</table>\r\n" + "</body></html>";
 	public static final String YES = "Yes";
 	public static final String ATTRIBUTE_READ = "aria-readonly";
-
+	public static final String SHOW = "Show";
+	public static final String HIDE = "Hide";
 }
