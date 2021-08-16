@@ -221,7 +221,7 @@ public class Consumer extends TestInfra {
 			countries.remove(requiredData.get(1));
 
 			for (int i = 0; i < countries.size(); i++) {
-				String ren = countries.get(i);
+				
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				foundation.waitforElement(OrgSummary.DPD_COUNTRY, Constants.SHORT_TIME);
 				dropDown.selectItem(OrgSummary.DPD_COUNTRY, countries.get(i), Constants.TEXT);
