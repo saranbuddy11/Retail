@@ -225,8 +225,7 @@ public class Consumer extends TestInfra {
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				foundation.waitforElement(OrgSummary.DPD_COUNTRY, Constants.SHORT_TIME);
 				dropDown.selectItem(OrgSummary.DPD_COUNTRY, countries.get(i), Constants.TEXT);
-				System.out.println(ren);
-				System.out.println(requiredData.get(1));
+
 				textBox.enterText(OrgSummary.TXT_CONTACT, requiredData.get(3));
 				textBox.enterText(OrgSummary.TXT_ADDRESS, requiredData.get(3));
 				foundation.threadWait(Constants.ONE_SECOND);
@@ -623,9 +622,7 @@ public class Consumer extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, rstConsumerData.get(CNConsumer.LAST_NAME));
 
 			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
-//			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
-//			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
-//			foundation.click(ConsumerSummary.BTN_CREATE);
+
 			String actualData = foundation.getText(ConsumerSummary.TXT_FN_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
 			actualData = foundation.getText(ConsumerSummary.TXT_LN_ERROR);
