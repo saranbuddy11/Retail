@@ -4,6 +4,7 @@ public class FilePath {
 	public FilePath() {
 		
 	}
+	public static final String SYSTEM_ADDRESS = "file:\\\\NIBC2101";
 	public static final String PATH = System.getProperty("user.dir");
 	public static final String HOME_PATH = System.getProperty("user.home");
 	public static String PROPERTY_CONFIG_FILE;

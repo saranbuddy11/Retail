@@ -10,9 +10,13 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Browser;
+import at.framework.browser.Factory;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.reportsetup.ExtReport;
 import at.framework.reportsetup.SendReport;
 import at.smartshop.keys.Constants;
@@ -69,6 +73,14 @@ public class TestInfra {
 		} catch (SQLException exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public static void failWithScreenShot(Exception exc) {
+		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
+		String sysPath=FilePath.SYSTEM_ADDRESS+screenshot.split(Constants.DELIMITER_COLON)[1];
+		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
+		ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
+		Assert.fail(exc.toString());
 	}
 
 }
