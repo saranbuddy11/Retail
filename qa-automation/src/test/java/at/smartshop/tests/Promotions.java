@@ -189,14 +189,14 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Validating promotion is displayed
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			dropdown.selectItem(PromotionList.DPD_STATUS,requiredData.get(6) ,Constants.TEXT);
 			promotionList.searchPromotion(promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			// Resetting the data
 			
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -693,7 +693,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -789,7 +789,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertTrue(popupFieldArray.get(2).contains(promotionName));
@@ -1006,7 +1006,7 @@ public class Promotions extends TestInfra {
 			
 			// Resetting the data
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -1228,7 +1228,7 @@ public class Promotions extends TestInfra {
 			assertEquals(popupField.get(0), actualData.get(0));
 			assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
 			assertEquals(popupFieldArray.get(2), actualData.get(2));
@@ -1245,7 +1245,7 @@ public class Promotions extends TestInfra {
 			dropdown.selectItem(PromotionList.DPD_STATUS,requiredData.get(6) ,Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			login.logout();
 			
 		} catch (Exception exc) {
@@ -1290,7 +1290,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate to same promotion and validate update promotion
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -1332,7 +1332,7 @@ public class Promotions extends TestInfra {
 			// Resetting the data
 			promotionList.searchPromotion(promotionName);
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

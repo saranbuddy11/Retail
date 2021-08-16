@@ -517,8 +517,7 @@ public class GlobalProducts extends TestInfra {
 			String expectedScancodeError = rstProductData.get(CNProduct.SCANCODE_ERROR);
 			String expectedScancodeSuccess = rstProductData.get(CNProduct.SUCCESS_SCANCODE);
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(GlobalProduct.BTN_CREATE);
 			for (int i = 0; i < scanCode.size(); i++) {

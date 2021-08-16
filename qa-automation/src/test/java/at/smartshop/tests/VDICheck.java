@@ -27,6 +27,7 @@ import at.smartshop.pages.OrgSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class VDICheck extends TestInfra {
+	
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private TextBox textBox = new TextBox();
