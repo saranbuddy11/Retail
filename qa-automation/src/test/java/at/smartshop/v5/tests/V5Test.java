@@ -4493,7 +4493,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-		@Test(description = "143143>V5-Verify the VAT on Kiosk when user set only Tax Rate1 in ADM for UK")
+		@Test(description = "143143-V5-Verify the VAT on Kiosk when user set only Tax Rate1 in ADM for UK")
 			public void verifyVATwithTaxRate1() {
 				try {
 					final String CASE_NUM = "143143";
@@ -4576,7 +4576,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 		
-	@Test(description = "143144>V5-Verify the VAT on Kiosk when user set only Tax Rate1,2,3,4 in ADM for UK")
+	@Test(description = "143144-V5-Verify the VAT on Kiosk when user set only Tax Rate1,2,3,4 in ADM for UK")
 	public void verifyVATwithAllTaxRate() {
 		try {
 			final String CASE_NUM = "143144";
@@ -4669,7 +4669,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "143145>V5-Verify the VAT on Kiosk when user set only Tax Rate1,2,3,4 as zero in ADM for UK")
+	@Test(description = "143145-V5-Verify the VAT on Kiosk when user set only Tax Rate1,2,3,4 as zero in ADM for UK")
 	public void verifyVATwithTaxZero() {
 		try {
 			final String CASE_NUM = "143145";
@@ -4754,7 +4754,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "143146>V5-Verify the VAT on Kiosk when user adds a product not assigned to the UK TAX Rate")
+	@Test(description = "143146-V5-Verify the VAT on Kiosk when user adds a product not assigned to the UK TAX Rate")
 	public void verifyVATProductNotAssignedUKTax() {
 		try {
 			final String CASE_NUM = "143146";
@@ -4838,7 +4838,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "143147>V5-Verify the VAT on Kiosk when user adds a product not assigned to the UK TAX Rate")
+	@Test(description = "143147-V5-Verify the VAT on Kiosk when user adds a product not assigned to the UK TAX Rate")
 	public void verifyVATWithOutTaxMapping() {
 		try {			
 			final String CASE_NUM = "143147";
@@ -4912,7 +4912,7 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "143148>V5-Verify the VAT on Kiosk when user adds a Multile products with UK TAX Rate")
+	@Test(description = "143148-V5-Verify the VAT on Kiosk when user adds a Multiple products with UK TAX Rate")
 	public void verifyVATWithMultipleProducts() {
 		try {			
 			final String CASE_NUM = "143148";
