@@ -42,6 +42,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductSalesByCategoryReport;
 import at.smartshop.pages.ProductTaxReport;
@@ -91,6 +92,7 @@ public class Report extends TestInfra {
 	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
+	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1537,6 +1539,72 @@ public class Report extends TestInfra {
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	@Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
+	public void orderTransactionTimeReportData() {
+		try {
+
+			final String CASE_NUM = "145313";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// process sales API to generate data
+			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			orderTransactionTime.getTblRecordsUI();
+			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
+			orderTransactionTime.getRequiredRecord((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME));
+			
+			// apply calculation and update data
+			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(1),
+					(String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME));
+			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(2),
+					requiredData.get(0));
+			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(3),
+					requiredData.get(1));
+			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(4),
+					requiredData.get(2));
+
+			// verify report headers
+			orderTransactionTime.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			orderTransactionTime.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 
 }
