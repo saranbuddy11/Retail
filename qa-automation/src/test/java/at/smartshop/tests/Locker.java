@@ -301,7 +301,8 @@ public class Locker extends TestInfra {
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 
@@ -971,6 +972,7 @@ public class Locker extends TestInfra {
 				newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
 			}
 
+			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName),Constants.SHORT_TIME);
 			// validate copy functionality
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA)));
@@ -981,6 +983,7 @@ public class Locker extends TestInfra {
 
 			// cleanupdata
 			foundation.click(CreateSystem.BTN_CANCEL);
+			
 			lockerSystem.deleteSystem(locationName, systemName,rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 
 		} catch (Exception exc) {
