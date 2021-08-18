@@ -85,6 +85,7 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -111,7 +112,7 @@ public class Locker extends TestInfra {
 
 			foundation.click(LocationSummary.LNK_LOCKER_NAME);
 			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME,Constants.VALUE);
-			Assert.assertTrue(systemName.equals(Name.get(0)));
+			Assert.assertTrue(systemName.equals(Name.get(2)));
 
 		} catch (Exception exc) {
 			Assert.fail();
@@ -143,6 +144,7 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
