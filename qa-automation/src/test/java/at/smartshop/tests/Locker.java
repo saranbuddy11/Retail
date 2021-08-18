@@ -119,7 +119,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "135550 - This test validates 'Locker Systems' pickup location type under the Order Ahead Settings when there are NO locker systems created")
+	@Test(description = "135550- This test validates 'Locker Systems' pickup location type under the Order Ahead Settings when there are NO locker systems created")
 	public void verifyNoLockerSystemsPickupLocation() {
 		try {
 			final String CASE_NUM = "135550";
@@ -203,7 +203,7 @@ public class Locker extends TestInfra {
 
 	}
 
-	@Test(description = "120330 - This test validates the Delete icon in the Location Locker")
+	@Test(description = "120330- This test validates the Delete icon in the Location Locker")
 	public void verifyLockerDeleteIcon() {
 		try {
 			final String CASE_NUM = "120330";
@@ -216,6 +216,7 @@ public class Locker extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			lockerSystem.expandLocationLocker(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
@@ -263,7 +264,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
 
 			foundation.click(LockerSystem.BTN_CANCEL);
-
+			foundation.waitforElementToDisappear(LockerSystem.BTN_CANCEL, Constants.SHORT_TIME);
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
