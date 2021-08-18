@@ -1800,6 +1800,7 @@ public class Locker extends TestInfra {
 			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElement(LockerSystem.ICO_SIBLING_COPY, Constants.EXTRA_LONG_TIME);
 			assertTrue(foundation.isDisplayed(LockerSystem.ICO_SIBLING_COPY));
 			foundation.click(lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES)));
 			
