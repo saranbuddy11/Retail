@@ -287,9 +287,9 @@ public class LocationSummary extends Factory {
 				inventoryValue);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
 				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()=" + reasonCode + "]"),
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
 				Constants.TWO_SECOND);
-		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()=" + reasonCode + "]"));
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
