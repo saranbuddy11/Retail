@@ -23,6 +23,8 @@
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.tests.PickLists"/>
 			<class name="at.smartshop.tests.VDICheck"/>
+			<class name="at.smartshop.tests.OrganizationSummary"/>
+			<class name="at.smartshop.tests.Menu"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
 		</classes>
 	</test> <!-- Test -->

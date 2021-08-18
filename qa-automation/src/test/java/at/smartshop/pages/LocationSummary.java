@@ -307,7 +307,6 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		login.logout();
 		browser.close();
 
 	}
