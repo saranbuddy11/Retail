@@ -526,7 +526,9 @@ public class GlobalProducts extends TestInfra {
 				textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
 				textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 				textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
-				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
+				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.EXTRA_LONG_TIME);
+				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_ERROR, Constants.EXTRA_LONG_TIME);
+
 				String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 				Assert.assertEquals(actualData, expectedScancodeSuccess);
