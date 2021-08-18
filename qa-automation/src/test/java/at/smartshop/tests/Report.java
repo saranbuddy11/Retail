@@ -31,6 +31,7 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
@@ -91,6 +92,7 @@ public class Report extends TestInfra {
 	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
+	private DataSourceManager dataSourceManager=new DataSourceManager();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -277,10 +279,15 @@ public class Report extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Navigate to Reports
+			
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
+			navigationBar.navigateToMenuItem(menu.get(2));
+			dataSourceManager.unCheckCheckBox(rstReportListData.get(CNReportList.REPORT_NAME)); 
+			
+			
+			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
