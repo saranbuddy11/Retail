@@ -1,7 +1,9 @@
 package at.smartshop.tests;
 
+import java.net.InetAddress;
 import java.sql.SQLException;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -30,15 +32,22 @@ public class TestInfra {
 	public PropertyFile propertyFile = new PropertyFile();
 	public FilePath filePath=new FilePath();
 	private SendReport sendReport=new SendReport();
+	public static String HOST = "";
 	
 	public static String updateTestRail="";
 	
 	@Parameters({"environment","UpdateTestRail"})
 	@BeforeSuite
 	public void beforeSuit(String environment,String testRail) {
+		try {
 		ResultSets.getConnection();
 		filePath.setEnvironment(environment);
 		updateTestRail=testRail;
+		HOST=InetAddress.getLocalHost().getHostName();
+		}
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	@Parameters({ "driver", "browser" })
@@ -75,12 +84,12 @@ public class TestInfra {
 		}
 	}
 	
-	public static void failWithScreenShot(Exception exc) {
+	public static void failWithScreenShot(String exc) {
 		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
-		String sysPath=FilePath.SYSTEM_ADDRESS+screenshot.split(Constants.DELIMITER_COLON)[1];
+		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
-		ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
-		Assert.fail(exc.toString());
+		//ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
+		//Assert.fail(exc);
 	}
 
 }

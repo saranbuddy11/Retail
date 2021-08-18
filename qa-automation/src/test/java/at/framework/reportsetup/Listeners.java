@@ -24,6 +24,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.testrail.Testrail;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class Listeners implements ITestListener {
@@ -48,6 +49,14 @@ public class Listeners implements ITestListener {
 	public static Map<String, Integer> resultSet10 = new HashMap<>();
 	public static Map<String, Integer> resultSet11 = new HashMap<>();
 	public static Map<String, Integer> resultSet12 = new HashMap<>();
+	public static Map<String, Integer> resultSet13 = new HashMap<>();
+	public static Map<String, Integer> resultSet14 = new HashMap<>();
+	public static Map<String, Integer> resultSet15 = new HashMap<>();
+	public static Map<String, Integer> resultSet16 = new HashMap<>();
+	public static Map<String, Integer> resultSet17 = new HashMap<>();
+	public static Map<String, Integer> resultSet18 = new HashMap<>();
+	public static Map<String, Integer> resultSet19 = new HashMap<>();
+	public static Map<String, Integer> resultSet20 = new HashMap<>();
 	public static List<String> classNames=new ArrayList<String>();
 	public static List<Map<String, Integer>> listResultSet= new ArrayList<Map<String, Integer>>();
 	public static List<Map<String, Integer>> listResultSetFinal=new ArrayList<Map<String, Integer>>();
@@ -84,11 +93,8 @@ public class Listeners implements ITestListener {
 		}
 		
 		//get screenshot
-		WebDriver driver = Factory.getDriver();		
-		String testmethodName = result.getMethod().getMethodName();
-
-		try {					
-			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(objReportName.getScreenshot(driver));
+		try {		
+			TestInfra.failWithScreenShot(result.getThrowable().toString());
 			ExtFactory.getInstance().removeExtentObject();
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -109,7 +115,7 @@ public class Listeners implements ITestListener {
 		try {
 			objReportName = new ExtReport("365 Test Automation", "365 Test Results");
 			objReport = objReportName.getReporter();		
-			listResultSet=Arrays.asList(resultSet1,resultSet2,resultSet3,resultSet4,resultSet5,resultSet6,resultSet7,resultSet8,resultSet9,resultSet10,resultSet11,resultSet12);			
+			listResultSet=Arrays.asList(resultSet1,resultSet2,resultSet3,resultSet4,resultSet5,resultSet6,resultSet7,resultSet8,resultSet9,resultSet10,resultSet11,resultSet12,resultSet13,resultSet14,resultSet15,resultSet16,resultSet17,resultSet18,resultSet19,resultSet20);			
 			List<ITestNGMethod> methods = context.getSuite().getAllMethods();
 			Set<String> classNamesHash = new HashSet<>();
 			for (ITestNGMethod method : methods) {				
