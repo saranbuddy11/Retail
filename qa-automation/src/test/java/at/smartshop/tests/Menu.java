@@ -108,14 +108,15 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
 			Assert.assertEquals(actualData, requiredData.get(2));
-			
-			//deselect printgroup checkbox
+
+			// deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(printGroupName));
 
 			foundation.click(SelfService.BTN_SAVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
 			table.selectRow(printGroupName);
 			foundation.waitforElement(SelfService.LBL_NO_PRINT, Constants.SHORT_TIME);
@@ -123,7 +124,6 @@ public class Menu extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
-			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -132,21 +132,23 @@ public class Menu extends TestInfra {
 
 	@Test(description = "143552- QAA-35- Verify Inheriting Print Group Label in Menu(Self Service) for added products")
 	public void verifyInheritingPrintGroup() {
+		final String CASE_NUM = "143552";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143552";
+			
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+	
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -187,8 +189,8 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
 			Assert.assertEquals(actualData, requiredData.get(2));
-			
-			//deselect printgroup checkbox
+
+			// deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(requiredData.get(0)));
 
@@ -200,10 +202,14 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.LBL_INHERIT_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_INHERIT_PRINT);
 			Assert.assertEquals(actualData, requiredData.get(1));
-									
+
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
 			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
 			// resetting
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
@@ -216,9 +222,6 @@ public class Menu extends TestInfra {
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

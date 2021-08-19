@@ -93,8 +93,7 @@ public class PickLists extends TestInfra {
 			login.logout();
 
 		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	@Test(description = "143193-QAA-67-verify picklist screen product table data -finanacer")
@@ -159,7 +158,7 @@ public class PickLists extends TestInfra {
 
 		} catch (Exception exc) {
 
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

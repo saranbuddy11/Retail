@@ -121,8 +121,7 @@ public class Consumer extends TestInfra {
 			Assert.assertEquals(actualBalance2, expectedBalance2);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -168,7 +167,7 @@ public class Consumer extends TestInfra {
 			assertEquals(balanceAfterCancel, initialbalance);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
