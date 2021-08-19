@@ -26,6 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class ICEReport extends Factory {
@@ -69,7 +70,7 @@ public class ICEReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -86,7 +87,7 @@ public class ICEReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return rowCount;
 	}
@@ -96,7 +97,7 @@ public class ICEReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -121,7 +122,7 @@ public class ICEReport extends Factory {
 			int updatedValue = updatedInInv + Integer.parseInt(intialValue);
 			intialData.get(rowCount).put(tableHeaders.get(5), String.valueOf(updatedValue));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -144,7 +145,7 @@ public class ICEReport extends Factory {
 			int updatedValue = updatedInInv + Integer.parseInt(intialValue);
 			intialData.get(rowCount).put(tableHeaders.get(6), String.valueOf(updatedValue));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -155,7 +156,7 @@ public class ICEReport extends Factory {
 			int updatedSold = Integer.parseInt(intialSold) + 1;
 			intialData.get(rowCount).put(tableHeaders.get(7), String.valueOf(updatedSold));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -173,7 +174,7 @@ public class ICEReport extends Factory {
 			int inventoryValue = Integer.parseInt(productsData.get(recordCount).get(columnName.get(8))) - 1;
 			intialData.get(rowCount).put(tableHeaders.get(8), String.valueOf(inventoryValue));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -199,7 +200,7 @@ public class ICEReport extends Factory {
 			intialData.get(rowCount).put(tableHeaders.get(10), admData.get(0));
 			intialData.get(rowCount).put(tableHeaders.get(11), admData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -210,7 +211,7 @@ public class ICEReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -227,7 +228,7 @@ public class ICEReport extends Factory {
 						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -239,7 +240,7 @@ public class ICEReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -254,7 +255,7 @@ public class ICEReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -270,7 +271,7 @@ public class ICEReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -293,7 +294,7 @@ public class ICEReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.testng.Assert;
 
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class PropertyFile  {
 
@@ -18,12 +19,12 @@ public class PropertyFile  {
             configFile.load(fileInputStream);
             requiredString = configFile.getProperty(requiredData);
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }finally {
         	try {
 				fileInputStream.close();
 			} catch (IOException exc) {
-				 Assert.fail(exc.toString());
+				 TestInfra.failWithScreenShot(exc.toString());
 			}
         }
        

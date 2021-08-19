@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Excel {
 
@@ -68,7 +69,7 @@ public class Excel {
 				wb.write(out);
 				out.close();
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 	}
@@ -117,7 +118,7 @@ public class Excel {
 
 				workBook.close();
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 

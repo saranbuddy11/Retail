@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import org.testng.Assert;
 
+import at.smartshop.tests.TestInfra;
+
 
 public class CurrenyConverter {
 	public String convertTOCurrency(double amount) {
@@ -13,7 +15,7 @@ public class CurrenyConverter {
 			NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
 			currency = formatter.format(amount);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return currency;
 	}

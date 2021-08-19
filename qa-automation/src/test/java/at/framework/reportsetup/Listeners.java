@@ -93,8 +93,7 @@ public class Listeners implements ITestListener {
 		}
 		
 		//get screenshot
-		try {		
-			TestInfra.failWithScreenShot(result.getThrowable().toString());
+		try {
 			ExtFactory.getInstance().removeExtentObject();
 		} catch (Exception exc) {
 			exc.printStackTrace();

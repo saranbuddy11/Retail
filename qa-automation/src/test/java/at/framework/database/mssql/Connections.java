@@ -5,6 +5,8 @@ import java.sql.Connection;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
+import at.smartshop.tests.TestInfra;
+
 public class Connections {
 	public static Connection connection ;
 	private static BasicDataSource dataSource = new BasicDataSource();
@@ -20,7 +22,7 @@ public class Connections {
             dataSource.setMaxIdle(10);
             dataSource.setMaxOpenPreparedStatements(100);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
     	
     }
@@ -31,7 +33,7 @@ public class Connections {
     		connection = dataSource.getConnection();    		
     	}
     	catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
     	return connection;
     }

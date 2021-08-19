@@ -27,6 +27,7 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ResultSets extends Connections {
 
@@ -49,12 +50,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstNavigationMenu;
@@ -90,13 +91,13 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstConsumerSearch;
@@ -194,12 +195,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstProductSummary;
@@ -287,12 +288,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstLocationSummary;
@@ -329,12 +330,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstConsumerSummary;
@@ -364,12 +365,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstReportList;
@@ -392,12 +393,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstDeviceList;
@@ -425,12 +426,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstLocationList;
@@ -453,12 +454,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstGmaUser;
@@ -482,12 +483,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstLoadProduct;
@@ -533,12 +534,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstGlobalProductChange;
@@ -563,12 +564,12 @@ public class ResultSets extends Connections {
 				}
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstUserRoles;
@@ -629,12 +630,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstNationalAccounts;
@@ -676,12 +677,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstLockerSystem;
@@ -713,12 +714,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstLocation;
@@ -764,12 +765,12 @@ public class ResultSets extends Connections {
 				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstV5Device;
@@ -794,12 +795,12 @@ public class ResultSets extends Connections {
 					rstPickList.put(CNPickList.COLUMN_HEADERS, resultSet.getString(CNPickList.COLUMN_HEADERS));				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		return rstPickList;
@@ -823,12 +824,12 @@ public class ResultSets extends Connections {
 
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 
@@ -857,12 +858,12 @@ public class ResultSets extends Connections {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 

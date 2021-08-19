@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 
 import at.framework.ui.Foundation;
+import at.smartshop.tests.TestInfra;
 
 public class AdminMenu {
 	
@@ -37,7 +38,7 @@ public class AdminMenu {
 				foundation.click(objNumPad(number));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

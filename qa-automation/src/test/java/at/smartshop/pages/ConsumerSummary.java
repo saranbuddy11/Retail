@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import at.framework.ui.*;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
@@ -23,7 +24,7 @@ public class ConsumerSummary {
 			String balance = foundation.getText(LBL_READ_BALANCE);
 			initBalance = Double.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 		} catch (Exception exc) {		
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initBalance;
 	}

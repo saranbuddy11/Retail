@@ -10,6 +10,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class NavigationBar extends Factory {
 	private TextBox textBox = new TextBox();
@@ -26,7 +27,7 @@ public class NavigationBar extends Factory {
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -41,7 +42,7 @@ public class NavigationBar extends Factory {
                 foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
             }
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
     }
 	

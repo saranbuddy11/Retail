@@ -8,6 +8,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LoadGMA extends Factory {
 	
@@ -41,7 +42,7 @@ public class LoadGMA extends Factory {
 			}
 			foundation.click(BTN_SUBMIT);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class JsonFile {
 
@@ -19,7 +20,7 @@ public class JsonFile {
 			value = new String(Files.readAllBytes(Paths.get(filePath)));
 		} catch (IOException exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return value;
 	}
@@ -30,7 +31,7 @@ public class JsonFile {
 			jsonObject = JsonParser.parseString(reqString).getAsJsonObject();
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return jsonObject;
 	}

@@ -13,6 +13,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class PromotionList extends Factory {
 	private Foundation foundation = new Foundation();
@@ -59,7 +60,7 @@ public class PromotionList extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

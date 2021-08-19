@@ -5,6 +5,7 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.*;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 
 public class Login extends Factory {
@@ -24,7 +25,7 @@ public class Login extends Factory {
 			textBox.enterText(TXT_EMAIL, userName);
 			textBox.enterText(TXT_PASSWORD, password);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -33,7 +34,7 @@ public class Login extends Factory {
 			insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -43,7 +44,7 @@ public class Login extends Factory {
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

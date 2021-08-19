@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.tests.TestInfra;
 
 public class NationalAccountRules extends Factory {
 	
@@ -20,7 +21,7 @@ public class NationalAccountRules extends Factory {
 		try {
 			foundation.click(objRuleName(RuleName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	

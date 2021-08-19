@@ -7,6 +7,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class TextBox extends Factory {
 	private Foundation foundation=new Foundation();
@@ -20,7 +21,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -30,7 +31,7 @@ public class TextBox extends Factory {
 			text = getDriver().findElement(object).getAttribute("value");
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return text;
 	}
@@ -45,7 +46,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

@@ -15,6 +15,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class WebService extends Factory {
 
@@ -27,7 +28,7 @@ public class WebService extends Factory {
 			request.setEntity(new UrlEncodedFormEntity(params));
 			httpClient.execute(request);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -40,7 +41,7 @@ public class WebService extends Factory {
 			httpPut.setEntity(stringEntity);
 			httpClient.execute(httpPut);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

@@ -14,6 +14,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ConsumerSearch extends Factory{
 	private TextBox textBox = new TextBox();
@@ -39,7 +40,7 @@ public class ConsumerSearch extends Factory{
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -57,7 +58,7 @@ public class ConsumerSearch extends Factory{
                 tableHeaders.add(columnHeader.getText());
             }
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
         return tableHeaders;
     }
@@ -71,7 +72,7 @@ public class ConsumerSearch extends Factory{
                 consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
             }
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
         return consumerRecord;
     }

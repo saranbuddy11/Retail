@@ -12,6 +12,7 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LockerSystem extends Factory {
 	private Foundation foundation = new Foundation();
@@ -87,7 +88,7 @@ public class LockerSystem extends Factory {
 				columnNamesList.add(column);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -99,7 +100,7 @@ public class LockerSystem extends Factory {
 				Assert.assertTrue(columnNames.contains(columnNamesList.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -110,7 +111,7 @@ public class LockerSystem extends Factory {
 			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

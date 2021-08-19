@@ -26,6 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class ProductSalesByCategoryReport extends Factory {
@@ -66,7 +67,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -86,7 +87,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				Assert.fail();
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -95,7 +96,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -112,7 +113,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 			intialData.get(recordCount).put(tableHeaders.get(1), String.valueOf(updatedAmount));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -125,7 +126,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			updatedTax = Math.round(updatedTax * 100.0) / 100.0;
 			intialData.get(recordCount).put(tableHeaders.get(2), String.valueOf(updatedTax));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -135,7 +136,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			int updatedCount = Integer.parseInt(initialCount) + 1;
 			intialData.get(recordCount).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -146,7 +147,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -157,7 +158,7 @@ public class ProductSalesByCategoryReport extends Factory {
 						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -170,7 +171,7 @@ public class ProductSalesByCategoryReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData(scancode, category);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -185,7 +186,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -203,7 +204,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -223,7 +224,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -246,7 +247,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

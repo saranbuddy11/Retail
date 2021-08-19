@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
+import at.smartshop.tests.TestInfra;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();
@@ -14,7 +15,7 @@ public class Browser extends Factory {
 	try {		
 		setDriver(driver,browser);		
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -23,7 +24,7 @@ public class Browser extends Factory {
 			WebDriver browser = getDriver();
 			browser.quit();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -33,7 +34,7 @@ public class Browser extends Factory {
 		getDriver().manage().window().maximize();
 		getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
 		} catch (Exception exc) {
-		Assert.fail(exc.toString());
+		TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

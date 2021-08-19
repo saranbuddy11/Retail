@@ -11,6 +11,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ReportList extends Factory {
 	
@@ -35,7 +36,7 @@ public class ReportList extends Factory {
 			builder.moveToElement(object).build();
 			object.click();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -54,7 +55,7 @@ public class ReportList extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -64,7 +65,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

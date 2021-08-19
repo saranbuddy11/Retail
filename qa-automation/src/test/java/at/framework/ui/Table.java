@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.smartshop.tests.TestInfra;
 
 public class Table extends Factory{
 	
@@ -21,7 +22,7 @@ public class Table extends Factory{
 		foundation.click(rowData);
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -31,7 +32,7 @@ public class Table extends Factory{
 			List<WebElement> tableProductsList = getDriver().findElements(object);
 			tableSize = tableProductsList.size();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableSize;
 	}
@@ -42,7 +43,7 @@ public class Table extends Factory{
 			foundation.click(rowData);
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -61,7 +62,7 @@ public class Table extends Factory{
 				index++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblRowValues;
 	}
@@ -80,7 +81,7 @@ public class Table extends Factory{
 				index++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblHeaders;
 	}
@@ -98,7 +99,7 @@ public class Table extends Factory{
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return elementsText;
 	}

@@ -27,6 +27,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class MemberPurchaseSummaryReport extends Factory {
@@ -69,7 +70,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -84,7 +85,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -93,7 +94,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -104,7 +105,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			intialData.get(recordCount).put(tableHeaders.get(1), value.get(1));
 			intialData.get(recordCount).put(tableHeaders.get(2), value.get(2));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -116,7 +117,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			updatedValue = Math.round(updatedValue * 100.0) / 100.0;
 			intialData.get(recordCount).put(columnName, String.valueOf(updatedValue));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -130,7 +131,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
 			intialData.get(recordCount).put(tableHeaders.get(5), String.valueOf(updatedTotal));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -141,7 +142,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -155,7 +156,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -172,7 +173,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 					(String) jsonData.get(Reports.GMA_JSON));
 			getJsonSalesData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -185,7 +186,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			requiredJsonData.add(tax);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -200,7 +201,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -220,7 +221,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -243,7 +244,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -262,7 +263,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 			jsonData.put(Reports.GMA_JSON, gmaJson.toString());
 			jsonData.put(Reports.GMA_TRANS, gmaObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
