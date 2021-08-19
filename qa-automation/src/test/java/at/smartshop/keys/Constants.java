@@ -46,8 +46,8 @@ public class Constants {
 	public static final int ONE_SECOND = 1;
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
-	public static final int SHORT_TIME = 5;
-	public static final int MEDIUM_TIME = 10;
+	public static final int SHORT_TIME = 15;
+	public static final int MEDIUM_TIME = 30;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
 	public static final String ATTRIBUTE_VALUE = "value";

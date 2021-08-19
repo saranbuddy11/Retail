@@ -690,7 +690,7 @@ public class V5Test extends TestInfra {
 			String deposit="0.00";
 			if(foundation.isDisplayed(Order.LBL_DEPOSIT))
 			deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-			String tax=foundation.getText(Order.LBL_TAX).split(Constants.DOLLAR)[1];
+			String tax=foundation.getText(Order.LBL_VAT_VALUE).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit) + Double.parseDouble(tax);
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
@@ -853,7 +853,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
 			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-			textBox.enterKeypadText(requiredData.get(2));
+			textBox.enterKeypadNumber(requiredData.get(2));
 			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
@@ -965,7 +965,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			assertEquals(foundation.getText(Order.LBL_TAX), requiredData.get(6));
+			assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
 
 			// reset data
 			browser.close();
@@ -6247,7 +6247,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
