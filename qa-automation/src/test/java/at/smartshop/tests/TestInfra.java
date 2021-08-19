@@ -88,8 +88,8 @@ public class TestInfra {
 		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
 		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
-		//ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
-		//Assert.fail(exc);
+		ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
+		Assert.fail(exc);
 	}
 
 }

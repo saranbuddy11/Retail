@@ -6273,7 +6273,7 @@ public class V5Test extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
