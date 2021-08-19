@@ -1518,30 +1518,29 @@ public class NationalAccount extends TestInfra {
 
 	@Test(description = "120714-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - National Account user")
 	public void addRemoveLocationNationalAct() {
-		try {
-			final String CASE_NUM = "120714";
+		
+		final String CASE_NUM = "120714";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+		
+		try {	
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			
 			String org = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
-			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);			
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
@@ -1550,15 +1549,15 @@ public class NationalAccount extends TestInfra {
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 
 			// Verify cancel button functionality
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MODAL);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 
 			// verify selcted org and location displays in dropdown
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, "text");
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, "text");
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
 			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
 			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
@@ -1566,11 +1565,16 @@ public class NationalAccount extends TestInfra {
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
 			assertEquals(locationCount, "1");
 
 		} catch (Exception exc) {
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
+		}	finally {
+			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
+			checkBox.unCheck(AdminNationalAccounts.CHK_AUTOADD);
+			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 		}
 	}
 
@@ -1580,11 +1584,8 @@ public class NationalAccount extends TestInfra {
 			final String CASE_NUM = "120715";
 
 			Map<String, String> dbData = new HashMap<>();
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
@@ -1593,8 +1594,7 @@ public class NationalAccount extends TestInfra {
 			String nationalAccountName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
@@ -1602,19 +1602,16 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			table.selectRow(ruleName);
-			assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),
-					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
+			assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(CreateNewRule.BTN_CANCEL);
 			foundation.click(CreateNewRule.BTN_NO);
 
 			// Validate table headers
-			List<String> columnNames = Arrays.asList(
-					rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+			List<String> columnNames = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 			for (int i = 0; i < columnNames.size(); i++) {
 				dbData.put(columnNames.get(i), columnNames.get(i));
 			}
-			Map<String, String> uiTableHeaher = table
-					.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
+			Map<String, String> uiTableHeaher = table.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
 			assertEquals(uiTableHeaher, dbData);
 
 			// Verifying Ascending order sorting functionality
@@ -1628,6 +1625,7 @@ public class NationalAccount extends TestInfra {
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
 			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
+			
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -1635,40 +1633,40 @@ public class NationalAccount extends TestInfra {
 
 	@Test(description = "120733-Verify Category field in National Accounts:Rule Details Screen - Master National Account user")
 	public void verifyCategoryFieldMasterAccount() {
-		try {
-			final String CASE_NUM = "120733";
+		
+		final String CASE_NUM = "120733";		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String ruleName = "";
+		String ruleCategory1="";
+		String ruleCategory2="";
+		try {			
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,	FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+			
 			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
-			String ruleName = strings.getRandomCharacter();
+			 ruleName = strings.getRandomCharacter();
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory1 = createNewNationalAccountsCategory.newNationaAccount();
-			String ruleCategory2 = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory1 = createNewNationalAccountsCategory.newNationaAccount();
+			 ruleCategory2 = createNewNationalAccountsCategory.newNationaAccount();
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// validate national account category field
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(organisation);
 			createNewRule.selectLocation(location);
@@ -1681,38 +1679,42 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(CreateNewRule.TXT_PRICE, rulePrice);
 			foundation.click(CreateNewRule.BTN_SAVE);
 
-			// cleanup data
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MANAGE_RULE);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory1);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory2);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "120729-Verify Category field in National Accounts:Rule Details Screen - National Account User")
 	public void verifyCategoryFieldNationalAccount() {
-		try {
+		
+		final String CASE_NUM = "120729";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String ruleName="";
+		String ruleCategory1="";
+		String ruleCategory2="";
+		try {			
 			
-			final String CASE_NUM = "120729";
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
 			
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+	
 			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
-			String ruleName = strings.getRandomCharacter();
+			 ruleName = strings.getRandomCharacter();
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
@@ -1720,8 +1722,8 @@ public class NationalAccount extends TestInfra {
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory1 = createNewNationalAccountsCategory.newNationaAccount();
-			String ruleCategory2 = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory1 = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory2 = createNewNationalAccountsCategory.newNationaAccount();
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1742,34 +1744,36 @@ public class NationalAccount extends TestInfra {
 			assertEquals(dropDown.getSelectedItem(CreateNewRule.DPD_NATIONAL_CATEGORY), ruleCategory1);
 			dropDown.selectItem(CreateNewRule.DPD_NATIONAL_CATEGORY, ruleCategory2, "text");
 			textBox.enterText(CreateNewRule.TXT_PRICE, rulePrice);
-			foundation.click(CreateNewRule.BTN_SAVE);
+			foundation.click(CreateNewRule.BTN_SAVE);			
 
-			// cleanup data
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem);
-			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+      		navigationBar.navigateToMenuItem(menuItem);
+		    foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory1);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory2);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "120737-Verify Master National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleMasterAccount() {
-		try {
-			final String CASE_NUM = "120737";
-
+		
+		final String CASE_NUM = "120737";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String ruleCategory ="";
+		String ruleName ="";
+		
+		try {			
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
 			
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
@@ -1777,7 +1781,7 @@ public class NationalAccount extends TestInfra {
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
-			String ruleName = strings.getRandomCharacter();
+			 ruleName = strings.getRandomCharacter();
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
@@ -1785,43 +1789,46 @@ public class NationalAccount extends TestInfra {
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
+			 ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// save new rule
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);		
 
-			// cleanup data
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MANAGE_RULE);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);			
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "120736-Verify National Account user will able to save the new Rule when user provides the Unique Rule name")
 	public void saveNewRuleNationalAccount() {
-		try {
-			final String CASE_NUM = "120736";
+		
+		final String CASE_NUM = "120736";	
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String ruleName="";
+		String ruleCategory ="";
+		try {			
 
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+			
 			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 
-			String ruleName = strings.getRandomCharacter();
+			 ruleName = strings.getRandomCharacter();
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
@@ -1829,7 +1836,7 @@ public class NationalAccount extends TestInfra {
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1843,8 +1850,11 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+				
 
-			// cleanup data
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
@@ -1852,121 +1862,116 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "120739-Verify the Rule name will allows the Alphanumeric values with Master National Account User")
 	public void ruleNameAlphaNumericMasterAccount() {
-		try {
-			final String CASE_NUM = "120739";
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
+		
+		final String CASE_NUM = "120739";			
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);	
+		String ruleName=" ";
+		String ruleCategory ="";
+		
+		try {			
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,	FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
-			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
-			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
-			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
-			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-
-			String ruleName = strings.getRandomCharacter() + " " + numbers.generateRandomNumber(2, 4);
+			 ruleName = strings.getRandomCharacter() + " " + numbers.generateRandomNumber(2, 4);
+				String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
+				String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
+				String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
+				String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
+				String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
+				String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
 			foundation.click(CreateNewNationalAccountCategory.BTN_CANCEL_PAGE);
 
 			// save new rule
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+		
 
-			// cleanup data
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_MANAGE_RULE);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "120738-Verify the Rule name will allows the Alphanumeric values with National Account User")
 	public void ruleNameAlphaNumericNationalAccount() {
-		try {
-			final String CASE_NUM = "120738";
+		
+		final String CASE_NUM = "120738";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);	
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String ruleName="";		
+		String ruleCategory="";
+		
+		try {			
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));		
+
+			
 			String organisation = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String ruleType = rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE);
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-
-			String ruleName = strings.getRandomCharacter() + " " + numbers.generateRandomNumber(2, 4);
+			
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			String ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
+			ruleCategory = createNewNationalAccountsCategory.newNationaAccount();
 			login.logout();
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to national account page
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// validate save a rule with unique name
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+			ruleName = strings.getRandomCharacter() + " " + numbers.generateRandomNumber(2, 4);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
+		
 
-			// cleanup data
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
 			login.logout();
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 }

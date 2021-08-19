@@ -3,7 +3,6 @@ package at.framework.browser;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
 import at.smartshop.tests.TestInfra;

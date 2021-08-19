@@ -3,7 +3,6 @@ package at.framework.database.mssql;
 import java.sql.Connection;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.testng.Assert;
 
 import at.smartshop.tests.TestInfra;
 
