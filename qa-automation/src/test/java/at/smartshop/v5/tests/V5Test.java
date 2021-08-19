@@ -124,7 +124,7 @@ public class V5Test extends TestInfra {
 		
 		try {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -208,6 +208,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
 			browser.close();
 			
@@ -348,10 +349,10 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
+			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -4244,11 +4245,14 @@ public class V5Test extends TestInfra {
 
 	@Test(description = "142846-QAA-45-Verify the Stock reduced in ADM when Sales transaction with email when Account balance is less than product amount")
 	public void salesTransactionWithNoAccountBalance() {
+		final String CASE_NUM = "142846";
+		// Reading test data from DataBase
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "142846";
-			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 
@@ -4257,9 +4261,6 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			List<String> navigationMenu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -4340,7 +4341,9 @@ public class V5Test extends TestInfra {
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -4372,20 +4375,16 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	@Test(description = "142847-QAA-45 - Verify Sales transaction with email failed when the stock is zero")
 	public void salesTransactionWhenNoStock() {
+		final String CASE_NUM = "142847";
+		// Reading test data from DataBase
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "142847";
-			// Reading test data from DataBase
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -4437,8 +4436,13 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			browser.close();
 
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
+		}finally {
+			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4456,10 +4460,6 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-
 		}
 	}
 
