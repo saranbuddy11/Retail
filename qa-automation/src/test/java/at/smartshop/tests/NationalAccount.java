@@ -1416,28 +1416,26 @@ public class NationalAccount extends TestInfra {
 
 	@Test(description = "118191-Verify 'Select Org' field in National Account Summary screen")
 	public void verifySelectOrgField() {
-		try {
-			final String CASE_NUM = "118191";
+		
+		final String CASE_NUM = "118191";
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		String accountName="";
+		try {		
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading db data
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));					
 			String defaultLocation = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION);
 			String defaultOrg = rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_ORG);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Save a national accounts
 			foundation.click(NationalAccounts.BTN_CREATE);
-			final String accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
+			 accountName = Constants.ACCOUNT_NAME + RandomStringUtils.randomAlphabetic(6);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItemByIndex(NationalAccounts.DPD_CLIENT_NAME, 1);
 			foundation.click(NationalAccounts.BTN_SAVE);
@@ -1450,40 +1448,46 @@ public class NationalAccount extends TestInfra {
 			// Verify if 'Location' dropdown allows selection until the Org is selected
 			assertFalse(nationalAccounts.trySelectNonVisibleTextLocation(defaultLocation));
 			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
+			
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+				TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(NationalAccounts.TXT_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);			
+			foundation.click(NationalAccounts.ICON_DELETE);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
+			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 		}
 
 	}
 
 	@Test(description = "120711-Verify the #Location and Add/Remove Locations Prompt in National Accounts: Client Rules List Screen - Master National Account user")
 	public void addRemoveLocationMasterAct() {
-		try {
-			final String CASE_NUM = "120711";
+		
+		final String CASE_NUM = "120711";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+		try {			
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		
 			String org = rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED);
 			String location = rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
+			
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					gridName);
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
@@ -1508,11 +1512,16 @@ public class NationalAccount extends TestInfra {
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
 			assertEquals(locationCount, "1");
 
 		} catch (Exception exc) {
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
+			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
+			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
+			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 		}
 	}
 
