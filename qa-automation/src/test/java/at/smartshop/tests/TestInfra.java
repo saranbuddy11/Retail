@@ -85,11 +85,16 @@ public class TestInfra {
 	}
 	
 	public static void failWithScreenShot(String exc) {
+		try {
 		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
 		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
-		ExtFactory.getInstance().getExtent().log(Status.WARNING, "Failed due to "+exc.toString());
+		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Failed due to "+exc.toString());
 		Assert.fail(exc);
+		}
+		catch (Exception e) {
+			Assert.fail("Failed due to "+exc.toString()+" could not capture the screenshot due to "+e);
+		}
 	}
 
 }
