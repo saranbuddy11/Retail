@@ -157,6 +157,7 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_LAST_NAME, actualData.get(1), lastName);
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, actualData.get(2), emailAddress);
 			foundation.click(EditAccount.BTN_SAVE);
+			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
 			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 
 			// navigate back to edit account and verify all data are populating as entered before
@@ -173,6 +174,7 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_LAST_NAME, lastName, actualData.get(1));
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, emailAddress, actualData.get(2));
 			foundation.click(EditAccount.BTN_SAVE);
+			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
 			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
@@ -1906,7 +1908,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.VALUE);
+			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			assertEquals(actualData, requiredData.get(1));
 			browser.close();
 			
@@ -4391,7 +4393,7 @@ public class V5Test extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(ConsumerSearch.DPD_SEARCH_BY, Constants.EXTRA_LONG_TIME);
 		}
 	}
 
@@ -4410,7 +4412,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(requiredData.get(0));
 			locationSummary.selectTab(requiredData.get(2));
-			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.EXTRA_LONG_TIME);
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(4), requiredData.get(5));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
