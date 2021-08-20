@@ -5192,7 +5192,7 @@ public class V5Test extends TestInfra {
 	}
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id")
-	public void anOrderWithEmailID() {
+	public void aanOrderWithEmailID() {
 		try {
 		final String CASE_NUM = "142905";	
 
