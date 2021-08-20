@@ -1959,6 +1959,7 @@ public class V5Test extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(locationName);
 			locationSummary.addHomeCommercial(cmrName1, FilePath.IMAGE_PATH);
+			locationList.selectLocationName(locationName);
 			locationSummary.addHomeCommercial(cmrName2, FilePath.IMAGE_PNG_PATH);
 			locationSummary.kiosklanguageSetting(locationName, language.get(0), language.get(1));	
 			
