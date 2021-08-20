@@ -51,6 +51,7 @@ import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.QueuedCreditTransactionsReport;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
+import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
@@ -96,6 +97,7 @@ public class Report extends TestInfra {
 	private InvoiceDetailsReport invoiceDetails = new InvoiceDetailsReport();
 	private IntegrationPaymentReport integrationPayments = new IntegrationPaymentReport();
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
+	private TenderTransactionLogReport tenderTransactionLog = new TenderTransactionLogReport();
 	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1629,11 +1631,11 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
-	public void orderTransactionTimeReportData() {
+	@Test(description = "145708-This test validates Tender Transactions Log Report Data Calculation")
+	public void tenderTransactionLogData() {
 		try {
 
-			final String CASE_NUM = "145313";
+			final String CASE_NUM = "145708";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1648,8 +1650,12 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
 			// process sales API to generate data
-			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			tenderTransactionLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1666,7 +1672,72 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			tenderTransactionLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			tenderTransactionLog.getTblRecordsUI();
+			tenderTransactionLog.getIntialData().putAll(tenderTransactionLog.getReportsData());
+			tenderTransactionLog.getRequiredRecord(
+					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
+					productTax.getScancodeData());
 
+			// apply calculation and update data
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(2),
+					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_ID));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(3),
+					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(4), requiredData.get(0));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(5), requiredData.get(1));
+			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(6), requiredData.get(2));
+			tenderTransactionLog.updateCashInCashOut(columnName.get(0), requiredData.get(3), requiredData.get(4));
+			
+
+			// verify report headers
+			tenderTransactionLog.verifyReportHeaders(columnName.get(1));
+
+			// verify report data
+			tenderTransactionLog.verifyReportData();
+      
+      } catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+  @Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
+	public void orderTransactionTimeReportData() {
+		try {
+
+			final String CASE_NUM = "145313";
+      
+  browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+  // process sales API to generate data
+			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+      navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			orderTransactionTime.getTblRecordsUI();
 			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
@@ -1752,7 +1823,6 @@ public class Report extends TestInfra {
 
 			// verify report data
 			invoiceDetails.verifyReportData();
-
 		} catch (Exception exc) {
 			Assert.fail();
 		}

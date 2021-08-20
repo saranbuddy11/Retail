@@ -97,6 +97,7 @@ public class Reports {
 	public static final String STATUS = "status";
 	public static final String NOTE = "note";
 	public static final String TODAY = "Today";
+	public static final String CS = "CS";
 	public static final String YESTERDAY = "Yesterday";
 	public static final String CUSTOM_RANGE = "Custom Range";
 	public static final String JSON = "json";
