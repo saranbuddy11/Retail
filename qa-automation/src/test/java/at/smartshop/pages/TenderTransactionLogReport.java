@@ -41,15 +41,7 @@ public class TenderTransactionLogReport extends Factory {
 	private static final By TBL_TENDER_TRANSACTION_LOG_GRID = By.cssSelector("#datagridtendertranslog > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-//	private List<String> scancodeData = new LinkedList<>();
-//	private List<String> productNameData = new LinkedList<>();
 	private List<String> priceData = new LinkedList<>();
-//	private List<String> taxData = new LinkedList<>();
-//	private List<String> category1Data = new LinkedList<>();
-//	private List<String> category2Data = new LinkedList<>();
-//	private List<String> category3Data = new LinkedList<>();
-//	private List<String> discountData = new LinkedList<>();
-//	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -152,20 +144,6 @@ public class TenderTransactionLogReport extends Factory {
 		}
 	}
 
-//	public void updatePrice() {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String price = priceData.get(iter);
-//				String discount = discountData.get(iter);
-//				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-//				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-//				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
@@ -196,13 +174,12 @@ public class TenderTransactionLogReport extends Factory {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < payType.size(); iter++) {
 				generateJsonDetails(value);
-				salesJsonDataUpdate(paymentType);
+				salesJsonDataUpdate(payType.get(iter));
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
 			}
 			getJsonSalesData();
-//			getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -237,26 +214,6 @@ public class TenderTransactionLogReport extends Factory {
 		}
 	}
 
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader, String paymentType) {
 		try {
 			JsonArray items = jsonObj.get(reqString).getAsJsonArray();
@@ -289,6 +246,7 @@ public class TenderTransactionLogReport extends Factory {
 			salesObj.addProperty(Reports.ID, salesHeaderID);
 			salesObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			salesObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			salesObj.addProperty(Reports.SERVICE, Reports.CS);
 			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID, paymentType);
 			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID, paymentType);
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
@@ -311,30 +269,6 @@ public class TenderTransactionLogReport extends Factory {
 		return reportsData;
 	}
 
-//	public List<String> getScancodeData() {
-//		return scancodeData;
-//	}
-//
-//	public List<String> getCategory1Data() {
-//		return category1Data;
-//	}
-//	
-//	public List<String> getTaxCatData() {
-//		return taxcatData;
-//	}
-//
-//	public List<String> getCategory2Data() {
-//		return category2Data;
-//	}
-//
-//	public List<String> getCategory3Data() {
-//		return category3Data;
-//	}
-//
-//	public List<String> getTaxData() {
-//		return taxData;
-//	}
-
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
 	}
@@ -346,9 +280,5 @@ public class TenderTransactionLogReport extends Factory {
 	public List<String> getPriceData() {
 		return priceData;
 	}
-
-//	public List<String> getProductNameData() {
-//		return productNameData;
-//	}
 
 }
