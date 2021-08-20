@@ -39,7 +39,7 @@ public class Login extends Factory {
 
 	public void logout() {
 		try {
-			foundation.waitforElement(LBL_USER_NAME, Constants.THREE_SECOND);
+			foundation.waitforElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {

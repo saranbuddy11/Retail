@@ -112,7 +112,7 @@ public class Foundation extends Factory {
 		try {
 			getDriver().navigate().refresh();
 		} catch (Exception exc) {
-			exc.printStackTrace();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -315,6 +315,22 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return element;
+	}
+	
+	public List<String> getAttributeValueofListElement(By object,String attribute) {
+		String attributeValue = null;
+		List<String> elementsAttributeValue = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				attributeValue = webElement.getAttribute(attribute);
+				elementsAttributeValue.add(attributeValue);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsAttributeValue;
 	}
 
 }
