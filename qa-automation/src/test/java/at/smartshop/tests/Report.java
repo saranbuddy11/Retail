@@ -32,6 +32,7 @@ import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.ICEReport;
+import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
@@ -91,6 +92,7 @@ public class Report extends TestInfra {
 	private FolioBillingReport folioBilling = new FolioBillingReport();
 	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
+	private InvoiceDetailsReport invoiceDetails = new InvoiceDetailsReport();
 	private IntegrationPaymentReport integrationPayments = new IntegrationPaymentReport();
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 
@@ -1617,6 +1619,70 @@ public class Report extends TestInfra {
 		}catch(Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
+	public void invoiceDetailsReportData() {
+		try {
+
+			final String CASE_NUM = "145249";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			invoiceDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			invoiceDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			invoiceDetails.getTblRecordsUI();
+			invoiceDetails.getIntialData().putAll(invoiceDetails.getReportsData());
+			invoiceDetails.getRequiredRecord((String) invoiceDetails.getJsonData().get(Reports.TRANS_ID),
+					invoiceDetails.getScancodeData());
+			// apply calculation and update data
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(0),
+					(String) invoiceDetails.getJsonData().get(Reports.TRANS_ID));
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(1),
+					(String) invoiceDetails.getJsonData().get(Reports.TRANS_DATE_TIME));
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(2),
+					invoiceDetails.getScancodeData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(3), invoiceDetails.getProductNameData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(4), invoiceDetails.getUnitMeasureData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(5), invoiceDetails.getQuantityData());
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(6), invoiceDetails.getPriceData());
+			invoiceDetails.updateVAT();
+			invoiceDetails.updateData(invoiceDetails.getTableHeaders().get(8), invoiceDetails.getTaxData());
+			// verify report headers
+			invoiceDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			invoiceDetails.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
 	}
 
 }
