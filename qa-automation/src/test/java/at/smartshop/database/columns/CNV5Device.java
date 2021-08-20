@@ -28,5 +28,6 @@ public class CNV5Device {
 	public static final String CHANGE_PIN = "ChangePinPage";
 	public static final String PAYMENTS_PAGE = "PaymentsPage";
 	public static final String LANGUAGE = "Language";
+	public static final String LOCATION = "Location";
 
 }

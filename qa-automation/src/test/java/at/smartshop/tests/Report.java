@@ -48,6 +48,7 @@ import at.smartshop.pages.ProductSalesByCategoryReport;
 import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.QueuedCreditTransactionsReport;
 import at.smartshop.pages.ReportList;
+import at.smartshop.pages.SalesAnalysisReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
@@ -91,6 +92,7 @@ public class Report extends TestInfra {
 	private QueuedCreditTransactionsReport queuedCreditTrans = new QueuedCreditTransactionsReport();
 	private VoidedProductReport voidedProduct = new VoidedProductReport();
 	private IntegrationPaymentReport integrationPayments = new IntegrationPaymentReport();
+	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1576,7 +1578,45 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
+	}
+	
+	@Test(description = "143532-Verify Gross Margin value in Sales Analysis Report uisng new formula")
+	public void verifyGMPercentage() {
+		try {
+			
+			final String CASE_NUM ="143532";			
+			
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);			
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			List<String> reportName = Arrays.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+					
+			reportList.selectReport(reportName.get(0));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesAnalysisReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesAnalysisReport.verifyReportName(reportName.get(0));
+			double expectedGMValue = salesAnalysisReport.getGMValueUsingCalculation(productPrice, productName, columnName.get(0), columnName.get(1), columnName.get(2));
+			double actualGMValue = salesAnalysisReport.getGMValue(columnName.get(3), productName);
+			
+			Assert.assertEquals(actualGMValue, expectedGMValue);
+			
+		}catch(Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 }
