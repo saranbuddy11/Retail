@@ -396,6 +396,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public String getCellData(String ariaDescribedby) {
+		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"), Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
 	}
 
