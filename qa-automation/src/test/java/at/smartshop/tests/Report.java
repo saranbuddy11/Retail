@@ -1692,27 +1692,26 @@ public class Report extends TestInfra {
 			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(5), requiredData.get(1));
 			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(6), requiredData.get(2));
 			tenderTransactionLog.updateCashInCashOut(columnName.get(0), requiredData.get(3), requiredData.get(4));
-			
 
 			// verify report headers
 			tenderTransactionLog.verifyReportHeaders(columnName.get(1));
 
 			// verify report data
 			tenderTransactionLog.verifyReportData();
-      
-      } catch (Exception exc) {
+
+		} catch (Exception exc) {
 			Assert.fail();
 		}
 
 	}
 
-  @Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
+	@Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
 	public void orderTransactionTimeReportData() {
 		try {
 
 			final String CASE_NUM = "145313";
-      
-  browser.navigateURL(
+
+			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1721,9 +1720,12 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-  // process sales API to generate data
+
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			// process sales API to generate data
 			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-      navigationBar.selectOrganization(
+			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
