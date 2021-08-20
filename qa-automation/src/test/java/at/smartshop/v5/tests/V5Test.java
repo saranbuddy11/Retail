@@ -4660,8 +4660,8 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "143145-V5-Verify the VAT on Kiosk when user set only Tax Rate1,2,3,4 as zero in ADM for UK")
 	public void verifyVATwithTaxZero() {
+		
 		final String CASE_NUM = "143145";
-
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		
@@ -4669,6 +4669,7 @@ public class V5Test extends TestInfra {
 		List<String> country = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> actualData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		
 		try {
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
@@ -4678,8 +4679,18 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));		
-
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			 locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 List<String> deviceData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceData.get(0));
+			 locationSummary.selectDeviceName(deviceData.get(0));
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.LONG_TIME);
+			 Foundation.getDriver().findElement(DeviceSummary.TXT_SCREEN_TIMEOUT).clear();
+			 textBox.enterText(DeviceSummary.TXT_SCREEN_TIMEOUT, deviceData.get(1));
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			
 			navigationBar.navigateToMenuItem(menu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(0), Constants.TEXT);
@@ -4713,6 +4724,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE)),Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
@@ -4765,7 +4777,17 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));		
-
+			
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 List<String> deviceData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceData.get(0));
+			 locationSummary.selectDeviceName(deviceData.get(0));
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.LONG_TIME);
+			 Foundation.getDriver().findElement(DeviceSummary.TXT_SCREEN_TIMEOUT).clear();
+			 textBox.enterText(DeviceSummary.TXT_SCREEN_TIMEOUT, deviceData.get(1));
+			 foundation.click(DeviceSummary.BTN_SAVE);
+			 
 			navigationBar.navigateToMenuItem(menu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(0), Constants.TEXT);
@@ -4850,7 +4872,17 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));		
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			 foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			 List<String> deviceData = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			 textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceData.get(0));
+			 locationSummary.selectDeviceName(deviceData.get(0));
+			 foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.LONG_TIME);
+			 Foundation.getDriver().findElement(DeviceSummary.TXT_SCREEN_TIMEOUT).clear();
+			 textBox.enterText(DeviceSummary.TXT_SCREEN_TIMEOUT, deviceData.get(1));
+			 foundation.click(DeviceSummary.BTN_SAVE);
 
 			navigationBar.navigateToMenuItem(menu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
