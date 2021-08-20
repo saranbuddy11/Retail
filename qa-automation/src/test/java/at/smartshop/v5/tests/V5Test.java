@@ -2134,7 +2134,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -2147,8 +2149,8 @@ public class V5Test extends TestInfra {
 			// Selecting location
 			locationList.selectLocationName(requiredData.get(2));
 
-			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(0), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(1), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, language.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, language.get(1), Constants.TEXT);
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -5224,7 +5226,7 @@ public class V5Test extends TestInfra {
 	}
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id")
-	public void anOrderWithEmailID() {
+	public void aanOrderWithEmailID() {
 		try {
 		final String CASE_NUM = "142905";	
 
@@ -6120,9 +6122,9 @@ public class V5Test extends TestInfra {
 		}
 	}
 	
-	@Test(description = "143128-QAA19-Add new tax category and Edit it's category name and verify edits applied to product or not on location page - tax mapping tab")
+	@Test(description = "143127-QAA-19-Add new tax rate and Edit it's percentage (tax rate) and verify edits applied to product or not on V5 order page")
 	public void addEditTaxRateCategory() {
-		final String CASE_NUM = "143128";
+		final String CASE_NUM = "143127";
 		
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
