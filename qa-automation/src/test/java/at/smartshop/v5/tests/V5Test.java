@@ -4528,6 +4528,7 @@ public class V5Test extends TestInfra {
 					Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 					Assert.assertTrue(foundation.isDisplayed(order.objText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME))));
 					order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+					foundation.objectFocus(Order.LBL_EMAIL);
 					foundation.click(Order.LBL_EMAIL);
 					foundation.click(AccountLogin.BTN_CAMELCASE);
 					textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
@@ -4621,6 +4622,8 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+			
+			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
@@ -4715,6 +4718,8 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			
+			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
@@ -4812,6 +4817,8 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			
+			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
@@ -4904,6 +4911,8 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			
+			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
@@ -4989,6 +4998,8 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
+			
+			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
