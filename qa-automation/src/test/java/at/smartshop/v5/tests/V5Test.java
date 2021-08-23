@@ -3731,10 +3731,11 @@ public class V5Test extends TestInfra {
 			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
-			browser.close();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
+			browser.close();
 			// Reset data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -3748,15 +3749,20 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(5), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(6), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
 			// sync machine
-			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(requiredData.get(2));
+			foundation.click(LocationSummary.LNK_TAX_MAPPING);
+			foundation.click(locationSummary.objVerifyTaxRate(requiredData.get(8)));
+			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_POPUP_REMOVE);
+			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			browser.close();			
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);		
 		}
 	}
 
