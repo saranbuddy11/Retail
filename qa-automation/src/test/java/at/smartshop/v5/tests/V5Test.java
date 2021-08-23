@@ -4335,7 +4335,6 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
 
 			// searching for product
-			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 
