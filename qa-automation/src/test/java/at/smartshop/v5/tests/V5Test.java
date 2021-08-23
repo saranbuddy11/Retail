@@ -1521,6 +1521,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			foundation.waitforElementToDisappear(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
