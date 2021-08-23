@@ -889,7 +889,7 @@ public class V5Test extends TestInfra {
 
 			// navigate to global product of V5 associated and update name and sync
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.waitforElementToDisappear(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(2));
@@ -922,7 +922,7 @@ public class V5Test extends TestInfra {
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElementToDisappear(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(2)));
 			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, requiredData.get(1));
