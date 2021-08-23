@@ -5854,6 +5854,7 @@ public class V5Test extends TestInfra {
 		
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);	
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);	
 		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String newTaxCategory1 = string.getRandomCharacter().toUpperCase();
