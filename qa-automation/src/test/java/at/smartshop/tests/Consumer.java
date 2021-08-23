@@ -73,6 +73,20 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+             foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME); 
+ 			// Enter fields in Consumer Search Page
+ 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+ 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+ 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+ 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balance = consumerTblRecords.get(columnName);
@@ -144,7 +158,7 @@ public class Consumer extends TestInfra {
 	}
 
 	@Test(description = "116747-Cancel Adjust Balance")
-	public void cancelAdjustBalance() {
+	public void verifyCancelAdjustBalance() {
 		try {
 			final String CASE_NUM = "116747";
 
