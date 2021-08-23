@@ -3656,7 +3656,7 @@ public class V5Test extends TestInfra {
 			List<String> products = Arrays.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			List<String> taxes = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -3669,12 +3669,17 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(0), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
-
-			// sync machine
-			foundation.threadWait(Constants.TWO_SECOND);
+			
+			foundation.waitforClikableElement(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
-			List<String> language = Arrays	.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			locationList.selectLocationName(requiredData.get(2));
+			locationSummary.taxMapping(requiredData.get(7), requiredData.get(8));
+			foundation.click(LocationSummary.BTN_SAVE);			
+			
+			// sync machine
+			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(requiredData.get(2), language.get(0), language.get(1));
 
 			// login into Kiosk Device add both rate 5 and rate 8 product and verify the display of tax
