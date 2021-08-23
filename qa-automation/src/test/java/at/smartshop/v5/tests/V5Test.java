@@ -1594,7 +1594,6 @@ public class V5Test extends TestInfra {
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME),language.get(0),language.get(1));
 			
 			foundation.threadWait(Constants.SHORT_TIME);
