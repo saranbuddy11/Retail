@@ -5227,7 +5227,7 @@ public class V5Test extends TestInfra {
 	}
 	
 	@Test(description = "142905-QAA-44-Place Order with valid email id")
-	public void aanOrderWithEmailID() {
+	public void anOrderWithEmailID() {
 		try {
 		final String CASE_NUM = "142905";	
 
@@ -5255,6 +5255,7 @@ public class V5Test extends TestInfra {
 		assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 		foundation.click(Order.LBL_EMAIL);
 		accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE), propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
 		assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		
 		}catch (Exception exc) {
