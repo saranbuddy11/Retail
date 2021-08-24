@@ -6391,6 +6391,15 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			
+			// save tax mapping on location summary page as precondition
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
