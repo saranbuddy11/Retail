@@ -23,7 +23,7 @@ public class ItemStockoutReport extends Factory {
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_ITEM_STOCKOUT = By.id("summarydt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
+	public static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
 	private static final By TBL_ITEM_STOCKOUT_GRID = By.cssSelector("#summarydt > tbody");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS = By.cssSelector("table[aria-describedby='detaildt_info']");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS_GRID = By

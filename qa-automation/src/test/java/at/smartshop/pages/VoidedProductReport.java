@@ -37,7 +37,7 @@ public class VoidedProductReport extends Factory {
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
 
-	private static final By TBL_VOIDED_PRODUCT = By.id("rptdt");
+	public static final By TBL_VOIDED_PRODUCT = By.id("rptdt");
 	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_VOIDED_PRODUCT_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_FILTER = By.cssSelector("input[aria-controls='rptdt']");

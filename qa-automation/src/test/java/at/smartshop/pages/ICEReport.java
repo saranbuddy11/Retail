@@ -38,7 +38,7 @@ public class ICEReport extends Factory {
 	private LocationSummary locationSummary = new LocationSummary();
 
 	private static final By TBL_ICE = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By
+	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_ICE_GRID = By.cssSelector("#rptdt > tbody");
 

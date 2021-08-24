@@ -161,7 +161,8 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			
 			// Validate Account Adjustment Report Title
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
@@ -226,7 +227,8 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
 			productTax.getIntialData().putAll(productTax.getReportsData());
@@ -297,7 +299,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
+			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
@@ -706,6 +708,7 @@ public class Report extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
@@ -769,6 +772,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			iceReport.getTblRecordsUI();
 			iceReport.getIntialData().putAll(iceReport.getReportsData());
@@ -923,6 +927,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.adjustBrowerSize(actualData.get(2));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			foundation.adjustBrowerSize(actualData.get(3));
 
 			itemStockout.verifyReportName(reportName.get(1));
@@ -1453,6 +1458,7 @@ public class Report extends TestInfra {
 			String[] orderID = ((String) voidedProduct.getJsonData().get(Reports.TRANS_ID))
 					.split(Constants.DELIMITER_HYPHEN);
 			textBox.enterText(VoidedProductReport.TXT_FILTER, orderID[1]);
+			foundation.waitforElement(VoidedProductReport.TBL_VOIDED_PRODUCT, Constants.SHORT_TIME);
 			voidedProduct.getTblRecordsUI();
 			voidedProduct.getIntialData().putAll(voidedProduct.getReportsData());
 			voidedProduct.getRequiredRecord((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME),
