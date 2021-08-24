@@ -1156,7 +1156,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(requiredData.get(2), language.get(0),
+			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0),
 					language.get(1));
 
 			// launch v5 application
