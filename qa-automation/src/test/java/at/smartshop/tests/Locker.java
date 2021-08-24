@@ -975,6 +975,7 @@ public class Locker extends TestInfra {
 			}
 
 			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName),Constants.SHORT_TIME);
+			foundation.waitforClikableElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			// validate copy functionality
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA)));
