@@ -78,18 +78,19 @@ public class OrganizationSummary extends TestInfra {
 
 	@Test(description = "143244-QAA-17-Verify when VDI options are updated, it should not throw Error 500: Internal Server Error")
 	public void verifyUpdatingVDICheck() {
+		final String CASE_NUM = "143244";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+		List<String> requiredData = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String actualData="";
 		try {
-			final String CASE_NUM = "143244";
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -105,9 +106,14 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_VDI_PLUS);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
+			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(1));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
 			// disable vdi
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
@@ -120,8 +126,6 @@ public class OrganizationSummary extends TestInfra {
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(1));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
