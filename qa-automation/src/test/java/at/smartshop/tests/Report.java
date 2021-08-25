@@ -1453,6 +1453,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			voidedProduct.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			String[] orderID = ((String) voidedProduct.getJsonData().get(Reports.TRANS_ID))
@@ -1461,7 +1462,7 @@ public class Report extends TestInfra {
 			foundation.waitforElement(VoidedProductReport.TBL_VOIDED_PRODUCT, Constants.SHORT_TIME);
 			voidedProduct.getTblRecordsUI();
 			voidedProduct.getIntialData().putAll(voidedProduct.getReportsData());
-			voidedProduct.getRequiredRecord((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME),
+			voidedProduct.getRequiredRecord(((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase(),
 					voidedProduct.getProductNameData());
 
 			// apply calculation and update data
