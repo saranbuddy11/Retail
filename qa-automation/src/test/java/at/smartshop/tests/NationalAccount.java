@@ -102,7 +102,7 @@ public class NationalAccount extends TestInfra {
 			viewRole.isAllCheckboxChecked(lblNationalAccountsLocksRules);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -194,7 +194,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -360,8 +360,9 @@ public class NationalAccount extends TestInfra {
 			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
+			
 		} catch (Exception exc) {
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -528,8 +529,9 @@ public class NationalAccount extends TestInfra {
 			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
+			
 		} catch (Exception exc) {
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -537,17 +539,14 @@ public class NationalAccount extends TestInfra {
 	public void verifyLocationDropdownNAUser() {
 		try {
 			final String CASE_NUM = "120731";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
@@ -564,7 +563,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -572,156 +571,7 @@ public class NationalAccount extends TestInfra {
 	public void verifyLocationDropdownMNAUser() {
 		try {
 			final String CASE_NUM = "120728";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
-			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	@Test(description = "120730-This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
-	public void verifyOrgsDropdownNAUser() {
-		try {
-			final String CASE_NUM = "120730";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-
-			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-
-			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
-			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
-			Assert.assertTrue(locationVaules.equals(locationDPDValues));
-
-		} catch (Exception exc) {
-			Assert.fail();
-		}
-	}
-
-	@Test(description = "120726-This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
-	public void verifyOrgsDropdownMNAUser() {
-		try {
-			final String CASE_NUM = "120726";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-
-			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-
-			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
-			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
-			Assert.assertTrue(locationVaules.equals(locationDPDValues));
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	@Test(description = "120722-This test validates National Account Client Rule List Screen")
-	public void verifyClientRuleScreen() {
-		try {
-
-			final String CASE_NUM = "120722";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-
-			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-
-			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			nationalAccountRules.objRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-
-		} catch (Exception exc) {
-			Assert.fail();
-		}
-	}
-
-	@Test(description = "120723-This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
-	public void verifyDeleteButton() {
-		try {
-
-			final String CASE_NUM = "120723";
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -733,11 +583,146 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
+			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
+			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "120730-This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
+	public void verifyOrgsDropdownNAUser() {
+		try {
+			final String CASE_NUM = "120730";
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+
+			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
+			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
+			Assert.assertTrue(locationVaules.equals(locationDPDValues));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "120726-This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
+	public void verifyOrgsDropdownMNAUser() {
+		try {
+			final String CASE_NUM = "120726";
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+
+			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
+			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
+			Assert.assertTrue(locationVaules.equals(locationDPDValues));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "120722-This test validates National Account Client Rule List Screen")
+	public void verifyClientRuleScreen() {
+		try {
+
+			final String CASE_NUM = "120722";
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+
+			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			nationalAccountRules.objRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "120723-This test validates the Delete Button and Confirm Delete prompt in Client Rule detail Screen")
+	public void verifyDeleteButton() {
+		
+		final String CASE_NUM = "120723";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		String ruleName="";
+		
+		try {
+			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 																		rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			String ruleName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+			ruleName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 			nationalAccountRules.clickRulesLink(ruleName);
 
 			assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
@@ -751,6 +736,11 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_CANCEL));
 			createNewRule.verifyCancelButton();
 			createNewRule.verifyYesButton();
+			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {			
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED),
@@ -760,9 +750,6 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 			foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName));
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
@@ -770,18 +757,14 @@ public class NationalAccount extends TestInfra {
 	public void validateAutoAddNewLocationsMNA() {
 		try {
 			final String CASE_NUM = "120734";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
@@ -794,7 +777,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -851,7 +834,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -888,8 +871,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(clientRuleName);
 
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -925,7 +907,7 @@ public class NationalAccount extends TestInfra {
 			Assert.assertTrue(clientRuleName);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -964,7 +946,7 @@ public class NationalAccount extends TestInfra {
 			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1025,7 +1007,7 @@ public class NationalAccount extends TestInfra {
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+        	TestInfra.failWithScreenShot(exc.toString());
         }
     }
 
@@ -1084,7 +1066,7 @@ public class NationalAccount extends TestInfra {
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+        	TestInfra.failWithScreenShot(exc.toString());
         }
     }
 
@@ -1560,7 +1542,7 @@ public class NationalAccount extends TestInfra {
 			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
