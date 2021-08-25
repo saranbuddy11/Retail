@@ -138,15 +138,17 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
+				String status=foundation.getText(By.xpath(
+						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+								+ columnName.get(count) + "']//..//a"));
+				if(!status.equalsIgnoreCase(Constants.HIDE))
 				foundation.click(By.xpath(
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
-			if (foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
-				foundation.click(POP_UP_BTN_APPLY);
-			}
+			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
