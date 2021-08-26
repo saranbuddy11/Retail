@@ -57,14 +57,12 @@ public class Consumer extends TestInfra {
 		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
 		try {
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Enter fields in Consumer Search Page
@@ -87,8 +85,7 @@ public class Consumer extends TestInfra {
  					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
  					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
  					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
-			Map<String, String> consumerTblRecords = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			Map<String, String> consumerTblRecords = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balance = consumerTblRecords.get(columnName);
 			String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance1) + 2;
@@ -100,8 +97,7 @@ public class Consumer extends TestInfra {
 
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
-			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					Constants.TEXT);
+			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
@@ -111,15 +107,13 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
-			Map<String, String> consumerTblRecords2 = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			Map<String, String> consumerTblRecords2 = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String actualBalance = consumerTblRecords2.get(columnName);
 			Assert.assertEquals(actualBalance, expectedBalance);
 
 			// enter new balance with out reason
 			String actualBalance1 = actualBalance.substring(1);
 			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
-
 			String expectedBalance2 = "$" + String.valueOf(String.format("%.2f", newBalance2));
 
 			// clicking consumer id
@@ -137,8 +131,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
-			Map<String, String> consumerTblRecords3 = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			Map<String, String> consumerTblRecords3 = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String actualBalance2 = consumerTblRecords3.get(columnName);
 			Assert.assertEquals(actualBalance2, expectedBalance2);
 
@@ -162,8 +155,7 @@ public class Consumer extends TestInfra {
 		try {
 			final String CASE_NUM = "116747";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -174,8 +166,7 @@ public class Consumer extends TestInfra {
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Enter fields in Consumer Search Page
@@ -185,8 +176,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.click(consumerSearch.objCell(requiredData.get(5)));
 
 			// reading Balance and add to the array list
@@ -194,11 +184,9 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 
 			// converting string to double and adding the adjusted value
-			double updatedbalance = initialbalance
-					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			double updatedbalance = initialbalance+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
-			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
-					Constants.TEXT);
+			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);
