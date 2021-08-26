@@ -34,7 +34,11 @@ public class ConsumerSearch extends Factory {
 	public static final By LBL_BULK_ADD_FUNDS = By.xpath("//li[@id='fundSelectedBtn']");
 	public static final By LBL_BULK_REMOVE_FUNDS = By.xpath("//li[@id='removeFundSelectedBtn']");
 	public static final By LBL_BULK_TOPOFF_FUNDS = By.xpath("//li[@id='topOffFundSelectedBtn']");
+	public static final By LBL_BULK_PAYOUT = By.xpath("//li[@id='payoutAndCloseBtn']");
 	public static final By BTN_OK = By.xpath("//button[text()='Ok']");
+	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
+	public static final By BTN_CONFIRM = By.xpath("//button[text()='Confirm']");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {

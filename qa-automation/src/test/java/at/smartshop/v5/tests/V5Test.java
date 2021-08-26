@@ -16,11 +16,13 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.DateAndTime;
+import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNLocationList;
@@ -104,6 +106,7 @@ public class V5Test extends TestInfra {
 	private CategorySummary categorySummary = new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Numbers numbers = new Numbers();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -111,6 +114,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstConsumerSummaryData;
+	private Map<String, String> rstConsumerData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -6597,40 +6601,63 @@ public class V5Test extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
-			String balance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
-			String location = rstConsumerSearchData.get(CNConsumerSearch.LOCATION);
+			String balance = rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE);
+			String location = rstConsumerData.get(CNConsumerSearch.LOCATION);
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> status = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
+			List<String> searchBy = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			String eMail=string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+					Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_EMAIL,eMail);
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			
 			// Enter fields in Consumer Search Page
-			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
-					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
-			consumerSearch.objLocation(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			consumerSearch.enterSearchFields(searchBy.get(0),
+					eMail,rstConsumerData.get(CNConsumerSearch.LOCATION),status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
+			foundation.click(ConsumerSearch.BTN_CONFIRM);
+		
+			foundation.threadWait(Constants.ONE_SECOND);
+			consumerSearch.enterSearchFields(searchBy.get(1),
+					rstConsumerData.get(CNConsumerSearch.CONSUMER_ID),rstConsumerData.get(CNConsumerSearch.LOCATION),status.get(1));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			foundation.click(ConsumerSearch.BTN_ACTIONS);
 			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_OK);
 
 			Map<String, String> uiTbl = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
@@ -6638,40 +6665,37 @@ public class V5Test extends TestInfra {
 			// need to update validations after bug is fixed--SOS-25278
 			// Assert.assertEquals(uiBal, balance);
 		
-
-			foundation.threadWait(Constants.SHORT_TIME);
-			// login into Kiosk Device
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-
-			// Navigating to product search page
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
-
-			// searching for product
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-
-			// verify Order Page
-			List<String> orderPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-
-			foundation.objectFocus(order.objText(orderPageData.get(1)));
-			foundation.click(order.objText(orderPageData.get(1)));
-
-			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
+//
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			// login into Kiosk Device
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+//
+//			// Navigating to product search page
+//			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+//			foundation.click(LandingPage.IMG_SEARCH_ICON);
+//			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
+//
+//			// searching for product
+//			foundation.click(AccountLogin.BTN_CAMELCASE);
+//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+//			foundation.click(ProductSearch.BTN_PRODUCT);
+//
+//			// verify Order Page
+//			List<String> orderPageData = Arrays
+//					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+//			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+//
+//			foundation.objectFocus(order.objText(orderPageData.get(1)));
+//			foundation.click(order.objText(orderPageData.get(1)));
+//
+//			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+//
+//			foundation.click(AccountLogin.BTN_CAMELCASE);
+//			textBox.enterKeypadText(eMail);
+//			foundation.click(AccountLogin.BTN_NEXT);
+		
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

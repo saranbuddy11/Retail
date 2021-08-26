@@ -79,4 +79,5 @@ public class Constants {
 	public static final String ATTRIBUTE_READ = "aria-readonly";
 	public static final String SHOW = "Show";
 	public static final String HIDE = "Hide";
+	public static final String AUTOMATION = "automation";
 }
