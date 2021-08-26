@@ -43,17 +43,7 @@ public class BillingInformationReport extends Factory {
 	private static final By TBL_BILLING_INFORMATION_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-//	private List<String> scancodeData = new LinkedList<>();
-//	private List<String> productNameData = new LinkedList<>();
-//	private List<String> priceData = new LinkedList<>();
-//	private List<String> taxData = new LinkedList<>();
-//	private List<String> category1Data = new LinkedList<>();
-//	private List<String> category2Data = new LinkedList<>();
-//	private List<String> category3Data = new LinkedList<>();
-//	private List<String> discountData = new LinkedList<>();
-//	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-//	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
@@ -112,17 +102,6 @@ public class BillingInformationReport extends Factory {
 		}
 	}
 
-//	public void updateData(String columnName, List<String> values) {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String value = String.valueOf(values.get(iter));
-//				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	public void updateData(String columnName, String values) {
 		try {
 			intialData.get(rowCount).put(columnName, values);
@@ -131,23 +110,7 @@ public class BillingInformationReport extends Factory {
 		}
 	}
 
-//	public void updatePrice() {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String price = priceData.get(iter);
-//				String discount = discountData.get(iter);
-//				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-//				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-//				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	public void verifyReportHeaders(String columnNames) {
-		System.out.println(columnNames);
-		System.out.println(tableHeaders);
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
@@ -180,7 +143,6 @@ public class BillingInformationReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
-//			getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -218,26 +180,6 @@ public class BillingInformationReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader) {
 		try {
@@ -289,31 +231,7 @@ public class BillingInformationReport extends Factory {
 	public Map<Integer, Map<String, String>> getReportsData() {
 		return reportsData;
 	}
-
-//	public List<String> getScancodeData() {
-//		return scancodeData;
-//	}
-//
-//	public List<String> getCategory1Data() {
-//		return category1Data;
-//	}
-//	
-//	public List<String> getTaxCatData() {
-//		return taxcatData;
-//	}
-//
-//	public List<String> getCategory2Data() {
-//		return category2Data;
-//	}
-//
-//	public List<String> getCategory3Data() {
-//		return category3Data;
-//	}
-//
-//	public List<String> getTaxData() {
-//		return taxData;
-//	}
-
+	
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
 	}
@@ -321,13 +239,5 @@ public class BillingInformationReport extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-
-//	public List<String> getPriceData() {
-//		return priceData;
-//	}
-//
-//	public List<String> getProductNameData() {
-//		return productNameData;
-//	}
 
 }
