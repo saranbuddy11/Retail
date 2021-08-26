@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
@@ -78,7 +81,10 @@ public class ItemStockoutReport extends Factory {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < itemStockoutDetailsHeaders.size() + 1; columnCount++) {
 					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount - 1), column.getText());
+					Actions action = new Actions(getDriver());
+					Action seriesOfActions = action.moveToElement(column).build();
+					seriesOfActions.perform();				
+					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount-1), column.getText());
 				}
 				reportsDetailsData.put(recordCount, uiTblRowValues);
 				recordCount++;
