@@ -707,6 +707,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -947,14 +948,15 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			itemStockout.getItemStockoutDetails();
+			foundation.threadWait(Constants.THREE_SECOND);
 			itemStockout.getIntialDetailsData().putAll(itemStockout.getReportsDetailsData());
-			itemStockout.updateDetailsData(stockout, requiredData.get(1), reason.get(1));
+			itemStockout.updateDetailsData(stockout.toUpperCase(), requiredData.get(1), reason.get(1));
 
 			// verify report details headers
 			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
 
 			// verify report details data
-			itemStockout.verifyReportDetailsData(stockout, reason.get(1));
+			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
 		} catch (Exception exc) {
 			Assert.fail();
 		}
@@ -1358,7 +1360,7 @@ public class Report extends TestInfra {
 
 	}
 	
-	@Test(description = "120622-This test validates Queued Credit Transactions Report Data Calculation")
+	@Test(description = "143527-This test validates Queued Credit Transactions Report Data Calculation")
 	public void queuedCreditTransactionsReportData() {
 		try {
 
@@ -1453,6 +1455,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			voidedProduct.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			String[] orderID = ((String) voidedProduct.getJsonData().get(Reports.TRANS_ID))
@@ -1461,7 +1464,7 @@ public class Report extends TestInfra {
 			foundation.waitforElement(VoidedProductReport.TBL_VOIDED_PRODUCT, Constants.SHORT_TIME);
 			voidedProduct.getTblRecordsUI();
 			voidedProduct.getIntialData().putAll(voidedProduct.getReportsData());
-			voidedProduct.getRequiredRecord((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME),
+			voidedProduct.getRequiredRecord(((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase(),
 					voidedProduct.getProductNameData());
 
 			// apply calculation and update data

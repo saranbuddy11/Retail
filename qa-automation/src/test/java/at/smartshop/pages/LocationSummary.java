@@ -138,15 +138,17 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
+				String status=foundation.getText(By.xpath(
+						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+								+ columnName.get(count) + "']//..//a"));
+				if(!status.equalsIgnoreCase(Constants.HIDE))
 				foundation.click(By.xpath(
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
-			if (foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
-				foundation.click(POP_UP_BTN_APPLY);
-			}
+			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -329,15 +331,26 @@ public class LocationSummary extends Factory {
 
 	}
 
-	public void taxMapping(String taxCategory, String rate) {
-
-		foundation.click(LNK_TAX_MAPPING);
+	public void saveTaxMapping(String taxCategory, String rate) {
+		foundation.click(TAB_TAX_MAPPING);
+		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
+		if(foundation.isDisplayed(objTaxCategory(taxCategory))==false) {		
 		foundation.click(BTN_ADD_MAPPING);
 		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
 		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
 		foundation.click(BTN_POPUP_SAVE);
-		foundation.click(LNK_TAX_MAPPING);
+		foundation.click(TAB_TAX_MAPPING);
+		}
+	}
+	
+	public void removeTaxMapping(String taxCategory) {
+		foundation.click(TAB_TAX_MAPPING);
+		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
+		foundation.click(objTaxCategory(taxCategory));
+		foundation.waitforElement(BTN_POPUP_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_POPUP_REMOVE);
+		foundation.click(TAB_TAX_MAPPING);
 	}
 
 	public By objVerifyTaxRate(String taxRate) {
