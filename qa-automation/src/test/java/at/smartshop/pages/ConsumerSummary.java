@@ -1,15 +1,14 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
-import at.framework.ui.*;
+import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
 
-	private static final By LBL_READ_BALANCE = By.id("readbalance");
+	private static final By LBL_READ_BALANCE = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
