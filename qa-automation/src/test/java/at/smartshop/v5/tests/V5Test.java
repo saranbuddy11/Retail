@@ -6701,4 +6701,78 @@ public class V5Test extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	@Test(description = "145706-QAA-227-verify adding negative balance for active account and Close the account.")
+	public void verifyNegativeBalClosedAccount() {
+		try {
+			final String CASE_NUM = "145706";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+	
+
+			String balance = rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE);
+			String location = rstConsumerData.get(CNConsumerSearch.LOCATION);
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> status = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
+			List<String> searchBy = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			String eMail=string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION),
+					Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_EMAIL,eMail);
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			
+			// Enter fields in Consumer Search Page
+
+		
+			foundation.threadWait(Constants.ONE_SECOND);
+			consumerSearch.enterSearchFields(searchBy.get(0),
+					eMail,location,status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+			
+			consumerSearch.enterSearchFields(searchBy.get(1),
+					rstConsumerData.get(CNConsumerSearch.CONSUMER_ID),location,status.get(1));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
+			foundation.click(ConsumerSearch.BTN_CONFIRM);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
