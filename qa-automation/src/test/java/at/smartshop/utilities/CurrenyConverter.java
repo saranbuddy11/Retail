@@ -15,7 +15,7 @@ public class CurrenyConverter {
 			NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
 			currency = formatter.format(amount);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return currency;
 	}

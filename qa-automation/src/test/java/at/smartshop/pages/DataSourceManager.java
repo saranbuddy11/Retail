@@ -21,7 +21,7 @@ public class DataSourceManager extends Factory {
         	checkBox.unCheck(objCheckBox);
                 
         }catch(Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }
     }
 }

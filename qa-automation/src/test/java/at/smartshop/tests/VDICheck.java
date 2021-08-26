@@ -90,7 +90,7 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			Assert.assertTrue(checkBox.isChkEnabled(OrgSummary.CHK_VDI));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -119,7 +119,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.DPD_VDI_PROVDIER));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -155,7 +155,7 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(orgSummary.objVDI(requiredData.get(1)), Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(requiredData.get(1))));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -201,7 +201,7 @@ public class VDICheck extends TestInfra {
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.DPD_VDI_PROVDIER));
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_USER_KEY));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -287,7 +287,7 @@ public class VDICheck extends TestInfra {
 					Constants.ATTRIBUTE_READ);
 			Assert.assertFalse(Boolean.parseBoolean(isReadOnly));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -370,7 +370,7 @@ public class VDICheck extends TestInfra {
 					Constants.ATTRIBUTE_READ);
 			Assert.assertTrue(Boolean.parseBoolean(isReadOnly));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -411,7 +411,7 @@ public class VDICheck extends TestInfra {
 			// VDI Provider drop down validations
 			orgSummary.verifyDPDValue(rstOrgSummaryData.get(CNOrgSummary.NAME));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -497,7 +497,7 @@ public class VDICheck extends TestInfra {
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {

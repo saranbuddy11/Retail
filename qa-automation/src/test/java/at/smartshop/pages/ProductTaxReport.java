@@ -78,7 +78,7 @@ public class ProductTaxReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return reportsData;
 	}
@@ -99,7 +99,7 @@ public class ProductTaxReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class ProductTaxReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -119,7 +119,7 @@ public class ProductTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -129,7 +129,7 @@ public class ProductTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, values);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -143,7 +143,7 @@ public class ProductTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -154,7 +154,7 @@ public class ProductTaxReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -168,7 +168,7 @@ public class ProductTaxReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -182,7 +182,7 @@ public class ProductTaxReport extends Factory {
 			getJsonSalesData();
 			getJsonArrayData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -193,7 +193,7 @@ public class ProductTaxReport extends Factory {
 			requiredJsonData.add(delivery);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -211,7 +211,7 @@ public class ProductTaxReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -231,7 +231,7 @@ public class ProductTaxReport extends Factory {
 				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -247,7 +247,7 @@ public class ProductTaxReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -270,7 +270,7 @@ public class ProductTaxReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

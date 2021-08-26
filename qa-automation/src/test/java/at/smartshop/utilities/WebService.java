@@ -28,7 +28,7 @@ public class WebService extends Factory {
 			request.setEntity(new UrlEncodedFormEntity(params));
 			httpClient.execute(request);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -41,7 +41,7 @@ public class WebService extends Factory {
 			httpPut.setEntity(stringEntity);
 			httpClient.execute(httpPut);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

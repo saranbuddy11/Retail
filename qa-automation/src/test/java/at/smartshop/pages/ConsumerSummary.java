@@ -1,6 +1,8 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
+
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
@@ -23,7 +25,7 @@ public class ConsumerSummary {
 			String balance = foundation.getText(LBL_READ_BALANCE);
 			initBalance = Double.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 		} catch (Exception exc) {		
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return initBalance;
 	}

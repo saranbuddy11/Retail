@@ -78,7 +78,7 @@ public class DeviceByCategoryReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -87,7 +87,7 @@ public class DeviceByCategoryReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -95,7 +95,7 @@ public class DeviceByCategoryReport extends Factory {
 		try {
 			intialData.get(0).put(columnName, value);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -107,7 +107,7 @@ public class DeviceByCategoryReport extends Factory {
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
 			intialData.get(0).put(columnTotal, String.valueOf(updatedTotal));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -117,7 +117,7 @@ public class DeviceByCategoryReport extends Factory {
 			int updatedCount = initialCount + Integer.parseInt(count);
 			intialData.get(0).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -128,7 +128,7 @@ public class DeviceByCategoryReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -142,7 +142,7 @@ public class DeviceByCategoryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -155,7 +155,7 @@ public class DeviceByCategoryReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -170,7 +170,7 @@ public class DeviceByCategoryReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -185,7 +185,7 @@ public class DeviceByCategoryReport extends Factory {
 				break;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -201,7 +201,7 @@ public class DeviceByCategoryReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -224,7 +224,7 @@ public class DeviceByCategoryReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

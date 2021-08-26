@@ -125,7 +125,7 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -207,7 +207,7 @@ public class Menu extends TestInfra {
 			foundation.alertAccept();
 			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting

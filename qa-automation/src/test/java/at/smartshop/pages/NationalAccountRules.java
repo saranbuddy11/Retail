@@ -21,7 +21,7 @@ public class NationalAccountRules extends Factory {
 		try {
 			foundation.click(objRuleName(RuleName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	

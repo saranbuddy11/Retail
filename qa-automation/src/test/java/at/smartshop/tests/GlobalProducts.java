@@ -148,7 +148,7 @@ public class GlobalProducts extends TestInfra {
 
 			assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -191,7 +191,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -240,7 +240,7 @@ public class GlobalProducts extends TestInfra {
 			// excel headers validation
 			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 0));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -289,7 +289,7 @@ public class GlobalProducts extends TestInfra {
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -338,7 +338,7 @@ public class GlobalProducts extends TestInfra {
 			// record count validation
 			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -397,7 +397,7 @@ public class GlobalProducts extends TestInfra {
 			// excel data validation
 			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -433,7 +433,7 @@ public class GlobalProducts extends TestInfra {
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 			Assert.assertEquals(actualData, expectedData);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -466,7 +466,7 @@ public class GlobalProducts extends TestInfra {
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 			Assert.assertEquals(actualData, expectedData);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -507,7 +507,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
 			Assert.assertEquals(actualData, expectedError.get(0));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -552,7 +552,7 @@ public class GlobalProducts extends TestInfra {
 				String actualErrorMsg = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
 				Assert.assertEquals(actualErrorMsg, expectedScancodeError);
 			}
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -600,7 +600,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
 			Assert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -663,7 +663,7 @@ public class GlobalProducts extends TestInfra {
 
 			Assert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -708,7 +708,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
 			Assert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

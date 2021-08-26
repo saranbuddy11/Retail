@@ -135,7 +135,7 @@ public class Consumer extends TestInfra {
 			String actualBalance2 = consumerTblRecords3.get(columnName);
 			Assert.assertEquals(actualBalance2, expectedBalance2);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// clicking consumer id
@@ -191,7 +191,7 @@ public class Consumer extends TestInfra {
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

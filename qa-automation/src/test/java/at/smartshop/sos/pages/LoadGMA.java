@@ -42,7 +42,7 @@ public class LoadGMA extends Factory {
 			}
 			foundation.click(BTN_SUBMIT);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 
 	}

@@ -22,7 +22,7 @@ public class Table extends Factory{
 		foundation.click(rowData);
 		}
 		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -32,7 +32,7 @@ public class Table extends Factory{
 			List<WebElement> tableProductsList = getDriver().findElements(object);
 			tableSize = tableProductsList.size();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return tableSize;
 	}
@@ -43,7 +43,7 @@ public class Table extends Factory{
 			foundation.click(rowData);
 		}
 		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class Table extends Factory{
 				index++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return uiTblRowValues;
 	}
@@ -81,7 +81,7 @@ public class Table extends Factory{
 				index++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return uiTblHeaders;
 	}
@@ -99,7 +99,7 @@ public class Table extends Factory{
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return elementsText;
 	}

@@ -40,7 +40,7 @@ public class SalesAnalysisReport {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -51,7 +51,7 @@ public class SalesAnalysisReport {
 			webService.apiReportPostRequest(	propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 																(String) jsonData.get(Reports.JSON));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class SalesAnalysisReport {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class SalesAnalysisReport {
 			jsonData.put(Reports.SALES, salesObj);
 			
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class SalesAnalysisReport {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));				
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

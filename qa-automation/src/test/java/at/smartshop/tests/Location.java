@@ -92,7 +92,7 @@ public class Location extends TestInfra {
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.MEDIUM_TIME);
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Assert.fail();
 		}
 	}
@@ -132,7 +132,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Assert.fail();
 		}
 
@@ -159,8 +159,8 @@ public class Location extends TestInfra {
            
             Assert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG), rstLocationListData.get(CNLocationList.INFO_MESSAGE));  
                    
-        }catch(Exception exc) {
-            Assert.fail(exc.toString());
+        }catch(Throwable exc) {
+            TestInfra.failWithScreenShot(exc.toString());
         }
     }
 	
@@ -215,7 +215,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED,locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
@@ -267,7 +267,7 @@ public class Location extends TestInfra {
 
             // verify value in loyalty dropdown
             assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
-        } catch (Exception exc) {
+        } catch (Throwable exc) {
             exc.printStackTrace();
             Assert.fail();
         }
@@ -324,7 +324,7 @@ public class Location extends TestInfra {
             // ensure selected tax category from product summary page displays for the product here
             textBox.enterText(LocationSummary.TXT_SEARCH, product);
             assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
-        } catch (Exception exc) {
+        } catch (Throwable exc) {
             exc.printStackTrace();
             Assert.fail();
         }

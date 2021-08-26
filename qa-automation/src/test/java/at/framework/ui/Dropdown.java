@@ -30,7 +30,7 @@ public class Dropdown extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value " + text);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -59,7 +59,7 @@ public class Dropdown extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected" + index + " dropdown value");
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -73,7 +73,7 @@ public class Dropdown extends Factory {
 				orgList.add(itemText);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return orgList;
 	}
@@ -91,7 +91,7 @@ public class Dropdown extends Factory {
 
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "deselected dropdown value " + text);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

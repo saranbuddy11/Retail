@@ -44,7 +44,7 @@ public class LockerEquipment extends Factory {
 				index++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return uiTblHeaders;
 	}

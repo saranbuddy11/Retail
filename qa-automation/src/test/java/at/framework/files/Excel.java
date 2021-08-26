@@ -69,7 +69,7 @@ public class Excel {
 				wb.write(out);
 				out.close();
 			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
+				Assert.fail(exc.toString());
 			}
 		}
 	}
@@ -118,7 +118,7 @@ public class Excel {
 
 				workBook.close();
 			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
+				Assert.fail(exc.toString());
 			}
 		}
 

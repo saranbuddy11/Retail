@@ -71,8 +71,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(2));
 			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -110,8 +110,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(1));
 			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
 			// disable vdi
@@ -157,8 +157,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData);
 		
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -199,8 +199,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(2));
 			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -243,8 +243,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData.get(3));
 			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -285,8 +285,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData);
 			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -323,8 +323,8 @@ public class OrganizationSummary extends TestInfra {
 			Assert.assertEquals(actualData, requiredData);
 			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -354,8 +354,8 @@ public class OrganizationSummary extends TestInfra {
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -387,8 +387,8 @@ public class OrganizationSummary extends TestInfra {
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(2));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -419,8 +419,8 @@ public class OrganizationSummary extends TestInfra {
 				Assert.assertEquals(actualData, expectedData);
 			}
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -468,8 +468,8 @@ public class OrganizationSummary extends TestInfra {
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(2));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -507,8 +507,8 @@ public class OrganizationSummary extends TestInfra {
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(4));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -574,8 +574,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			Assert.assertEquals(actualData, requiredData.get(11));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

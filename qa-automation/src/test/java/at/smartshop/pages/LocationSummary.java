@@ -128,7 +128,7 @@ public class LocationSummary extends Factory {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -150,7 +150,7 @@ public class LocationSummary extends Factory {
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -164,7 +164,7 @@ public class LocationSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -189,7 +189,7 @@ public class LocationSummary extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return productsData;
 	}
@@ -208,7 +208,7 @@ public class LocationSummary extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -325,7 +325,7 @@ public class LocationSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return productsRecord;
 
@@ -369,7 +369,7 @@ public class LocationSummary extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return textAttribute;
 	}

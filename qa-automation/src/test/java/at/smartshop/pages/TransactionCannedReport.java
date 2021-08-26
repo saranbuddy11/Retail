@@ -82,7 +82,7 @@ public class TransactionCannedReport extends Factory {
 			}
 			updatedTotal.put(0, uiTblRowValues);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return reportsData;
 	}
@@ -135,7 +135,7 @@ public class TransactionCannedReport extends Factory {
 			String reportTitle = foundation.getText(lblReportName);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -143,7 +143,7 @@ public class TransactionCannedReport extends Factory {
 		try {
 			intialData.get(0).put(columnName, values);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -153,7 +153,7 @@ public class TransactionCannedReport extends Factory {
 			int updatedTrans = Integer.parseInt(initialTrans) + Integer.parseInt(transactions);
 			intialData.get(0).put(columnName, String.valueOf(updatedTrans));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -167,7 +167,7 @@ public class TransactionCannedReport extends Factory {
 			amountPercent = Math.round(amountPercent * 100.0) / 100.0;
 			intialData.get(0).put(requiredColumn, String.valueOf(amountPercent));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -179,7 +179,7 @@ public class TransactionCannedReport extends Factory {
 			unitsPerTrans = Math.round(unitsPerTrans * 100.0) / 100.0;
 			intialData.get(0).put(requiredColumn, String.valueOf(unitsPerTrans));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -190,7 +190,7 @@ public class TransactionCannedReport extends Factory {
 			double unitsPerTrans = Double.parseDouble(salesUnits) / Integer.parseInt(transactions);
 			intialData.get(0).put(requiredColumn, String.valueOf(unitsPerTrans));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -201,7 +201,7 @@ public class TransactionCannedReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -219,7 +219,7 @@ public class TransactionCannedReport extends Factory {
 						.contains(intialTotal.get(0).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -234,7 +234,7 @@ public class TransactionCannedReport extends Factory {
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -246,7 +246,7 @@ public class TransactionCannedReport extends Factory {
 			String locationID = objSales.get(Reports.LOCATION).getAsString();
 			requiredJsonData.add(locationID);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -261,7 +261,7 @@ public class TransactionCannedReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return jsonData;
 	}
@@ -282,7 +282,7 @@ public class TransactionCannedReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -305,7 +305,7 @@ public class TransactionCannedReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return jsonData;
 	}

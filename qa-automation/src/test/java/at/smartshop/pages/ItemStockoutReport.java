@@ -62,7 +62,7 @@ public class ItemStockoutReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -90,7 +90,7 @@ public class ItemStockoutReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -103,7 +103,7 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -112,7 +112,7 @@ public class ItemStockoutReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -125,7 +125,7 @@ public class ItemStockoutReport extends Factory {
 			intialData.get(recordCount).put(tableHeaders.get(5), invValue);
 			intialData.get(recordCount).put(tableHeaders.get(6), stockoutTime);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return headerCount + 1;
 	}
@@ -151,7 +151,7 @@ public class ItemStockoutReport extends Factory {
 			foundation.click(By.xpath("//table[@id = 'summarydt']/tbody/tr/td[" + scancodeCount + "][text()='"
 					+ scancode + "']//..//td[" + locationCount + "]/a[text()='" + locationName + "']"));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -178,7 +178,7 @@ public class ItemStockoutReport extends Factory {
 				Assert.assertTrue(headers.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -192,7 +192,7 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -205,7 +205,7 @@ public class ItemStockoutReport extends Factory {
 				intialDetailsData.get(rowCount).put(tableHeaders.get(count + 1), value.get(count));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -225,7 +225,7 @@ public class ItemStockoutReport extends Factory {
 						.contains(intialDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

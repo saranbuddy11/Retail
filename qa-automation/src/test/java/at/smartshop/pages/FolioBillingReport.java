@@ -76,7 +76,7 @@ public class FolioBillingReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return reportsData;
 	}
@@ -97,7 +97,7 @@ public class FolioBillingReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -106,7 +106,7 @@ public class FolioBillingReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -117,7 +117,7 @@ public class FolioBillingReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -127,7 +127,7 @@ public class FolioBillingReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, values);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -144,7 +144,7 @@ public class FolioBillingReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(7), String.valueOf(updatedPrice));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -155,7 +155,7 @@ public class FolioBillingReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -169,7 +169,7 @@ public class FolioBillingReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -182,7 +182,7 @@ public class FolioBillingReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -200,7 +200,7 @@ public class FolioBillingReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -217,7 +217,7 @@ public class FolioBillingReport extends Factory {
 				depositData.add(element.get(Reports.DEPOSIT).getAsString());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -236,7 +236,7 @@ public class FolioBillingReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -259,7 +259,7 @@ public class FolioBillingReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

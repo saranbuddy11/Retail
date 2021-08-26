@@ -39,7 +39,7 @@ public class PickList extends Factory {
 			element = By.xpath("//td[text()='" + text + "']");
 		} catch (Exception exc) {
 
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return element;
 	}
@@ -60,7 +60,7 @@ public class PickList extends Factory {
 				index++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return uiTblRowValues;
 	}

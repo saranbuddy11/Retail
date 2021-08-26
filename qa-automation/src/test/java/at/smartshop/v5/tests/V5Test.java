@@ -171,7 +171,7 @@ public class V5Test extends TestInfra {
 			assertTrue(textBox.getTextFromInput(EditAccount.TXT_FIRST_NAME).equals(actualData.get(0)));
 			assertTrue(textBox.getTextFromInput(EditAccount.TXT_LAST_NAME).equals(actualData.get(1)));
 			assertTrue(textBox.getTextFromInput(EditAccount.TXT_EMAIL_ADDRESS).equals(actualData.get(2)));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset the data
@@ -231,7 +231,7 @@ public class V5Test extends TestInfra {
 			foundation.refreshPage();
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -362,7 +362,7 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -517,7 +517,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -575,7 +575,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.isDisplayed(AdminMenu.BTN_SIGN_IN);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -618,7 +618,7 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(requiredData.get(1));
 			foundation.click(EditAccount.BTN_SAVE_PIN);
 			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -671,7 +671,7 @@ public class V5Test extends TestInfra {
 			foundation.click(Order.BTN_CANCEL_ORDER);
 			assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -746,7 +746,7 @@ public class V5Test extends TestInfra {
 			assertEquals(balanceDue,expectedBalanceDue.toString());
 			assertEquals(subTotal,productPrice);
 			assertEquals(tax, requiredData.get(2));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -829,7 +829,7 @@ public class V5Test extends TestInfra {
 			String expBalanceDue = String.format("%.2f", expectedBalanceDue);
 			assertTrue(balanceDue.contains(expBalanceDue));
 			assertTrue(subTotal.contains(productPrice));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -889,7 +889,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -937,7 +937,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -992,7 +992,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1067,7 +1067,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
 			assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1156,7 +1156,7 @@ public class V5Test extends TestInfra {
 			foundation.click(fundAccount.objText(requiredData.get(3)));
 			Assert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset the data
@@ -1229,7 +1229,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
 
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -1289,7 +1289,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1371,7 +1371,7 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data-assign back the product to location
@@ -1418,7 +1418,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			adminMenu.verifyOptions(optionNames);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1465,7 +1465,7 @@ public class V5Test extends TestInfra {
 			String matchedProdMsg = matchedCount + " " + prodFoundText;
 			Assert.assertEquals(matchedProdMsg, requiredData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1502,7 +1502,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_HEADER), rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1540,7 +1540,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1583,7 +1583,7 @@ public class V5Test extends TestInfra {
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1629,7 +1629,7 @@ public class V5Test extends TestInfra {
 			foundation.click(Order.POP_UP_TIMEOUT_NO);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1677,7 +1677,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1725,7 +1725,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
 			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1769,7 +1769,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.FIFTEEN_SECOND);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1803,7 +1803,7 @@ public class V5Test extends TestInfra {
 			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1844,7 +1844,7 @@ public class V5Test extends TestInfra {
 			String actualProduct = foundation.getText(LandingPage.TXT_PRODUCT);
 			assertEquals(actualProduct, actualData.get(0));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1883,7 +1883,7 @@ public class V5Test extends TestInfra {
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
 			assertEquals(actualData, requiredData);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -1934,7 +1934,7 @@ public class V5Test extends TestInfra {
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
 			assertEquals(actualData, requiredData);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -2005,7 +2005,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2065,7 +2065,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2126,7 +2126,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2169,7 +2169,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
 			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -2218,7 +2218,7 @@ public class V5Test extends TestInfra {
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData, actualData);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2255,7 +2255,7 @@ public class V5Test extends TestInfra {
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData, actualData);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2292,7 +2292,7 @@ public class V5Test extends TestInfra {
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData, actualData);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2329,7 +2329,7 @@ public class V5Test extends TestInfra {
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			assertEquals(expectedData, actualData);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2382,7 +2382,7 @@ public class V5Test extends TestInfra {
 			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
 			assertEquals(actualLanguage, actualData.get(1));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2419,7 +2419,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2458,7 +2458,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2594,7 +2594,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -2753,7 +2753,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -2907,7 +2907,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -3063,7 +3063,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting the data
@@ -3221,7 +3221,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting data
@@ -3379,7 +3379,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting data
@@ -3538,7 +3538,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -3697,7 +3697,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -3858,7 +3858,7 @@ public class V5Test extends TestInfra {
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -4010,7 +4010,7 @@ public class V5Test extends TestInfra {
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
 			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -4116,7 +4116,7 @@ public class V5Test extends TestInfra {
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(4));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetData
@@ -4187,7 +4187,7 @@ public class V5Test extends TestInfra {
 			driverHomePage.verifyData(tabNames);
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4225,7 +4225,7 @@ public class V5Test extends TestInfra {
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4273,7 +4273,7 @@ public class V5Test extends TestInfra {
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4319,7 +4319,7 @@ public class V5Test extends TestInfra {
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4384,7 +4384,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting testdata
@@ -4485,7 +4485,7 @@ public class V5Test extends TestInfra {
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4591,7 +4591,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3))) == Integer
 					.valueOf(invCountBeforeSale.get(requiredData.get(3))) - 1);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4694,7 +4694,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -4797,7 +4797,7 @@ public class V5Test extends TestInfra {
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 
 		} finally {
@@ -4888,7 +4888,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -4993,7 +4993,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5104,7 +5104,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -5214,7 +5214,7 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -5317,7 +5317,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5416,7 +5416,7 @@ public class V5Test extends TestInfra {
 					Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5482,7 +5482,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), requiredData.get(1));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5540,7 +5540,7 @@ public class V5Test extends TestInfra {
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5595,7 +5595,7 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), requiredData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5637,7 +5637,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			assertTrue(listReasonCode.contains(requiredData.get(1)));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -5684,7 +5684,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
 			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -5709,7 +5709,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(0));
 			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(requiredData.get(0)));
 			assertNotEquals(dailyRevenue, requiredData.get(1));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -5754,7 +5754,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5810,7 +5810,7 @@ public class V5Test extends TestInfra {
 
 			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5889,7 +5889,7 @@ public class V5Test extends TestInfra {
 			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)), requiredDataV5Device.get(4));
 			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)), requiredDataV5Device.get(5));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// -reset data-
@@ -5952,7 +5952,7 @@ public class V5Test extends TestInfra {
 					Constants.INNER_TEXT);
 			assertTrue(listReasonCode.contains(requiredData.get(1)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6012,7 +6012,7 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6072,7 +6072,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), editedDepositCat);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6148,7 +6148,7 @@ public class V5Test extends TestInfra {
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6204,7 +6204,7 @@ public class V5Test extends TestInfra {
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			assertTrue(listReasonCode.contains(editedInvReason));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -6264,7 +6264,7 @@ public class V5Test extends TestInfra {
 			assertTrue(listTaxCategory.contains(requiredData.get(4)));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6343,7 +6343,7 @@ public class V5Test extends TestInfra {
 			assertTrue(listTaxCategory.contains(editedTaxCategory2));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6407,7 +6407,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
 			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6488,7 +6488,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(3));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6584,7 +6584,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
 			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6676,7 +6676,7 @@ public class V5Test extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(2));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6761,7 +6761,7 @@ public class V5Test extends TestInfra {
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(5));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetData

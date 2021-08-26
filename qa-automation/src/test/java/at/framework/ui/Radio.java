@@ -16,7 +16,7 @@ public class Radio extends Factory {
 			getDriver().findElement(object).click();
 			ExtFactory.getInstance().getExtent().log(Status.INFO,  "Selected radio button [ "+object +" ]");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}		
 	}
 }

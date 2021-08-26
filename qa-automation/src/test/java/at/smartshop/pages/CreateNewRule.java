@@ -54,7 +54,7 @@ public class CreateNewRule extends Factory {
 			textbox.enterText(TXT_PRICE, price);
 			foundation.click(BTN_SAVE);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -64,7 +64,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(By.xpath("//ul[@id='select2-orgdt-results']//li[text()='" + org + "']"));
 			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -74,7 +74,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(By.xpath("//ul[@id='select2-locdt-results']//li[text()='" + location + "']"));
 			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -87,7 +87,7 @@ public class CreateNewRule extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Hint text for the Field" + hintText);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -102,7 +102,7 @@ public class CreateNewRule extends Factory {
 				locationDPDValues.add(value.get(iter).getText());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return locationDPDValues;
 	}
@@ -112,7 +112,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(BTN_NO);
 			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -123,7 +123,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(BTN_YES);
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

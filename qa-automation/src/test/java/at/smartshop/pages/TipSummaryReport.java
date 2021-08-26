@@ -70,7 +70,7 @@ public class TipSummaryReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -93,7 +93,7 @@ public class TipSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -102,7 +102,7 @@ public class TipSummaryReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -113,7 +113,7 @@ public class TipSummaryReport extends Factory {
 			intialData.get(rowCount).put(tableHeaders.get(4), value.get(1));
 			intialData.get(rowCount).put(tableHeaders.get(5), value.get(1));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -126,7 +126,7 @@ public class TipSummaryReport extends Factory {
 			updatedTip = Math.round(updatedTip * 100.0) / 100.0;
 			intialData.get(rowCount).put(columnName, String.valueOf(updatedTip));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -137,7 +137,7 @@ public class TipSummaryReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -148,7 +148,7 @@ public class TipSummaryReport extends Factory {
 						.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -161,7 +161,7 @@ public class TipSummaryReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -172,7 +172,7 @@ public class TipSummaryReport extends Factory {
 			requiredJsonData.add(total);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -187,7 +187,7 @@ public class TipSummaryReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -206,7 +206,7 @@ public class TipSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -229,7 +229,7 @@ public class TipSummaryReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

@@ -114,7 +114,7 @@ public class Locker extends TestInfra {
 			String systemName = foundation.getTextAttribute(LocationSummary.TXT_SYSTEM_NAME,Constants.VALUE);
 			Assert.assertTrue(systemName.equals(Name.get(2)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -199,7 +199,7 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, Constants.SHORT_TIME);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -232,7 +232,7 @@ public class Locker extends TestInfra {
 			lockerSystem.expandLocationLocker(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.isDisplayed(LockerSystem.ICO_SIBLING_DELETE);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -286,7 +286,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.getText(LockerSystem.POP_UP_MESSAGE).equals(popUpMessage.get(1)));
 
 			foundation.click(LockerSystem.BTN_CANCEL);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -341,7 +341,7 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CANCEL);
 
 			Assert.assertTrue(foundation.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME))));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -412,7 +412,7 @@ public class Locker extends TestInfra {
 			Assert.assertFalse(foundation
 					.isDisplayed(lockerSystem.objSchedule(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME))));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -463,7 +463,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 			createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),rstLocationListData.get(CNLocationList.INFO_MESSAGE));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -515,7 +515,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 			createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -557,7 +557,7 @@ public class Locker extends TestInfra {
 
 			lockerSystem.verifyLocationColumns(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -596,7 +596,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.getText(LockerSystem.LBL_CUBBY_SCHEDULING_SCREEN)
 					.contains(rstLockerSystemData.get(CNLockerSystem.PAGE_TITLE)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -632,7 +632,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.getSizeofListElement(
 					lockerSystem.objExpandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME))) == 0);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -677,7 +677,7 @@ public class Locker extends TestInfra {
 			String modelName = foundation.getText(LockerEquipment.TXT_MODEL_NAME);
 			Assert.assertEquals(modelName, lockerModelName);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -737,7 +737,7 @@ public class Locker extends TestInfra {
 			uiData_locker_18.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 			assertEquals(uiData_locker_18, dbData_Locker_18);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -781,7 +781,7 @@ public class Locker extends TestInfra {
 			// Locker model validation
 			Assert.assertFalse(foundation.isDisplayed(LockerEquipment.TXT_MODEL_NAME));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -813,7 +813,7 @@ public class Locker extends TestInfra {
 					rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL_TITLE));
 			foundation.isDisplayed(LockerEquipment.LBL_18_MODEL_IMG);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -845,7 +845,7 @@ public class Locker extends TestInfra {
 					rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL_TITLE));
 			foundation.isDisplayed(LockerEquipment.LBL_20_MODEL_IMG);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -893,7 +893,7 @@ public class Locker extends TestInfra {
 			foundation.click(CreateSystem.BTN_CANCEL);
 			lockerSystem.deleteSystem(locationName, systemName,rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -939,7 +939,7 @@ public class Locker extends TestInfra {
 																							rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -989,7 +989,7 @@ public class Locker extends TestInfra {
 			
 			lockerSystem.deleteSystem(locationName, systemName,rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1037,7 +1037,7 @@ public class Locker extends TestInfra {
 			lockerSystem.deleteSystem(locationName, systemName,rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
 			foundation.threadWait(Constants.TWO_SECOND);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1090,7 +1090,7 @@ public class Locker extends TestInfra {
 			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, defaultLocation));
 			assertFalse(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(1)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1129,7 +1129,7 @@ public class Locker extends TestInfra {
 			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
 			Assert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME,Constants.VALUE).isEmpty());
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1252,7 +1252,7 @@ public class Locker extends TestInfra {
 			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
 			Assert.assertTrue(lockerName.equals(displayName.get(2)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		
@@ -1412,7 +1412,7 @@ public class Locker extends TestInfra {
 			// verifying the created locker system is displayed as an option for pick up location
 			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
 			Assert.assertTrue(lockerName.equals(displayName.get(3)));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		
@@ -1461,7 +1461,7 @@ public class Locker extends TestInfra {
 
 			createLocker.verifyLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -1515,7 +1515,7 @@ public class Locker extends TestInfra {
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA));
 			login.logout();
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1581,7 +1581,7 @@ public class Locker extends TestInfra {
 			createLocker.verifyLocation(locationName.get(0), lockerSystemRequiredData.get(0));
 			foundation.refreshPage();
 			createLocker.verifyLocation(locationName.get(1), lockerSystemRequiredData.get(1));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1662,7 +1662,7 @@ public class Locker extends TestInfra {
 			createLocker.verifyLocation(locationName.get(1), lockerSystem_Required_Data.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);		
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1753,7 +1753,7 @@ public class Locker extends TestInfra {
 			createLocker.verifyLocation(locationListName.get(0), lockerSystem_Required_Data.get(0));
 			foundation.refreshPage();
 			createLocker.verifyLocation(locationListName.get(1), lockerSystem_Required_Data.get(1));
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1839,7 +1839,7 @@ public class Locker extends TestInfra {
 			foundation.refreshPage();
 			createLocker.verifyLocation(locationListName.get(1), lockerSystem_Required_Data.get(1));
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1891,7 +1891,7 @@ public class Locker extends TestInfra {
 			Assert.assertEquals(textBox.getTextFromInput(EditSystem.TXT_DISPLAY_NAME), randomText);
 			Assert.assertEquals(textBox.getTextFromInput(EditSystem.TXT_SHELF_TIMER), requiredData.get(1));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1938,7 +1938,7 @@ public class Locker extends TestInfra {
 			foundation.isDisplayed(LockerSystem.BTN_CREATE_SYSTEM);
 			Assert.assertTrue(foundation.getBGColor(LockerSystem.BTN_CREATE_SYSTEM).equals(requiredData));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1988,7 +1988,7 @@ public class Locker extends TestInfra {
 			assertTrue(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, defaultLocation));
 			assertFalse(dropDown.verifyItemPresent(CreateSystem.DPD_LOCATION, locations.get(1)));
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

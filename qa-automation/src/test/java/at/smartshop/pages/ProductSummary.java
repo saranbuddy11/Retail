@@ -51,7 +51,7 @@ public class ProductSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -66,7 +66,7 @@ public class ProductSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return productsRecord;
 	}

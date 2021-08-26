@@ -82,7 +82,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				count++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -104,7 +104,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -113,7 +113,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -124,7 +124,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				initialData.get(requiredList.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -134,7 +134,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				initialData.get(requiredList.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -150,7 +150,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				initialData.get(requiredList.get(iter)).put(tableHeaders.get(7), String.valueOf(total));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -161,7 +161,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -175,7 +175,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -193,7 +193,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -206,7 +206,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -222,7 +222,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -241,7 +241,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -264,7 +264,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, objSales);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

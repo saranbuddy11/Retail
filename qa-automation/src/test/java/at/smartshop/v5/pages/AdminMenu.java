@@ -38,7 +38,7 @@ public class AdminMenu {
 				foundation.click(objNumPad(number));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

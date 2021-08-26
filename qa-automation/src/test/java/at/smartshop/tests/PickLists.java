@@ -92,7 +92,7 @@ public class PickLists extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -156,7 +156,7 @@ public class PickLists extends TestInfra {
 			login.logout();
 			
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -20,7 +20,7 @@ public class JsonFile {
 			value = new String(Files.readAllBytes(Paths.get(filePath)));
 		} catch (IOException exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return value;
 	}
@@ -31,7 +31,7 @@ public class JsonFile {
 			jsonObject = JsonParser.parseString(reqString).getAsJsonObject();
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return jsonObject;
 	}

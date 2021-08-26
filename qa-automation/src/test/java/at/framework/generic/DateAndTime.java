@@ -25,7 +25,7 @@ public class DateAndTime {
 			formatter.setTimeZone(timeZone);
 
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return (formatter.format(date));
 	}

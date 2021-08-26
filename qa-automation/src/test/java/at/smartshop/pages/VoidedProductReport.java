@@ -71,7 +71,7 @@ public class VoidedProductReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return reportsData;
 	}
@@ -95,7 +95,7 @@ public class VoidedProductReport extends Factory {
 				Assert.fail();
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -104,7 +104,7 @@ public class VoidedProductReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -115,7 +115,7 @@ public class VoidedProductReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -125,7 +125,7 @@ public class VoidedProductReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, values);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -136,7 +136,7 @@ public class VoidedProductReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -150,7 +150,7 @@ public class VoidedProductReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -163,7 +163,7 @@ public class VoidedProductReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -181,7 +181,7 @@ public class VoidedProductReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -194,7 +194,7 @@ public class VoidedProductReport extends Factory {
 				priceData.add(element.get(Reports.PRICE).getAsString());
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -213,7 +213,7 @@ public class VoidedProductReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -236,7 +236,7 @@ public class VoidedProductReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 

@@ -27,7 +27,7 @@ public class NavigationBar extends Factory {
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -42,7 +42,7 @@ public class NavigationBar extends Factory {
                 foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
             }
         } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }
     }
 	

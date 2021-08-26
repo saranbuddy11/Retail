@@ -90,7 +90,7 @@ public class UserRoles extends TestInfra {
 			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
 			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

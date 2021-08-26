@@ -25,7 +25,7 @@ public class Login extends Factory {
 			textBox.enterText(TXT_EMAIL, userName);
 			textBox.enterText(TXT_PASSWORD, password);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -34,7 +34,7 @@ public class Login extends Factory {
 			insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -44,7 +44,7 @@ public class Login extends Factory {
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 }

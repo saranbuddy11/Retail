@@ -19,12 +19,12 @@ public class PropertyFile  {
             configFile.load(fileInputStream);
             requiredString = configFile.getProperty(requiredData);
         } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }finally {
         	try {
 				fileInputStream.close();
 			} catch (IOException exc) {
-				 TestInfra.failWithScreenShot(exc.toString());
+				 Assert.fail(exc.toString());
 			}
         }
        

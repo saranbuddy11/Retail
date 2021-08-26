@@ -61,7 +61,7 @@ public class GlobalProduct extends Factory {
 				curColumnIndex++;
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return uiTblRowValues;
 	}

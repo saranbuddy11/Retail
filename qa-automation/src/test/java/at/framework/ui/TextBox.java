@@ -21,7 +21,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -31,7 +31,7 @@ public class TextBox extends Factory {
 			text = getDriver().findElement(object).getAttribute("value");
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return text;
 	}
@@ -46,7 +46,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 
 	}

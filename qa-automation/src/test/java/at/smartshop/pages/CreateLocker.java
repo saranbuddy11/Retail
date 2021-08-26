@@ -30,7 +30,7 @@ public class CreateLocker extends Factory {
             WebElement text = getDriver().findElement(By.xpath("//li[contains(text(),'"+value+"')]"));
             Assert.assertEquals(text.getText(), value);           
         }catch(Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }
     }
 }

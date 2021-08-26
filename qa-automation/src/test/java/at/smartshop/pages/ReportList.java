@@ -36,7 +36,7 @@ public class ReportList extends Factory {
 			builder.moveToElement(object).build();
 			object.click();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -55,7 +55,7 @@ public class ReportList extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -65,7 +65,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 
 	}

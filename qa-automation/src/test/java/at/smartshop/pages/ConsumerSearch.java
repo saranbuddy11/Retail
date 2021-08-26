@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
@@ -39,7 +40,7 @@ public class ConsumerSearch extends Factory{
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -57,7 +58,7 @@ public class ConsumerSearch extends Factory{
                 tableHeaders.add(columnHeader.getText());
             }
         } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }
         return tableHeaders;
     }
@@ -71,7 +72,7 @@ public class ConsumerSearch extends Factory{
                 consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
             }
         } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
+            Assert.fail(exc.toString());
         }
         return consumerRecord;
     }

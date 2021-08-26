@@ -88,7 +88,7 @@ public class AdminNationalAccounts extends Factory {
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return elementsText;
 	}
@@ -100,7 +100,7 @@ public class AdminNationalAccounts extends Factory {
 			ascending = listRuleNameAccending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listRuleNameAccending);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return ascending;
 	}
@@ -112,7 +112,7 @@ public class AdminNationalAccounts extends Factory {
 			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return descending;
 	}
@@ -138,7 +138,7 @@ public class AdminNationalAccounts extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return locationValues;
 	}

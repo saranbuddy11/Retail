@@ -21,7 +21,7 @@ public class CheckBox extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Checked the checkbox [ "+object +" ]");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -33,7 +33,7 @@ public class CheckBox extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Unchecked the checkbox [ "+object +" ]");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -50,7 +50,7 @@ public class CheckBox extends Factory {
 			}
 			
 		} catch (Exception exc) {			
-			TestInfra.failWithScreenShot(exc.toString());			
+			Assert.fail(exc.toString());			
 		}
 		return isChecked;
 	}
@@ -67,7 +67,7 @@ public class CheckBox extends Factory {
 			}
 			
 		} catch (Exception exc) {			
-			TestInfra.failWithScreenShot(exc.toString());			
+			Assert.fail(exc.toString());			
 		}
 		return isEnabled;
 	}

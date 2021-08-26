@@ -88,7 +88,7 @@ public class LockerSystem extends Factory {
 				columnNamesList.add(column);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -100,7 +100,7 @@ public class LockerSystem extends Factory {
 				Assert.assertTrue(columnNames.contains(columnNamesList.get(iter)));
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -111,7 +111,7 @@ public class LockerSystem extends Factory {
 			foundation.click(copyORDeleteSystem(systemName, delete));
 			foundation.click(BTN_YES_DELETE);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 }
