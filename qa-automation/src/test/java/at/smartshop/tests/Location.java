@@ -86,14 +86,14 @@ public class Location extends TestInfra {
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA)).equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
+		} catch (Throwable exc) {
+			Assert.fail();
+		}finally {
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
 			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.MEDIUM_TIME);
-			
-		} catch (Throwable exc) {
-			Assert.fail();
 		}
 	}
 	
