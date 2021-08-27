@@ -331,6 +331,8 @@ public class Promotions extends TestInfra {
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
+		List<String> org = Arrays	.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -351,8 +353,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
-			List<String> org = Arrays	.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
-			List<String> location = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+			
 			String orgExistValue = dropdown.getSelectedItem(CreatePromotions.DPD_ORGANIZATION);
 			Assert.assertEquals(orgExistValue, org.get(0));
 			String locExistValue = dropdown.getSelectedItem(CreatePromotions.DPD_LOCATION);
@@ -387,6 +388,7 @@ public class Promotions extends TestInfra {
 
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
+			foundation.click(PromotionList.TBL_COLUMN_NAME);
 			foundation.click(PromotionList.LINK_EXPAND);
 			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
 			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
@@ -396,7 +398,15 @@ public class Promotions extends TestInfra {
 			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
 			Assert.assertEquals(location.get(1), locName);
 
+			
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
 			// Reset the Data
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));		
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -415,7 +425,8 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Details page
-			List<String> actualData = Arrays.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			dropdown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -425,15 +436,13 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CREATE);
 
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE).contains(rstLocationData.get(CNLocation.POPUP_NAME)));
+			Assert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE)
+					.contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_CONTINUE);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1336,6 +1345,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(UserList.BTN_UPDATE_USER);
 			foundation.waitforElement(UserList.LBL_USER_LIST, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
 
 			// operator user
