@@ -179,7 +179,7 @@ public class Report extends TestInfra {
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
-			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
+			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime.toUpperCase()));
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));
 
 			// Storing UI data in iuData Map
