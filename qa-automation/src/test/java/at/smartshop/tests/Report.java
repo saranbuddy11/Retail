@@ -362,6 +362,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			transactionCanned.getTblRecordsUI();
