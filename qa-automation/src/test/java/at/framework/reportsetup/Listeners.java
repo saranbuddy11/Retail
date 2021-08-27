@@ -78,9 +78,7 @@ public class Listeners implements ITestListener {
 		updateCount(listResultSet.get(index),Constants.PASS, result.getMethod().getRealClass().getSimpleName());
 	}
 
-	public void onTestFailure(ITestResult result) {		
-		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case" + result.getMethod().getMethodName() + " is failed due to " +result.getThrowable());
-		
+	public void onTestFailure(ITestResult result) {	
 		//update fail count
 		failedCount++;
 		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
@@ -94,11 +92,20 @@ public class Listeners implements ITestListener {
 		
 		//get screenshot
 		try {
+			String screenshot = null;
+			if(!result.getThrowable().toString().equals(TestInfra.THROWABLE_EXCEPTION)) {				
+				ExtFactory.getInstance().getExtent().log(Status.FAIL, result.getThrowable());
+			 screenshot = objReportName.getScreenshot(Factory.getDriver());
+			String sysPath=FilePath.FILE+TestInfra.HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
+			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
+			}			
+			ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case is failed");
 			ExtFactory.getInstance().removeExtentObject();
+			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
-		
+		TestInfra.THROWABLE_EXCEPTION="";		
 	}
 
 	public void onTestSkipped(ITestResult result) {

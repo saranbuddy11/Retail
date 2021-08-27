@@ -48,7 +48,7 @@ public class CheckBox extends Factory {
 			else {
 				isChecked=false;
 			}
-			
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "element [ "+object +" ] is checked [ "+isChecked +" ]");
 		} catch (Exception exc) {			
 			Assert.fail(exc.toString());			
 		}
@@ -65,7 +65,7 @@ public class CheckBox extends Factory {
 			else {
 				isEnabled=false;
 			}
-			
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "element [ "+object +" ] is enabled [ "+isEnabled +" ]");
 		} catch (Exception exc) {			
 			Assert.fail(exc.toString());			
 		}

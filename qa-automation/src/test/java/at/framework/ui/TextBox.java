@@ -29,8 +29,8 @@ public class TextBox extends Factory {
 		String text = null;
 		try {
 			text = getDriver().findElement(object).getAttribute("value");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text [" + text +" ] from the input [" + object +" ]");
 		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 		return text;

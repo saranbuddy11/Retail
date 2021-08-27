@@ -32,6 +32,7 @@ public class TestInfra {
 	public FilePath filePath=new FilePath();
 	private SendReport sendReport=new SendReport();
 	public static String HOST = "";
+	public static String THROWABLE_EXCEPTION="";
 	
 	public static String updateTestRail="";
 	
@@ -85,6 +86,7 @@ public class TestInfra {
 	
 	public static void failWithScreenShot(String exc) {
 		try {
+		THROWABLE_EXCEPTION=exc;	
 		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
 		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
