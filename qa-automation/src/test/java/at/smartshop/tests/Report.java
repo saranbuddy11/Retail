@@ -581,6 +581,7 @@ public class Report extends TestInfra {
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			deviceByCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			foundation.waitforElement(deviceByCategory.TBL_DEVICE_BY_CATEGORY_GRID, Constants.SHORT_TIME);
 			deviceByCategory.getTblRecordsUI();
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 			deviceByCategory.processAPI();
