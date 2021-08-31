@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import at.framework.browser.Factory;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.DateAndTime;
@@ -26,6 +27,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
@@ -99,6 +101,7 @@ public class Report extends TestInfra {
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 	private TenderTransactionLogReport tenderTransactionLog = new TenderTransactionLogReport();
 	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
+	private AVISubFeeReport aviSubFee = new AVISubFeeReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1825,6 +1828,80 @@ public class Report extends TestInfra {
 
 			// verify report data
 			invoiceDetails.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "120622-This test validates AVI Sub Fee Report Data Calculation")
+	public void aviSubFeeReportData() {
+		try {
+
+			final String CASE_NUM = "120622";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			String priorMonthData = aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE),
+					columnName.get(0));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
+			// aviSubFee.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			aviSubFee.getTblRecordsUI();
+			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
+			aviSubFee.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// process sales API to generate data
+			aviSubFee.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			aviSubFee.getTblRecordsUI();
+			
+			// apply calculation and update data
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(0),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), priorMonthData);
+			aviSubFee.updateCurrentMonthData((String) aviSubFee.getJsonData().get(0));
+			
+			// c35ea2fb3ff6ee6479a9ac5ffb2ba5d2
+			// verify report headers
+			aviSubFee.verifyReportHeaders(columnName.get(1));
+
+			// verify report data
+			aviSubFee.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
 		}
