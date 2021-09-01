@@ -3,6 +3,9 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -10,7 +13,9 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.files.Excel;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -19,6 +24,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
+import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.NavigationBar;
 
 public class Device extends TestInfra {
@@ -27,6 +33,8 @@ public class Device extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox=new TextBox();
 	private DeviceList deviceList=new DeviceList();
+	private Excel excel = new Excel();
+	private Table table = new Table();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -427,6 +435,143 @@ public class Device extends TestInfra {
 		}
 		catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "145245-QAA-24-Verify the serial number column display in device export file (Admin>Device) as Operator")
+	public void serialNumberExportOperatorAdmin() {
+		try {
+			final String CASE_NUM = "145245";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+			
+			//verify daily revenue			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to admin>device and verify serial number filter functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			foundation.threadWait(Constants.ONE_SECOND);
+			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+			
+			// download assertion
+			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			uiList.removeAll(Arrays.asList("", null));
+			// excel data validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+		}
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+		}
+	}
+	
+	@Test(description = "145696-QAA-24-Verify the serial number column display in device export file (Admin>Device) as super")
+	public void serialNumberExportSuperAdmin() {
+		try {
+			final String CASE_NUM = "145696";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+			
+			//verify daily revenue			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to admin>device and verify serial number filter functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			foundation.threadWait(Constants.ONE_SECOND);
+			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+			
+			// download assertion
+			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			uiList.removeAll(Arrays.asList("", null));
+			// excel data validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+			
+		}
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+		}
+	}
+	
+	@Test(description = "145697-QAA-24-Verify the serial number column display in device export file (Super>Device)")
+	public void serialNumberExportSuper() {
+		try {
+			final String CASE_NUM = "145697";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+			
+			//verify daily revenue			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to admin>device and verify serial number filter functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			foundation.threadWait(Constants.ONE_SECOND);
+			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+			
+			// download assertion
+			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			uiList.removeAll(Arrays.asList("", null," "));
+			// excel data validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+			
+		}
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
 }

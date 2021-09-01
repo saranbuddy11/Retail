@@ -19,6 +19,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+
+import com.aventstack.extentreports.Status;
+
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -102,11 +106,12 @@ public class Excel {
 					}
 					if (uiRecord.equals(cellValue)) {
 						isTest = true;
-
+						ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record ["+uiRecord+"] is available in excel");
 						break;
 					}
 				}
 				if (isTest.equals(false)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record ["+uiRecord+"] is not available in excel");
 					return false;
 				}
 			}
