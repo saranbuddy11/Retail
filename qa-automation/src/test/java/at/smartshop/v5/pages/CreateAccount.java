@@ -21,7 +21,12 @@ public class CreateAccount {
 	public static final By LBL_NORWEGIAN_HEADER = By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.0.0']");
 	public static final By LBL_NW_FINGERPRINT_HEADER = By.id("create-account-fpid-btn");
     public static final By TXT_BARCODE_GERMAN= By.xpath("//span[@data-reactid='.0.a.0.0.0.1.0.0.2.0.0.0']");
+    public static final By LBL_H2= By.xpath("//h2[@class='sub-instructions']");
+    public static final By LBL_CREATE_ACCOUNT= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
+    public static final By LBL_WAITING= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
+    public static final By BTN_WILL_BE_BACK = By.id("will-be-back-btn-id");
 	private Foundation foundation=new Foundation();
+	
 	
     public By objText(String text) {
 		return By.xpath("//*[text()='"+text+"']");
@@ -36,38 +41,41 @@ public class CreateAccount {
 		foundation.click(CreateAccount.CHK_LABEL);
 	
 		foundation.click(objText(createAccountPageData.get(1)));
-		foundation.waitforElement(objText(createAccountPageData.get(3)), Constants.SHORT_TIME);
+		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(6))));
+		Assert.assertTrue(foundation.isDisplayed(LBL_CREATE_ACCOUNT));
+		foundation.objectFocus(objText(createAccountPageData.get(7)));
+		Assert.assertTrue(foundation.isDisplayed(LBL_H2));
 		
-		foundation.click(objText(createAccountPageData.get(6)));
-		foundation.objectFocus(CreateAccount.CHK_LABEL);
-		foundation.click(CreateAccount.CHK_LABEL);
-		foundation.click(objText(createAccountPageData.get(1)));
+//		foundation.click(objText(createAccountPageData.get(6)));
+//		foundation.objectFocus(CreateAccount.CHK_LABEL);
+//		foundation.click(CreateAccount.CHK_LABEL);
+//		foundation.click(objText(createAccountPageData.get(1)));
+//		
+//		foundation.waitforElement(objText(createAccountPageData.get(8)), Constants.SHORT_TIME);
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(7))));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(8))));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(9))));
+//				
+//		foundation.click(objText(createAccountPageData.get(9)));
+//		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
+//		foundation.click(objText(createAccountPageData.get(5)));
+//		if(requiredData.equals(actualData)) {
+//		String barCode = foundation.getText(CreateAccount.TXT_BARCODE_GERMAN);
+//		foundation.waitforElement(objText(createAccountPageData.get(10)), Constants.SHORT_TIME);
+//		Assert.assertEquals(barCode, createAccountPageData.get(11));
+//		}else {
+//		foundation.waitforElement(objText(createAccountPageData.get(11)), Constants.SHORT_TIME);
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(11))));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(10))));
+//		}
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
+//		
 		
-		foundation.waitforElement(objText(createAccountPageData.get(8)), Constants.SHORT_TIME);
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(7))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(8))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(9))));
-				
-		foundation.click(objText(createAccountPageData.get(9)));
-		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
-		foundation.click(objText(createAccountPageData.get(5)));
-		if(requiredData.equals(actualData)) {
-		String barCode = foundation.getText(CreateAccount.TXT_BARCODE_GERMAN);
-		foundation.waitforElement(objText(createAccountPageData.get(10)), Constants.SHORT_TIME);
-		Assert.assertEquals(barCode, createAccountPageData.get(11));
-		}else {
-		foundation.waitforElement(objText(createAccountPageData.get(11)), Constants.SHORT_TIME);
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(11))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(10))));
-		}
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
-		
-		
-		foundation.click(CreateAccount.BTN_CLOSE);
+//		foundation.click(CreateAccount.BTN_CLOSE);
+		foundation.click(BTN_WILL_BE_BACK);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,Constants.SHORT_TIME);
     }
 }

@@ -2527,7 +2527,7 @@ public class V5Test extends TestInfra {
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
-			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.EXTRA_LONG_TIME);
 			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
 			createAccount.verifyCreateAccoutnPageLanguage(rstV5DeviceData.get(CNV5Device.CREATE_ACCOUNT),
 					requiredData.get(3), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
