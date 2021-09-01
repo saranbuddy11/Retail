@@ -2288,8 +2288,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_SIZE_MORE);
-			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
-			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			
+			//foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
+			String expectedData = foundation.getAlertMessage();;
 			assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {

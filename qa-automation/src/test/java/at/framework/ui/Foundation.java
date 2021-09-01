@@ -321,6 +321,18 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	public  String getAlertMessage() {
+		String text = null;
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			 text = alert.getText();
+			
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Alert Message ");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return text;
+	}
 
 	public Boolean waitforElementToDisappear(By object, int waitTime) {
 		Boolean element = null;
