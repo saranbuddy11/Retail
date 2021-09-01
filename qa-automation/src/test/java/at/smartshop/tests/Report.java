@@ -1834,11 +1834,11 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "120622-This test validates AVI Sub Fee Report Data Calculation")
+	@Test(description = "146027-This test validates AVI Sub Fee Report Data Calculation")
 	public void aviSubFeeReportData() {
 		try {
 
-			final String CASE_NUM = "120622";
+			final String CASE_NUM = "146027";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1850,9 +1850,6 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -1861,44 +1858,43 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			String priorMonthData = aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE),
-					columnName.get(0));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			aviSubFee.selectToday();
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
-			// aviSubFee.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			aviSubFee.getTblRecordsUI();
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
-			aviSubFee.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			// process sales API to generate data
-			aviSubFee.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			aviSubFee.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			aviSubFee.getTblRecordsUI();
-			
+
 			// apply calculation and update data
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(0),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(2),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), priorMonthData);
-			aviSubFee.updateCurrentMonthData((String) aviSubFee.getJsonData().get(0));
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), (String) aviSubFee.getRequiredJsonData().get(0));
+			//aviSubFee.updateCurrentMonthData((String) aviSubFee.getRequiredJsonData().get(1));
+			aviSubFee.calculateTotalBillable();
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(7), (String) aviSubFee.getRequiredJsonData().get(2));
 			
-			// c35ea2fb3ff6ee6479a9ac5ffb2ba5d2
 			// verify report headers
-			aviSubFee.verifyReportHeaders(columnName.get(1));
+			aviSubFee.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			aviSubFee.verifyReportData();

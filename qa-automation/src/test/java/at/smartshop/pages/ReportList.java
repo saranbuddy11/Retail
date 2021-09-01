@@ -25,6 +25,7 @@ public class ReportList extends Factory {
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
+	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
 
 
 	public void selectReport(String reportName) {
@@ -63,6 +64,16 @@ public class ReportList extends Factory {
 			foundation.click(DPD_LOCATIONS);
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+	}
+	
+	public void selectOrg(String orgName) {
+		try {
+			foundation.click(DPD_ORG);
+			foundation.click(By.xpath("//ul[@id = 'select2-orgdt-results']/li[text()='" + orgName +"']"));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
