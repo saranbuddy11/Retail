@@ -126,6 +126,9 @@ public class LocationSummary extends Factory {
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
 	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
+	public static final By LBL_CAUTION_ICON = By.xpath("//i[@class='fa fa-exclamation-triangle' and @style='color: #FF4C5B;']");
+	public static final By LBL_HOVER_MESSAGE = By.xpath("//td[@class='ui-state-hover']");
 
 	public void selectTab(String tabName) {
 		try {
