@@ -25,6 +25,8 @@ public class CreateAccount {
     public static final By LBL_CREATE_ACCOUNT= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
     public static final By LBL_WAITING= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
     public static final By BTN_WILL_BE_BACK = By.id("will-be-back-btn-id");
+    public static final By LBL_OPTION3 = By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.2.1']");
+
 	private Foundation foundation=new Foundation();
 	
 	
@@ -45,7 +47,8 @@ public class CreateAccount {
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
 		Assert.assertTrue(foundation.isDisplayed(LBL_CREATE_ACCOUNT));
-		foundation.objectFocus(objText(createAccountPageData.get(7)));
+//		foundation.objectFocus(objText(createAccountPageData.get(7)));
+		Assert.assertTrue(foundation.isDisplayed(LBL_OPTION3));
 		Assert.assertTrue(foundation.isDisplayed(LBL_H2));
 		
 //		foundation.click(objText(createAccountPageData.get(6)));
