@@ -1352,8 +1352,10 @@ public class V5Test extends TestInfra {
 			foundation.click(landingPage.objLanguage(requiredData.get(4)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-
+			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
 			// reset data- enable back product
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -1364,16 +1366,14 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.waitforElement(GlobalProduct.TXT_FILTER, 3);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(GlobalProduct.ICON_FILTER);
 			globalProduct.selectFilter(requiredData.get(6));
 			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_IS_DISABLED, requiredData.get(5), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+
 			// reset data-assign back the product to location
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			textBox.enterText(LocationList.TXT_FILTER, requiredData.get(3));
@@ -3909,7 +3909,15 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));	
 
-			//save taxes for products
+			// select the org and update country and tax system
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforClikableElement(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+
+			// save taxes for products
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(GlobalProduct.TXT_FILTER, products.get(0));
@@ -3931,16 +3939,8 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(products.get(3)));
 			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(13), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-			
-			// select the org and update country and tax system
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(0), Constants.TEXT);
-			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);
-			foundation.click(OrgSummary.BTN_SAVE);
 
-			//save tax mapping- precondition
-			foundation.waitforClikableElement(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			//save tax mapping- precondition			
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(requiredData.get(2));
@@ -6121,11 +6121,7 @@ public class V5Test extends TestInfra {
 			// save tax mapping on location summary page as precondition
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.click(LocationSummary.TAB_TAX_MAPPING);
-			foundation.click(LocationSummary.BTN_ADD_MAPPING);
-			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, requiredData.get(0), Constants.TEXT);
-			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			locationSummary.saveTaxMapping(requiredData.get(0),requiredData.get(0));
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -6171,15 +6167,10 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			// reset mapping
+			// reset/remove mapping
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.click(LocationSummary.TAB_TAX_MAPPING);
-			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
-			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(4), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+			locationSummary.removeTaxMapping(requiredData.get(1));
 			// reset category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(requiredData.get(1));
