@@ -379,26 +379,62 @@ public class Location extends TestInfra {
 
 			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			
-			
+
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
 			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
-			
-			
-			
-			
-			
-			
+			foundation.click(LocationSummary.LBL_CAUTION_ICON);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test(description = "146024-QAA-103-verify tick mark icon and device dashboard page are displayed for Online device.")
+	public void verifyTickMarkIcon() {
+		try {
+			final String CASE_NUM = "146024";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
+			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
