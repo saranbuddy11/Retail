@@ -143,18 +143,6 @@ public class AVISubFeeReport extends Factory {
 		}
 	}
 
-//	public void updateCurrentMonthData(String value) {
-//		try {
-//			String initialData = intialData.get(recordCount).get(tableHeaders.get(6)).replaceAll(Reports.REPLACE_DOLLOR,
-//					Constants.EMPTY_STRING);
-//			double updatedData = Double.parseDouble(initialData) + Double.parseDouble(value);
-//			updatedData = Math.round(updatedData * 100.0) / 100.0;
-//			intialData.get(recordCount).put(tableHeaders.get(6), String.valueOf(updatedData));
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-
 	public void getPriorMonthData(String requiredDate, String orgName, String locationID, String deviceID) {
 		try {
 			foundation.click(ReportList.DPD_DATE);
@@ -200,8 +188,6 @@ public class AVISubFeeReport extends Factory {
 
 	public void verifyReportData() {
 		try {
-			System.out.println(reportsData);
-			System.out.println(intialData);
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {

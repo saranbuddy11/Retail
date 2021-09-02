@@ -1889,7 +1889,6 @@ public class Report extends TestInfra {
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3),
 					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), (String) aviSubFee.getRequiredJsonData().get(0));
-			//aviSubFee.updateCurrentMonthData((String) aviSubFee.getRequiredJsonData().get(1));
 			aviSubFee.calculateTotalBillable();
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(7), (String) aviSubFee.getRequiredJsonData().get(2));
 			
