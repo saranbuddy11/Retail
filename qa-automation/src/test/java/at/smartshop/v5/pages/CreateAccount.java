@@ -23,9 +23,13 @@ public class CreateAccount {
     public static final By TXT_BARCODE_GERMAN= By.xpath("//span[@data-reactid='.0.a.0.0.0.1.0.0.2.0.0.0']");
     public static final By LBL_H2= By.xpath("//h2[@class='sub-instructions']");
     public static final By LBL_CREATE_ACCOUNT= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
-    public static final By LBL_WAITING= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
+    public static final By LBL_OPTION2= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.1.1']");
     public static final By BTN_WILL_BE_BACK = By.id("will-be-back-btn-id");
     public static final By LBL_OPTION3 = By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.2.1']");
+    public static final By LBL_OPTION1= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.0.1']");
+    public static final By LBL_HEADER= By.xpath("//*[@data-reactid='.0.a.0.0.0.1.0.0']");
+    public static final By LBL_WAITING_TO_COME_BACK= By.xpath("//*[@data-reactid='.0.a.0.0.0.1.0.2.1']");
+    public static final By LBL_WILL_BE_BACK= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.2.2.0']");
 
 	private Foundation foundation=new Foundation();
 	
@@ -44,12 +48,24 @@ public class CreateAccount {
 	
 		foundation.click(objText(createAccountPageData.get(1)));
 		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(LBL_CREATE_ACCOUNT));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
+//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
+		
+		String header=foundation.getText(LBL_HEADER);
+		Assert.assertEquals(header, createAccountPageData.get(4));
+		
+		String optionOne=foundation.getText(LBL_OPTION1);
+		Assert.assertEquals(optionOne, createAccountPageData.get(5));
+		
+		String createAccountTxt=foundation.getText(LBL_OPTION2);
+		Assert.assertEquals(createAccountTxt, createAccountPageData.get(6));
 //		foundation.objectFocus(objText(createAccountPageData.get(7)));
-		Assert.assertTrue(foundation.isDisplayed(LBL_OPTION3));
-		Assert.assertTrue(foundation.isDisplayed(LBL_H2));
+		
+		String optionThreeTxt=foundation.getText(LBL_OPTION3);
+		Assert.assertEquals(optionThreeTxt, createAccountPageData.get(7));
+		
+		String headerTxt=foundation.getText(LBL_WAITING_TO_COME_BACK);
+		Assert.assertEquals(headerTxt, createAccountPageData.get(8));
 		
 //		foundation.click(objText(createAccountPageData.get(6)));
 //		foundation.objectFocus(CreateAccount.CHK_LABEL);
@@ -78,6 +94,9 @@ public class CreateAccount {
 //		
 		
 //		foundation.click(CreateAccount.BTN_CLOSE);
+		
+		String willBeBackBtn=foundation.getText(LBL_WILL_BE_BACK);
+		Assert.assertEquals(willBeBackBtn, createAccountPageData.get(9));
 		foundation.click(BTN_WILL_BE_BACK);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,Constants.SHORT_TIME);
     }
