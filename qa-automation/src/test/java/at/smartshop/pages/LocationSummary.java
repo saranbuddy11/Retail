@@ -133,6 +133,10 @@ public class LocationSummary extends Factory {
 			.xpath("//i[@class='fa fa-check-circle' and @style='color: #2983C4;']");
 	public static final By LBL_HOVER_MESSAGE = By.xpath("//td[@class='ui-state-hover']");
 	public static final By TXT_DEVICE_STATUS = By.xpath("//span[@id='devicestatus']");
+	public static final By TXT_DEVICE_SUMMARY = By.xpath("//li[@id='Device Summary']");
+	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
+	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
+	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
 
 	public void selectTab(String tabName) {
 		try {
@@ -418,4 +422,5 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
 	}
+
 }
