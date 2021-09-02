@@ -1075,6 +1075,7 @@ public class Locker extends TestInfra {
 			locationSummary.updateLockerSettings(hasLocker.get(0));
 			locationList.selectLocationName(locations.get(1));
 			locationSummary.updateLockerSettings(hasLocker.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
 
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
