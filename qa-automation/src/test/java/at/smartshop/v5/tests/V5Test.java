@@ -2758,26 +2758,26 @@ public class V5Test extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-//			browser.launch(Constants.LOCAL, Constants.CHROME);
-//			browser.navigateURL(
-//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-//
-//			// Select Menu and Menu Item
-//			navigationBar.selectOrganization(
-//					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-//
-//			// Selecting location
-//			locationList.selectLocationName(requiredData.get(0));
-//
-//			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
-//			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
-//
-//			foundation.click(LocationSummary.BTN_SYNC);
-//			foundation.click(LocationSummary.BTN_SAVE);
-//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-//			login.logout();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Selecting location
+			locationList.selectLocationName(requiredData.get(0));
+
+			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+			login.logout();
 		}
 
 	}
