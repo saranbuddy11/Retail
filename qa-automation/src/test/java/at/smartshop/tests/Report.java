@@ -40,6 +40,7 @@ import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.FolioBillingReport;
+import at.smartshop.pages.HealthAheadPercentageReport;
 import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
@@ -102,6 +103,7 @@ public class Report extends TestInfra {
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 	private TenderTransactionLogReport tenderTransactionLog = new TenderTransactionLogReport();
 	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
+	private HealthAheadPercentageReport healthAheadPercentage = new HealthAheadPercentageReport();
 	private AVISubFeeReport aviSubFee = new AVISubFeeReport();
 	private BillingInformationReport billingInformation = new BillingInformationReport();
 
@@ -1836,11 +1838,11 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "146027-This test validates AVI Sub Fee Report Data Calculation")
-	public void aviSubFeeReportData() {
+	@Test(description = "146058-This test validates Health Ahead Percentage Report Data Calculation")
+	public void healthAheadPercentageReportData() {
 		try {
 
-			final String CASE_NUM = "146027";
+			final String CASE_NUM = "146058";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1851,8 +1853,72 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// process sales API to generate data
+			healthAheadPercentage.processAPI();
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			healthAheadPercentage.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			healthAheadPercentage.getTblRecordsUI();
+			healthAheadPercentage.getIntialData().putAll(healthAheadPercentage.getReportsData());
+			healthAheadPercentage.getRequiredRecord(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// apply calculation and update data
+			healthAheadPercentage.updateData(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			healthAheadPercentage.calculatePercentage(Integer.parseInt(requiredData.get(0)),
+					Integer.parseInt(requiredData.get(1)));
+
+			// verify report headers
+			healthAheadPercentage.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			healthAheadPercentage.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "146027-This test validates AVI Sub Fee Report Data Calculation")
+	public void aviSubFeeReportData() {
+		try {
+
+			final String CASE_NUM = "146027";
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1867,8 +1933,8 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			aviSubFee.selectToday();
-			reportList.selectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList
+					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -1888,29 +1954,30 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3), propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), (String) aviSubFee.getRequiredJsonData().get(0));
 			aviSubFee.calculateTotalBillable();
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(7), (String) aviSubFee.getRequiredJsonData().get(2));
-			
+
 			// verify report headers
 			aviSubFee.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			aviSubFee.verifyReportData();
-} catch (Exception exc) {
+		} catch (Exception exc) {
 			Assert.fail();
 		}
 
 	}
-  @Test(description = "145723-This test validates Billing Information Report Data Calculation")
+
+	@Test(description = "145723-This test validates Billing Information Report Data Calculation")
 	public void billingInformationReportData() {
 		try {
 
 			final String CASE_NUM = "145723";
-      
-      browser.navigateURL(
+
+			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1919,21 +1986,21 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-      
-      List<String> requiredData = Arrays
+
+			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-      navigationBar.selectOrganization(
+			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-      // process sales API to generate data
+			// process sales API to generate data
 			billingInformation.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-      
+
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-      
+
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
