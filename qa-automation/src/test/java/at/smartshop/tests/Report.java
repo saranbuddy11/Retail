@@ -1858,7 +1858,7 @@ public class Report extends TestInfra {
 //					.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
 
 			// process sales API to generate data
-			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+//			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1895,8 +1895,8 @@ public class Report extends TestInfra {
  			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
-			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
+//			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
+//					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -1934,8 +1934,8 @@ public class Report extends TestInfra {
 					financialRecap.getRequiredJsonData().get(1));
 			financialRecap.updateNetCashOwed();
 			financialRecap.updateSalesTax();
-			financialRecap.calculateAmount(financialRecap.getTableHeaders().get(17),
-					financialRecap.getRequiredJsonData().get(2));
+//			financialRecap.calculateAmount(financialRecap.getTableHeaders().get(17),
+//					financialRecap.getRequiredJsonData().get(2));
 			financialRecap.updateTotal();
 
 			// verify report headers

@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class FinancialRecapReport extends Factory {
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportTotalData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> financialRecapTotal = new HashMap<>();
+	DecimalFormat decimalFormat = new DecimalFormat("####.##");
 
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
@@ -75,6 +77,7 @@ public class FinancialRecapReport extends Factory {
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
+			reportsData.clear();
 			for (WebElement row : rows) {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
@@ -84,6 +87,7 @@ public class FinancialRecapReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			reportTotalData.clear();
 			Map<String, String> reportsTotaldata = new LinkedHashMap<>();
 			WebElement totalRow = getDriver().findElement(By.cssSelector("tfoot > tr"));
 			for (int iter = 1; iter < tableHeaders.size() + 1; iter++) {
@@ -150,8 +154,10 @@ public class FinancialRecapReport extends Factory {
 		String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double amount = Double.parseDouble(initialAmount) + Double.parseDouble(value);
-		amount = Math.round((amount * 100.0) / 100.0);
-		reportsData.get(0).put(columnName, String.valueOf(amount));
+		//DecimalFormat decimalFormat = new DecimalFormat();
+		decimalFormat.format(amount);
+		//amount = Math.round((amount * 100.0) / 100.0);
+		intialData.get(0).put(columnName, String.valueOf(amount));
 	}
 
 	public void adjustBalance(String adjustBalance, String reasonCode) throws Exception {
@@ -164,63 +170,68 @@ public class FinancialRecapReport extends Factory {
 			double updatedbalance = Double.parseDouble(balance) + Double.parseDouble(adjustBalance);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, reason.get(iter), Constants.TEXT);
+			foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
 		}
 	}
 
 	public void updateAdjustment(String balance, String columnName) {
-		String initialAmount = reportsData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+		String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		double updatedAmount = (Double.parseDouble(initialAmount) + Double.parseDouble(balance));
-		updatedAmount = Math.round((updatedAmount * 100.0) / 100.0);
-		reportsData.get(0).put(columnName, String.valueOf(updatedAmount));
+		double updatedAmount = (Double.parseDouble(initialAmount) + (Double.parseDouble(balance) * -1));
+		decimalFormat.format(updatedAmount);
+		//updatedAmount = Math.round((updatedAmount * 100.0) / 100.0);
+		intialData.get(0).put(columnName, String.valueOf(updatedAmount));
 	}
 
 	public void updateGrossSales() {
-		String salesGMA = reportsData.get(0).get(tableHeaders.get(4)).replaceAll(Reports.REPLACE_DOLLOR,
+		String salesGMA = intialData.get(0).get(tableHeaders.get(4)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String salesCreditCard = reportsData.get(0).get(tableHeaders.get(5)).replaceAll(Reports.REPLACE_DOLLOR,
+		String salesCreditCard = intialData.get(0).get(tableHeaders.get(5)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String salesOthers = reportsData.get(0).get(tableHeaders.get(6)).replaceAll(Reports.REPLACE_DOLLOR,
+		String salesOthers = intialData.get(0).get(tableHeaders.get(6)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double grossSales = Double.parseDouble(salesGMA) + Double.parseDouble(salesCreditCard)
 				+ Double.parseDouble(salesOthers);
-		grossSales = Math.round((grossSales * 100.0) / 100.0);
-		reportsData.get(0).put(tableHeaders.get(7), String.valueOf(grossSales));
+		decimalFormat.format(grossSales);
+		//grossSales = Math.round((grossSales * 100.0) / 100.0);
+		intialData.get(0).put(tableHeaders.get(7), String.valueOf(grossSales));
 	}
 
 	public void updateFees(String fees, String salesColumnName, String feesColumnName) {
-		String sales = reportsData.get(0).get(salesColumnName).replaceAll(Reports.REPLACE_DOLLOR,
+		String sales = intialData.get(0).get(salesColumnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double updatedFees = (Double.parseDouble(sales) * (Double.parseDouble(fees) / 100)) * -1;
-		updatedFees = Math.round((updatedFees * 100.0) / 100.0);
-		reportsData.get(0).put(feesColumnName, String.valueOf(updatedFees));
+		decimalFormat.format(updatedFees);
+		//updatedFees = Math.round((updatedFees * 100.0) / 100.0);
+		intialData.get(0).put(feesColumnName, String.valueOf(updatedFees));
 	}
 
 	public void updateSalesTax() {
-		String initialTax = intialData.get(0).get(tableHeaders.get(17)).replaceAll(Reports.REPLACE_DOLLOR,
+		String initialTax = intialData.get(0).get(tableHeaders.get(16)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		double updatedTax = Double.parseDouble(initialTax) + Double.parseDouble(requiredJsonData.get(0));
+		double updatedTax = Double.parseDouble(initialTax) + (Double.parseDouble(requiredJsonData.get(0)) * 3);
 		updatedTax = Math.round((updatedTax * 100.0) / 100.0);
-		reportsData.get(0).put(tableHeaders.get(17), String.valueOf(updatedTax));
+		intialData.get(0).put(tableHeaders.get(16), String.valueOf(updatedTax));
 	}
 
 	public void updateNetCashOwed() {
-		String grossSales = reportsData.get(0).get(tableHeaders.get(7)).replaceAll(Reports.REPLACE_DOLLOR,
+		String grossSales = intialData.get(0).get(tableHeaders.get(7)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String feesGMA = reportsData.get(0).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
+		String feesGMA = intialData.get(0).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String feesCreditCard = reportsData.get(0).get(tableHeaders.get(9)).replaceAll(Reports.REPLACE_DOLLOR,
+		String feesCreditCard = intialData.get(0).get(tableHeaders.get(9)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String productRefunds = reportsData.get(0).get(tableHeaders.get(10)).replaceAll(Reports.REPLACE_DOLLOR,
+		String productRefunds = intialData.get(0).get(tableHeaders.get(10)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String fundingClientOperator = reportsData.get(0).get(tableHeaders.get(11)).replaceAll(Reports.REPLACE_DOLLOR,
+		String fundingClientOperator = intialData.get(0).get(tableHeaders.get(11)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String closedGMA = reportsData.get(0).get(tableHeaders.get(12)).replaceAll(Reports.REPLACE_DOLLOR,
+		String closedGMA = intialData.get(0).get(tableHeaders.get(12)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String otherAdjustment = reportsData.get(0)
+		String otherAdjustment = intialData.get(0)
 				.get(tableHeaders.get(13)).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
-		String cashFunding = reportsData.get(0).get(tableHeaders.get(14)).replaceAll(Reports.REPLACE_DOLLOR,
+		String cashFunding = intialData.get(0).get(tableHeaders.get(14)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 //		String cashAdjustment = reportsData.get(0).get(tableHeaders.get(15)).replaceAll(Reports.REPLACE_DOLLOR,
 //				Constants.EMPTY_STRING);
@@ -228,8 +239,9 @@ public class FinancialRecapReport extends Factory {
 				+ Double.parseDouble(feesCreditCard) + Double.parseDouble(productRefunds)
 				+ Double.parseDouble(fundingClientOperator) + Double.parseDouble(closedGMA)
 				+ Double.parseDouble(otherAdjustment) + Double.parseDouble(cashFunding);
-		netCashOwed = Math.round((netCashOwed * 100.0) / 100.0);
-		reportsData.get(0).put(tableHeaders.get(16), String.valueOf(netCashOwed));
+		//netCashOwed = Math.round((netCashOwed * 100.0) / 100.0);
+		decimalFormat.format(netCashOwed);
+		intialData.get(0).put(tableHeaders.get(15), String.valueOf(netCashOwed));
 	}
 
 //	public void updateData(String columnName, List<String> values) {
@@ -266,8 +278,6 @@ public class FinancialRecapReport extends Factory {
 //	}
 
 	public void verifyReportHeaders(String columnNames) {
-		System.out.println(columnNames);
-		System.out.println(tableHeaders);
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
