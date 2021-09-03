@@ -29,7 +29,7 @@ public class CreateAccount {
     public static final By LBL_OPTION1= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.1.0.1']");
     public static final By LBL_HEADER= By.xpath("//*[@data-reactid='.0.a.0.0.0.1.0.0']");
     public static final By LBL_WAITING_TO_COME_BACK= By.xpath("//*[@data-reactid='.0.a.0.0.0.1.0.2.1']");
-    public static final By LBL_WILL_BE_BACK= By.xpath("//h2[@data-reactid='.0.a.0.0.0.1.0.2.2.0']");
+    public static final By LBL_WILL_BE_BACK= By.xpath("//*[@data-reactid='.0.a.0.0.0.1.0.2.2.0']");
 
 	private Foundation foundation=new Foundation();
 	
@@ -51,7 +51,7 @@ public class CreateAccount {
 //		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
 //		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
 		
-/*		String header=foundation.getText(LBL_HEADER);
+		String header=foundation.getText(LBL_HEADER);
 		Assert.assertEquals(header, createAccountPageData.get(4));
 		
 		String optionOne=foundation.getText(LBL_OPTION1);
@@ -97,7 +97,7 @@ public class CreateAccount {
 		
 		String willBeBackBtn=foundation.getText(LBL_WILL_BE_BACK);
 		Assert.assertEquals(willBeBackBtn, createAccountPageData.get(9));
-*/		
+		
 		foundation.click(BTN_WILL_BE_BACK);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT,Constants.SHORT_TIME);
     }

@@ -2617,6 +2617,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -2776,6 +2777,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -2928,6 +2930,7 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3086,6 +3089,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3244,6 +3248,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3402,6 +3407,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3561,6 +3567,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3720,6 +3727,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 		}
@@ -3881,6 +3889,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 		}
