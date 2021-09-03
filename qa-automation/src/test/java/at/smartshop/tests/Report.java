@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import at.framework.browser.Factory;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.DateAndTime;
@@ -26,8 +27,10 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.BadScanReport;
+import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -101,6 +104,8 @@ public class Report extends TestInfra {
 	private TenderTransactionLogReport tenderTransactionLog = new TenderTransactionLogReport();
 	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
 	private HealthAheadPercentageReport healthAheadPercentage = new HealthAheadPercentageReport();
+	private AVISubFeeReport aviSubFee = new AVISubFeeReport();
+	private BillingInformationReport billingInformation = new BillingInformationReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -1863,6 +1868,7 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
@@ -1870,6 +1876,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+
 			healthAheadPercentage.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			healthAheadPercentage.getTblRecordsUI();
 			healthAheadPercentage.getIntialData().putAll(healthAheadPercentage.getReportsData());
@@ -1887,6 +1894,151 @@ public class Report extends TestInfra {
 
 			// verify report data
 			healthAheadPercentage.verifyReportData();
+
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "146027-This test validates AVI Sub Fee Report Data Calculation")
+	public void aviSubFeeReportData() {
+		try {
+
+			final String CASE_NUM = "146027";
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			aviSubFee.selectToday();
+			reportList
+					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
+			aviSubFee.getTblRecordsUI();
+			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
+
+			// process sales API to generate data
+			aviSubFee.processAPI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			aviSubFee.getTblRecordsUI();
+
+			// apply calculation and update data
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(0),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(2),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3), propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), (String) aviSubFee.getRequiredJsonData().get(0));
+			aviSubFee.calculateTotalBillable();
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(7), (String) aviSubFee.getRequiredJsonData().get(2));
+
+			// verify report headers
+			aviSubFee.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			aviSubFee.verifyReportData();
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "145723-This test validates Billing Information Report Data Calculation")
+	public void billingInformationReportData() {
+		try {
+
+			final String CASE_NUM = "145723";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			billingInformation.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			billingInformation.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(BillingInformationReport.TXT_FILTER,
+					(String) billingInformation.getJsonData().get(Reports.TRANS_ID));
+			billingInformation.getTblRecordsUI();
+			billingInformation.getIntialData().putAll(billingInformation.getReportsData());
+			billingInformation.getRequiredRecord((String) billingInformation.getJsonData().get(Reports.TRANS_ID));
+			// apply calculation and update data
+			billingInformation.updateData(billingInformation.getTableHeaders().get(0),
+					(String) billingInformation.getJsonData().get(Reports.TRANS_ID));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(1),
+					(String) billingInformation.getJsonData().get(Reports.TRANS_DATE_TIME));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(2), requiredData.get(0));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(3), requiredData.get(1));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(4), requiredData.get(2));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(5), requiredData.get(3));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(6), requiredData.get(4));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(7), requiredData.get(5));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(8),
+					billingInformation.getRequiredJsonData().get(0));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(9),
+					billingInformation.getRequiredJsonData().get(1));
+			billingInformation.updateData(billingInformation.getTableHeaders().get(10),
+					billingInformation.getRequiredJsonData().get(2));
+
+			// verify report headers
+			billingInformation.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			billingInformation.verifyReportData();
+
 		} catch (Exception exc) {
 			Assert.fail();
 		}
