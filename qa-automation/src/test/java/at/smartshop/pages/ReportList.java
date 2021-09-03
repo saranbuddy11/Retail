@@ -26,6 +26,8 @@ public class ReportList extends Factory {
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
+	private static final By PANEL_REPORTS_LIST = By.cssSelector("#collapseOne > div > div > div.all-reports");
+
 
 
 	public void selectReport(String reportName) {
