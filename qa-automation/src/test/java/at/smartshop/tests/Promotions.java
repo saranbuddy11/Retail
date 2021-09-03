@@ -1254,11 +1254,14 @@ public class Promotions extends TestInfra {
 					locationName.get(0));
 			
 			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// navigate to same promotion and validate update promotion
@@ -1267,6 +1270,7 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
+			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			assertTrue(foundation.getText(CreatePromotions.LBL_PAGE_TITLE)	.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
@@ -1276,16 +1280,20 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.ICON_CLR_LOCATION);
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(1), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
 			// select promotion details
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
 			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.waitforClikableElement(EditPromotion.BTN_UPDATE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_UPDATE);
 			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.waitforClikableElement(EditPromotion.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.LONG_TIME);
 
