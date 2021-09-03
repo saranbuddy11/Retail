@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,23 +49,12 @@ public class FinancialRecapReport extends Factory {
 	private static final By TBL_FINANCIAL_RECAP_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-//	private List<String> scancodeData = new LinkedList<>();
-//	private List<String> productNameData = new LinkedList<>();
-//	private List<String> priceData = new LinkedList<>();
-//	private List<String> taxData = new LinkedList<>();
-//	private List<String> category1Data = new LinkedList<>();
-//	private List<String> category2Data = new LinkedList<>();
-//	private List<String> category3Data = new LinkedList<>();
-//	private List<String> discountData = new LinkedList<>();
-//	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-//	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportTotalData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> financialRecapTotal = new HashMap<>();
-	DecimalFormat decimalFormat = new DecimalFormat("####.##");
 
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
@@ -82,7 +72,12 @@ public class FinancialRecapReport extends Factory {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
 					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+					if (columnCount >= 4) {
+						uiTblRowValues.put(tableHeaders.get(columnCount - 1),
+								column.getText().replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+					} else {
+						uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+					}
 				}
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
@@ -101,26 +96,6 @@ public class FinancialRecapReport extends Factory {
 		}
 		return reportsData;
 	}
-
-//	public void getRequiredRecord(String transDate, List<String> scancodes) {
-//		try {
-//			requiredRecords.clear();
-//			for (int iter = 0; iter < scancodes.size(); iter++) {
-//				for (int val = 0; val < intialData.size(); val++) {
-//					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-//							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
-//						requiredRecords.add(val);
-//						break;
-//					}
-//				}
-//				if (requiredRecords.size() == scancodes.size()) {
-//					break;
-//				}
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -154,23 +129,24 @@ public class FinancialRecapReport extends Factory {
 		String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double amount = Double.parseDouble(initialAmount) + Double.parseDouble(value);
-		//DecimalFormat decimalFormat = new DecimalFormat();
-		decimalFormat.format(amount);
-		//amount = Math.round((amount * 100.0) / 100.0);
-		intialData.get(0).put(columnName, String.valueOf(amount));
+		BigDecimal val = BigDecimal.valueOf(amount);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(columnName, String.valueOf(val));
 	}
 
 	public void adjustBalance(String adjustBalance, String reasonCode) throws Exception {
 		List<String> reason = Arrays.asList(reasonCode.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < reason.size(); iter++) {
+			Thread.sleep(1000);
 			String balance = String.valueOf(consumerSummary.getBalance());
 			foundation.click(ConsumerSummary.BTN_ADJUST);
+			Thread.sleep(1000);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			Assert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE).isDisplayed());
 			double updatedbalance = Double.parseDouble(balance) + Double.parseDouble(adjustBalance);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
+			Thread.sleep(1000);
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, reason.get(iter), Constants.TEXT);
-			foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
 		}
@@ -180,9 +156,9 @@ public class FinancialRecapReport extends Factory {
 		String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double updatedAmount = (Double.parseDouble(initialAmount) + (Double.parseDouble(balance) * -1));
-		decimalFormat.format(updatedAmount);
-		//updatedAmount = Math.round((updatedAmount * 100.0) / 100.0);
-		intialData.get(0).put(columnName, String.valueOf(updatedAmount));
+		BigDecimal val = BigDecimal.valueOf(updatedAmount);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(columnName, String.valueOf(val));
 	}
 
 	public void updateGrossSales() {
@@ -194,26 +170,27 @@ public class FinancialRecapReport extends Factory {
 				Constants.EMPTY_STRING);
 		double grossSales = Double.parseDouble(salesGMA) + Double.parseDouble(salesCreditCard)
 				+ Double.parseDouble(salesOthers);
-		decimalFormat.format(grossSales);
-		//grossSales = Math.round((grossSales * 100.0) / 100.0);
-		intialData.get(0).put(tableHeaders.get(7), String.valueOf(grossSales));
+		BigDecimal val = BigDecimal.valueOf(grossSales);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(tableHeaders.get(7), String.valueOf(val));
 	}
 
 	public void updateFees(String fees, String salesColumnName, String feesColumnName) {
 		String sales = intialData.get(0).get(salesColumnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double updatedFees = (Double.parseDouble(sales) * (Double.parseDouble(fees) / 100)) * -1;
-		decimalFormat.format(updatedFees);
-		//updatedFees = Math.round((updatedFees * 100.0) / 100.0);
-		intialData.get(0).put(feesColumnName, String.valueOf(updatedFees));
+		BigDecimal val = BigDecimal.valueOf(updatedFees);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(feesColumnName, String.valueOf(val));
 	}
 
 	public void updateSalesTax() {
 		String initialTax = intialData.get(0).get(tableHeaders.get(16)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double updatedTax = Double.parseDouble(initialTax) + (Double.parseDouble(requiredJsonData.get(0)) * 3);
-		updatedTax = Math.round((updatedTax * 100.0) / 100.0);
-		intialData.get(0).put(tableHeaders.get(16), String.valueOf(updatedTax));
+		BigDecimal val = BigDecimal.valueOf(updatedTax);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(tableHeaders.get(16), String.valueOf(val));
 	}
 
 	public void updateNetCashOwed() {
@@ -229,32 +206,19 @@ public class FinancialRecapReport extends Factory {
 				Constants.EMPTY_STRING);
 		String closedGMA = intialData.get(0).get(tableHeaders.get(12)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String otherAdjustment = intialData.get(0)
-				.get(tableHeaders.get(13)).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+		String otherAdjustment = intialData.get(0).get(tableHeaders.get(13)).replaceAll(Reports.REPLACE_DOLLOR,
+				Constants.EMPTY_STRING);
 		String cashFunding = intialData.get(0).get(tableHeaders.get(14)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-//		String cashAdjustment = reportsData.get(0).get(tableHeaders.get(15)).replaceAll(Reports.REPLACE_DOLLOR,
-//				Constants.EMPTY_STRING);
 		double netCashOwed = Double.parseDouble(grossSales) + Double.parseDouble(feesGMA)
 				+ Double.parseDouble(feesCreditCard) + Double.parseDouble(productRefunds)
 				+ Double.parseDouble(fundingClientOperator) + Double.parseDouble(closedGMA)
 				+ Double.parseDouble(otherAdjustment) + Double.parseDouble(cashFunding);
-		//netCashOwed = Math.round((netCashOwed * 100.0) / 100.0);
-		decimalFormat.format(netCashOwed);
-		intialData.get(0).put(tableHeaders.get(15), String.valueOf(netCashOwed));
+		BigDecimal val = BigDecimal.valueOf(netCashOwed);
+		val = val.setScale(2, RoundingMode.HALF_EVEN);
+		intialData.get(0).put(tableHeaders.get(15), String.valueOf(val));
 	}
 
-//	public void updateData(String columnName, List<String> values) {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String value = String.valueOf(values.get(iter));
-//				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
-//
 	public void updateData(String columnName, String value) {
 		try {
 			intialData.get(0).put(columnName, value);
@@ -262,20 +226,6 @@ public class FinancialRecapReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-//
-//	public void updatePrice() {
-//		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-//				String price = priceData.get(iter);
-//				String discount = discountData.get(iter);
-//				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-//				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-//				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	public void verifyReportHeaders(String columnNames) {
 		try {
@@ -315,7 +265,6 @@ public class FinancialRecapReport extends Factory {
 						(String) jsonData.get(Reports.JSON));
 				getJsonSalesData();
 			}
-//			getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -328,9 +277,6 @@ public class FinancialRecapReport extends Factory {
 			requiredJsonData.add(tax);
 			String total = sales.get(Reports.TOTAL).getAsString();
 			requiredJsonData.add(total);
-//			JsonObject kioskCashOut = (JsonObject) data.get(PoReportsList.KIOSK_CASH_OUT_TRANS);
-//			String totalCash = kioskCashOut.get(Reports.TOTAL_CASH).getAsString();
-//			requiredJsonData.add(totalCash);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail(exc.toString());
@@ -351,26 +297,6 @@ public class FinancialRecapReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
-//	private void getJsonArrayData() {
-//		try {
-//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-//			for (JsonElement item : items) {
-//				JsonObject element = item.getAsJsonObject();
-//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-//				productNameData.add(element.get(Reports.NAME).getAsString());
-//				priceData.add(element.get(Reports.PRICE).getAsString());
-//				taxData.add(element.get(Reports.TAX).getAsString());
-//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
 
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader, String paymentType) {
 		try {
@@ -434,30 +360,6 @@ public class FinancialRecapReport extends Factory {
 		return reportTotalData;
 	}
 
-//	public List<String> getScancodeData() {
-//		return scancodeData;
-//	}
-//
-//	public List<String> getCategory1Data() {
-//		return category1Data;
-//	}
-//	
-//	public List<String> getTaxCatData() {
-//		return taxcatData;
-//	}
-//
-//	public List<String> getCategory2Data() {
-//		return category2Data;
-//	}
-//
-//	public List<String> getCategory3Data() {
-//		return category3Data;
-//	}
-//
-//	public List<String> getTaxData() {
-//		return taxData;
-//	}
-
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
 	}
@@ -465,13 +367,5 @@ public class FinancialRecapReport extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-
-//	public List<String> getPriceData() {
-//		return priceData;
-//	}
-//
-//	public List<String> getProductNameData() {
-//		return productNameData;
-//	}
 
 }

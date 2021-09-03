@@ -1852,14 +1852,6 @@ public class Report extends TestInfra {
 
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-//			List<String> requiredData = Arrays
-//					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-//			List<String> adjustBalance = Arrays
-//					.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-
-			// process sales API to generate data
-//			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
-
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -1879,10 +1871,7 @@ public class Report extends TestInfra {
 			financialRecap.getTblRecordsUI();
 			financialRecap.getIntialData().putAll(financialRecap.getReportsData());
 			financialRecap.getFinancialRecapTotalData().putAll(financialRecap.getReportsTotalData());
-//			foundation.waitforElement(NavigationBar.DPD_ORG, Constants.SHORT_TIME);
 			foundation.objectFocus(NavigationBar.DPD_ORG);
-//			financialRecap.getRequiredRecord((String) financialRecap.getJsonData().get(Reports.TRANS_DATE_TIME),
-//					financialRecap.getScancodeData());
 
 			// Consumer Details
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -1895,8 +1884,6 @@ public class Report extends TestInfra {
  			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
-//			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-//					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -1930,12 +1917,8 @@ public class Report extends TestInfra {
 					financialRecap.getTableHeaders().get(12));
 			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
 					financialRecap.getTableHeaders().get(13));
-			financialRecap.calculateAmount(financialRecap.getTableHeaders().get(14),
-					financialRecap.getRequiredJsonData().get(1));
 			financialRecap.updateNetCashOwed();
 			financialRecap.updateSalesTax();
-//			financialRecap.calculateAmount(financialRecap.getTableHeaders().get(17),
-//					financialRecap.getRequiredJsonData().get(2));
 			financialRecap.updateTotal();
 
 			// verify report headers
