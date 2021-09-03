@@ -6267,6 +6267,20 @@ public class V5Test extends TestInfra {
 			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(OrgSummary.DPD_CROSS_ORG_ACCOUNT, requiredData.get(6), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			browser.close();
+
+			// check user can place order without error
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(3));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			foundation.click(Order.LBL_EMAIL);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		}
 	}
 }
