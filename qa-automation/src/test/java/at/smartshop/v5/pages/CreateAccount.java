@@ -47,9 +47,7 @@ public class CreateAccount {
 		foundation.click(CreateAccount.CHK_LABEL);
 	
 		foundation.click(objText(createAccountPageData.get(1)));
-		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(4))));
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(5))));
+		foundation.waitforElement(LBL_HEADER,Constants.SHORT_TIME);
 		
 		String header=foundation.getText(LBL_HEADER);
 		Assert.assertEquals(header, createAccountPageData.get(4));
@@ -59,7 +57,6 @@ public class CreateAccount {
 		
 		String createAccountTxt=foundation.getText(LBL_OPTION2);
 		Assert.assertTrue(createAccountTxt.equalsIgnoreCase(createAccountPageData.get(6)));
-//		foundation.objectFocus(objText(createAccountPageData.get(7)));
 		
 		String optionThreeTxt=foundation.getText(LBL_OPTION3);
 		Assert.assertEquals(optionThreeTxt, createAccountPageData.get(7));
