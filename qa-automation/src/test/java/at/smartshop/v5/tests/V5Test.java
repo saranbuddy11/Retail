@@ -5716,7 +5716,7 @@ public class V5Test extends TestInfra {
 			browser.close();
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(requiredData.get(0)));
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
