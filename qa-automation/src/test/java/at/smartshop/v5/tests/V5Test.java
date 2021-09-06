@@ -6047,21 +6047,17 @@ public class V5Test extends TestInfra {
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 
 			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -6108,22 +6104,17 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
 		try {
-			List<String> language = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// add categories to products
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -6155,13 +6146,13 @@ public class V5Test extends TestInfra {
 
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(2));
-			locationSummary.kiosklanguageSetting(rstV5DeviceData.get(CNV5Device.LOCATION), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(rstV5DeviceData.get(CNV5Device.LOCATION), language.get(0),language.get(1));
 
 			// launch v5 application
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(language.get(0)));
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName);
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -6175,12 +6166,10 @@ public class V5Test extends TestInfra {
 			// reset- category name
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			// reset/remove mapping
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
@@ -6199,19 +6188,16 @@ public class V5Test extends TestInfra {
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 		try {
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			// select the org and update country and tax system
@@ -6234,9 +6220,10 @@ public class V5Test extends TestInfra {
 			browser.close();
 
 			// try navigate to payment page and validate error messages
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -6255,13 +6242,11 @@ public class V5Test extends TestInfra {
 			// resetData
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			// select the org and update country and tax system
 			orgList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -6275,9 +6260,10 @@ public class V5Test extends TestInfra {
 			browser.close();
 
 			// check user can place order without error
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(landingPage.objLanguage(requiredData.get(2)));
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
