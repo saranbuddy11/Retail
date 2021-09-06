@@ -399,6 +399,8 @@ public class V5Test extends TestInfra {
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> language = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -425,11 +427,9 @@ public class V5Test extends TestInfra {
 			// login into Kiosk Device
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(LandingPage.BTN_LANG);
+			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
 
 			// Validating Landing Page
-			// foundation.waitforElement(landingPage.objLanguage(requiredData.get(1)),
-			// Constants.SHORT_TIME);
 			landingPage.verifyHomeScreenLanguage(rstV5DeviceData.get(CNV5Device.LANDING_PAGE));
 
 			// Validating Search Page
@@ -570,7 +570,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(LandingPage.LINK_ENGLISH);
+			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
 			adminMenu.navigateDriverLoginPage();
 			String pin = propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE);
 			textBox.enterDriverPin(pin);
