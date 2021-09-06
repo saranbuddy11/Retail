@@ -16,7 +16,7 @@ public class NavigationBar extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 
-	private static final By DPD_ORG = By.className("select2");
+	public static final By DPD_ORG = By.className("select2");
 	private static final By TXT_ORG = By.className("select2-search__field");
 	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
 

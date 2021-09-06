@@ -31,6 +31,7 @@ public class ConsumerSearch extends Factory{
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -47,6 +48,11 @@ public class ConsumerSearch extends Factory{
 
 	public By objCell(String consumerName) {		
 			return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");		
+	}
+	
+	public void verifyConsumerSummary(String consumerName) {
+		foundation.click(objCell(consumerName));
+		Assert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_CONSUMER_SUMMARY).isDisplayed());
 	}
 	
 	public List<String> getConsumerHeaders() {
