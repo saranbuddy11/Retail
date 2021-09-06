@@ -7,6 +7,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class TextBox extends Factory {
 	private Foundation foundation=new Foundation();
@@ -28,8 +29,8 @@ public class TextBox extends Factory {
 		String text = null;
 		try {
 			text = getDriver().findElement(object).getAttribute("value");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text [" + text +" ] from the input [" + object +" ]");
 		} catch (Exception exc) {
-			exc.printStackTrace();
 			Assert.fail(exc.toString());
 		}
 		return text;
@@ -59,6 +60,17 @@ public class TextBox extends Factory {
 				foundation.threadWait(Constants.ONE_SECOND);
 			} else {
 				foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
+			}
+		}
+	}
+	
+	public void enterKeypadNumber(String number) {
+		char[] charArray = number.toCharArray();
+		for (char eachChar : charArray) {
+			if (eachChar == ' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+			} else {
+				foundation.click(By.xpath("//*[@class='keyboardNumber']//*[text()='" + eachChar + "']"));
 			}
 		}
 	}

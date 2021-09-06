@@ -28,7 +28,7 @@ import at.smartshop.pages.NavigationBar;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Consumer extends TestInfra {
-	
+
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private PropertyFile propertyFile = new PropertyFile();
@@ -45,20 +45,21 @@ public class Consumer extends TestInfra {
 
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
-		try {
-			final String CASE_NUM = "116743";
+		final String CASE_NUM = "116743";
 
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
+		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
+		try {
+
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
-
-			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-			String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -70,11 +71,25 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+             foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME); 
+ 			// Enter fields in Consumer Search Page
+ 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+ 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+ 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+ 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balance = consumerTblRecords.get(columnName);
 			String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance1) + 2;
-			String expectedBalance = "$" + String.valueOf(newBalance);
+			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -85,7 +100,7 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			
+
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
@@ -99,7 +114,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 			String actualBalance1 = actualBalance.substring(1);
 			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
-			String expectedBalance2 = "$" + String.valueOf(newBalance2);
+			String expectedBalance2 = "$" + String.valueOf(String.format("%.2f", newBalance2));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -109,7 +124,7 @@ public class Consumer extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance2));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			
+
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
@@ -120,21 +135,30 @@ public class Consumer extends TestInfra {
 			String actualBalance2 = consumerTblRecords3.get(columnName);
 			Assert.assertEquals(actualBalance2, expectedBalance2);
 
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+
 		}
 	}
 
 	@Test(description = "116747-Cancel Adjust Balance")
-	public void cancelAdjustBalance() {
+	public void verifyCancelAdjustBalance() {
 		try {
 			final String CASE_NUM = "116747";
-		
+
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -147,9 +171,9 @@ public class Consumer extends TestInfra {
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-																rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-																propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-																rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// Split database data
 			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -167,8 +191,8 @@ public class Consumer extends TestInfra {
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

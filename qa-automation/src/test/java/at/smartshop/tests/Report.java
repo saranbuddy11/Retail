@@ -34,6 +34,7 @@ import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.IntegrationPaymentReport;
@@ -102,6 +103,7 @@ public class Report extends TestInfra {
 	private InvoiceDetailsReport invoiceDetails = new InvoiceDetailsReport();
 	private IntegrationPaymentReport integrationPayments = new IntegrationPaymentReport();
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
+	private DataSourceManager dataSourceManager=new DataSourceManager();
 	private TenderTransactionLogReport tenderTransactionLog = new TenderTransactionLogReport();
 	private OrderTransactionTimeReport orderTransactionTime = new OrderTransactionTimeReport();
 	private FinancialRecapReport financialRecap = new FinancialRecapReport();
@@ -183,8 +185,10 @@ public class Report extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			
 			// Validate Account Adjustment Report Title
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
@@ -201,7 +205,7 @@ public class Report extends TestInfra {
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
-			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime));
+			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime.toUpperCase()));
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));
 
 			// Storing UI data in iuData Map
@@ -210,8 +214,8 @@ public class Report extends TestInfra {
 			// Validate account adjustment adjusted report data
 			assertEquals(uiData, dbData);
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -249,7 +253,8 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
 			productTax.getIntialData().putAll(productTax.getReportsData());
@@ -276,8 +281,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productTax.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -302,10 +307,15 @@ public class Report extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Navigate to Reports
+			
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
+			navigationBar.navigateToMenuItem(menu.get(2));
+			dataSourceManager.unCheckCheckBox(rstReportListData.get(CNReportList.REPORT_NAME)); 
+			
+			
+			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
@@ -314,8 +324,9 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
+			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
@@ -337,8 +348,8 @@ public class Report extends TestInfra {
 			// verify report data
 			productPricing.verifyReportData();
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -377,6 +388,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			transactionCanned.getTblRecordsUI();
@@ -438,8 +450,8 @@ public class Report extends TestInfra {
 			// verify report data
 			transactionCanned.verifyReportData();
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -499,8 +511,8 @@ public class Report extends TestInfra {
 
 			// Verify Report Data
 			memberPurchaseDetails.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -557,8 +569,8 @@ public class Report extends TestInfra {
 			// verify report data
 			badScan.verifyReportData();
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -593,8 +605,10 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			deviceByCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			foundation.waitforElement(DeviceByCategoryReport.TBL_DEVICE_BY_CATEGORY_GRID, Constants.SHORT_TIME);
 			deviceByCategory.getTblRecordsUI();
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 			deviceByCategory.processAPI();
@@ -625,8 +639,8 @@ public class Report extends TestInfra {
 			// verify report data
 			deviceByCategory.verifyReportData();
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -690,8 +704,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			employeeCompDetails.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -723,7 +737,9 @@ public class Report extends TestInfra {
 			// Select the Report Date range
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
@@ -746,8 +762,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			memberPurchaseSummary.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -760,8 +776,7 @@ public class Report extends TestInfra {
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -770,39 +785,32 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-			List<String> tabName = Arrays
-					.asList(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME).split(Constants.DELIMITER_TILD));
-			List<String> actualData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> tabName = Arrays	.asList(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			iceReport.getTblRecordsUI();
 			iceReport.getIntialData().putAll(iceReport.getReportsData());
 
 			// get Location Data
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			iceReport.getADMData().add(foundation.getTextAttribute(LocationSummary.TXT_CUSTOMER, Constants.VALUE));
 			iceReport.getADMData()
@@ -814,16 +822,12 @@ public class Report extends TestInfra {
 			// locationSummary.manageColumn(columnName.get(0));
 			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			locationSummary.selectTab(tabName.get(1));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
-					actualData.get(0));
-			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
-					requiredData.get(0));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
-					actualData.get(1));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),actualData.get(0));
+			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),requiredData.get(0));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),actualData.get(1));
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName.get(0));
-			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
-					requiredData.get(1));
+			iceReport.updateWaste(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),requiredData.get(1));
 			iceReport.updateSold(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 
@@ -832,8 +836,7 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -845,8 +848,8 @@ public class Report extends TestInfra {
 			// verify report data
 			iceReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			Assert.fail(exc.toString());
 		}
 
 	}
@@ -906,8 +909,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipSummary.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -925,49 +928,38 @@ public class Report extends TestInfra {
 			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> reportName = Arrays
-					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_TILD));
-			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-			List<String> actualData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> reason = Arrays
-					.asList(rstConsumerSummaryData.get(CNConsumerSummary.REASON).split(Constants.DELIMITER_TILD));
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> reportName = Arrays.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> reason = Arrays.asList(rstConsumerSummaryData.get(CNConsumerSummary.REASON).split(Constants.DELIMITER_TILD));
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
-					reason.get(0));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
-					reason.get(1));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),	reason.get(0));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),	reason.get(1));
 			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+									rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(reportName.get(0));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.adjustBrowerSize(actualData.get(2));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			foundation.adjustBrowerSize(actualData.get(3));
 
 			itemStockout.verifyReportName(reportName.get(1));
@@ -977,10 +969,8 @@ public class Report extends TestInfra {
 
 			// apply calculation and update data
 			itemStockout.updateData(requiredData.get(0), actualData.get(1), stockout);
-
 			// verify report headers
 			itemStockout.verifyReportHeaders(itemStockout.getTableHeaders(), columnName.get(0));
-
 			// verify report data
 			itemStockout.verifyReportData();
 
@@ -989,16 +979,17 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			itemStockout.getItemStockoutDetails();
+			foundation.threadWait(Constants.THREE_SECOND);
 			itemStockout.getIntialDetailsData().putAll(itemStockout.getReportsDetailsData());
-			itemStockout.updateDetailsData(stockout, requiredData.get(1), reason.get(1));
+			itemStockout.updateDetailsData(stockout.toUpperCase(), requiredData.get(1), reason.get(1));
 
 			// verify report details headers
 			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
 
 			// verify report details data
-			itemStockout.verifyReportDetailsData(stockout, reason.get(1));
-		} catch (Exception exc) {
-			Assert.fail();
+			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1062,8 +1053,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipDetails.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1116,8 +1107,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			healthAhead.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1197,8 +1188,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			canadaMultiTax.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -1262,8 +1253,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSalesCategory.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -1328,8 +1319,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			unfinishedClose.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -1394,13 +1385,13 @@ public class Report extends TestInfra {
 
 			// verify report data
 			folioBilling.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
-
-	@Test(description = "120622-This test validates Queued Credit Transactions Report Data Calculation")
+	
+	@Test(description = "143527-This test validates Queued Credit Transactions Report Data Calculation")
 	public void queuedCreditTransactionsReportData() {
 		try {
 
@@ -1461,8 +1452,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			queuedCreditTrans.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -1500,14 +1491,16 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			voidedProduct.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			String[] orderID = ((String) voidedProduct.getJsonData().get(Reports.TRANS_ID))
 					.split(Constants.DELIMITER_HYPHEN);
 			textBox.enterText(VoidedProductReport.TXT_FILTER, orderID[1]);
+			foundation.waitforElement(VoidedProductReport.TBL_VOIDED_PRODUCT, Constants.SHORT_TIME);
 			voidedProduct.getTblRecordsUI();
 			voidedProduct.getIntialData().putAll(voidedProduct.getReportsData());
-			voidedProduct.getRequiredRecord((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME),
+			voidedProduct.getRequiredRecord(((String) voidedProduct.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase(),
 					voidedProduct.getProductNameData());
 
 			// apply calculation and update data
@@ -1526,8 +1519,8 @@ public class Report extends TestInfra {
 
 			// verify report data
 			voidedProduct.verifyReportData();
-		} catch (Exception exc) {
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -1634,9 +1627,9 @@ public class Report extends TestInfra {
 			double actualGMValue = salesAnalysisReport.getGMValue(columnName.get(3), productName);
 
 			Assert.assertEquals(actualGMValue, expectedGMValue);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			
+		}catch(Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
