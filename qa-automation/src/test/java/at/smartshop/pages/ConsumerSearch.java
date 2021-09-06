@@ -14,7 +14,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
+
 
 public class ConsumerSearch extends Factory{
 	private TextBox textBox = new TextBox();

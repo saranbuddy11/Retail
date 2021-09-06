@@ -9,7 +9,6 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtFactory;
-import at.smartshop.tests.TestInfra;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();

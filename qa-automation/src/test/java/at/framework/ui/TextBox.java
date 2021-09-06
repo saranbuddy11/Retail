@@ -3,11 +3,12 @@ package at.framework.ui;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class TextBox extends Factory {
 	private Foundation foundation=new Foundation();

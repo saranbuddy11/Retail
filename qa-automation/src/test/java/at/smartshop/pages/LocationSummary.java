@@ -21,7 +21,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
@@ -29,7 +28,6 @@ public class LocationSummary extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private LocationList locationList = new LocationList();
-	private Login login = new Login();
 	private Browser browser = new Browser();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");

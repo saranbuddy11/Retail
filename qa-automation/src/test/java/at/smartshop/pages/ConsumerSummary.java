@@ -5,7 +5,6 @@ import org.testng.Assert;
 
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();

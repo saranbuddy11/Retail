@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
 import at.smartshop.keys.Configuration;

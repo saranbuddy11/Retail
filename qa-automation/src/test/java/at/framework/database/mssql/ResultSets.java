@@ -28,7 +28,6 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class ResultSets extends Connections {
 
