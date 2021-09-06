@@ -62,4 +62,11 @@ public class LandingPage {
 
 	}
 
+	public void changeLanguage(String languageButton, String newLanguage, String button) {
+		foundation.waitforElement(objText(languageButton), Constants.SHORT_TIME);
+		foundation.click(objText(languageButton));
+		foundation.waitforElement(objText(button), Constants.SHORT_TIME);
+		foundation.click(objText(newLanguage));
+		foundation.click(objText(button));
+	}
 }

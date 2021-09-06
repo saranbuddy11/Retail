@@ -144,7 +144,7 @@ public class V5Test extends TestInfra {
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 
 			// login to application
-			foundation.click(landingPage.objLanguage(requiredData.get(1)));
+			landingPage.changeLanguage(requiredData.get(3), requiredData.get(1), requiredData.get(4));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
