@@ -230,7 +230,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
 		} catch (Throwable exc) {
@@ -928,8 +928,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> actualData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			foundation.refreshPage();
-
+			
 			// login to application
 			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
@@ -1233,7 +1232,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.refreshPage();
+
 			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
@@ -1467,7 +1466,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
 			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			List<String> productName = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
@@ -2061,7 +2060,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.refreshPage();
+
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.LONG_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			assertEquals(actualData, requiredData);
@@ -2469,7 +2468,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2),language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4458,7 +4457,7 @@ public class V5Test extends TestInfra {
 			foundation.click(MicroMarketMenuList.BTN_DELETE);
 			foundation.alertAccept();
 			// navigating to Home Page
-			foundation.refreshPage();
+
 			foundation.click(LocationList.LINK_HOME_PAGE);
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -4824,7 +4823,7 @@ public class V5Test extends TestInfra {
 			// Navigating to product search page
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
 
@@ -4930,7 +4929,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5027,7 +5026,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5144,7 +5143,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5256,7 +5255,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5360,7 +5359,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5440,7 +5439,7 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-			foundation.refreshPage();
+
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);

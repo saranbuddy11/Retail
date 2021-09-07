@@ -43,8 +43,8 @@ public class CreateAccount {
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(0))));
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(1))));
 		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(2))));
-		foundation.objectFocus(CreateAccount.CHK_LABEL);
-		foundation.click(CreateAccount.CHK_LABEL);
+		foundation.objectFocus(CHK_LABEL);
+		foundation.click(CHK_LABEL);
 	
 		foundation.click(objText(createAccountPageData.get(1)));
 		foundation.waitforElement(LBL_HEADER,Constants.SHORT_TIME);
