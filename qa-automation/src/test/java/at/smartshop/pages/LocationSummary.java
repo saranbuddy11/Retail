@@ -2,9 +2,12 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -111,9 +114,12 @@ public class LocationSummary extends Factory {
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
 	public static final By DPD_PRINTGROUP = By.cssSelector("select#printer");
 	public static final By LBL_PRINT_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	public static final By LBL_PRINT_DOWN_ARROW = By.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
-	public static final By LBL_REASON_CODE = By.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
-	public static final By LIST_REASON_CODE = By.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
+	public static final By LBL_PRINT_DOWN_ARROW = By
+			.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
+	public static final By LBL_REASON_CODE = By
+			.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
+	public static final By LIST_REASON_CODE = By
+			.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE = By.id("taxname");
@@ -123,6 +129,15 @@ public class LocationSummary extends Factory {
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
+	public static final By TBL_DEVICE_POPUP_GRID = By
+			.cssSelector("div.dataTables_scroll > div.dataTables_scrollHead > div > table >thead");
+	public static final By TBL_DEVICE_POPUP_ROW = By.xpath("//*[@id='choosekskdt']/tbody/tr");
+	public static final By TXT_DEVICE_POPUP_SEARCH = By.xpath("//input[@aria-controls='choosekskdt']");
+	public static final By BTN_DEVICE_ADD = By.xpath("//a[text()='Add']");
+	public static final By BTN_DEVICE_CLOSE = By.xpath("//a[@id='modalcancel']");
+	public static final By LBL_ROW_HEADER = By.xpath("//div[@class='dataTables_scrollHeadInner']//th[text()='Name']");
+	public static final By LBL_COLUMN_DATA = By.xpath("//div[@class='namelefttxt']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -138,13 +153,13 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				String status=foundation.getText(By.xpath(
+				String status = foundation.getText(By.xpath(
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']//..//a"));
-				if(!status.equalsIgnoreCase(Constants.HIDE))
-				foundation.click(By.xpath(
-						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
-								+ columnName.get(count) + "']"));
+				if (!status.equalsIgnoreCase(Constants.HIDE))
+					foundation.click(By.xpath(
+							"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+									+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
@@ -334,16 +349,16 @@ public class LocationSummary extends Factory {
 	public void saveTaxMapping(String taxCategory, String rate) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
-		if(foundation.isDisplayed(objTaxCategory(taxCategory))==false) {		
-		foundation.click(BTN_ADD_MAPPING);
-		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
-		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
-		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
-		foundation.click(BTN_POPUP_SAVE);
-		foundation.click(TAB_TAX_MAPPING);
+		if (foundation.isDisplayed(objTaxCategory(taxCategory)) == false) {
+			foundation.click(BTN_ADD_MAPPING);
+			foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
+			dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
+			dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
+			foundation.click(BTN_POPUP_SAVE);
+			foundation.click(TAB_TAX_MAPPING);
 		}
 	}
-	
+
 	public void removeTaxMapping(String taxCategory) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
@@ -409,7 +424,8 @@ public class LocationSummary extends Factory {
 	}
 
 	public String getCellData(String ariaDescribedby) {
-		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"), Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"),
+				Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
 	}
 
@@ -417,4 +433,32 @@ public class LocationSummary extends Factory {
 		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
 
 	}
+
+	public List<String> getColumnValues() {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(LBL_COLUMN_DATA);
+			for (int i = 0; i < ListElement.size(); i++) {
+				text = ListElement.get(i).getText();
+				elementsText.add(text);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
+	}
+
+	public boolean verifySortAscending() {
+		boolean ascending = false;
+		try {
+			List<String> listRuleNameAccending = getColumnValues();
+			ascending = listRuleNameAccending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listRuleNameAccending);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return ascending;
+	}
+
 }
