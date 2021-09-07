@@ -43,8 +43,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By TABLE_NATIONAL_ACCOUNT_RULE = By.cssSelector("tbody[role='rowgroup']");
 	public static final By LBL_NATIONAL_ACCOUNT_RULE = By.xpath("//div[contains(text(),'National Account Rules')]");
 	public static final By BTN_CREATE_NEW_RULE = By.id("createNewBtn");
-	public final static String COLUMN_ORG = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_org";
-	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_ffc3527042db7e33361157ee621837cf_locations_child_location";
+	public final static String COLUMN_ORG = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_org";
+	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_location";
 	public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
 	
 	public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
@@ -120,20 +120,13 @@ public class AdminNationalAccounts extends Factory {
 		List<String> locationValues = new ArrayList<>();
 		try {
 			locationValues.clear();
-			getDriver().findElement(By.xpath(
-					"//td[text()='" + nationalAccountName + "']/..//td[@class='ui-iggrid-expandcolumn']//span//span"))
-					.click();
+			getDriver().findElement(By.xpath("//td[text()='" + nationalAccountName + "']/..//td[@class='ui-iggrid-expandcolumn']//span//span")).click();
 			foundation.waitforElement(NATIONAL_ACCOUNT_DETAILS, 3);
 			WebElement locations = getDriver().findElement(NATIONAL_ACCOUNT_DETAILS);
 			List<WebElement> rows = locations.findElements(By.tagName("tr"));
 			for (int iter = 0; iter < rows.size(); iter++) {
-				if (rows.get(iter)
-						.findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))
-						.getText().equals(orgName)) {
-					locationValues.add(rows.get(iter)
-							.findElement(By.cssSelector(
-									"table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]"))
-							.getText());
+				if (rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))	.getText().equals(orgName)) {
+					locationValues.add(rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]")).getText());
 				}
 			}
 		} catch (Exception exc) {

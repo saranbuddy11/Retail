@@ -650,11 +650,9 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+			List<String> locationVaules = adminNationalAccounts.getLocationDetails(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+																													rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
@@ -707,11 +705,10 @@ public class NationalAccount extends TestInfra {
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 		String ruleName="";
 		
-		try {
-			
+		try {			
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
