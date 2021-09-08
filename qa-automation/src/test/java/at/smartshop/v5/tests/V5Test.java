@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -20,6 +21,7 @@ import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -43,6 +45,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
@@ -104,6 +107,8 @@ public class V5Test extends TestInfra {
 	private CategorySummary categorySummary = new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private TransactionSearchPage transactionSearch = new TransactionSearchPage();
+	private Table table = new Table();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -6283,4 +6288,70 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		}
 	}
+	
+	@Test(description = "143556-Verify user able to view the transactions when user purchase an item on Kiosk with RDS DB")
+	public void verifyKioskTransactionsWithRDS() {
+		try {
+			
+			final String CASE_NUM = "143556";
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			// Select Menu and Menu Item
+			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(menuItem.get(0));
+//			locationList.selectLocationName("Hsr Loc");
+//			foundation.click(LocationSummary.BTN_SYNC);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+//			browser.close();
+//			
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.refreshPage();
+//			foundation.click(LandingPage.IMG_SEARCH_ICON);
+//			textBox.enterKeypadText("Apple Juice");
+//			foundation.click(ProductSearch.BTN_PRODUCT);
+//			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+//			Assert.assertTrue(foundation.isDisplayed(order.objText("Apple Juice")));
+//			foundation.objectFocus(Order.LBL_EMAIL);
+//			foundation.click(Order.LBL_EMAIL);
+//			foundation.click(AccountLogin.BTN_CAMELCASE);
+//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+//			foundation.click(AccountLogin.BTN_NEXT);
+//			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+//			foundation.click(AccountLogin.BTN_PIN_NEXT);
+//			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			browser.close();
+			
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.waitforElement(TransactionSearchPage.LBL_TRANSACTION_SEARCH, Constants.THREE_SECOND);
+			textBox.enterText(TransactionSearchPage.TXT_SEARCH, "Apple Juice");
+			transactionSearch.selectDate("Yesterday");
+			foundation.click(TransactionSearchPage.TXT_CLEAR_ALL);
+			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME,"Hsr Loc");
+			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, Keys.ENTER);
+			foundation.click(TransactionSearchPage.BTN_FIND);
+			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(TransactionSearchPage.TABLE_TRANSACTION_GRID,TransactionSearchPage.TABLE_TRANSACTION_ROW);
+			Assert.assertTrue(transactionDetails.get("Transaction ID").contains("VSH601117"));
+			Assert.assertTrue(transactionDetails.get("Location").equals("Hsr Loc"));
+			Assert.assertTrue(transactionDetails.get("Transaction Date").contains("09/07/21"));
+			Assert.assertTrue(transactionDetails.get("Total").contains("3.66"));
+			
+		}catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 }
