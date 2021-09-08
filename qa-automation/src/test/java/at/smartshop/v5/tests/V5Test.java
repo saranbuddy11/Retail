@@ -4458,7 +4458,7 @@ public class V5Test extends TestInfra {
 			foundation.click(MicroMarketMenuList.BTN_DELETE);
 			foundation.alertAccept();
 			// navigating to Home Page
-
+            foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationList.LINK_HOME_PAGE);
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
