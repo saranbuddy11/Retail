@@ -138,6 +138,9 @@ public class LocationSummary extends Factory {
 	public static final By BTN_DEVICE_CLOSE = By.xpath("//a[@id='modalcancel']");
 	public static final By LBL_ROW_HEADER = By.xpath("//div[@class='dataTables_scrollHeadInner']//th[text()='Name']");
 	public static final By LBL_COLUMN_DATA = By.xpath("//div[@class='namelefttxt']");
+	public static final By LBL_TABLE_DATA = By
+			.xpath("//div[@class='dataTables_scroll']//td[@class='dataTables_empty']");
+	public static final By LBL_TABLEINFO = By.id("choosekskdt_info");
 
 	public void selectTab(String tabName) {
 		try {
@@ -449,16 +452,30 @@ public class LocationSummary extends Factory {
 		return elementsText;
 	}
 
-	public boolean verifySortAscending() {
+	public Boolean verifySortAscending() {
 		boolean ascending = false;
 		try {
-			List<String> listRuleNameAccending = getColumnValues();
-			ascending = listRuleNameAccending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
-					.equals(listRuleNameAccending);
+			List<String> listRuleNameAscending = getColumnValues();
+
+			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listRuleNameAscending);
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return ascending;
+	}
+
+	public boolean verifySortDescending() {
+		boolean descending = false;
+		try {
+			List<String> listRuleNameDescending = getColumnValues();
+			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listRuleNameDescending);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return descending;
 	}
 
 }
