@@ -10,16 +10,19 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
-
 public class ConsumerSearch extends Factory{
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private Strings strings=new Strings();
+	private Numbers numbers=new Numbers();
 	
 	private static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
@@ -32,6 +35,10 @@ public class ConsumerSearch extends Factory{
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
+	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
+	public final static By TXT_EMAIL = By.id("email");
+	public final static By TXT_SCAN_ID = By.id("scanid");
+	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
