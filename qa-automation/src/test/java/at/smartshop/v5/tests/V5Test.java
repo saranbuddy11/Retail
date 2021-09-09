@@ -6690,14 +6690,10 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
-			// foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(eMail);
 			foundation.click(AccountLogin.BTN_NEXT);
-//			foundation.waitforElement(AccountLogin.LBL_Email,Constants.SHORT_TIME);
-			System.out.println(foundation.getText(AccountLogin.LBL_Email));
-//			foundation.waitforElement(order.objText("That account doesn't exist."), Constants.SHORT_TIME);
-//			Assert.assertTrue(foundation.isDisplayed(order.objText("That account doesn't exist.")));
-			
+//			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -6782,7 +6778,7 @@ public class V5Test extends TestInfra {
 					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
 			Assert.assertEquals(uiBal, balance.get(2));
-			
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
