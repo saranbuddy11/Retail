@@ -4637,6 +4637,7 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		List<String> navigationMenu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> language = Arrays
@@ -4718,8 +4719,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(
-					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
