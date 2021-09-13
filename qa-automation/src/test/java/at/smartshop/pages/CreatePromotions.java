@@ -205,6 +205,4 @@ public class CreatePromotions {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	
 }

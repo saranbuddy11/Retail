@@ -6,6 +6,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.tests.TestInfra;
 
 public class SOSHome extends Factory {
 	
