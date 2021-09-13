@@ -121,7 +121,8 @@ public class LocationSummary extends Factory {
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
-
+	public static final By DPD_SHOW_DINING = By.id("hasdiningpreference");
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
