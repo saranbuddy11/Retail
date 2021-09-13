@@ -78,4 +78,9 @@ public class Order {
 		
 		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
 	}
+	
+	public String getSubtotal() {		
+		String uiSubTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
+		return uiSubTotal;
+	}
 }

@@ -28,6 +28,7 @@ import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -118,6 +119,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstConsumerSummaryData;
+	private Map<String, String> rstReportsListData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -6298,26 +6300,29 @@ public class V5Test extends TestInfra {
 			final String CASE_NUM = "143556";
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportsListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 			List<String> menuItem = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			browser.close();
 			
-			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.refreshPage();
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText("Apple juice");
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			String scanCode = foundation.getText(ProductSearch.LBL_PRODUCT_SCANCODE);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText("Apple Juice")));
+			//Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
+			String total = order.getSubtotal();
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText("aravinda@nousinfo.com");
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
-			textBox.enterPin("1234");
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText("Purchase Complete!")));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 			
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6328,31 +6333,33 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(TransactionSearchPage.LBL_TRANSACTION_SEARCH, Constants.THREE_SECOND);
-			textBox.enterText(TransactionSearchPage.TXT_SEARCH, "Apple Juice");
-			transactionSearch.selectDate("Today");
+			textBox.enterText(TransactionSearchPage.TXT_SEARCH, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			transactionSearch.selectDate(rstReportsListData.get(CNReportList.DATE_RANGE));
 			foundation.click(TransactionSearchPage.TXT_CLEAR_ALL);
-			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME,"Hsr Loc");
+			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, rstV5DeviceData.get(CNV5Device.LOCATION));
 			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, Keys.ENTER);
 			foundation.click(TransactionSearchPage.BTN_FIND);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(TransactionSearchPage.TABLE_TRANSACTION_GRID,TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(transactionDetails.get("Transaction ID").contains("VSH601117"));
-			Assert.assertTrue(transactionDetails.get("Location").equals("Hsr Loc"));
-			Assert.assertTrue(transactionDetails.get("Transaction Date").contains("09/09/21"));
-			Assert.assertTrue(transactionDetails.get("Total").contains("0.10"));
+			Assert.assertTrue(transactionDetails.get(requiredData.get(0)).contains(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			Assert.assertTrue(transactionDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
+			Assert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
+			Assert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
 			
 			navigationBar.navigateToMenuItem(menuItem.get(2));
-			reportList.selectReport("Sales Item Details");
-			reportList.selectDate("Yesterday");
-			transactionSearch.selectLocation("Hsr Loc");
+			reportList.selectReport(rstReportsListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportsListData.get(CNReportList.DATE_RANGE));
+			transactionSearch.selectLocation(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(TransactionSearchPage.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			
-			textBox.enterText(TransactionSearchPage.TXT_REPORT_SEARCH,"Apple Juice");
+			textBox.enterText(TransactionSearchPage.TXT_REPORT_SEARCH,rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> salesItemDetails = table.getTblSingleRowRecordUI(TransactionSearchPage.TABLE_SALES_ITEM_GRID,TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(salesItemDetails.get("Location").equals("Hsr Loc"));
-			Assert.assertTrue(salesItemDetails.get("Device").equals("VSH601117"));
-			Assert.assertTrue(salesItemDetails.get("Product Name").equals("Apple Juice"));
+			Assert.assertTrue(salesItemDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
+			Assert.assertTrue(salesItemDetails.get(requiredData.get(4)).equals(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
+			Assert.assertTrue(salesItemDetails.get(requiredData.get(5)).equals(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME)));
+			Assert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
 			
 		}catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
