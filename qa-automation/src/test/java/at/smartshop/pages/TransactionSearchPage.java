@@ -32,6 +32,7 @@ public class TransactionSearchPage extends Factory{
 	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
 	private static final By TXT_LOCATION_SEARCH = By.cssSelector("span.select2-search.select2-search--dropdown > input");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
+	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
 	
 	public void selectDate(String optionName) {
 		try {

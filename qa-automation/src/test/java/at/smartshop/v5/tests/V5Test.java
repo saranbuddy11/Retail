@@ -6313,7 +6313,7 @@ public class V5Test extends TestInfra {
 			String scanCode = foundation.getText(ProductSearch.LBL_PRODUCT_SCANCODE);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			//Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
 			String total = order.getSubtotal();
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
@@ -6339,6 +6339,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, rstV5DeviceData.get(CNV5Device.LOCATION));
 			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, Keys.ENTER);
 			foundation.click(TransactionSearchPage.BTN_FIND);
+			foundation.click(TransactionSearchPage.LINK_TRANSACTION_ID);
 			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(TransactionSearchPage.TABLE_TRANSACTION_GRID,TransactionSearchPage.TABLE_TRANSACTION_ROW);
 			Assert.assertTrue(transactionDetails.get(requiredData.get(0)).contains(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
