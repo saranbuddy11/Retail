@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -27,6 +28,7 @@ import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -6294,11 +6296,14 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "143063-Validate v5 transactions with Active Bundle promotions with Flash Sale")
 	public void bundleFlashSale() {
+		final String CASE_NUM = "143063";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143063";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			
@@ -6307,13 +6312,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -6385,8 +6388,11 @@ public class V5Test extends TestInfra {
             foundation.objectFocus(order.objText(orderPageData.get(1)));
             order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
                   
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6395,12 +6401,9 @@ public class V5Test extends TestInfra {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-		
+			
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -6502,11 +6505,15 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "143065-Validate v5 transactions with Discount on multiple Line items with Recurrence for Bundle Promotion")
 	public void recurrencebundlePromotion() {
+		final String CASE_NUM = "143065";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143065";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			
@@ -6515,13 +6522,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -6605,7 +6610,9 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+  		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
             browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
@@ -6618,20 +6625,21 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
 	
 	@Test(description = "143066-Validate v5 transactions with Discount Category with Scheduled for Bundle Promotion")
 	public void discountbundlePromotion() {
+		final String CASE_NUM = "143066";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143066";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
@@ -6640,13 +6648,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 						
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -6717,7 +6723,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-			                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -6733,19 +6742,20 @@ public class V5Test extends TestInfra {
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143067-Validate v5 transactions with Min Transaction amount for Bundle Promotion")
 	public void minTransactionbundlePromotion() {
+		final String CASE_NUM = "143067";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143067";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
@@ -6754,13 +6764,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 						
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -6831,7 +6839,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-			                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {			                  
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -6845,19 +6856,20 @@ public class V5Test extends TestInfra {
 					
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143068-Validate v5 transactions with discount more than Transaction amount for Bundle Promotion")
 	public void discountTransactionbundlePromotion() {
-		try {
-			final String CASE_NUM = "143068";
+		final String CASE_NUM = "143068";
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		final String promotionName = string.getRandomCharacter();
+		
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		try {
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
@@ -6866,13 +6878,10 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 						
-			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -6940,7 +6949,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-			                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -6955,35 +6967,32 @@ public class V5Test extends TestInfra {
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143069-Validate v5 transactions with Discount Amount exceeds Bundle Price for Bundle Promotion")
 	public void discountExceedsbundlePromotion() {
-		try {
-			final String CASE_NUM = "143069";
+		final String CASE_NUM = "143069";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));		
+		try {
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			
 						
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 						
-			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7076,7 +7085,9 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-			                  
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -7090,19 +7101,20 @@ public class V5Test extends TestInfra {
 					
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143070-Validate v5 transactions without Discount when different device type is selected for Bundle Promotion")
 	public void devicebundlePromotion() {
-		try {
-			final String CASE_NUM = "143070";
+		final String CASE_NUM = "143070";
 
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		try {
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7113,13 +7125,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 						
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7213,6 +7223,9 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
 			                  
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -7226,19 +7239,19 @@ public class V5Test extends TestInfra {
 					
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143071-Validate v5 transactions with Active Onscreen promotions with Recurrence")
 	public void onScreenRecurrence() {
+		final String CASE_NUM = "143071";
+		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		final String promotionName = string.getRandomCharacter();
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143071";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7248,13 +7261,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7332,7 +7343,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
             order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
             browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
@@ -7345,10 +7359,7 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
 	
@@ -7461,11 +7472,15 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "143073-Validate v5 transactions with Discount on multiple Line items with Flash Sale for Onscreen Promotion")
 	public void recurrenceOnScreenPromotion() {
+		final String CASE_NUM = "143073";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try { 
-			final String CASE_NUM = "143073";
+
 			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7475,13 +7490,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7563,9 +7576,12 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+            
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -7577,19 +7593,20 @@ public class V5Test extends TestInfra {
 		
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143074-Validate v5 transactions with Discount Category with Scheduled for Onscreen Promotion")
 	public void scheduledOnScreenPromotion() {
+		final String CASE_NUM = "143074";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
-			final String CASE_NUM = "143074";
-			
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			// Reading test data from database			
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7599,14 +7616,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
@@ -7677,6 +7691,9 @@ public class V5Test extends TestInfra {
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
                   
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
             browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
@@ -7692,19 +7709,21 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143075-Validate v5 transactions with Min Transaction amount for Onscreen Promotion")
 	public void minTransactionOnScreenPromotion() {
+		final String CASE_NUM = "143075";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try { 
-			final String CASE_NUM = "143075";
-			
+
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7714,13 +7733,10 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7791,9 +7807,12 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -7807,19 +7826,20 @@ public class V5Test extends TestInfra {
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143076-Validate v5 transactions with Less than Min Transaction amount for Onscreen Promotion")
 	public void lessThanMinTransactionOnScreenPromotion() {
+		final String CASE_NUM = "143076";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
-			final String CASE_NUM = "143076";
-			
+
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7829,13 +7849,12 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7901,9 +7920,12 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -7917,19 +7939,19 @@ public class V5Test extends TestInfra {
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
 	@Test(description = "143077-Validate v5 transactions without Discount when different device type is selected for Onscreen Promotion")
 	public void deviceOnScreenPromotion() {
-		try { 
-			final String CASE_NUM = "143077";
-			
+		final String CASE_NUM = "143077";
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		try {
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -7939,13 +7961,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8022,7 +8042,10 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
             browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
@@ -8037,20 +8060,20 @@ public class V5Test extends TestInfra {
 			// Deleting the Promotion
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
-			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
 	
 	@Test(description = "143078-Validate v5 transactions with Discount type is Amount for Onscreen Promotion")
 	public void discountAmountOnScreenPromotion() {
+		final String CASE_NUM = "143078";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
-			final String CASE_NUM = "143078";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -8060,13 +8083,12 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+			
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8139,34 +8161,36 @@ public class V5Test extends TestInfra {
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
                   
-            browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
-            browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
-			// Select Org,Menu and Menu Item
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
+             browser.close();
+			 browser.launch(Constants.LOCAL, Constants.CHROME);
+	         browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+				// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-		
+			
 			// Deleting the Promotion
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
 	@Test(description = "143079-Validate v5 transactions with Discount type is Percentage for Onscreen Promotion")
 	public void discountPercentageOnScreenPromotion() {
+		final String CASE_NUM = "143079";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
-			final String CASE_NUM = "143079";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -8176,13 +8200,12 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+			
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8257,34 +8280,38 @@ public class V5Test extends TestInfra {
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
                   
-            browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
-            browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
-			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-		
-			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
-			editPromotion.expirePromotion(gridName, promotionName);
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}finally {
+             browser.close();
+			 browser.launch(Constants.LOCAL, Constants.CHROME);
+	         browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			 login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			 // Select Org,Menu and Menu Item
+			 navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			 navigationBar.navigateToMenuItem(navigationMenu.get(0));
+			
+			 // Deleting the Promotion
+			 //dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			 //foundation.click(PromotionList.BTN_SEARCH);
+			 editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
 	
 	@Test(description = "143080-Validate v5 transactions with Active Tender Discount promotions with Scheduled")
 	public void tenderDiscountScheduled() {
+		final String CASE_NUM = "143080";
+		
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try { 
-			final String CASE_NUM = "143080";
 			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -8293,14 +8320,11 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
-			final String promotionName = string.getRandomCharacter();
+						
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8374,9 +8398,12 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
             browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -8390,9 +8417,6 @@ public class V5Test extends TestInfra {
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 	
@@ -8510,11 +8534,13 @@ public class V5Test extends TestInfra {
 	
 	@Test(description = "143082-Validate v5 transactions with Tender type as Account with Flash Sale")
 	public void tenderDiscountFlashSale() {
+		final String CASE_NUM = "143082";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
-			final String CASE_NUM = "143082";
-			
 			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
@@ -8524,13 +8550,11 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			
-			final String promotionName = string.getRandomCharacter();
+			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-
-			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+						
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8604,25 +8628,25 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+           
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
             browser.close();
-            browser.launch(Constants.LOCAL, Constants.CHROME);
-            browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+	        browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-		
+			
 			// Deleting the Promotion
 			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
 			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 }
