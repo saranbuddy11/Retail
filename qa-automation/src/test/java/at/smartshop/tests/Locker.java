@@ -1519,9 +1519,9 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_SHOW_DINING,
+			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
-			//foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 
 			// verifying the created locker system is displayed as an option for pick up
 			// location
