@@ -8375,14 +8375,15 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			
 	        // verify the display of total section
-            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+//            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+//            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+            assertTrue(foundation.isDisplayed(order.objText("SAVE $1.00 when paying by account")));
+//          assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 			
-            double discountamount=Double.parseDouble(productPrice)*Double.parseDouble(requiredData.get(7))/100;
-            assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
+//            double discountamount=Double.parseDouble(productPrice)*Double.parseDouble(requiredData.get(7))/100;
+//            assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
             
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -8552,7 +8553,7 @@ public class V5Test extends TestInfra {
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// New Promotion
@@ -8587,7 +8588,7 @@ public class V5Test extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
 			
@@ -8605,14 +8606,9 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			
 	        // verify the display of total section
-            String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-            Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
-			
-            double discountamount=Double.parseDouble(productPrice)*Double.parseDouble(requiredData.get(7))/100;
-            assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
+            assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
