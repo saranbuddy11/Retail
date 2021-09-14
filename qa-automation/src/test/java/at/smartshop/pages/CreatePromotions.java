@@ -9,6 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -122,6 +125,7 @@ public class CreatePromotions {
             Calendar calendar = Calendar.getInstance();
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
+            ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
             
         } catch (Exception exc) {
             Assert.fail(exc.toString());
