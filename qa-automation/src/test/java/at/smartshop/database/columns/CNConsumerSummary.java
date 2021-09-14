@@ -15,4 +15,5 @@ public class CNConsumerSummary {
 	public static final String PHONE = "Phone";
 	public static final String EMAIL = "Email";
 	public static final String AMOUNT = "Amount";
+	public static final String PAY_CYCLE = "PayCycle";
 }

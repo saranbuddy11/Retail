@@ -51,6 +51,7 @@ public class Dropdown extends Factory {
 
 	public String getSelectedItem(By object) {
 		Select select = new Select(getDriver().findElement(object));
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value is" + select.getFirstSelectedOption().getText());
 		return select.getFirstSelectedOption().getText();
 	}
 

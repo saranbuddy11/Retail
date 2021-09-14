@@ -40,6 +40,7 @@ public class Login extends Factory {
 
 	public void logout() {
 		try {
+			
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
