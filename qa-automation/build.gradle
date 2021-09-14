@@ -45,7 +45,7 @@ dependencies {
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.2'
 	
 	// https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4
-	implementation group: 'com.microsoft.sqlserver', name: 'sqljdbc4', version: '4.2.6225.100'
+	//implementation group: 'com.microsoft.sqlserver', name: 'sqljdbc4', version: '4.2.6225.100'
 	
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'

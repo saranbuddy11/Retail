@@ -6298,13 +6298,12 @@ public class V5Test extends TestInfra {
 	public void bundleFlashSale() {
 		final String CASE_NUM = "143063";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			
 			browser.navigateURL(
@@ -6506,7 +6505,7 @@ public class V5Test extends TestInfra {
 	@Test(description = "143065-Validate v5 transactions with Discount on multiple Line items with Recurrence for Bundle Promotion")
 	public void recurrencebundlePromotion() {
 		final String CASE_NUM = "143065";
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -6514,7 +6513,6 @@ public class V5Test extends TestInfra {
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			
 			browser.navigateURL(
@@ -6632,7 +6630,7 @@ public class V5Test extends TestInfra {
 	@Test(description = "143066-Validate v5 transactions with Discount Category with Scheduled for Bundle Promotion")
 	public void discountbundlePromotion() {
 		final String CASE_NUM = "143066";
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -6640,7 +6638,6 @@ public class V5Test extends TestInfra {
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
 			browser.navigateURL(
@@ -6748,7 +6745,7 @@ public class V5Test extends TestInfra {
 	@Test(description = "143067-Validate v5 transactions with Min Transaction amount for Bundle Promotion")
 	public void minTransactionbundlePromotion() {
 		final String CASE_NUM = "143067";
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -6756,7 +6753,6 @@ public class V5Test extends TestInfra {
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
 			browser.navigateURL(
@@ -6862,15 +6858,15 @@ public class V5Test extends TestInfra {
 	@Test(description = "143068-Validate v5 transactions with discount more than Transaction amount for Bundle Promotion")
 	public void discountTransactionbundlePromotion() {
 		final String CASE_NUM = "143068";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		final String promotionName = string.getRandomCharacter();
 		
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 						
 			browser.navigateURL(
@@ -6973,6 +6969,7 @@ public class V5Test extends TestInfra {
 	@Test(description = "143069-Validate v5 transactions with Discount Amount exceeds Bundle Price for Bundle Promotion")
 	public void discountExceedsbundlePromotion() {
 		final String CASE_NUM = "143069";
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -6980,7 +6977,6 @@ public class V5Test extends TestInfra {
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));		
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 						
@@ -7107,7 +7103,7 @@ public class V5Test extends TestInfra {
 	@Test(description = "143070-Validate v5 transactions without Discount when different device type is selected for Bundle Promotion")
 	public void devicebundlePromotion() {
 		final String CASE_NUM = "143070";
-
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);		
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -7115,7 +7111,6 @@ public class V5Test extends TestInfra {
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7245,14 +7240,13 @@ public class V5Test extends TestInfra {
 	@Test(description = "143071-Validate v5 transactions with Active Onscreen promotions with Recurrence")
 	public void onScreenRecurrence() {
 		final String CASE_NUM = "143071";
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		final String promotionName = string.getRandomCharacter();
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7474,6 +7468,7 @@ public class V5Test extends TestInfra {
 	public void recurrenceOnScreenPromotion() {
 		final String CASE_NUM = "143073";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -7481,7 +7476,6 @@ public class V5Test extends TestInfra {
 
 			
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7600,6 +7594,7 @@ public class V5Test extends TestInfra {
 	public void scheduledOnScreenPromotion() {
 		final String CASE_NUM = "143074";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		
@@ -7607,7 +7602,6 @@ public class V5Test extends TestInfra {
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
 			// Reading test data from database			
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7716,7 +7710,7 @@ public class V5Test extends TestInfra {
 	public void minTransactionOnScreenPromotion() {
 		final String CASE_NUM = "143075";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
@@ -7724,7 +7718,6 @@ public class V5Test extends TestInfra {
 		try { 
 
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7833,6 +7826,7 @@ public class V5Test extends TestInfra {
 	public void lessThanMinTransactionOnScreenPromotion() {
 		final String CASE_NUM = "143076";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		final String promotionName = string.getRandomCharacter();
@@ -7840,7 +7834,6 @@ public class V5Test extends TestInfra {
 		try { 
 
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -7947,12 +7940,12 @@ public class V5Test extends TestInfra {
 		final String CASE_NUM = "143077";
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try {
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -8068,13 +8061,13 @@ public class V5Test extends TestInfra {
 	public void discountAmountOnScreenPromotion() {
 		final String CASE_NUM = "143078";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -8186,12 +8179,12 @@ public class V5Test extends TestInfra {
 	public void discountPercentageOnScreenPromotion() {
 		final String CASE_NUM = "143079";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -8305,14 +8298,14 @@ public class V5Test extends TestInfra {
 	public void tenderDiscountScheduled() {
 		final String CASE_NUM = "143080";
 		
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try { 
 			
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -8536,12 +8529,12 @@ public class V5Test extends TestInfra {
 	public void tenderDiscountFlashSale() {
 		final String CASE_NUM = "143082";
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
 			// Reading test data from database
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 			
@@ -8568,8 +8561,8 @@ public class V5Test extends TestInfra {
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			createPromotions.newPromotion(promotionType, promotionName,displayName,requiredData.get(0),locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(6), requiredData.get(7));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5),Constants.DELIMITER_SPACE);
+			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(7), requiredData.get(8));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(5),requiredData.get(6));
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 			
 			foundation.click(CreatePromotions.BTN_NEXT);
