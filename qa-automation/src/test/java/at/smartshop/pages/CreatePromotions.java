@@ -199,7 +199,11 @@ public class CreatePromotions {
 			dropDown.selectItem(MULTI_SELECT_TENDER_TYPES, tenderType, Constants.TEXT);
 			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
 			dropDown.selectItem(DPD_APPLY_DISCOUNT_TO, applyDIscountTo, Constants.TEXT);
-			textBox.enterText(TXT_AMOUNT,discountAmount);
+			if(foundation.isDisplayed(TXT_AMOUNT))
+				textBox.enterText(TXT_AMOUNT,discountAmount);
+			else
+				textBox.enterText(TXT_DISCOUNT_PERCENTAGE,discountAmount);
+				
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
