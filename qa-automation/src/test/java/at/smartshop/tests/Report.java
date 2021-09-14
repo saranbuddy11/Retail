@@ -252,6 +252,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			
@@ -316,6 +317,7 @@ public class Report extends TestInfra {
 			
 			
 			// Navigate to Reports
+			
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
@@ -324,8 +326,9 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			Thread.sleep(1000);
 			foundation.waitforElement(ProductPricingReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productPricing.getTblRecordsUI();
@@ -793,7 +796,8 @@ public class Report extends TestInfra {
 			List<String> tabName = Arrays	.asList(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME).split(Constants.DELIMITER_TILD));
 			List<String> actualData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			
+			Thread.sleep(1000);
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location
@@ -802,7 +806,9 @@ public class Report extends TestInfra {
 			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			Thread.sleep(1000);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			iceReport.getTblRecordsUI();
@@ -839,6 +845,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			iceReport.getTblRecordsUI();
 
@@ -957,10 +964,11 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName.get(0));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.adjustBrowerSize(actualData.get(2));
-			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			foundation.adjustBrowerSize(actualData.get(3));
+//			foundation.adjustBrowerSize(actualData.get(2));
+//			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+//			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+//			foundation.adjustBrowerSize(actualData.get(3));
+			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			itemStockout.verifyReportName(reportName.get(1));
 			itemStockout.getTblRecordsUI();
@@ -1557,6 +1565,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			integrationPayments.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -1566,7 +1575,9 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
 			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			Thread.sleep(1000);
 			integrationPayments.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -1673,6 +1684,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			tenderTransactionLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			tenderTransactionLog.getTblRecordsUI();
@@ -1741,6 +1753,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			orderTransactionTime.getTblRecordsUI();
@@ -1870,8 +1883,8 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
 			healthAheadPercentage.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			healthAheadPercentage.getTblRecordsUI();
 			healthAheadPercentage.getIntialData().putAll(healthAheadPercentage.getReportsData());
@@ -1924,6 +1937,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
 					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+			Thread.sleep(1000);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			aviSubFee.selectToday();
@@ -1931,6 +1945,7 @@ public class Report extends TestInfra {
 					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
+			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
 			aviSubFee.getTblRecordsUI();

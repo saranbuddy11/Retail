@@ -52,6 +52,7 @@ public class IntegrationPaymentReport extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			foundation.waitforClikableElement(TBL_INTEGRATION_PAYMENTS_GRID, Constants.SHORT_TIME);
 			WebElement tableReportsList = getDriver().findElement(TBL_INTEGRATION_PAYMENTS_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_INTEGRATION_PAYMENTS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
