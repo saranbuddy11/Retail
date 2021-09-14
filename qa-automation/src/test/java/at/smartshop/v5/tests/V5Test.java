@@ -38,6 +38,7 @@ import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Login;
 import at.smartshop.pages.MicroMarketMenuList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
@@ -710,7 +711,14 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(5), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(5), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
-			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 			
 			// add categories to products
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -3938,7 +3946,14 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(0), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(1), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
-			foundation.waitforClikableElement(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationList.selectLocationName(requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 
 			// save taxes for products
 			navigationBar.navigateToMenuItem(menuItem.get(2));
