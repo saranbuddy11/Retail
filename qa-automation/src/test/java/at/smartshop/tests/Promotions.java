@@ -1842,7 +1842,9 @@ public class Promotions extends TestInfra {
 		}
 		finally {
 			// Resetting the data
+			for (int iter = 0; iter < locationName.size(); iter++) {
 			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),promotionName,gridName);
+			}
 		}
 	}
 
