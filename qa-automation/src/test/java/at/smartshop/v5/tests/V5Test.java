@@ -8639,6 +8639,7 @@ public class V5Test extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try { 
@@ -8656,7 +8657,7 @@ public class V5Test extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 						
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
@@ -8670,7 +8671,8 @@ public class V5Test extends TestInfra {
 			createPromotions.newPromotion(promotionType, promotionName,displayName,requiredData.get(0),locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(7), requiredData.get(8));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5),requiredData.get(6));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(5),Constants.DELIMITER_SPACE);
+			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_DISCOUNT_PERCENTAGE);
 			
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -8715,7 +8717,7 @@ public class V5Test extends TestInfra {
 	        // verify the display of total section
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            //assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+            assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -8740,8 +8742,124 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
+			editPromotion.expirePromotion(gridName, promotionName);
+		}
+	}
+	
+	@Test(description = "143084-Validate v5 transactions with Discount type is Amount with Recurrence")
+	public void tenderDiscountAmountRecurrence() {
+		final String CASE_NUM = "143084";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		final String promotionName = string.getRandomCharacter();
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		try { 
+			// Reading test data from database
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			
+			String displayName = string.getRandomCharacter();
+			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+						
+			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+
+			// New Promotion
+			foundation.waitforElement(PromotionList.BTN_CREATE,Constants.SHORT_TIME);
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+			createPromotions.newPromotion(promotionType, promotionName,displayName,requiredData.get(0),locationName);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(7), requiredData.get(8));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(5),requiredData.get(6));
+			
+			createPromotions.selectBundlePromotionTimes(requiredData.get(5),Constants.DELIMITER_SPACE);
+			createPromotions.recurringDay();
+			foundation.click(CreatePromotions.TXT_AMOUNT);
+			
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+			
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
+			navigationBar.navigateToMenuItem(navigationMenu.get(2));
+			
+			// Selecting location
+			locationList.selectLocationName(locationName);
+
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationSummary.kiosklanguageSetting(locationName, language.get(0),language.get(1));
+			
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(4));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			
+			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			
+	        // verify the display of total section
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+            assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+            
+           List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+            List<String> paymentPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+            foundation.objectFocus(order.objText(orderPageData.get(1)));
+			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
+           
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
+            browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+	        browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+			
+			// Deleting the Promotion
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
