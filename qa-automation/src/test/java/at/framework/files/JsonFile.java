@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class JsonFile {
 

@@ -24,12 +24,13 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.testrail.Testrail;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class Listeners implements ITestListener {
 
 	static ExtentReports objReport;
-	ExtReport objReportName;
+	public static ExtReport objReportName;
 	ExtentTest test;
 	private Testrail testRail=new Testrail();
 	
@@ -48,6 +49,14 @@ public class Listeners implements ITestListener {
 	public static Map<String, Integer> resultSet10 = new HashMap<>();
 	public static Map<String, Integer> resultSet11 = new HashMap<>();
 	public static Map<String, Integer> resultSet12 = new HashMap<>();
+	public static Map<String, Integer> resultSet13 = new HashMap<>();
+	public static Map<String, Integer> resultSet14 = new HashMap<>();
+	public static Map<String, Integer> resultSet15 = new HashMap<>();
+	public static Map<String, Integer> resultSet16 = new HashMap<>();
+	public static Map<String, Integer> resultSet17 = new HashMap<>();
+	public static Map<String, Integer> resultSet18 = new HashMap<>();
+	public static Map<String, Integer> resultSet19 = new HashMap<>();
+	public static Map<String, Integer> resultSet20 = new HashMap<>();
 	public static List<String> classNames=new ArrayList<String>();
 	public static List<Map<String, Integer>> listResultSet= new ArrayList<Map<String, Integer>>();
 	public static List<Map<String, Integer>> listResultSetFinal=new ArrayList<Map<String, Integer>>();
@@ -69,26 +78,34 @@ public class Listeners implements ITestListener {
 		updateCount(listResultSet.get(index),Constants.PASS, result.getMethod().getRealClass().getSimpleName());
 	}
 
-	public void onTestFailure(ITestResult result) {		
-		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case" + result.getMethod().getMethodName() + " is failed due to " +result.getThrowable());
+	public void onTestFailure(ITestResult result) {	
+		//update fail count
+		failedCount++;
+		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
+		updateCount(listResultSet.get(index),Constants.FAIL, result.getMethod().getRealClass().getSimpleName());
+		
+		//update test rail
 		if(TestInfra.updateTestRail.equals(Constants.YES)) {
 		String testCaseId=result.getMethod().getDescription().split("-")[0];
 		testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
 		}
 		
-		WebDriver driver = Factory.getDriver();		
-		String testmethodName = result.getMethod().getMethodName();
-
-		try {					
-			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(objReportName.getScreenshot(testmethodName,driver),
-					result.getMethod().getMethodName());
+		//get screenshot
+		try {
+			String screenshot = null;
+			if(!result.getThrowable().toString().equals(TestInfra.THROWABLE_EXCEPTION)) {				
+				ExtFactory.getInstance().getExtent().log(Status.FAIL, result.getThrowable().getMessage().toString());
+			 screenshot = objReportName.getScreenshot(Factory.getDriver());
+			String sysPath=FilePath.FILE+TestInfra.HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
+			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
+			}			
+			ExtFactory.getInstance().getExtent().log(Status.FAIL, "Test Case is failed");
 			ExtFactory.getInstance().removeExtentObject();
+			
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
-		failedCount++;
-		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
-		updateCount(listResultSet.get(index),Constants.FAIL, result.getMethod().getRealClass().getSimpleName());
+		TestInfra.THROWABLE_EXCEPTION="";		
 	}
 
 	public void onTestSkipped(ITestResult result) {
@@ -104,7 +121,7 @@ public class Listeners implements ITestListener {
 		try {
 			objReportName = new ExtReport("365 Test Automation", "365 Test Results");
 			objReport = objReportName.getReporter();		
-			listResultSet=Arrays.asList(resultSet1,resultSet2,resultSet3,resultSet4,resultSet5,resultSet6,resultSet7,resultSet8,resultSet9,resultSet10,resultSet11,resultSet12);			
+			listResultSet=Arrays.asList(resultSet1,resultSet2,resultSet3,resultSet4,resultSet5,resultSet6,resultSet7,resultSet8,resultSet9,resultSet10,resultSet11,resultSet12,resultSet13,resultSet14,resultSet15,resultSet16,resultSet17,resultSet18,resultSet19,resultSet20);			
 			List<ITestNGMethod> methods = context.getSuite().getAllMethods();
 			Set<String> classNamesHash = new HashSet<>();
 			for (ITestNGMethod method : methods) {				

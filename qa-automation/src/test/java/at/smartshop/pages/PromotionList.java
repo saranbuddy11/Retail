@@ -1,5 +1,7 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 
 import org.junit.Assert;
@@ -8,15 +10,23 @@ import org.openqa.selenium.WebElement;
 
 import com.aventstack.extentreports.Status;
 
+import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
+import at.smartshop.tests.TestInfra;
 
 public class PromotionList extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textbox = new TextBox();
+	private EditPromotion editPromotion = new EditPromotion();
+	private NavigationBar navigationBar = new NavigationBar();
+	public Browser browser = new Browser();
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
@@ -61,6 +71,16 @@ public class PromotionList extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public void expirePromotion(String menuItem,String promotionName, String gridName) {
+		foundation.threadWait(Constants.TWO_SECOND);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem);		
+		searchPromotion(promotionName);
+		assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+		editPromotion.expirePromotion(gridName, promotionName);
+		foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 	}
 
 }

@@ -13,6 +13,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Dropdown extends Factory {
 
@@ -40,9 +41,11 @@ public class Dropdown extends Factory {
 		for (WebElement item : items) {
 			String itemText = item.getText();
 			if (itemText.equalsIgnoreCase(text)) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is present");
 				return true;
 			}
 		}
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
 		return false;
 	}
 
@@ -71,6 +74,7 @@ public class Dropdown extends Factory {
 				String itemText = item.getText();
 				orgList.add(itemText);
 			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got all items from the dropdown  [" + object +" ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

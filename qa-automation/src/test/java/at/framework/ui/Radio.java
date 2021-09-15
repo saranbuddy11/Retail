@@ -8,6 +8,7 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
+import at.smartshop.tests.TestInfra;
 
 public class Radio extends Factory {
 	

@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 
 import org.testng.Assert;
 
+import at.smartshop.tests.TestInfra;
+
 public class DateAndTime {
 	public String getDateAndTime(String format, String requiredTimeZone) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
