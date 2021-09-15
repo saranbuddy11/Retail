@@ -8671,7 +8671,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(7), requiredData.get(8));
 			createPromotions.selectBundlePromotionTimes(requiredData.get(5),requiredData.get(6));
-			foundation.click(CreatePromotions.TXT_AMOUNT);
+			foundation.click(CreatePromotions.TXT_DISCOUNT_PERCENTAGE);
 			
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -8715,7 +8715,7 @@ public class V5Test extends TestInfra {
 	        // verify the display of total section
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+            //assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
