@@ -144,13 +144,11 @@ public class Menu extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-	
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -260,8 +258,8 @@ public class Menu extends TestInfra {
 			Assert.assertTrue(isenabled);
 			Assert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -298,8 +296,8 @@ public class Menu extends TestInfra {
 			Assert.assertTrue(isenabled);
 			Assert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -316,7 +314,6 @@ public class Menu extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-		
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -326,11 +323,12 @@ public class Menu extends TestInfra {
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
 			Assert.assertTrue(isenabled);
 			Assert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
-			
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	@Test(description = "145292-QAA-218-Verify cancel button in self service menu for HIDE Radio Button")
 	public void verifyCancelButtonHide() {
 		try {
@@ -371,10 +369,11 @@ public class Menu extends TestInfra {
 			isenabled = radio.isSelected(SelfService.RDO_BTN_Hide);
 			Assert.assertFalse(isenabled);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	@Test(description = "145291-QAA-218-Verify cancel button in self service menu for SHOW Radio Button")
 	public void verifyCancelButtonShow() {
 		try {
@@ -415,8 +414,8 @@ public class Menu extends TestInfra {
 			isSelected = radio.isSelected(SelfService.RDO_BTN_Hide);
 			Assert.assertTrue(isSelected);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
