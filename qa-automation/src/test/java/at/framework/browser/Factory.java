@@ -16,6 +16,7 @@ import at.framework.files.PropertyFile;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.tests.TestInfra;
 
 public class Factory {
 

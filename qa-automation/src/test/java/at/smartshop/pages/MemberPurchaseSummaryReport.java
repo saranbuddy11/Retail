@@ -27,6 +27,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class MemberPurchaseSummaryReport extends Factory {
@@ -37,7 +38,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_MEMBER_PURCHASE_SUMMARY = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By
+	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_MEMBER_PURCHASE_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
 

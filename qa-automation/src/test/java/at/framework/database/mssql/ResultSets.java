@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.testng.Assert;
 
 import at.smartshop.database.columns.CNConsumer;
@@ -20,14 +21,15 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
-import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ResultSets extends Connections {
 
@@ -710,6 +712,7 @@ public class ResultSets extends Connections {
 		try {
 			if (connection == null)
 				getConnection();
+
 			statement = connection.createStatement();
 			sqlQuery = query + testcaseID;
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -737,6 +740,7 @@ public class ResultSets extends Connections {
 				rstV5Device.put(CNV5Device.CHANGE_PIN, resultSet.getString(CNV5Device.CHANGE_PIN));
 				rstV5Device.put(CNV5Device.PAYMENTS_PAGE, resultSet.getString(CNV5Device.PAYMENTS_PAGE));
 				rstV5Device.put(CNV5Device.LANGUAGE, resultSet.getString(CNV5Device.LANGUAGE));
+				rstV5Device.put(CNV5Device.LOCATION, resultSet.getString(CNV5Device.LOCATION));
 
 			}
 		} catch (Exception exc) {

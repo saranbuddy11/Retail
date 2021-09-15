@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.testng.Assert;
 
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class PropertyFile  {
 

@@ -10,6 +10,7 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 import at.framework.ui.TextBox;
 
 public class GlobalProduct extends Factory {
@@ -40,6 +41,7 @@ public class GlobalProduct extends Factory {
 	public static final By LBL_EXISTING_SCANCODE = By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode']");
 	public static final By TXT_SCAN_CODE_2 = By.xpath("(//input[@name='scancode'])[2]");
 	public static final By TXT_SCAN_CODE_ERROR = By.xpath("//div[@class='scmsg error' and @style='color: rgb(255, 0, 0);']");
+	public static final By IMG_DATA_GRID_LOADING = By.id("dataGrid_container_loading");
 	
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");

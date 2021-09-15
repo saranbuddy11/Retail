@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import org.testng.Assert;
 
+import at.smartshop.tests.TestInfra;
+
 
 public class CurrenyConverter {
 	public String convertTOCurrency(double amount) {

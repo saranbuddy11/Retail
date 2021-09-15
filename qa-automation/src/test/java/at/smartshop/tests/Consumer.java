@@ -56,21 +56,22 @@ public class Consumer extends TestInfra {
 
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
+		final String CASE_NUM = "116743";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
+		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
 		try {
-			final String CASE_NUM = "116743";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
-
-			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-			String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -83,12 +84,26 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
+			// Enter fields in Consumer Search Page
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balance = consumerTblRecords.get(columnName);
 			String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance1) + 2;
-			String expectedBalance = "$" + String.valueOf(newBalance);
+			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -115,7 +130,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 			String actualBalance1 = actualBalance.substring(1);
 			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
-			String expectedBalance2 = "$" + String.valueOf(newBalance2);
+			String expectedBalance2 = "$" + String.valueOf(String.format("%.2f", newBalance2));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -137,14 +152,23 @@ public class Consumer extends TestInfra {
 			String actualBalance2 = consumerTblRecords3.get(columnName);
 			Assert.assertEquals(actualBalance2, expectedBalance2);
 
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+
 		}
 	}
 
 	@Test(description = "116747-Cancel Adjust Balance")
-	public void cancelAdjustBalance() {
+	public void verifyCancelAdjustBalance() {
 		try {
 			final String CASE_NUM = "116747";
 
@@ -189,8 +213,8 @@ public class Consumer extends TestInfra {
 			double balanceAfterCancel = consumerSummary.getBalance();
 			assertEquals(balanceAfterCancel, initialbalance);
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -221,7 +245,7 @@ public class Consumer extends TestInfra {
 			countries.remove(requiredData.get(1));
 
 			for (int i = 0; i < countries.size(); i++) {
-				
+
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				foundation.waitforElement(OrgSummary.DPD_COUNTRY, Constants.SHORT_TIME);
 				dropDown.selectItem(OrgSummary.DPD_COUNTRY, countries.get(i), Constants.TEXT);
@@ -253,8 +277,8 @@ public class Consumer extends TestInfra {
 
 			}
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -291,10 +315,8 @@ public class Consumer extends TestInfra {
 			String actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
 
-		} catch (
-
-		Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -330,10 +352,8 @@ public class Consumer extends TestInfra {
 			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
 
-		} catch (
-
-		Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -369,8 +389,8 @@ public class Consumer extends TestInfra {
 				Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
 			}
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -405,8 +425,8 @@ public class Consumer extends TestInfra {
 			actualData = foundation.getText(ConsumerSummary.TXT_SCANID_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.SCANID_ERROR));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -446,8 +466,8 @@ public class Consumer extends TestInfra {
 				Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
 			}
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -481,8 +501,8 @@ public class Consumer extends TestInfra {
 
 			String actualData = foundation.getText(ConsumerSummary.TXT_LOC_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -518,8 +538,8 @@ public class Consumer extends TestInfra {
 			String actualData = foundation.getText(ConsumerSummary.TXT_PIN_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -554,8 +574,8 @@ public class Consumer extends TestInfra {
 			String actualData = foundation.getText(ConsumerSummary.TXT_PIN_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.PIN_ERROR));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -591,8 +611,8 @@ public class Consumer extends TestInfra {
 			actualData = foundation.getText(ConsumerSummary.TXT_LN_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -628,8 +648,8 @@ public class Consumer extends TestInfra {
 			actualData = foundation.getText(ConsumerSummary.TXT_LN_ERROR);
 			Assert.assertEquals(actualData, rstConsumerData.get(CNConsumer.ERROR_MSG));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
