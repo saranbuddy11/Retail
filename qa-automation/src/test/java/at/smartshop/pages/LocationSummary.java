@@ -3,6 +3,7 @@ package at.smartshop.pages;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -210,6 +211,16 @@ public class LocationSummary extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public List<String> getProductsNames() {
+		List<String> productNames = new LinkedList<>();
+		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
+		List<WebElement> records = tableProductsGrid.findElements(By.tagName("tr"));
+		for(int iter = 1; iter > records.size()+1;iter++) {
+			productNames.add(foundation.getText(By.xpath("//table[@id='productDataGrid']/tbody/tr/td[" + iter + "][@aria-describedby='productDataGrid_name']")));
+		}
+		return productNames;
 	}
 
 	public void updateLockerSettings(String enableORDisable) {
