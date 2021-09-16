@@ -72,6 +72,7 @@ public class ProductPricingReport extends Factory {
 
 	public void verifyReportName(String reportName) {
 		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.SHORT_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {

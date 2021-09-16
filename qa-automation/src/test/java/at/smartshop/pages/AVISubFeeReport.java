@@ -53,6 +53,7 @@ public class AVISubFeeReport extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			foundation.waitforElement(TBL_AVI_SUB_FEE_GRID, Constants.SHORT_TIME);
 			WebElement tableReportsList = getDriver().findElement(TBL_AVI_SUB_FEE_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_AVI_SUB_FEE);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
