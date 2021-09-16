@@ -15,7 +15,9 @@ public class Browser extends Factory {
 
 	public void launch(String driver,String browser) {
 	try {		
-		setDriver(driver,browser);		
+		setDriver(driver,browser);
+		if (ExtFactory.getInstance().getExtent() != null) 
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "[" + browser +" ]launched the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -25,6 +27,7 @@ public class Browser extends Factory {
 		try {
 			WebDriver browser = getDriver();
 			browser.quit();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "closed the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
