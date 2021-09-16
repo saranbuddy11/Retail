@@ -38,6 +38,7 @@ public class EditPromotion extends Factory {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 		foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_END_PROMO);
+		foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_CONTINUE);
 	}
 	
