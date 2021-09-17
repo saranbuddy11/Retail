@@ -27,6 +27,7 @@ public class Browser extends Factory {
 		try {
 			WebDriver browser = getDriver();
 			browser.quit();
+			if (ExtFactory.getInstance().getExtent() != null) 
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "closed the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

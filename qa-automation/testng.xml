@@ -22,14 +22,14 @@
 			<class name="at.smartshop.tests.Location"/>	
 			<class name="at.smartshop.tests.Locker"/>	
 			<class name="at.smartshop.tests.NationalAccount"/>	
-			<class name="at.smartshop.tests.Promotions"/>				
+							
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.tests.PickLists"/>
 			<class name="at.smartshop.tests.VDICheck"/>
 			<class name="at.smartshop.tests.OrganizationSummary"/>
 			<class name="at.smartshop.tests.Menu"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
-			
+			<class name="at.smartshop.tests.Promotions"/>
 		</classes>
 	</test> <!-- Test -->
 	
