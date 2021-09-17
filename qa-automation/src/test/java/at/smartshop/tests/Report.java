@@ -115,6 +115,7 @@ public class Report extends TestInfra {
 	private PersonalChargeReport personalCharge = new PersonalChargeReport();
 	private UnsoldReport unsold = new UnsoldReport();
 
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
@@ -2224,7 +2225,9 @@ public class Report extends TestInfra {
 			personalCharge.updateData(personalCharge.getTableHeaders().get(4), requiredData.get(0));
 			personalCharge.updateData(personalCharge.getTableHeaders().get(5),
 					personalCharge.getRequiredJsonData().get(0));
-			personalCharge.updateData(personalCharge.getTableHeaders().get(6), requiredData.get(2));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(6),
+					requiredData.get(2));
+
 			personalCharge.updateData(personalCharge.getTableHeaders().get(7),
 					(String) personalCharge.getJsonData().get(Reports.TRANS_ID));
 			personalCharge.updateData(personalCharge.getTableHeaders().get(8),
@@ -2240,6 +2243,7 @@ public class Report extends TestInfra {
 		}
 
 	}
+
 
 	@Test(description = "146147 -This test validates Unsold Report Data Calculation")
 	public void unsoldReportData() {
