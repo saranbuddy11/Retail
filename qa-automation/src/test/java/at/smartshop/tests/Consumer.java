@@ -825,7 +825,7 @@ public class Consumer extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
-			//add pay-cycle group in location summary page
+			//turn off pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			locationSummary.turnOnOROffPayRollDeduct(location, payrollDeduct.get(0));
 			login.logout();
@@ -847,7 +847,7 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
-			//delete pay-cycle and verify the display in consumer page
+			//turn on pay-cycle and verify the display in consumer page
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -885,7 +885,7 @@ public class Consumer extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
-			//add pay-cycle group in location summary page
+			//turn off pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			locationSummary.turnOnOROffPayRollDeduct(location, payrollDeduct.get(0));
 			
@@ -900,7 +900,7 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
-			//delete pay-cycle and verify the display in consumer page
+			//turn on pay-cycle and verify the display in consumer page
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -938,7 +938,7 @@ public class Consumer extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
-			//add pay-cycle group in location summary page
+			//turn off pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			locationSummary.turnOnOROffPayRollDeduct(location, payrollDeduct.get(0));
 			
@@ -953,7 +953,7 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
-			//delete pay-cycle and verify the display in consumer page
+			//turn on pay-cycle and verify the display in consumer page
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -967,6 +967,231 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 			assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_PAY_CYCLE));
+		}
+	}
+	
+	@Test(description = "146143-QAA-230-change paycycle group and verify changed paycycle group displays while creating customer in admin>consumer page as super")
+	public void changePayCycleGroupWithNewCustomerSuper() {
+		final String CASE_NUM = "146143";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		List<String> paycycle = Arrays
+				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//add consumer and verify the pay-cycle group display
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
+			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE,paycycle.get(0), Constants.TEXT);
+			consumerSearch.createConsumer(location);
+			assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),paycycle.get(0));
+			
+			//delete consumer
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "146144-QAA-230-change paycycle group and verify changed paycycle group displays while creating customer in admin>consumer page as operator")
+	public void changePayCycleGroupWithNewCustomerOperator() {
+		final String CASE_NUM = "146144";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		List<String> paycycle = Arrays
+				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));			
+			
+			//add consumer and verify the pay-cycle group display
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
+			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE,paycycle.get(0), Constants.TEXT);
+			consumerSearch.createConsumer(location);
+			assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),paycycle.get(0));
+
+			//delete consumer
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "146100-QAA-230-change paycycle group and verify changed paycycle group displays while editing customer in admin>consumer page as operator")
+	public void changePayCycleGroupWithEditCustomerOperator() {
+		final String CASE_NUM = "146100";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		List<String> paycycle = Arrays
+				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the pay-cycle group display
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(0), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),paycycle.get(0));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//reset pay-cycle
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(1), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+		}
+	}
+	
+	@Test(description = "146101-QAA-230-change paycycle group and verify changed paycycle group displays while editing customer in admin>consumer page as super")
+	public void changePayCycleGroupWithEditCustomerAdminSuper() {
+		final String CASE_NUM = "146101";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		List<String> paycycle = Arrays
+				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the pay-cycle group display
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(0), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),paycycle.get(0));		
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//reset pay-cycle
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(1), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+		}
+	}
+	
+	@Test(description = "146102-QAA-230-change paycycle group and verify changed paycycle group displays while editing customer in super>consumer page as super")
+	public void changePayCycleGroupWithEditCustomerSuperSuper() {
+		final String CASE_NUM = "146102";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		List<String> paycycle = Arrays
+				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the pay-cycle group display
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(0), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),paycycle.get(0));		
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//reset pay-cycle
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE,paycycle.get(1), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_SAVE);
 		}
 	}
 	
