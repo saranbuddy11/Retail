@@ -278,7 +278,7 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			Assert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
