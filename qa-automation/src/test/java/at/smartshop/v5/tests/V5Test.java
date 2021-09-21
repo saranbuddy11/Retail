@@ -8785,7 +8785,6 @@ public class V5Test extends TestInfra {
 			createPromotions.newPromotion(promotionType, promotionName,displayName,requiredData.get(0),locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2),requiredData.get(3), requiredData.get(7), requiredData.get(8));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5),requiredData.get(6));
 			
 			createPromotions.selectBundlePromotionTimes(requiredData.get(5),Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
