@@ -9016,7 +9016,7 @@ public class V5Test extends TestInfra {
 			
 			createPromotions.selectBundlePromotionTimes(requiredData.get(5),Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
-			foundation.click(CreatePromotions.TXT_DISCOUNT_PERCENTAGE);
+			foundation.click(CreatePromotions.TXT_AMOUNT);
 			
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
