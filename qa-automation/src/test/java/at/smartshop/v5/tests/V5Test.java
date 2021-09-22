@@ -8841,7 +8841,6 @@ public class V5Test extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
             foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-           
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}finally {
