@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -112,9 +114,12 @@ public class LocationSummary extends Factory {
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
 	public static final By DPD_PRINTGROUP = By.cssSelector("select#printer");
 	public static final By LBL_PRINT_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	public static final By LBL_PRINT_DOWN_ARROW = By.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
-	public static final By LBL_REASON_CODE = By.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
-	public static final By LIST_REASON_CODE = By.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
+	public static final By LBL_PRINT_DOWN_ARROW = By
+			.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
+	public static final By LBL_REASON_CODE = By
+			.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
+	public static final By LIST_REASON_CODE = By
+			.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE = By.id("taxname");
@@ -124,6 +129,11 @@ public class LocationSummary extends Factory {
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By TBL_NAME_HEADER = By.xpath("//th[@id='productDataGrid_name']");
+	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='productDataGrid_editor_dropDownButton']");
+	public static final By TXT_10_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_2']");
+	public static final By TXT_5_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_1']");
+	public static final By TXT_PRODUCTS_COUNT = By.xpath("//span[@id='productDataGrid_pager_label']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -139,13 +149,13 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
-				String status=foundation.getText(By.xpath(
+				String status = foundation.getText(By.xpath(
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']//..//a"));
-				if(!status.equalsIgnoreCase(Constants.HIDE))
-				foundation.click(By.xpath(
-						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
-								+ columnName.get(count) + "']"));
+				if (!status.equalsIgnoreCase(Constants.HIDE))
+					foundation.click(By.xpath(
+							"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+									+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
@@ -212,13 +222,14 @@ public class LocationSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public List<String> getProductsNames() {
 		List<String> productNames = new LinkedList<>();
 		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
 		List<WebElement> records = tableProductsGrid.findElements(By.tagName("tr"));
-		for(int iter = 1; iter > records.size()+1;iter++) {
-			productNames.add(foundation.getText(By.xpath("//table[@id='productDataGrid']/tbody/tr/td[" + iter + "][@aria-describedby='productDataGrid_name']")));
+		for (int iter = 1; iter > records.size() + 1; iter++) {
+			productNames.add(foundation.getText(By.xpath("//table[@id='productDataGrid']/tbody/tr/td[" + iter
+					+ "][@aria-describedby='productDataGrid_name']")));
 		}
 		return productNames;
 	}
@@ -345,16 +356,16 @@ public class LocationSummary extends Factory {
 	public void saveTaxMapping(String taxCategory, String rate) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
-		if(foundation.isDisplayed(objTaxCategory(taxCategory))==false) {		
-		foundation.click(BTN_ADD_MAPPING);
-		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
-		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
-		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
-		foundation.click(BTN_POPUP_SAVE);
-		foundation.click(TAB_TAX_MAPPING);
+		if (foundation.isDisplayed(objTaxCategory(taxCategory)) == false) {
+			foundation.click(BTN_ADD_MAPPING);
+			foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
+			dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
+			dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
+			foundation.click(BTN_POPUP_SAVE);
+			foundation.click(TAB_TAX_MAPPING);
 		}
 	}
-	
+
 	public void removeTaxMapping(String taxCategory) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
@@ -420,12 +431,53 @@ public class LocationSummary extends Factory {
 	}
 
 	public String getCellData(String ariaDescribedby) {
-		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"), Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"),
+				Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
 	}
 
 	public By objTaxCategory(String taxCategory) {
 		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
 
+	}
+
+	public List<String> getColumnValues(By columnData) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(columnData);
+			for (int i = 0; i < ListElement.size(); i++) {
+				text = ListElement.get(i).getText();
+				elementsText.add(text);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
+	}
+
+	public Boolean verifySortAscending(By columnData) {
+		boolean ascending = false;
+		try {
+			List<String> listRuleNameAscending = getColumnValues(columnData);
+
+			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+					.equals(listRuleNameAscending);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return ascending;
+	}
+	public boolean verifySortDescending(By columnData) {
+		boolean descending = false;
+		try {
+			List<String> listRuleNameDescending = getColumnValues(columnData);
+			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+					.equals(listRuleNameDescending);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return descending;
 	}
 }
