@@ -61,6 +61,7 @@ public class Reports {
 	public static final String UM = "um";
 	public static final String DELIVERY = "delivery";
 	public static final String REDEEMED = "redeemed";
+	public static final String REDEMTION = "redemtion";
 	public static final String COUPON = "coupon";
 	public static final String MARKET_ACCOUNT_ID = "marketaccountid";
 	public static final String CATEGORY1 = "category1";
