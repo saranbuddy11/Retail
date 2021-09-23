@@ -2,6 +2,7 @@ package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.files.Excel;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
@@ -49,6 +51,7 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio = new Radio();
+	private Excel excel = new Excel();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -405,9 +408,8 @@ public class Location extends TestInfra {
 			}
 			Assert.assertEquals(uiTableData, dbData);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -450,9 +452,64 @@ public class Location extends TestInfra {
 			System.out.println(uiData);
 			Assert.assertEquals(uiData[2], requiredData);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
-			Assert.fail(exc.toString());
+	@Test(description = "146228-QAA-110-verify Export Button functionality for products table in location Summary Page under products tab.")
+	public void verifyExportButton() {
+		try {
+			final String CASE_NUM = "146228";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+
+//			List<String> expectedData = Arrays
+//					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(LocationSummary.TXT_SEARCH, product);
+			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(LocationSummary.BTN_EXPORT);
+
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
+
+			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
+			// record count validation
+			Assert.assertEquals(String.valueOf(excelCount), requiredData);
+
+			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
+					LocationSummary.TBL_PRODUCTS_GRID);
+			List<String> uiList = new ArrayList<String>(uidata.values());
+			// excel data validation
+			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD, 1));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+			foundation.deleteFile(FilePath.EXCEL_PROD);
 		}
 	}
 

@@ -134,7 +134,8 @@ public class LocationSummary extends Factory {
 	public static final By TXT_10_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_2']");
 	public static final By TXT_5_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_1']");
 	public static final By TXT_PRODUCTS_COUNT = By.xpath("//span[@id='productDataGrid_pager_label']");
-
+	public static final By BTN_EXPORT= By.cssSelector("button#productExportBtn");
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
