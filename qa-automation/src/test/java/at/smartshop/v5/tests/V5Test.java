@@ -9053,13 +9053,18 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(requiredData.get(4));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			
+			double price = Double.parseDouble(productPrice);
+			price =price+price;
 	        // verify the display of total section
-            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+            assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+            assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(price)));
             assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
            List<String> orderPageData = Arrays
