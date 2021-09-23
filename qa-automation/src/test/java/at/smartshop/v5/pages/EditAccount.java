@@ -57,7 +57,7 @@ public class EditAccount {
 	public void verifyTimeOutPopLanguage(String timeOutPopup) {
 		
 		List<String> timeOutPopupData = Arrays.asList(timeOutPopup.split(Constants.DELIMITER_TILD));
-		foundation.waitforElement(objText(timeOutPopupData.get(0)), Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(objText(timeOutPopupData.get(0)), Constants.LONG_TIME);
 		Assert.assertTrue(foundation.isDisplayed(objText(timeOutPopupData.get(0))));
 		Assert.assertEquals(foundation.getText(Order.POP_UP_TIMEOUT_YES),timeOutPopupData.get(3));
 		foundation.click(Order.POP_UP_TIMEOUT_YES);

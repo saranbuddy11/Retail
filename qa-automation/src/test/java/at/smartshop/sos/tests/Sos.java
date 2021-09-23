@@ -81,8 +81,8 @@ public class Sos extends TestInfra {
 										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -123,9 +123,8 @@ public class Sos extends TestInfra {
 			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

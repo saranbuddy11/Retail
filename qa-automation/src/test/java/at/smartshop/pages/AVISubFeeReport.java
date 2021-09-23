@@ -23,47 +23,45 @@ import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
-public class EmployeeCompDetailsReport extends Factory {
+public class AVISubFeeReport extends Factory {
 
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
-	TextBox textBox = new TextBox();
+	private ReportList reportList = new ReportList();
 
-	private static final By TBL_EMPLOYEE_COMP_DETAILS = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By TBL_EMPLOYEE_COMP_DETAILS_GRID = By.cssSelector("#rptdt > tbody");
-	private static final By TXT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
+	private static final By TBL_AVI_SUB_FEE = By.id("subFeeGrid");
+	public static final By LBL_REPORT_NAME = By.id("subFeeGrid_container");
+	private static final By TBL_AVI_SUB_FEE_GRID = By.cssSelector("#subFeeGrid > tbody");
+	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
 
 	private List<String> tableHeaders = new ArrayList<>();
-	private List<String> productNameData = new LinkedList<>();
-	private List<String> priceData = new LinkedList<>();
-	private List<Integer> requiredRecords = new LinkedList<>();
+	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
+	private int recordCount;
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
 			int recordCount = 0;
-			textBox.enterText(TXT_SEARCH, (String) jsonData.get(Reports.TRANS_DATE_TIME));
 			tableHeaders.clear();
-			WebElement tableReportsList = getDriver().findElement(TBL_EMPLOYEE_COMP_DETAILS_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_EMPLOYEE_COMP_DETAILS);
+			WebElement tableReportsList = getDriver().findElement(TBL_AVI_SUB_FEE_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_AVI_SUB_FEE);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
+			reportsData.clear();
 			for (WebElement row : rows) {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
@@ -79,26 +77,25 @@ public class EmployeeCompDetailsReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord(String transDate, List<String> productNames) {
+	public void getRequiredRecord(String locationID, String deviceID) {
 		try {
-			requiredRecords.clear();
-			for (int iter = 0; iter < productNames.size(); iter++) {
-				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(7)).equals(transDate)
-							&& intialData.get(val).get(tableHeaders.get(3)).equals(productNames.get(iter))) {
-						requiredRecords.add(val);
-						break;
-					}
-				}
-				if (requiredRecords.size() == productNames.size()) {
+			boolean flag = false;
+			for (int rowCount = 0; rowCount < reportsData.size(); rowCount++) {
+				if (reportsData.get(rowCount).get(tableHeaders.get(0)).equals(locationID)
+						&& reportsData.get(rowCount).get(tableHeaders.get(3)).equals(deviceID)) {
+					recordCount = rowCount;
+					flag = true;
 					break;
 				}
+			}
+			if (!flag) {
+				Assert.fail();
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
@@ -108,21 +105,70 @@ public class EmployeeCompDetailsReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, List<String> values) {
+	public void updateData(String columnName, String value) {
 		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String value = String.valueOf(values.get(iter));
-				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-			}
+			intialData.get(recordCount).put(columnName, value);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	public void updateData(String columnName, String values) {
+	public void selectToday() {
 		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				intialData.get(requiredRecords.get(iter)).put(columnName, values);
+			foundation.click(ReportList.DPD_DATE);
+			foundation.click(By.xpath(
+					"//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available']"));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void calculateTotalBillable() {
+		double totalBillable;
+		try {
+			String initialData = reportsData.get(recordCount).get(tableHeaders.get(6))
+					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+			if (Double.parseDouble(
+					requiredJsonData.get(0).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) > 75) {
+				totalBillable = Double.parseDouble(initialData) * 0.05;
+				if (totalBillable > 100) {
+					totalBillable = 100;
+				}
+			} else {
+				totalBillable = 0;
+			}
+			requiredJsonData.add(String.valueOf(totalBillable));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void getPriorMonthData(String requiredDate, String orgName, String locationID, String deviceID) {
+		try {
+			foundation.click(ReportList.DPD_DATE);
+			foundation.click(BTN_PREVIOUS_MONTH);
+			selectLastDate(requiredDate);
+			reportList.selectOrg(orgName);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			getTblRecordsUI();
+			getRequiredRecord(locationID, deviceID.toUpperCase());
+			requiredJsonData.add(reportsData.get(recordCount).get(tableHeaders.get(6)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void selectLastDate(String requiredDate) {
+		try {
+			List<String> reqDate = Arrays.asList(requiredDate.split(Constants.DELIMITER_HASH));
+			WebElement lastMonthDate = getDriver().findElement(
+					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
+			if (lastMonthDate.isDisplayed()) {
+					foundation.click(By
+							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "'][not(contains(@class , 'off'))]"));
+			} else {
+				foundation.click(
+						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -154,45 +200,39 @@ public class EmployeeCompDetailsReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value) {
+	public void processAPI() {
 		try {
-			generateJsonDetails(value);
+			generateJsonDetails();
 			salesJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
-			getJsonArrayData();
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-	
-	private void generateJsonDetails(String reportFormat) {
-		try {
-			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
-			LocalDateTime tranDate = LocalDateTime.now();
-			String transDate = tranDate.format(dateFormat);
-			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
-			jsonData.put(Reports.TRANS_ID, transID);
-			jsonData.put(Reports.TRANS_DATE, transDate);
-			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
+			getJsonSalesData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 
-	private void getJsonArrayData() {
+	private void getJsonSalesData() {
 		try {
-			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-			for (JsonElement item : items) {
-				JsonObject element = item.getAsJsonObject();
-				productNameData.add(element.get(Reports.NAME).getAsString());
-				priceData.add(element.get(Reports.PRICE).getAsString());
-			}
+			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
+			String total = sales.get(Reports.TOTAL).getAsString();
+			requiredJsonData.add(total);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	private void generateJsonDetails() {
+		try {
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
+			LocalDateTime tranDate = LocalDateTime.now();
+			String transDate = tranDate.format(dateFormat);
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			jsonData.put(Reports.TRANS_ID, transID);
+			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -208,9 +248,6 @@ public class EmployeeCompDetailsReport extends Factory {
 				json.addProperty(Reports.SALES_HEADER, salesheader);
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-				if (reqString.equals(Reports.PAYMENTS)) {
-					json.addProperty(Reports.TYPE, Reports.COMP);
-				}
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -252,16 +289,12 @@ public class EmployeeCompDetailsReport extends Factory {
 		return reportsData;
 	}
 
+	public List<String> getRequiredJsonData() {
+		return requiredJsonData;
+	}
+
 	public List<String> getTableHeaders() {
 		return tableHeaders;
-	}
-
-	public List<String> getPriceData() {
-		return priceData;
-	}
-
-	public List<String> getProductNameData() {
-		return productNameData;
 	}
 
 }

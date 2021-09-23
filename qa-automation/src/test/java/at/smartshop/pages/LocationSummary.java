@@ -3,6 +3,7 @@ package at.smartshop.pages;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
@@ -110,12 +112,9 @@ public class LocationSummary extends Factory {
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
 	public static final By DPD_PRINTGROUP = By.cssSelector("select#printer");
 	public static final By LBL_PRINT_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	public static final By LBL_PRINT_DOWN_ARROW = By
-			.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
-	public static final By LBL_REASON_CODE = By
-			.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
-	public static final By LIST_REASON_CODE = By
-			.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
+	public static final By LBL_PRINT_DOWN_ARROW = By.xpath("//td[@aria-describedby='productDataGrid_printer']//div[contains(@class,'ui-icon-triangle')]");
+	public static final By LBL_REASON_CODE = By.xpath("//td[@aria-describedby='inventoryDataGrid_reasoncode'][text()='-Choose-']");
+	public static final By LIST_REASON_CODE = By.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE = By.id("taxname");
@@ -124,7 +123,6 @@ public class LocationSummary extends Factory {
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
-	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
 	public static final By LBL_CAUTION_ICON = By
@@ -152,15 +150,17 @@ public class LocationSummary extends Factory {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			int columnCount = columnName.size();
 			for (int count = 0; count < columnCount; count++) {
+				String status=foundation.getText(By.xpath(
+						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
+								+ columnName.get(count) + "']//..//a"));
+				if(!status.equalsIgnoreCase(Constants.HIDE))
 				foundation.click(By.xpath(
 						"//div[@id='productDataGrid_hiding_modalDialog_content']/ul//li/span[@class='ui-iggrid-dialog-text'][text()='"
 								+ columnName.get(count) + "']"));
 			}
 			foundation.objectFocus(POP_UP_BTN_APPLY);
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
-			if (foundation.isDisplayed(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER)) {
-				foundation.click(POP_UP_BTN_APPLY);
-			}
+			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -222,6 +222,16 @@ public class LocationSummary extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public List<String> getProductsNames() {
+		List<String> productNames = new LinkedList<>();
+		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
+		List<WebElement> records = tableProductsGrid.findElements(By.tagName("tr"));
+		for(int iter = 1; iter > records.size()+1;iter++) {
+			productNames.add(foundation.getText(By.xpath("//table[@id='productDataGrid']/tbody/tr/td[" + iter + "][@aria-describedby='productDataGrid_name']")));
+		}
+		return productNames;
 	}
 
 	public void updateLockerSettings(String enableORDisable) {
@@ -288,23 +298,23 @@ public class LocationSummary extends Factory {
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 
-		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
-		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(
-				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				Constants.ONE_SECOND);
 		textBox.enterText(
-				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-						+ "]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
-		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()=" + scancode
-				+ "]//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
-		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()=" + reasonCode + "]"),
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
 				Constants.TWO_SECOND);
-		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()=" + reasonCode + "]"));
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
 		foundation.click(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
@@ -321,8 +331,8 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-		// login.logout();
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
 
 	}
@@ -343,15 +353,26 @@ public class LocationSummary extends Factory {
 
 	}
 
-	public void taxMapping(String taxCategory, String rate) {
-
-		foundation.click(LNK_TAX_MAPPING);
+	public void saveTaxMapping(String taxCategory, String rate) {
+		foundation.click(TAB_TAX_MAPPING);
+		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
+		if(foundation.isDisplayed(objTaxCategory(taxCategory))==false) {		
 		foundation.click(BTN_ADD_MAPPING);
 		foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
 		dropDown.selectItem(DPD_RATE, rate, Constants.TEXT);
 		foundation.click(BTN_POPUP_SAVE);
-		foundation.click(LNK_TAX_MAPPING);
+		foundation.click(TAB_TAX_MAPPING);
+		}
+	}
+	
+	public void removeTaxMapping(String taxCategory) {
+		foundation.click(TAB_TAX_MAPPING);
+		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
+		foundation.click(objTaxCategory(taxCategory));
+		foundation.waitforElement(BTN_POPUP_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_POPUP_REMOVE);
+		foundation.click(TAB_TAX_MAPPING);
 	}
 
 	public By objVerifyTaxRate(String taxRate) {
@@ -410,6 +431,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public String getCellData(String ariaDescribedby) {
+		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"), Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
 	}
 

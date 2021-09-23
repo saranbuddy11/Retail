@@ -2,6 +2,7 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -115,4 +116,15 @@ public class CreatePromotions {
 			Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
 		}
 	}
+	
+	public void recurringDay() {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
+            
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+    }
 }

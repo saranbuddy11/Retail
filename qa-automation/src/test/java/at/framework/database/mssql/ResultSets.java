@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.testng.Assert;
 
+import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNDeviceList;
@@ -19,14 +21,15 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
-import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ResultSets extends Connections {
 
@@ -376,6 +379,7 @@ public class ResultSets extends Connections {
 				rstDeviceList.put(CNDeviceList.PRODUCT_NAME, resultSet.getString(CNDeviceList.PRODUCT_NAME));
 				rstDeviceList.put(CNDeviceList.LOCATION, resultSet.getString(CNDeviceList.LOCATION));
 				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
+
 			}
 
 		} catch (Exception exc) {
@@ -711,6 +715,7 @@ public class ResultSets extends Connections {
 		try {
 			if (connection == null)
 				getConnection();
+
 			statement = connection.createStatement();
 			sqlQuery = query + testcaseID;
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -846,6 +851,49 @@ public class ResultSets extends Connections {
 		}
 
 		return rstProduct;
+
+	}
+
+	public Map<String, String> getConsumerData(String query, String testcaseID) {
+		Map<String, String> rstConsumer = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+
+				rstConsumer.put(CNConsumer.LOCATION, resultSet.getString(CNConsumer.LOCATION));
+				rstConsumer.put(CNConsumer.LAST_NAME, resultSet.getString(CNConsumer.LAST_NAME));
+				rstConsumer.put(CNConsumer.PIN_ERROR, resultSet.getString(CNConsumer.PIN_ERROR));
+				rstConsumer.put(CNConsumer.PIN, resultSet.getString(CNConsumer.PIN));
+				rstConsumer.put(CNConsumer.PHONE, resultSet.getString(CNConsumer.PHONE));
+				rstConsumer.put(CNConsumer.EMAIL, resultSet.getString(CNConsumer.EMAIL));
+				rstConsumer.put(CNConsumer.AMOUNT, resultSet.getString(CNConsumer.AMOUNT));
+				rstConsumer.put(CNConsumer.ERROR_MSG, resultSet.getString(CNConsumer.ERROR_MSG));
+				rstConsumer.put(CNConsumer.INFO_MSG, resultSet.getString(CNConsumer.INFO_MSG));
+				rstConsumer.put(CNConsumer.STATUS, resultSet.getString(CNConsumer.STATUS));
+				rstConsumer.put(CNConsumer.SEARCH_BY, resultSet.getString(CNConsumer.SEARCH_BY));
+				rstConsumer.put(CNConsumer.FIRST_NAME, resultSet.getString(CNConsumer.FIRST_NAME));
+				rstConsumer.put(CNConsumer.EMAIL_ERROR, resultSet.getString(CNConsumer.EMAIL_ERROR));
+				rstConsumer.put(CNConsumer.SCANID_ERROR, resultSet.getString(CNConsumer.SCANID_ERROR));
+				rstConsumer.put(CNConsumer.COLUMN_NAME, resultSet.getString(CNConsumer.COLUMN_NAME));
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstConsumer;
 
 	}
 }

@@ -23,82 +23,60 @@ import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
-public class EmployeeCompDetailsReport extends Factory {
+public class UnsoldReport extends Factory {
 
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
-	TextBox textBox = new TextBox();
 
-	private static final By TBL_EMPLOYEE_COMP_DETAILS = By.id("rptdt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By TBL_EMPLOYEE_COMP_DETAILS_GRID = By.cssSelector("#rptdt > tbody");
-	private static final By TXT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
-
+	private static final By TBL_UNSOLD_REPORT = By.id("rptdt");
+	public static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	private static final By TBL_UNSOLD_REPORT_GRID = By.cssSelector("#rptdt > tbody");
+	public static final By DPD_FILTER_BY = By.id("flt-group-by");
+	private static final By DPD_LOCATION = By.id("select2-locdt-container");
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> productNameData = new LinkedList<>();
-	private List<String> priceData = new LinkedList<>();
-	private List<Integer> requiredRecords = new LinkedList<>();
+	private List<String> soldProductNameData = new LinkedList<>();
+	private List<String> reportProducts = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public List<String> getTblRecordsUI(String columnName) {
 		try {
-			int recordCount = 0;
-			textBox.enterText(TXT_SEARCH, (String) jsonData.get(Reports.TRANS_DATE_TIME));
 			tableHeaders.clear();
-			WebElement tableReportsList = getDriver().findElement(TBL_EMPLOYEE_COMP_DETAILS_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_EMPLOYEE_COMP_DETAILS);
+			WebElement tableReportsList = getDriver().findElement(TBL_UNSOLD_REPORT_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_UNSOLD_REPORT);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
-			for (WebElement row : rows) {
-				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
-				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
-				}
-				reportsData.put(recordCount, uiTblRowValues);
-				recordCount++;
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return reportsData;
-	}
-
-	public void getRequiredRecord(String transDate, List<String> productNames) {
-		try {
-			requiredRecords.clear();
-			for (int iter = 0; iter < productNames.size(); iter++) {
-				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(7)).equals(transDate)
-							&& intialData.get(val).get(tableHeaders.get(3)).equals(productNames.get(iter))) {
-						requiredRecords.add(val);
+			reportProducts.clear();
+			for (int rowCount = 0; rowCount < rows.size(); rowCount++) {
+				for (int columnCount = 0; columnCount < tableHeaders.size(); columnCount++) {
+					if (tableHeaders.get(columnCount).equals(columnName)) {
+						String productName = foundation.getText(By.xpath(
+								"//table[@id='rptdt']/tbody/tr[" + (rowCount + 1) + "]/td[" + (columnCount + 1) + "]"));
+						reportProducts.add(productName);
 						break;
 					}
 				}
-				if (requiredRecords.size() == productNames.size()) {
-					break;
-				}
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+		return reportProducts;
 	}
-	
+
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
@@ -108,25 +86,9 @@ public class EmployeeCompDetailsReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, List<String> values) {
-		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String value = String.valueOf(values.get(iter));
-				intialData.get(requiredRecords.get(iter)).put(columnName, value);
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
-	public void updateData(String columnName, String values) {
-		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				intialData.get(requiredRecords.get(iter)).put(columnName, values);
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
+	public void selectLocation(String locationName) {
+		foundation.click(DPD_LOCATION);
+		foundation.click(By.xpath("//ul[@id='select2-locdt-results']/li[text()='" + locationName + "']"));
 	}
 
 	public void verifyReportHeaders(String columnNames) {
@@ -154,9 +116,9 @@ public class EmployeeCompDetailsReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value) {
+	public void processAPI() {
 		try {
-			generateJsonDetails(value);
+			generateJsonDetails();
 			salesJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -166,20 +128,17 @@ public class EmployeeCompDetailsReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	private void generateJsonDetails(String reportFormat) {
+
+	private void generateJsonDetails() {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
-			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -190,11 +149,48 @@ public class EmployeeCompDetailsReport extends Factory {
 			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
 			for (JsonElement item : items) {
 				JsonObject element = item.getAsJsonObject();
-				productNameData.add(element.get(Reports.NAME).getAsString());
-				priceData.add(element.get(Reports.PRICE).getAsString());
+				soldProductNameData.add(element.get(Reports.NAME).getAsString());
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+
+	public void verifySoldProductsExist() {
+		int count = 0;
+		for (int iterator = 0; iterator < soldProductNameData.size(); iterator++) {
+			if (reportProducts.contains(soldProductNameData.get(iterator))) {
+				count = count + 1;
+			}
+		}
+		if (count == soldProductNameData.size()) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	private void removeSoldProducts() {
+		int count = 0;
+		for (int iterator = 0; iterator < soldProductNameData.size(); iterator++) {
+			if (productNameData.contains(soldProductNameData.get(iterator))) {
+				productNameData.remove(soldProductNameData.get(iterator));
+				count = count + 1;
+			}
+		}
+		if (count == soldProductNameData.size()) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	public void verifyAllUnSoldProductsExist() {
+		removeSoldProducts();
+		int count = 0;
+		for (int iterator = 0; iterator < reportProducts.size(); iterator++) {
+			if (productNameData.contains(reportProducts.get(iterator))) {
+				count = count + 1;
+			}
+		}
+		if (count == reportProducts.size()) {
+			Assert.assertTrue(true);
 		}
 	}
 
@@ -208,9 +204,6 @@ public class EmployeeCompDetailsReport extends Factory {
 				json.addProperty(Reports.SALES_HEADER, salesheader);
 				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
-				if (reqString.equals(Reports.PAYMENTS)) {
-					json.addProperty(Reports.TYPE, Reports.COMP);
-				}
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -256,12 +249,16 @@ public class EmployeeCompDetailsReport extends Factory {
 		return tableHeaders;
 	}
 
-	public List<String> getPriceData() {
-		return priceData;
-	}
-
 	public List<String> getProductNameData() {
 		return productNameData;
+	}
+
+	public List<String> getSoldProductNameData() {
+		return soldProductNameData;
+	}
+
+	public List<String> getReportProducts() {
+		return reportProducts;
 	}
 
 }

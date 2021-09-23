@@ -5,7 +5,11 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.files.PropertyFile;
+import at.framework.reportsetup.ExtFactory;
+import at.smartshop.tests.TestInfra;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();
@@ -21,7 +25,6 @@ public class Browser extends Factory {
 	public void close() {
 		try {
 			WebDriver browser = getDriver();
-			browser.close();
 			browser.quit();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -33,6 +36,7 @@ public class Browser extends Factory {
 		getDriver().get(url);
 		getDriver().manage().window().maximize();
 		getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url +" ]");
 		} catch (Exception exc) {
 		Assert.fail(exc.toString());
 		}
