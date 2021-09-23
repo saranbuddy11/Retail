@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -141,6 +142,16 @@ public class LocationSummary extends Factory {
 	public static final By LBL_TABLE_DATA = By
 			.xpath("//div[@class='dataTables_scroll']//td[@class='dataTables_empty']");
 	public static final By LBL_TABLEINFO = By.id("choosekskdt_info");
+	public static final By LBL_CAUTION_ICON = By
+			.xpath("//i[@class='fa fa-exclamation-triangle' and @style='color: #FF4C5B;']");
+	public static final By LBL_TICKMARK_ICON = By
+			.xpath("//i[@class='fa fa-check-circle' and @style='color: #2983C4;']");
+	public static final By LBL_HOVER_MESSAGE = By.xpath("//td[@class='ui-state-hover']");
+	public static final By TXT_DEVICE_STATUS = By.xpath("//span[@id='devicestatus']");
+	public static final By TXT_DEVICE_SUMMARY = By.xpath("//li[@id='Device Summary']");
+	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
+	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
+	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
 
 	public void selectTab(String tabName) {
 		try {
@@ -228,6 +239,17 @@ public class LocationSummary extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+
+	public List<String> getProductsNames() {
+		List<String> productNames = new LinkedList<>();
+		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
+		List<WebElement> records = tableProductsGrid.findElements(By.tagName("tr"));
+		for (int iter = 1; iter > records.size() + 1; iter++) {
+			productNames.add(foundation.getText(By.xpath("//table[@id='productDataGrid']/tbody/tr/td[" + iter
+					+ "][@aria-describedby='productDataGrid_name']")));
+		}
+		return productNames;
 	}
 
 	public void updateLockerSettings(String enableORDisable) {
@@ -476,6 +498,11 @@ public class LocationSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return descending;
+	}
+
+	public By objDevice(String deviceName) {
+		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
+
 	}
 
 }

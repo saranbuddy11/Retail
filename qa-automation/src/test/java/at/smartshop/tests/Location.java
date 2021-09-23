@@ -50,8 +50,8 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio = new Radio();
-	private Strings string = new Strings();
 	private Numbers numbers = new Numbers();
+	private Strings string = new Strings();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -361,6 +361,167 @@ public class Location extends TestInfra {
 		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Assert.fail();
+		}
+	}
+
+	@Test(description = "146023-QAA-103-Verify caution icon and device dashboard page are displayed for offline device.")
+	public void verifyCautionIcon() {
+		try {
+			final String CASE_NUM = "146023";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
+			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
+			foundation.click(LocationSummary.LBL_CAUTION_ICON);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146024-QAA-103-verify tick mark icon and device dashboard page are displayed for Online device.")
+	public void verifyTickMarkIcon() {
+		try {
+			final String CASE_NUM = "146024";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
+			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146025-QAA-105-verify device summary page is displayed when user clicks on any device name under devices tab in location summary page.")
+	public void verifyDevicePage() {
+		try {
+			final String CASE_NUM = "146025";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			locationSummary.selectDeviceName(device);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_SUMMARY, Constants.SHORT_TIME);
+			String actualData = foundation.getText(LocationSummary.TXT_DEVICE_SUMMARY);
+			Assert.assertEquals(actualData, expectedData);
+			actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
+			Assert.assertEquals(actualData, device);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146026-QAA-103-verify device table is displayed in location Summary Page under device tab.")
+	public void verifyDeviceTableUI() {
+		try {
+			final String CASE_NUM = "146026";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
+					LocationSummary.TBL_DEVICE_ROW);
+			// Table Validations
+			Assert.assertEquals(uiData.get(dbData.get(0)), device);
+			Assert.assertEquals(uiData.get(dbData.get(1)), dbData.get(2));
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
 		}
 	}
 
