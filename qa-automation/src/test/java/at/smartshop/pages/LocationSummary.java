@@ -124,6 +124,17 @@ public class LocationSummary extends Factory {
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
+	public static final By LBL_CAUTION_ICON = By
+			.xpath("//i[@class='fa fa-exclamation-triangle' and @style='color: #FF4C5B;']");
+	public static final By LBL_TICKMARK_ICON = By
+			.xpath("//i[@class='fa fa-check-circle' and @style='color: #2983C4;']");
+	public static final By LBL_HOVER_MESSAGE = By.xpath("//td[@class='ui-state-hover']");
+	public static final By TXT_DEVICE_STATUS = By.xpath("//span[@id='devicestatus']");
+	public static final By TXT_DEVICE_SUMMARY = By.xpath("//li[@id='Device Summary']");
+	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
+	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
+	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
 
 	public void selectTab(String tabName) {
 		try {
@@ -428,4 +439,10 @@ public class LocationSummary extends Factory {
 		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
 
 	}
+
+	public By objDevice(String deviceName) {
+		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
+
+	}
+
 }

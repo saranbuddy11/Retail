@@ -377,6 +377,9 @@ public class ResultSets extends Connections {
 			while (resultSet.next()) {
 				rstDeviceList.put(CNDeviceList.CC_PROCESSOR, resultSet.getString(CNDeviceList.CC_PROCESSOR));
 				rstDeviceList.put(CNDeviceList.PRODUCT_NAME, resultSet.getString(CNDeviceList.PRODUCT_NAME));
+				rstDeviceList.put(CNDeviceList.LOCATION, resultSet.getString(CNDeviceList.LOCATION));
+				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
+
 			}
 
 		} catch (Exception exc) {
