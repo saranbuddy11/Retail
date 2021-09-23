@@ -381,7 +381,6 @@ public class ResultSets extends Connections {
 				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
 
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
