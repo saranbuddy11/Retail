@@ -75,6 +75,7 @@ public class Reports {
 	public static final String DATA = "data";
 	public static final String ACTION_TYPE = "at";
 	public static final String PAYMENT_TYPE = "pt";
+	public static final String MKA_PAYMENT_TYPE = "paymenttype";
 	public static final String SALE = "sale";
 	public static final String SALES = "sales";
 	public static final String GMA_TRANS = "gmatrans";
