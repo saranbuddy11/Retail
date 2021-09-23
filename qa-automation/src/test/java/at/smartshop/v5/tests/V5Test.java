@@ -4419,10 +4419,11 @@ public class V5Test extends TestInfra {
 			locationSummary.kiosklanguageSetting(requiredData.get(0), language.get(0), language.get(1));
 
 			// login into Kiosk Device
+			
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-
+            foundation.refreshPage();
 			foundation.waitforElement(landingPage.objText(requiredData.get(2)), Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
 			foundation.click(landingPage.objText(requiredData.get(2)));
