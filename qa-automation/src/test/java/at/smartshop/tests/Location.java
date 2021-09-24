@@ -475,8 +475,8 @@ public class Location extends TestInfra {
 			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
 
-//			List<String> expectedData = Arrays
-//					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			List<String> expectedData = Arrays
+					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -488,7 +488,7 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
+
 			foundation.click(LocationSummary.BTN_EXPORT);
 
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
@@ -500,6 +500,11 @@ public class Location extends TestInfra {
 
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_GRID);
+			uidata.remove(expectedData.get(0));
+			uidata.remove(expectedData.get(1));
+			uidata.remove(expectedData.get(2));
+			uidata.remove(expectedData.get(3));
+
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			// excel data validation
 			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD, 1));
@@ -513,4 +518,53 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Test(description = "146228-QAA-110-verify Export Button functionality for products table in location Summary Page under products tab.")
+	public void verifyManageButton() {
+		try {
+			final String CASE_NUM = "146228";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+
+			List<String> expectedData = Arrays
+					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.ONE_SECOND);
+			// hide functionality
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			locationSummary.showHideManageColumn(Constants.HIDE, "Min Stock");
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToDisappear(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+
+			Assert.assertFalse(foundation.isDisplayed(locationSummary.objColumnHeaders("Min Stock")));
+			// show functionality
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			locationSummary.showHideManageColumn(Constants.SHOW, "Min Stock");
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToDisappear(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(locationSummary.objColumnHeaders("Min Stock")));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
