@@ -48,7 +48,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
 	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
-	public static final By LNK_PICK_UP_LOCATION = By.id("pickupLocationToggle");
+	public static final By LNK_PICK_UP_LOCATION = By.xpath("//span[@id='pickupLocationToggle']");
 	public static final By LBL_LOCKER_PICK_UP_TITLE = By.xpath("//*[@id='lockersystempickuptitle']/i");
 	public static final By LNK_LOCKER_NAME = By.xpath("//*[@id='pickuplockersystems']/div/a");
 	public static final By TXT_SYSTEM_NAME = By.cssSelector("input#systemName");
