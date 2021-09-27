@@ -27,7 +27,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class LoyaltyUserReport extends Factory {
@@ -43,15 +42,15 @@ public class LoyaltyUserReport extends Factory {
 	private static final By TBL_PRODUCT_TAX_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
-	private List<String> scancodeData = new LinkedList<>();
-	private List<String> productNameData = new LinkedList<>();
-	private List<String> priceData = new LinkedList<>();
-	private List<String> taxData = new LinkedList<>();
-	private List<String> category1Data = new LinkedList<>();
-	private List<String> category2Data = new LinkedList<>();
-	private List<String> category3Data = new LinkedList<>();
-	private List<String> discountData = new LinkedList<>();
-	private List<String> taxcatData = new LinkedList<>();
+//	private List<String> scancodeData = new LinkedList<>();
+//	private List<String> productNameData = new LinkedList<>();
+//	private List<String> priceData = new LinkedList<>();
+//	private List<String> taxData = new LinkedList<>();
+//	private List<String> category1Data = new LinkedList<>();
+//	private List<String> category2Data = new LinkedList<>();
+//	private List<String> category3Data = new LinkedList<>();
+//	private List<String> discountData = new LinkedList<>();
+//	private List<String> taxcatData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private List<Integer> requiredRecords = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -84,21 +83,15 @@ public class LoyaltyUserReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord(String transDate, List<String> scancodes) {
+	public void getRequiredRecord(String locationName) {
 		try {
 			requiredRecords.clear();
-			for (int iter = 0; iter < scancodes.size(); iter++) {
 				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(0)).equals(transDate)
-							&& intialData.get(val).get(tableHeaders.get(4)).equals(scancodes.get(iter))) {
+					if (intialData.get(val).get(tableHeaders.get(1)).equals(locationName)) {
 						requiredRecords.add(val);
 						break;
 					}
 				}
-				if (requiredRecords.size() == scancodes.size()) {
-					break;
-				}
-			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -134,19 +127,19 @@ public class LoyaltyUserReport extends Factory {
 		}
 	}
 
-	public void updatePrice() {
-		try {
-			for (int iter = 0; iter < requiredRecords.size(); iter++) {
-				String price = priceData.get(iter);
-				String discount = discountData.get(iter);
-				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
-				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
-				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+//	public void updatePrice() {
+//		try {
+//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
+//				String price = priceData.get(iter);
+//				String discount = discountData.get(iter);
+//				double updatedPrice = Double.parseDouble(price) - Double.parseDouble(discount);
+//				updatedPrice = Math.round(updatedPrice * 100.0) / 100.0;
+//				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(8), String.valueOf(updatedPrice));
+//			}
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
 
 	public void verifyReportHeaders(String columnNames) {
 		try {
@@ -189,7 +182,7 @@ public class LoyaltyUserReport extends Factory {
 			webService.apiPutRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_MKA, FilePath.PROPERTY_CONFIG_FILE),
 					requiredJsonData.get(1), (String) jsonData.get(Reports.MKA_JSON));
-			getJsonArrayData();
+//			getJsonArrayData();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -230,25 +223,25 @@ public class LoyaltyUserReport extends Factory {
 		}
 	}
 
-	private void getJsonArrayData() {
-		try {
-			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
-			for (JsonElement item : items) {
-				JsonObject element = item.getAsJsonObject();
-				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
-				productNameData.add(element.get(Reports.NAME).getAsString());
-				priceData.add(element.get(Reports.PRICE).getAsString());
-				taxData.add(element.get(Reports.TAX).getAsString());
-				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
-				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
-				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
-				discountData.add(element.get(Reports.DISCOUNT).getAsString());
-				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+//	private void getJsonArrayData() {
+//		try {
+//			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
+//			for (JsonElement item : items) {
+//				JsonObject element = item.getAsJsonObject();
+//				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
+//				productNameData.add(element.get(Reports.NAME).getAsString());
+//				priceData.add(element.get(Reports.PRICE).getAsString());
+//				taxData.add(element.get(Reports.TAX).getAsString());
+//				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
+//				category2Data.add(element.get(Reports.CATEGORY2).getAsString());
+//				category3Data.add(element.get(Reports.CATEGORY3).getAsString());
+//				discountData.add(element.get(Reports.DISCOUNT).getAsString());
+//				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
+//			}
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
 
 	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader) {
 		try {
@@ -333,29 +326,29 @@ public class LoyaltyUserReport extends Factory {
 		return reportsData;
 	}
 
-	public List<String> getScancodeData() {
-		return scancodeData;
-	}
-
-	public List<String> getCategory1Data() {
-		return category1Data;
-	}
-
-	public List<String> getTaxCatData() {
-		return taxcatData;
-	}
-
-	public List<String> getCategory2Data() {
-		return category2Data;
-	}
-
-	public List<String> getCategory3Data() {
-		return category3Data;
-	}
-
-	public List<String> getTaxData() {
-		return taxData;
-	}
+//	public List<String> getScancodeData() {
+//		return scancodeData;
+//	}
+//
+//	public List<String> getCategory1Data() {
+//		return category1Data;
+//	}
+//
+//	public List<String> getTaxCatData() {
+//		return taxcatData;
+//	}
+//
+//	public List<String> getCategory2Data() {
+//		return category2Data;
+//	}
+//
+//	public List<String> getCategory3Data() {
+//		return category3Data;
+//	}
+//
+//	public List<String> getTaxData() {
+//		return taxData;
+//	}
 
 	public List<String> getRequiredJsonData() {
 		return requiredJsonData;
@@ -365,12 +358,12 @@ public class LoyaltyUserReport extends Factory {
 		return tableHeaders;
 	}
 
-	public List<String> getPriceData() {
-		return priceData;
-	}
-
-	public List<String> getProductNameData() {
-		return productNameData;
-	}
+//	public List<String> getPriceData() {
+//		return priceData;
+//	}
+//
+//	public List<String> getProductNameData() {
+//		return productNameData;
+//	}
 
 }
