@@ -176,10 +176,10 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
-			if (toggle =="Expand") {
+			if (toggle == "Expand") {
 				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 			}
-						
+
 			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 
 			List<String> Name = Arrays
@@ -1346,7 +1346,7 @@ public class Locker extends TestInfra {
 			foundation.waitforClikableElement(LocationSummary.LNK_PICK_UP_LOCATION, Constants.SHORT_TIME);
 
 			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
-			if (toggle == displayName.get(3)) {
+			if (toggle.equals(displayName.get(3))) {
 				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 			}
 
@@ -1531,13 +1531,22 @@ public class Locker extends TestInfra {
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 
 			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
-			if (toggle == displayName.get(4)) {
+			if (toggle.equals(displayName.get(4))) {
 				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 			}
 			// verifying the created locker system is displayed as an option for pick up
 			// location
-			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
-			Assert.assertTrue(lockerName.equals(displayName.get(3)));
+			List<String> lockerName = foundation.getTextofListElement(LocationSummary.LNK_LOCKER_NAME);
+			Boolean isPresent = false;
+			for (int i = 0; i < lockerName.size(); i++) {
+				if (lockerName.get(i).equals(displayName.get(3))) {
+					isPresent = true;
+					break;
+				}
+
+			}
+			Assert.assertTrue(isPresent);
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
