@@ -448,4 +448,19 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
+	
+	public void editPaycyle(String location,String payCycle,String updatedPaycycle) {
+		locationList.selectLocationName(location);
+		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		for(int i=1;i<=totalPaycycleRows;i++) {
+			if(textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])["+i+"]")).contains(payCycle))
+			{
+			textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])["+i+"]"), updatedPaycycle);
+			foundation.threadWait(Constants.ONE_SECOND);
+			}
+		}		
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
 }
