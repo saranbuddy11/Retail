@@ -26,6 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class ProductSalesByCategoryReport extends Factory {
@@ -71,12 +72,12 @@ public class ProductSalesByCategoryReport extends Factory {
 		return reportsData;
 	}
 
-	public void getRequiredRecord(String category) {
+	public void getRequiredRecord(String orderNumber) {
 		int rowCount = 0;
 		boolean flag = false;
 		try {
 			for (int columnCount = 0; columnCount < intialData.size(); columnCount++) {
-				if (intialData.get(columnCount).get(tableHeaders.get(0)).equals(category)) {
+				if (intialData.get(columnCount).get(tableHeaders.get(0)).equals(orderNumber)) {
 					recordCount = rowCount;
 					flag = true;
 					break;

@@ -24,6 +24,7 @@ public class LandingPage {
 	public static final By LBL_CREATE_ACCOUNT = By.xpath("//div[@id='create-account-id']/div//h3");
 	public static final By LBL_SEARCH = By.xpath("//span[@class='category-label']");
 	public static final By LBL_SCAN = By.xpath("//div[@class='footer']//h2");
+	public static final By IMG_ORDER_SEARCH_ICON = By.cssSelector("span.category-icon.mm-icon.search-icon.ion-search");
 
 	private Foundation foundation = new Foundation();
 

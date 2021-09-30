@@ -42,7 +42,7 @@ public class Sos extends TestInfra {
 	private Map<String, String> rstGmaUser;
 	private Map<String, String> rstNavigationMenuData;
 
-	@Test(description = "This test validate the Success message after updaloding the GMA Template")
+	@Test(description = "117462-This test validate the Success message after updaloding the GMA Template")
 	public void verifySuccessMessage() {
 		try {
 			final String CASE_NUM = "117462";
@@ -81,12 +81,12 @@ public class Sos extends TestInfra {
 										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	@Test(description = "Verify whether Payroll ID and Pay Cycle Group are mandatory to be entered in template")
+	@Test(description = "117465-Verify whether Payroll ID and Pay Cycle Group are mandatory to be entered in template")
 	public void PayrollIDAndPayCycleUploadNonMandatory() {
 		try {
 			final String CASE_NUM = "117465";
@@ -123,9 +123,8 @@ public class Sos extends TestInfra {
 			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
 			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

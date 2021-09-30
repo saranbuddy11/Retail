@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
@@ -30,6 +33,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.KioskCreate;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -49,6 +53,8 @@ public class Location extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Radio radio = new Radio();
+	private Numbers numbers = new Numbers();
+	private Strings string = new Strings();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -56,8 +62,8 @@ public class Location extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNationalAccountData;
-	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstOrgSummaryData;
 
 	@Test(description = "114280- This test validates Extend Product")
 	public void extendProducts() {
@@ -96,14 +102,14 @@ public class Location extends TestInfra {
 			Assert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
+		} catch (Throwable exc) {
+			Assert.fail();
+		} finally {
 			// Resetting test data
 			foundation.click(ProductSummary.TBL_DATA);
 			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.MEDIUM_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.MEDIUM_TIME);
-
-		} catch (Exception exc) {
-			Assert.fail();
 		}
 	}
 
@@ -133,28 +139,23 @@ public class Location extends TestInfra {
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(0), Constants.TEXT);
-
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
-
 			List<String> dropDownList = Arrays.asList(
 					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationList.DPD_LOCATION_LIST, dropDownList.get(1), Constants.TEXT);
 
 			// Searching for Product
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
 			foundation.click(LocationSummary.TAB_PRODUCTS);
-
 			Assert.assertTrue(foundation.getSizeofListElement(LocationSummary.ROW_PRODUCTS) <= 0);
-
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
-
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Assert.fail();
 		}
 
@@ -186,8 +187,8 @@ public class Location extends TestInfra {
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG),
 					rstLocationListData.get(CNLocationList.INFO_MESSAGE));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -227,7 +228,8 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME, "Icecream");
+			textBox.enterText(LocationSummary.TXT_ADD_NAME,
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 			foundation.click(LocationSummary.BTN_ADD);
 
 			// disabling location
@@ -249,13 +251,13 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
 
-	@Test(description = "11101-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
+	@Test(description = "111001-Update Loyalty Multiplier for a product in Operator Product Catalog Change")
 	public void updateLoyaltyMultiplier() {
 		try {
 			final String CASE_NUM = "111001";
@@ -303,13 +305,13 @@ public class Location extends TestInfra {
 
 			// verify value in loyalty dropdown
 			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
 
-	@Test(description = "Update Tax for Product and verify in Location Summary -> Products Tab")
+	@Test(description = "114899-Update Tax for Product and verify in Location Summary -> Products Tab")
 	public void updateTaxForProduct() {
 		try {
 			final String CASE_NUM = "114899";
@@ -361,9 +363,393 @@ public class Location extends TestInfra {
 			// product here
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Assert.fail();
+		}
+	}
+
+	@Test(description = "146023-QAA-103-Verify caution icon and device dashboard page are displayed for offline device.")
+	public void verifyCautionIcon() {
+		try {
+			final String CASE_NUM = "146023";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
+			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
+			foundation.click(LocationSummary.LBL_CAUTION_ICON);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146024-QAA-103-verify tick mark icon and device dashboard page are displayed for Online device.")
+	public void verifyTickMarkIcon() {
+		try {
+			final String CASE_NUM = "146024";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
+			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
+			foundation.click(locationSummary.objDevice(device));
+			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146025-QAA-105-verify device summary page is displayed when user clicks on any device name under devices tab in location summary page.")
+	public void verifyDevicePage() {
+		try {
+			final String CASE_NUM = "146025";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			locationSummary.selectDeviceName(device);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_SUMMARY, Constants.SHORT_TIME);
+			String actualData = foundation.getText(LocationSummary.TXT_DEVICE_SUMMARY);
+			Assert.assertEquals(actualData, expectedData);
+			actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
+			Assert.assertEquals(actualData, device);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146026-QAA-103-verify device table is displayed in location Summary Page under device tab.")
+	public void verifyDeviceTableUI() {
+		try {
+			final String CASE_NUM = "146026";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
+					LocationSummary.TBL_DEVICE_ROW);
+			// Table Validations
+			Assert.assertEquals(uiData.get(dbData.get(0)), device);
+			Assert.assertEquals(uiData.get(dbData.get(1)), dbData.get(2));
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146083-QAA-107-verify UI and sorting functionality of deploy device popup fields")
+	public void verifyDeviceUI() {
+		try {
+			final String CASE_NUM = "146083";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> expectedData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+
+			Assert.assertTrue(locationSummary.verifySortAscending());
+			foundation.click(LocationSummary.LBL_ROW_HEADER);
+			Assert.assertTrue(locationSummary.verifySortDescending());
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
+					LocationSummary.TBL_DEVICE_POPUP_ROW);
+			Map<String, String> dbData = new HashMap<>();
+			dbData.put(expectedData.get(0), device);
+			dbData.put(expectedData.get(1), expectedData.get(2));
+			Assert.assertEquals(uiData, dbData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146084-QAA-107-Verify Add,close and search functionality in Depoly device")
+	public void verifyAddClose() {
+		try {
+			final String CASE_NUM = "146084";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_CREATE);
+			textBox.enterText(KioskCreate.TXT_NAME, device);
+			dropDown.selectItem(KioskCreate.DPD_ORG, dbData.get(0), Constants.TEXT);
+			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, dbData.get(1), Constants.TEXT);
+			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_SAVE);
+			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			// search functionality
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
+			String actualData = foundation.getText(LocationSummary.LBL_COLUMN_DATA);
+			Assert.assertEquals(actualData, device);
+			actualData = foundation.getText(LocationSummary.LBL_TABLEINFO);
+			Assert.assertTrue(actualData.contains(dbData.get(4)));
+			// Add Functionality
+			foundation.click(LocationSummary.LBL_COLUMN_DATA);
+			foundation.click(LocationSummary.BTN_DEVICE_ADD);
+			foundation.refreshPage();
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(locationSummary.objUploadStatus(device)));
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			actualData = foundation.getText(LocationSummary.LBL_TABLE_DATA);
+			Assert.assertEquals(actualData, dbData.get(2));
+			// Close
+			foundation.refreshPage();
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, dbData.get(3));
+			foundation.click(LocationSummary.LBL_COLUMN_DATA);
+			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
+			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
+			Assert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146085-QAA-107-verify created device is displayed in devices tab in location summary page")
+	public void verifyDeviceCreation() {
+		try {
+			final String CASE_NUM = "146085";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_CREATE);
+			textBox.enterText(KioskCreate.TXT_NAME, device);
+			dropDown.selectItem(KioskCreate.DPD_ORG, dbData.get(0), Constants.TEXT);
+			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, dbData.get(1), Constants.TEXT);
+			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			foundation.waitforClikableElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_SAVE);
+			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			// search functionality
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
+			String actualData = foundation.getText(LocationSummary.LBL_COLUMN_DATA);
+			Assert.assertEquals(actualData, device);
+			actualData = foundation.getText(LocationSummary.LBL_TABLEINFO);
+			Assert.assertTrue(actualData.contains(dbData.get(3)));
+			// Add Functionality
+			foundation.click(LocationSummary.LBL_COLUMN_DATA);
+			foundation.click(LocationSummary.BTN_DEVICE_ADD);
+			foundation.refreshPage();
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(locationSummary.objUploadStatus(device)));
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "146126-QAA-107-verify when device is mapped to location, mapped device should not be available in another location.")
+	public void verifyAlreadyMappedDevice() {
+		try {
+			final String CASE_NUM = "146126";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			String actualData = foundation.getText(LocationSummary.LBL_TABLE_DATA);
+			Assert.assertEquals(actualData, expectedData);
+
+		} catch (Exception exc) {
+
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -455,5 +841,4 @@ public class Location extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-
 }

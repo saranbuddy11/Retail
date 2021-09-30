@@ -9,20 +9,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ItemStockoutReport extends Factory {
 
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_ITEM_STOCKOUT = By.id("summarydt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
+	public static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
 	private static final By TBL_ITEM_STOCKOUT_GRID = By.cssSelector("#summarydt > tbody");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS = By.cssSelector("table[aria-describedby='detaildt_info']");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS_GRID = By
@@ -77,7 +81,10 @@ public class ItemStockoutReport extends Factory {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < itemStockoutDetailsHeaders.size() + 1; columnCount++) {
 					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount - 1), column.getText());
+					Actions action = new Actions(getDriver());
+					Action seriesOfActions = action.moveToElement(column).build();
+					seriesOfActions.perform();				
+					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount-1), column.getText());
 				}
 				reportsDetailsData.put(recordCount, uiTblRowValues);
 				recordCount++;

@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.tests.TestInfra;
 
 public class AdminNationalAccounts extends Factory {
 	

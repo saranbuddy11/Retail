@@ -32,7 +32,7 @@ public class PickLists extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstPickListData;
 
-	@Test(description = "143192 QAA-67-verify picklist screen product table data -Super")
+	@Test(description = "143192-QAA-67-verify picklist screen product table data -Super")
 	public void verifyPickListColumnHeadersSuper() {
 		try {
 			final String CASE_NUM = "143192";
@@ -92,12 +92,11 @@ public class PickLists extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	@Test(description = "143193 QAA-67-verify picklist screen product table data -finanacer")
+	@Test(description = "143193-QAA-67-verify picklist screen product table data -finanacer")
 	public void verifyPickListColumnHeadersFinancer() {
 		try {
 			final String CASE_NUM = "143193";
@@ -157,9 +156,9 @@ public class PickLists extends TestInfra {
 			login.logout();
 			
 
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

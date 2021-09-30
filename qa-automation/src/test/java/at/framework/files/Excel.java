@@ -19,8 +19,13 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+
+import com.aventstack.extentreports.Status;
+
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Excel {
 
@@ -102,11 +107,12 @@ public class Excel {
 					}
 					if (uiRecord.equals(cellValue)) {
 						isTest = true;
-
+						ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record ["+uiRecord+"] is available in excel");
 						break;
 					}
 				}
 				if (isTest.equals(false)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record ["+uiRecord+"] is not available in excel");
 					return false;
 				}
 			}
@@ -155,6 +161,7 @@ public class Excel {
 		}
 		return false;
 	}
+
 
 	public Map<String, String> getExcelAsMap(String filePath) throws IOException {
 		FileInputStream fis = new FileInputStream(filePath);

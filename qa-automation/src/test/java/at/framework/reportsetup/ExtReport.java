@@ -17,7 +17,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import at.framework.generic.DateAndTime;
-import at.framework.triggeremail.SendReport;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
@@ -92,15 +91,16 @@ public class ExtReport {
 		return presentSubFolderName;
 	}
 	
-	public String getScreenshot(String methodName, WebDriver driver) {
-		String destinationFile = null;
+	public String getScreenshot(WebDriver driver) {
+		String timeStamp=objDate.getDateAndTime(Constants.TIME_STAMP, Constants.TIME_ZONE_INDIA);
+		String destinationFile = null;		
 		try {
 			TakesScreenshot ts = (TakesScreenshot) driver;
 			File source = ts.getScreenshotAs(OutputType.FILE);
-			destinationFile = getPresentSubFolderPath() + "\\"+methodName+".png";
+			destinationFile = getPresentSubFolderPath() + "\\"+timeStamp+".png";
 			FileUtils.copyFile(source, new File(destinationFile));
 		} catch (Exception exc) {			
-			Assert.fail(exc.toString());
+			//Assert.fail(exc.toString());
 		}
 		return destinationFile;
 	}

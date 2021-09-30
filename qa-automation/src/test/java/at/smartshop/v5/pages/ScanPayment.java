@@ -23,7 +23,8 @@ public class ScanPayment {
 			String barcodeLogin = foundation.getText(LBL_BARCODE_GERMAN);
 			Assert.assertEquals(barcodeLogin, scanSetupPageData.get(1));
 		}else {
-			Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(1))));
+			String scanTxt=foundation.getText(LBL_BARCODE_GERMAN);
+			Assert.assertEquals(scanTxt, scanSetupPageData.get(1));
 		}
 		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(0))));
 		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(2))));		

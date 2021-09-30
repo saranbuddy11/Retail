@@ -15,10 +15,12 @@ public class Reports {
 	public static final String CC_TYPE = "cctype";
 	public static final String HOSTREF = "hostref";
 	public static final String VOID = "void";
+	public static final String VOIDED = "voided";
 	public static final String REASON = "reason";
 	public static final String PAYMENTS = "payments";
 	public static final String SUBTOTAL = "subtotal";
 	public static final String TOTAL = "total";
+	public static final String DUE = "due";
 	public static final String KIOSK = "kiosk";
 	public static final String DEVICE_NAME = "devicename";
 	public static final String ORG = "org";
@@ -54,7 +56,9 @@ public class Reports {
 	public static final String TAXCAT = "taxcat";
 	public static final String COST = "cost";
 	public static final String QUANTITY = "qty";
+	public static final String TAXRATE = "taxrate";
 	public static final String TAX = "tax";
+	public static final String UM = "um";
 	public static final String DELIVERY = "delivery";
 	public static final String REDEEMED = "redeemed";
 	public static final String COUPON = "coupon";
@@ -93,6 +97,7 @@ public class Reports {
 	public static final String STATUS = "status";
 	public static final String NOTE = "note";
 	public static final String TODAY = "Today";
+	public static final String CS = "CS";
 	public static final String YESTERDAY = "Yesterday";
 	public static final String CUSTOM_RANGE = "Custom Range";
 	public static final String JSON = "json";
@@ -100,6 +105,9 @@ public class Reports {
 	public static final String REGEX_TRANS_DATE = "[^a-zA-Z0-9]";
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String CREDIT = "CREDIT";
+	public static final String SPECIAL = "SPECIAL";
+	public static final String BADGE = "BADGE";
+	public static final String GENESIS = "GENESIS";
 	public static final String REJECTED = "REJECTED";
 	public static final String COMP = "COMP";
 	public static final String ROOM = "ROOM";
