@@ -51,6 +51,7 @@ import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderTransactionTimeReport;
+import at.smartshop.pages.PersonalChargeReport;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductSalesByCategoryReport;
 import at.smartshop.pages.ProductTaxReport;
@@ -62,6 +63,7 @@ import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.pages.UnfinishedCloseReport;
+import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
 
@@ -110,6 +112,9 @@ public class Report extends TestInfra {
 	private HealthAheadPercentageReport healthAheadPercentage = new HealthAheadPercentageReport();
 	private AVISubFeeReport aviSubFee = new AVISubFeeReport();
 	private BillingInformationReport billingInformation = new BillingInformationReport();
+	private PersonalChargeReport personalCharge = new PersonalChargeReport();
+	private UnsoldReport unsold = new UnsoldReport();
+
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -254,7 +259,9 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.LONG_TIME);
+
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			productTax.getTblRecordsUI();
 			productTax.getIntialData().putAll(productTax.getReportsData());
@@ -991,6 +998,10 @@ public class Report extends TestInfra {
 //			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 //			foundation.adjustBrowerSize(actualData.get(3));
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.adjustBrowerSize(actualData.get(2));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.adjustBrowerSize(actualData.get(3));
 
 			itemStockout.verifyReportName(reportName.get(1));
 			itemStockout.getTblRecordsUI();
@@ -2175,6 +2186,145 @@ public class Report extends TestInfra {
 			financialRecap.verifyReportData();
 		} catch (Exception exc) {
 			Assert.fail();
+		}
+
+	}
+
+	@Test(description = "146142-This test validates Personal Charge Report Data Calculation")
+	public void personalChargeReportData() {
+		try {
+
+			final String CASE_NUM = "146142";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Split database data
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// process sales API to generate data
+			personalCharge.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			personalCharge.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			personalCharge.getTblRecordsUI();
+			personalCharge.getIntialData().putAll(personalCharge.getReportsData());
+			personalCharge.getRequiredRecord(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					(String) personalCharge.getJsonData().get(Reports.TRANS_ID));
+			// apply calculation and update data
+			personalCharge.updateData(personalCharge.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(1), requiredData.get(0));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(2), requiredData.get(1));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(3), requiredData.get(0));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(4), requiredData.get(0));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(5),
+					personalCharge.getRequiredJsonData().get(0));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(6),
+					requiredData.get(2));
+
+			personalCharge.updateData(personalCharge.getTableHeaders().get(7),
+					(String) personalCharge.getJsonData().get(Reports.TRANS_ID));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(8),
+					(String) personalCharge.getJsonData().get(Reports.TRANS_DATE_TIME));
+
+			// verify report headers
+			personalCharge.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			personalCharge.verifyReportData();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+
+	@Test(description = "146147 -This test validates Unsold Report Data Calculation")
+	public void unsoldReportData() {
+		try {
+
+			final String CASE_NUM = "146147";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			unsold.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			List<String> menuItems = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			unsold.getProductNameData().addAll(locationSummary.getProductsNames());
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			dropdown.selectItem(UnsoldReport.DPD_FILTER_BY, menuItems.get(0),
+					Constants.TEXT);
+			unsold.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			unsold.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			unsold.getTblRecordsUI(columnName.get(0));
+			
+			// verify report headers
+			unsold.verifyReportHeaders(columnName.get(1));
+
+			// verify report data
+			unsold.verifySoldProductsExist();
+			unsold.verifyAllUnSoldProductsExist();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

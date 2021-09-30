@@ -21,7 +21,10 @@ public class SelfService {
 	public static final By LBL_HAS_PRINT = By.xpath("//span[@class='product-hasprintgroup']");
 	public static final By LBL_SELECT_ALL = By.xpath("//a[text()='Select All']");
 	public static final By FILTER_MENU = By.cssSelector("#dt_filter > label > input[type=text]");
-
+	public static final By RDO_BTN_SHOW = By.xpath("//input[@value='show']");
+	public static final By RDO_BTN_Hide = By.xpath("//input[@value='hide']");
+	public static final By LBL_ALL = By.xpath("//span[text()='All']");
+	public static final By BTN_CANCEL = By.xpath("//button[text()='Cancel']");
 
 	public By objPrintCheckbox(String text) {
 	return By.xpath("//b[text()='"+text+"']//..//..//input");
