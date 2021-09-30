@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.testng.Assert;
 
 import at.smartshop.database.columns.CNConsumer;
@@ -29,7 +30,6 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class ResultSets extends Connections {
 
@@ -373,13 +373,14 @@ public class ResultSets extends Connections {
 			statement = connection.createStatement();
 			sqlQuery = query + testcaseID;
 
+
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstDeviceList.put(CNDeviceList.CC_PROCESSOR, resultSet.getString(CNDeviceList.CC_PROCESSOR));
 				rstDeviceList.put(CNDeviceList.PRODUCT_NAME, resultSet.getString(CNDeviceList.PRODUCT_NAME));
 				rstDeviceList.put(CNDeviceList.LOCATION, resultSet.getString(CNDeviceList.LOCATION));
 				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
-
+				rstDeviceList.put(CNDeviceList.SERIAL_NUMBER, resultSet.getString(CNDeviceList.SERIAL_NUMBER));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
