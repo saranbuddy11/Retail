@@ -297,7 +297,7 @@ public class Foundation extends Factory {
 			File file = new File(filePath);
 			file.delete();
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, filePath+" -File Deleted Successfully");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

@@ -2,13 +2,13 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.Comparator;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -122,12 +122,34 @@ public class LocationSummary extends Factory {
 			.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
-	public static final By DPD_TAX_RATE = By.id("taxname");
 	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
 	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
+	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
+	public static final By TBL_DEVICE_POPUP_GRID = By
+			.cssSelector("div.dataTables_scroll > div.dataTables_scrollHead > div > table >thead");
+	public static final By TBL_DEVICE_POPUP_ROW = By.xpath("//*[@id='choosekskdt']/tbody/tr");
+	public static final By TXT_DEVICE_POPUP_SEARCH = By.xpath("//input[@aria-controls='choosekskdt']");
+	public static final By BTN_DEVICE_ADD = By.xpath("//a[text()='Add']");
+	public static final By BTN_DEVICE_CLOSE = By.xpath("//a[@id='modalcancel']");
+	public static final By LBL_ROW_HEADER = By.xpath("//div[@class='dataTables_scrollHeadInner']//th[text()='Name']");
+	public static final By LBL_COLUMN_DATA = By.xpath("//div[@class='namelefttxt']");
+	public static final By LBL_TABLE_DATA = By
+			.xpath("//div[@class='dataTables_scroll']//td[@class='dataTables_empty']");
+	public static final By LBL_TABLEINFO = By.id("choosekskdt_info");
+	public static final By LBL_CAUTION_ICON = By
+			.xpath("//i[@class='fa fa-exclamation-triangle' and @style='color: #FF4C5B;']");
+	public static final By LBL_TICKMARK_ICON = By
+			.xpath("//i[@class='fa fa-check-circle' and @style='color: #2983C4;']");
+	public static final By LBL_HOVER_MESSAGE = By.xpath("//td[@class='ui-state-hover']");
+	public static final By TXT_DEVICE_STATUS = By.xpath("//span[@id='devicestatus']");
+	public static final By TXT_DEVICE_SUMMARY = By.xpath("//li[@id='Device Summary']");
+	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
+	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
+	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
+	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By TBL_NAME_HEADER = By.xpath("//th[@id='productDataGrid_name']");
 	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='productDataGrid_editor_dropDownButton']");
@@ -135,6 +157,17 @@ public class LocationSummary extends Factory {
 	public static final By TXT_5_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_1']");
 	public static final By TXT_PRODUCTS_COUNT = By.xpath("//span[@id='productDataGrid_pager_label']");
 	public static final By BTN_EXPORT = By.cssSelector("button#productExportBtn");
+	public static final By LBL_TAX_MAPPING = By.xpath("//a[@id='addMapping']");
+	public static final By DPD_TAX_CAT = By.xpath("//select[@id='taxcat']");
+	public static final By DPD_TAX_RATE = By.xpath("//select[@id='taxname']");
+	public static final By LBL_TAX_CAT_SAVE = By.xpath("//a[@id='taxcatsave']");
+	public static final By LBL_TAX_CAT_REMOVE = By.xpath("//a[@id='taxcatremove']");
+	public static final By LBL_TAX_CAT_CANCEL = By.xpath("//a[@id='taxcatcancel']");
+	public static final By TBL_TAX_GRID = By.id("taxmapdt");
+	public static final By TBL_ROW = By.xpath("//*[@id='taxmapdt']/tbody/tr");
+	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
+	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
+	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -206,9 +239,19 @@ public class LocationSummary extends Factory {
 		return productsData;
 	}
 
-	public By objHomeCommercial(String homeCommercial) {
-		return By.xpath("//td[text()='" + homeCommercial + "']");
+	public void showTaxCategory() {
+		try {
+			foundation.click(BTN_MANAGE_COLUMNS);
+			foundation.click(BTN_SHOW);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		foundation.click(BTN_APPLY);
+	}
 
+	public By objTable(String homeCommercial) {
+
+		return By.xpath("//td[text()='" + homeCommercial + "']");
 	}
 
 	public void verifyHasLockerField(String defaultValue) {
@@ -286,7 +329,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
-		foundation.click(objHomeCommercial(imageName));
+		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
@@ -447,6 +490,7 @@ public class LocationSummary extends Factory {
 		List<String> elementsText = new ArrayList<String>();
 		try {
 			List<WebElement> ListElement = getDriver().findElements(columnData);
+
 			for (int i = 0; i < ListElement.size(); i++) {
 				text = ListElement.get(i).getText();
 				elementsText.add(text);
@@ -486,4 +530,10 @@ public class LocationSummary extends Factory {
 	public By objColumnHeaders(String columnName) {
 		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
 	}
+
+	public By objDevice(String deviceName) {
+		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
+
+	}
+
 }
