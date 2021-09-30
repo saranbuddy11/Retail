@@ -9,6 +9,7 @@ public class Configuration {
 	public static final String CURRENT_LOC = "current_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
+	public static final String DASHBOARD_URL = "dashboard_url";
 	public static final String HUB_URL = "Hub_url";
 	public static final String V5_APP_URL = "V5_application_url";
 	public static final String V5_DRIVER_PIN = "V5_Driver_Pin";

@@ -25,6 +25,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Excel {
 

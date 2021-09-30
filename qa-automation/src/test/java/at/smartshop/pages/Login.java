@@ -5,6 +5,7 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.*;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 
 public class Login extends Factory {
@@ -39,7 +40,7 @@ public class Login extends Factory {
 
 	public void logout() {
 		try {
-			foundation.waitforElement(LBL_USER_NAME, Constants.THREE_SECOND);
+			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {

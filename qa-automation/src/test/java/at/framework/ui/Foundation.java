@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -23,9 +25,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.openqa.selenium.Alert;
+
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
+
 import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
@@ -91,6 +94,7 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element [ " + object + " ] and the object is visible");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -102,6 +106,7 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.elementToBeClickable(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element clickable [ " + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -111,8 +116,9 @@ public class Foundation extends Factory {
 	public void refreshPage() {
 		try {
 			getDriver().navigate().refresh();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "page refreshed");
 		} catch (Exception exc) {
-			exc.printStackTrace();
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -133,6 +139,7 @@ public class Foundation extends Factory {
 		Actions action = new Actions(getDriver());
 		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
 		seriesOfActions.perform();
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element +" ] is focused");
 	}
 
 	public boolean isEnabled(By object) {
@@ -152,6 +159,7 @@ public class Foundation extends Factory {
 		int sizeofObj = 0;
 		try {
 			sizeofObj = getDriver().findElements(object).size();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, object + "count of list element is " + sizeofObj +" ");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -162,6 +170,7 @@ public class Foundation extends Factory {
 		try {
 			long timeMilliSec = seconds * 1000;
 			Thread.sleep(timeMilliSec);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,   "thread wait for " + seconds +" seconds");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -173,7 +182,7 @@ public class Foundation extends Factory {
 			WebElement element = getDriver().findElement(object);
 			String colorValue = element.getCssValue("background-color");
 			hexColor = Color.fromString(colorValue).asHex();
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object+ "is "+ hexColor);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -185,7 +194,7 @@ public class Foundation extends Factory {
 			Actions action = new Actions(getDriver());
 			action.doubleClick(getDriver().findElement(object)).perform();
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "double clicked on [ " + object + " ]");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -201,6 +210,7 @@ public class Foundation extends Factory {
 				text = webElement.getText();
 				elementsText.add(text);
 			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -213,9 +223,11 @@ public class Foundation extends Factory {
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listDate);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in ascending manner-"+isSorted);
 		} else if (type.equals(Constants.DESCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listDate);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in decending manner-"+isSorted);
 		}
 		return isSorted;
 	}
@@ -226,9 +238,11 @@ public class Foundation extends Factory {
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listOfText);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-"+isSorted);
 		} else if (type.equals(Constants.DESCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listOfText);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-"+isSorted);
 		}
 		return isSorted;
 	}
@@ -237,6 +251,7 @@ public class Foundation extends Factory {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("document.body.style.zoom = '" + size + "'");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "adjusted browser size to "+size);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -246,6 +261,7 @@ public class Foundation extends Factory {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked object [ " + object + " ] using javascript");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -292,6 +308,7 @@ public class Foundation extends Factory {
 		try {
 			Alert alert = getDriver().switchTo().alert();
 			alert.accept();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Accepted the alert");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -300,10 +317,23 @@ public class Foundation extends Factory {
 	public void alertDismiss() {
 		try {
 			Alert alert = getDriver().switchTo().alert();
-			alert.dismiss();			
+			alert.dismiss();		
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Dismissed the alert");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	public  String getAlertMessage() {
+		String text = null;
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			 text = alert.getText();
+			
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Alert Message ");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return text;
 	}
 
 	public Boolean waitforElementToDisappear(By object, int waitTime) {
@@ -311,10 +341,27 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Waited for element [" + object +" ] to disappear");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
+	}
+	
+	public List<String> getAttributeValueofListElement(By object,String attribute) {
+		String attributeValue = null;
+		List<String> elementsAttributeValue = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				attributeValue = webElement.getAttribute(attribute);
+				elementsAttributeValue.add(attributeValue);
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the element attribute value for the object [" + object +" ]");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsAttributeValue;
 	}
 
 }

@@ -20,5 +20,6 @@ public class Queries {
 	public static final String PICKLIST = "SELECT * FROM QA.dbo.PickList where TestcaseID=";
 	public static final String ORG_SUMMARY = "SELECT * FROM QA.dbo.Org where TestcaseID=";
 	public static final String PRODUCT = "SELECT * FROM QA.dbo.Product where TestcaseID=";
+	public static final String CONSUMER = "SELECT * FROM QA.dbo.Consumer where TestcaseID=";
 	
 }
