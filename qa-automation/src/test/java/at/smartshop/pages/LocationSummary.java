@@ -433,9 +433,14 @@ public class LocationSummary extends Factory {
 	public void deletePaycyle(String location,String payCycle) {
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
-		if(textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])["+totalPaycycleRows+"]")).contains(payCycle))
-		foundation.click(By.xpath("(//button[@class='btn-mini']//i[contains(@class,'delBtn ')])["+totalPaycycleRows+"]"));
-		foundation.threadWait(Constants.ONE_SECOND);
+		for(int i=1;i<=totalPaycycleRows;i++) {
+			if (textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])[" + i + "]"))
+					.contains(payCycle)) {
+				foundation.click(By.xpath("(//button[@class='btn-mini']//i[contains(@class,'delBtn ')])[" + i + "]"));
+				foundation.threadWait(Constants.ONE_SECOND);
+				break;
+			}
+		}	
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
