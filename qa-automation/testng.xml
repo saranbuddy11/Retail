@@ -30,6 +30,7 @@
 			<class name="at.smartshop.tests.Menu"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
 			<class name="at.smartshop.tests.Promotions"/>
+			<class name="at.smartshop.tests.Device"/>
 		</classes>
 	</test> <!-- Test -->
 	
