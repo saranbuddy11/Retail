@@ -106,6 +106,7 @@ public class Reports {
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String CREDIT = "CREDIT";
 	public static final String SPECIAL = "SPECIAL";
+	public static final String BADGE = "BADGE";
 	public static final String GENESIS = "GENESIS";
 	public static final String REJECTED = "REJECTED";
 	public static final String COMP = "COMP";
