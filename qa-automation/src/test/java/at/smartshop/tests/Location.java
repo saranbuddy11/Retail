@@ -406,9 +406,8 @@ public class Location extends TestInfra {
 			foundation.click(locationSummary.objDevice(device));
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -445,9 +444,8 @@ public class Location extends TestInfra {
 			foundation.click(locationSummary.objDevice(device));
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -486,9 +484,8 @@ public class Location extends TestInfra {
 			actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
 			Assert.assertEquals(actualData, device);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -527,9 +524,8 @@ public class Location extends TestInfra {
 			Assert.assertEquals(uiData.get(dbData.get(0)), device);
 			Assert.assertEquals(uiData.get(dbData.get(1)), dbData.get(2));
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -573,9 +569,8 @@ public class Location extends TestInfra {
 			dbData.put(expectedData.get(1), expectedData.get(2));
 			Assert.assertEquals(uiData, dbData);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -650,9 +645,8 @@ public class Location extends TestInfra {
 			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			Assert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -713,9 +707,8 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
 			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objUploadStatus(device)));
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -750,9 +743,8 @@ public class Location extends TestInfra {
 			String actualData = foundation.getText(LocationSummary.LBL_TABLE_DATA);
 			Assert.assertEquals(actualData, expectedData);
 
-		} catch (Exception exc) {
-
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -791,8 +783,9 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
 
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
 		} finally {
 
 			// resetting test data
