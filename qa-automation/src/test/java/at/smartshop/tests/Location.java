@@ -1,6 +1,7 @@
 package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.KioskCreate;
@@ -52,6 +54,7 @@ public class Location extends TestInfra {
 	private Radio radio = new Radio();
 	private Numbers numbers = new Numbers();
 	private Strings string = new Strings();
+	private DeviceList deviceList=new DeviceList();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -745,6 +748,75 @@ public class Location extends TestInfra {
 		} catch (Exception exc) {
 
 			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "146435-QAA-102-ADM>Admin>Devices>Devices Section UI & Fields")
+	public void deviceSectionUILocationSummary() {
+		try {
+			final String CASE_NUM = "146435";
+			
+			// Reading test data from DataBase
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			List<String> devicetabHeaders = Arrays
+						.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Navigating to device tab in location summary page
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
+			assertEquals(foundation.getTextofListElement(LocationSummary.LBL_TBL_HEADER), devicetabHeaders);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "146436-QAA-102-ADM>Location Summary>Devices>Devices Section UI & Fields")
+	public void deviceSectionUIAdminDeviceLocationSummary() {
+		try {
+			final String CASE_NUM = "146436";
+			
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			List<String> devicetabHeaders = Arrays
+						.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			String location=propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to admin>device and verify serial number filter functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,location);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(deviceList.objLocationLink(location));
+			
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
+			assertEquals(foundation.getTextofListElement(LocationSummary.LBL_TBL_HEADER), devicetabHeaders);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

@@ -152,6 +152,9 @@ public class LocationSummary extends Factory {
 	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
 	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
 	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
+	public static final By LBL_TBL_HEADER = By.xpath("//th[contains(@id,'deviceDataGrid_table')]//span[@class='ui-iggrid-headertext']");
+	public static final By LBL_SHOW_RECORDS = By.xpath("//div[@id='deviceDataGrid_table_container']//div[@class='ui-iggrid-results']");
+	public static final By LBL_PAGER = By.id("deviceDataGrid_table_pager");
 
 	public void selectTab(String tabName) {
 		try {
