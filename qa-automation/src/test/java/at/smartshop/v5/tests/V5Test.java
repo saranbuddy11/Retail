@@ -9300,12 +9300,6 @@ public class V5Test extends TestInfra {
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
             assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
-            
-            foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(4));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
             List<String> paymentPageData = Arrays
