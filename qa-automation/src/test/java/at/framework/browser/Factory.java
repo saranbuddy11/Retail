@@ -30,6 +30,7 @@ public class Factory {
 				if (browser.equals(Constants.CHROME)) {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
+					//chromeOptions.addArguments("--headless");
 					Map<String, Object> chromePrefs = new HashMap<>();
 					chromePrefs.put("credientials enable service", false);
 					chromeOptions.setExperimentalOption("prefs", chromePrefs);
@@ -37,7 +38,7 @@ public class Factory {
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setCapability("applicationCacheEnabled", false);
 					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
-					webDriver.set(new ChromeDriver());
+					webDriver.set(new ChromeDriver(chromeOptions));
 				} else if (browser.equals(Constants.FIREFOX)) {
 				} else if (browser.equals(Constants.INTERNET_EXPOLRER)) {
 				}
@@ -46,6 +47,7 @@ public class Factory {
 				if (browser.equals(Constants.CHROME)) {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
+					//chromeOptions.addArguments("--headless");
 					chromeOptions.setExperimentalOption("useAutomationExtension", false);
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setBrowserName("chrome");

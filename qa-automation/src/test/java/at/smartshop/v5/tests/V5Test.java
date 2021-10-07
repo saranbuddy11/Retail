@@ -6362,32 +6362,31 @@ public class V5Test extends TestInfra {
 
 	@Test(description = "143467-QAA-192-Verify when new tax mapping is added, it should display in tax mapping grid in adm and in sales of product in Kiosk.")
 	public void verifyAddingNewTaxRate() {
-		try {
-			final String CASE_NUM = "143467";
+		final String CASE_NUM = "143467";
+		
+		// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 
+		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+		String timeZone = rstLocationData.get(CNLocation.TIMEZONE);
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String taxRateName="";
+		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
-			String timeZone = rstLocationData.get(CNLocation.TIMEZONE);
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			
 			int date = Integer.parseInt(dateAndTime.getDateAndTime(requiredData.get(0), timeZone));
 			String currentDay;
 			if (date < 10) {
@@ -6400,7 +6399,7 @@ public class V5Test extends TestInfra {
 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.click(TaxList.BTN_NEW);
-			final String taxRateName = Constants.ACCOUNT_NAME + string.getRandomCharacter();
+			taxRateName = Constants.ACCOUNT_NAME + string.getRandomCharacter();
 			textBox.enterText(TaxList.TXT_DESCRIPTION, taxRateName);
 			foundation.click(TaxList.BTN_SAVE);
 			textBox.enterText(TaxList.LBL_SEARCH, taxRateName);
@@ -6513,6 +6512,10 @@ public class V5Test extends TestInfra {
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			browser.close();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
 			// resetting test data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -6531,9 +6534,6 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_CLOSE_COMMERCIAL, Constants.SHORT_TIME);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
 		}
 	}
 
