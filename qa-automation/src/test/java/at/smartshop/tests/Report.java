@@ -2349,8 +2349,7 @@ public class Report extends TestInfra {
 			loyaltyUser.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			loyaltyUser.getTblRecordsUI();
 			loyaltyUser.getIntialData().putAll(loyaltyUser.getReportsData());
-			loyaltyUser.getRequiredRecord((String) loyaltyUser.getJsonData().get(Reports.TRANS_DATE_TIME),
-					loyaltyUser.getScancodeData());
+			loyaltyUser.getRequiredRecord(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			// apply calculation and update data
 			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
