@@ -30,6 +30,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
@@ -119,6 +120,7 @@ public class Report extends TestInfra {
 	private UnsoldReport unsold = new UnsoldReport();
 	private LoyaltyUserReport loyaltyUser = new LoyaltyUserReport();
 	private CrossOrgLoyaltyReport crossOrgLoyalty = new CrossOrgLoyaltyReport();
+	private AlcoholSoldDetailsReport alcoholSoldDetails = new AlcoholSoldDetailsReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -2431,13 +2433,78 @@ public class Report extends TestInfra {
 					crossOrgLoyalty.getRequiredJsonData().get(2));
 			crossOrgLoyalty.updateMoney(crossOrgLoyalty.getRequiredJsonData().get(0));
 			crossOrgLoyalty.updatePointsPerDollor();
-			
-			
+
 			// verify report headers
 			crossOrgLoyalty.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			crossOrgLoyalty.verifyReportData();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+	@Test(description = "147403-This test validates Alcohol sold Details Report Data Calculation")
+	public void alcoholSoldDetailsReportData() {
+		try {
+
+			final String CASE_NUM = "147403";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			alcoholSoldDetails.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			alcoholSoldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			alcoholSoldDetails.getTblRecordsUI();
+			alcoholSoldDetails.getIntialData().putAll(alcoholSoldDetails.getReportsData());
+			alcoholSoldDetails.getRequiredRecord(alcoholSoldDetails.getScancodeData());
+
+			// apply calculation and update data
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(0),
+					alcoholSoldDetails.getScancodeData());
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(1),
+					alcoholSoldDetails.getProductNameData());
+			alcoholSoldDetails.updateSales(alcoholSoldDetails.getTableHeaders().get(2),
+					(String) alcoholSoldDetails.getRequiredJsonData().get(0));
+			alcoholSoldDetails.updateTax(alcoholSoldDetails.getTableHeaders().get(3),
+					(String) alcoholSoldDetails.getRequiredJsonData().get(1));
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(4),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(5),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// verify report headers
+			alcoholSoldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			alcoholSoldDetails.verifyReportData();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
