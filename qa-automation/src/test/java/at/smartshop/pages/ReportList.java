@@ -28,8 +28,6 @@ public class ReportList extends Factory {
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
 
 
-
-
 	public void selectReport(String reportName) {
 		try {
 			textBox.enterText(TXT_SEARCH, reportName);
