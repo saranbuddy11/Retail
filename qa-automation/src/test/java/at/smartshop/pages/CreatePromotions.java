@@ -7,13 +7,16 @@ import java.util.Calendar;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+
+import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
-public class CreatePromotions {
+public class CreatePromotions extends Factory  {
 
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
@@ -31,8 +34,14 @@ public class CreatePromotions {
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
-	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
-	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
+	//public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	public static final By DPD_ORG = By.id("org-select");
+	public static final By BTN_ORG_RIGHT = By.id("singleSelectLtoR");
+	
+	//public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
+	public static final By DPD_LOC = By.id("location-select");
+	public static final By BTN_LOC_RIGHT = By.id("singleSelectLtoR-Loc");
+	
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -93,11 +102,19 @@ public class CreatePromotions {
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 			textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		textBox.enterText(DPD_ORG, orgName);
-		textBox.enterText(DPD_ORG, Keys.ENTER);
-		textBox.enterText(DPD_LOC, locationName);
-		textBox.enterText(DPD_LOC, Keys.ENTER);
-		foundation.threadWait(Constants.TWO_SECOND);
+		
+		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		
+		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		
+//		textBox.enterText(DPD_ORG, orgName);
+//		textBox.enterText(DPD_ORG, Keys.ENTER);
+//		textBox.enterText(DPD_LOC, locationName);
+//		textBox.enterText(DPD_LOC, Keys.ENTER);
+//		foundation.threadWait(Constants.TWO_SECOND);
 	}
 
 	public List<String> getPopUpData() {
@@ -154,7 +171,7 @@ public class CreatePromotions {
 			actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
 			}else {
 				textBox.enterText(SEARCH_CATEGORY, item);
-				foundation.threadWait(Constants.ONE_SECOND);
+				foundation.threadWait(Constants.TWO_SECOND);
 				textBox.enterText(SEARCH_CATEGORY, Keys.ENTER);
 				foundation.threadWait(Constants.TWO_SECOND);
 				actualValue = dropDown.getSelectedItem(DPD_CATEGORY);
@@ -208,5 +225,18 @@ public class CreatePromotions {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	
+	public String[] discountRange() {
+		String[] discountprice = null;
+		try {
+			List<WebElement> bundleDiscount = getDriver().findElements(LBL_BUNDLE_DISCOUNT);
+			for (int i=0;i<bundleDiscount.size();i++) {
+				discountprice[i]=foundation.getText(By.xpath("//*[@id='bundlesummary']/b/span["+i+"]"));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return discountprice;
 	}
 }

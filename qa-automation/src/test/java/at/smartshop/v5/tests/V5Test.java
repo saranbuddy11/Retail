@@ -5,10 +5,12 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.awt.font.NumericShaper.Range;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
@@ -6664,7 +6666,8 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 						
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			List<String> bundleDiscount= foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			//String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);--------
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -6703,15 +6706,15 @@ public class V5Test extends TestInfra {
 						
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])>=Double.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1]) && Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])<=Double.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
 						
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+"$"+discount);
 			            
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -6779,7 +6782,8 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 						
 			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			//String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			List<String> bundleDiscount= foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -6818,15 +6822,20 @@ public class V5Test extends TestInfra {
 						
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+	
+			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])>=Double.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1]) && Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])<=Double.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
+
+			
+			//Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 						
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			//assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
+			assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+"$"+discount);
 			            
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -6864,7 +6873,7 @@ public class V5Test extends TestInfra {
 		final String promotionName = string.getRandomCharacter();
 		
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
@@ -6878,7 +6887,7 @@ public class V5Test extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
@@ -6930,13 +6939,13 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-						
+			
 			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 						
 			// verify the display of total section
-			//String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(priceTotal)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 			            
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -6959,7 +6968,10 @@ public class V5Test extends TestInfra {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-					
+			
+			
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
 
@@ -6974,7 +6986,9 @@ public class V5Test extends TestInfra {
 		final String promotionName = string.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));		
+		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		
 		try {
 			// Reading test data from database
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
@@ -6989,7 +7003,6 @@ public class V5Test extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
@@ -7074,13 +7087,13 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
 			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
 			            
-			List<String> orderPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			List<String> paymentPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.objectFocus(order.objText(orderPageData.get(1)));
-			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
+//			List<String> orderPageData = Arrays
+//					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+//			List<String> paymentPageData = Arrays
+//					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+//			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+//			foundation.objectFocus(order.objText(orderPageData.get(1)));
+//			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}finally {
@@ -7094,7 +7107,10 @@ public class V5Test extends TestInfra {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-					
+			
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
+			
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
@@ -7245,6 +7261,7 @@ public class V5Test extends TestInfra {
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		final String promotionName = string.getRandomCharacter();
 		List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Reading test data from database
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
@@ -7260,7 +7277,7 @@ public class V5Test extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
 			// Select Org,Menu and Menu Item
@@ -7353,6 +7370,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
@@ -7700,8 +7719,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
+			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8451,7 +8470,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
+			//foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
 			navigationBar.navigateToMenuItem(navigationMenu.get(2));
 			
 			// Selecting location
@@ -8484,8 +8503,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
+			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
             browser.close();
             
@@ -8742,8 +8761,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
+			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
+			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8856,8 +8875,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
+			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
+			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
