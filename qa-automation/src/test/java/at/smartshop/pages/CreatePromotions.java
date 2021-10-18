@@ -35,8 +35,8 @@ public class CreatePromotions {
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.id("submitBtn");
 	public static final By DPD_LOCATION = By.id("location-select");
-	public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
-	public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
+	//public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	//public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -74,6 +74,10 @@ public class CreatePromotions {
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
 	public static final By DPD_LOCATION_LIST = By.xpath("//ul[@id='select2-location-select-results']//li");
+	public static final By DPD_ORG = By.id("org-select");
+	public static final By BTN_ORG_RIGHT = By.id("singleSelectLtoR");
+	public static final By DPD_LOC = By.id("location-select");
+	public static final By BTN_LOC_RIGHT = By.id("singleSelectLtoR-Loc");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -83,13 +87,19 @@ public class CreatePromotions {
 		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promoName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
-			textBox.enterText(TXT_DISPLAY_NAME, displayName);
+		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		textBox.enterText(DPD_ORG, orgName);
-		textBox.enterText(DPD_ORG, Keys.ENTER);
-		dropDown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-		foundation.threadWait(Constants.TWO_SECOND);
-	}
+		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		// textBox.enterText(DPD_ORG, orgName);
+		// textBox.enterText(DPD_ORG, Keys.ENTER);
+		// textBox.enterText(DPD_LOC, locationName);
+		// textBox.enterText(DPD_LOC, Keys.ENTER);
+		// foundation.threadWait(Constants.TWO_SECOND);
+		}
 
 	public List<String> getPopUpData() {
 
