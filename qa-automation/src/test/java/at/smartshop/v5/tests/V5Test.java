@@ -8454,8 +8454,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
             browser.close();
             
