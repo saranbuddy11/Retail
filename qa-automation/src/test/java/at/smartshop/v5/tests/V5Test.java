@@ -6402,7 +6402,7 @@ public class V5Test extends TestInfra {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-			
+
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
@@ -6665,9 +6665,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 						
-			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			List<String> bundleDiscount= foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
-			//String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);--------
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -6739,8 +6737,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 					
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -6781,8 +6777,6 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
 						
-			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			//String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			List<String> bundleDiscount= foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -6824,9 +6818,6 @@ public class V5Test extends TestInfra {
 			List<String> discountList=foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 	
 			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])>=Double.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1]) && Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1])<=Double.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
-
-			
-			//Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 						
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -6899,9 +6890,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
 			createPromotions.selectBundlePromotionTimes(requiredData.get(4),Constants.DELIMITER_SPACE);
-						
-			String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			//String bundleDiscount= foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT).split(Constants.REPLACE_DOLLOR)[1];
+
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_CONTINUE);
@@ -6969,9 +6958,6 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
-			
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
 
@@ -7087,13 +7073,6 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
 			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
 			            
-//			List<String> orderPageData = Arrays
-//					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-//			List<String> paymentPageData = Arrays
-//					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-//			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-//			foundation.objectFocus(order.objText(orderPageData.get(1)));
-//			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}finally {
@@ -7107,9 +7086,6 @@ public class V5Test extends TestInfra {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
-			
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
 			
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
@@ -7222,10 +7198,7 @@ public class V5Test extends TestInfra {
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
             assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
-			
-            //assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-            //assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            
+
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
@@ -7370,8 +7343,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
@@ -7719,8 +7690,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -7835,8 +7804,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -7948,8 +7915,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8041,11 +8006,6 @@ public class V5Test extends TestInfra {
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
             assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
-			
-           // verify the display of total section
-           // assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-           // assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
-           
            
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
@@ -8070,8 +8030,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);			
 		}
 	}
@@ -8188,8 +8146,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8307,8 +8263,6 @@ public class V5Test extends TestInfra {
 			 navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			 // Deleting the Promotion
-			 //dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			 //foundation.click(PromotionList.BTN_SEARCH);
 			 editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8420,8 +8374,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 		
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8469,8 +8421,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			
-			//foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);			
+		
 			navigationBar.navigateToMenuItem(navigationMenu.get(2));
 			
 			// Selecting location
@@ -8646,8 +8597,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(4), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8761,8 +8710,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8875,8 +8822,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -8989,8 +8934,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -9108,8 +9051,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -9227,8 +9168,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
@@ -9341,8 +9280,6 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
-			//dropDown.selectItem(PromotionList.DPD_STATUS, requiredData.get(6), Constants.TEXT);
-			//foundation.click(PromotionList.BTN_SEARCH);
 			editPromotion.expirePromotion(gridName, promotionName);
 		}
 	}
