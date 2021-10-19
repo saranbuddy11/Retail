@@ -8450,7 +8450,7 @@ public class V5Test extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				
 				// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 			
 			// Deleting the Promotion
@@ -8474,15 +8474,7 @@ public class V5Test extends TestInfra {
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
             assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
-            
-           List<String> orderPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-            List<String> paymentPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-            foundation.objectFocus(order.objText(orderPageData.get(1)));
-			order.completeOrder(orderPageData.get(1),paymentPageData.get(0), paymentPageData.get(1));
-                  
+                        
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
