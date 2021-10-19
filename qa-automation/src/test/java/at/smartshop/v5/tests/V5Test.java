@@ -8562,7 +8562,7 @@ public class V5Test extends TestInfra {
 	        // verify the display of total section
             assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
             assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-            assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+            assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
             
            List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
