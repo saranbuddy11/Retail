@@ -16,21 +16,23 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
-public class ConsumerSearch extends Factory{
+public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
-	
+
 	private static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
 	private static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
-	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
+	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -46,40 +48,41 @@ public class ConsumerSearch extends Factory{
 
 	}
 
-	public By objCell(String consumerName) {		
-			return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");		
+	public By objCell(String consumerName) {
+		return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='" + consumerName + "']");
 	}
-	
+
 	public void verifyConsumerSummary(String consumerName) {
 		foundation.click(objCell(consumerName));
 		Assert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_CONSUMER_SUMMARY).isDisplayed());
 	}
-	
+
 	public List<String> getConsumerHeaders() {
-        List<String> tableHeaders = new ArrayList<>();
-        try {
-            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
-            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
-            for (WebElement columnHeader : columnHeaders) {
-                tableHeaders.add(columnHeader.getText());
-            }
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-        return tableHeaders;
-    }
-	
-    public Map<String, String> getConsumerRecords(String location) {
-        Map<String, String> consumerRecord = new LinkedHashMap<>();
-        try {
-            List<String> tableHeaders = getConsumerHeaders();
-            for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-                WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"+location+"')]//..//..//td[" + columnCount + "]"));
-                consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
-            }
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-        return consumerRecord;
-    }
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return tableHeaders;
+	}
+
+	public Map<String, String> getConsumerRecords(String location) {
+		Map<String, String> consumerRecord = new LinkedHashMap<>();
+		try {
+			List<String> tableHeaders = getConsumerHeaders();
+			for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+				WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"
+						+ location + "')]//..//..//td[" + columnCount + "]"));
+				consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return consumerRecord;
+	}
 }

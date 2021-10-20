@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
-import at.smartshop.tests.TestInfra;
 
 public class Table extends Factory{
 	
