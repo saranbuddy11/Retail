@@ -154,6 +154,9 @@ public class LocationSummary extends Factory {
 	public static final By LBL_PAGER = By.id("deviceDataGrid_table_pager");
 	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By TXT_PAY_CYCLE_NAME = By.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_CYCLE_SPEND_LIMIT = By.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-spndlimit')]");
+	public static final By DPD_PAYROLL_DEDUCT = By.id("payrolldeduct");
 	public static final By TBL_NAME_HEADER = By.xpath("//th[@id='productDataGrid_name']");
 	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='productDataGrid_editor_dropDownButton']");
 	public static final By TXT_10_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_2']");
@@ -486,7 +489,55 @@ public class LocationSummary extends Factory {
 
 	public By objTaxCategory(String taxCategory) {
 		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
-
+	}
+	
+	public void addPaycyle(String location,String payCycle) {
+		locationList.selectLocationName(location);
+		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));		
+		foundation.click(By.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)["+totalPaycycleRows+"]"));
+		textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);		
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
+	
+	public void deletePaycyle(String location,String payCycle) {
+		locationList.selectLocationName(location);
+		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
+		for(int i=1;i<=totalPaycycleRows;i++) {
+			if (textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])[" + i + "]"))
+					.contains(payCycle)) {
+				foundation.click(By.xpath("(//button[@class='btn-mini']//i[contains(@class,'delBtn ')])[" + i + "]"));
+				foundation.threadWait(Constants.ONE_SECOND);
+				break;
+			}
+		}	
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
+	
+	public void turnOnOROffPayRollDeduct(String location,String yesORno) {
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
+	
+	public void editPaycyle(String location,String payCycle,String updatedPaycycle) {
+		locationList.selectLocationName(location);
+		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		for(int i=1;i<=totalPaycycleRows;i++) {
+			if(textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])["+i+"]")).contains(payCycle))
+			{
+			textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])["+i+"]"), updatedPaycycle);
+			foundation.threadWait(Constants.ONE_SECOND);
+			}
+		}		
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
 	public List<String> getColumnValues(By columnData) {

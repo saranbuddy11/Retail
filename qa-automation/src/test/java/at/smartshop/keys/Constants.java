@@ -83,5 +83,7 @@ public class Constants {
 	public static final String AUTOMATION = "automation";
 	public static final String SHOW = "Show";
 	public static final String HIDE = "Hide";
+	public static final String AUTO_TEST_EMAIL = "@autotestemail.com";
+	public static final String AUTO_TEST = "Autotest";
 	public static final String SCHEDULED = "Scheduled";
 }

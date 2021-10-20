@@ -40,5 +40,6 @@ public class CNLocationSummary {
 	public static final String SPEND_LIMIT = "SpendLimit";
     public static final String ENABLE_RETRIEVE_ACCOUNT = "EnableRetrieveAccount";
     public static final String HAS_LOCKERS = "HasLocker";
+    public static final String PAYROLL_DEDUCT = "Payroll";
 
 }

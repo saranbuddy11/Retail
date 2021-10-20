@@ -35,6 +35,8 @@ public class ConsumerSummary {
 	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By LBL_POPUP_ADJUST_BALANCE = By.id("reasontitle");
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
+	public static final By DPD_PAY_CYCLE = By.id("paycycle");
+	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
 
 	public double getBalance() {
 		double initBalance = 0;

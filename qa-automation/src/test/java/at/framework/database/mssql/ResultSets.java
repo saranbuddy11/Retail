@@ -86,8 +86,8 @@ public class ResultSets extends Connections {
 				rstConsumerSearch.put(CNConsumerSearch.ACTIONS, resultSet.getString(CNConsumerSearch.ACTIONS));
 				rstConsumerSearch.put(CNConsumerSearch.SHEET_NAME, resultSet.getString(CNConsumerSearch.SHEET_NAME));
 				rstConsumerSearch.put(CNConsumerSearch.ATTRIBUTE, resultSet.getString(CNConsumerSearch.ATTRIBUTE));
+				rstConsumerSearch.put(CNConsumerSearch.FIRST_NAME, resultSet.getString(CNConsumerSearch.FIRST_NAME));
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -274,8 +274,9 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNLocationSummary.ENABLE_RETRIEVE_ACCOUNT));
 				rstLocationSummary.put(CNLocationSummary.HAS_LOCKERS,
 						resultSet.getString(CNLocationSummary.HAS_LOCKERS));
+				rstLocationSummary.put(CNLocationSummary.PAYROLL_DEDUCT,
+						resultSet.getString(CNLocationSummary.PAYROLL_DEDUCT));
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -313,8 +314,8 @@ public class ResultSets extends Connections {
 				rstConsumerSummary.put(CNConsumerSummary.PHONE, resultSet.getString(CNConsumerSummary.PHONE));
 				rstConsumerSummary.put(CNConsumerSummary.EMAIL, resultSet.getString(CNConsumerSummary.EMAIL));
 				rstConsumerSummary.put(CNConsumerSummary.AMOUNT, resultSet.getString(CNConsumerSummary.AMOUNT));
+				rstConsumerSummary.put(CNConsumerSummary.PAY_CYCLE, resultSet.getString(CNConsumerSummary.PAY_CYCLE));
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
@@ -410,7 +411,6 @@ public class ResultSets extends Connections {
 				rstLocationList.put(CNLocationList.COLUMN_NAME, resultSet.getString(CNLocationList.COLUMN_NAME));
 				rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
 				rstLocationList.put(CNLocationList.SHOW_RECORDS, resultSet.getString(CNLocationList.SHOW_RECORDS));
-
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
