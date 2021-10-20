@@ -14,9 +14,9 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
 public class Order {
-	 private Foundation foundation=new Foundation();
-	 private TextBox textBox=new TextBox();
-	 private PropertyFile propertyFile= new PropertyFile();
+	private Foundation foundation = new Foundation();
+	private TextBox textBox = new TextBox();
+	private PropertyFile propertyFile = new PropertyFile();
 
 	public static final By BTN_CANCEL_ORDER = By.xpath("//button[text()='Cancel Order']");
 	public static final By LBL_ORDER_CANCELLED = By.xpath("//span[text()='Transaction Cancelled']");
@@ -40,44 +40,41 @@ public class Order {
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div");
 	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div");
-	public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
 
-	    public static final By LBL_PROMOTION_NAME = By.className("product-name");
-	    public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
-	    public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
-	    public static final By LBL_EMAIL=By.xpath("//h3[text()='Email']//..");	
-	    public static final By LBL_MULTI_PRODUCTS= By.xpath("//*[@class='product-price']");
-	    public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
-	    
-	    public By objText(String text) {
-			return By.xpath("//*[text()='"+text+"']");
+	public static final By LBL_PROMOTION_NAME = By.className("product-name");
+	public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
+	public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
+	public static final By LBL_MULTI_PRODUCTS = By.xpath("//*[@class='product-price']");
+	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
+
+	public By objText(String text) {
+		return By.xpath("//*[text()='" + text + "']");
 	}
 
 	public void verifyOrderPageLanguage(String order) {
-	    List<String> orderPageData = Arrays.asList(order.split(Constants.DELIMITER_TILD));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(0))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(1))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(2))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(3))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(4))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(5))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(6))));
-	    foundation.objectFocus(objText(orderPageData.get(7)));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
-	    Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
-	}	
-	
-	public void completeOrder(String email,String purchaseComplete, String yesButton) {
+		List<String> orderPageData = Arrays.asList(order.split(Constants.DELIMITER_TILD));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(0))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(1))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(2))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(3))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(4))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(5))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(6))));
+		foundation.objectFocus(objText(orderPageData.get(7)));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
+		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
+	}
+
+	public void completeOrder(String email, String purchaseComplete, String yesButton) {
 		foundation.click(objText(email));
 		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
-		textBox.enterKeypadText(
-				propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_NEXT);
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		//foundation.click(objText(email));
+		// foundation.click(objText(email));
 		Assert.assertTrue(foundation.isDisplayed(objText(purchaseComplete)));
 
 		foundation.click(objText(yesButton));
@@ -111,8 +108,8 @@ public class Order {
 
 		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
 	}
-	
-	public String getSubtotal() {		
+
+	public String getSubtotal() {
 		String uiSubTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
 		return uiSubTotal;
 	}

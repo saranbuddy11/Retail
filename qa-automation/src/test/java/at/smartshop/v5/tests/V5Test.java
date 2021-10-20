@@ -41,7 +41,9 @@ import at.smartshop.pages.CategoryList;
 import at.smartshop.pages.CategorySummary;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.DeviceSummary;
+import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
@@ -50,6 +52,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.pages.TaxList;
@@ -118,6 +121,8 @@ public class V5Test extends TestInfra {
 	private Table table = new Table();
 	private ReportList reportList = new ReportList();
 	private TaxList taxList = new TaxList();
+	private EditPromotion editPromotion=new EditPromotion();
+	private CreatePromotions createPromotions=new CreatePromotions();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
