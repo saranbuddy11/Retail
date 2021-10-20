@@ -15,4 +15,8 @@ public class DeviceList {
 	public By objDeveiceLink(String deviceName) {
 		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='"+deviceName+"']");
 	}
+	
+	public By objLocationLink(String location) {
+		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_locationlink']//a[text()='"+location+"']");
+	}
 }
