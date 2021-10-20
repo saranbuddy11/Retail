@@ -916,7 +916,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141780 - To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
+	@Test(description = "141780-To Verify Creating Tender Discount promotion (Tender Type set as Credit)")
 	public void verifyTenderDiscountPromotions() {
 		final String CASE_NUM = "141780";
 		
@@ -929,7 +929,7 @@ public class Promotions extends TestInfra {
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
 		try {
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			

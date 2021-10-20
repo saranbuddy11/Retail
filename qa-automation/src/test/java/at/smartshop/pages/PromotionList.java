@@ -80,5 +80,4 @@ public class PromotionList extends Factory {
 		editPromotion.expirePromotion(gridName, promotionName);
 		foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 	}
-
 }

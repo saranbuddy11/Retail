@@ -4,6 +4,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.smartshop.keys.Constants;
@@ -12,7 +13,8 @@ public class EditPromotion extends Factory {
 
 	private Table table = new Table();
 	private Foundation foundation = new Foundation();
-
+	private Dropdown dropDown = new Dropdown();
+	
 	public static final By DPD_CATEGORY=By.id("categorySelectInput");
 	public static final By BTN_NEXT =By.xpath("//button[text()='Next']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
@@ -33,7 +35,10 @@ public class EditPromotion extends Factory {
 	public static final By TXT_POPUP_ALERT_MSG = By.xpath("//div[@class='ajs-content']");
 
 	public void expirePromotion(String dataGridname, String promoName) {
-		
+		if(!foundation.isDisplayed(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"))){
+			dropDown.selectItem(PromotionList.DPD_STATUS, Constants.SCHEDULED, Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
+		}
 		table.selectRow(dataGridname, promoName);
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 		foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);

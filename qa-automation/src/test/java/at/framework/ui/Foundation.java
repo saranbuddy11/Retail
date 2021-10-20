@@ -364,4 +364,16 @@ public class Foundation extends Factory {
 		return elementsAttributeValue;
 	}
 
+	public String getAttributeValue(By object) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(Constants.ATTRIBUTE_VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
+	}
 }

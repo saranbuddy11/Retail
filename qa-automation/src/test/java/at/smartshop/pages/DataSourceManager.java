@@ -14,8 +14,7 @@ public class DataSourceManager extends Factory {
 	
     public void unCheckCheckBox(String reportName) {
         try {
-        	textBox.enterText(TXT_SEARCH, reportName);
-        	
+        	textBox.enterText(TXT_SEARCH, reportName);        	
         	By objCheckBox=By.xpath ("//td[text()='"+reportName+"']//..//td[@aria-describedby='datasourcemangergrid_issfenabled']/label/input");
         	checkBox.unCheck(objCheckBox);
                 

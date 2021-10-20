@@ -1,23 +1,24 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.reportsetup.ExtFactory;
+import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
-public class CreatePromotions {
+public class CreatePromotions extends Factory  {
 
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
@@ -33,10 +34,8 @@ public class CreatePromotions {
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
-	public static final By BTN_NEXT = By.id("submitBtn");
+	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
-	//public static final By DPD_ORG = By.xpath("//input[@placeholder='Select Org(s) to include']");
-	//public static final By DPD_LOC = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -78,7 +77,18 @@ public class CreatePromotions {
 	public static final By BTN_ORG_RIGHT = By.id("singleSelectLtoR");
 	public static final By DPD_LOC = By.id("location-select");
 	public static final By BTN_LOC_RIGHT = By.id("singleSelectLtoR-Loc");
-
+	public static final By TXT_QUANTITY=By.id("bundleItem0");
+	public static final By TXT_BUNDLE_PRICE =By.id("bundleprice");
+	public static final By LBL_TOTAL_PRICE =By.id("totalprice");
+	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
+	public static final By TXT_ITEM1 = By.xpath("//*[@id='itemSelect']//li/input");
+	public static final By CHK_NO_END_DATE =By.id("hasnoenddate");
+	public static final By RB_BUNDLE_AMOUNT=By.id("bundleAmountCheckbox");
+	public static final By CHK_BUNDLE_OVERFLOW =By.id("hasoverflow");
+	public static final By DPD_DEVICE =By.id("device-select");
+	public static final By RB_BUNDLE_PRICE=By.id("bundlePriceCheckbox");
+	public static final By DPD_LOCATION_REMOVE=By.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
@@ -130,15 +140,98 @@ public class CreatePromotions {
 		}
 	}
 	
+	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,String locationName) {
+		try {
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(LBL_CREATE_PROMOTION);
+			newPromotion(promotionType, promotionName, displayName, orgName, locationName);
+			foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(BTN_NEXT);
+			foundation.waitforElement(DPD_DISCOUNT_BY, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}		
+			
+	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,String discountType) {
+		try {
+			String actualValue;
+			dropDown.selectItem(DPD_DISCOUNT_BY, discountBy, Constants.TEXT);
+			if (!discountBy.equalsIgnoreCase(discountType)) {
+			textBox.enterText(TXT_ITEM, item);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(TXT_ITEM, Keys.ENTER);
+			foundation.threadWait(Constants.TWO_SECOND);
+			actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
+			}else {
+				textBox.enterText(SEARCH_CATEGORY, item);
+				foundation.threadWait(Constants.TWO_SECOND);
+				textBox.enterText(SEARCH_CATEGORY, Keys.ENTER);
+				foundation.threadWait(Constants.TWO_SECOND);
+				actualValue = dropDown.getSelectedItem(DPD_CATEGORY);
+			}
+			assertEquals(actualValue, item);
+			textBox.enterText(TXT_TRANSACTION_MIN, transactionMin);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void selectBundlePromotionPricing(String bundlePrice) {
+		try {
+			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);	
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	public void selectBundlePromotionTimes(String discountTime,String discountDuration) {
+		try {
+			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
+			if (!Constants.DELIMITER_SPACE.equals(discountDuration))
+				dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 	public void recurringDay() {
-        try {
-            Calendar calendar = Calendar.getInstance();
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
-            ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
-            
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
+		try {
+			Calendar calendar = Calendar.getInstance();
+			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
+			
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void tenderDiscountDetails(String tenderType, String discountType,String applyDIscountTo, String discountAmount, String transactionAmount) {
+		try {
+			dropDown.selectItem(MULTI_SELECT_TENDER_TYPES, tenderType, Constants.TEXT);
+			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
+			dropDown.selectItem(DPD_APPLY_DISCOUNT_TO, applyDIscountTo, Constants.TEXT);
+			if(foundation.isDisplayed(TXT_AMOUNT))
+				textBox.enterText(TXT_AMOUNT,discountAmount);
+			else
+				textBox.enterText(TXT_DISCOUNT_PERCENTAGE,discountAmount);
+				
+			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public String[] discountRange() {
+		String[] discountprice = null;
+		try {
+			List<WebElement> bundleDiscount = getDriver().findElements(LBL_BUNDLE_DISCOUNT);
+			for (int i=0;i<bundleDiscount.size();i++) {
+				discountprice[i]=foundation.getText(By.xpath("//*[@id='bundlesummary']/b/span["+i+"]"));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return discountprice;
+	}
 }

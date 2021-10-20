@@ -19,6 +19,7 @@ public class ProductSearch {
 	public static final By LBL_PROD_COUNT =By.xpath("//span[@data-reactid='.0.c.0.0.1.0.1.0']");
 	public static final By LBL_PROD_MESSAGE =By.xpath("//span[@data-reactid='.0.c.0.0.1.0.1.2']");
 	public static final By LINK_CLOSE_POPUP = By.xpath("//i[@data-reactid='.0.c.0.0.0.2.0']");
+	public static final By LBL_PRODUCT_SCANCODE = By.xpath("//button[@class='product search-product']/span[@class='product-scan-code']");
 	
 	private Foundation foundation=new Foundation();
 	public By objText(String text) {

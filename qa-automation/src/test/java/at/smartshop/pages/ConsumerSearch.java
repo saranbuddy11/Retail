@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -19,7 +21,10 @@ public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
-	private static final By DPD_LOCATION = By.id("loc-dropdown");
+	private Strings strings=new Strings();
+	private Numbers numbers=new Numbers();
+	
+	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
@@ -35,6 +40,11 @@ public class ConsumerSearch extends Factory {
 	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
 	public final static By TXT_EMAIL = By.id("email");
 	public final static By TXT_SCAN_ID = By.id("scanid");
+	public final static By TXT_FIRST_NAME = By.id("firstname");
+	public final static By TXT_LAST_NAME = By.id("lastname");
+	public final static By TXT_PIN = By.id("pin");
+	public static final By DPD_PAY_CYCLE = By.id("paycycle");
+	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
 	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -60,31 +70,44 @@ public class ConsumerSearch extends Factory {
 	}
 
 	public List<String> getConsumerHeaders() {
-		List<String> tableHeaders = new ArrayList<>();
-		try {
-			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
-			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
-			for (WebElement columnHeader : columnHeaders) {
-				tableHeaders.add(columnHeader.getText());
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return tableHeaders;
-	}
-
-	public Map<String, String> getConsumerRecords(String location) {
-		Map<String, String> consumerRecord = new LinkedHashMap<>();
-		try {
-			List<String> tableHeaders = getConsumerHeaders();
-			for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-				WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"
-						+ location + "')]//..//..//td[" + columnCount + "]"));
-				consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
-			}
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return consumerRecord;
-	}
+        List<String> tableHeaders = new ArrayList<>();
+        try {
+            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+            for (WebElement columnHeader : columnHeaders) {
+                tableHeaders.add(columnHeader.getText());
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+        return tableHeaders;
+    }
+	
+    public Map<String, String> getConsumerRecords(String location) {
+        Map<String, String> consumerRecord = new LinkedHashMap<>();
+        try {
+            List<String> tableHeaders = getConsumerHeaders();
+            for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+                WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"+location+"')]//..//..//td[" + columnCount + "]"));
+                consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+            }
+        } catch (Exception exc) {
+            Assert.fail(exc.toString());
+        }
+        return consumerRecord;
+    }
+    
+    public String createConsumer(String location) {
+    	String emailID=strings.getRandomCharacter()+Constants.AUTO_TEST_EMAIL;
+    	int scanID=numbers.generateRandomNumber(99999, 999999);
+    	int pin=numbers.generateRandomNumber(1000, 9999);
+    	dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+    	textBox.enterText(TXT_FIRST_NAME, Constants.AUTO_TEST+strings.getRandomCharacter());
+    	textBox.enterText(TXT_LAST_NAME, Constants.AUTO_TEST+strings.getRandomCharacter());
+    	textBox.enterText(TXT_EMAIL, emailID);
+    	textBox.enterText(TXT_SCAN_ID, ""+scanID);
+    	textBox.enterText(TXT_PIN, ""+pin);
+    	foundation.click(BTN_CREATE);
+    	return emailID;
+    }
 }

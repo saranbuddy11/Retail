@@ -21,14 +21,11 @@ public class ReportList extends Factory {
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
-	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span > ul > li > input");
+	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
-
-
-
 
 	public void selectReport(String reportName) {
 		try {
