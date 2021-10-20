@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -29,24 +30,27 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.CrossOrgLoyaltyReport;
 import at.smartshop.pages.DataSourceManager;
-import at.smartshop.pages.ICEReport;
-import at.smartshop.pages.InvoiceDetailsReport;
-import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.FinancialRecapReport;
 import at.smartshop.pages.FolioBillingReport;
 import at.smartshop.pages.HealthAheadPercentageReport;
 import at.smartshop.pages.HealthAheadReport;
+import at.smartshop.pages.ICEReport;
+import at.smartshop.pages.IntegrationPaymentReport;
+import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.LoyaltyUserReport;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.NavigationBar;
@@ -114,7 +118,9 @@ public class Report extends TestInfra {
 	private BillingInformationReport billingInformation = new BillingInformationReport();
 	private PersonalChargeReport personalCharge = new PersonalChargeReport();
 	private UnsoldReport unsold = new UnsoldReport();
-
+	private LoyaltyUserReport loyaltyUser = new LoyaltyUserReport();
+	private CrossOrgLoyaltyReport crossOrgLoyalty = new CrossOrgLoyaltyReport();
+	private AlcoholSoldDetailsReport alcoholSoldDetails = new AlcoholSoldDetailsReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -2225,8 +2231,7 @@ public class Report extends TestInfra {
 			personalCharge.updateData(personalCharge.getTableHeaders().get(4), requiredData.get(0));
 			personalCharge.updateData(personalCharge.getTableHeaders().get(5),
 					personalCharge.getRequiredJsonData().get(0));
-			personalCharge.updateData(personalCharge.getTableHeaders().get(6),
-					requiredData.get(2));
+			personalCharge.updateData(personalCharge.getTableHeaders().get(6), requiredData.get(2));
 
 			personalCharge.updateData(personalCharge.getTableHeaders().get(7),
 					(String) personalCharge.getJsonData().get(Reports.TRANS_ID));
@@ -2243,7 +2248,6 @@ public class Report extends TestInfra {
 		}
 
 	}
-
 
 	@Test(description = "146147 -This test validates Unsold Report Data Calculation")
 	public void unsoldReportData() {
@@ -2273,7 +2277,7 @@ public class Report extends TestInfra {
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> columnName = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-			
+
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 
 			locationList.selectLocationName(
@@ -2285,8 +2289,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			dropdown.selectItem(UnsoldReport.DPD_FILTER_BY, menuItems.get(0),
-					Constants.TEXT);
+			dropdown.selectItem(UnsoldReport.DPD_FILTER_BY, menuItems.get(0), Constants.TEXT);
 			unsold.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -2296,13 +2299,211 @@ public class Report extends TestInfra {
 
 			unsold.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			unsold.getTblRecordsUI(columnName.get(0));
-			
+
 			// verify report headers
 			unsold.verifyReportHeaders(columnName.get(1));
 
 			// verify report data
 			unsold.verifySoldProductsExist();
 			unsold.verifyAllUnSoldProductsExist();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+	@Test(description = "146231-This test validates Loyalty User Report Data Calculation")
+	public void loyaltyUserReportData() {
+		try {
+
+			final String CASE_NUM = "146231";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			loyaltyUser.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			loyaltyUser.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			loyaltyUser.getTblRecordsUI();
+			loyaltyUser.getIntialData().putAll(loyaltyUser.getReportsData());
+			loyaltyUser.getRequiredRecord(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			// apply calculation and update data
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(2),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(3), loyaltyUser.getRequiredJsonData().get(2));
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(4), loyaltyUser.getRequiredJsonData().get(0));
+			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(5),
+					(String) loyaltyUser.getJsonData().get(Reports.TRANS_DATE_TIME));
+
+			// verify report headers
+			loyaltyUser.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			loyaltyUser.verifyReportData();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+	@Test(description = "146235-This test validates Cross Org Loyalty Report Data Calculation")
+	public void crossOrgLoyaltyReportData() {
+		try {
+
+			final String CASE_NUM = "146235";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			crossOrgLoyalty.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList
+					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			crossOrgLoyalty.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			crossOrgLoyalty.getTblRecordsUI();
+			crossOrgLoyalty.getIntialData().putAll(crossOrgLoyalty.getReportsData());
+			crossOrgLoyalty.getRequiredRecord(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			crossOrgLoyalty.processAPI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			crossOrgLoyalty.getTblRecordsUI();
+
+			// apply calculation and update data
+			crossOrgLoyalty.updateData(crossOrgLoyalty.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			crossOrgLoyalty.updateData(crossOrgLoyalty.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			crossOrgLoyalty.updateData(crossOrgLoyalty.getTableHeaders().get(2),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			crossOrgLoyalty.updatePoints(crossOrgLoyalty.getTableHeaders().get(4),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			crossOrgLoyalty.updatePoints(crossOrgLoyalty.getTableHeaders().get(5),
+					crossOrgLoyalty.getRequiredJsonData().get(2));
+			crossOrgLoyalty.updateMoney(crossOrgLoyalty.getRequiredJsonData().get(0));
+			crossOrgLoyalty.updatePointsPerDollor();
+
+			// verify report headers
+			crossOrgLoyalty.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			crossOrgLoyalty.verifyReportData();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+	@Test(description = "147403-This test validates Alcohol sold Details Report Data Calculation")
+	public void alcoholSoldDetailsReportData() {
+		try {
+
+			final String CASE_NUM = "147403";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			alcoholSoldDetails.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			alcoholSoldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			alcoholSoldDetails.getTblRecordsUI();
+			alcoholSoldDetails.getIntialData().putAll(alcoholSoldDetails.getReportsData());
+			alcoholSoldDetails.getRequiredRecord(alcoholSoldDetails.getScancodeData());
+
+			// apply calculation and update data
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(0),
+					alcoholSoldDetails.getScancodeData());
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(1),
+					alcoholSoldDetails.getProductNameData());
+			alcoholSoldDetails.updateSales(alcoholSoldDetails.getTableHeaders().get(2),
+					(String) alcoholSoldDetails.getRequiredJsonData().get(0));
+			alcoholSoldDetails.updateTax(alcoholSoldDetails.getTableHeaders().get(3),
+					(String) alcoholSoldDetails.getRequiredJsonData().get(1));
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(4),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			alcoholSoldDetails.updateData(alcoholSoldDetails.getTableHeaders().get(5),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// verify report headers
+			alcoholSoldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			alcoholSoldDetails.verifyReportData();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

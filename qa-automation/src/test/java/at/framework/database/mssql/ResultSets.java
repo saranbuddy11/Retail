@@ -6,7 +6,6 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.testng.Assert;
 
 import at.smartshop.database.columns.CNConsumer;
@@ -373,7 +372,6 @@ public class ResultSets extends Connections {
 			statement = connection.createStatement();
 			sqlQuery = query + testcaseID;
 
-
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstDeviceList.put(CNDeviceList.CC_PROCESSOR, resultSet.getString(CNDeviceList.CC_PROCESSOR));
@@ -694,7 +692,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.PRODUCT_NAME, resultSet.getString(CNLocation.PRODUCT_NAME));
 				rstLocation.put(CNLocation.COLUMN_VALUE, resultSet.getString(CNLocation.COLUMN_VALUE));
 				rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
-
+				rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

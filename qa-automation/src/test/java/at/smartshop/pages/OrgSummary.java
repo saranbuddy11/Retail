@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -30,6 +29,7 @@ public class OrgSummary extends Factory {
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
+	public static final By DPD_TAX_METHOD = By.xpath("//select[@id='taxmethod']");
 	public static final By TXT_DISPLAYNAME = By.id("displayname");
 	public static final By TXT_ADDRESS = By.xpath("//input[@id='address']");
 	public static final By TXT_ZIP = By.xpath("//input[@id='zip']");
@@ -59,7 +59,6 @@ public class OrgSummary extends Factory {
 			.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']");
 	public static final By LBL_COOLER = By.xpath("//div[@id='cooler']//p[@class='green-highlighter']");
 	public static final By LBL_FREEZER = By.xpath("//div[@id='freezer']//p[@class='green-highlighter']");
-	public static final By DPD_TAX_METHOD = By.xpath("//select[@id='taxmethod']");
 	public static final By DPD_PROCESSORACCOUNT = By.cssSelector("select#processoraccount");
 	public static final By TXT_TAXID = By.cssSelector("#operatortaxid");
 	public static final By DPD_GMA_ACCOUNT = By.cssSelector("select#gma");

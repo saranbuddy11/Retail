@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -123,13 +122,11 @@ public class LocationSummary extends Factory {
 			.xpath("//div[@id='promoGrid_editor_list']/..//ul[@class='ui-igcombo-listitemholder']//li");
 	public static final By TAB_TAX_MAPPING = By.id("loc-taxMapping");
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
-	public static final By DPD_TAX_RATE = By.id("taxname");
 	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
 	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
-	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By BTN_DEVICE = By.cssSelector("a#loc-kiosk");
 	public static final By TBL_DEVICE_POPUP_GRID = By
 			.cssSelector("div.dataTables_scroll > div.dataTables_scrollHead > div > table >thead");
@@ -155,6 +152,25 @@ public class LocationSummary extends Factory {
 	public static final By LBL_TBL_HEADER = By.xpath("//th[contains(@id,'deviceDataGrid_table')]//span[@class='ui-iggrid-headertext']");
 	public static final By LBL_SHOW_RECORDS = By.xpath("//div[@id='deviceDataGrid_table_container']//div[@class='ui-iggrid-results']");
 	public static final By LBL_PAGER = By.id("deviceDataGrid_table_pager");
+	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
+	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By TBL_NAME_HEADER = By.xpath("//th[@id='productDataGrid_name']");
+	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='productDataGrid_editor_dropDownButton']");
+	public static final By TXT_10_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_2']");
+	public static final By TXT_5_RECORD = By.xpath("//span[@id='productDataGrid_editor_item_1']");
+	public static final By TXT_PRODUCTS_COUNT = By.xpath("//span[@id='productDataGrid_pager_label']");
+	public static final By BTN_EXPORT = By.cssSelector("button#productExportBtn");
+	public static final By LBL_TAX_MAPPING = By.xpath("//a[@id='addMapping']");
+	public static final By DPD_TAX_CAT = By.xpath("//select[@id='taxcat']");
+	public static final By DPD_TAX_RATE = By.xpath("//select[@id='taxname']");
+	public static final By LBL_TAX_CAT_SAVE = By.xpath("//a[@id='taxcatsave']");
+	public static final By LBL_TAX_CAT_REMOVE = By.xpath("//a[@id='taxcatremove']");
+	public static final By LBL_TAX_CAT_CANCEL = By.xpath("//a[@id='taxcatcancel']");
+	public static final By TBL_TAX_GRID = By.id("taxmapdt");
+	public static final By TBL_ROW = By.xpath("//*[@id='taxmapdt']/tbody/tr");
+	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
+	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
+	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
 
 	public void selectTab(String tabName) {
 		try {
@@ -226,9 +242,19 @@ public class LocationSummary extends Factory {
 		return productsData;
 	}
 
-	public By objHomeCommercial(String homeCommercial) {
-		return By.xpath("//td[text()='" + homeCommercial + "']");
+	public void showTaxCategory() {
+		try {
+			foundation.click(BTN_MANAGE_COLUMNS);
+			foundation.click(BTN_SHOW);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		foundation.click(BTN_APPLY);
+	}
 
+	public By objTable(String homeCommercial) {
+
+		return By.xpath("//td[text()='" + homeCommercial + "']");
 	}
 
 	public void verifyHasLockerField(String defaultValue) {
@@ -306,7 +332,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
-		foundation.click(objHomeCommercial(imageName));
+		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
@@ -348,6 +374,7 @@ public class LocationSummary extends Factory {
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {
 
 		locationList.selectLocationName(location);
+		foundation.waitforElement(LocationSummary.DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
 		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SYNC);
@@ -462,11 +489,12 @@ public class LocationSummary extends Factory {
 
 	}
 
-	public List<String> getColumnValues() {
+	public List<String> getColumnValues(By columnData) {
 		String text = null;
 		List<String> elementsText = new ArrayList<String>();
 		try {
-			List<WebElement> ListElement = getDriver().findElements(LBL_COLUMN_DATA);
+			List<WebElement> ListElement = getDriver().findElements(columnData);
+
 			for (int i = 0; i < ListElement.size(); i++) {
 				text = ListElement.get(i).getText();
 				elementsText.add(text);
@@ -477,10 +505,10 @@ public class LocationSummary extends Factory {
 		return elementsText;
 	}
 
-	public Boolean verifySortAscending() {
+	public Boolean verifySortAscending(By columnData) {
 		boolean ascending = false;
 		try {
-			List<String> listRuleNameAscending = getColumnValues();
+			List<String> listRuleNameAscending = getColumnValues(columnData);
 
 			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listRuleNameAscending);
@@ -491,16 +519,20 @@ public class LocationSummary extends Factory {
 		return ascending;
 	}
 
-	public boolean verifySortDescending() {
+	public boolean verifySortDescending(By columnData) {
 		boolean descending = false;
 		try {
-			List<String> listRuleNameDescending = getColumnValues();
+			List<String> listRuleNameDescending = getColumnValues(columnData);
 			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return descending;
+	}
+
+	public By objColumnHeaders(String columnName) {
+		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
 	}
 
 	public By objDevice(String deviceName) {
