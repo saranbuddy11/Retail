@@ -37,7 +37,6 @@ public class ConsumerSummary {
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
-	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 
 	public double getBalance() {
 		double initBalance = 0;
