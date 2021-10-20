@@ -31,7 +31,7 @@ public class Factory {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
 					chromeOptions.addArguments("--window-size=1920,1080");
-					chromeOptions.addArguments("--headless");
+					//chromeOptions.addArguments("--headless");
 					Map<String, Object> chromePrefs = new HashMap<>();
 					chromePrefs.put("credientials enable service", false);
 					chromeOptions.setExperimentalOption("prefs", chromePrefs);
@@ -48,8 +48,8 @@ public class Factory {
 				if (browser.equals(Constants.CHROME)) {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
-					chromeOptions.addArguments("--window-size=1920,1080");
-					chromeOptions.addArguments("--headless");					
+					//chromeOptions.addArguments("--window-size=1920,1080");
+					//chromeOptions.addArguments("--headless");					
 					chromeOptions.setExperimentalOption("useAutomationExtension", false);
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setBrowserName("chrome");

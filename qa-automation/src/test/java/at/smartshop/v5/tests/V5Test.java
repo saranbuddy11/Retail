@@ -6583,10 +6583,11 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(locationName);
 			locationSummary.selectTab(tabName);
-			foundation.click(LocationSummary.LBL_TAX_MAPPING);
-			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
-			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+			locationSummary.saveTaxMapping(requiredData.get(0), requiredData.get(1));
+//			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+//			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -6698,12 +6699,12 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(3));
 			locationList.selectLocationName(locationName);
 			locationSummary.selectTab(tabName);
-
-			foundation.click(LocationSummary.LBL_TAX_MAPPING);
-			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(2), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
-			locationSummary.selectTab(tabName);
+			locationSummary.saveTaxMapping(requiredData.get(2), requiredData.get(0));
+//			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(2), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+//			locationSummary.selectTab(tabName);
 			textBox.enterText(LocationSummary.TXT_TAX_FILTER, requiredData.get(0));
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_TAX_GRID,
 					LocationSummary.TBL_ROW);
@@ -6887,12 +6888,12 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(3));
 			locationList.selectLocationName(locationName);
 			locationSummary.selectTab(tabName);
-
-			foundation.click(LocationSummary.LBL_TAX_MAPPING);
-			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(1), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
-			locationSummary.selectTab(tabName);
+			locationSummary.saveTaxMapping(requiredData.get(1), requiredData.get(0));
+//			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(1), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+			//locationSummary.selectTab(tabName);
 			textBox.enterText(LocationSummary.TXT_TAX_FILTER, requiredData.get(0));
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_TAX_GRID,
 					LocationSummary.TBL_ROW);

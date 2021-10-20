@@ -1134,6 +1134,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			Thread.sleep(1000);
+			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
