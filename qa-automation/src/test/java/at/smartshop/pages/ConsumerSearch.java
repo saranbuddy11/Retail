@@ -17,7 +17,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
-public class ConsumerSearch extends Factory{
+public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
@@ -30,10 +30,12 @@ public class ConsumerSearch extends Factory{
 	private static final By TXT_SEARCH = By.id("search");
 	private static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
-	public static final By BTN_ADJUST=By.xpath("//a[text()='Adjust']");
+	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
 	public final static By TXT_EMAIL = By.id("email");
@@ -41,7 +43,6 @@ public class ConsumerSearch extends Factory{
 	public final static By TXT_FIRST_NAME = By.id("firstname");
 	public final static By TXT_LAST_NAME = By.id("lastname");
 	public final static By TXT_PIN = By.id("pin");
-	public final static By BTN_CREATE = By.id("submitBtn");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
 	
@@ -59,15 +60,15 @@ public class ConsumerSearch extends Factory{
 
 	}
 
-	public By objCell(String consumerName) {		
-			return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='"+consumerName+"']");		
+	public By objCell(String consumerName) {
+		return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='" + consumerName + "']");
 	}
-	
+
 	public void verifyConsumerSummary(String consumerName) {
 		foundation.click(objCell(consumerName));
 		Assert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_CONSUMER_SUMMARY).isDisplayed());
 	}
-	
+
 	public List<String> getConsumerHeaders() {
         List<String> tableHeaders = new ArrayList<>();
         try {

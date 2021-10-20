@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -23,14 +25,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.openqa.selenium.Alert;
+
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
+
 import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 
 public class Foundation extends Factory {
@@ -295,7 +297,7 @@ public class Foundation extends Factory {
 			File file = new File(filePath);
 			file.delete();
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, filePath+" -File Deleted Successfully");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -362,4 +364,16 @@ public class Foundation extends Factory {
 		return elementsAttributeValue;
 	}
 
+	public String getAttributeValue(By object) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(Constants.ATTRIBUTE_VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
+	}
 }

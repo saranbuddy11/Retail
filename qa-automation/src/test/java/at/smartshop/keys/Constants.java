@@ -4,7 +4,8 @@ public class Constants {
 	private Constants() {
 
 	}
-	public static final String DELIMITER_COLON= ":";
+
+	public static final String DELIMITER_COLON = ":";
 	public static final String DELIMITER_HASH = "#";
 	public static final String DELIMITER_TILD = "~";
 	public static final String DELIMITER_HYPHEN = "-";
@@ -79,8 +80,10 @@ public class Constants {
 	public static final String EMAIL_RESULT_TAIL = "   </tbody>\r\n" + "</table>\r\n" + "</body></html>";
 	public static final String YES = "Yes";
 	public static final String ATTRIBUTE_READ = "aria-readonly";
+	public static final String AUTOMATION = "automation";
 	public static final String SHOW = "Show";
 	public static final String HIDE = "Hide";
 	public static final String AUTO_TEST_EMAIL = "@autotestemail.com";
 	public static final String AUTO_TEST = "Autotest";
+	public static final String SCHEDULED = "Scheduled";
 }
