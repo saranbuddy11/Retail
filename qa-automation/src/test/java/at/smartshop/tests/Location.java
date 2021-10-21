@@ -557,6 +557,14 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
+			
+			//Verifying Device name is present or not
+			if(foundation.isDisplayed(locationSummary.deviceName(device))) {
+			
+			//Deleting the Already Present Device
+			locationSummary.removeDevice(device);
+			}
+				
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
@@ -572,7 +580,7 @@ public class Location extends TestInfra {
 			dbData.put(expectedData.get(0), device);
 			dbData.put(expectedData.get(1), expectedData.get(2));
 			Assert.assertEquals(uiData, dbData);
-
+			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -641,10 +649,16 @@ public class Location extends TestInfra {
 			Assert.assertEquals(actualData, dbData.get(2));
 			// Close
 			foundation.refreshPage();
+			//Verifying the device is present or not
+			if(foundation.isDisplayed(locationSummary.deviceName(dbData.get(3)))) {
+				
+				//Deleting the Already Present Device
+				locationSummary.removeDevice(dbData.get(3));
+				}
+					
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, dbData.get(3));
-			foundation.click(LocationSummary.LBL_COLUMN_DATA);
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			Assert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
@@ -652,6 +666,7 @@ public class Location extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+		
 	}
 
 	@Test(description = "146085-QAA-107-verify created device is displayed in devices tab in location summary page")

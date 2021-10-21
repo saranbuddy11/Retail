@@ -376,4 +376,13 @@ public class Foundation extends Factory {
 		}
 		return textAttribute;
 	}
+	
+	public void navigateToBackPage() {
+		try {
+			getDriver().navigate().back();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated back");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }

@@ -173,6 +173,9 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
 	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
 	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
+	public static final By BTN_REMOVE_DEVICE_ICON = By.xpath("//td[@aria-describedby='deviceDataGrid_table_device']//a[@class='devices']");
+	public static final By BTN_REMOVE_DEVICE = By.xpath("//button[@class='btn btn-danger']");
+	public static final By BTN_YES_REMOVE = By.xpath("//button[text()='Yes, Remove']");
 	
 	public void selectTab(String tabName) {
 		try {
@@ -589,5 +592,16 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
 	}
+	public By deviceName(String devicename) {
+		return By.xpath("//a[text()='" + devicename + "']");
+	}
 
+	public void removeDevice(String device) {
+		foundation.waitforElement(LocationSummary.TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+		foundation.click(LocationSummary.BTN_REMOVE_DEVICE_ICON);
+		foundation.click(LocationSummary.BTN_REMOVE_DEVICE);
+		foundation.click(LocationSummary.BTN_YES_REMOVE);
+		foundation.navigateToBackPage();
+	}
 }
