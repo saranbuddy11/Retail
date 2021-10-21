@@ -45,6 +45,7 @@ public class ConsumerSearch extends Factory {
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
+	public static final By BTN_CREATE_CONSUMER = By.cssSelector("submitBtn");
 	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -107,7 +108,7 @@ public class ConsumerSearch extends Factory {
     	textBox.enterText(TXT_EMAIL, emailID);
     	textBox.enterText(TXT_SCAN_ID, ""+scanID);
     	textBox.enterText(TXT_PIN, ""+pin);
-    	foundation.click(BTN_CREATE);
+    	foundation.click(BTN_CREATE_CONSUMER);
     	return emailID;
     }
 }

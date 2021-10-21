@@ -65,6 +65,7 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
+			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
