@@ -495,9 +495,12 @@ public class LocationSummary extends Factory {
 	
 	public void addPaycyle(String location,String payCycle) {
 		locationList.selectLocationName(location);
-		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));		
+		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		List<String> existingPaycycles = textBox.getValueofListElement(By.xpath("//*[contains(@class,'paycycle-grpname')]"));
+		if(!existingPaycycles.contains(payCycle)) {
 		foundation.click(By.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)["+totalPaycycleRows+"]"));
-		textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);		
+		textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);			
+		}
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);

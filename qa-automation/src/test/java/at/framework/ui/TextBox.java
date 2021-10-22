@@ -1,7 +1,11 @@
 package at.framework.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
@@ -94,6 +98,22 @@ public class TextBox extends Factory {
 		for (int i = 0; i <= priviousText.length(); i++) {
 			foundation.click(By.xpath("//*[text()='Del']"));
 		}
+	}
+	
+	public List<String> getValueofListElement(By object) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				text = webElement.getAttribute("value");
+				elementsText.add(text);
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
 	}
 
 }
