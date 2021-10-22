@@ -586,6 +586,7 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
 			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_SAVE_DONE, Constants.TWO_SECOND);
 			foundation.click(GlobalProduct.LBL_SAVE_DONE);
 			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);

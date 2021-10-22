@@ -408,6 +408,7 @@ public class Location extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
 			foundation.click(LocationSummary.LBL_CAUTION_ICON);
 			foundation.click(locationSummary.objDevice(device));
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.TWO_SECOND);
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
 		} catch (Throwable exc) {
@@ -446,6 +447,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
 			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
 			foundation.click(locationSummary.objDevice(device));
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.TWO_SECOND);
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
 		} catch (Throwable exc) {
