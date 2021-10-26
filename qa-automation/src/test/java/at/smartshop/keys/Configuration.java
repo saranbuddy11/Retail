@@ -41,5 +41,6 @@ public class Configuration {
 	public static final String TEST_RAIL_RUNID = "testRailRunID";
 	public static final String EMAIL_TO = "emailTo";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
+	public static final String DRIVER_USER = "DriverUser";
 
 }
