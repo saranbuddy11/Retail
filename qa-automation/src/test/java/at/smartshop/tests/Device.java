@@ -598,7 +598,7 @@ public class Device extends TestInfra {
 	//navigate to admin>device
 	navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 	textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
-	foundation.threadWait(Constants.ONE_SECOND);
+	foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),Constants.MEDIUM_TIME);
 
 	foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 	foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY,Constants.MEDIUM_TIME);
@@ -627,7 +627,7 @@ public class Device extends TestInfra {
 	//navigate to admin>device
 	navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 	textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
-	foundation.threadWait(Constants.ONE_SECOND);
+	foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),Constants.MEDIUM_TIME);
 
 	foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 	foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY,Constants.MEDIUM_TIME);
@@ -656,7 +656,8 @@ public class Device extends TestInfra {
 	//navigate to admin>device
 	navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 	textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
-	foundation.threadWait(Constants.ONE_SECOND);
+	foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),Constants.MEDIUM_TIME);
+
 
 	foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 	foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY,Constants.MEDIUM_TIME);
@@ -704,9 +705,9 @@ public class Device extends TestInfra {
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
 			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
+			foundation.refreshPage();
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
-			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(deviceList.objDeveiceLink(device));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 			//selecting Hardware type as PicoMarket
