@@ -826,8 +826,47 @@ public class Device extends TestInfra {
 			// searching for newly created kiosk Device
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			
+			for (int i=0;i<deviceName.size();i=i+2)
 			assertTrue(deviceName.contains(device));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "164602-QAA-106-Search for specific Device ip and check if search filter is working fine")
+	public void verifyDeviceSearchByIp() {
+		try {
+			final String CASE_NUM = "164602";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+			String device = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(location);
+			
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
+			
+			
+			// searching for newly created kiosk Device
+			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
+			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
+			for (int i=1;i<deviceName.size();i=i+2)
+				assertTrue(deviceName.get(i).contains(device));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
