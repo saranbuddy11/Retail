@@ -171,7 +171,8 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to edit account and get previous information
 			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
