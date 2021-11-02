@@ -908,14 +908,7 @@ public class Device extends TestInfra {
 			foundation.click(KioskCreate.BTN_CANCEL);
 			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
 			foundation.refreshPage();
-			
-//			navigationBar.navigateToMenuItem(menuItem.get(1));
-//			locationList.selectLocationName(location);
-//			
-//			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-//			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
-//			
-			
+				
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(DeviceList.TBL_ROW);
