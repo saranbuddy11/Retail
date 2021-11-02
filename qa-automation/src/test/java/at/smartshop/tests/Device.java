@@ -14,6 +14,9 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -25,6 +28,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.KioskCreate;
 import at.smartshop.pages.NavigationBar;
 
 public class Device extends TestInfra {
@@ -35,6 +39,9 @@ public class Device extends TestInfra {
 	private DeviceList deviceList=new DeviceList();
 	private Excel excel = new Excel();
 	private Table table = new Table();
+	private Strings string = new Strings();
+	private Numbers numbers = new Numbers();
+	private Dropdown dropDown = new Dropdown();
 	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -572,6 +579,156 @@ public class Device extends TestInfra {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+		}
+	}
+	
+	@Test(description = "164078-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Super User")
+	public void demoOptionSuperUser() {
+		try {
+			final String CASE_NUM = "164078";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
+					Constants.MEDIUM_TIME);
+
+			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
+
+			//Verifying Cooler Type is Present 
+			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+			assertTrue(coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "164079-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Operator user")
+	public void demoOptionOperatorUser() {
+		try {
+			final String CASE_NUM = "164079";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
+					Constants.MEDIUM_TIME);
+
+			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
+
+			//Verifying Cooler Type is not Present 
+			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+			assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "164080-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Driver user")
+	public void demoOptionDriverUser() {
+		try {
+			final String CASE_NUM = "164080";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.DRIVER_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
+					Constants.MEDIUM_TIME);
+
+			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
+
+			//Verifying Cooler Type is not Present 
+			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+			assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "164081-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Super user")
+	public void demoOptionCoolerDropdownSuperUser() {
+		try {
+			final String CASE_NUM = "164081";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+
+			// navigate to create new kiosk Device
+			foundation.click(KioskCreate.BTN_CREATE);
+			textBox.enterText(KioskCreate.TXT_NAME, device);
+			dropDown.selectItem(KioskCreate.DPD_ORG, dbData.get(0), Constants.TEXT);
+			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, dbData.get(1), Constants.TEXT);
+			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_SAVE);
+			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			
+			// searching for newly created kiosk Device
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
+			foundation.click(deviceList.objDeveiceLink(device));
+			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
+			
+			// selecting Hardware type as PicoMarket
+			dropDown.selectItem(KioskCreate.DPD_HARDWARE_TYPE, dbData.get(2), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			
+			// Verifying Cooler Type is Present
+			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+			assertTrue(coolerType.toString().contains(dbData.get(3)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 	}
 }

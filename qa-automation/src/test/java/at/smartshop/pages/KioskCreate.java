@@ -11,4 +11,5 @@ public class KioskCreate {
 	public static final By TXT_TERMINAL_ID = By.id("aprivaterminalid");
 	public static final By TXT_DEVICE_LIST = By.id("Device List");
 	public static final By TXT_IP_ADDRESS = By.id("ipaddress");
+	public static final By DPD_HARDWARE_TYPE = By.id("hwtype");
 }
