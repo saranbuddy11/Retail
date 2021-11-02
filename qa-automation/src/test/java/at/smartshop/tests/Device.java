@@ -871,4 +871,57 @@ public class Device extends TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	@Test(description = "164603-QAA-106-Search for specific Device name and click on cancel")
+	public void verifyNewDeviceIsNotDisplayed() {
+		try {
+			final String CASE_NUM = "164603";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			List<String> dbData = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+
+			// navigate to create new kiosk Device
+			foundation.click(KioskCreate.BTN_CREATE);
+			textBox.enterText(KioskCreate.TXT_NAME, device);
+			dropDown.selectItem(KioskCreate.DPD_ORG, dbData.get(0), Constants.TEXT);
+			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, dbData.get(1), Constants.TEXT);
+			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			foundation.waitforElement(KioskCreate.BTN_CANCEL, Constants.SHORT_TIME);
+			foundation.click(KioskCreate.BTN_CANCEL);
+			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			locationList.selectLocationName(location);
+//			
+//			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+//			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
+//			
+			
+			// searching for newly created kiosk Device
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
+			List<String> deviceName = foundation.getTextofListElement(DeviceList.TBL_ROW);
+			assertTrue(deviceName.contains(Constants.EMPTY_STRING));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 }
