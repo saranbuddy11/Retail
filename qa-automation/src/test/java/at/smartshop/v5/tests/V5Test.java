@@ -384,7 +384,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -537,7 +537,7 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -636,7 +636,8 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to edit account and update pin
 			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
@@ -1849,7 +1850,8 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
 
 		} catch (Throwable exc) {
@@ -2466,7 +2468,8 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(UserProfile.BTN_PRIVACY);
 			String title = foundation.getText(Policy.LBL_POLICY_TITLE);
@@ -2642,7 +2645,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -2802,7 +2805,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -2958,7 +2961,7 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3116,7 +3119,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3276,7 +3279,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3436,7 +3439,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3596,7 +3599,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3756,7 +3759,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3915,7 +3918,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -4186,7 +4189,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
@@ -4224,7 +4227,8 @@ public class V5Test extends TestInfra {
 
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
@@ -4972,7 +4976,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5078,7 +5082,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5186,7 +5190,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5299,7 +5303,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5403,7 +5407,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5500,7 +5504,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -6327,7 +6331,7 @@ public class V5Test extends TestInfra {
 			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
 			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
@@ -6368,7 +6372,8 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
-			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		}
 	}
@@ -6400,7 +6405,7 @@ public class V5Test extends TestInfra {
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -6597,7 +6602,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
@@ -6911,7 +6916,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
@@ -7103,7 +7108,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
