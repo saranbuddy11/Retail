@@ -27,6 +27,7 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
@@ -815,8 +816,6 @@ public class Device extends TestInfra {
 
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location);
 			
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
@@ -915,6 +914,54 @@ public class Device extends TestInfra {
 			assertTrue(deviceName.contains(Constants.EMPTY_STRING));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "164604-QAA-106-Search for specific Device name and click on add")
+	public void verifyDeviceIsNotDisplayed() {
+		try {
+			final String CASE_NUM = "164604";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstDeviceListData.get(CNDeviceList.LOCATION));
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.click(LocationSummary.TBL_DEVICE_LIST);
+			
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
+			Assert.assertFalse(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}finally {
+			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
+			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
+			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
+			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
+			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
+			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			
 		}
 	}
 }

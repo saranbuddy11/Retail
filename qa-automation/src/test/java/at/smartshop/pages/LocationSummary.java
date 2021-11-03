@@ -176,6 +176,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
+	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
 	
 
 	public void selectTab(String tabName) {
