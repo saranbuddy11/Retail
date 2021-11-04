@@ -177,7 +177,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
-	
+	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 
 	public void selectTab(String tabName) {
 		try {
@@ -593,6 +593,10 @@ public class LocationSummary extends Factory {
 	public By objDevice(String deviceName) {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
+	}
+	
+	public void selectDevice(String deviceName) {
+		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
 	}
 
 }
