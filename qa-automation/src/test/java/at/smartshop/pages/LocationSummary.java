@@ -178,7 +178,9 @@ public class LocationSummary extends Factory {
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
-
+	public static final By TBL_DEVICE_HEADER= By.xpath("//*[@id='choosekskdt_wrapper']//th");
+	public static final By TBL_DEVICE_NAME_COLUMN= By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
