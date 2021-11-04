@@ -174,6 +174,8 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
 	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
 	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
+	public static final By LBL_DURATION = By.xpath("//td[@aria-describedby='deviceDataGrid_table_duration']//a");
+	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
 
 	public void selectTab(String tabName) {
 		try {

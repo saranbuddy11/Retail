@@ -22,9 +22,11 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Commission;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.KioskCreate;
 import at.smartshop.pages.NavigationBar;
 
 public class Device extends TestInfra {
@@ -572,6 +574,50 @@ public class Device extends TestInfra {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+		}
+	}
+	
+	@Test(description = "164070-QAA-81-ADM>Super>Device>Device List")
+	public void superDeviceList() {
+		try {
+			final String CASE_NUM = "164070";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+			
+			//verify daily revenue			
+			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to admin>device and verify serial number filter functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			foundation.threadWait(Constants.ONE_SECOND);
+			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+			
+			// download assertion
+			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			//foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			//int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
+			// record count validation
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.click(Commission.BTN_COMMISSION_CANCEL);
+			assertTrue(foundation.isDisplayed(DeviceList.TXT_SEARCH_DEVICE));
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.click(Commission.BTN_COMMISSION_CREATE_NEW);
+			assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
+		}
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+			//foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
 }
