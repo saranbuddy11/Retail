@@ -601,8 +601,6 @@ public class Device extends TestInfra {
 			
 			// download assertion
 			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
-			//foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
-			//int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			// record count validation
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.click(Commission.BTN_COMMISSION_CANCEL);
@@ -617,7 +615,6 @@ public class Device extends TestInfra {
 		finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
-			//foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
 }
