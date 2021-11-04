@@ -1171,6 +1171,7 @@ public class Location extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROW_HEADER));
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
 			foundation.click(LocationSummary.LBL_POPUP_DEPLOY_DEVICE_CLOSE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
 			Assert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
 
