@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,13 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
 import at.smartshop.pages.ProductSummary;
@@ -40,6 +44,7 @@ public class Organization extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
+	private Map<String, String> rstOrgSummaryData;
 
 	@Test(description = "164571-Enter all the valid details in the fields and click on add")
 	public void OrgstrValidDetailsAndSave() {
@@ -402,6 +407,61 @@ public class Organization extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_REMOVE);
 			foundation.alertAccept();
+		}
+
+	}
+	
+	@Test(description = "164103-QAA-78-ADM>Super>Org>Org List")
+	public void OrgValidDetailsSaveAndCancel() {
+
+		final String CASE_NUM = "164103";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+		final String orgName = Constants.AUTO_TEST + string.getRandomCharacter();
+
+		List<String> dbData = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// verify cancel org saving
+			foundation.click(OrgList.BTN_CREATE);
+			textBox.enterText(OrgSummary.TXT_NAME, orgName);
+			foundation.click(OrgSummary.BTN_CANCEL);
+			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
+			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
+			assertTrue(foundation.isDisplayed(OrgList.LBL_NO_RESULT));
+			
+			// verify Create New/save
+			foundation.click(OrgList.BTN_CREATE);
+			textBox.enterText(OrgSummary.TXT_NAME, orgName);
+			dropDown.selectItem(OrgSummary.DPD_SPECIAL_TYPE, dbData.get(0), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, dbData.get(1), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, dbData.get(2), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_SYSTEM, dbData.get(3), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_PAGESET, dbData.get(4), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_CURRENCY, dbData.get(5), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_OPERATOR, orgName);
+			textBox.enterText(OrgSummary.TXT_DISBURSEMENT_EMAIL, dbData.get(6));
+			// Click on Save Button
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(OrgList.TXT_SPINNER_MSG,Constants.SHORT_TIME);
+			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
+			assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
