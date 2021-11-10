@@ -105,7 +105,10 @@ public class OrgSummary extends Factory {
 	public static final By DPD_HAS_CONSUMER_ENGAGEMENT = By.cssSelector("select#hasconsumerengagement");
 	public static final By DPD_HAS_SEND_SNACK = By.cssSelector("select#hassendsnack");
 	public static final By DPD_HAS_LIGHTSPEED = By.cssSelector("select#haslightspeed");
-	public static final By TXT_ABN = By.cssSelector("input#abn");
+	public static final By TXT_ABN = By.cssSelector("input#abn");	
+	public static final By TXT_NAME = By.id("name");
+	public static final By BTN_CANCEL = By.xpath("//button[@id='cancelBtn']");
+	
 
 	public By objVDI(String text) {
 

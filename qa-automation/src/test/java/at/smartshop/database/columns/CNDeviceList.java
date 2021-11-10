@@ -10,4 +10,5 @@ public class CNDeviceList {
 	public static final String SERIAL_NUMBER = "SerialNumber";
 	public static final String DEVICE = "Device";
 	public static final String LOCATION = "Location";
+	public static final String ERROR_MESSAGE = "ErrorMessage";
 }
