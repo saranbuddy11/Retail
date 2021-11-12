@@ -33,6 +33,7 @@ public class ConsumerMove extends Factory {
 	public static final By DPD_MOVE_FROM_LOCATION = By.id("moveform-loc");
 	public static final By BTN_EXPORT= By.id("exportResult");
 	public static final By BTN_HISTORY= By.xpath("//*[text()='History']");
+	public static final By LBL_COMPLETE_MOVE= By.xpath("//*[@class='row-fluid']//span");
 
 	public Map<String, String> getExcelDataAsMap(String filePath) throws IOException {
 		FileInputStream fis = new FileInputStream(filePath);

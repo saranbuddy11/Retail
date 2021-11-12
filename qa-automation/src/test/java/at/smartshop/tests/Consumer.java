@@ -1936,6 +1936,7 @@ public class Consumer extends TestInfra {
 	
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
@@ -1949,53 +1950,63 @@ public class Consumer extends TestInfra {
 			//add pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			dropDown.selectItem(ConsumerMove.DPD_ORG, "AutomationOrg", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, "Automation@365", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, "AutotestSlozojkygf");
-			table.selectRow("AutotestSlozojkygf");
+			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
+			table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			
 			foundation.click(ConsumerMove.BTN_MOVE);
 			foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 			
 			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, "RNous", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, "Hsr Loc", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_SAVE);
-			
-			String path = consumerMove.getFileName();	
-			assertTrue(foundation.isDisplayed(ConsumerMove.BTN_EXPORT));
-			boolean fileExists = foundation.isFileExists(path);
-			if (fileExists == false) {
-				foundation.deleteFile(path);
-			}
-			
-			foundation.click(ConsumerMove.BTN_EXPORT);
+			foundation.waitforElement(ConsumerMove.BTN_EXPORT,Constants.SHORT_TIME);
+			String message= foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
+			assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
 			foundation.threadWait(Constants.SHORT_TIME);
-			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(path));
-
-			Map<String, String> singleRowData= consumerMove.getExcelDataAsMap(path);
-			System.out.println(singleRowData.get("Move Id"));
-			
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			
-			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,
-					ConsumerSearch.TBL_ROW);
-			
-			assertTrue(tableData.containsValue("AutotestSlozojkygf"));
-			
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.click(ConsumerMove.BTN_HISTORY);
-			textBox.enterText(ConsumerMoveHistory.TXT_FILTER, singleRowData.get("Move Id"));
-			Map<String, String> moveHistory = table.getTblSingleRowRecordUI(ConsumerMoveHistory.TBL_MOVE_HISTORY,
-					ConsumerMoveHistory.TBL_HISTORY_DATA);
-			assertTrue(moveHistory.containsValue(singleRowData.get("Move Id")));
+			//commented as reflecting moved Consumer will take 30 min 
+//			String path = consumerMove.getFileName();	
+//			assertTrue(foundation.isDisplayed(ConsumerMove.BTN_EXPORT));
+//			boolean fileExists = foundation.isFileExists(path);
+//			if (fileExists == false) {
+//				foundation.deleteFile(path);
+//			}
+//			
+//			foundation.click(ConsumerMove.BTN_EXPORT);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			// download assertion
+//			Assert.assertTrue(excel.isFileDownloaded(path));
+//
+//			Map<String, String> singleRowData= consumerMove.getExcelDataAsMap(path);
+//			System.out.println(singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID)));
+//			
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			
+//			//search consumer
+//			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
+//			// Enter fields in Consumer Search Page
+//			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), rstConsumerSearchData.get(CNConsumerSearch.SEARCH), propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+//			
+//			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,
+//					ConsumerSearch.TBL_ROW);
+//			
+//			assertTrue(tableData.containsValue(rstConsumerSearchData.get(CNConsumerSearch.SEARCH)));
+//			
+//			navigationBar.navigateToMenuItem(menuItem.get(0));
+//			foundation.click(ConsumerMove.BTN_HISTORY);
+//			textBox.enterText(ConsumerMoveHistory.TXT_FILTER, singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID)));
+//			Map<String, String> moveHistory = table.getTblSingleRowRecordUI(ConsumerMoveHistory.TBL_MOVE_HISTORY,
+//					ConsumerMoveHistory.TBL_HISTORY_DATA);
+//			assertTrue(moveHistory.containsValue(singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2004,21 +2015,21 @@ public class Consumer extends TestInfra {
 			//reveert back the moved consumer
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			
-			dropDown.selectItem(ConsumerMove.DPD_ORG, "RNous", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, "Hsr Loc", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, "AutotestSlozojkygf");
-			table.selectRow("AutotestSlozojkygf");
+			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+			table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			
 			foundation.click(ConsumerMove.BTN_MOVE);
 			foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 			
 			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, "AutomationOrg", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, "Automation@365", Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_SAVE);
 		}
 	}
