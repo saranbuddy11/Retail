@@ -34,6 +34,8 @@ public class ConsumerMove extends Factory {
 	public static final By BTN_EXPORT= By.id("exportResult");
 	public static final By BTN_HISTORY= By.xpath("//*[text()='History']");
 	public static final By LBL_COMPLETE_MOVE= By.xpath("//*[@class='row-fluid']//span");
+	public static final By TBL_CONSUMER= By.xpath("//*[@id='consumerdt_wrapper']//*[@id='consumerdt']");
+	public static final By TBL_CONSUMER_ROW= By.xpath("//*[@id='consumerdt_wrapper']//*[@id='consumerdt']//tbody/tr[@class='odd']//td");
 
 	public Map<String, String> getExcelDataAsMap(String filePath) throws IOException {
 		FileInputStream fis = new FileInputStream(filePath);
