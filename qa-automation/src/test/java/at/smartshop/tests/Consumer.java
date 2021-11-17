@@ -2288,7 +2288,7 @@ public class Consumer extends TestInfra {
 			String notFound=foundation.getText(ConsumerMove.TBL_CONSUMER_ROW);
 			
 			
-			if(notFound.equals(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME))) {
+			if(!notFound.equals(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME))) {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
