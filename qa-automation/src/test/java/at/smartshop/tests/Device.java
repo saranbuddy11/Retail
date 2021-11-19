@@ -25,6 +25,8 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.AssignDeviceToOrg;
+import at.smartshop.pages.Commission;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
@@ -727,6 +729,61 @@ public class Device extends TestInfra {
 			// Verifying Cooler Type is Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
 			assertTrue(coolerType.toString().contains(dbData.get(3)));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	@Test(description = "165988-QAA-89-Verify Commission page is displayed")
+	public void verifyCommissionPage() {
+		try {
+			final String CASE_NUM = "165988";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+
+			assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
+			
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			
+			assertTrue(foundation.isDisplayed(Commission.BTN_CANCEL));
+			assertTrue(foundation.isDisplayed(Commission.BTN_CREATE_NEW));
+			
+			foundation.click(Commission.BTN_CANCEL);
+			foundation.waitforElement(DeviceList.BTN_COMMISSION, Constants.SHORT_TIME);
+			
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			foundation.click(Commission.BTN_CREATE_NEW);
+			foundation.waitforElement(KioskCreate.LBL_KIOSK_CREATE, Constants.SHORT_TIME);
+			
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+			
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			table.selectRow("KSK_TEST_ELOR");
+					//rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
+			
+			foundation.click(AssignDeviceToOrg.BTN_CANCEL);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(Commission.LBL_COMMISSION));
+
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
