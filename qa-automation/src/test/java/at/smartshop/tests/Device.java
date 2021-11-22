@@ -1074,7 +1074,7 @@ public class Device extends TestInfra {
 			
 		}
 	}
-	@Test(description = "C164607-Verify sorting in the Deploy Device UI")
+	@Test(description = "C164607-QAA-106-Verify sorting in the Deploy Device UI")
 	public void verifySortingDevice() {
 		try {
 			final String CASE_NUM = "164607";
