@@ -831,13 +831,6 @@ public class Device extends TestInfra {
 			foundation.click(Commission.TBL_NAME_COLUMN);
 			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
 			foundation.click(Commission.TBL_NAME_COLUMN);
-	
-			foundation.click(Commission.TBL_IP_ADDRESS_COLUMN);
-			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.ASCENDING);
-			foundation.click(Commission.TBL_IP_ADDRESS_COLUMN);
-			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
-			foundation.click(Commission.TBL_IP_ADDRESS_COLUMN);
-	
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
