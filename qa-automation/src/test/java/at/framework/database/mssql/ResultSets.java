@@ -381,6 +381,7 @@ public class ResultSets extends Connections {
 				rstDeviceList.put(CNDeviceList.LOCATION, resultSet.getString(CNDeviceList.LOCATION));
 				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
 				rstDeviceList.put(CNDeviceList.SERIAL_NUMBER, resultSet.getString(CNDeviceList.SERIAL_NUMBER));
+				rstDeviceList.put(CNDeviceList.ERROR_MESSAGE, resultSet.getString(CNDeviceList.ERROR_MESSAGE));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
