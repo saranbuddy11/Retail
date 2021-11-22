@@ -11,4 +11,8 @@ public class Commission {
 	public static final By LBL_RECORD_COUNT= By.id("dt_info");
 	public static final By BTN_PREVIOUS= By.id("prev");
 	public static final By BTN_NEXT= By.id("next");
+	public static final By TBL_ROW= By.xpath("//*[@aria-describedby='dt_info']/tbody/tr");
+	public static final By TBL_COMMISSION= By.id("dt");
+	public static final By TBL_NAME_COLUMN= By.id("Name");
+	public static final By TBL_IP_ADDRESS_COLUMN= By.id("IP Address");
 }
