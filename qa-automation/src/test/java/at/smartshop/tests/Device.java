@@ -805,7 +805,7 @@ public class Device extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			//rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -816,21 +816,25 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
 			
-			dropDown.selectItem(Commission.TXT_SELECT, "10", Constants.VALUE);
-			assertTrue(table.getTblRowCount(Commission.TBL_ROW)<=10);
+			List<String> recordCount = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
 			
-			dropDown.selectItem(Commission.TXT_SELECT, "25", Constants.VALUE);
-			assertTrue(table.getTblRowCount(Commission.TBL_ROW)<=25);
+			dropDown.selectItem(Commission.TXT_SELECT, recordCount.get(0), Constants.VALUE);
+			assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(0)));
 			
-			textBox.enterText(Commission.TXT_SEARCH, "KSK-5616169");
-			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
-					Commission.TBL_ROW);
-			assertTrue(tableData.containsValue("KSK-5616169"));
-			
+			dropDown.selectItem(Commission.TXT_SELECT,  recordCount.get(1), Constants.VALUE);
+			assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(1)));
+						
 			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.ASCENDING);
 			foundation.click(Commission.TBL_NAME_COLUMN);
 			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
 			foundation.click(Commission.TBL_NAME_COLUMN);
+			
+			textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
+					Commission.TBL_ROW);
+			assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
