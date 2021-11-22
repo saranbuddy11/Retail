@@ -42,7 +42,7 @@ public class Configuration {
 	public static final String EMAIL_TO = "emailTo";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
 	public static final String DRIVER_USER = "DriverUser";
+	public static final String SECOND_LOC = "second_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
-
 }
