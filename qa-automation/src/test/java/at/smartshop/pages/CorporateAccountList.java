@@ -40,6 +40,13 @@ public class CorporateAccountList extends Factory {
 	public static final By PHONE_ERROR =  By.id("contactphone-error");
 	public static final By EMAIL_ERROR =   By.id("contactemail-error");	
 	public static final By DISBURSEMENT_DAY =   By.xpath("//input[@id='cbx.crpdisbursementdays.0']");	
+	public static final By DELETE_ACCOUNT =   By.xpath("//a[@class='fa fa-trash icon']");
+	public static final By CONFIRM_DELETE=   By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By VALIDATE_MESSAGE =  By.xpath("//div[@id='checkBoxAlert']");
+	public static final By NO_RECORD =  By.xpath("//span[@id='dataGrid_pager_label']");
+	public static final By DISABLED_CHECKBOX =  By.id("cbx.crpdisbursementdays.1");
+	public static final By VALIDATE_TITLE =  By.id("//div[@id='Corporate List']");
+	public static final By DISBURSEMENT_ERROR_EMAIL = By.id("crpdisbursementemail");
 	
 	public void acceptPopup(String device) {
 		foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
@@ -50,4 +57,6 @@ public class CorporateAccountList extends Factory {
 		foundation.alertAccept();
 		
 	}
+	
+
 }

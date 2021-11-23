@@ -40,58 +40,9 @@ public class CorporateAccount extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 
-	@Test(description = "165276-Enter all the valid details in the fields and click on save button")
-	public void CorporateValidDetails() {
 
-		final String CASE_NUM = "165276";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-
-		final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
-		final String numeric = String.valueOf(numbers.generateRandomNumber(0, 999999999));
-
-		List<String> dbData = Arrays
-				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Create New
-			foundation.click(CorporateAccountList.BTN_CREATE);
-			textBox.enterText(CorporateAccountList.CORPORATE_NAME, device);
-			textBox.enterText(CorporateAccountList.CORPORATE_ADDRESS, device);
-			textBox.enterText(CorporateAccountList.CORPORATE_ZIP, numeric);
-			textBox.enterText(CorporateAccountList.CORPORATE_CITY, device);
-			dropDown.selectItem(CorporateAccountList.CORPORATE_STATE, dbData.get(0), Constants.TEXT);
-			textBox.enterText(CorporateAccountList.CORPORATE_CONTACT, device);
-			textBox.enterText(CorporateAccountList.CORPORATE_PHONENUMBER, numeric);
-			textBox.enterText(CorporateAccountList.CORPORATE_CONTACTEMAIL, dbData.get(1));
-			textBox.enterText(CorporateAccountList.CORPORATE_NOTES, device);
-			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, device);
-			textBox.enterText(CorporateAccountList.DISBURSEMENT_EMAIL, dbData.get(1));
-			textBox.enterText(CorporateAccountList.FINANCIAL_EMAIL, dbData.get(1));
-
-			// Click on Save Button
-			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
-			foundation.click(CorporateAccountList.SAVE_BTN);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "165277-Enter all the valid details in the fields and click on cancel button")
-	public void CorporateCancelValidDetails() {
+	@Test(description = "165277-Enter all the valid details in the fields and click on Cancel and then Save button")
+	public void CorporateCancelAndSaveValidDetails() {
 
 		final String CASE_NUM = "165277";
 		// Reading test data from DataBase
@@ -134,14 +85,44 @@ public class CorporateAccount extends TestInfra {
 			// Click on Cancel Button
 			foundation.waitforElement(CorporateAccountList.CANCEL_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.CANCEL_BTN);
+			foundation.click(CorporateAccountList.CONFIRM_DELETE);
+
+			// Search for recently created Corporate Accounts
+			foundation.refreshPage();
+			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.MEDIUM_TIME);
+
+			// Create New and save the account
+			foundation.click(CorporateAccountList.BTN_CREATE);
+			textBox.enterText(CorporateAccountList.CORPORATE_NAME, device);
+			textBox.enterText(CorporateAccountList.CORPORATE_ADDRESS, device);
+			textBox.enterText(CorporateAccountList.CORPORATE_ZIP, numeric);
+			textBox.enterText(CorporateAccountList.CORPORATE_CITY, device);
+			dropDown.selectItem(CorporateAccountList.CORPORATE_STATE, dbData.get(0), Constants.TEXT);
+			textBox.enterText(CorporateAccountList.CORPORATE_CONTACT, device);
+			textBox.enterText(CorporateAccountList.CORPORATE_PHONENUMBER, numeric);
+			textBox.enterText(CorporateAccountList.CORPORATE_CONTACTEMAIL, dbData.get(1));
+			textBox.enterText(CorporateAccountList.CORPORATE_NOTES, device);
+			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, device);
+			textBox.enterText(CorporateAccountList.DISBURSEMENT_EMAIL, dbData.get(1));
+			textBox.enterText(CorporateAccountList.FINANCIAL_EMAIL, dbData.get(1));
+
+			// Click on Save Button
+			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
+			foundation.click(CorporateAccountList.SAVE_BTN);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Search for recently created Corporate Accounts
+			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(CorporateAccountList.SEARCH_FILTER, device);
+			foundation.click(CorporateAccountList.DELETE_ACCOUNT);
+			foundation.click(CorporateAccountList.CONFIRM_DELETE);
 		}
 	}
 
-	@Test(description = "165278-Update the previous details in the fields and click on save button")
-	public void CorporateUpdateFields() {
+	@Test(description = "165278-Update the previous details in the fields and click on Cancel button and then Save button")
+	public void CorporateUpdateFieldsValidation() {
 
 		final String CASE_NUM = "165278";
 		// Reading test data from DataBase
@@ -163,9 +144,25 @@ public class CorporateAccount extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Search for Previously added Corporate Accounts
+			// Search for Previously added Corporate Accounts, do the changes and cancel
 			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(0));
 			foundation.click(CorporateAccountList.TBL_DATA);
+
+			// do the changes in the fields
+			textBox.enterText(CorporateAccountList.CORPORATE_NAME, dbData.get(1));
+			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, dbData.get(1));
+
+			// Click on Cancel Button
+			foundation.waitforElement(CorporateAccountList.CANCEL_BTN, Constants.SHORT_TIME);
+			foundation.click(CorporateAccountList.CANCEL_BTN);
+			foundation.click(CorporateAccountList.CONFIRM_DELETE);
+
+			// Search for Previously added Corporate Accounts
+			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(0));
+			foundation.click(CorporateAccountList.TBL_DATA);
+
+			// do the changes in the fields and save
 			textBox.enterText(CorporateAccountList.CORPORATE_NAME, dbData.get(1));
 			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, dbData.get(1));
 
@@ -175,12 +172,22 @@ public class CorporateAccount extends TestInfra {
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
+		} finally {
+			// Search for recently updated Corporate Accounts
+			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(1));
+			foundation.click(CorporateAccountList.TBL_DATA);
+			textBox.enterText(CorporateAccountList.CORPORATE_NAME, dbData.get(0));
+			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, dbData.get(0));
 
+			// Click on Save Button
+			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
+			foundation.click(CorporateAccountList.SAVE_BTN);
+		}
 	}
 
-	@Test(description = "165279-Enter the invalid value in Postal code, Phone number and email fields and validate the error message")
-	public void CorporateInvalidDetails() {
+	@Test(description = "165279-Validation for invalid value in Postal code, Phone number and email fields and Maandatory Fields error message")
+	public void CorporateInvalidDetailsValidation() {
 
 		final String CASE_NUM = "165279";
 		// Reading test data from DataBase
@@ -190,9 +197,12 @@ public class CorporateAccount extends TestInfra {
 		List<String> totalExpectedData = Arrays
 				.asList(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
 		String corporate_ZIP = totalExpectedData.get(0);
-		String corporate_Phone = totalExpectedData.get(1);
-		String corporate_Email = totalExpectedData.get(2);
-		String disbursement_Email = totalExpectedData.get(3);
+		String corporate_Phone = totalExpectedData.get(0);
+		String corporate_Email = totalExpectedData.get(1) + Constants.DELIMITER_DOT;
+		String disbursement_Email = totalExpectedData.get(1) + totalExpectedData.get(2);
+		String corporate_Name = totalExpectedData.get(3) + Constants.DELIMITER_DOT;
+		String financial_Name = totalExpectedData.get(3) + totalExpectedData.get(4);
+		String disbursement_Error_Email = totalExpectedData.get(5);
 
 		final String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 
@@ -208,6 +218,7 @@ public class CorporateAccount extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
+			//Validation for Postal code, Phone Number and Email Address
 			// Create New
 			foundation.click(CorporateAccountList.BTN_CREATE);
 
@@ -215,7 +226,7 @@ public class CorporateAccount extends TestInfra {
 			textBox.enterText(CorporateAccountList.CORPORATE_PHONENUMBER, device);
 			textBox.enterText(CorporateAccountList.CORPORATE_CONTACTEMAIL, device);
 			textBox.enterText(CorporateAccountList.DISBURSEMENT_EMAIL, device);
-			
+
 			// Click on Save Button
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
@@ -225,38 +236,13 @@ public class CorporateAccount extends TestInfra {
 			Assert.assertEquals(foundation.getText(CorporateAccountList.EMAIL_ERROR), corporate_Email);
 			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
 
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
+			// Click on Cancel Button
+			foundation.waitforElement(CorporateAccountList.CANCEL_BTN, Constants.SHORT_TIME);
+			foundation.click(CorporateAccountList.CANCEL_BTN);
+			foundation.click(CorporateAccountList.CONFIRM_DELETE);
+			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
 
-	}
-
-	@Test(description = "165280-Validate the error message of Mandatory fields when do not enter any value in fields")
-	public void CorporateMandatoryFieldsValidation() {
-
-		final String CASE_NUM = "165280";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-
-		List<String> totalExpectedData = Arrays
-				.asList(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
-		String corporate_Name = totalExpectedData.get(0);
-		String financial_Name = totalExpectedData.get(1);
-		String disbursement_Email = totalExpectedData.get(2);
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
+			// Validation for Mandatory Fields Error 
 			// Create New
 			foundation.click(CorporateAccountList.BTN_CREATE);
 
@@ -266,45 +252,16 @@ public class CorporateAccount extends TestInfra {
 			// Validate the error Messages
 			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
 			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPOPERATOR_ERROR), financial_Name);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
+			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
+					disbursement_Error_Email);
 
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-	
-	@Test(description = "165281-Remove default checkbox of Disbursement day and validate the error message")
-	public void CorporateCheckboxValidation() {
-
-		final String CASE_NUM = "165281";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Create New
-			foundation.click(CorporateAccountList.BTN_CREATE);
-			foundation.click(CorporateAccountList.DISBURSEMENT_DAY);
-
-		
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
 
-	@Test(description = "165282-Enter already entered name and validate the error message of that")
+	@Test(description = "165282-Validation for already entered name and Disbursement Checkbox")
 	public void CorporateAlreadyEnteredErrorValidation() {
 
 		final String CASE_NUM = "165282";
@@ -314,7 +271,10 @@ public class CorporateAccount extends TestInfra {
 
 		final String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 
-		String expectedData = rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE);
+		List<String> totalExpectedData = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String corporate_Name = totalExpectedData.get(0);
+		String corporate_Checkbox = totalExpectedData.get(1);
 
 		try {
 
@@ -335,8 +295,15 @@ public class CorporateAccount extends TestInfra {
 			// Click on Save Button
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-			// Validate the error Messages
-			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), expectedData);
+			// Validate the error Messages of Already entered Name
+			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
+
+			// Validate the error Messages for Checkbox
+			Assert.assertEquals(foundation.getText(CorporateAccountList.VALIDATE_MESSAGE), corporate_Checkbox);
+
+			// change the checkbox
+			foundation.click(CorporateAccountList.DISBURSEMENT_DAY);
+			foundation.isDisabled(CorporateAccountList.DISABLED_CHECKBOX);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
