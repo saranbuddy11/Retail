@@ -227,7 +227,9 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			//locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -240,7 +242,8 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(DeviceSummary.DPD_SHOW_SEARCH_BTN, requiredData.get(0), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			//locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
 			dropDown.selectItem(LocationSummary.DPD_SHOW_PROD_LOOKUP, requiredData.get(1), Constants.TEXT);
@@ -587,7 +590,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -625,7 +628,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -679,7 +682,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -738,7 +741,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
@@ -755,12 +758,12 @@ public class V5Test extends TestInfra {
 			// save tax mapping
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(requiredData.get(0), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_SAVE);
 
 			// sync machine
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			// login to application
@@ -800,7 +803,7 @@ public class V5Test extends TestInfra {
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.removeTaxMapping(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -841,7 +844,7 @@ public class V5Test extends TestInfra {
 
 			// sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			// launch V5
@@ -906,7 +909,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -953,7 +956,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1018,7 +1021,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElementToDisappear(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			// launch v5 application
@@ -1099,7 +1102,7 @@ public class V5Test extends TestInfra {
 			locationSummary.saveTaxMapping(requiredData.get(2), requiredData.get(8));
 
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1173,7 +1176,7 @@ public class V5Test extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, actualData.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, actualData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -1221,7 +1224,7 @@ public class V5Test extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -1449,7 +1452,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1490,7 +1493,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1534,7 +1537,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1572,7 +1575,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1614,7 +1617,7 @@ public class V5Test extends TestInfra {
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1660,7 +1663,7 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
@@ -1708,7 +1711,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
@@ -1758,7 +1761,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
@@ -1805,7 +1808,7 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1874,7 +1877,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			List<String> requiredData = Arrays
@@ -1904,7 +1907,7 @@ public class V5Test extends TestInfra {
 	public void verifyHomeCommercialJPG() {
 		final String CASE_NUM = "142690";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		final String imageName = string.getRandomCharacter();
 		try {
 
@@ -1956,7 +1959,7 @@ public class V5Test extends TestInfra {
 	public void verifyHomeCommercialPNG() {
 		final String CASE_NUM = "142691";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		final String imageName = string.getRandomCharacter();
 		try {
 			browser.navigateURL(
@@ -2018,7 +2021,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 			List<String> language = Arrays
@@ -2077,7 +2080,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 			List<String> language = Arrays
@@ -2136,7 +2139,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			final String cmrName = string.getRandomCharacter();
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -2188,7 +2191,7 @@ public class V5Test extends TestInfra {
 	public void verifyMultipleHomeCommercial() {
 		final String CASE_NUM = "142695";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		final String cmrName1 = string.getRandomCharacter();
 		final String cmrName2 = string.getRandomCharacter();
 		try {
@@ -2459,7 +2462,7 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2497,7 +2500,7 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4028,7 +4031,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(requiredData.get(2), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
 
 			// login into Kiosk Device add both rate 5 and rate 8 product and verify the
 			// display of tax
@@ -4251,7 +4254,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4291,7 +4294,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4331,7 +4334,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4378,7 +4381,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4955,11 +4958,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5002,7 +5005,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5051,11 +5054,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5107,7 +5110,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5150,7 +5153,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5168,11 +5171,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5219,7 +5222,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5263,7 +5266,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5281,11 +5284,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5330,7 +5333,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5371,7 +5374,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5389,7 +5392,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5432,7 +5435,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -5476,11 +5479,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -5532,7 +5535,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5763,7 +5766,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			// navigate to payment success page and validate No receipt
@@ -6240,7 +6243,7 @@ public class V5Test extends TestInfra {
 
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(2));
-			locationSummary.kiosklanguageSetting(rstV5DeviceData.get(CNV5Device.LOCATION), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			// launch v5 application
@@ -7181,7 +7184,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7291,7 +7294,7 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -7390,7 +7393,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7515,7 +7518,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7627,7 +7630,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7741,7 +7744,7 @@ public class V5Test extends TestInfra {
 						
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7852,7 +7855,7 @@ public class V5Test extends TestInfra {
 						
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -7980,7 +7983,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8113,7 +8116,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8231,7 +8234,7 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -8342,7 +8345,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8468,7 +8471,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -8581,7 +8584,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8696,7 +8699,7 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -8806,7 +8809,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8921,7 +8924,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -9036,7 +9039,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -9154,7 +9157,7 @@ public class V5Test extends TestInfra {
 						
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -9262,7 +9265,7 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -9366,7 +9369,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -9478,7 +9481,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName =propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -9591,7 +9594,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -9703,7 +9706,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -9815,7 +9818,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -9932,7 +9935,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName =propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
@@ -10049,7 +10052,7 @@ public class V5Test extends TestInfra {
 			
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 						
 			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			
