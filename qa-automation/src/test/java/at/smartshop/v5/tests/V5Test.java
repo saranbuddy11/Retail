@@ -1611,7 +1611,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1656,7 +1656,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1703,7 +1703,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1752,7 +1752,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1801,7 +1801,7 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1844,7 +1844,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2258,7 +2258,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2294,7 +2294,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2331,7 +2331,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2371,7 +2371,7 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -4396,7 +4396,7 @@ public class V5Test extends TestInfra {
 			foundation.click(DriverHomePage.LINK_INVENTORY);
 			foundation.waitforElement(InventoryHomePage.TXT_SELECT_ACTION, Constants.SHORT_TIME);
 			Assert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> options = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			inventoryHomePage.verifyInventoryOptions(options);
