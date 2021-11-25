@@ -7,6 +7,7 @@ public class Configuration {
 
 	public static final String CURRENT_ORG = "current_org";
 	public static final String CURRENT_LOC = "current_loc";
+	public static final String SECOND_LOC = "second_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
 	public static final String DASHBOARD_URL = "dashboard_url";
