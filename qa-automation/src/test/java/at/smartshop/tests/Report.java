@@ -1801,8 +1801,8 @@ public class Report extends TestInfra {
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			orderTransactionTime.getTblRecordsUI();
 			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
-			orderTransactionTime
-					.getRequiredRecord((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME));
+			orderTransactionTime.getRequiredRecord(
+					((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 
 			// apply calculation and update data
 			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(1),
