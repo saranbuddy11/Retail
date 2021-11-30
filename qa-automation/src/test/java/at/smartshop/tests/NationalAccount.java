@@ -1486,6 +1486,7 @@ public class NationalAccount extends TestInfra {
 		}	finally {
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			checkBox.unCheck(AdminNationalAccounts.CHK_AUTOADD);
+			foundation.waitforClikableElement(AdminNationalAccounts.BTN_SAVE_MODAL, Constants.THREE_SECOND);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 		}
 	}
