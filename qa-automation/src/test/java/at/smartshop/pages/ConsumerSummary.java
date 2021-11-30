@@ -68,6 +68,7 @@ public class ConsumerSummary {
 		foundation.click(BTN_MOVE);
 		foundation.threadWait(Constants.THREE_SECOND);
 		dropdown.selectItem(DPD_MOVE_ORG, toOrg, Constants.TEXT);
+		foundation.threadWait(Constants.ONE_SECOND);
 		dropdown.selectItem(DPD_MOVE_LOCATION, toLocation, Constants.TEXT);
 		foundation.click(BTN_MODEL_MOVE_SAVE);
 		foundation.alertAccept();
