@@ -15,4 +15,5 @@ public class CNConsumerSearch {
 	public static final String ATTRIBUTE = "Attribute";
 	public static final String LOCATION = "Location";
 	public static final String FIRST_NAME = "FirstName";
+	public static final String SEARCH = "Search";
 }

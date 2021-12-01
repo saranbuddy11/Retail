@@ -174,7 +174,13 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
 	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
 	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
-
+	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
+	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
+	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
+	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
+	public static final By TBL_DEVICE_HEADER= By.xpath("//*[@id='choosekskdt_wrapper']//th");
+	public static final By TBL_DEVICE_NAME_COLUMN= By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+	
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -589,6 +595,10 @@ public class LocationSummary extends Factory {
 	public By objDevice(String deviceName) {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
+	}
+	
+	public void selectDevice(String deviceName) {
+		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
 	}
 
 }

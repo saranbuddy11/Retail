@@ -87,4 +87,6 @@ public class Constants {
 	public static final String AUTO_TEST = "Autotest";
 	public static final String SCHEDULED = "Scheduled";
 	public static final String DELIMITER_DOT= ".";
+	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
+
 }
