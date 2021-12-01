@@ -87,6 +87,7 @@ public class ResultSets extends Connections {
 				rstConsumerSearch.put(CNConsumerSearch.SHEET_NAME, resultSet.getString(CNConsumerSearch.SHEET_NAME));
 				rstConsumerSearch.put(CNConsumerSearch.ATTRIBUTE, resultSet.getString(CNConsumerSearch.ATTRIBUTE));
 				rstConsumerSearch.put(CNConsumerSearch.FIRST_NAME, resultSet.getString(CNConsumerSearch.FIRST_NAME));
+				rstConsumerSearch.put(CNConsumerSearch.SEARCH, resultSet.getString(CNConsumerSearch.SEARCH));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
