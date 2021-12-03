@@ -550,6 +550,7 @@ public class ResultSets extends Connections {
 				rstUserRoles.put(CNUserRoles.ROLE_NAME, resultSet.getString(CNUserRoles.ROLE_NAME));
 				rstUserRoles.put(CNUserRoles.ROW_RECORD, resultSet.getString(CNUserRoles.ROW_RECORD));
 				rstUserRoles.put(CNUserRoles.CLIENT_DROPDOWN, resultSet.getString(CNUserRoles.CLIENT_DROPDOWN));
+				rstUserRoles.put(CNUserRoles.ERROR_MESSAGE, resultSet.getString(CNUserRoles.ERROR_MESSAGE));
 			}
 
 		} catch (Exception exc) {
