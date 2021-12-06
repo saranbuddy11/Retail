@@ -11,6 +11,7 @@ public class DeviceList {
 	public static final By TXT_RECORD_COUNT = By.id("deviceDataGrid_table_pager");
 	public static final By TBL_GRID = By.id("deviceDataGrid_table_headers");
 	public static final By TBL_ROW = By.xpath("//*[@id='deviceDataGrid_table']/tbody");
+	public static final By BTN_COMMISSION = By.id("commissionBtn");
 	
 	public By objDeveiceLink(String deviceName) {
 		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='"+deviceName+"']");

@@ -12,5 +12,6 @@ public class KioskCreate {
 	public static final By TXT_DEVICE_LIST = By.id("Device List");
 	public static final By TXT_IP_ADDRESS = By.id("ipaddress");
 	public static final By DPD_HARDWARE_TYPE = By.id("hwtype");
+	public static final By LBL_KIOSK_CREATE = By.xpath("//div[@class='container-fluid']/div/div/ul/li");
 	public static final By BTN_CANCEL= By.xpath("//button[text()='Cancel']");
 }
