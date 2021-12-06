@@ -378,6 +378,7 @@ public class Foundation extends Factory {
 	}
 	
 
+
 	public boolean isDisabled(By object) {
 		boolean isElementDisabled = true;
 		try {
@@ -392,4 +393,5 @@ public class Foundation extends Factory {
 		}
 		return isElementDisabled;
 	}
+
 }
