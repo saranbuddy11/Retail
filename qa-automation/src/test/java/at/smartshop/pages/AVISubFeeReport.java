@@ -165,10 +165,10 @@ public class AVISubFeeReport extends Factory {
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
 					foundation.click(By
-							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "'][not(contains(@class , 'off'))]"));
+							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
 			} else {
 				foundation.click(
-						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
+						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2) + "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
