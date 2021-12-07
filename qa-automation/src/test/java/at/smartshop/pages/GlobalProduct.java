@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +14,10 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class GlobalProduct extends Factory {
-	
-	private Foundation foundation=new Foundation();
+
+	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
-	
+
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
 	public static final By TBL_GRID = By.id("dataGrid");
@@ -39,13 +38,17 @@ public class GlobalProduct extends Factory {
 	public static final By LBL_ALERT_HEADER = By.xpath("//div[@class='ajs-header']");
 	public static final By LBL_ALERT_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By LBL_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
-	public static final By LBL_EXISTING_SCANCODE = By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode']");
 	public static final By TXT_SCAN_CODE_2 = By.xpath("(//input[@name='scancode'])[2]");
 	public static final By TXT_SCAN_CODE_ERROR = By.xpath("//div[@class='scmsg error' and @style='color: rgb(255, 0, 0);']");
 	public static final By IMG_DATA_GRID_LOADING = By.id("dataGrid_container_loading");
-	
+
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
+	}
+
+	public By getExistingScancode(String scancode) {
+		return By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode' and text()='"
+				+ scancode + "']");
 	}
 
 	public Map<String, String> getTblRecordsUI() {
@@ -97,7 +100,7 @@ public class GlobalProduct extends Factory {
 		foundation.threadWait(Constants.ONE_SECOND);
 		foundation.click(By.xpath("//*[@id='dataGrid_dd_enabled']//span[text()='" + filterType + "']"));
 	}
-	
+
 	public void selectGlobalProduct(String product) {
 		textBox.enterText(TXT_FILTER, product);
 		foundation.click(By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']"));
