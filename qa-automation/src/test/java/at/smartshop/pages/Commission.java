@@ -3,6 +3,8 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 
 public class Commission {
+	public static final By BTN_COMMISSION_CANCEL = By.id("cancelBtn");
+	public static final By BTN_COMMISSION_CREATE_NEW = By.id("newBtn");
 	public static final By LBL_COMMISSION= By.id("Commission");
 	public static final By BTN_CREATE_NEW= By.id("newBtn");
 	public static final By BTN_CANCEL= By.id("cancelBtn");
