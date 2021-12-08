@@ -103,6 +103,23 @@ public class Foundation extends Factory {
 		return element;
 	}
 
+	public WebElement waitforElementToBeVisible(By object, int waitTime) {
+		WebElement element = null;
+		boolean displayed = false;
+		do {
+			try {
+				WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+				element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+				displayed = getDriver().findElement(object).isDisplayed();
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element [ " + object + "] and the object is visible ");
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		} while (!displayed);
+		return element;
+	}
+
 	public WebElement waitforClikableElement(By object, int waitTime) {
 		WebElement element = null;
 		try {

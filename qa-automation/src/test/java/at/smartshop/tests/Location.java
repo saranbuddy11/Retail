@@ -663,7 +663,7 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, dbData.get(3));
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
-			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			Assert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
 
 		} catch (Throwable exc) {
