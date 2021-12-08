@@ -16,7 +16,6 @@ import at.framework.files.PropertyFile;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.tests.TestInfra;
 
 public class Factory {
 
@@ -31,6 +30,8 @@ public class Factory {
 				if (browser.equals(Constants.CHROME)) {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
+					chromeOptions.addArguments("--window-size=1920,1080");
+					//chromeOptions.addArguments("--headless");
 					Map<String, Object> chromePrefs = new HashMap<>();
 					chromePrefs.put("credientials enable service", false);
 					chromeOptions.setExperimentalOption("prefs", chromePrefs);
@@ -38,7 +39,7 @@ public class Factory {
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setCapability("applicationCacheEnabled", false);
 					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
-					webDriver.set(new ChromeDriver());
+					webDriver.set(new ChromeDriver(chromeOptions));
 				} else if (browser.equals(Constants.FIREFOX)) {
 				} else if (browser.equals(Constants.INTERNET_EXPOLRER)) {
 				}
@@ -47,12 +48,14 @@ public class Factory {
 				if (browser.equals(Constants.CHROME)) {
 					capabilities = DesiredCapabilities.chrome();
 					ChromeOptions chromeOptions = new ChromeOptions();
+					//chromeOptions.addArguments("--window-size=1920,1080");
+					//chromeOptions.addArguments("--headless");					
 					chromeOptions.setExperimentalOption("useAutomationExtension", false);
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setBrowserName("chrome");
 					capabilities.setPlatform(Platform.ANY);
 					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
-					chromeOptions.setBinary("/usr/bin/chromium-browser");
+					//chromeOptions.setBinary("/usr/bin/chromium-browser");
 					webDriver.set(new RemoteWebDriver(new URL(	propertyFile.readPropertyFile(Configuration.HUB_URL, FilePath.PROPERTY_CONFIG_FILE)),capabilities));
 
 				} else if (browser.equals(Constants.FIREFOX)) {

@@ -5,8 +5,6 @@ import java.sql.Connection;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.testng.Assert;
 
-import at.smartshop.tests.TestInfra;
-
 public class Connections {
 	public static Connection connection ;
 	private static BasicDataSource dataSource = new BasicDataSource();
