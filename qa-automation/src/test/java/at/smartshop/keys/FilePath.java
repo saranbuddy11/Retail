@@ -26,6 +26,7 @@ public class FilePath {
 	public static final String IMAGE_PIXEL_SIZE = PATH+ "\\src\\test\\resources\\pixelsize1.jpg";
 	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\device.xlsx";
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH+ "\\src\\test\\resources\\device.xlsx";
+	public static final String EXCEL_CONTACT_SRC = HOME_PATH+ "\\Downloads\\contact.xls";
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {

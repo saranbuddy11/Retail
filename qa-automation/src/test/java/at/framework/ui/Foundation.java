@@ -406,4 +406,19 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
+	public boolean isDisabled(By object) {
+		boolean isElementDisabled = true;
+		try {
+			isElementDisabled = getDriver().findElement(object).isEnabled();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is disabled");
+			}
+		} catch (NoSuchElementException exc) {
+			isElementDisabled = false;
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return isElementDisabled;
+	}
 }
