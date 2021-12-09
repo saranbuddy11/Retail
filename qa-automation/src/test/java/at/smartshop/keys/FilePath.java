@@ -24,8 +24,11 @@ public class FilePath {
 	public static final String IMAGE_SIZE_MORE = PATH+ "\\src\\test\\resources\\Earth.jpg";
 	public static final String IMAGE_TEXT_PATH = PATH+ "\\src\\test\\resources\\Capture.txt";
 	public static final String IMAGE_PIXEL_SIZE = PATH+ "\\src\\test\\resources\\pixelsize1.jpg";
-	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\device.xlsx";
+	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\device.xlsx"; 
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH+ "\\src\\test\\resources\\device.xlsx";
+	public static final String EXCEL_DISBURSEMENT_EXPORT_SRC = HOME_PATH+ "\\Downloads\\Disbursement Report 09-22-2020.xls";
+	public static final String EXCEL_VARIANCE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\EFT Variance Report 09-22-2020.xls";
+	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH+ "\\Downloads\\Upload_ 09-22-2020.csv";
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {
