@@ -87,6 +87,7 @@ public class ResultSets extends Connections {
 				rstConsumerSearch.put(CNConsumerSearch.SHEET_NAME, resultSet.getString(CNConsumerSearch.SHEET_NAME));
 				rstConsumerSearch.put(CNConsumerSearch.ATTRIBUTE, resultSet.getString(CNConsumerSearch.ATTRIBUTE));
 				rstConsumerSearch.put(CNConsumerSearch.FIRST_NAME, resultSet.getString(CNConsumerSearch.FIRST_NAME));
+				rstConsumerSearch.put(CNConsumerSearch.SEARCH, resultSet.getString(CNConsumerSearch.SEARCH));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -380,6 +381,7 @@ public class ResultSets extends Connections {
 				rstDeviceList.put(CNDeviceList.LOCATION, resultSet.getString(CNDeviceList.LOCATION));
 				rstDeviceList.put(CNDeviceList.DEVICE, resultSet.getString(CNDeviceList.DEVICE));
 				rstDeviceList.put(CNDeviceList.SERIAL_NUMBER, resultSet.getString(CNDeviceList.SERIAL_NUMBER));
+				rstDeviceList.put(CNDeviceList.ERROR_MESSAGE, resultSet.getString(CNDeviceList.ERROR_MESSAGE));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -548,6 +550,7 @@ public class ResultSets extends Connections {
 				rstUserRoles.put(CNUserRoles.ROLE_NAME, resultSet.getString(CNUserRoles.ROLE_NAME));
 				rstUserRoles.put(CNUserRoles.ROW_RECORD, resultSet.getString(CNUserRoles.ROW_RECORD));
 				rstUserRoles.put(CNUserRoles.CLIENT_DROPDOWN, resultSet.getString(CNUserRoles.CLIENT_DROPDOWN));
+				rstUserRoles.put(CNUserRoles.ERROR_MESSAGE, resultSet.getString(CNUserRoles.ERROR_MESSAGE));
 			}
 
 		} catch (Exception exc) {

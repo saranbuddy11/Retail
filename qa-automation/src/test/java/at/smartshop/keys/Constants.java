@@ -44,6 +44,7 @@ public class Constants {
 	public static final String TIME_ZONE_INDIA = "Asia/Kolkata";
 	public static final String NEW_LINE = "\n";
 	public static final String DOLLAR = "\\$";
+	public static final String DOLLAR_SYMBOL = "$";
 	public static final int ONE_SECOND = 1;
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
@@ -86,4 +87,7 @@ public class Constants {
 	public static final String AUTO_TEST_EMAIL = "@autotestemail.com";
 	public static final String AUTO_TEST = "Autotest";
 	public static final String SCHEDULED = "Scheduled";
+	public static final String TESTING = "Testing";
+	public static final String DELIMITER_DOT= ".";
+	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
 }

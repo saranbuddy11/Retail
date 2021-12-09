@@ -18,6 +18,7 @@
 			<!-- <class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.Consumer"/>
+			<class name="at.smartshop.tests.ConsumerRoles"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
 			<class name="at.smartshop.tests.Location"/>	
 			<class name="at.smartshop.tests.Locker"/>	
@@ -27,6 +28,7 @@
 			<class name="at.smartshop.tests.PickLists"/>
 			<class name="at.smartshop.tests.VDICheck"/>
 			<class name="at.smartshop.tests.OrganizationSummary"/>
+			<class name="at.smartshop.tests.Organization"/>
 			<class name="at.smartshop.tests.Menu"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
 			<class name="at.smartshop.tests.Promotions"/>

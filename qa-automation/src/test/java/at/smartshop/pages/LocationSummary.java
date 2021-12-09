@@ -147,14 +147,18 @@ public class LocationSummary extends Factory {
 	public static final By TXT_DEVICE_NAME = By.xpath("//dd[@id='kioskshow-name']");
 	public static final By TBL_DEVICE_GRID = By.id("deviceDataGrid_table");
 	public static final By TBL_DEVICE_ROW = By.xpath("//table[@id='deviceDataGrid_table']/tbody/tr");
-	public static final By LBL_TBL_HEADER = By.xpath("//th[contains(@id,'deviceDataGrid_table')]//span[@class='ui-iggrid-headertext']");
-	public static final By LBL_SHOW_RECORDS = By.xpath("//div[@id='deviceDataGrid_table_container']//div[@class='ui-iggrid-results']");
+	public static final By LBL_TBL_HEADER = By
+			.xpath("//th[contains(@id,'deviceDataGrid_table')]//span[@class='ui-iggrid-headertext']");
+	public static final By LBL_SHOW_RECORDS = By
+			.xpath("//div[@id='deviceDataGrid_table_container']//div[@class='ui-iggrid-results']");
 	public static final By LBL_PAGER = By.id("deviceDataGrid_table_pager");
 	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DPD_SHOW_DINING = By.id("hasdiningpreference");
-	public static final By TXT_PAY_CYCLE_NAME = By.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
-	public static final By TXT_PAY_CYCLE_SPEND_LIMIT = By.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-spndlimit')]");
+	public static final By TXT_PAY_CYCLE_NAME = By
+			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_CYCLE_SPEND_LIMIT = By
+			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-spndlimit')]");
 	public static final By DPD_PAYROLL_DEDUCT = By.id("payrolldeduct");
 	public static final By TBL_NAME_HEADER = By.xpath("//th[@id='productDataGrid_name']");
 	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='productDataGrid_editor_dropDownButton']");
@@ -173,9 +177,18 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TAX_FILTER = By.cssSelector("#taxmapdt_filter > label > input[type=text]");
 	public static final By BTN_CLOSE_COMMERCIAL = By.xpath("//a[text()='Add Close Commercial']");
 	public static final By DPD_TAX_RATE_2 = By.xpath("//select[@id='targetid']");
-	public static final By BTN_LNK_DEVICE_SUMMARY = By.xpath("//td[@aria-describedby='deviceDataGrid_table_device']//a[@class='devices']");
+	public static final By BTN_LNK_DEVICE_SUMMARY = By
+			.xpath("//td[@aria-describedby='deviceDataGrid_table_device']//a[@class='devices']");
 	public static final By BTN_REMOVE_DEVICE = By.xpath("//button[@class='btn btn-danger']");
 	public static final By BTN_YES_REMOVE = By.xpath("//button[text()='Yes, Remove']");
+	public static final By LBL_DURATION = By.xpath("//td[@aria-describedby='deviceDataGrid_table_duration']//a");
+	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
+	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
+	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
+	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
+	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
+	public static final By TBL_DEVICE_HEADER= By.xpath("//*[@id='choosekskdt_wrapper']//th");
+	public static final By TBL_DEVICE_NAME_COLUMN= By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
 	
 	public void selectTab(String tabName) {
 		try {
@@ -492,54 +505,60 @@ public class LocationSummary extends Factory {
 	public By objTaxCategory(String taxCategory) {
 		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
 	}
-	
-	public void addPaycyle(String location,String payCycle) {
+
+	public void addPaycyle(String location, String payCycle) {
 		locationList.selectLocationName(location);
-		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
-		List<String> existingPaycycles = textBox.getValueofListElement(By.xpath("//*[contains(@class,'paycycle-grpname')]"));
-		if(!existingPaycycles.contains(payCycle)) {
-		foundation.click(By.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)["+totalPaycycleRows+"]"));
-		textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);			
+		int totalPaycycleRows = foundation
+				.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		List<String> existingPaycycles = textBox
+				.getValueofListElement(By.xpath("//*[contains(@class,'paycycle-grpname')]"));
+		if (!existingPaycycles.contains(payCycle)) {
+			foundation.click(By
+					.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)[" + totalPaycycleRows + "]"));
+			textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);
 		}
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
-	
-	public void deletePaycyle(String location,String payCycle) {
+
+	public void deletePaycyle(String location, String payCycle) {
 		locationList.selectLocationName(location);
-		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
-		for(int i=1;i<=totalPaycycleRows;i++) {
+		int totalPaycycleRows = foundation
+				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
+		for (int i = 1; i <= totalPaycycleRows; i++) {
 			if (textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])[" + i + "]"))
 					.contains(payCycle)) {
 				foundation.click(By.xpath("(//button[@class='btn-mini']//i[contains(@class,'delBtn ')])[" + i + "]"));
 				foundation.threadWait(Constants.ONE_SECOND);
 				break;
 			}
-		}	
+		}
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
-	
-	public void turnOnOROffPayRollDeduct(String location,String yesORno) {
+
+	public void turnOnOROffPayRollDeduct(String location, String yesORno) {
 		locationList.selectLocationName(location);
 		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
-	
-	public void editPaycyle(String location,String payCycle,String updatedPaycycle) {
+
+	public void editPaycyle(String location, String payCycle, String updatedPaycycle) {
 		locationList.selectLocationName(location);
-		int totalPaycycleRows = foundation.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
-		for(int i=1;i<=totalPaycycleRows;i++) {
-			if(textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])["+i+"]")).contains(payCycle))
-			{
-			textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])["+i+"]"), updatedPaycycle);
-			foundation.threadWait(Constants.ONE_SECOND);
+		int totalPaycycleRows = foundation
+				.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		for (int i = 1; i <= totalPaycycleRows; i++) {
+			if (textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])[" + i + "]"))
+					.contains(payCycle)) {
+				textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])[" + i + "]"),
+						updatedPaycycle);
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
-		}		
+		}
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
@@ -566,8 +585,8 @@ public class LocationSummary extends Factory {
 		try {
 			List<String> listRuleNameAscending = getColumnValues(columnData);
 
-			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
-					.equals(listRuleNameAscending);
+			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder())
+					.sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList()).equals(listRuleNameAscending);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -579,7 +598,8 @@ public class LocationSummary extends Factory {
 		boolean descending = false;
 		try {
 			List<String> listRuleNameDescending = getColumnValues(columnData);
-			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+			descending = listRuleNameDescending.stream().sorted(Comparator.reverseOrder())
+					.sorted(String.CASE_INSENSITIVE_ORDER.reversed()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -595,6 +615,11 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
 	}
+	
+	public void selectDevice(String deviceName) {
+		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
+	}
+
 	public By deviceName(String devicename) {
 		return By.xpath("//a[text()='" + devicename + "']");
 	}

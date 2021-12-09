@@ -1008,7 +1008,7 @@ public class Report extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			foundation.adjustBrowerSize(actualData.get(3));
-
+			foundation.threadWait(Constants.THREE_SECOND);
 			itemStockout.verifyReportName(reportName.get(1));
 			itemStockout.getTblRecordsUI();
 			itemStockout.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
@@ -1139,9 +1139,10 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			Thread.sleep(1000);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			healthAhead.getTblRecordsUI();
@@ -1801,8 +1802,8 @@ public class Report extends TestInfra {
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			orderTransactionTime.getTblRecordsUI();
 			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
-			orderTransactionTime
-					.getRequiredRecord((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME));
+			orderTransactionTime.getRequiredRecord(
+					((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 
 			// apply calculation and update data
 			orderTransactionTime.updateData(orderTransactionTime.getTableHeaders().get(1),
