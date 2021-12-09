@@ -9,14 +9,15 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtFactory;
-import at.smartshop.tests.TestInfra;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();
 
 	public void launch(String driver,String browser) {
 	try {		
-		setDriver(driver,browser);		
+		setDriver(driver,browser);
+		if (ExtFactory.getInstance().getExtent() != null) 
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "[" + browser +" ]launched the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -26,6 +27,8 @@ public class Browser extends Factory {
 		try {
 			WebDriver browser = getDriver();
 			browser.quit();
+			if (ExtFactory.getInstance().getExtent() != null) 
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "closed the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

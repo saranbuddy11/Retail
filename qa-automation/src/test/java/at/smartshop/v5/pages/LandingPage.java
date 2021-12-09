@@ -20,7 +20,7 @@ public class LandingPage {
 	public static final By LINK_ENGLISH = By.xpath("//button[text()='English']");
 	public static final By BTN_LOGIN = By.id("account-login-id");
 	public static final By BTN_CREATE_ACCOUNT = By.id("create-account-id");
-	public static final By BTN_LANG = By.xpath("//button[@data-reactid='.0.0.0.2.1']");
+	public static final By BTN_LANG = By.xpath("//h3[@data-reactid='.0.0.0.2.1']");
 	public static final By LBL_ACCOUNT_LOGIN = By.xpath("//div[@id='account-login-id']//h3");
 	public static final By LBL_CREATE_ACCOUNT = By.xpath("//div[@id='create-account-id']/div//h3");
 	public static final By LBL_SEARCH = By.xpath("//span[@class='category-label']");
@@ -55,12 +55,19 @@ public class LandingPage {
 		// Validating Landing Page
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
-		Assert.assertTrue(foundation.isDisplayed(objLanguage(landingPageData.get(2))));
-		Assert.assertTrue(foundation.isDisplayed(objLanguage(landingPageData.get(3))));
+		//Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(2))));
+		//Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(3))));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
 		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
 
 	}
 
+	public void changeLanguage(String languageButton, String newLanguage, String button) {
+		foundation.waitforElement(objText(languageButton), Constants.SHORT_TIME);
+		foundation.click(objText(languageButton));
+		foundation.waitforElement(objText(newLanguage), Constants.SHORT_TIME);
+		foundation.click(objText(newLanguage));
+		foundation.click(objText(button));
+	}
 }
