@@ -91,6 +91,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(
 					globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
 
+			foundation.waitforElementToBeVisible(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.SHORT_TIME);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
 					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			Map<String, String> productsRecord = productSummary
