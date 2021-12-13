@@ -9,14 +9,13 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtFactory;
-import at.smartshop.tests.TestInfra;
 
 public class Browser extends Factory {
 	PropertyFile propertyFile = new PropertyFile();
 
-	public void launch(String driver,String browser) {
-	try {		
-		setDriver(driver,browser);		
+	public void launch(String driver, String browser) {
+		try {
+			setDriver(driver, browser);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -30,15 +29,16 @@ public class Browser extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void navigateURL(String url) {
 		try {
-		getDriver().get(url);
-		getDriver().manage().window().maximize();
-		getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
-		ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url +" ]");
+			getDriver().get(url);
+			getDriver().manage().window().maximize();
+			getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+			if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url + " ]");
 		} catch (Exception exc) {
-		Assert.fail(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 }

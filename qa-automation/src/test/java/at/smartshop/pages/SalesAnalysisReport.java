@@ -25,7 +25,7 @@ import at.smartshop.utilities.WebService;
 
 public class SalesAnalysisReport {
 	
-	public static final By LBL_REPORT_NAME = By.cssSelector("div[id='Sales Analysis Report']");
+	public static final By LBL_REPORT_NAME = By.id("Sales Analysis Report");
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
 	private JsonFile jsonFunctions = new JsonFile();

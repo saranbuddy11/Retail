@@ -94,6 +94,7 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+			if (ExtFactory.getInstance().getExtent() != null)
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element [ " + object + " ] and the object is visible");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -139,9 +140,18 @@ public class Foundation extends Factory {
 		Actions action = new Actions(getDriver());
 		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
 		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element +" ] is focused");
 	}
 
+	public void objectFocusOnWebElement(WebElement element) {
+		Actions action = new Actions(getDriver());
+		Action seriesOfActions = action.moveToElement(element).build();
+		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element +" ] is focused");
+	}
+	
 	public boolean isEnabled(By object) {
 		boolean ObjEnabled = false;
 		try {

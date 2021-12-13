@@ -1,9 +1,15 @@
 package at.smartshop.keys;
 
+import org.testng.Assert;
+
+import at.smartshop.pages.ReportList;
+
 public class FilePath {
 	public FilePath() {
 		
 	}
+	private static ReportList reportList = new ReportList();
+	
 	public static final String FILE = "file:\\\\";
 	public static final String PATH = System.getProperty("user.dir");
 	public static final String HOME_PATH = System.getProperty("user.home");
@@ -27,6 +33,18 @@ public class FilePath {
 	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\device.xlsx";
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH+ "\\src\\test\\resources\\device.xlsx";
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH+ "\\Downloads\\contact.xls";
+	
+	public static String reportFilePath(String filename) {
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename +".xlsx";
+		return EXCEL_REPORT;
+	}
+	
+	public static String reportFilePathWithDate(String filename, String formate) {
+		String date =" "+ reportList.getTodaysDate(formate);
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + date + ".xlsx";
+		return EXCEL_REPORT;
+	}
+	
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {

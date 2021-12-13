@@ -350,6 +350,7 @@ public class ResultSets extends Connections {
 				rstReportList.put(CNReportList.END_DATE, resultSet.getString(CNReportList.END_DATE));
 				rstReportList.put(CNReportList.START_MONTH, resultSet.getString(CNReportList.START_MONTH));
 				rstReportList.put(CNReportList.END_MONTH, resultSet.getString(CNReportList.END_MONTH));
+				rstReportList.put(CNReportList.DOWNLOADED_FILE_NAME, resultSet.getString(CNReportList.DOWNLOADED_FILE_NAME));
 			}
 
 		} catch (Exception exc) {

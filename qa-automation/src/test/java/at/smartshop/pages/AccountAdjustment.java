@@ -9,9 +9,12 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class AccountAdjustment extends Factory {
+	private Foundation foundation = new Foundation();
 
 	private static final By TBL_ACCOUNT_ADJUSTMENT = By.id("rptdt");
 	private static final By LBL_ROWS = By.cssSelector("#rptdt > tbody > tr");
@@ -35,5 +38,17 @@ public class AccountAdjustment extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return uiTblRowValues;
+	}
+	
+	
+
+	public void verifyReportName(String reportName) {
+		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
+			String reportTitle = foundation.getText(LBL_REPORT_NAME);
+			Assert.assertTrue(reportTitle.contains(reportName));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 }
