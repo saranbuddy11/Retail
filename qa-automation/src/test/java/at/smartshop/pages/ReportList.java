@@ -2,6 +2,7 @@ package at.smartshop.pages;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +41,17 @@ public class ReportList extends Factory {
 //	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
 	private static final By DPD_LOCATIONS = By.xpath("//input[@placeholder='Select...']");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
+	private static final By FIRST_LOCATION_FROM_LIST = By.cssSelector("span.select2-results > #select2-locdt-results > li");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
 	public final By TO_EXCEL_BUTTON = By.id("runexcel");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
+	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath("//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
+	private static final By DPD_LOCATION_LIST_SECONDTYPE  = By.xpath("//span[@class='select2-results']//ul[@role='listbox']");
 
+		
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -113,9 +119,33 @@ public class ReportList extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-
 	}
-
+	
+	public void selectLocationForSecondTypeDropdown(String locationName) {
+		try {
+			foundation.click(DPD_LOCATIONS_SECONDTYPE);
+			textBox.enterText(DPD_SERACH_LOCATIONS_SECONDTYPE, locationName);
+			foundation.click(DPD_LOCATION_LIST_SECONDTYPE);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	
+	public String firstLocationName() {
+			String text = null;
+			try {
+				foundation.click(DPD_LOCATIONS);
+				List<WebElement> ListElement = getDriver().findElements(FIRST_LOCATION_FROM_LIST);
+				 text = ListElement.get(1).getText();
+				 foundation.click(DPD_LOCATIONS);
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of Fisrt location Name as " + text + ".");
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+			return text;
+		}
+	
 	public void selectOrg(String orgName) {
 		try {
 			foundation.click(DPD_ORG);
@@ -202,8 +232,6 @@ public class ReportList extends Factory {
 			
 //		   noDataAvailableInTable = getDriver().findElement(NO_DATA_AVAILABLE_IN_TABLE);
 			if(foundation.isDisplayed(By.xpath("//tbody//tr[@class='odd'][1]"))){
-			
-//			if(isElementPresent( By.xpath("//tbody//tr[@class='odd'][1]"))) {
 				
 				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					System.out.println("***NOOOOOOOO data available ***********");
@@ -213,6 +241,21 @@ public class ReportList extends Factory {
 				}
 				
 			}else if(foundation.isDisplayed(By.cssSelector("#dataGrid > tbody > tr:nth-child(1)"))){
+				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					System.out.println("***NOOOOOOOO data available ***********");
+					Assert.fail("Failed************2");
+				}else {
+					System.out.println("***data available ***********");
+				}		
+			}
+			else if(foundation.isDisplayed(By.cssSelector("#dataGridPayrollDeductDetails > tbody > tr:nth-child(1)"))){
+				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					System.out.println("***NOOOOOOOO data available ***********");
+					Assert.fail("Failed************2");
+				}else {
+					System.out.println("***data available ***********");
+				}		
+			}else if(foundation.isDisplayed(By.cssSelector("#payrollGrid > tbody > tr:nth-child(1) "))){
 				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					System.out.println("***NOOOOOOOO data available ***********");
 					Assert.fail("Failed************2");
