@@ -11,6 +11,7 @@ public class DeviceCreate {
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By DPD_MSR_TYPE = By.id("msrtype");
 	public static final By BTN_CANCEl = By.id("cancelBtn");
+	public static final By TITLE_DEVICE_CREATE = By.id("Device Create");
 	
 	public String createDevice(String deviceName) {
 		textBox.enterText(TXT_NAME, deviceName);

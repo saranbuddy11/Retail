@@ -131,7 +131,7 @@ public class SuperOthers extends TestInfra {
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_SUMMARY));
+			assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
@@ -194,10 +194,7 @@ public class SuperOthers extends TestInfra {
 			assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// delete files
-			foundation.deleteFile(FilePath.EXCEL_CONTACT_SRC);
-		}
+		} 
 	}
 	
 	@Test(description = "166015-ADM>Super>Special Service>Special Service List- Edit device summary data")
@@ -230,7 +227,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(DeviceCreate.TXT_NAME, editedDeviceName);
 			foundation.click(DeviceCreate.BTN_SAVE);
 			textBox.enterText(SpecialService.TXT_SEARCH, editedDeviceName);
-			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(deviceName)));
+			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -265,6 +262,33 @@ public class SuperOthers extends TestInfra {
 				foundation.verifySortText(specialService.listColumns(columnNumber), Constants.DESCENDING);
 			}
 			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+	}
+	
+	@Test(description = "166897-ADM>Super>Special Service>Special Service List- Search list")
+	public void speacialServiceSearchList() {
+		final String CASE_NUM = "166897";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		String deviceName=strings.getRandomCharacter();
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//verify navigation to special service list page
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			
+			//verify navigation to special service summary page
+			textBox.enterText(SpecialService.TXT_SEARCH, Constants.AUTO_TEST);
+			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 

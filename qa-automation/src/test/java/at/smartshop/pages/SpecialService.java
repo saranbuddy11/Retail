@@ -13,7 +13,7 @@ public class SpecialService {
 	public static final By LST_COLUMN_HEADERS = By.xpath("//thead//th");
 	
 	public By objSplServiceName(String name) {
-		return By.xpath("//tbody[@role='alert']//span[text()= '" + name + "'");
+		return By.xpath("//tbody[@role='alert']//span[text()= '" + name + "']");
 	}
 	
 	public By listColumns(int columnNumber) {
