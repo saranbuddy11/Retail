@@ -39,6 +39,7 @@ public class Browser extends Factory {
 		getDriver().get(url);
 		getDriver().manage().window().maximize();
 		getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
+		if (ExtFactory.getInstance().getExtent() != null) 
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url +" ]");
 		} catch (Exception exc) {
 		Assert.fail(exc.toString());
