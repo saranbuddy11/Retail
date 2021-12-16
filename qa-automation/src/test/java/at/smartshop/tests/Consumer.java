@@ -72,7 +72,8 @@ public class Consumer extends TestInfra {
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
 		final String CASE_NUM = "116743";
-
+		String balanceTextww = "($21.96)";
+		String balancezz=balanceTextww.replaceAll("[\\(\\)\\$]", "");
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -115,9 +116,10 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String balance = consumerTblRecords.get(columnName);
-			String balance1 = balance.substring(1);
-			Double newBalance = Double.parseDouble(balance1) + 2;
+			String balanceText = consumerTblRecords.get(columnName);
+			String balance=balanceText.replaceAll("[\\(\\)\\$]", "");
+			//String balance1 = balance.substring(1);
+			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
 			// clicking consumer id
@@ -140,6 +142,7 @@ public class Consumer extends TestInfra {
 			Map<String, String> consumerTblRecords2 = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String actualBalance = consumerTblRecords2.get(columnName);
+			actualBalance=actualBalance.replaceAll("[\\(\\)]", "");
 			Assert.assertEquals(actualBalance, expectedBalance);
 
 			// enter new balance with out reason

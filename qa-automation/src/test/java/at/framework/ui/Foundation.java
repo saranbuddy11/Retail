@@ -97,7 +97,10 @@ public class Foundation extends Factory {
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"waited for element [ " + object + " ] and the object is visible");
-		} catch (Exception exc) {
+		}catch (TimeoutException exc) {
+			// Continue
+		} 
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
@@ -106,6 +109,7 @@ public class Foundation extends Factory {
 	public WebElement waitforElementToBeVisible(By object, int waitTime) {
 		WebElement element = null;
 		boolean displayed = false;
+		long startTime = System.currentTimeMillis();
 		do {
 			try {
 				WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
@@ -113,10 +117,14 @@ public class Foundation extends Factory {
 				displayed = getDriver().findElement(object).isDisplayed();
 				ExtFactory.getInstance().getExtent().log(Status.INFO,
 						"waited for element [ " + object + "] and the object is visible ");
-			} catch (Exception exc) {
+			} 
+			catch (TimeoutException exc) {
+				// Continue
+			}
+			catch (Exception exc) {
 				Assert.fail(exc.toString());
 			}
-		} while (!displayed);
+		} while ((!displayed)&&(System.currentTimeMillis()-startTime)<waitTime*1000);
 		return element;
 	}
 
@@ -126,7 +134,11 @@ public class Foundation extends Factory {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.elementToBeClickable(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element clickable [ " + object + " ]");
-		} catch (Exception exc) {
+		}
+		catch (TimeoutException exc) {
+			// Continue
+		} 
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
@@ -362,7 +374,10 @@ public class Foundation extends Factory {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Waited for element [" + object + " ] to disappear");
-		} catch (Exception exc) {
+		} catch (TimeoutException e) {
+			// Continue
+		}
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;

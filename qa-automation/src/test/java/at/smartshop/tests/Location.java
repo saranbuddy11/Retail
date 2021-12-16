@@ -452,6 +452,19 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			
+			if(!foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON)) {
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
+			foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LBL_COLUMN_DATA);
+			foundation.click(LocationSummary.BTN_DEVICE_ADD);
+			foundation.refreshPage();
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			}
+			
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
 			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
@@ -647,7 +660,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
+			foundation.waitforElementToBeVisible(locationSummary.objUploadStatus("abc"), Constants.SHORT_TIME);
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
