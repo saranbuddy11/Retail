@@ -33,6 +33,8 @@
 			<class name="at.smartshop.sos.tests.Sos"/>
 			<class name="at.smartshop.tests.Promotions"/>
 			<class name="at.smartshop.tests.Device"/>
+			<class name="at.smartshop.tests.SuperOthers"/>
+			<class name="at.smartshop.tests.CorporateAccount"/>
 		</classes>
 	</test> <!-- Test -->
 	
