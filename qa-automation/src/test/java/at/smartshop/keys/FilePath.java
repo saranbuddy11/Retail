@@ -41,6 +41,7 @@ public class FilePath {
 	
 	public static String reportFilePathWithDate(String filename, String formate) {
 		String date =" "+ reportList.getTodaysDate(formate);
+		System.out.println(date);
 		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + date + ".xlsx";
 		return EXCEL_REPORT;
 	}

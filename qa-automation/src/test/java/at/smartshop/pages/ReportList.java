@@ -159,10 +159,10 @@ public class ReportList extends Factory {
 	public String getTodaysDate(String reportFormat) {
 		String reportDate = null;
 		try {
-//			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
-//			String transDate = tranDate.format(dateFormat);
+			String transDate = tranDate.format(dateFormat);
 			reportDate = tranDate.format(reqFormat);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -199,6 +199,7 @@ public class ReportList extends Factory {
 
 	public void verifyTheFileContainsNameWithDate(String reportName, String fileName) {
 		try {
+			System.out.println(reportName +"*****"+ fileName);
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDate(reportName, fileName));
 
 //			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
