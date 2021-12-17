@@ -65,8 +65,9 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.FIFTEEN_SECOND);
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			orgSummary.deleteVDIIsAlreadySelected(rstOrgSummaryData.get(CNOrgSummary.NAME));
 			String actualDpd = dropDown.getSelectedItem(OrgSummary.DPD_VDI_PROVDIER);
-			Assert.assertEquals(actualDpd, requiredData.get(0));
+			Assert.assertTrue(requiredData.get(0).contains(actualDpd));
 			Assert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
 			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
 			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
