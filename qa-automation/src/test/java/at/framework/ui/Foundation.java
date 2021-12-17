@@ -108,11 +108,12 @@ public class Foundation extends Factory {
 
 	public WebElement waitforElementToBeVisible(By object, int waitTime) {
 		WebElement element = null;
+		int waitTimeInSec = waitTime;
 		boolean displayed = false;
 		long startTime = System.currentTimeMillis();
 		do {
 			try {
-				WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+				WebDriverWait wait = new WebDriverWait(getDriver(), waitTimeInSec);
 				element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
 				displayed = getDriver().findElement(object).isDisplayed();
 				ExtFactory.getInstance().getExtent().log(Status.INFO,
