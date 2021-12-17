@@ -386,7 +386,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objUploadStatus(String uploadMessage) {
-		return By.xpath("//*[text()='" + uploadMessage + "']");
+		return By.name(uploadMessage);
 	}
 
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {

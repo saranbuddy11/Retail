@@ -93,9 +93,9 @@ public class CreatePromotions extends Factory  {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promoType, String promoName, String displayName, String orgName,String locationName) {
-		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
-		textBox.enterText(TXT_PROMO_NAME, promoName);
+	public void newPromotion(String promotionType, String promotionName,String orgName, String locationName,String displayName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);

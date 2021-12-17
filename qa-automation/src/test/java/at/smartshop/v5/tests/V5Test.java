@@ -2383,6 +2383,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			// assertEquals(expectedData, actualData);
+			String expectedData = foundation.getAlertMessage();
+			// foundation.waitforElement(locationSummary.objUploadStatus(actualData),
+			// Constants.SHORT_TIME);
+			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -262,8 +262,12 @@ public class Promotions extends TestInfra {
 			List<String> fieldName = Arrays.asList(rstLocationListData.get(CNLocationList.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(0))));
 			Assert.assertTrue(foundation.isDisplayed(createPromotions.filterOptions(fieldName.get(1))));
-			textBox.enterText(CreatePromotions.DPD_ORG,	propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			
+			dropdown.selectItem(CreatePromotions.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			
+			//textBox.enterText(CreatePromotions.DPD_ORG,	propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			//textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 			
 			for (String location : locationNames) {
 				assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
@@ -1007,7 +1011,8 @@ public class Promotions extends TestInfra {
 
 		String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		try {
@@ -1024,15 +1029,16 @@ public class Promotions extends TestInfra {
 			// Creating New Promotion
 			foundation.click(PromotionList.BTN_CREATE);
 
-			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			textBox.enterText(CreatePromotions.DPD_ORG,
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+			//dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+			//textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+			//foundation.click(CreatePromotions.BTN_NEXT);
+			
+			createPromotions.newPromotion(promotionType, promotionName,orgName, locationName,requiredData);
+			//textBox.enterText(CreatePromotions.DPD_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			//textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
 
-			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			//dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
+			//foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.MULTI_SELECT_TENDER_TYPES, Constants.SHORT_TIME);
@@ -1331,7 +1337,8 @@ public class Promotions extends TestInfra {
 		String promotionName = strings.getRandomCharacter();
 		String displayName = strings.getRandomCharacter();
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -1375,14 +1382,20 @@ public class Promotions extends TestInfra {
 			// Filter Page
 			foundation.threadWait(Constants.ONE_SECOND);
 			createPromotions.verifyOrgField(orgs);
-			textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
-			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
-			//foundation.click(CreatePromotions.DPD_LOC);
 			
-			for (String location : locationNames) {
-				assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
-			}
+			//createPromotions.newPromotion(orgName,locationName, orgName, locationName, displayName);
+			dropdown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(0), Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			
+			//textBox.enterText(CreatePromotions.DPD_ORG, requiredData.get(0));
+			//textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
+//			foundation.click(CreatePromotions.DPD_LOC);
+//			
+//			for (String location : locationNames) {
+//				assertTrue(dropdown.verifyItemPresent(CreatePromotions.DPD_LOCATION, location));
+//			}
 			dropdown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			
