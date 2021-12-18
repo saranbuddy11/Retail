@@ -45,7 +45,10 @@ public class ReportList extends Factory {
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
+	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	public static final By DPD_FILTER = By.cssSelector("#add-filter-container > span > span.selection > span");
 	public final By TO_EXCEL_BUTTON = By.id("runexcel");
+	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
 	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath("//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
@@ -81,7 +84,7 @@ public class ReportList extends Factory {
 
 	public void selectReport(String reportName) {
 		try {
-			textBox.enterText(TXT_SEARCH, reportName);
+			textBox.enterTextOnFocus(TXT_SEARCH, reportName);
 			WebElement object = getDriver()
 					.findElement(By.xpath("//div[@class='currentReport'][contains(text(),'" + reportName + "')]"));
 			Actions builder = new Actions(getDriver());
@@ -153,7 +156,24 @@ public class ReportList extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-
+	}
+	
+	public void selectOrgOnFilter(String orgName) {
+		try {
+			foundation.click(DPD_ORG_ON_FILTER);
+			foundation.click(By.xpath("//ul[@id='select2-org-select-results']/li[text()='" + orgName + "']"));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void selectFilter(String orgName) {
+		try {
+			foundation.click(DPD_FILTER);
+			foundation.click(By.xpath("//ul[@id='select2-add-filter-select-results']/li[text()='" + orgName + "']"));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 	public String getTodaysDate(String reportFormat) {
@@ -197,18 +217,36 @@ public class ReportList extends Factory {
 		}
 	}
 
-	public void verifyTheFileContainsNameWithDate(String reportName, String fileName) {
+	public void verifyTheFileContainsNameWithDate(String reportName, String formate) {
 		try {
-			System.out.println(reportName +"*****"+ fileName);
-			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDate(reportName, fileName));
+			System.out.println(reportName +"*****"+ formate);
+			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDate(reportName, formate));
 
 //			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
-//			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, fileName), 0);
+//			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
-			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, fileName), 0);
+			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
 			if (fileExists == false) {
-				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, fileName));
+				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void verifyTheFileContainsNameAsOrgDateAndGMA(String reportName, String orgName, String formate) {
+		try {
+			System.out.println(reportName +"*****"+ formate+"**********"+orgName);
+			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
+
+//			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
+//			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
+
+//			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
+
+			if (fileExists == false) {
+				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

@@ -46,6 +46,13 @@ public class FilePath {
 		return EXCEL_REPORT;
 	}
 	
+	public static String reportFilePathWithOrgAndGMA(String orgname, String formate) {
+		String date ="_"+ reportList.getTodaysDate(formate);
+		System.out.println(date);
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ orgname + date + "-GMA.xlsx";
+		return EXCEL_REPORT;
+	}
+	
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {
