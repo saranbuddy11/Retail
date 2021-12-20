@@ -88,6 +88,12 @@ public class CreatePromotions extends Factory  {
 	public static final By DPD_DEVICE =By.id("device-select");
 	public static final By RB_BUNDLE_PRICE=By.id("bundlePriceCheckbox");
 	public static final By DPD_LOCATION_REMOVE=By.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	public static final By DPD_DESELECT_ORGANIZATION = By.id("multiselectId");
+	public static final By DPD_DESELECT_LOCATION = By.id("multiselectIdLoc");
+	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
+	public static final By BTN_LOC_LEFT = By.id("singleSelectRtoL-Loc");
+	public static final By DPD_SELECTED_ITEM = By.id("categorySelectInput");
+
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
