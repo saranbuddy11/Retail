@@ -52,6 +52,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
 	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
 	public static final By LNK_PICK_UP_LOCATION = By.xpath("//span[@id='pickupLocationToggle']");
+	public static final By LBL_ORDER_AHEAD = By.xpath("//dt[text()='Has Order Ahead']");
 	public static final By LBL_LOCKER_PICK_UP_TITLE = By.xpath("//*[@id='lockersystempickuptitle']/i");
 	public static final By LNK_LOCKER_NAME = By.xpath("//*[@id='pickuplockersystems']/div/a");
 	public static final By TXT_SYSTEM_NAME = By.cssSelector("input#systemName");
@@ -182,14 +183,15 @@ public class LocationSummary extends Factory {
 	public static final By BTN_REMOVE_DEVICE = By.xpath("//button[@class='btn btn-danger']");
 	public static final By BTN_YES_REMOVE = By.xpath("//button[text()='Yes, Remove']");
 	public static final By LBL_DURATION = By.xpath("//td[@aria-describedby='deviceDataGrid_table_duration']//a");
-	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
+	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By
+			.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
-	public static final By TBL_DEVICE_HEADER= By.xpath("//*[@id='choosekskdt_wrapper']//th");
-	public static final By TBL_DEVICE_NAME_COLUMN= By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
-	
+	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
+	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -280,6 +282,19 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
 			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
+			Assert.assertEquals(value, defaultValue);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Validated the has Locker default Value" + defaultValue);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void verifyHasOrderAheadField(String defaultValue) {
+		try {
+			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
+			String value = dropDown.getSelectedItem(DPD_HAS_ORDER_AHEAD);
 			Assert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
@@ -615,7 +630,7 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
 
 	}
-	
+
 	public void selectDevice(String deviceName) {
 		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
 	}
