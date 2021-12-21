@@ -40,6 +40,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_CROSS_ORG_LOYALTY_GRID = By.cssSelector("#rptdt > tbody");
+	public final By SEARCH_RESULT = By.xpath("//input[@aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
