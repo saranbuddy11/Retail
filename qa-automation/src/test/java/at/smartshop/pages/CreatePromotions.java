@@ -93,13 +93,14 @@ public class CreatePromotions extends Factory  {
 	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
 	public static final By BTN_LOC_LEFT = By.id("singleSelectRtoL-Loc");
 	public static final By DPD_SELECTED_ITEM = By.id("categorySelectInput");
-
+	public static final By SELECT_DISABLED_LOCATION = By.id("filtervalues");
+	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promotionType, String promotionName,String orgName, String locationName,String displayName) {
+	public void newPromotion(String promotionType, String promotionName,String displayName,String orgName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))

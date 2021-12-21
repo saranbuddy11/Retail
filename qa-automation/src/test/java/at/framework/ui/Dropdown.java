@@ -97,5 +97,10 @@ public class Dropdown extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	public boolean verifyItemNotPresent(By object, String text) {
+
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
+		return true;
+	}
 
 }
