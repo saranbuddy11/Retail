@@ -22,6 +22,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -436,5 +437,26 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return isElementDisabled;
+	}
+	
+	public void WaitForAjax(int waitTime) {
+		try {
+			long startTime = System.currentTimeMillis();
+			while (true) {
+
+				Boolean ajaxIsComplete = (Boolean) ((JavascriptExecutor) getDriver())
+						.executeScript("return jQuery.active == 0");
+				if (ajaxIsComplete || (System.currentTimeMillis() - startTime) < waitTime * 1000) {
+					break;
+				}
+				threadWait(100);
+			}
+
+		}catch (TimeoutException exc) {
+			// continue
+		} 
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 }

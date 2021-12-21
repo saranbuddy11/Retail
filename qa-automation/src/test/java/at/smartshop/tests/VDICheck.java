@@ -365,7 +365,7 @@ public class VDICheck extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
 			locationSummary.selectTab(requiredData.get(4));
-			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(5));
 			// price validation
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),
 					Constants.ATTRIBUTE_READ);
