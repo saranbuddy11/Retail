@@ -452,19 +452,19 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			
-			if(!foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON)) {
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
-			foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
-			foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.LBL_COLUMN_DATA);
-			foundation.click(LocationSummary.BTN_DEVICE_ADD);
-			foundation.refreshPage();
-			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+
+			if (!foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON)) {
+				foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+				textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+				foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
+				foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
+				foundation.click(LocationSummary.LBL_COLUMN_DATA);
+				foundation.click(LocationSummary.BTN_DEVICE_ADD);
+				foundation.refreshPage();
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
 			}
-			
+
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
 			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
@@ -913,6 +913,8 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_MAPPING);
 			Assert.assertFalse(dropDown.verifyItemPresent(LocationSummary.DPD_TAX_CAT, requiredData.get(0)));
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
+			foundation.refreshPage();
+			locationSummary.selectTab(tabName);
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
@@ -963,6 +965,7 @@ public class Location extends TestInfra {
 			for (int i = 0; i < requiredData.size(); i++) {
 				dbData.put(requiredData.get(i), expectedData.get(i));
 			}
+			foundation.threadWait(Constants.TWO_SECOND);
 			Assert.assertEquals(uiTableData, dbData);
 
 		} catch (Throwable exc) {

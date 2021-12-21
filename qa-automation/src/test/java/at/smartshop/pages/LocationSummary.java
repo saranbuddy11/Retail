@@ -47,7 +47,7 @@ public class LocationSummary extends Factory {
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
-	public static final By BTN_LOCATION_SETTINGS = By.id("toggleinfo");
+	public static final By BTN_LOCATION_SETTINGS = By.xpath("//button[@id='toggleinfo']");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
 	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
@@ -401,7 +401,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objUploadStatus(String uploadMessage) {
-		return By.name(uploadMessage);
+		return By.xpath("//a[text()='" + uploadMessage + "']");
 	}
 
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {
