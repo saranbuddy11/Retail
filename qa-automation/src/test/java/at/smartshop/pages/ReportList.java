@@ -26,11 +26,13 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.framework.ui.Dropdown;
 
 public class ReportList extends Factory {
 
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	private Dropdown dropdown = new Dropdown();
 	private NavigationBar navigationBar = new NavigationBar();
 	private Excel excel = new Excel();
 
@@ -46,6 +48,8 @@ public class ReportList extends Factory {
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
 	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	public static final By DPD_LOC_ON_GROUPFILTER_ = By.cssSelector("#select2-locdt-container");
+	public static final By DPD_FILTER_BY_GROUP = By.id("flt-group-by");
 	public static final By DPD_FILTER = By.cssSelector("#add-filter-container > span > span.selection > span");
 	public final By TO_EXCEL_BUTTON = By.id("runexcel");
 	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
@@ -54,7 +58,7 @@ public class ReportList extends Factory {
 	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath("//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
 	private static final By DPD_LOCATION_LIST_SECONDTYPE  = By.xpath("//span[@class='select2-results']//ul[@role='listbox']");
 
-		
+	
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -158,6 +162,15 @@ public class ReportList extends Factory {
 		}
 	}
 	
+	public void selectFilter(String orgName) {
+		try {
+			foundation.click(DPD_FILTER);
+			foundation.click(By.xpath("//ul[@id='select2-add-filter-select-results']/li[text()='" + orgName + "']"));
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
 	public void selectOrgOnFilter(String orgName) {
 		try {
 			foundation.click(DPD_ORG_ON_FILTER);
@@ -167,10 +180,18 @@ public class ReportList extends Factory {
 		}
 	}
 	
-	public void selectFilter(String orgName) {
+	public void selectFilterOption(String filterName, String type) {
 		try {
-			foundation.click(DPD_FILTER);
-			foundation.click(By.xpath("//ul[@id='select2-add-filter-select-results']/li[text()='" + orgName + "']"));
+			dropdown.selectItem(DPD_FILTER_BY_GROUP, filterName, type);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void selectLocationOnGroupFilter(String orgName) {
+		try {
+			foundation.click(DPD_LOC_ON_GROUPFILTER_);
+			foundation.click(By.xpath("//ul[@id='select2-locdt-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -224,6 +245,21 @@ public class ReportList extends Factory {
 
 //			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
 //			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
+
+			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
+
+			if (fileExists == false) {
+				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String formate) {
+		try {
+			System.out.println(reportName +"*****"+ formate);
+			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(reportName, formate));
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
