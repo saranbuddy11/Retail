@@ -7,9 +7,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import at.framework.browser.Factory;
+import at.smartshop.database.columns.CNOrgSummary;
+import at.smartshop.keys.Constants;
 import junit.framework.Assert;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Foundation;
 
 public class OrgSummary extends Factory {
+	private Foundation foundation=new Foundation();
+	private CheckBox checkBox=new CheckBox();
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
 	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
@@ -129,5 +135,18 @@ public class OrgSummary extends Factory {
 		}
 		Assert.assertTrue(flag);
 
+	}
+	
+	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
+		if (foundation.isDisplayed(objVDI(VDIProvideName))) {
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+		}
+		
 	}
 }

@@ -13,6 +13,7 @@ public class Constants {
 	public static final String DELIMITER_COMMA = ",";
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
+	public static final String PARENTHESES = "[()]";
 	public static final String VALUE = "value";
 	public static final String SRC = "src";
 	public static final String TEXT = "text";
@@ -90,4 +91,6 @@ public class Constants {
 	public static final String TESTING = "Testing";
 	public static final String DELIMITER_DOT= ".";
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
+	public static final String EDITED = "Edited";
+	public static final String ALL= "All";
 }

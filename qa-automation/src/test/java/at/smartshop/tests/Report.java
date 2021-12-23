@@ -7,8 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.browser.Factory;
@@ -128,6 +131,19 @@ public class Report extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
+	
+	@Parameters({ "driver", "browser", "reportsDB" })
+
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -624,8 +640,7 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI();
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 			deviceByCategory.processAPI();
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			deviceByCategory.getTblRecordsUI();
+			
 
 			// apply calculation and update data
 			List<String> requiredData = Arrays
@@ -647,6 +662,9 @@ public class Report extends TestInfra {
 
 			// verify report headers
 			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			deviceByCategory.getTblRecordsUI();
 
 			// verify report data
 			deviceByCategory.verifyReportData();
@@ -1070,7 +1088,9 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			List<String> dateRange = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+			
+			reportList.selectDate(dateRange.get(0));
 
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -1145,6 +1165,9 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 
 			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(healthAhead.SEARCH_RESULT, propertyFile
+					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+
 			healthAhead.getTblRecordsUI();
 			healthAhead.getIntialData().putAll(healthAhead.getReportsData());
 			healthAhead.getRequiredRecord(propertyFile
@@ -1309,7 +1332,7 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "This test validates Unfinished Close Report Data Calculation")
+	@Test(description = "143433-This test validates Unfinished Close Report Data Calculation")
 	public void unfinishedCloseReportData() {
 		try {
 
@@ -1616,8 +1639,8 @@ public class Report extends TestInfra {
 			integrationPayments.getIntialData().putAll(integrationPayments.getReportsData());
 			integrationPayments.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
+			integrationPayments.processAPI(Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
 			Thread.sleep(1000);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -1629,7 +1652,7 @@ public class Report extends TestInfra {
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1), propertyFile
 					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			integrationPayments.updateValue(integrationPayments.getTableHeaders().get(2),
-					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
 			integrationPayments.calculateAmount(integrationPayments.getAmountData());
 
 			// verify report headers
@@ -1800,6 +1823,7 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(orderTransactionTime.SEARCH_RESULT, ((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 			orderTransactionTime.getTblRecordsUI();
 			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
 			orderTransactionTime.getRequiredRecord(
@@ -2239,6 +2263,8 @@ public class Report extends TestInfra {
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			personalCharge.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(personalCharge.SEARCH_RESULT, (String) personalCharge.getJsonData().get(Reports.TRANS_ID));
+			
 			personalCharge.getTblRecordsUI();
 			personalCharge.getIntialData().putAll(personalCharge.getReportsData());
 			personalCharge.getRequiredRecord(
@@ -2433,12 +2459,16 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			crossOrgLoyalty.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			
 			crossOrgLoyalty.getTblRecordsUI();
 			crossOrgLoyalty.getIntialData().putAll(crossOrgLoyalty.getReportsData());
 			crossOrgLoyalty.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			crossOrgLoyalty.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			
 			crossOrgLoyalty.getTblRecordsUI();
 
 			// apply calculation and update data
