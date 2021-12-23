@@ -9,7 +9,8 @@ import at.smartshop.keys.Constants;
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
 
-	private static final By LBL_READ_BALANCE = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
+//	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
+	private static final By LBL_READ_BALANCE = By.id("readbalance");	
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
@@ -50,7 +51,7 @@ public class ConsumerSummary {
 		}
 		return initBalance;
 	}
-
+	
 	public By objTaxCategory(String reasonCode) {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
