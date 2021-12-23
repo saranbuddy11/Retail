@@ -1104,6 +1104,8 @@ public class Device extends TestInfra {
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
+			if(foundation.isDisplayed(DeviceDashboard.BTN_YES_REMOVE))
+				foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);

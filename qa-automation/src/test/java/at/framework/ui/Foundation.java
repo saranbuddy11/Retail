@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -66,12 +67,13 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
+			waitforClikableElement(object, Constants.SHORT_TIME);
 			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
 			}
-		} catch (Exception exc) {
+		}  catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}

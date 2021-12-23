@@ -87,11 +87,11 @@ public class NationalAccounts extends Factory {
 		}
 	}
 
-	public void verifyBackgroundColour(String text, String actualcolor) {
-		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + text + "']");
+	public void verifyBackgroundColour(String location, String expctedlcolor) {
+		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
 		foundation.threadWait(Constants.ONE_SECOND);
-		String expected = getDriver().findElement(locationElement).getAttribute("style");
-		Assert.assertEquals(actualcolor, expected);
+		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
+		Assert.assertEquals(actualColor, expctedlcolor);
 	}
 
 	public boolean trySelectNonVisibleTextLocation(String text) {
