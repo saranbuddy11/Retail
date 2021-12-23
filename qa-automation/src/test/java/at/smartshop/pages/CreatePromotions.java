@@ -111,11 +111,6 @@ public class CreatePromotions extends Factory  {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
-		// textBox.enterText(DPD_ORG, orgName);
-		// textBox.enterText(DPD_ORG, Keys.ENTER);
-		// textBox.enterText(DPD_LOC, locationName);
-		// textBox.enterText(DPD_LOC, Keys.ENTER);
-		// foundation.threadWait(Constants.TWO_SECOND);
 		}
 
 	public List<String> getPopUpData() {
@@ -241,4 +236,14 @@ public class CreatePromotions extends Factory  {
 		}
 		return discountprice;
 	}
+	public void newPromotionList(String promotionType, String promotionName,String orgName, String locationName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		}
 }
