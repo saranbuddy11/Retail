@@ -1169,8 +1169,9 @@ public class NationalAccount extends TestInfra {
 			// Location field validation
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			String actualColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
-			nationalAccounts.verifyBackgroundColour(location, actualColour);
+			foundation.threadWait(Constants.TWO_SECOND);
+			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
+			nationalAccounts.verifyBackgroundColour(location, expectedColour);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1209,6 +1210,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 
 			// Navigating to National Account Page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));

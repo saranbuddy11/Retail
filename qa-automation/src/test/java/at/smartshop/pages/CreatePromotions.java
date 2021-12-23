@@ -88,14 +88,21 @@ public class CreatePromotions extends Factory  {
 	public static final By DPD_DEVICE =By.id("device-select");
 	public static final By RB_BUNDLE_PRICE=By.id("bundlePriceCheckbox");
 	public static final By DPD_LOCATION_REMOVE=By.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	public static final By DPD_DESELECT_ORGANIZATION = By.id("multiselectId");
+	public static final By DPD_DESELECT_LOCATION = By.id("multiselectIdLoc");
+	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
+	public static final By BTN_LOC_LEFT = By.id("singleSelectRtoL-Loc");
+	public static final By DPD_SELECTED_ITEM = By.id("categorySelectInput");
+	public static final By SELECT_DISABLED_LOCATION = By.id("filtervalues");
+	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promoType, String promoName, String displayName, String orgName,String locationName) {
-		dropDown.selectItem(DPD_PROMO_TYPE, promoType, Constants.TEXT);
-		textBox.enterText(TXT_PROMO_NAME, promoName);
+	public void newPromotion(String promotionType, String promotionName,String displayName,String orgName, String locationName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 		textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
@@ -104,11 +111,6 @@ public class CreatePromotions extends Factory  {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
-		// textBox.enterText(DPD_ORG, orgName);
-		// textBox.enterText(DPD_ORG, Keys.ENTER);
-		// textBox.enterText(DPD_LOC, locationName);
-		// textBox.enterText(DPD_LOC, Keys.ENTER);
-		// foundation.threadWait(Constants.TWO_SECOND);
 		}
 
 	public List<String> getPopUpData() {
@@ -234,4 +236,14 @@ public class CreatePromotions extends Factory  {
 		}
 		return discountprice;
 	}
+	public void newPromotionList(String promotionType, String promotionName,String orgName, String locationName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		}
 }

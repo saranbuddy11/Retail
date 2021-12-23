@@ -40,6 +40,7 @@ public class NavigationBar extends Factory {
                 foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
                 foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
             }
+            foundation.WaitForAjax(Constants.SHORT_TIME);
         } catch (Exception exc) {
             Assert.fail(exc.toString());
         }

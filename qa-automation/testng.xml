@@ -14,7 +14,7 @@
 		<classes>
 			
 			
-			<class name="at.smartshop.v5.tests.V5Test"/>
+			<!-- <class name="at.smartshop.v5.tests.V5Test"/> -->
 			<!-- <class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.Consumer"/>
@@ -33,6 +33,8 @@
 			<class name="at.smartshop.sos.tests.Sos"/>
 			<class name="at.smartshop.tests.Promotions"/>
 			<class name="at.smartshop.tests.Device"/>
+			<class name="at.smartshop.tests.CorporateAccount"/>
+			<class name="at.smartshop.tests.SuperOthers"/>
 		</classes>
 	</test> <!-- Test -->
 	
