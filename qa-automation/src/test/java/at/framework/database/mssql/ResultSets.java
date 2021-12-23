@@ -28,6 +28,7 @@ import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
+import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Constants;
 
 public class ResultSets extends Connections {
@@ -897,4 +898,37 @@ public class ResultSets extends Connections {
 		return rstConsumer;
 
 	}
+
+	public Map<String, String> getSuperListData(String query, String testcaseID) {
+		Map<String, String> rstSuperListData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstSuperListData.put(CNSuperList.SUPER_NAME, resultSet.getString(CNSuperList.SUPER_NAME));
+				rstSuperListData.put(CNSuperList.EFT_DISBURSEMENT,resultSet.getString(CNSuperList.EFT_DISBURSEMENT));
+				rstSuperListData.put(CNSuperList.DISBURSEMENT_PAGE_RECORD, resultSet.getString(CNSuperList.DISBURSEMENT_PAGE_RECORD));
+				rstSuperListData.put(CNSuperList.DISBURSEMENT_DATE,resultSet.getString(CNSuperList.DISBURSEMENT_DATE));
+				rstSuperListData.put(CNSuperList.ERROR_MESSAGE,resultSet.getString(CNSuperList.ERROR_MESSAGE));
+
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstSuperListData;
+
+	}
+
 }
