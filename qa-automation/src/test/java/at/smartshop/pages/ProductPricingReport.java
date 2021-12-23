@@ -13,7 +13,6 @@ import org.testng.Assert;
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class ProductPricingReport extends Factory {
 	
@@ -73,6 +72,7 @@ public class ProductPricingReport extends Factory {
 
 	public void verifyReportName(String reportName) {
 		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.SHORT_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {

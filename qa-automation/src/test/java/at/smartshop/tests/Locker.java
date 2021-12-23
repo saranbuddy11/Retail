@@ -75,21 +75,21 @@ public class Locker extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
-
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+//
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -105,10 +105,10 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			foundation.isDisplayed(LocationSummary.LNK_PICK_UP_LOCATION);
 			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 
 			List<String> Name = Arrays
@@ -143,23 +143,23 @@ public class Locker extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
-			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
-
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			navigationBar.navigateToMenuItem(menuItem.get(0));
+//			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+//			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+//
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -175,17 +175,18 @@ public class Locker extends TestInfra {
 					Constants.SHORT_TIME);
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
+			if (toggle == "Expand") {
+				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			}
 
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
 
 			List<String> Name = Arrays
 					.asList(rstLocationSummaryData.get(CNLocationSummary.NAME).split(Constants.DELIMITER_TILD));
 			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
 
+			Assert.assertTrue(lockerName.equals(Name.get(0)));
 			foundation.click(LocationSummary.LNK_LOCKER_NAME);
 			foundation.waitforElement(LocationSummary.TXT_SYSTEM_NAME, Constants.SHORT_TIME);
 
@@ -195,6 +196,7 @@ public class Locker extends TestInfra {
 			textBox.enterText(CreateLocker.TXT_LOCATION, Keys.ENTER);
 			textBox.enterText(CreateLocker.TXT_SYSTEM_NAME, rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME));
 			textBox.enterText(CreateLocker.TXT_DISPLAY_NAME, rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME));
+			// textBox.enterText(CreateLocker.TXT_DISPLAY_NAME, Keys.TAB);
 			dropDown.selectItem(CreateLocker.DPD_LOCKER_MODEL, rstLockerSystemData.get(CNLockerSystem.LOCKER_MODEL),
 					Constants.TEXT);
 			foundation.waitforClikableElement(CreateLocker.BTN_SAVE, Constants.SHORT_TIME);
@@ -207,11 +209,12 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+			// dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+			// rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			Assert.assertTrue(lockerName.equals(Name.get(0)));
+			foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE);
+			String updatedLockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
+			Assert.assertTrue(updatedLockerName.equals(Name.get(1)));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -222,7 +225,6 @@ public class Locker extends TestInfra {
 			foundation.click(lockerSystem.copyORDeleteSystem(rstLockerSystemData.get(CNLockerSystem.SYSTEM_NAME),
 					rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, Constants.SHORT_TIME);
-
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, Constants.SHORT_TIME);
 		}
@@ -401,12 +403,12 @@ public class Locker extends TestInfra {
 
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
 			login.logout();
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -473,9 +475,12 @@ public class Locker extends TestInfra {
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			locationSummary.verifyHasLockerField(requiredData.get(1));
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
+			// dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+			// requiredData.get(0), Constants.TEXT);
+			// foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			// Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ORDER_AHEAD));
+			locationSummary.verifyHasOrderAheadField(requiredData.get(1));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
@@ -497,9 +502,10 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
+			// dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+			// requiredData.get(0), Constants.TEXT);
+			// foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			// Assert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
@@ -528,11 +534,11 @@ public class Locker extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			List<String> requiredData = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
 
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
@@ -560,7 +566,7 @@ public class Locker extends TestInfra {
 
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
+			// Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCKER_PICK_UP_TITLE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_LOCATION_LOCKER_SYSTEM));
@@ -1124,7 +1130,7 @@ public class Locker extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -1146,16 +1152,14 @@ public class Locker extends TestInfra {
 			List<String> hasLocker = Arrays
 					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
 
-			navigationBar.navigateToMenuItem(menuItems.get(0));
-			locationList.selectLocationName(locations.get(0));
-			locationSummary.updateLockerSettings(hasLocker.get(0));
-			locationList.selectLocationName(locations.get(1));
-			locationSummary.updateLockerSettings(hasLocker.get(1));
-			foundation.threadWait(Constants.TWO_SECOND);
-			login.logout();
+//			navigationBar.navigateToMenuItem(menuItems.get(0));
+//			locationList.selectLocationName(locations.get(0));
+//			locationSummary.updateLockerSettings(hasLocker.get(0));
+//			locationList.selectLocationName(locations.get(1));
+//			locationSummary.updateLockerSettings(hasLocker.get(1));
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			login.logout();
 
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -1327,10 +1331,11 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA),
-					Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA),
+//					Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			foundation.waitforClikableElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 
@@ -1339,9 +1344,14 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
-					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
-			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			// dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+			// rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+			foundation.waitforClikableElement(LocationSummary.LNK_PICK_UP_LOCATION, Constants.SHORT_TIME);
+
+			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
+			if (toggle.equals(displayName.get(3))) {
+				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			}
 
 			// verifying the created locker system is displayed as an option for pick up
 			// location
@@ -1507,8 +1517,8 @@ public class Locker extends TestInfra {
 
 			textBox.enterText(LocationList.TXT_FILTER, rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA),
-					Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA),
+//					Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_HAS_ORDER_AHEAD,
 					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1519,14 +1529,27 @@ public class Locker extends TestInfra {
 			locationList.selectLocationName(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
 
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
-					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
+//			dropDown.selectItem(LocationSummary.DPD_HAS_PICK_UP_LOCATIONS,
+//					rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA), Constants.TEXT);
 			foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
 
+			String toggle = foundation.getText(LocationSummary.LNK_PICK_UP_LOCATION);
+			if (toggle.equals(displayName.get(4))) {
+				foundation.click(LocationSummary.LNK_PICK_UP_LOCATION);
+			}
 			// verifying the created locker system is displayed as an option for pick up
 			// location
-			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
-			Assert.assertTrue(lockerName.equals(displayName.get(3)));
+			List<String> lockerName = foundation.getTextofListElement(LocationSummary.LNK_LOCKER_NAME);
+			Boolean isPresent = false;
+			for (int i = 0; i < lockerName.size(); i++) {
+				if (lockerName.get(i).equals(displayName.get(3))) {
+					isPresent = true;
+					break;
+				}
+
+			}
+			Assert.assertTrue(isPresent);
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1562,11 +1585,11 @@ public class Locker extends TestInfra {
 			// precondition
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// navigating to Locker system
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1580,12 +1603,12 @@ public class Locker extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
-			foundation.click(LocationSummary.LINK_HOME_PAGE);
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
+//			foundation.click(LocationSummary.LINK_HOME_PAGE);
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			// login.logout();
 		}
 	}
 
@@ -1634,17 +1657,17 @@ public class Locker extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.TWO_SECOND);
-			login.logout();
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			login.logout();
 		}
 
 	}
@@ -1676,11 +1699,11 @@ public class Locker extends TestInfra {
 			// precondition
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(locationName.get(0));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+//			locationList.selectLocationName(locationName.get(0));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.threadWait(Constants.TWO_SECOND);
 
 			// precondition2
 			navigationBar.navigateToMenuItem(navigationData.get(1));
@@ -1705,11 +1728,11 @@ public class Locker extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
-			foundation.click(LocationSummary.LINK_HOME_PAGE);
-			locationList.selectLocationName(locationName.get(0));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.LINK_HOME_PAGE);
+//			locationList.selectLocationName(locationName.get(0));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(navigationData.get(1));
 			textBox.enterText(UserList.TXT_FILTER, rstUserRolesData.get(CNUserRoles.ROLE_NAME));
 			foundation.click(userList.objRoleName(rstUserRolesData.get(CNUserRoles.ROLE_NAME)));
@@ -1750,13 +1773,13 @@ public class Locker extends TestInfra {
 			// precondition
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(locationName.get(0));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+//			locationList.selectLocationName(locationName.get(0));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
 
 			// precondition2
 			navigationBar.navigateToMenuItem(navigationData.get(1));
@@ -1799,10 +1822,10 @@ public class Locker extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(locationName.get(0));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+//			locationList.selectLocationName(locationName.get(0));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(navigationData.get(1));
 			textBox.enterText(UserList.TXT_FILTER, rstUserRolesData.get(CNUserRoles.ROLE_NAME));
 			foundation.click(userList.objRoleName(rstUserRolesData.get(CNUserRoles.ROLE_NAME)));
@@ -1846,11 +1869,11 @@ public class Locker extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(locationListName.get(0));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			locationList.selectLocationName(locationListName.get(0));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(menuItem);
@@ -1861,12 +1884,12 @@ public class Locker extends TestInfra {
 			newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
 
 			// precondition
-			foundation.click(LocationSummary.LINK_HOME_PAGE);
-			locationList.selectLocationName(locationListName.get(0));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.LINK_HOME_PAGE);
+//			locationList.selectLocationName(locationListName.get(0));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// validate copy screen location dropdown
 			navigationBar.navigateToMenuItem(menuItem);
@@ -1918,16 +1941,16 @@ public class Locker extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(locationListName.get(0));
-
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			locationList.selectLocationName(locationListName.get(0));
+//
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			login.logout();
 
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1941,20 +1964,20 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			newLockerSysytem.createNewSystem(locationName, systemName, displayName, lockerModel);
 			foundation.threadWait(Constants.ONE_SECOND);
-			login.logout();
-
-			// precondition
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			locationList.selectLocationName(locationListName.get(0));
-			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			login.logout();
+//
+//			// precondition
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			locationList.selectLocationName(locationListName.get(0));
+//			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(1), Constants.TEXT);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			login.logout();
+//
+//			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// validate copy screen location dropdown
 			navigationBar.navigateToMenuItem(menuItem);
@@ -2035,6 +2058,7 @@ public class Locker extends TestInfra {
 			textBox.enterText(EditSystem.TXT_DISPLAY_NAME, rstLockerSystemData.get(CNLockerSystem.DISPLAY_NAME));
 			textBox.enterText(EditSystem.TXT_SHELF_TIMER, "");
 			textBox.enterText(EditSystem.TXT_SHELF_TIMER, requiredData.get(0));
+			foundation.waitforClikableElement(EditSystem.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(EditSystem.BTN_SAVE);
 			foundation.waitforElement(LockerSystem.LBL_PAGE_TITLE, Constants.SHORT_TIME);
 		}
@@ -2109,11 +2133,11 @@ public class Locker extends TestInfra {
 			List<String> hasLocker = Arrays
 					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
 
-			navigationBar.navigateToMenuItem(menuItems.get(0));
-			locationList.selectLocationName(locations.get(0));
-			locationSummary.updateLockerSettings(hasLocker.get(0));
-			locationList.selectLocationName(locations.get(1));
-			locationSummary.updateLockerSettings(hasLocker.get(1));
+//			navigationBar.navigateToMenuItem(menuItems.get(0));
+//			locationList.selectLocationName(locations.get(0));
+//			locationSummary.updateLockerSettings(hasLocker.get(0));
+//			locationList.selectLocationName(locations.get(1));
+//			locationSummary.updateLockerSettings(hasLocker.get(1));
 
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 			foundation.waitforElement(LockerSystem.BTN_CREATE_SYSTEM, Constants.SHORT_TIME);

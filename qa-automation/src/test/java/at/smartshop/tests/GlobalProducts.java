@@ -91,6 +91,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(
 					globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
 
+			foundation.waitforElementToBeVisible(ProductSummary.TXT_LOCATION_SEARCH_FILTER, Constants.SHORT_TIME);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
 					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			Map<String, String> productsRecord = productSummary
@@ -544,7 +545,7 @@ public class GlobalProducts extends TestInfra {
 				foundation.threadWait(Constants.TWO_SECOND);
 				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.EXTRA_LONG_TIME);
 				foundation.waitforElement(GlobalProduct.LBL_SCANCODE_ERROR, Constants.EXTRA_LONG_TIME);
-				
+
 				String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 				Assert.assertEquals(actualData, expectedScancodeSuccess);
@@ -586,6 +587,7 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
 			foundation.click(GlobalProduct.BUTTON_SAVE);
+			foundation.waitforElement(GlobalProduct.LBL_SAVE_DONE, Constants.TWO_SECOND);
 			foundation.click(GlobalProduct.LBL_SAVE_DONE);
 			textBox.enterText(GlobalProduct.LBL_SHORT_NAME, strings.getRandomCharacter());
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
@@ -622,15 +624,17 @@ public class GlobalProducts extends TestInfra {
 			List<String> expectedError = Arrays
 					.asList(rstProductData.get(CNProduct.SCANCODE_ERROR).split(Constants.DELIMITER_TILD));
 
+			String scancode = expectedError.get(0).replaceAll("[^0-9.]", "");
 			String productName = rstProductData.get(CNProduct.PRODUCT_NAME);
 			String scanName = rstProductData.get(CNProduct.SCANCODE);
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
-			foundation.waitforElement(GlobalProduct.LBL_EXISTING_SCANCODE, Constants.SHORT_TIME);
-			String existingScancode = foundation.getText(GlobalProduct.LBL_EXISTING_SCANCODE);
+			foundation.waitforElement(globalProduct.getExistingScancode(scancode), Constants.SHORT_TIME);
+			String existingScancode = foundation.getText(globalProduct.getExistingScancode(scancode));
 			foundation.click(GlobalProduct.BTN_CREATE);
 
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());

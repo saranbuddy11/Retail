@@ -10,12 +10,12 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class ChangePin {
-    private Foundation foundation=new Foundation();
-    
-    public By objText(String text) {
-		return By.xpath("//*[text()='"+text+"']");
+	private Foundation foundation = new Foundation();
+
+	public By objText(String text) {
+		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
-    
+
 	public void verifyChangePinPageLanguage(String changePinPage) {
 		List<String> changePinPageData = Arrays.asList(changePinPage.split(Constants.DELIMITER_TILD));
 		Assert.assertTrue(foundation.isDisplayed(objText(changePinPageData.get(0))));

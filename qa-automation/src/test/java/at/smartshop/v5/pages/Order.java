@@ -48,7 +48,7 @@ public class Order {
 	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
 
 	public By objText(String text) {
-		return By.xpath("//*[text()='" + text + "']");
+		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
 
 	public void verifyOrderPageLanguage(String order) {

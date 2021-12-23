@@ -44,11 +44,12 @@ public class Constants {
 	public static final String TIME_ZONE_INDIA = "Asia/Kolkata";
 	public static final String NEW_LINE = "\n";
 	public static final String DOLLAR = "\\$";
+	public static final String DOLLAR_SYMBOL = "$";
 	public static final int ONE_SECOND = 1;
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
-	public static final int SHORT_TIME = 15;
-	public static final int MEDIUM_TIME = 30;
+	public static final int SHORT_TIME = 5;
+	public static final int MEDIUM_TIME = 15;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
 	public static final String ATTRIBUTE_VALUE = "value";
@@ -90,4 +91,5 @@ public class Constants {
 	public static final String DELIMITER_DOT= ".";
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
 	public static final String EDITED = "Edited";
+	public static final String ALL= "All";
 }
