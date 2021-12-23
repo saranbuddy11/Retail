@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -22,6 +23,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -65,12 +67,14 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
+			waitforClikableElement(object, Constants.SHORT_TIME);
+			waitforElement(object, Constants.SHORT_TIME);
 			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
 			}
-		} catch (Exception exc) {
+		}  catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
@@ -98,7 +102,10 @@ public class Foundation extends Factory {
 			if (ExtFactory.getInstance().getExtent() != null) 
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"waited for element [ " + object + " ] and the object is visible");
-		} catch (Exception exc) {
+		}catch (TimeoutException exc) {
+			// Continue
+		} 
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
@@ -106,18 +113,24 @@ public class Foundation extends Factory {
 
 	public WebElement waitforElementToBeVisible(By object, int waitTime) {
 		WebElement element = null;
+		int waitTimeInSec = waitTime;
 		boolean displayed = false;
+		long startTime = System.currentTimeMillis();
 		do {
 			try {
-				WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
+				WebDriverWait wait = new WebDriverWait(getDriver(), waitTimeInSec);
 				element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
 				displayed = getDriver().findElement(object).isDisplayed();
 				ExtFactory.getInstance().getExtent().log(Status.INFO,
 						"waited for element [ " + object + "] and the object is visible ");
-			} catch (Exception exc) {
+			} 
+			catch (TimeoutException exc) {
+				// Continue
+			}
+			catch (Exception exc) {
 				Assert.fail(exc.toString());
 			}
-		} while (!displayed);
+		} while ((!displayed)&&(System.currentTimeMillis()-startTime)<waitTime*1000);
 		return element;
 	}
 
@@ -128,7 +141,11 @@ public class Foundation extends Factory {
 			element = wait.until(ExpectedConditions.elementToBeClickable(object));
 			if (ExtFactory.getInstance().getExtent() != null) 
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element clickable [ " + object + " ]");
-		} catch (Exception exc) {
+		}
+		catch (TimeoutException exc) {
+			// Continue
+		} 
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
@@ -367,7 +384,10 @@ public class Foundation extends Factory {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Waited for element [" + object + " ] to disappear");
-		} catch (Exception exc) {
+		} catch (TimeoutException e) {
+			// Continue
+		}
+		catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
@@ -425,5 +445,26 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return isElementDisabled;
+	}
+	
+	public void WaitForAjax(int waitTime) {
+		try {
+			long startTime = System.currentTimeMillis();
+			while (true) {
+
+				Boolean ajaxIsComplete = (Boolean) ((JavascriptExecutor) getDriver())
+						.executeScript("return jQuery.active == 0");
+				if (ajaxIsComplete || (System.currentTimeMillis() - startTime) < waitTime * 1000) {
+					break;
+				}
+				threadWait(100);
+			}
+
+		}catch (TimeoutException exc) {
+			// continue
+		} 
+		catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 }

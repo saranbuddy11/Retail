@@ -72,7 +72,8 @@ public class Consumer extends TestInfra {
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
 		final String CASE_NUM = "116743";
-
+		String balanceTextww = "($21.96)";
+		String balancezz=balanceTextww.replaceAll("[\\(\\)\\$]", "");
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -115,9 +116,10 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String balance = consumerTblRecords.get(columnName);
-			String balance1 = balance.substring(1);
-			Double newBalance = Double.parseDouble(balance1) + 2;
+			String balanceText = consumerTblRecords.get(columnName);
+			String balance=balanceText.replaceAll("[\\(\\)\\$]", "");
+			//String balance1 = balance.substring(1);
+			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
 			// clicking consumer id
@@ -140,6 +142,7 @@ public class Consumer extends TestInfra {
 			Map<String, String> consumerTblRecords2 = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String actualBalance = consumerTblRecords2.get(columnName);
+			actualBalance=actualBalance.replaceAll("[\\(\\)]", "");
 			Assert.assertEquals(actualBalance, expectedBalance);
 
 			// enter new balance with out reason
@@ -1951,7 +1954,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -1962,7 +1965,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -1980,7 +1983,7 @@ public class Consumer extends TestInfra {
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
@@ -2062,7 +2065,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2073,7 +2076,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2091,7 +2094,7 @@ public class Consumer extends TestInfra {
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
@@ -2208,7 +2211,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2219,7 +2222,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);

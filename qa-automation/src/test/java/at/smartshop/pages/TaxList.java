@@ -37,7 +37,7 @@ public class TaxList {
 		double tax = Double.parseDouble(taxRate);
 
 		double taxPercent = (double) (tax) / 100;
-		double taxAmount = taxPercent * Double.parseDouble(price);
+		double taxAmount = taxPercent * Double.parseDouble(taxRate);
 		taxAmount = Math.round(taxAmount * 100.0) / 100.0;
 		return taxAmount;
 

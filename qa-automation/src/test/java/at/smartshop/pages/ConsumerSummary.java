@@ -42,8 +42,10 @@ public class ConsumerSummary {
 		double initBalance = 0;
 		try {
 			String balance = foundation.getText(LBL_READ_BALANCE);
-			initBalance = Double
-					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING).replace(Constants.PARENTHESES, Constants.EMPTY_STRING));
+			balance = balance.replaceAll("[\\(\\)\\$]", "");
+//			initBalance = Double
+//					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+			initBalance = Double.parseDouble(balance);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

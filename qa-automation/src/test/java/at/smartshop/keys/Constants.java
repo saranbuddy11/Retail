@@ -91,4 +91,6 @@ public class Constants {
 	public static final String TESTING = "Testing";
 	public static final String DELIMITER_DOT= ".";
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
+	public static final String EDITED = "Edited";
+	public static final String ALL= "All";
 }
