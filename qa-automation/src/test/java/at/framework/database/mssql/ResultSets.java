@@ -26,6 +26,7 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.database.columns.CNSuperList;

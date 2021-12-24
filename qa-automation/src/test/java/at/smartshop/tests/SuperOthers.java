@@ -35,6 +35,7 @@ import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
 import at.smartshop.pages.CorporateAccountList;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.FinanceList;
@@ -1802,5 +1803,48 @@ public class SuperOthers extends TestInfra {
 		} 
 	}
 
+	@Test(description = "166895-Validate the check and uncheck checkbox of ' Is Snowflake' column")
+	public void DSMCheckUncheckCheckbox() {
+		final String CASE_NUM = "166895";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		final String super_Name = rstSuperListData.get(CNSuperList.SUPER_NAME);
+		
+		List<String> rowdata = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+		String search_data = rowdata.get(0);
+	
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			foundation.waitforElement(DataSourceManager.VALIDATE_DSM_HEADING, Constants.SHORT_TIME);
+			assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING),super_Name);
+			
+			//search for Report 
+			textBox.enterText(DataSourceManager.DSM_SEARCH_BOX, search_data);
+			assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
+			foundation.click(DataSourceManager.DSM_CHECKBOX);
+			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
+		
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));
+			foundation.click(DataSourceManager.DSM_CHECKBOX);
+			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
+
+		}
+	}
 
 }

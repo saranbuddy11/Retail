@@ -46,5 +46,4 @@ public class Configuration {
 	public static final String AUTOMATIONLOCATION1 = "second_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
-	public static final String SECOND_LOC = "second_loc";
 }
