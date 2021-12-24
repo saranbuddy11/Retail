@@ -27,7 +27,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class HealthAheadReport extends Factory {
@@ -41,6 +40,7 @@ public class HealthAheadReport extends Factory {
 	private static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_HEALTH_AHEAD_GRID = By.cssSelector("#rptdt > tbody");
+	public final By SEARCH_RESULT = By.xpath("//input[@aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();

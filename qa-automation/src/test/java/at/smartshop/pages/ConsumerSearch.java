@@ -46,6 +46,8 @@ public class ConsumerSearch extends Factory {
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
+	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {

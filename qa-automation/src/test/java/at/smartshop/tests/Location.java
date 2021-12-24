@@ -60,7 +60,7 @@ public class Location extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Strings string = new Strings();
 	private Excel excel = new Excel();
-	private DeviceList deviceList=new DeviceList();
+	private DeviceList deviceList = new DeviceList();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -84,7 +84,29 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+			List<String> locationList_Dpd_Values = Arrays.asList(
+					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			String locationDisabled_No = locationDisabled.get(1);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Verifying the Location is Active or not
+			if (foundation.isDisplayed(
+					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME))) == false) {
+
+				dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), Constants.TEXT);
+				locationList.selectLocationName(locationName);
+				foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
+				dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
+				foundation.click(LocationSummary.BTN_SAVE);
+				foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			}
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -132,8 +154,24 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			List<String> locationList_Dpd_Values = Arrays.asList(
+					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
+			List<String> locationDisabled = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Verifying the Location is Active or not
+			if (foundation.isDisplayed(
+					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME))) == false) {
+
+				dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), Constants.TEXT);
+				locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+				foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
+				dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(1), Constants.TEXT);
+				foundation.click(LocationSummary.BTN_SAVE);
+				foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			}
 
 			// Searching for Product
 			foundation.waitforElement(
@@ -142,8 +180,6 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-			List<String> locationDisabled = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled.get(0), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
@@ -223,6 +259,19 @@ public class Location extends TestInfra {
 			// Selecting location
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Verifying the Location is Active or not
+			if (foundation.isDisplayed(
+					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME))) == false) {
+
+				dropDown.selectItem(LocationList.DPD_LOCATION_LIST, locationList_Dpd_Values.get(1), Constants.TEXT);
+				locationList.selectLocationName(locationName);
+				foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
+				dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
+				foundation.click(LocationSummary.BTN_SAVE);
+				foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			}
+
 			foundation.waitforElement(
 					locationList.getlocationElement(rstLocationListData.get(CNLocationList.LOCATION_NAME)),
 					Constants.SHORT_TIME);
@@ -292,6 +341,7 @@ public class Location extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(globalProductChange.objProductName(product));
+			foundation.waitforClikableElement(GlobalProductChange.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
 			// Update loyalty filter
@@ -402,11 +452,26 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+
+			if (!foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON)) {
+				foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
+				textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+				foundation.waitforElement(LocationSummary.LBL_ROW_HEADER, Constants.SHORT_TIME);
+				foundation.waitforClikableElement(LocationSummary.LBL_COLUMN_DATA, Constants.SHORT_TIME);
+				foundation.click(LocationSummary.LBL_COLUMN_DATA);
+				foundation.click(LocationSummary.BTN_DEVICE_ADD);
+				foundation.refreshPage();
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			}
+
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_CAUTION_ICON));
 			foundation.objectFocus(LocationSummary.LBL_CAUTION_ICON);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_HOVER_MESSAGE));
 			foundation.click(LocationSummary.LBL_CAUTION_ICON);
-			foundation.click(locationSummary.objDevice(device));
+			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
+			// foundation.click(locationSummary.objDevice(device));
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.TWO_SECOND);
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
 		} catch (Throwable exc) {
@@ -444,7 +509,8 @@ public class Location extends TestInfra {
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
 			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
 			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
-			foundation.click(locationSummary.objDevice(device));
+			// foundation.click(locationSummary.objDevice(device));
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
 			Assert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
 		} catch (Throwable exc) {
@@ -556,6 +622,14 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
+
+			// Verifying Device name is present or not
+			if (foundation.isDisplayed(locationSummary.deviceName(device))) {
+
+				// Deleting the Already Present Device
+				locationSummary.removeDevice(device);
+			}
+
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
@@ -586,7 +660,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
+			foundation.waitforElementToBeVisible(locationSummary.objUploadStatus("abc"), Constants.SHORT_TIME);
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
@@ -640,17 +714,24 @@ public class Location extends TestInfra {
 			Assert.assertEquals(actualData, dbData.get(2));
 			// Close
 			foundation.refreshPage();
+			// Verifying the device is present or not
+			if (foundation.isDisplayed(locationSummary.deviceName(dbData.get(3)))) {
+
+				// Deleting the Already Present Device
+				locationSummary.removeDevice(dbData.get(3));
+			}
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, dbData.get(3));
-			foundation.click(LocationSummary.LBL_COLUMN_DATA);
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
-			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			Assert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+
 	}
 
 	@Test(description = "146085-QAA-107-verify created device is displayed in devices tab in location summary page")
@@ -832,6 +913,8 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_MAPPING);
 			Assert.assertFalse(dropDown.verifyItemPresent(LocationSummary.DPD_TAX_CAT, requiredData.get(0)));
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
+			foundation.refreshPage();
+			locationSummary.selectTab(tabName);
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
@@ -882,6 +965,7 @@ public class Location extends TestInfra {
 			for (int i = 0; i < requiredData.size(); i++) {
 				dbData.put(requiredData.get(i), expectedData.get(i));
 			}
+			foundation.threadWait(Constants.TWO_SECOND);
 			Assert.assertEquals(uiTableData, dbData);
 
 		} catch (Throwable exc) {
@@ -1068,7 +1152,7 @@ public class Location extends TestInfra {
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
 			assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
-			assertEquals(foundation.getTextofListElement(LocationSummary.LBL_TBL_HEADER), devicetabHeaders);
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1106,7 +1190,74 @@ public class Location extends TestInfra {
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
 			assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
-			assertEquals(foundation.getTextofListElement(LocationSummary.LBL_TBL_HEADER), devicetabHeaders);
+			assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143203-QAA-104-ADM>Location Summary>Devices>Duration Link")
+	public void verifyDurationLink() {
+		try {
+			final String CASE_NUM = "143203";
+
+			// Reading test data from DataBase
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to location summary and verify duration link
+			locationList.selectLocationName(location);
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			foundation.click(LocationSummary.LBL_DURATION);
+			assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_STATUS));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143209-QAA-108-ADM>Location Summary>Devices>Deploy Device-X")
+	public void verifyDeployDeviceX() {
+		try {
+			final String CASE_NUM = "143209";
+
+			// Reading test data from DataBas
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to device tab
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.LONG_TIME);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_COLUMN_DATA));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROW_HEADER));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
+			foundation.click(LocationSummary.LBL_POPUP_DEPLOY_DEVICE_CLOSE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
+			Assert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -15,7 +15,6 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class WebService extends Factory {
 

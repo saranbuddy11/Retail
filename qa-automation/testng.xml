@@ -11,25 +11,32 @@
 	<test name="Test">
 	<parameter name = "driver" value="Local" />
 	<parameter name = "browser" value="Chrome" />
+	<parameter name = "reportsDB" value="Snowflake" /> 
+	<!-- <parameter name = "reportsDB" value="RDC" /> -->
 		<classes>
 			
 			
-			<class name="at.smartshop.v5.tests.V5Test"/>
+			<!-- <class name="at.smartshop.v5.tests.V5Test"/> -->
 			<!-- <class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.Consumer"/>
+			<class name="at.smartshop.tests.ConsumerRoles"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>					   
 			<class name="at.smartshop.tests.Location"/>	
 			<class name="at.smartshop.tests.Locker"/>	
 			<class name="at.smartshop.tests.NationalAccount"/>	
-			<class name="at.smartshop.tests.Promotions"/>				
+							
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.tests.PickLists"/>
 			<class name="at.smartshop.tests.VDICheck"/>
 			<class name="at.smartshop.tests.OrganizationSummary"/>
+			<class name="at.smartshop.tests.Organization"/>
 			<class name="at.smartshop.tests.Menu"/>
 			<class name="at.smartshop.sos.tests.Sos"/>
-			
+			<class name="at.smartshop.tests.Promotions"/>
+			<class name="at.smartshop.tests.Device"/>
+			<class name="at.smartshop.tests.CorporateAccount"/>
+			<class name="at.smartshop.tests.SuperOthers"/>
 		</classes>
 	</test> <!-- Test -->
 	

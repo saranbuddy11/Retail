@@ -11,25 +11,27 @@ import at.smartshop.keys.Constants;
 
 public class ScanPayment {
 	public static final By LBL_BARCODE_GERMAN = By.xpath("//h3[@data-reactid='.0.4.0.0.0.1.0.4.0.1.0']");
-	private Foundation foundation=new Foundation();
-	
-    public By objText(String text) {
-		return By.xpath("//*[text()='"+text+"']");
+	private Foundation foundation = new Foundation();
+
+	public By objText(String text) {
+		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
-    
+
 	public void verifyScanPaymentPageLanguage(String scanPage, String requiredData, String actualData) {
 		List<String> scanSetupPageData = Arrays.asList(scanPage.split(Constants.DELIMITER_TILD));
-		if(requiredData.equals(actualData)) {
+
+		if (requiredData.equals(actualData)) {
 			String barcodeLogin = foundation.getText(LBL_BARCODE_GERMAN);
 			Assert.assertEquals(barcodeLogin, scanSetupPageData.get(1));
-		}else {
-			String scanTxt=foundation.getText(LBL_BARCODE_GERMAN);
+		} else {
+			String scanTxt = foundation.getText(LBL_BARCODE_GERMAN);
 			Assert.assertEquals(scanTxt, scanSetupPageData.get(1));
 		}
+
 		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(2))));		
+		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(2))));
 		foundation.click(objText(scanSetupPageData.get(2)));
-		
+
 	}
-    
+
 }
