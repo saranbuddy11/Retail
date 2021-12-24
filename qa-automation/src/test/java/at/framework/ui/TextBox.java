@@ -7,12 +7,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class TextBox extends Factory {
 	private Foundation foundation=new Foundation();
@@ -28,22 +27,6 @@ public class TextBox extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
-	}
-	
-	public void enterTextOnFocus(By object,  String text) {
-		try {
-			foundation.objectFocus(object);
-			getDriver().findElement(object).clear();
-			getDriver().findElement(object).sendKeys(text);
-
-			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "entered text " + text);
-			}
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-
 	}
 
 	public String getTextFromInput(By object) {
@@ -115,7 +98,7 @@ public class TextBox extends Factory {
 			foundation.click(By.xpath("//*[text()='Del']"));
 		}
 	}
-	
+
 	public List<String> getValueofListElement(By object) {
 		String text = null;
 		List<String> elementsText = new ArrayList<String>();
@@ -132,4 +115,19 @@ public class TextBox extends Factory {
 		return elementsText;
 	}
 
+	public void enterTextOnFocus(By object, String text) {
+		try {
+			foundation.objectFocus(object);
+			getDriver().findElement(object).clear();
+			getDriver().findElement(object).sendKeys(text);
+
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "entered text " + text);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+	}
 }
