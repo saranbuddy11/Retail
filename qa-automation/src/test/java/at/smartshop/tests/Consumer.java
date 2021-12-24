@@ -72,7 +72,8 @@ public class Consumer extends TestInfra {
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
 		final String CASE_NUM = "116743";
-
+		String balanceTextww = "($21.96)";
+		String balancezz=balanceTextww.replaceAll("[\\(\\)\\$]", "");
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -115,9 +116,10 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Map<String, String> consumerTblRecords = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String balance = consumerTblRecords.get(columnName);
-			String balance1 = balance.substring(1);
-			Double newBalance = Double.parseDouble(balance1) + 2;
+			String balanceText = consumerTblRecords.get(columnName);
+			String balance=balanceText.replaceAll("[\\(\\)\\$]", "");
+			//String balance1 = balance.substring(1);
+			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
 			// clicking consumer id
@@ -140,6 +142,7 @@ public class Consumer extends TestInfra {
 			Map<String, String> consumerTblRecords2 = consumerSearch
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String actualBalance = consumerTblRecords2.get(columnName);
+			actualBalance=actualBalance.replaceAll("[\\(\\)]", "");
 			Assert.assertEquals(actualBalance, expectedBalance);
 
 			// enter new balance with out reason
@@ -1951,7 +1954,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -1962,7 +1965,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -1980,7 +1983,7 @@ public class Consumer extends TestInfra {
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
@@ -2062,7 +2065,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2073,7 +2076,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2091,7 +2094,7 @@ public class Consumer extends TestInfra {
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
@@ -2208,7 +2211,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2219,7 +2222,7 @@ public class Consumer extends TestInfra {
 			
 			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC , FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
 			foundation.click(ConsumerMove.BTN_GO);
 			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
@@ -2329,6 +2332,205 @@ public class Consumer extends TestInfra {
 			foundation.waitforElement(ConsumerMove.BTN_EXPORT,Constants.SHORT_TIME);
 			String message= foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
 			assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+@Test(description = "165190-ADM>Super>Consumer>Consumer Search- Navigation to consumer search page")
+	public void verifyNavigationToConsumerSearch() {
+		final String CASE_NUM = "165190";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//verify the navigation to consumer search page
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "165191-ADM>Super>Consumer>Consumer Search- Navigation to consumer summary")
+	public void verifyNavigationToConsumerSummary() {
+		final String CASE_NUM = "165191";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the navigation to consumer summary
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_EMAIL));
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "165192-ADM>Super>Consumer>Consumer Search- Update and save functionality")
+	public void verifyEditAndSaveConsumer() {
+		final String CASE_NUM = "165192";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//verify update and save functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME,Constants.AUTO_TEST);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "164515-ADM>Super>Consumer>Consumer Search- Payout and Close")
+	public void verifyPayoutAndClose() {
+		final String CASE_NUM = "164515";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the navigation to consumer summary
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
+			String emailID=consumerSearch.createConsumer(location);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
+			//verify payout and close
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), emailID, location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "165194-ADM>Super>Consumer>Consumer Search- Save with blank data")
+	public void verifySaveConsumerWithBlankData() {
+		final String CASE_NUM = "165194";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//verify try save with blank data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME,"");
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME,"");
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			assertTrue(foundation.isDisplayed(ConsumerSummary.ERROR_FIRSTNAME));
+			assertTrue(foundation.isDisplayed(ConsumerSummary.ERROR_LASTNAME));
+			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "165193-ADM>Super>Consumer>Consumer Search- Move")
+	public void verifyConsumerMove() {
+		final String CASE_NUM = "165193";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//create customer and verify the move functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
+			String emailID=consumerSearch.createConsumer(location);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
+			// verify payout and close
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), emailID, location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
+			foundation.waitforElementToDisappear(ConsumerSummary.SPINNER,Constants.SHORT_TIME);
+			boolean isConsumerMoved=consumerSummary.moveConsumer(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			assertTrue(isConsumerMoved);
+			
+			//reset- payout and close
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

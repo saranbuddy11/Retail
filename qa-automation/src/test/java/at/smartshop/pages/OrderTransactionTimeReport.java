@@ -38,7 +38,8 @@ public class OrderTransactionTimeReport extends Factory {
 	private static final By TBL_ORDER_TRANSACTION_TIME = By.id("datagridorder");
 	private static final By LBL_REPORT_NAME = By.id("Order Transaction Time");
 	private static final By TBL_ORDER_TRANSACTION_TIME_GRID = By.cssSelector("#datagridorder > tbody");
-
+	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private int requiredCount;
 	private Map<String, Object> jsonData = new HashMap<>();

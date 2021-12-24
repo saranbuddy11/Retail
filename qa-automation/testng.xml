@@ -11,10 +11,12 @@
 	<test name="Test">
 	<parameter name = "driver" value="Local" />
 	<parameter name = "browser" value="Chrome" />
+	<parameter name = "reportsDB" value="Snowflake" /> 
+	<!-- <parameter name = "reportsDB" value="RDC" /> -->
 		<classes>
 			
 			
-			<class name="at.smartshop.v5.tests.V5Test"/>
+			<!-- <class name="at.smartshop.v5.tests.V5Test"/> -->
 			<!-- <class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.Consumer"/>
@@ -33,8 +35,8 @@
 			<class name="at.smartshop.sos.tests.Sos"/>
 			<class name="at.smartshop.tests.Promotions"/>
 			<class name="at.smartshop.tests.Device"/>
-			<class name="at.smartshop.tests.SuperOthers"/>
 			<class name="at.smartshop.tests.CorporateAccount"/>
+			<class name="at.smartshop.tests.SuperOthers"/>
 		</classes>
 	</test> <!-- Test -->
 	
