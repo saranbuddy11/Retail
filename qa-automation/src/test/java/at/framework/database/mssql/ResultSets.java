@@ -29,6 +29,7 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
+import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Constants;
 
 public class ResultSets extends Connections {
@@ -898,7 +899,7 @@ public class ResultSets extends Connections {
 		return rstConsumer;
 
 	}
-	
+
 	public Map<String, String> getSuperListData(String query, String testcaseID) {
 		Map<String, String> rstSuperListData = new HashMap<>();
 		Statement statement = null;

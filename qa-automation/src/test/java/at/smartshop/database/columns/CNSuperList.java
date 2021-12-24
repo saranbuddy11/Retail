@@ -10,3 +10,4 @@ public class CNSuperList {
 	public static final String DISBURSEMENT_DATE = "DisbursementDate";
 	public static final String ERROR_MESSAGE = "ErrorMessage";
 }
+
