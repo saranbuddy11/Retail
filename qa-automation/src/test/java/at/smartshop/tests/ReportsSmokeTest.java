@@ -31,13 +31,18 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.AdvanaBilling;
 import at.smartshop.pages.AppFundingByLocation;
+import at.smartshop.pages.BadScanReport;
+import at.smartshop.pages.BalanceReport;
 import at.smartshop.pages.BulkTopOff;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowDetails;
+import at.smartshop.pages.CashoutLog;
+import at.smartshop.pages.CreditTransaction;
 import at.smartshop.pages.CustomerReportSkymiles;
 import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeleteSummaryReport;
@@ -45,9 +50,12 @@ import at.smartshop.pages.ModifiersReport;
 import at.smartshop.pages.MultiTaxReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderAheadTrans;
+import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.PayrollDeductDetails;
 import at.smartshop.pages.PayrollDeductSummary;
+import at.smartshop.pages.ProductCannedReport;
 import at.smartshop.pages.ProductPricingReport;
+import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.RedeemedGuestPassValue;
 import at.smartshop.pages.Referrals;
 import at.smartshop.pages.RemainingGuestPassLiability;
@@ -108,7 +116,15 @@ public class ReportsSmokeTest extends TestInfra {
 	private CashFlow cashFlow = new CashFlow();
 	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
-
+	private TransactionCannedReport transactionCannedReport = new TransactionCannedReport();
+	private ProductCannedReport productCannedReport = new ProductCannedReport();
+	private BadScanReport badScanReport = new BadScanReport();
+	private OrderTransactionTimeReport orderTransactionTimeReport = new OrderTransactionTimeReport();
+	private CashoutLog cashoutLog = new CashoutLog();
+	private ProductTaxReport productTaxReport = new ProductTaxReport();
+	private BalanceReport balanceReport = new BalanceReport();
+	private CreditTransaction creditTransaction = new CreditTransaction();
+	
 	
 	
 	private Map<String, String> rstNavigationMenuData;
@@ -221,7 +237,7 @@ public class ReportsSmokeTest extends TestInfra {
 	}
 
 	@Test(description = "166894 - This test validates Product Tax Report Data Calculation")
-	public void salesAnalisisReport() {
+	public void salesAnalysisReport() {
 		try {
 
 			final String CASE_NUM = "166894";
@@ -1794,6 +1810,381 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying, whether the Report data available or not
 			deleteSummaryReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166985 - This test validates Product Tax Report Data Calculation")
+	public void transactionCanned() {
+		try {
+			final String CASE_NUM = "166985";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			transactionCannedReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			transactionCannedReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166986 - This test validates Product Tax Report Data Calculation")
+	public void productCannedReport() {
+		try {
+			final String CASE_NUM = "166986";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			productCannedReport.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			productCannedReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166988 - This test validates Product Tax Report Data Calculation")
+	public void badScanReport() {
+		try {
+			final String CASE_NUM = "166988";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			badScanReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			badScanReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166989 - This test validates Product Tax Report Data Calculation")
+	public void orderTransactionTime() {
+		try {
+			final String CASE_NUM = "166989";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			orderTransactionTimeReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			orderTransactionTimeReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166990 - This test validates Product Tax Report Data Calculation")
+	public void cashoutLog() {
+		try {
+			final String CASE_NUM = "166990";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			cashoutLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			cashoutLog.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166991 - This test validates Product Tax Report Data Calculation")
+	public void productTax() {
+		try {
+			final String CASE_NUM = "166991";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			productTaxReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			productTaxReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166992 - This test validates Product Tax Report Data Calculation")
+	public void balanceReport() {
+		try {
+			final String CASE_NUM = "166992";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			balanceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			balanceReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "166993 - This test validates Product Tax Report Data Calculation")
+	public void creditTransaction() {
+		try {
+			final String CASE_NUM = "166993";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			creditTransaction.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			creditTransaction.checkForDataAvailabilyInResultTable();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
