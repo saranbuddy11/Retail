@@ -134,7 +134,7 @@ public class Report extends TestInfra {
 	
 	@Parameters({ "driver", "browser", "reportsDB" })
 
-//	@BeforeClass
+	@BeforeClass
 	public void beforeTest(String drivers, String browsers, String reportsDB) {
 		try {
 			browser.launch(drivers, browsers);
