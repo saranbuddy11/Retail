@@ -298,12 +298,22 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
+	
 	public void objectClick(By object) {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked object [ " + object + " ] using javascript");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void scrollIntoViewElement(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Scroll into view object [ " + object + " ] using javascript");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

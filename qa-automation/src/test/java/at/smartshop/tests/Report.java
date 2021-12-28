@@ -134,7 +134,7 @@ public class Report extends TestInfra {
 	
 	@Parameters({ "driver", "browser", "reportsDB" })
 
-	@BeforeClass
+//	@BeforeClass
 	public void beforeTest(String drivers, String browsers, String reportsDB) {
 		try {
 			browser.launch(drivers, browsers);
@@ -213,7 +213,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			// Validate Account Adjustment Report Title
@@ -843,7 +843,7 @@ public class Report extends TestInfra {
 			// run and read report
 			Thread.sleep(1000);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			iceReport.getTblRecordsUI();
@@ -887,7 +887,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			iceReport.getTblRecordsUI();
 
 			// verify report headers
@@ -1159,10 +1159,12 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+			
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(healthAhead.SEARCH_RESULT, propertyFile
@@ -2156,7 +2158,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			financialRecap.getTblRecordsUI();
 			financialRecap.getIntialData().putAll(financialRecap.getReportsData());
@@ -2179,7 +2181,7 @@ public class Report extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			financialRecap.getTblRecordsUI();
 
@@ -2466,6 +2468,7 @@ public class Report extends TestInfra {
 			crossOrgLoyalty.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			crossOrgLoyalty.processAPI();
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			

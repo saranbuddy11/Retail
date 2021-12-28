@@ -29,7 +29,8 @@ public class ReportList extends Factory {
 
 	public void selectReport(String reportName) {
 		try {
-			foundation.objectFocus(TXT_SEARCH);
+			foundation.scrollIntoViewElement(TXT_SEARCH);
+//			foundation.objectFocus(TXT_SEARCH);
 			textBox.enterTextOnFocus(TXT_SEARCH, reportName);
 			WebElement object = getDriver().findElement(By.xpath("//div[@class='currentReport'][contains(text(),'" + reportName + "')]"));
 			Actions builder = new Actions(getDriver());
