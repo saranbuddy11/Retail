@@ -211,6 +211,7 @@ public class Promotions extends TestInfra {
 	@Test(description = "118620-This test validates the Create Promotion with Promotion Type as On Screen")
 	public void verifyCreatePromotionWithOnScreen() {
 		final String CASE_NUM = "118620";
+		
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
