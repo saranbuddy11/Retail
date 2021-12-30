@@ -32,8 +32,11 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.SoldItemCOGS;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.AccountFundingDetail;
+import at.smartshop.pages.AccountProfitability;
 import at.smartshop.pages.AdvanaBilling;
 import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.AppFundingByLocation;
@@ -48,7 +51,9 @@ import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowDetails;
 import at.smartshop.pages.CashFlowDetailsInternational;
 import at.smartshop.pages.CashoutLog;
+import at.smartshop.pages.ConsumerPurchaseSummary;
 import at.smartshop.pages.CreditTransaction;
+import at.smartshop.pages.CrossOrgLoyaltyReport;
 import at.smartshop.pages.CustomerReportSkymiles;
 import at.smartshop.pages.DailySalesSummary;
 import at.smartshop.pages.DataSourceManager;
@@ -67,6 +72,7 @@ import at.smartshop.pages.RedeemedGuestPassValue;
 import at.smartshop.pages.Referrals;
 import at.smartshop.pages.RemainingGuestPassLiability;
 import at.smartshop.pages.EFTGMADisbursement;
+import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.EntrySummaryReport;
 import at.smartshop.pages.ExpressDisbursement;
 import at.smartshop.pages.FinancialCanned;
@@ -78,7 +84,9 @@ import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.IntlWebAppFunding;
 import at.smartshop.pages.InventoryTotals;
+import at.smartshop.pages.InventoryValueSummary;
 import at.smartshop.pages.InvoiceDetailsReport;
+import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LoyaltyUserReport;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.EFTCrossOrgGMADisbursement;
@@ -162,6 +170,14 @@ public class ReportsSmokeTest extends TestInfra {
 	private IntegrationPaymentReport integrationPaymentReport = new IntegrationPaymentReport();
 	private SalesSummaryAndCost salesSummaryAndCost = new SalesSummaryAndCost();
 	private FinancialCanned financialCanned = new FinancialCanned();
+	private ItemStockoutReport itemStockoutReport = new ItemStockoutReport();
+	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
+	private AccountFundingDetail accountFundingDetail = new AccountFundingDetail();
+	private ConsumerPurchaseSummary consumerPurchaseSummary = new ConsumerPurchaseSummary();
+	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
+	private AccountProfitability accountProfitability = new AccountProfitability();
+	private CrossOrgLoyaltyReport crossOrgLoyaltyReport = new CrossOrgLoyaltyReport();
+	private EmployeeCompDetailsReport employeeCompDetailsReport = new EmployeeCompDetailsReport();
 	
 	
 	
@@ -1281,6 +1297,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file, verified
 			// file existence and deleted the file
 			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Verifying, whether the Report data available or not
@@ -1362,7 +1379,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1372,7 +1390,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166963 - This test validates Product Tax Report Data Calculation")
 	public void unsoldProducts() {
 		try {
@@ -1399,7 +1417,8 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectFilterOption(
-					propertyFile.readPropertyFile(Configuration.FILTER_FOR_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.VALUE);
+					propertyFile.readPropertyFile(Configuration.FILTER_FOR_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.VALUE);
 
 			reportList.selectLocationOnGroupFilter(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -1413,7 +1432,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1423,7 +1443,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166964 - This test validates Product Tax Report Data Calculation")
 	public void salesTimeDetailsByDevice() {
 		try {
@@ -1477,7 +1497,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166965 - This test validates Product Tax Report Data Calculation")
 	public void redeemedGuestPassValue() {
 		try {
@@ -1514,7 +1534,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1524,7 +1545,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166966 - This test validates Product Tax Report Data Calculation")
 	public void skymilesDetail() {
 		try {
@@ -1561,7 +1582,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1571,7 +1593,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166967 - This test validates Product Tax Report Data Calculation")
 	public void soldDetails() {
 		try {
@@ -1608,7 +1630,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1618,7 +1641,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166969 - This test validates Product Tax Report Data Calculation")
 	public void productPricing() {
 		try {
@@ -1654,7 +1677,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1664,7 +1688,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166970 - This test validates Product Tax Report Data Calculation")
 	public void soldDetailsInt() {
 		try {
@@ -1701,7 +1725,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1711,7 +1736,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166971 - This test validates Product Tax Report Data Calculation")
 	public void cashFlow() {
 		try {
@@ -1748,7 +1773,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1758,7 +1784,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166972 - This test validates Product Tax Report Data Calculation")
 	public void entrySummaryReport() {
 		try {
@@ -1795,7 +1821,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1805,7 +1832,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166976 - This test validates Product Tax Report Data Calculation")
 	public void deleteSummaryReport() {
 		try {
@@ -1842,7 +1869,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1852,7 +1880,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166985 - This test validates Product Tax Report Data Calculation")
 	public void transactionCanned() {
 		try {
@@ -1889,7 +1917,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1899,7 +1928,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166986 - This test validates Product Tax Report Data Calculation")
 	public void productCannedReport() {
 		try {
@@ -1929,15 +1958,18 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			productCannedReport.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			productCannedReport.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -1946,7 +1978,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166988 - This test validates Product Tax Report Data Calculation")
 	public void badScanReport() {
 		try {
@@ -1983,7 +2015,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -1993,7 +2026,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166989 - This test validates Product Tax Report Data Calculation")
 	public void orderTransactionTime() {
 		try {
@@ -2030,7 +2063,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2040,7 +2074,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166990 - This test validates Product Tax Report Data Calculation")
 	public void cashoutLog() {
 		try {
@@ -2077,7 +2111,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2087,7 +2122,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166991 - This test validates Product Tax Report Data Calculation")
 	public void productTax() {
 		try {
@@ -2124,7 +2159,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2134,7 +2170,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166992 - This test validates Product Tax Report Data Calculation")
 	public void balanceReport() {
 		try {
@@ -2170,7 +2206,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2180,7 +2217,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "166993 - This test validates Product Tax Report Data Calculation")
 	public void creditTransaction() {
 		try {
@@ -2217,7 +2254,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2227,7 +2265,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167009 - This test validates Product Tax Report Data Calculation")
 	public void queuedCreditTransactions() {
 		try {
@@ -2264,7 +2302,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2274,7 +2313,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167010 - This test validates Product Tax Report Data Calculation")
 	public void iceReport() {
 		try {
@@ -2311,7 +2350,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2321,7 +2361,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167011 - This test validates Product Tax Report Data Calculation")
 	public void financialRecap() {
 		try {
@@ -2358,7 +2398,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2368,7 +2409,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167012 - This test validates Product Tax Report Data Calculation")
 	public void memberPurchaseSummary() {
 		try {
@@ -2403,7 +2444,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2413,7 +2455,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167013 - This test validates Product Tax Report Data Calculation")
 	public void memberPurchaseDetails() {
 		try {
@@ -2448,7 +2490,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2458,7 +2501,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167014 - This test validates Product Tax Report Data Calculation")
 	public void dailySalesSummary() {
 		try {
@@ -2495,7 +2538,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2505,7 +2549,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167015 - This test validates Product Tax Report Data Calculation")
 	public void cancelReport() {
 		try {
@@ -2542,7 +2586,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2552,7 +2597,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167016 - This test validates Product Tax Report Data Calculation")
 	public void invoiceDetail() {
 		try {
@@ -2589,7 +2634,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2599,7 +2645,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167017 - This test validates Product Tax Report Data Calculation")
 	public void cashAudit() {
 		try {
@@ -2636,7 +2682,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2646,7 +2693,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167018 - This test validates Product Tax Report Data Calculation")
 	public void billingInformation() {
 		try {
@@ -2683,7 +2730,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2693,7 +2741,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167019 - This test validates Product Tax Report Data Calculation")
 	public void inventoryTotals() {
 		try {
@@ -2727,7 +2775,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2737,7 +2786,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167020 - This test validates Product Tax Report Data Calculation")
 	public void loyaltyUser() {
 		try {
@@ -2774,7 +2823,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2784,7 +2834,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167021 - This test validates Product Tax Report Data Calculation")
 	public void folioBilling() {
 		try {
@@ -2821,7 +2871,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2831,7 +2882,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167022 - This test validates Product Tax Report Data Calculation")
 	public void inventoryAdjustmentDetail() {
 		try {
@@ -2868,7 +2919,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2878,7 +2930,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167023 - This test validates Product Tax Report Data Calculation")
 	public void alcoholSoldDetails() {
 		try {
@@ -2915,7 +2967,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -2925,7 +2978,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167024 - This test validates Product Tax Report Data Calculation")
 	public void cashFlowDetailsInternational() {
 		try {
@@ -2964,7 +3017,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2975,7 +3029,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167025 - This test validates Product Tax Report Data Calculation")
 	public void integrationPayments() {
 		try {
@@ -3012,7 +3066,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -3022,7 +3077,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167026 - This test validates Product Tax Report Data Calculation")
 	public void salesSummaryAndCost() {
 		try {
@@ -3059,7 +3114,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -3069,7 +3125,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167035 - This test validates Product Tax Report Data Calculation")
 	public void financialCanned() {
 		try {
@@ -3106,7 +3162,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Verifying the Report name with with the Name in the exported file, verified file existence and deleted the file
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
@@ -3116,5 +3173,386 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-}
 
+	@Test(description = "167036 - This test validates Product Tax Report Data Calculation")
+	public void itemStockout() {
+		try {
+			final String CASE_NUM = "167036";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			itemStockoutReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			itemStockoutReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167037 - This test validates Product Tax Report Data Calculation")
+	public void soldItemCOGS() {
+		try {
+			final String CASE_NUM = "167037";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			soldItemCOGS.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167038 - This test validates Product Tax Report Data Calculation")
+	public void accountFundingDetail() {
+		try {
+			final String CASE_NUM = "167038";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			accountFundingDetail.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			accountFundingDetail.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167039 - This test validates Product Tax Report Data Calculation")
+	public void consumerPurchaseSummary() {
+		try {
+			final String CASE_NUM = "167039";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			consumerPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			consumerPurchaseSummary.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167040 - This test validates Product Tax Report Data Calculation")
+	public void inventoryValueSummary() {
+		try {
+			final String CASE_NUM = "167040";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			inventoryValueSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			inventoryValueSummary.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167041 - This test validates Product Tax Report Data Calculation")
+	public void accountProfitability() {
+		try {
+			final String CASE_NUM = "167041";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			accountProfitability.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			accountProfitability.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167042 - This test validates Product Tax Report Data Calculation")
+	public void crossOrgLoyalty() {
+		try {
+			final String CASE_NUM = "167042";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			crossOrgLoyaltyReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			foundation.threadWait(Constants.THREE_SECOND);
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file, verified
+			// file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			crossOrgLoyaltyReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167043 - This test validates Product Tax Report Data Calculation")
+	public void employeeCompDetails() {
+		try {
+			final String CASE_NUM = "167043";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			employeeCompDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			employeeCompDetailsReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+}

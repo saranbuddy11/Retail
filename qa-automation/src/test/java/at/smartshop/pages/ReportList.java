@@ -257,15 +257,15 @@ public class ReportList extends Factory {
 		}
 	}
 	
-	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String formate) {
+	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String fileName, String formate) {
 		try {
 			System.out.println(reportName +"*****"+ formate);
-			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(reportName, formate));
+			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 
-			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
+			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDateWithoutSpace(fileName, formate), 0);
 
 			if (fileExists == false) {
-				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
+				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

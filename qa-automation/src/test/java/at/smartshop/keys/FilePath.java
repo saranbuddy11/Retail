@@ -41,21 +41,21 @@ public class FilePath {
 	
 	public static String reportFilePathWithDate(String filename, String formate) {
 		String date =" "+ reportList.getTodaysDate(formate);
-		System.out.println(date);
+//		System.out.println(date);
 		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + date + ".xlsx";
 		return EXCEL_REPORT;
 	}
 	
 	public static String reportFilePathWithDateWithoutSpace(String filename, String formate) {
 		String date = reportList.getTodaysDate(formate);
-		System.out.println(date);
+//		System.out.println(date);
 		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + date + ".xlsx";
 		return EXCEL_REPORT;
 	}
 	
 	public static String reportFilePathWithOrgAndGMA(String orgname, String formate) {
 		String date ="_"+ reportList.getTodaysDate(formate);
-		System.out.println(date);
+//		System.out.println(date);
 		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ orgname + date + "-GMA.xlsx";
 		return EXCEL_REPORT;
 	}

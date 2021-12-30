@@ -16,7 +16,10 @@ import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
@@ -32,6 +35,8 @@ public class ItemStockoutReport extends Factory {
 	private static final By TBL_ITEM_STOCKOUT_DETAILS_GRID = By
 			.cssSelector("table[aria-describedby='detaildt_info'] > tbody");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input[placeholder='  - Enter Product Description -']");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#summarydt > tbody > tr:nth-child(1)");
+	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
@@ -109,12 +114,33 @@ public class ItemStockoutReport extends Factory {
 
 	public void verifyReportName(String reportName) {
 		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public void checkForDataAvailabilyInResultTable() {
+		try {
+			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
+				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
+					Assert.fail("Failed Report because No Data Available in Report Table");
+				} else {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"Report Data Available in the Table, Hence passing the Test case");
+				}
+			} else {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
+				Assert.fail("Failed Report because No Report Table Available");
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 
 	public void updateData(String values, String invValue, String stockoutTime) {
 		try {
