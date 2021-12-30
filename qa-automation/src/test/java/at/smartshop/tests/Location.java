@@ -439,8 +439,8 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
 			// Select Menu and Menu Item
@@ -532,8 +532,8 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
 			// Select Menu and Menu Item
@@ -572,9 +572,10 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
-
+			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String ipaddres = propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE).split(":")[1].split("/")[2];
+			
 			List<String> dbData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
@@ -591,7 +592,7 @@ public class Location extends TestInfra {
 					LocationSummary.TBL_DEVICE_ROW);
 			// Table Validations
 			Assert.assertEquals(uiData.get(dbData.get(0)), device);
-			Assert.assertEquals(uiData.get(dbData.get(1)), dbData.get(2));
+			Assert.assertEquals(uiData.get(dbData.get(1)), ipaddres);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -619,7 +620,7 @@ public class Location extends TestInfra {
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 
