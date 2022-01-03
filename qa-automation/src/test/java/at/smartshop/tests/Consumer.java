@@ -113,7 +113,7 @@ public class Consumer extends TestInfra {
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balanceText = consumerTblRecords.get(columnName);
 			String balance=balanceText.replaceAll("[\\(\\)\\$]", "");
-			//String balance1 = balance.substring(1);
+			String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
