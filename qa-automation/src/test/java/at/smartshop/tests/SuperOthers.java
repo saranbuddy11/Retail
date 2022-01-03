@@ -113,7 +113,7 @@ public class SuperOthers extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -162,7 +162,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -214,7 +214,7 @@ public class SuperOthers extends TestInfra {
 			// Click on Save Button
 			foundation.click(ConsumerRolesList.BTN_CANCEL);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -253,7 +253,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			//Resetting the changes
@@ -303,7 +303,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.ERROR_STATUS, Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -343,7 +343,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
 					expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -389,7 +389,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_END_ERROR),
 					card_Definition_Status);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -433,7 +433,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -479,7 +479,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_CANCEL, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_CANCEL);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -521,7 +521,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -566,7 +566,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -617,7 +617,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -660,7 +660,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
 			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -705,7 +705,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -747,7 +747,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -811,7 +811,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
 			CustomisedAssert.assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -887,7 +887,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Search for recently created Corporate Accounts
@@ -947,7 +947,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Search for recently updated Corporate Accounts
@@ -1032,7 +1032,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
 					disbursement_Error_Email);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1082,7 +1082,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(CorporateAccountList.DISBURSEMENT_DAY);
 			foundation.isDisabled(CorporateAccountList.DISABLED_CHECKBOX);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1132,7 +1132,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(FinanceList.DOWNLOAD_CSV_REPORT);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CSV_REPORT_EXPORT_SRC));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -1177,7 +1177,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(FinanceList.ORG_ERROR), org_Error);
 			CustomisedAssert.assertEquals(foundation.getText(FinanceList.NOTES_ERROR), notes_Error);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1241,7 +1241,7 @@ public class SuperOthers extends TestInfra {
 			// Click on Save button
 			foundation.click(FinanceList.SAVE_BTN);
 			foundation.click(FinanceList.CONFIRM_NO);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1267,7 +1267,7 @@ public class SuperOthers extends TestInfra {
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1297,7 +1297,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElementToDisappear(SpecialService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1327,7 +1327,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(DeviceCreate.BTN_CANCEl);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1364,7 +1364,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(SpecialService.TXT_SEARCH, editedDeviceName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1397,7 +1397,7 @@ public class SuperOthers extends TestInfra {
 				foundation.verifySortText(specialService.listColumns(columnNumber), Constants.DESCENDING);
 			}
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1424,7 +1424,7 @@ public class SuperOthers extends TestInfra {
 			//verify navigation to special service summary page
 			textBox.enterText(SpecialService.TXT_SEARCH, Constants.AUTO_TEST);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1463,7 +1463,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(DataSourceManager.DSM_CHECKBOX);
 			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 		
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			CustomisedAssert.assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));

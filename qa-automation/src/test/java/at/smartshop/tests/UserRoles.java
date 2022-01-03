@@ -89,7 +89,7 @@ public class UserRoles extends TestInfra {
 			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
 			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -161,7 +161,7 @@ public class UserRoles extends TestInfra {
 			// Click on Save Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			foundation.waitforElement(UserList.DISABLE_USER, Constants.SHORT_TIME);
@@ -216,7 +216,7 @@ public class UserRoles extends TestInfra {
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -353,7 +353,7 @@ public class UserRoles extends TestInfra {
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -405,7 +405,7 @@ public class UserRoles extends TestInfra {
 			foundation.waitforElement(UserList.EMAIL_ERROR, Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),invalid_Email);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

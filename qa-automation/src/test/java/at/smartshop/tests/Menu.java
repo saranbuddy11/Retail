@@ -127,7 +127,7 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -207,7 +207,7 @@ public class Menu extends TestInfra {
 			foundation.alertAccept();
 			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting
@@ -258,7 +258,7 @@ public class Menu extends TestInfra {
 			CustomisedAssert.assertTrue(isenabled);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -296,7 +296,7 @@ public class Menu extends TestInfra {
 			CustomisedAssert.assertTrue(isenabled);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -324,7 +324,7 @@ public class Menu extends TestInfra {
 			CustomisedAssert.assertTrue(isenabled);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -369,7 +369,7 @@ public class Menu extends TestInfra {
 			isenabled = radio.isSelected(SelfService.RDO_BTN_Hide);
 			CustomisedAssert.assertFalse(isenabled);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -414,7 +414,7 @@ public class Menu extends TestInfra {
 			isSelected = radio.isSelected(SelfService.RDO_BTN_Hide);
 			CustomisedAssert.assertTrue(isSelected);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

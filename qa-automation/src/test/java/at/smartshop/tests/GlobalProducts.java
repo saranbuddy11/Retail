@@ -146,7 +146,7 @@ public class GlobalProducts extends TestInfra {
 
 			CustomisedAssert.assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -189,7 +189,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -238,7 +238,7 @@ public class GlobalProducts extends TestInfra {
 			// excel headers validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 0));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -287,7 +287,7 @@ public class GlobalProducts extends TestInfra {
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -336,7 +336,7 @@ public class GlobalProducts extends TestInfra {
 			// record count validation
 			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -395,7 +395,7 @@ public class GlobalProducts extends TestInfra {
 			// excel data validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -431,7 +431,7 @@ public class GlobalProducts extends TestInfra {
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 			CustomisedAssert.assertEquals(actualData, expectedData);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -464,7 +464,7 @@ public class GlobalProducts extends TestInfra {
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
 			CustomisedAssert.assertEquals(actualData, expectedData);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -505,7 +505,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -550,7 +550,7 @@ public class GlobalProducts extends TestInfra {
 				String actualErrorMsg = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
 				CustomisedAssert.assertEquals(actualErrorMsg, expectedScancodeError);
 			}
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -599,7 +599,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -664,7 +664,7 @@ public class GlobalProducts extends TestInfra {
 
 			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -709,7 +709,7 @@ public class GlobalProducts extends TestInfra {
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

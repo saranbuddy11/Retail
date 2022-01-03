@@ -100,7 +100,7 @@ public class NationalAccount extends TestInfra {
 			viewRole.isAllCheckboxChecked(lblNationalAccountCategories);
 			viewRole.isAllCheckboxChecked(lblNationalAccountsLocksRules);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -144,7 +144,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), org);
 			CustomisedAssert.assertEquals(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), location);		
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -192,7 +192,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -360,7 +360,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -529,7 +529,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -561,7 +561,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
 			CustomisedAssert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -593,7 +593,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
 			CustomisedAssert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -629,7 +629,7 @@ public class NationalAccount extends TestInfra {
 			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
 			CustomisedAssert.assertTrue(locationVaules.equals(locationDPDValues));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -663,7 +663,7 @@ public class NationalAccount extends TestInfra {
 			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
 			CustomisedAssert.assertTrue(locationVaules.equals(locationDPDValues));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -691,7 +691,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			nationalAccountRules.objRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -734,7 +734,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.verifyYesButton();
 			
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {			
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -772,7 +772,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -829,7 +829,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
 			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -866,7 +866,7 @@ public class NationalAccount extends TestInfra {
 			Boolean clientRuleName = foundation.isDisplayed(CreateNewRule.TXT_CLIENTRULE_NAME);
 			CustomisedAssert.assertTrue(clientRuleName);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -902,7 +902,7 @@ public class NationalAccount extends TestInfra {
 			Boolean clientRuleName = foundation.isDisplayed(CreateNewRule.TXT_CLIENTRULE_NAME);
 			CustomisedAssert.assertTrue(clientRuleName);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -941,7 +941,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(clientRuleName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1002,7 +1002,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
-        } catch (Throwable exc) {
+        } catch (Exception exc) {
         	TestInfra.failWithScreenShot(exc.toString());
         }
     }
@@ -1061,7 +1061,7 @@ public class NationalAccount extends TestInfra {
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             
-        } catch (Throwable exc) {
+        } catch (Exception exc) {
         	TestInfra.failWithScreenShot(exc.toString());
         }
     }
@@ -1120,7 +1120,7 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyNationalAccountSummaryTableBody(locationsTagged);
 			foundation.threadWait(Constants.TWO_SECOND);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}	finally {			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1172,7 +1172,7 @@ public class NationalAccount extends TestInfra {
 			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
 			nationalAccounts.verifyBackgroundColour(location, expectedColour);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1233,7 +1233,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(actualData.get(3), promptTitle.get(2));
 			foundation.click(NationalAccounts.BTN_OK);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1306,7 +1306,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_FILTER, Keys.CLEAR);
 			textBox.enterText(NationalAccounts.TXT_FILTER, State);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1353,7 +1353,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertFalse(nationalAccounts.trySelectNonVisibleTextLocation(defaultLocation));
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1420,7 +1420,7 @@ public class NationalAccount extends TestInfra {
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
 			CustomisedAssert.assertEquals(locationCount, "1");
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
@@ -1482,7 +1482,7 @@ public class NationalAccount extends TestInfra {
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
 			CustomisedAssert.assertEquals(locationCount, "1");
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}	finally {
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
@@ -1540,7 +1540,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
 			CustomisedAssert.assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1594,7 +1594,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(CreateNewRule.BTN_SAVE);
 
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
@@ -1660,7 +1660,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(CreateNewRule.TXT_PRICE, rulePrice);
 			foundation.click(CreateNewRule.BTN_SAVE);			
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
@@ -1711,7 +1711,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);		
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
@@ -1766,7 +1766,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 				
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			adminNationalAccounts.deleteMangeRule(ruleName);
@@ -1817,7 +1817,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 		
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1875,7 +1875,7 @@ public class NationalAccount extends TestInfra {
 			createNewRule.createRule(organisation, location, ruleType, ruleCategory, ruleName, rulePrice);
 		
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {

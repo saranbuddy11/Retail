@@ -109,7 +109,7 @@ public class V5ReleaseTest extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -169,7 +169,7 @@ public class V5ReleaseTest extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), editedDepositCat);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -245,7 +245,7 @@ public class V5ReleaseTest extends TestInfra {
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -301,7 +301,7 @@ public class V5ReleaseTest extends TestInfra {
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -373,7 +373,7 @@ public class V5ReleaseTest extends TestInfra {
 			CustomisedAssert.assertTrue(listTaxCategory.contains(editedTaxCategory2));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -452,7 +452,7 @@ public class V5ReleaseTest extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -544,7 +544,7 @@ public class V5ReleaseTest extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(2));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data

@@ -118,7 +118,7 @@ public class DataSourceManager extends Factory {
 			} else if (reportsDB.equals("RDS")) {
 				unCheckInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
 			}
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

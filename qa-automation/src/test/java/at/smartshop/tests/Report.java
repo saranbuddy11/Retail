@@ -239,7 +239,7 @@ public class Report extends TestInfra {
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -308,7 +308,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productTax.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -374,7 +374,7 @@ public class Report extends TestInfra {
 			// verify report data
 			productPricing.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -476,7 +476,7 @@ public class Report extends TestInfra {
 			// verify report data
 			transactionCanned.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -537,7 +537,7 @@ public class Report extends TestInfra {
 
 			// Verify Report Data
 			memberPurchaseDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -595,7 +595,7 @@ public class Report extends TestInfra {
 			// verify report data
 			badScan.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -667,7 +667,7 @@ public class Report extends TestInfra {
 			// verify report data
 			deviceByCategory.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -732,7 +732,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			employeeCompDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -790,7 +790,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			memberPurchaseSummary.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -894,7 +894,7 @@ public class Report extends TestInfra {
 			// verify report data
 			iceReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -955,7 +955,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipSummary.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1051,7 +1051,7 @@ public class Report extends TestInfra {
 
 			// verify report details data
 			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1118,7 +1118,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1180,7 +1180,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			healthAhead.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1261,7 +1261,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			canadaMultiTax.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1326,7 +1326,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSalesCategory.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1392,7 +1392,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			unfinishedClose.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1458,7 +1458,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			folioBilling.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1525,7 +1525,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			queuedCreditTrans.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1593,7 +1593,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			voidedProduct.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1705,7 +1705,7 @@ public class Report extends TestInfra {
 
 			CustomisedAssert.assertEquals(actualGMValue, expectedGMValue);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2291,7 +2291,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			personalCharge.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2354,7 +2354,7 @@ public class Report extends TestInfra {
 			// verify report data
 			unsold.verifySoldProductsExist();
 			unsold.verifyAllUnSoldProductsExist();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2417,7 +2417,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			loyaltyUser.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2491,7 +2491,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			crossOrgLoyalty.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2557,7 +2557,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			alcoholSoldDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 

@@ -128,7 +128,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue((foundation.getText(ProductSummary.TBL_DATA))
 					.equals(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			Assert.fail();
 		} finally {
 			// Resetting test data
@@ -195,7 +195,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			Assert.fail();
 		}
 
@@ -227,7 +227,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_ERR_MSG),
 					rstLocationListData.get(CNLocationList.INFO_MESSAGE));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -304,7 +304,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_No, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
@@ -359,7 +359,7 @@ public class Location extends TestInfra {
 
 			// verify value in loyalty dropdown
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
@@ -417,7 +417,7 @@ public class Location extends TestInfra {
 			// product here
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.LBL_TAX_CATEGORY), selectedTaxCat);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
@@ -472,7 +472,7 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.TWO_SECOND);
 			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -511,7 +511,7 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -551,7 +551,7 @@ public class Location extends TestInfra {
 			actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
 			CustomisedAssert.assertEquals(actualData, device);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -592,7 +592,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertEquals(uiData.get(dbData.get(0)), device);
 			CustomisedAssert.assertEquals(uiData.get(dbData.get(1)), ipaddres);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -645,7 +645,7 @@ public class Location extends TestInfra {
 			dbData.put(expectedData.get(1), expectedData.get(2));
 			CustomisedAssert.assertEquals(uiData, dbData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -727,7 +727,7 @@ public class Location extends TestInfra {
 			foundation.waitforElementToBeVisible(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objUploadStatus(dbData.get(3))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -790,7 +790,7 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
 			foundation.waitforElement(locationSummary.objUploadStatus(device), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objUploadStatus(device)));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -826,7 +826,7 @@ public class Location extends TestInfra {
 			String actualData = foundation.getText(LocationSummary.LBL_TABLE_DATA);
 			CustomisedAssert.assertEquals(actualData, expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -866,7 +866,7 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 
 		} finally {
@@ -967,7 +967,7 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertEquals(uiTableData, dbData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1011,7 +1011,7 @@ public class Location extends TestInfra {
 			System.out.println(uiData);
 			CustomisedAssert.assertEquals(uiData[2], requiredData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1068,7 +1068,7 @@ public class Location extends TestInfra {
 			// excel data validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD, 1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -1120,7 +1120,7 @@ public class Location extends TestInfra {
 			foundation.waitforElementToDisappear(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objColumnHeaders(expectedData.get(0))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1152,7 +1152,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1190,7 +1190,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1221,7 +1221,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_DURATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_STATUS));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1257,7 +1257,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

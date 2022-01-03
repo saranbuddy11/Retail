@@ -108,7 +108,7 @@ public class Promotions extends TestInfra {
 			//String uiData = dropdown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION);
 			//assertEquals(uiData, locationName);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -194,7 +194,7 @@ public class Promotions extends TestInfra {
 
 			foundation.click(CreatePromotions.BTN_OK);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -298,7 +298,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 			promotionList.verifyPromotionName(promotionName);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -397,7 +397,7 @@ public class Promotions extends TestInfra {
 
 			
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -526,7 +526,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -621,7 +621,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -716,7 +716,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.MEDIUM_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -810,7 +810,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_UPDATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -906,7 +906,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -990,7 +990,7 @@ public class Promotions extends TestInfra {
 
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.threadWait(Constants.TWO_SECOND);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1038,7 +1038,7 @@ public class Promotions extends TestInfra {
 
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1092,7 +1092,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1187,7 +1187,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.threadWait(Constants.TWO_SECOND);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1289,7 +1289,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(locationName.get(1), locName);
 			foundation.threadWait(Constants.ONE_SECOND);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1383,7 +1383,7 @@ public class Promotions extends TestInfra {
 
 			foundation.click(CreatePromotions.BTN_OK);
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1469,7 +1469,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1530,7 +1530,7 @@ public class Promotions extends TestInfra {
 			String uiData = dropdown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION);
 			CustomisedAssert.assertEquals(uiData, locationName);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1591,7 +1591,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(dropdown.verifyItemNotPresent(CreatePromotions.DPD_LOC, locationName));		
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1695,7 +1695,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			CustomisedAssert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1793,7 +1793,7 @@ public class Promotions extends TestInfra {
 				foundation.click(CreatePromotions.BTN_OK);
 			}
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
@@ -1824,7 +1824,7 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
 			CustomisedAssert.assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST, Constants.DESCENDING,Constants.REGEX_MMDDUU));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1915,7 +1915,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.click(EditPromotion.BTN_CONTINUE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2009,7 +2009,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.click(EditPromotion.BTN_CONTINUE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}	
