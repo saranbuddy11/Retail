@@ -445,7 +445,7 @@ public class Location extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 
@@ -499,7 +499,7 @@ public class Location extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 			// Navigating to device tab
@@ -855,7 +855,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
