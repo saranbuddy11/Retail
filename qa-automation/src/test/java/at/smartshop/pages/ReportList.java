@@ -38,6 +38,8 @@ public class ReportList extends Factory {
 
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
+	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
+	private static final By SELECT_TODAY = By.xpath("//td[@class='today active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 //	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
@@ -70,28 +72,30 @@ public class ReportList extends Factory {
 	 * Assert.fail(exc.toString()); } }
 	 */
 
-	public void runReport(Map<String, String> rstNavigationMenuData, Map<String, String> rstReportListData) {
-		try {
-			// Select Menu and Menu Item
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Select the Report Date range and Location
-			selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ReportList.BTN_RUN_REPORT);
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+//	public void runReport(Map<String, String> rstNavigationMenuData, Map<String, String> rstReportListData) {
+//		try {
+//			// Select Menu and Menu Item
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//
+//			// Select the Report Date range and Location
+//			selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+//			selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+//			selectLocation(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+//
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
 
 	public void selectReport(String reportName) {
 		try {
 			foundation.scrollIntoViewElement(TXT_SEARCH);
 			textBox.enterTextOnFocus(TXT_SEARCH, reportName);
+//			WebElement object = getDriver()
+//					.findElement(By.xpath("//div[@class='currentReport'][starts-with(text(),'" + reportName + "')]"));
 			WebElement object = getDriver()
-					.findElement(By.xpath("//div[@class='currentReport'][starts-with(text(),'" + reportName + "')]"));
+					.findElement(By.xpath("//div[@class='checkbox-row']//div[@class='currentReport'][normalize-space()='" + reportName + "']"));
 			Actions builder = new Actions(getDriver());
 			builder.moveToElement(object).build();
 			object.click();
@@ -301,49 +305,77 @@ public class ReportList extends Factory {
 		return present;
 	}
 
-	public void checkForDataAvailabilyInResultTable() {
+//	public void checkForDataAvailabilyInResultTable() {
+//		try {
+////			foundation.waitforElement(NO_DATA_AVAILABLE_IN_TABLE, 5);
+////			System.out.println("Waited for element***********");
+//			
+////		   noDataAvailableInTable = getDriver().findElement(NO_DATA_AVAILABLE_IN_TABLE);
+//			if(foundation.isDisplayed(By.xpath("//tbody//tr[@class='odd'][1]"))){
+//				
+//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+//					System.out.println("***NOOOOOOOO data available ***********");
+//					Assert.fail("Failed************1");
+//				}else {
+//					System.out.println("***data available ***********");
+//				}
+//				
+//			}else if(foundation.isDisplayed(By.cssSelector("#dataGrid > tbody > tr:nth-child(1)"))){
+//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+//					System.out.println("***NOOOOOOOO data available ***********");
+//					Assert.fail("Failed************2");
+//				}else {
+//					System.out.println("***data available ***********");
+//				}		
+//			}
+//			else if(foundation.isDisplayed(By.cssSelector("#dataGridPayrollDeductDetails > tbody > tr:nth-child(1)"))){
+//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+//					System.out.println("***NOOOOOOOO data available ***********");
+//					Assert.fail("Failed************2");
+//				}else {
+//					System.out.println("***data available ***********");
+//				}		
+//			}else if(foundation.isDisplayed(By.cssSelector("#payrollGrid > tbody > tr:nth-child(1) "))){
+//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+//					System.out.println("***NOOOOOOOO data available ***********");
+//					Assert.fail("Failed************2");
+//				}else {
+//					System.out.println("***data available ***********");
+//				}		
+//			}else if(foundation.isDisplayed( By.xpath("//span[@class='ui-icon ui-iggrid-expandbutton ui-icon-plus']"))){
+//				System.out.println("*** data available ***********");
+//				ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element [ " + NO_DATA_AVAILABLE_IN_TABLE + " ] and the object is visible");
+//			}else {
+//				System.out.println("***NOOOOOOOO data available ***********");
+//				Assert.fail("Failed************3");
+//			}
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
+	
+	public void selectCurrentDay() {
+		foundation.click(ReportList.DPD_DATE);
+		foundation.click(SELECT_TODAY);
+	}
+	
+	public void selectPriorMonthDate(String requiredDate) {
+		foundation.click(ReportList.DPD_DATE);
+		foundation.click(BTN_PREVIOUS_MONTH);
+		selectLastDate(requiredDate);
+	}
+	
+	public void selectLastDate(String requiredDate) {
 		try {
-//			foundation.waitforElement(NO_DATA_AVAILABLE_IN_TABLE, 5);
-//			System.out.println("Waited for element***********");
-			
-//		   noDataAvailableInTable = getDriver().findElement(NO_DATA_AVAILABLE_IN_TABLE);
-			if(foundation.isDisplayed(By.xpath("//tbody//tr[@class='odd'][1]"))){
-				
-				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-					System.out.println("***NOOOOOOOO data available ***********");
-					Assert.fail("Failed************1");
-				}else {
-					System.out.println("***data available ***********");
-				}
-				
-			}else if(foundation.isDisplayed(By.cssSelector("#dataGrid > tbody > tr:nth-child(1)"))){
-				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-					System.out.println("***NOOOOOOOO data available ***********");
-					Assert.fail("Failed************2");
-				}else {
-					System.out.println("***data available ***********");
-				}		
-			}
-			else if(foundation.isDisplayed(By.cssSelector("#dataGridPayrollDeductDetails > tbody > tr:nth-child(1)"))){
-				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-					System.out.println("***NOOOOOOOO data available ***********");
-					Assert.fail("Failed************2");
-				}else {
-					System.out.println("***data available ***********");
-				}		
-			}else if(foundation.isDisplayed(By.cssSelector("#payrollGrid > tbody > tr:nth-child(1) "))){
-				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-					System.out.println("***NOOOOOOOO data available ***********");
-					Assert.fail("Failed************2");
-				}else {
-					System.out.println("***data available ***********");
-				}		
-			}else if(foundation.isDisplayed( By.xpath("//span[@class='ui-icon ui-iggrid-expandbutton ui-icon-plus']"))){
-				System.out.println("*** data available ***********");
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element [ " + NO_DATA_AVAILABLE_IN_TABLE + " ] and the object is visible");
-			}else {
-				System.out.println("***NOOOOOOOO data available ***********");
-				Assert.fail("Failed************3");
+			List<String> reqDate = Arrays.asList(requiredDate.split(Constants.DELIMITER_HASH));
+			WebElement lastMonthDate = getDriver().findElement(
+					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
+			if (lastMonthDate.isDisplayed()) {
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
+						+ "'][not(contains(@class , 'off'))]"));
+			} else {
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
+						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

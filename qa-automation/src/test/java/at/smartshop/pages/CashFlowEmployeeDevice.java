@@ -9,13 +9,13 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
-public class EFTGMADisbursement {
+public class CashFlowEmployeeDevice {
 	private Foundation foundation = new Foundation();
 
-	public static final By LBL_REPORT_NAME = By.id("EFT: GMA Disbursement");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#dataGrid > tbody > tr:nth-child(1)");
-	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-	
+	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div:nth-child(3) > div.first-child > label");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#Totals > tbody > tr:nth-child(1)");
+	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//*[@id='Totals']//tbody//tr//td[@class='dataTables_empty']");
+
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
@@ -29,6 +29,7 @@ public class EFTGMADisbursement {
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
+				foundation.scrollIntoViewElement(REPORT_GRID_FIRST_ROW);
 				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
 					Assert.fail("Failed Report because No Data Available in Report Table");

@@ -1,4 +1,4 @@
-package at.smartshop.keys;
+package at.smartshop.pages;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -9,11 +9,11 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
-public class AdvanaBilling {
+public class CrossOrgMiddidAssignment {
 	private Foundation foundation = new Foundation();
 
-	public static final By LBL_REPORT_NAME = By.id("Advana Billing");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(1)");
+	public static final By LBL_REPORT_NAME = By.id("Cross-Org: Middid Assignment");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#middidAssignmentGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	public void verifyReportName(String reportName) {

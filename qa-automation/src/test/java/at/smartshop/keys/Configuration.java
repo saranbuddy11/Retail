@@ -8,6 +8,7 @@ public class Configuration {
 	public static final String CURRENT_ORG = "current_org";
 	public static final String CURRENT_LOC = "current_loc";
 	public static final String ALL_LOCATIONS = "all_locations";
+	public static final String ALL_ORGS = "all_orgs";
 	public static final String FILTER_FOR_ORG = "filter_for_org";
 	public static final String FILTER_FOR_LOC = "filter_for_loc";
 	public static final String SALES_TRANS = "sales_trans";
