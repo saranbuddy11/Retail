@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
@@ -68,8 +68,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(2));
-			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -107,8 +107,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(1));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -124,8 +124,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(1));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 		}
 	}
 
@@ -154,7 +154,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 		
 
 		} catch (Throwable exc) {
@@ -182,12 +182,12 @@ public class OrganizationSummary extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			// disable usg
 			dropDown.selectItem(OrgSummary.DPD_USG_DATA, requiredData.get(1), Constants.TEXT);
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USG_ID));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_USG_ID));
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(2));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 			// Enable USG Feed
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -196,8 +196,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(2));
-			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -230,8 +230,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(3));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(3));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			// uncheck funding options
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			checkBox.unCheck(orgSummary.objVDI(requiredData.get(0)));
@@ -240,8 +240,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(3));
-			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(3));
+			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -273,8 +273,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			// uncheck Inventory options
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			checkBox.unCheck(OrgSummary.CHK_SHOW_HISTORY);
@@ -282,8 +282,8 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
-			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData);
+			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -312,16 +312,16 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 			// uncheck Inventory options
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			checkBox.unCheck(OrgSummary.CHK_REPORT_VIEW);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
-			//Assert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			CustomisedAssert.assertEquals(actualData, requiredData);
+			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -352,7 +352,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -385,7 +385,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -416,7 +416,7 @@ public class OrganizationSummary extends TestInfra {
 				foundation.click(OrgSummary.BTN_SAVE);
 				foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 				String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-				Assert.assertEquals(actualData, expectedData);
+				CustomisedAssert.assertEquals(actualData, expectedData);
 			}
 
 		} catch (Throwable exc) {
@@ -449,24 +449,24 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.LBL_SENSOR_TYPE);
 			String actualFreezer = foundation.getText(OrgSummary.LBL_FREEZER);
 			String actualCooler = foundation.getText(OrgSummary.LBL_COOLER);
-			Assert.assertEquals(actualFreezer, requiredData.get(0));
-			Assert.assertEquals(actualCooler, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualFreezer, requiredData.get(0));
+			CustomisedAssert.assertEquals(actualCooler, requiredData.get(1));
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 
-			Assert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 			// disable sensors
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(OrgSummary.LBL_SENSOR_TYPE);
 			foundation.click(OrgSummary.CHK_FREEZER);
 			foundation.click(OrgSummary.CHK_COOLER);
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.LBL_COOLER));
-			Assert.assertFalse(foundation.isDisplayed(OrgSummary.LBL_FREEZER));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.LBL_COOLER));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.LBL_FREEZER));
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -498,14 +498,14 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(4));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(4));
 			// disable gma account
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			dropDown.selectItem(OrgSummary.DPD_GMA_ACCOUNT, requiredData.get(2), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(4));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(4));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -573,7 +573,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
-			Assert.assertEquals(actualData, requiredData.get(11));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(11));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class NavigationBar extends Factory {
 	private TextBox textBox = new TextBox();
@@ -26,7 +26,7 @@ public class NavigationBar extends Factory {
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -42,7 +42,7 @@ public class NavigationBar extends Factory {
             }
             foundation.WaitForAjax(Constants.SHORT_TIME);
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
     }
 	

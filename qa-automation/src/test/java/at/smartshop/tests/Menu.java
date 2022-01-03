@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
@@ -95,7 +95,7 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_SUBMENU_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualData = foundation.getText(SelfService.LBL_NO_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
@@ -109,7 +109,7 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 			// deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
@@ -123,7 +123,7 @@ public class Menu extends TestInfra {
 			table.selectRow(printGroupName);
 			foundation.waitforElement(SelfService.LBL_NO_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_NO_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
 
@@ -177,7 +177,7 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_SUBMENU_ADD);
 			foundation.threadWait(Constants.THREE_SECOND);
 			String actualData = foundation.getText(SelfService.LBL_INHERIT_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.check(selfService.objPrintCheckbox(requiredData.get(0)));
 
@@ -188,7 +188,7 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(2));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 			// deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
@@ -201,7 +201,7 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_INHERIT_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_INHERIT_PRINT);
-			Assert.assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
@@ -255,8 +255,8 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_Hide);
-			Assert.assertTrue(isenabled);
-			Assert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
+			CustomisedAssert.assertTrue(isenabled);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -293,8 +293,8 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
-			Assert.assertTrue(isenabled);
-			Assert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
+			CustomisedAssert.assertTrue(isenabled);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -321,8 +321,8 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_CREATE_NEW);
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
-			Assert.assertTrue(isenabled);
-			Assert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
+			CustomisedAssert.assertTrue(isenabled);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -364,10 +364,10 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
-			Assert.assertTrue(isenabled);
-			Assert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
+			CustomisedAssert.assertTrue(isenabled);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_ALL));
 			isenabled = radio.isSelected(SelfService.RDO_BTN_Hide);
-			Assert.assertFalse(isenabled);
+			CustomisedAssert.assertFalse(isenabled);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -409,10 +409,10 @@ public class Menu extends TestInfra {
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isSelected = radio.isSelected(SelfService.RDO_BTN_SHOW);
-			Assert.assertFalse(isSelected);
-			Assert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
+			CustomisedAssert.assertFalse(isSelected);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(SelfService.LBL_ALL));
 			isSelected = radio.isSelected(SelfService.RDO_BTN_Hide);
-			Assert.assertTrue(isSelected);
+			CustomisedAssert.assertTrue(isSelected);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

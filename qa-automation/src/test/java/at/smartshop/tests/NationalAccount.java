@@ -1,7 +1,6 @@
 package at.smartshop.tests;
 
 import static org.junit.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -11,12 +10,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Keys;
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
@@ -84,19 +83,19 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			foundation.click(UserList.BTN_MANAGE_ROLES);
-			assertTrue(foundation.isDisplayed(UserRoles.BTN_CREATE_NEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.BTN_CREATE_NEW_ROLE));
 			List<String> requiredData = Arrays.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, requiredData.get(0));			
 			foundation.click(userRoles.getRowByText(requiredData.get(0)));
 
-			assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
 			foundation.click(UserRoles.TAB_ADMIN);
 
 			String lblNationalAccountCategories = foundation.getText(ViewRole.LBL_NATIONAL_ACCOUNT_CATEGORIES);
 			String lblNationalAccountsLocksRules = foundation.getText(ViewRole.LBL_NATIONAL_ACCOUNT_LOCKS_RULES);
 
-			assertEquals(lblNationalAccountCategories, requiredData.get(1));
-			assertEquals(lblNationalAccountsLocksRules, requiredData.get(2));
+			CustomisedAssert.assertEquals(lblNationalAccountCategories, requiredData.get(1));
+			CustomisedAssert.assertEquals(lblNationalAccountsLocksRules, requiredData.get(2));
 
 			viewRole.isAllCheckboxChecked(lblNationalAccountCategories);
 			viewRole.isAllCheckboxChecked(lblNationalAccountsLocksRules);
@@ -142,8 +141,8 @@ public class NationalAccount extends TestInfra {
 			String location = foundation.getText(NationalAccounts.LBL_LOCATION);
 
 			// Validate the fields Orginazation and location
-			assertEquals(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), org);
-			assertEquals(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), location);		
+			CustomisedAssert.assertEquals(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), org);
+			CustomisedAssert.assertEquals(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), location);		
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -178,20 +177,20 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME,rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME), Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_CANCEL);
-			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
-			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
+			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_TILD));
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1));
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount.get(1));
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
 			foundation.click(NationalAccounts.BTN_CANCEL);
-			assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount.get(1) + Constants.ACCOUNT_NAME);
-			Assert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
+			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -216,29 +215,29 @@ public class NationalAccount extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Navigate to National Account
 			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_TILD));
 			adminNationalAccounts.clickManageRule(nationalAccount.get(0),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(1));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(2));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
 
 			// Verifying Ascending order sorting functionality
 			foundation.refreshPage();
 			List<String> columnNames = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortAscending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortDescending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
 
 			// Verifying column headers
 			foundation.refreshPage();
@@ -246,16 +245,16 @@ public class NationalAccount extends TestInfra {
 				dbData.put(columnNames.get(i), columnNames.get(i)); }
 
 			Map<String, String> uiTableHeaher = table.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
-			assertEquals(uiTableHeaher, dbData);
+			CustomisedAssert.assertEquals(uiTableHeaher, dbData);
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1)));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(0)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2)));
 
 			// Selecting UPC rule type and rule category
 			List<String> ruleCategory = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY).split(Constants.DELIMITER_TILD));
@@ -265,9 +264,9 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying UPC rule setting in table
 			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(upcData.get(columnNames.get(1)), ruleType.get(1));
-			Assert.assertEquals(upcData.get(columnNames.get(2)), ruleCategory.get(1));
-			Assert.assertEquals(upcData.get(columnNames.get(3)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(1)), ruleType.get(1));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(2)), ruleCategory.get(1));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(3)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -277,9 +276,9 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying national category rule setting in table
 			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,	AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(NAData.get(columnNames.get(1)), ruleType.get(3));
-			Assert.assertEquals(NAData.get(columnNames.get(3)), ruleCategory.get(0));
-			Assert.assertEquals(NAData.get(columnNames.get(2)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(1)), ruleType.get(3));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(3)), ruleCategory.get(0));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(2)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -293,9 +292,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for rule to No More Than
 			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(5)), rulePrice);
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(5)), rulePrice);
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -304,9 +303,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for No Less Than
 			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(4)), rulePrice);
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(4)), rulePrice);
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -315,9 +314,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for Force Exact Price
 			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -327,7 +326,7 @@ public class NationalAccount extends TestInfra {
 
 			// Validating rule status is Inactive
 			List<String> rulesStatus = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_STATUS).split(Constants.DELIMITER_TILD));
-			Assert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
+			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -336,7 +335,7 @@ public class NationalAccount extends TestInfra {
 
 			// Validating rule status is Active
 			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
+			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -346,19 +345,19 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location tagged count
 			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(locationCount.get(columnNames.get(8)),rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			CustomisedAssert.assertEquals(locationCount.get(columnNames.get(8)),rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
 			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 			
 		} catch (Throwable exc) {
@@ -384,29 +383,29 @@ public class NationalAccount extends TestInfra {
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Navigate to National Account
 			List<String> nationalAccount = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_TILD));
 			adminNationalAccounts.clickManageRule(nationalAccount.get(0),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(1));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, nationalAccount.get(2));
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 0);
 
 			// Verifying Ascending order sorting functionality
 			foundation.refreshPage();
 			List<String> columnNames = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortAscending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortDescending(rstNationalAccountsData.get(CNNationalAccounts.GRID_RULE_NAME)));
 
 			// Verifying column headers
 			foundation.refreshPage();
@@ -415,16 +414,16 @@ public class NationalAccount extends TestInfra {
 			}
 
 			Map<String, String> uiTableHeaher = table.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
-			assertEquals(uiTableHeaher, dbData);
+			CustomisedAssert.assertEquals(uiTableHeaher, dbData);
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays	.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1)));
-			Assert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(0)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(1)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2)));
 
 			// Selecting UPC rule type and rule category
 			List<String> ruleCategory = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY).split(Constants.DELIMITER_TILD));
@@ -434,9 +433,9 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying UPC rule setting in table
 			Map<String, String> upcData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(upcData.get(columnNames.get(1)), ruleType.get(1));
-			Assert.assertEquals(upcData.get(columnNames.get(2)), ruleCategory.get(1));
-			Assert.assertEquals(upcData.get(columnNames.get(3)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(1)), ruleType.get(1));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(2)), ruleCategory.get(1));
+			CustomisedAssert.assertEquals(upcData.get(columnNames.get(3)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -446,9 +445,9 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying national category rule setting in table
 			Map<String, String> NAData = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(NAData.get(columnNames.get(1)), ruleType.get(3));
-			Assert.assertEquals(NAData.get(columnNames.get(3)), ruleCategory.get(0));
-			Assert.assertEquals(NAData.get(columnNames.get(2)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(1)), ruleType.get(3));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(3)), ruleCategory.get(0));
+			CustomisedAssert.assertEquals(NAData.get(columnNames.get(2)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -462,9 +461,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for rule to No More Than
 			Map<String, String> rulePriceNoMoreThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(5)), rulePrice);
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(5)), rulePrice);
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(4)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoMoreThan.get(columnNames.get(6)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -473,9 +472,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for No Less Than
 			Map<String, String> rulePriceNoLessThan = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(4)), rulePrice);
-			Assert.assertEquals(rulePriceNoLessThan.get(columnNames.get(6)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(5)),rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(4)), rulePrice);
+			CustomisedAssert.assertEquals(rulePriceNoLessThan.get(columnNames.get(6)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -484,9 +483,9 @@ public class NationalAccount extends TestInfra {
 
 			// Validating price set for Force Exact Price
 			Map<String, String> ruleForceExactPrice = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(5)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(4)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
-			Assert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(5)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(4)),	rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
+			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -496,7 +495,7 @@ public class NationalAccount extends TestInfra {
 
 			// Validating rule status is Inactive
 			List<String> rulesStatus = Arrays.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_STATUS).split(Constants.DELIMITER_TILD));
-			Assert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
+			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -505,7 +504,7 @@ public class NationalAccount extends TestInfra {
 
 			// Validating rule status is Active
 			Map<String, String> ruleStatusActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
+			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
@@ -515,19 +514,19 @@ public class NationalAccount extends TestInfra {
 
 			// Validating Location tagged count
 			Map<String, String> locationCount = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,AdminNationalAccounts.TBL_DATA_ROW);
-			Assert.assertEquals(locationCount.get(columnNames.get(8)),rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			CustomisedAssert.assertEquals(locationCount.get(columnNames.get(8)),rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
 			foundation.click(AdminNationalAccounts.BTN_CANCEL);
 			foundation.click(AdminNationalAccounts.ICO_DELETE);
 
 			// Validating Delete Confirm Prompt
 			foundation.waitforElement(AdminNationalAccounts.POP_UP_BTN_CANCEL, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.POP_UP_BTN_CANCEL));
 			foundation.click(AdminNationalAccounts.POP_UP_BTN_CANCEL);
 			
 		} catch (Throwable exc) {
@@ -548,19 +547,19 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
+			CustomisedAssert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -580,19 +579,19 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectLocation(rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			Assert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
+			CustomisedAssert.assertFalse(checkBox.isChecked(CreateNewRule.CHCK_AUTO_LOCATION));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -612,7 +611,7 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
@@ -621,14 +620,14 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
-			Assert.assertTrue(locationVaules.equals(locationDPDValues));
+			CustomisedAssert.assertTrue(locationVaules.equals(locationDPDValues));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -648,21 +647,21 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			List<String> locationVaules = adminNationalAccounts.getLocationDetails(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 																													rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 
 			createNewRule.verifyHintText(rstNationalAccountsData.get(CNNationalAccounts.DEFAULT_DROPDOWN_LOCATION));
 			createNewRule.selectOrg(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
 			List<String> locationDPDValues = createNewRule.getLocationDropdownValues();
-			Assert.assertTrue(locationVaules.equals(locationDPDValues));
+			CustomisedAssert.assertTrue(locationVaules.equals(locationDPDValues));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -683,12 +682,12 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			nationalAccountRules.objRuleName(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
@@ -712,25 +711,25 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 																		rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			ruleName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 			nationalAccountRules.clickRulesLink(ruleName);
 
-			assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
 			foundation.click(CreateNewRule.BTN_DELETE);
 
 			foundation.waitforElement(CreateNewRule.DELETE_PROMPT, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.DELETE_PROMPT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateNewRule.DELETE_PROMPT));
 			String title = foundation.getText(CreateNewRule.DELETE_PROMPT_TITLE);
-			Assert.assertEquals(title, rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
-			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_YES));
-			Assert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_CANCEL));
+			CustomisedAssert.assertEquals(title, rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_CANCEL));
 			createNewRule.verifyCancelButton();
 			createNewRule.verifyYesButton();
 			
@@ -763,13 +762,13 @@ public class NationalAccount extends TestInfra {
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
 			nationalAccountRules.clickRulesLink(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(CreateNewRule.CHCK_AUTO_LOCATION);
 
@@ -804,9 +803,9 @@ public class NationalAccount extends TestInfra {
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(accountName, gridName);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			table.selectRow(ruleName);
-			assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
+			CustomisedAssert.assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
 			foundation.click(AdminNationalAccounts.BTN_NO);
 
@@ -816,19 +815,19 @@ public class NationalAccount extends TestInfra {
 				dbData.put(columnNames.get(i), columnNames.get(i));
 			}
 			Map<String, String> uiTableHeader = table.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
-			assertEquals(uiTableHeader, dbData);
+			CustomisedAssert.assertEquals(uiTableHeader, dbData);
 
 			// Verifying Ascending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridRuleName));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortAscending(gridRuleName));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_NAME_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridRuleName));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortDescending(gridRuleName));
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
-			Assert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -860,12 +859,12 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			Boolean createRuleButton = foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			Assert.assertTrue(createRuleButton);
+			CustomisedAssert.assertTrue(createRuleButton);
 
 			// create new rule
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			Boolean clientRuleName = foundation.isDisplayed(CreateNewRule.TXT_CLIENTRULE_NAME);
-			Assert.assertTrue(clientRuleName);
+			CustomisedAssert.assertTrue(clientRuleName);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -896,12 +895,12 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			Boolean createRuleButton = foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			Assert.assertTrue(createRuleButton);
+			CustomisedAssert.assertTrue(createRuleButton);
 
 			// create new rule
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			Boolean clientRuleName = foundation.isDisplayed(CreateNewRule.TXT_CLIENTRULE_NAME);
-			Assert.assertTrue(clientRuleName);
+			CustomisedAssert.assertTrue(clientRuleName);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -939,8 +938,8 @@ public class NationalAccount extends TestInfra {
 			String rulePageTitle = rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE);
 			foundation.waitforElement(createNewRule.objClientRuleName(rulePageTitle), Constants.SHORT_TIME);
 			Boolean clientRuleName = foundation.isDisplayed(createNewRule.objClientRuleName(rulePageTitle));
-			Assert.assertTrue(clientRuleName);
-			assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
+			CustomisedAssert.assertTrue(clientRuleName);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(nationalAccountRules.objRulePage(ruleName)));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -985,21 +984,21 @@ public class NationalAccount extends TestInfra {
             // delete pop up validations
             foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
-            Assert.assertTrue(popupWindow);
+            CustomisedAssert.assertTrue(popupWindow);
             String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
             List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
-            assertEquals(actualData.get(0), promptTitle.get(1));
-            assertEquals(actualData.get(2), promptTitle.get(2));
+            CustomisedAssert.assertEquals(actualData.get(0), promptTitle.get(1));
+            CustomisedAssert.assertEquals(actualData.get(2), promptTitle.get(2));
 
             Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
-            Assert.assertTrue(popupCancelButton);
+            CustomisedAssert.assertTrue(popupCancelButton);
 
             foundation.click(NationalAccountRules.BTN_CANCEL);
             assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             foundation.click(NationalAccountRules.ICON_DELETE);
             foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
-            Assert.assertTrue(popupYesButton);
+            CustomisedAssert.assertTrue(popupYesButton);
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
 
@@ -1046,19 +1045,19 @@ public class NationalAccount extends TestInfra {
             // delete pop up validations
             foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupWindow = foundation.isDisplayed(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)));
-            Assert.assertTrue(popupWindow);
+            CustomisedAssert.assertTrue(popupWindow);
             String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_CONTENT);
             List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
-            assertEquals(actualData.get(0), promptTitle.get(1));
-            assertEquals(actualData.get(2), promptTitle.get(2));
+            CustomisedAssert.assertEquals(actualData.get(0), promptTitle.get(1));
+            CustomisedAssert.assertEquals(actualData.get(2), promptTitle.get(2));
             Boolean popupCancelButton = foundation.isDisplayed(NationalAccountRules.BTN_CANCEL);
-            Assert.assertTrue(popupCancelButton);
+            CustomisedAssert.assertTrue(popupCancelButton);
             foundation.click(NationalAccountRules.BTN_CANCEL);
             assertTrue(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             foundation.click(NationalAccountRules.ICON_DELETE);
             foundation.waitforElement(nationalAccountRules.verifyPromptMsg(promptTitle.get(0)), Constants.SHORT_TIME);
             Boolean popupYesButton = foundation.isDisplayed(NationalAccountRules.BTN_POPUP_YES);
-            Assert.assertTrue(popupYesButton);
+            CustomisedAssert.assertTrue(popupYesButton);
             foundation.click(NationalAccountRules.BTN_POPUP_YES);
             assertFalse(foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName)));
             
@@ -1113,10 +1112,10 @@ public class NationalAccount extends TestInfra {
 
 			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
 			Boolean popupWindow = foundation.isDisplayed(NationalAccounts.BTN_POP_UP_YES);
-			Assert.assertTrue(popupWindow);
+			CustomisedAssert.assertTrue(popupWindow);
 			nationalAccounts.verifyDeleteConfirmationMsg(promptTitle);
 			Boolean popupYesButton = foundation.isDisplayed(NationalAccounts.BTN_POP_UP_YES);
-			Assert.assertTrue(popupYesButton);
+			CustomisedAssert.assertTrue(popupYesButton);
 			foundation.click(NationalAccounts.BTN_Cancel);
 			nationalAccounts.verifyNationalAccountSummaryTableBody(locationsTagged);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1225,13 +1224,13 @@ public class NationalAccount extends TestInfra {
 			// Alert message Validations
 			foundation.waitforElement(nationalAccounts.nationalAccountDetails(accountName), Constants.SHORT_TIME);
 			Boolean status1 = foundation.isDisplayed(nationalAccounts.nationalAccountDetails(accountName));
-			Assert.assertTrue(status1);
+			CustomisedAssert.assertTrue(status1);
 			nationalAccounts.verifyPromptMsg(promptTitle.get(0), promptTitle.get(1));
 			String actualAlertMsg = foundation.getText(NationalAccounts.TXT_ALERT_MSG);
 			List<String> actualData = Arrays.asList(actualAlertMsg.split(Constants.NEW_LINE));
 			String nationalAccount = accountName + ":" + clientName;
-			assertEquals(actualData.get(1), nationalAccount);
-			assertEquals(actualData.get(3), promptTitle.get(2));
+			CustomisedAssert.assertEquals(actualData.get(1), nationalAccount);
+			CustomisedAssert.assertEquals(actualData.get(3), promptTitle.get(2));
 			foundation.click(NationalAccounts.BTN_OK);
 			
 		} catch (Throwable exc) {
@@ -1284,24 +1283,24 @@ public class NationalAccount extends TestInfra {
 			String State = foundation.getText(NationalAccounts.LBL_STATE);
 
 			// Validate the fields
-			assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
-			assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
 
 			// search with city
 			textBox.enterText(NationalAccounts.TXT_FILTER, Keys.CLEAR);
 			textBox.enterText(NationalAccounts.TXT_FILTER, city);
 
 			// Validate the fields
-			assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
-			assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
 
 			// search with city
 			textBox.enterText(NationalAccounts.TXT_FILTER, Keys.CLEAR);
 			textBox.enterText(NationalAccounts.TXT_FILTER, State);
 
 			// Validate the fields
-			assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
-			assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_ORGANIZATION), org);
+			CustomisedAssert.assertEquals(foundation.getText(NationalAccounts.LBL_LOCATION), location);
 
 			// search with state
 			textBox.enterText(NationalAccounts.TXT_FILTER, Keys.CLEAR);
@@ -1347,12 +1346,12 @@ public class NationalAccount extends TestInfra {
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 
 			// Verify hint text of org and location dropdown
-			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_ORGANIZATION), defaultOrg);
-			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_ORGANIZATION), defaultOrg);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
 
 			// Verify if 'Location' dropdown allows selection until the Org is selected
-			assertFalse(nationalAccounts.trySelectNonVisibleTextLocation(defaultLocation));
-			assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
+			CustomisedAssert.assertFalse(nationalAccounts.trySelectNonVisibleTextLocation(defaultLocation));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(NationalAccounts.DPD_LOCATION), defaultLocation);
 			
 		} catch (Throwable exc) {
 				TestInfra.failWithScreenShot(exc.toString());
@@ -1389,7 +1388,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
@@ -1397,7 +1396,7 @@ public class NationalAccount extends TestInfra {
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
 			// Verify title
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
@@ -1411,15 +1410,15 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
 			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
-			assertEquals(locationCount, "1");
+			CustomisedAssert.assertEquals(locationCount, "1");
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1451,7 +1450,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
@@ -1459,7 +1458,7 @@ public class NationalAccount extends TestInfra {
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL_MODAL, Constants.MEDIUM_TIME);
 
 			// Verify title
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_LOCATION_TITLE));
 
 			// validate clear org and clear location functionality
 			foundation.click(AdminNationalAccounts.BTN_ORG_CLEAR);
@@ -1473,15 +1472,15 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, location, Constants.TEXT);
 			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
-			assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_ORG_MODAL), org);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(AdminNationalAccounts.DPD_LOCATION_MODAL), location);
 
 			// verify auto add check box and save
 			checkBox.check(AdminNationalAccounts.CHK_AUTOADD);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String locationCount = foundation.getText(adminNationalAccounts.getLocationObj(ruleName));
-			assertEquals(locationCount, "1");
+			CustomisedAssert.assertEquals(locationCount, "1");
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1511,13 +1510,13 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
-			assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
 			table.selectRow(ruleName);
-			assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
+			CustomisedAssert.assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(CreateNewRule.BTN_CANCEL);
 			foundation.click(CreateNewRule.BTN_NO);
 
@@ -1527,19 +1526,19 @@ public class NationalAccount extends TestInfra {
 				dbData.put(columnNames.get(i), columnNames.get(i));
 			}
 			Map<String, String> uiTableHeaher = table.getTblHeadersUI(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_HEADER);
-			assertEquals(uiTableHeaher, dbData);
+			CustomisedAssert.assertEquals(uiTableHeaher, dbData);
 
 			// Verifying Ascending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortAscending(gridName));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortAscending(gridName));
 
 			// Verifying descending order sorting functionality
 			foundation.click(AdminNationalAccounts.LBL_RULE_HEADER);
-			Assert.assertTrue(adminNationalAccounts.verifySortDescending(gridName));
+			CustomisedAssert.assertTrue(adminNationalAccounts.verifySortDescending(gridName));
 
 			// Verifying search functionality
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER, ruleName);
-			assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
+			CustomisedAssert.assertEquals(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW), 1);
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1572,7 +1571,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1589,7 +1588,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
 			dropDown.selectItem(CreateNewRule.DPD_NATIONAL_CATEGORY, ruleCategory1, "text");
-			assertEquals(dropDown.getSelectedItem(CreateNewRule.DPD_NATIONAL_CATEGORY), ruleCategory1);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(CreateNewRule.DPD_NATIONAL_CATEGORY), ruleCategory1);
 			dropDown.selectItem(CreateNewRule.DPD_NATIONAL_CATEGORY, ruleCategory2, "text");
 			textBox.enterText(CreateNewRule.TXT_PRICE, rulePrice);
 			foundation.click(CreateNewRule.BTN_SAVE);
@@ -1633,7 +1632,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1646,7 +1645,7 @@ public class NationalAccount extends TestInfra {
 			// validate national account category field
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
@@ -1656,7 +1655,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(CreateNewRule.DPD_RULE_TYPE, ruleType, "text");
 			foundation.isDisplayed(CreateNewRule.TXT_NATIONAL_CATEGORY);
 			dropDown.selectItem(CreateNewRule.DPD_NATIONAL_CATEGORY, ruleCategory1, "text");
-			assertEquals(dropDown.getSelectedItem(CreateNewRule.DPD_NATIONAL_CATEGORY), ruleCategory1);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(CreateNewRule.DPD_NATIONAL_CATEGORY), ruleCategory1);
 			dropDown.selectItem(CreateNewRule.DPD_NATIONAL_CATEGORY, ruleCategory2, "text");
 			textBox.enterText(CreateNewRule.TXT_PRICE, rulePrice);
 			foundation.click(CreateNewRule.BTN_SAVE);			
@@ -1700,7 +1699,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1747,7 +1746,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1759,7 +1758,7 @@ public class NationalAccount extends TestInfra {
 			// navigate to national account page
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// validate save a rule with unique name
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);
@@ -1805,7 +1804,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1855,7 +1854,7 @@ public class NationalAccount extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// create new national account category
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
@@ -1867,7 +1866,7 @@ public class NationalAccount extends TestInfra {
 			// navigate to national account page
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
 			// validate save a rule with unique name
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),gridName);

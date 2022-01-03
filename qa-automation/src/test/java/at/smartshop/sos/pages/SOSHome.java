@@ -1,12 +1,12 @@
 package at.smartshop.sos.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.tests.TestInfra;
 
 public class SOSHome extends Factory {
 	
@@ -25,7 +25,7 @@ public class SOSHome extends Factory {
 			textBox.enterText(TXT_ORG,selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {			
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

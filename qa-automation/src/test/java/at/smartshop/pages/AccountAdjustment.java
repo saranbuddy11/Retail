@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.smartshop.tests.TestInfra;
 
 public class AccountAdjustment extends Factory {
 
@@ -31,7 +31,7 @@ public class AccountAdjustment extends Factory {
 				curColumnIndex++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblRowValues;
 	}

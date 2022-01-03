@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,11 +21,13 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class CanadaMultiTaxReport extends Factory {
@@ -85,7 +86,7 @@ public class CanadaMultiTaxReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -106,16 +107,16 @@ public class CanadaMultiTaxReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -126,7 +127,7 @@ public class CanadaMultiTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -136,7 +137,7 @@ public class CanadaMultiTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, values);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -152,7 +153,7 @@ public class CanadaMultiTaxReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(10), String.valueOf(updatedPrice));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -160,10 +161,10 @@ public class CanadaMultiTaxReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -172,12 +173,12 @@ public class CanadaMultiTaxReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -191,7 +192,7 @@ public class CanadaMultiTaxReport extends Factory {
 			//getJsonSalesData();
 			getJsonArrayData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -202,7 +203,7 @@ public class CanadaMultiTaxReport extends Factory {
 //			requiredJsonData.add(delivery);
 //		} catch (Exception exc) {
 //			exc.printStackTrace();
-//			Assert.fail(exc.toString());
+//			TestInfra.failWithScreenShot(exc.toString());
 //		}
 //	}
 	
@@ -220,7 +221,7 @@ public class CanadaMultiTaxReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -244,7 +245,7 @@ public class CanadaMultiTaxReport extends Factory {
 				taxcatData.add(element.get(Reports.TAXCAT).getAsString());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -260,7 +261,7 @@ public class CanadaMultiTaxReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -288,7 +289,7 @@ public class CanadaMultiTaxReport extends Factory {
 			jsonData.put(Reports.TAX_3_LABEL, salesObj.get(Reports.TAX_3_LABEL).getAsString());
 			jsonData.put(Reports.TAX_4_LABEL, salesObj.get(Reports.TAX_4_LABEL).getAsString());
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

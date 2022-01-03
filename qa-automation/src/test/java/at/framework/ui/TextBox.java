@@ -25,7 +25,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -35,7 +35,7 @@ public class TextBox extends Factory {
 			text = getDriver().findElement(object).getAttribute("value");
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text [" + text +" ] from the input [" + object +" ]");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return text;
 	}
@@ -50,7 +50,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -110,7 +110,7 @@ public class TextBox extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return elementsText;
 	}
@@ -126,7 +126,7 @@ public class TextBox extends Factory {
 			}
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

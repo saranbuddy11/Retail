@@ -1,13 +1,10 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -17,6 +14,7 @@ import org.testng.annotations.Test;
 import at.framework.browser.Factory;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -141,7 +139,7 @@ public class Report extends TestInfra {
 			dataSourceManager.switchToReportsDB(reportsDB);
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -218,7 +216,7 @@ public class Report extends TestInfra {
 
 			// Validate Account Adjustment Report Title
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
-			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
+			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 
 			// Add db data to Array list
 			dbData.put(tblColumnHeader.get(1),
@@ -239,7 +237,7 @@ public class Report extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
-			assertEquals(uiData, dbData);
+			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -897,7 +895,7 @@ public class Report extends TestInfra {
 			iceReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 		} catch (Throwable exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -1705,7 +1703,7 @@ public class Report extends TestInfra {
 					columnName.get(0), columnName.get(1), columnName.get(2));
 			double actualGMValue = salesAnalysisReport.getGMValue(columnName.get(3), productName);
 
-			Assert.assertEquals(actualGMValue, expectedGMValue);
+			CustomisedAssert.assertEquals(actualGMValue, expectedGMValue);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2016,7 +2014,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
+			CustomisedAssert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
 			aviSubFee.getTblRecordsUI();
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
 

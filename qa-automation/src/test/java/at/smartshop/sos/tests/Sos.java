@@ -2,13 +2,13 @@ package at.smartshop.sos.tests;
 
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
@@ -79,7 +79,7 @@ public class Sos extends TestInfra {
 										rstGmaUser.get(CNGmaUser.PIN_VALUE),
 										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -108,7 +108,7 @@ public class Sos extends TestInfra {
 			foundation.click(SOSHome.MENU);
 
 			// construct string with no value for payroll id and payroll group
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
 			int requiredValue = numbers.generateRandomNumber(0, 999999);
 			String requiredData = strings.getRandomCharacter();
 			String requiredString = (requiredData + "#" + requiredData + "#" + requiredData + "#" + "5" + "#"
@@ -121,7 +121,7 @@ public class Sos extends TestInfra {
 										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));			
 			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

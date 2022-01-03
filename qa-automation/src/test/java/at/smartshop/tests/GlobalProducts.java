@@ -1,20 +1,17 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
@@ -26,8 +23,8 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNOrgSummary;
+import at.smartshop.database.columns.CNProduct;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -121,9 +118,9 @@ public class GlobalProducts extends TestInfra {
 			// Validate the fields
 			List<String> lblPrice = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_LABEL)
 					.split(Constants.DELIMITER_TILD));
-			assertEquals(priceText, lblPrice.get(0));
-			assertEquals(minText, lblPrice.get(1));
-			assertEquals(maxText, lblPrice.get(2));
+			CustomisedAssert.assertEquals(priceText, lblPrice.get(0));
+			CustomisedAssert.assertEquals(minText, lblPrice.get(1));
+			CustomisedAssert.assertEquals(maxText, lblPrice.get(2));
 
 			double Incrementprice = Double
 					.parseDouble(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE));
@@ -147,7 +144,7 @@ public class GlobalProducts extends TestInfra {
 			Map<String, String> updatedProductsRecord = productSummary
 					.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 
-			assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
+			CustomisedAssert.assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -190,7 +187,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Validations
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
+			CustomisedAssert.assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -202,7 +199,7 @@ public class GlobalProducts extends TestInfra {
 			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), locationName);
 
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
-			assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 1);
+			CustomisedAssert.assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 1);
 		}
 	}
 
@@ -233,13 +230,13 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
 
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			Map<String, String> uiData = table.getTblHeadersUI(GlobalProduct.TBL_GRID);
 			List<String> uiList = new ArrayList<String>(uiData.values());
 			// excel headers validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 0));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 0));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -284,11 +281,11 @@ public class GlobalProducts extends TestInfra {
 			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			// record count validation
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -324,7 +321,7 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String actualMsg = foundation.getText(GlobalProduct.TXT_RECORD_COUNT);
-			Assert.assertEquals(actualMsg, expectedMsg);
+			CustomisedAssert.assertEquals(actualMsg, expectedMsg);
 			String[] uiData = actualMsg.split(" ");
 
 			boolean fileExistsSrc = foundation.isFileExists(FilePath.EXCEL_PROD_SRC);
@@ -333,11 +330,11 @@ public class GlobalProducts extends TestInfra {
 			}
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -388,15 +385,15 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
 			// record count validation
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(GlobalProduct.TBL_GRID, GlobalProduct.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			// excel data validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 1));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD_TAR, 1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -433,7 +430,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-			Assert.assertEquals(actualData, expectedData);
+			CustomisedAssert.assertEquals(actualData, expectedData);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -466,7 +463,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-			Assert.assertEquals(actualData, expectedData);
+			CustomisedAssert.assertEquals(actualData, expectedData);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -500,13 +497,13 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
-			Assert.assertEquals(actualData, expectedError.get(1));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -548,10 +545,10 @@ public class GlobalProducts extends TestInfra {
 
 				String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-				Assert.assertEquals(actualData, expectedScancodeSuccess);
+				CustomisedAssert.assertEquals(actualData, expectedScancodeSuccess);
 				foundation.threadWait(Constants.ONE_SECOND);
 				String actualErrorMsg = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
-				Assert.assertEquals(actualErrorMsg, expectedScancodeError);
+				CustomisedAssert.assertEquals(actualErrorMsg, expectedScancodeError);
 			}
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -593,14 +590,14 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-			Assert.assertEquals(actualData, expectedError.get(1));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
-			Assert.assertEquals(actualData, expectedError.get(2));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -646,13 +643,13 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
-			Assert.assertEquals(actualData, expectedError.get(1));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_CONTENT);
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 			foundation.click(GlobalProduct.LBL_ALERT_OK);
 			foundation.refreshPage();
 
@@ -665,7 +662,7 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			actualData = foundation.getText(GlobalProduct.TXT_SCAN_CODE_ERROR);
 
-			Assert.assertEquals(actualData, expectedError.get(2));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -703,14 +700,14 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 
-			Assert.assertEquals(actualData, expectedError.get(1));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
 			actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
-			Assert.assertEquals(actualData, expectedError.get(0));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
 
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
-			Assert.assertEquals(actualData, expectedError.get(2));
+			CustomisedAssert.assertEquals(actualData, expectedError.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

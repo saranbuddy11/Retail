@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,11 +14,13 @@ import com.google.gson.JsonObject;
 
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class SalesAnalysisReport {
@@ -37,9 +38,9 @@ public class SalesAnalysisReport {
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -50,7 +51,7 @@ public class SalesAnalysisReport {
 			webService.apiReportPostRequest(	propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 																(String) jsonData.get(Reports.JSON));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -68,7 +69,7 @@ public class SalesAnalysisReport {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -91,7 +92,7 @@ public class SalesAnalysisReport {
 			jsonData.put(Reports.SALES, salesObj);
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -107,7 +108,7 @@ public class SalesAnalysisReport {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));				
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

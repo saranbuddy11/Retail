@@ -7,15 +7,16 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
@@ -58,7 +59,7 @@ public class ConsumerSearch extends Factory {
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -73,7 +74,7 @@ public class ConsumerSearch extends Factory {
 
 	public void verifyConsumerSummary(String consumerName) {
 		foundation.click(objCell(consumerName));
-		Assert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_CONSUMER_SUMMARY).isDisplayed());
+		CustomisedAssert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_CONSUMER_SUMMARY).isDisplayed());
 	}
 
 	public List<String> getConsumerHeaders() {
@@ -85,7 +86,7 @@ public class ConsumerSearch extends Factory {
                 tableHeaders.add(columnHeader.getText());
             }
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
         return tableHeaders;
     }
@@ -99,7 +100,7 @@ public class ConsumerSearch extends Factory {
                 consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
             }
         } catch (Exception exc) {
-            Assert.fail(exc.toString());
+            TestInfra.failWithScreenShot(exc.toString());
         }
         return consumerRecord;
     }
@@ -115,6 +116,8 @@ public class ConsumerSearch extends Factory {
     	textBox.enterText(TXT_SCAN_ID, ""+scanID);
     	textBox.enterText(TXT_PIN, ""+pin);
     	foundation.click(BTN_CREATE_OR_INVITE);
+    	foundation.WaitForAjax(Constants.SHORT_TIME);
+    	foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
     	return emailID;
     }
 }

@@ -5,12 +5,12 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ReportList extends Factory {
 	
@@ -37,7 +37,7 @@ public class ReportList extends Factory {
 			builder.moveToElement(object).build();
 			object.click();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ReportList extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -66,7 +66,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -76,7 +76,7 @@ public class ReportList extends Factory {
 			foundation.click(DPD_ORG);
 			foundation.click(By.xpath("//ul[@id = 'select2-orgdt-results']/li[text()='" + orgName +"']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}

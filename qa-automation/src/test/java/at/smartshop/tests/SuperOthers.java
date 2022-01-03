@@ -1,20 +1,17 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
@@ -27,7 +24,6 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
-import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -48,7 +44,6 @@ import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SpecialService;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
-import at.smartshop.pages.UserSummary;
 
 public class SuperOthers extends TestInfra {
 
@@ -111,12 +106,12 @@ public class SuperOthers extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
 			foundation.deleteFile(FilePath.EXCEL_CONTACT_SRC);
 			textBox.enterText(ContactList.TXT_SEARCH_CONTACTS, Constants.TESTING);
 			foundation.click(ContactList.BTN_EXPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -306,7 +301,7 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the error message
 			foundation.waitforElement(ConsumerRolesList.ERROR_STATUS, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), expectedData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -345,7 +340,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
 			// Validate the error message
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
 					expectedData);
 
 		} catch (Throwable exc) {
@@ -386,12 +381,12 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 
 			// Validate the error message
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), role_Information_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.DESCRIPTION_ERROR_STATUS),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), role_Information_Status);
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.DESCRIPTION_ERROR_STATUS),
 					role_Information_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
 					card_Definition_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_END_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_END_ERROR),
 					card_Definition_Status);
 
 		} catch (Throwable exc) {
@@ -660,10 +655,10 @@ public class SuperOthers extends TestInfra {
 			// Click on Save Button
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
-			Assert.assertEquals(foundation.getText(OrgstrList.ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -705,9 +700,9 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgstrList.BTN_SAVE);
 
 			// Validating the error message
-			Assert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
 
 		} catch (Throwable exc) {
@@ -797,7 +792,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgSummary.BTN_CANCEL);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
-			assertTrue(foundation.isDisplayed(OrgList.LBL_NO_RESULT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_NO_RESULT));
 			
 			// verify Create New/save
 			foundation.click(OrgList.BTN_CREATE);
@@ -814,7 +809,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(OrgList.TXT_SPINNER_MSG,Constants.SHORT_TIME);
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
-			assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
+			CustomisedAssert.assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1013,10 +1008,10 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-			Assert.assertEquals(foundation.getText(CorporateAccountList.ZIP_ERROR), corporate_ZIP);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.PHONE_ERROR), corporate_Phone);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.EMAIL_ERROR), corporate_Email);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.ZIP_ERROR), corporate_ZIP);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.PHONE_ERROR), corporate_Phone);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.EMAIL_ERROR), corporate_Email);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
 
 			// Click on Cancel Button
 			foundation.waitforElement(CorporateAccountList.CANCEL_BTN, Constants.SHORT_TIME);
@@ -1032,9 +1027,9 @@ public class SuperOthers extends TestInfra {
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
 			// Validate the error Messages
-			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPOPERATOR_ERROR), financial_Name);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPOPERATOR_ERROR), financial_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
 					disbursement_Error_Email);
 
 		} catch (Throwable exc) {
@@ -1078,10 +1073,10 @@ public class SuperOthers extends TestInfra {
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
 			// Validate the error Messages of Already entered Name
-			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
 
 			// Validate the error Messages for Checkbox
-			Assert.assertEquals(foundation.getText(CorporateAccountList.VALIDATE_MESSAGE), corporate_Checkbox);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.VALIDATE_MESSAGE), corporate_Checkbox);
 
 			// change the checkbox
 			foundation.click(CorporateAccountList.DISBURSEMENT_DAY);
@@ -1118,24 +1113,24 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_HEADING));
-			assertTrue(foundation.isDisplayed(FinanceList.DISBURSEMENT_HEADING));
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DATE));
-			Assert.assertEquals(foundation.getText(FinanceList.VALIDATE_DATE), disbursement_Date);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DATE));
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.VALIDATE_DATE), disbursement_Date);
 
 			// download disbursement report assertion
 			foundation.click(FinanceList.DOWNLOAD_DISBURSEMENT_REPORT);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DISBURSEMENT_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DISBURSEMENT_EXPORT_SRC));
 
 			// download view Variance report
 			foundation.click(FinanceList.VIEW_VARIANCE);
 			foundation.click(FinanceList.EXPORT_TOEXCEL);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_VARIANCE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_VARIANCE_EXPORT_SRC));
 
 			// download CSV Report
 			foundation.click(FinanceList.BACK_TO_DISBURSEMENT_PAGE);
 			foundation.click(FinanceList.DOWNLOAD_CSV_REPORT);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CSV_REPORT_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CSV_REPORT_EXPORT_SRC));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1175,12 +1170,12 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Click on Save btn
 			foundation.click(FinanceList.SAVE_BTN);
-			Assert.assertEquals(foundation.getText(FinanceList.ORG_ERROR), org_Error);
-			Assert.assertEquals(foundation.getText(FinanceList.NOTES_ERROR), notes_Error);
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.ORG_ERROR), org_Error);
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.NOTES_ERROR), notes_Error);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1213,7 +1208,7 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Enter the data in fields
 			foundation.click(FinanceList.CHOOSE_ORG);
@@ -1231,7 +1226,7 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Enter the data in fields
 			foundation.click(FinanceList.CHOOSE_ORG);
@@ -1267,11 +1262,11 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
-			assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
@@ -1294,14 +1289,14 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			String msrType=deviceCreate.createDevice(deviceName);
 			foundation.waitforElementToDisappear(SpecialService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
@@ -1324,14 +1319,14 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			textBox.enterText(DeviceCreate.TXT_NAME, deviceName);
 			foundation.click(DeviceCreate.BTN_CANCEl);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
@@ -1355,19 +1350,19 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			String msrType=deviceCreate.createDevice(deviceName);
 			foundation.waitforElementToDisappear(SpecialService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
 			foundation.click(specialService.objSplServiceName(deviceName));
 			textBox.enterText(DeviceCreate.TXT_NAME, editedDeviceName);
 			foundation.click(DeviceCreate.BTN_SAVE);
 			textBox.enterText(SpecialService.TXT_SEARCH, editedDeviceName);
-			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1389,7 +1384,7 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify all column sort functionality
 			int columnNumber=1;
@@ -1424,11 +1419,11 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			textBox.enterText(SpecialService.TXT_SEARCH, Constants.AUTO_TEST);
-			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
@@ -1460,18 +1455,18 @@ public class SuperOthers extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			foundation.waitforElement(DataSourceManager.VALIDATE_DSM_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING),super_Name);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING),super_Name);
 			
 			//search for Report 
 			textBox.enterText(DataSourceManager.DSM_SEARCH_BOX, search_data);
-			assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
 			foundation.click(DataSourceManager.DSM_CHECKBOX);
 			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 		
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));
+			CustomisedAssert.assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));
 			foundation.click(DataSourceManager.DSM_CHECKBOX);
 			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 

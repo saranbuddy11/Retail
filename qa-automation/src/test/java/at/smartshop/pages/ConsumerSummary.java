@@ -1,11 +1,11 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
@@ -57,7 +57,7 @@ public class ConsumerSummary {
 //					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 			initBalance = Double.parseDouble(balance);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initBalance;
 	}

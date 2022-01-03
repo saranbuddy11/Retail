@@ -13,17 +13,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
@@ -197,7 +198,7 @@ public class LocationSummary extends Factory {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
 			foundation.WaitForAjax(Constants.FIFTEEN_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -219,7 +220,7 @@ public class LocationSummary extends Factory {
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -233,7 +234,7 @@ public class LocationSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -258,7 +259,7 @@ public class LocationSummary extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsData;
 	}
@@ -268,7 +269,7 @@ public class LocationSummary extends Factory {
 			foundation.click(BTN_MANAGE_COLUMNS);
 			foundation.click(BTN_SHOW);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		foundation.click(BTN_APPLY);
 	}
@@ -281,26 +282,26 @@ public class LocationSummary extends Factory {
 	public void verifyHasLockerField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
 			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyHasOrderAheadField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
 			String value = dropDown.getSelectedItem(DPD_HAS_ORDER_AHEAD);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -429,7 +430,7 @@ public class LocationSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
 
@@ -473,7 +474,7 @@ public class LocationSummary extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return textAttribute;
 	}
@@ -591,7 +592,7 @@ public class LocationSummary extends Factory {
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return elementsText;
 	}
@@ -605,7 +606,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList()).equals(listRuleNameAscending);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return ascending;
 	}
@@ -618,7 +619,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER.reversed()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return descending;
 	}

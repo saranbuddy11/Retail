@@ -16,8 +16,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ItemStockoutReport extends Factory {
 
@@ -60,7 +62,7 @@ public class ItemStockoutReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -88,7 +90,7 @@ public class ItemStockoutReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -101,16 +103,16 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyReportName(String reportName) {
 		try {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -123,7 +125,7 @@ public class ItemStockoutReport extends Factory {
 			intialData.get(recordCount).put(tableHeaders.get(5), invValue);
 			intialData.get(recordCount).put(tableHeaders.get(6), stockoutTime);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -136,7 +138,7 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return headerCount + 1;
 	}
@@ -149,7 +151,7 @@ public class ItemStockoutReport extends Factory {
 			foundation.click(By.xpath("//table[@id = 'summarydt']/tbody/tr/td[" + scancodeCount + "][text()='"
 					+ scancode + "']//..//td[" + locationCount + "]/a[text()='" + locationName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -173,10 +175,10 @@ public class ItemStockoutReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < headers.size(); iter++) {
-				Assert.assertTrue(headers.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(headers.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -185,12 +187,12 @@ public class ItemStockoutReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -203,7 +205,7 @@ public class ItemStockoutReport extends Factory {
 				intialDetailsData.get(rowCount).put(tableHeaders.get(count + 1), value.get(count));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -219,11 +221,11 @@ public class ItemStockoutReport extends Factory {
 		try {
 			int rowCount = getReportDetailsRecord(stockoutTime, scancode);
 			for (int iter = 0; iter < itemStockoutDetailsHeaders.size(); iter++) {
-				Assert.assertTrue(reportsDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))
+				CustomisedAssert.assertTrue(reportsDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))
 						.contains(intialDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

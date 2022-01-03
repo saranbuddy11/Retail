@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
@@ -189,14 +190,14 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, actualData.get(2), emailAddress);
 			foundation.click(EditAccount.BTN_SAVE);
 			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 
 			// navigate back to edit account and verify all data are populating as entered
 			// before
 			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_FIRST_NAME).equals(actualData.get(0)));
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_LAST_NAME).equals(actualData.get(1)));
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_EMAIL_ADDRESS).equals(actualData.get(2)));
+			CustomisedAssert.assertTrue(textBox.getTextFromInput(EditAccount.TXT_FIRST_NAME).equals(actualData.get(0)));
+			CustomisedAssert.assertTrue(textBox.getTextFromInput(EditAccount.TXT_LAST_NAME).equals(actualData.get(1)));
+			CustomisedAssert.assertTrue(textBox.getTextFromInput(EditAccount.TXT_EMAIL_ADDRESS).equals(actualData.get(2)));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -207,7 +208,7 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, emailAddress, actualData.get(2));
 			foundation.click(EditAccount.BTN_SAVE);
 			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -327,7 +328,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -481,7 +482,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -650,7 +651,7 @@ public class V5Test extends TestInfra {
 			foundation.click(EditAccount.BTN_EDIT_NEXT);
 			textBox.enterPin(requiredData.get(1));
 			foundation.click(EditAccount.BTN_SAVE_PIN);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -661,7 +662,7 @@ public class V5Test extends TestInfra {
 			foundation.click(EditAccount.BTN_EDIT_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(EditAccount.BTN_SAVE_PIN);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -697,12 +698,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// cancel order
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -775,8 +776,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -786,9 +787,9 @@ public class V5Test extends TestInfra {
 
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(tax);
 
-			assertEquals(balanceDue, expectedBalanceDue.toString());
-			assertEquals(subTotal, productPrice);
-			assertEquals(tax, requiredData.get(2));
+			CustomisedAssert.assertEquals(balanceDue, expectedBalanceDue.toString());
+			CustomisedAssert.assertEquals(subTotal, productPrice);
+			CustomisedAssert.assertEquals(tax, requiredData.get(2));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -857,8 +858,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -871,8 +872,8 @@ public class V5Test extends TestInfra {
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit)
 					+ Double.parseDouble(tax);
 			String expBalanceDue = String.format("%.2f", expectedBalanceDue);
-			assertTrue(balanceDue.contains(expBalanceDue));
-			assertTrue(subTotal.contains(productPrice));
+			CustomisedAssert.assertTrue(balanceDue.contains(expBalanceDue));
+			CustomisedAssert.assertTrue(subTotal.contains(productPrice));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -924,14 +925,14 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.enterKeypadText(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
+			CustomisedAssert.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -971,14 +972,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			foundation.click(ProductSearch.BTN_123);
 			textBox.enterKeypadNumber(requiredData.get(1));
-			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.enterKeypadNumber(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
+			CustomisedAssert.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1033,13 +1034,13 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
 			textBox.enterKeypadText(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+			CustomisedAssert.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1113,9 +1114,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1202,9 +1203,9 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.click(AccountDetails.BTN_FUND_CASH);
-			Assert.assertTrue(foundation.isDisplayed(fundAccount.objText(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(fundAccount.objText(requiredData.get(2))));
 			foundation.click(fundAccount.objText(requiredData.get(3)));
-			Assert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
 			browser.close();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1272,11 +1273,11 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
+			CustomisedAssert.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
 
 			browser.close();
 		} catch (Throwable exc) {
@@ -1338,8 +1339,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1404,7 +1405,7 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1509,13 +1510,13 @@ public class V5Test extends TestInfra {
 			String prodCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String prodFoundText = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
 			String unMatchedProdMsg = prodCount + " " + prodFoundText;
-			Assert.assertEquals(unMatchedProdMsg, requiredData.get(1));
+			CustomisedAssert.assertEquals(unMatchedProdMsg, requiredData.get(1));
 			foundation.click(ProductSearch.LINK_CLOSE_POPUP);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName.get(0));
 			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String matchedProdMsg = matchedCount + " " + prodFoundText;
-			Assert.assertEquals(matchedProdMsg, requiredData.get(0));
+			CustomisedAssert.assertEquals(matchedProdMsg, requiredData.get(0));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1550,8 +1551,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1586,10 +1587,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1630,10 +1631,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1676,11 +1677,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_NO);
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1724,12 +1725,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
 			foundation.waitforElementToDisappear(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1772,12 +1773,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT_MSG));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT_MSG));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1819,9 +1820,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.threadWait(Constants.FIFTEEN_SECOND);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1856,7 +1857,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1895,9 +1896,9 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText((requiredData.get(1)));
 			foundation.click(LandingPage.BTN_PRODUCT);
 			String actualHeader = foundation.getText(LandingPage.TXT_HEADER);
-			assertEquals(actualHeader, actualData.get(1));
+			CustomisedAssert.assertEquals(actualHeader, actualData.get(1));
 			String actualProduct = foundation.getText(LandingPage.TXT_PRODUCT);
-			assertEquals(actualProduct, actualData.get(0));
+			CustomisedAssert.assertEquals(actualProduct, actualData.get(0));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1937,7 +1938,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1989,7 +1990,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -2039,7 +2040,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 			browser.close();
 
 			// Remove home commercial
@@ -2059,7 +2060,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2099,7 +2100,7 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.LONG_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 			browser.close();
 
 			// Remove home commercial
@@ -2119,7 +2120,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2158,7 +2159,7 @@ public class V5Test extends TestInfra {
 			foundation.refreshPage();
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			browser.close();
 
 			// Remove home commercial
@@ -2180,8 +2181,8 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2223,9 +2224,9 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -2273,7 +2274,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
 			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2310,7 +2311,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
 			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2350,7 +2351,7 @@ public class V5Test extends TestInfra {
 			// Constants.SHORT_TIME);
 			String expectedData = foundation.getAlertMessage();
 			;
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2388,12 +2389,12 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			// assertEquals(expectedData, actualData);
+			// CustomisedAssert.assertEquals(expectedData, actualData);
 			String expectedData = foundation.getAlertMessage();
 			// foundation.waitforElement(locationSummary.objUploadStatus(actualData),
 			// Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2441,7 +2442,7 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.waitforElement(landingPage.objText(actualData.get(0)), Constants.MEDIUM_TIME);
 			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
-			assertEquals(actualLanguage, actualData.get(0));
+			CustomisedAssert.assertEquals(actualLanguage, actualData.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(landingPage.objText(language.get(2)));
 			foundation.click(landingPage.objLanguage(requiredData.get(1)));
@@ -2449,7 +2450,7 @@ public class V5Test extends TestInfra {
 			foundation.click(landingPage.objText(language.get(4)));
 			foundation.waitforElement(landingPage.objText(actualData.get(1)), Constants.SHORT_TIME);
 			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
-			assertEquals(actualLanguage, actualData.get(1));
+			CustomisedAssert.assertEquals(actualLanguage, actualData.get(1));
 			browser.close();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2486,7 +2487,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(UserProfile.BTN_PRIVACY);
 			String title = foundation.getText(Policy.LBL_POLICY_TITLE);
-			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			CustomisedAssert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
 		} catch (Throwable exc) {
@@ -2525,7 +2526,7 @@ public class V5Test extends TestInfra {
 
 			foundation.click(UserProfile.BTN_TERMS_CONDITION);
 			String title = foundation.getText(Policy.LBL_TERMS_CONDITION_TITLE);
-			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			CustomisedAssert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
 		} catch (Throwable exc) {
@@ -2594,7 +2595,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -2755,7 +2756,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(1)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -2913,7 +2914,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3069,7 +3070,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3229,7 +3230,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3389,7 +3390,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(cardPayment.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3549,7 +3550,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3710,7 +3711,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			landingPage.changeLanguage(language.get(2), requiredData.get(3), language.get(3));
@@ -3871,7 +3872,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -4056,19 +4057,19 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.TXT_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.TXT_HEADER));
 			String uiSubTotal = foundation.getText(Order.LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
 			List<String> lblTaxes = foundation.getTextofListElement(Order.LBL_TAX);
 			List<String> lblTaxValues = foundation.getTextofListElement(Order.LBL_VAT_VALUE);
-			Assert.assertEquals(lblTaxes.get(0), taxes.get(0));
-			Assert.assertEquals(lblTaxes.get(1), taxes.get(1));
+			CustomisedAssert.assertEquals(lblTaxes.get(0), taxes.get(0));
+			CustomisedAssert.assertEquals(lblTaxes.get(1), taxes.get(1));
 			double calculatedTax1 = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxes.get(7)) / 100);
 			double expectedTaxWithRoundUp1 = Math.round(calculatedTax1 * 100.0) / 100.0;
 			double calculatedTax2 = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxes.get(8)) / 100);
 			double expectedTaxWithRoundUp2 = Math.round(calculatedTax2 * 100.0) / 100.0;
-			Assert.assertEquals(Double.parseDouble(lblTaxValues.get(0).replace("$", Constants.EMPTY_STRING)),
+			CustomisedAssert.assertEquals(Double.parseDouble(lblTaxValues.get(0).replace("$", Constants.EMPTY_STRING)),
 					expectedTaxWithRoundUp1);
-			Assert.assertEquals(Double.parseDouble(lblTaxValues.get(1).replace("$", Constants.EMPTY_STRING)),
+			CustomisedAssert.assertEquals(Double.parseDouble(lblTaxValues.get(1).replace("$", Constants.EMPTY_STRING)),
 					expectedTaxWithRoundUp2);
 
 			// add rate 5 product and verify the display of tax
@@ -4078,8 +4079,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
 			order.verifyTax(taxes.get(7));
 
 			// add rate 8 product and verify the display of tax
@@ -4089,8 +4090,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
 			order.verifyTax(taxes.get(8));
 
 			// add no tax assigned product and verify the display of tax section
@@ -4100,9 +4101,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -4208,8 +4209,8 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(4));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -4245,7 +4246,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -4279,7 +4280,7 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			List<String> tabNames = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			driverHomePage.verifyData(tabNames);
@@ -4318,9 +4319,9 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
@@ -4360,17 +4361,17 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			String value = foundation.getBGColor(DriverHomePage.LINK_CASHOUT);
-			Assert.assertEquals(actualData.get(1), value);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
+			CustomisedAssert.assertEquals(actualData.get(1), value);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
 			List<String> currency = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			driverHomePage.verifyData(currency);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -4405,16 +4406,16 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_INVENTORY);
 			foundation.waitforElement(InventoryHomePage.TXT_SELECT_ACTION, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),
+			CustomisedAssert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> options = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			inventoryHomePage.verifyInventoryOptions(options);
 			foundation.click(InventoryHomePage.BTN_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
@@ -4483,12 +4484,12 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			// foundation.refreshPage();
 			foundation.waitforElementToBeVisible(landingPage.objText(requiredData.get(2)), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
 			foundation.click(landingPage.objText(requiredData.get(2)));
 			foundation.click(landingPage.objText(requiredData.get(3)));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -4570,7 +4571,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4587,7 +4588,7 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -4653,7 +4654,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4670,7 +4671,7 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -4697,7 +4698,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> invCountAfterSale = locationSummary.getProductDetails(requiredData.get(3));
 
-			Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3))) == Integer
+			CustomisedAssert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3))) == Integer
 					.valueOf(invCountBeforeSale.get(requiredData.get(3))) - 1);
 
 		} catch (Throwable exc) {
@@ -4784,7 +4785,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4800,10 +4801,10 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -4887,7 +4888,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4904,7 +4905,7 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 
@@ -4973,7 +4974,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
@@ -4985,8 +4986,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(order.objText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.objectFocus(Order.LBL_EMAIL);
@@ -4996,7 +4997,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 		} catch (Throwable exc) {
@@ -5069,7 +5070,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
@@ -5082,17 +5083,17 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 			foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
@@ -5102,7 +5103,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5186,7 +5187,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
@@ -5199,9 +5200,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
@@ -5212,7 +5213,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.waitforElement(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE)),
 					Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 		} catch (Throwable exc) {
@@ -5299,7 +5300,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
@@ -5312,9 +5313,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
@@ -5323,7 +5324,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 		} catch (Throwable exc) {
@@ -5416,9 +5417,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
@@ -5427,7 +5428,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5494,7 +5495,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
 			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
 					language.get(1));
@@ -5507,14 +5508,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
@@ -5526,7 +5527,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.waitforElement(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE)),
 					Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5594,7 +5595,7 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(requiredData.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), requiredData.get(1));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), requiredData.get(1));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -5650,9 +5651,9 @@ public class V5Test extends TestInfra {
 			// verify edits applied to product or not
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -5706,7 +5707,7 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(requiredData.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), requiredData.get(1));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), requiredData.get(1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5749,7 +5750,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
-			assertTrue(listReasonCode.contains(requiredData.get(1)));
+			CustomisedAssert.assertTrue(listReasonCode.contains(requiredData.get(1)));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -5790,12 +5791,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5821,7 +5822,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(LocationList.TXT_FILTER, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)));
-			assertNotEquals(dailyRevenue, requiredData.get(1));
+			CustomisedAssert.assertNotEquals(dailyRevenue, requiredData.get(1));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -5866,7 +5867,7 @@ public class V5Test extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -5921,7 +5922,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 
-			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -5997,9 +5998,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_APPLY);
 			// verify edits
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(4)), requiredDataV5Device.get(3));
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)), requiredDataV5Device.get(4));
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)), requiredDataV5Device.get(5));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(4)), requiredDataV5Device.get(3));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)), requiredDataV5Device.get(4));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)), requiredDataV5Device.get(5));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6061,7 +6062,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = foundation.getAttributeValueofListElement(LocationSummary.LIST_REASON_CODE,
 					Constants.INNER_TEXT);
-			assertTrue(listReasonCode.contains(requiredData.get(1)));
+			CustomisedAssert.assertTrue(listReasonCode.contains(requiredData.get(1)));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6115,7 +6116,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(2));
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(2))));
 			// reset data- remove added mapping
 			foundation.click(locationSummary.objTaxCategory(requiredData.get(2)));
 			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
@@ -6125,7 +6126,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_ADD_MAPPING);
 			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
-			assertTrue(listTaxCategory.contains(requiredData.get(4)));
+			CustomisedAssert.assertTrue(listTaxCategory.contains(requiredData.get(4)));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
 		} catch (Throwable exc) {
@@ -6190,7 +6191,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.refreshPage();
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
-			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6249,7 +6250,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
 			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
@@ -6267,7 +6268,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(3));
 
 		} catch (Throwable exc) {
@@ -6344,14 +6345,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(5));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(5));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6386,11 +6387,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		}
 	}
 
@@ -6415,8 +6416,8 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			String scanCode = foundation.getText(ProductSearch.LBL_PRODUCT_SCANCODE);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
 			String total = order.getSubtotal();
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
@@ -6425,7 +6426,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6448,12 +6449,12 @@ public class V5Test extends TestInfra {
 			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(
 					TransactionSearchPage.TABLE_TRANSACTION_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					transactionDetails.get(requiredData.get(0)).contains(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					transactionDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			Assert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
-			Assert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
+			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
+			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
 
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			reportList.selectReport(rstReportsListData.get(CNReportList.REPORT_NAME));
@@ -6466,13 +6467,13 @@ public class V5Test extends TestInfra {
 			textBox.enterText(TransactionSearchPage.TXT_REPORT_SEARCH, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> salesItemDetails = table.getTblSingleRowRecordUI(
 					TransactionSearchPage.TABLE_SALES_ITEM_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(4)).equals(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(5)).equals(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME)));
-			Assert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
+			CustomisedAssert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6576,7 +6577,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(9), taxRateName);
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -6604,22 +6605,22 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualTaxRate1 = foundation.getText(Order.LBL_TAX_1);
 			String actualTaxRate2 = foundation.getText(Order.LBL_TAX_2);
 			String actualTaxRate3 = foundation.getText(Order.LBL_TAX_3);
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
@@ -6634,13 +6635,13 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6742,8 +6743,8 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_TAX_1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_TAX_1));
 
 			// removing Tax Mapping
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6762,7 +6763,7 @@ public class V5Test extends TestInfra {
 			table.selectRow(requiredData.get(1));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
-			Assert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
@@ -6786,10 +6787,10 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 
 			// verify Order Page
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
-			Assert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
+			CustomisedAssert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -6838,7 +6839,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(2));
 			dbData_Tax.put(requiredData.get(9), requiredData.get(0));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 
 			// reading another tax rate
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -6868,7 +6869,7 @@ public class V5Test extends TestInfra {
 			dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(2));
 			dbData_Tax.put(requiredData.get(9), requiredData.get(1));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -6924,15 +6925,15 @@ public class V5Test extends TestInfra {
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
@@ -6947,7 +6948,7 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			// Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			// CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -7028,7 +7029,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(3), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(4), requiredData.get(0));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 
 			// editing tax rates and description name
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -7078,8 +7079,8 @@ public class V5Test extends TestInfra {
 			dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(3), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(4), taxRateName);
-			Assert.assertEquals(uiData, dbData_Tax);
-			Assert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
 
 			// navigation global product
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -7109,22 +7110,22 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualTaxRate1 = foundation.getText(Order.LBL_TAX_1);
 			String actualTaxRate2 = foundation.getText(Order.LBL_TAX_2);
 			String actualTaxRate3 = foundation.getText(Order.LBL_TAX_3);
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(5) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(5) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(5) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(5) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(5) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(5) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(5) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(5) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(5) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(5) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
@@ -7139,7 +7140,7 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -7261,30 +7262,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7383,25 +7384,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -7490,35 +7491,35 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
 			// String productPrice =
 			// foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(priceTotal) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7613,11 +7614,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
+			CustomisedAssert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
 					.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1])
 					&& Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) <= Double
 							.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
@@ -7626,20 +7627,20 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7734,12 +7735,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 
-			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
+			CustomisedAssert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
 					.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1])
 					&& Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) <= Double
 							.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
@@ -7748,21 +7749,21 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			// assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			// CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7858,25 +7859,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7991,16 +7992,16 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(7));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(foundation.getText(Order.LBL_PRODUCT_PRICE)));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(foundation.getText(Order.LBL_PRODUCT_PRICE)));
 
 			List<String> subProductPrice = foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
 			// verify the display of total section
@@ -8011,12 +8012,12 @@ public class V5Test extends TestInfra {
 			// foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = totalProductPrice - totalProductPrice;
 			String balanceDue = String.format("%.2f", expectedBalanceDue);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(balanceDue));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(balanceDue));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8130,11 +8131,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(bundleDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -8142,20 +8143,20 @@ public class V5Test extends TestInfra {
 			// remove next 5 lines and uncomment next 2 lines
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8260,30 +8261,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8395,25 +8396,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -8500,12 +8501,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			List<String> productPrice = foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
@@ -8519,14 +8520,14 @@ public class V5Test extends TestInfra {
 					- Double.parseDouble(
 							discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			double subToal = Double
 					.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					+ Double.parseDouble(
 							productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 			double expectedTotalRoundUp = Math.round(subToal * 100.0) / 100.0;
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(expectedTotalRoundUp)));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(expectedTotalRoundUp)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double
 					.parseDouble(discountList.get(2).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					+ Double.parseDouble(
 							discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)))));
@@ -8535,12 +8536,12 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8636,30 +8637,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8758,30 +8759,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8879,25 +8880,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8994,28 +8995,28 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// remove next 5 lines and uncomment next 2 lines
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9113,28 +9114,28 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9231,31 +9232,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			double discountamount = Double.parseDouble(productPrice) * Double.parseDouble(requiredData.get(7)) / 100;
-			assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
+			CustomisedAssert.assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9354,25 +9355,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9484,18 +9485,18 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -9575,26 +9576,26 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9691,26 +9692,26 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9808,25 +9809,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9924,25 +9925,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10040,30 +10041,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			double price = Double.parseDouble(productPrice);
 			price = price + price;
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(price)));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10162,28 +10163,28 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10283,23 +10284,23 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);

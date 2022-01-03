@@ -1,9 +1,12 @@
 package at.smartshop.pages;
 
 import static org.testng.Assert.assertTrue;
+
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import at.framework.browser.Factory;
 import at.framework.ui.CheckBox;
 
