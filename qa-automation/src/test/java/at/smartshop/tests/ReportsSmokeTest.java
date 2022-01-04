@@ -25,101 +25,7 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.ReportList;
-import at.smartshop.pages.SalesAnalysisReport;
-import at.smartshop.pages.SalesBy15Minutes;
-import at.smartshop.pages.SalesBy30Minutes;
-import at.smartshop.pages.SalesSummaryAndCost;
-import at.smartshop.pages.SalesTimeDetailsByDevice;
-import at.smartshop.pages.SalesTimeDetailsReport;
-import at.smartshop.pages.SoldDetails;
-import at.smartshop.pages.SoldDetailsInt;
-import at.smartshop.pages.SoldItemCOGS;
-import at.smartshop.pages.TenderTransactionLogReport;
-import at.smartshop.pages.TipDetailsReport;
-import at.smartshop.pages.TipSummaryReport;
-import at.smartshop.pages.TransactionCannedReport;
-import at.smartshop.pages.AccountAdjustment;
-import at.smartshop.pages.AccountFundingDetail;
-import at.smartshop.pages.AccountProfitability;
-import at.smartshop.pages.AdvanaBilling;
-import at.smartshop.pages.AlcoholSoldDetailsReport;
-import at.smartshop.pages.AppFundingByLocation;
-import at.smartshop.pages.BadScanReport;
-import at.smartshop.pages.BalanceReport;
-import at.smartshop.pages.BillingInformationReport;
-import at.smartshop.pages.BulkTopOff;
-import at.smartshop.pages.CanadaMultiTaxReport;
-import at.smartshop.pages.CancelReport;
-import at.smartshop.pages.CashAudit;
-import at.smartshop.pages.CashFlow;
-import at.smartshop.pages.CashFlowDetails;
-import at.smartshop.pages.CashFlowDetailsInternational;
-import at.smartshop.pages.CashFlowDevice;
-import at.smartshop.pages.CashFlowEmployee;
-import at.smartshop.pages.CashFlowEmployeeDevice;
-import at.smartshop.pages.CashoutLog;
-import at.smartshop.pages.ConsumerPurchaseSummary;
-import at.smartshop.pages.CreditTransaction;
-import at.smartshop.pages.CrossOrgLoyaltyReport;
-import at.smartshop.pages.CustomerReportSkymiles;
-import at.smartshop.pages.DailySalesSummary;
-import at.smartshop.pages.DataSourceManager;
-import at.smartshop.pages.DeleteSummaryReport;
-import at.smartshop.pages.ModifiersReport;
-import at.smartshop.pages.MultiTaxReport;
-import at.smartshop.pages.NavigationBar;
-import at.smartshop.pages.OrderAheadTrans;
-import at.smartshop.pages.OrderTransactionTimeReport;
-import at.smartshop.pages.PayrollDeductDetails;
-import at.smartshop.pages.PayrollDeductSummary;
-import at.smartshop.pages.PersonalChargeReport;
-import at.smartshop.pages.ProductCannedReport;
-import at.smartshop.pages.ProductPricingReport;
-import at.smartshop.pages.ProductSales;
-import at.smartshop.pages.ProductTaxReport;
-import at.smartshop.pages.RedeemedGuestPassValue;
-import at.smartshop.pages.Referrals;
-import at.smartshop.pages.RemainingGuestPassLiability;
-import at.smartshop.pages.EFTGMADisbursement;
-import at.smartshop.pages.EmployeeCompDetailsReport;
-import at.smartshop.pages.EntrySummaryReport;
-import at.smartshop.pages.ExpressDisbursement;
-import at.smartshop.pages.FinancialCanned;
-import at.smartshop.pages.FinancialRecapReport;
-import at.smartshop.pages.FolioBillingReport;
-import at.smartshop.pages.GMAMigration;
-import at.smartshop.pages.HealthAheadPercentageReport;
-import at.smartshop.pages.HealthAheadReport;
-import at.smartshop.pages.HiatusModeReport;
-import at.smartshop.pages.ICEReport;
-import at.smartshop.pages.IntegrationPaymentReport;
-import at.smartshop.pages.IntlDisbursementReport;
-import at.smartshop.pages.IntlWebAppFunding;
-import at.smartshop.pages.InventoryTotals;
-import at.smartshop.pages.InventoryValueSummary;
-import at.smartshop.pages.InvoiceDetailsReport;
-import at.smartshop.pages.ItemStockoutReport;
-import at.smartshop.pages.LoyaltyUserReport;
-import at.smartshop.pages.MemberPurchaseDetailsReport;
-import at.smartshop.pages.EFTCrossOrgGMADisbursement;
-import at.smartshop.pages.GJCommission;
-import at.smartshop.pages.EFTDisbursementDetail;
-import at.smartshop.pages.unsoldProducts;
-import at.smartshop.pages.skymilesDetail;
-import at.smartshop.pages.QueuedCreditTransactionsReport;
-import at.smartshop.pages.MemberPurchaseSummaryReport;
-import at.smartshop.pages.InventoryAdjustmentDetail;
-import at.smartshop.pages.UFSReport;
-import at.smartshop.pages.UnfinishedCloseReport;
-import at.smartshop.pages.VoidedProductReport;
-import at.smartshop.pages.UFSByDevice;
-import at.smartshop.pages.DeviceByCategoryReport;
-import at.smartshop.pages.UFSByEmployeeDevice;
-import at.smartshop.pages.AccountFunding;
-import at.smartshop.pages.CrossOrgMiddidAssignment;
-import at.smartshop.pages.CrossOrgSelfProvisionedDevices;
-import at.smartshop.pages.CrossOrgEFTVariance;
+import at.smartshop.pages.*;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class ReportsSmokeTest extends TestInfra {
@@ -224,7 +130,15 @@ public class ReportsSmokeTest extends TestInfra {
 	private TenderTransactionLogReport tenderTransactionLogReport = new TenderTransactionLogReport();
 	private CrossOrgSelfProvisionedDevices crossOrgSelfProvisionedDevices = new CrossOrgSelfProvisionedDevices();
 	private CrossOrgEFTVariance crossOrgEFTVariance = new CrossOrgEFTVariance();
-	
+	private RodsSpecialInventoryReport rodsSpecialInventoryReport = new RodsSpecialInventoryReport();
+	private AdvanaEligibleLocations advanaEligibleLocations = new AdvanaEligibleLocations();
+	private HeartlandEFTVariance heartlandEFTVariance = new HeartlandEFTVariance();
+	private CCBatch ccBatch = new CCBatch();
+	private DCLockerOrders dcLockerOrders = new DCLockerOrders();
+	private GuestPassByDevice guestPassByDevice = new GuestPassByDevice();
+	private OrderOnly orderOnly = new OrderOnly();
+	private SendASnack sendASnack = new SendASnack();
+	private UnpaidOrder unpaidOrder = new UnpaidOrder();
 	
 	
 	private Map<String, String> rstNavigationMenuData;
@@ -263,7 +177,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			
+
 			// Verifying the Location name with the displayed name on the Front end
 			SalesTimeDetailsReport.verifyReportName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -273,7 +187,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -322,7 +236,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameWithDate(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -368,7 +282,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -417,7 +331,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -465,7 +379,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -507,7 +421,7 @@ public class ReportsSmokeTest extends TestInfra {
 			EFTGMADisbursement.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// NOTE : To Excel Button is not available.
-			
+
 			/*
 			 * // Downloading the Report
 			 * reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -556,7 +470,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -604,7 +518,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -652,7 +566,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -700,7 +614,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -748,7 +662,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -844,7 +758,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -893,7 +807,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameWithDate(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -941,7 +855,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -989,7 +903,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(rstReportListData.get(CNReportList.REPORT_NAME),
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE),
@@ -1037,7 +951,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1089,7 +1003,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameWithDate(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -1137,7 +1051,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1185,7 +1099,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1233,7 +1147,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1281,7 +1195,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
@@ -1366,7 +1280,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1419,7 +1333,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1472,7 +1386,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -1521,7 +1435,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1569,7 +1483,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1617,7 +1531,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1664,7 +1578,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1712,7 +1626,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1760,7 +1674,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1808,7 +1722,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1856,7 +1770,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1904,7 +1818,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -1953,7 +1867,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -2002,7 +1916,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2050,7 +1964,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2098,7 +2012,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2146,7 +2060,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2193,7 +2107,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2241,7 +2155,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2289,7 +2203,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2337,7 +2251,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2385,7 +2299,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2431,7 +2345,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2477,7 +2391,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2525,7 +2439,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2573,7 +2487,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2621,7 +2535,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2669,7 +2583,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2717,7 +2631,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2762,7 +2676,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2810,7 +2724,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2858,7 +2772,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2906,7 +2820,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -2954,7 +2868,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3004,7 +2918,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -3053,7 +2967,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3101,7 +3015,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3149,7 +3063,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3197,7 +3111,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3245,7 +3159,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3293,7 +3207,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3341,7 +3255,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3400,7 +3314,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167041 - This test validates Data existance and Excel file exportaion of Account Profitability Report")
 	public void accountProfitability() {
 		try {
@@ -3448,7 +3362,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167042 - This test validates Data existance and Excel file exportaion of cross Org: Loyalty Report")
 	public void crossOrgLoyalty() {
 		try {
@@ -3485,7 +3399,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -3496,7 +3410,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167043 - This test validates Data existance and Excel file exportaion of Employee Comp Details Report")
 	public void employeeCompDetails() {
 		try {
@@ -3544,7 +3458,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167044 - This test validates Data existance and Excel file exportaion of UFS Report")
 	public void UFSReport() {
 		try {
@@ -3574,7 +3488,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			ufsReport.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			ufsReport.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -3582,9 +3497,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3593,7 +3509,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167045 - This test validates Data existance and Excel file exportaion of Sales By 15 Minutes Report")
 	public void salesBy15Minutes() {
 		try {
@@ -3641,7 +3557,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167046 - This test validates Data existance and Excel file exportaion of Sales By 30 Minutes Report")
 	public void salesBy30Minutes() {
 		try {
@@ -3689,7 +3605,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167047 - This test validates Data existance and Excel file exportaion of Health Ahead Report")
 	public void healthAhead() {
 		try {
@@ -3737,7 +3653,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167048 - This test validates Data existance and Excel file exportaion of Health Ahead Percentages Report")
 	public void healthAheadPercentages() {
 		try {
@@ -3785,7 +3701,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167049 - This test validates Data existance and Excel file exportaion of Personal Charge Report")
 	public void personalCharge() {
 		try {
@@ -3833,7 +3749,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167050 - This test validates Data existance and Excel file exportaion of Cash Flow Device Report")
 	public void cashFlowDevice() {
 		try {
@@ -3863,7 +3779,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			cashFlowDevice.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlowDevice.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3872,7 +3789,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3881,7 +3799,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167051 - This test validates Data existance and Excel file exportaion of Cash Flow Employee Report")
 	public void cashFlowEmployee() {
 		try {
@@ -3911,7 +3829,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			cashFlowEmployee.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlowEmployee.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3920,7 +3839,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3929,7 +3849,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167052 - This test validates Data existance and Excel file exportaion of Cash Flow Employee Device Report")
 	public void cashFlowEmployeeDevice() {
 		try {
@@ -3959,7 +3879,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			cashFlowEmployeeDevice.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlowEmployeeDevice.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3968,7 +3889,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3977,7 +3899,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167055 - This test validates Data existance and Excel file exportaion of UFS By Device Report")
 	public void UFSByDevice() {
 		try {
@@ -4007,7 +3929,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			ufsByDevice.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			ufsByDevice.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -4015,9 +3938,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -4026,7 +3950,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167056 - This test validates Data existance and Excel file exportaion of Tip Details Report")
 	public void tipDetails() {
 		try {
@@ -4074,7 +3998,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167057 - This test validates Data existance and Excel file exportaion of Tip Summary Report")
 	public void tipSummary() {
 		try {
@@ -4218,7 +4142,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167060 - This test validates Data existance and Excel file exportaion of UFS By Employee Device Report")
 	public void UFSByEmployeeDevice() {
 		try {
@@ -4248,7 +4172,8 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			ufsByEmployeeDevice.verifyReportName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			ufsByEmployeeDevice.verifyReportName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -4256,9 +4181,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.verifyTheFileWithFullName(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -4267,7 +4193,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167061 - This test validates Data existance and Excel file exportaion of Unfinished Close Report")
 	public void unfinishedClose() {
 		try {
@@ -4315,7 +4241,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167062 - This test validates Data existance and Excel file exportaion of Voided Product Report")
 	public void voidedProduct() {
 		try {
@@ -4363,7 +4289,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167063 - This test validates Data existance and Excel file exportaion of Voided Product Report")
 	public void accountFunding() {
 		try {
@@ -4411,7 +4337,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167064 - This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgMiddidAssignment() {
 		try {
@@ -4448,7 +4374,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -4496,7 +4422,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -4507,7 +4433,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167066 - This test validates Data existance and Excel file exportaion of Tender Transaction Log Report")
 	public void tenderTransactionLog() {
 		try {
@@ -4555,7 +4481,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167067 - This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgSelfProvisionedDevices() {
 		try {
@@ -4592,7 +4518,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
@@ -4603,7 +4529,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167068 - This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
 	public void CrossOrgEFTVariance() {
 		try {
@@ -4640,13 +4566,444 @@ public class ReportsSmokeTest extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Verifying the Report name with with the Name in the exported file, 
+			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameWithDate(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			// Verifying, whether the Report data available or not
 			crossOrgEFTVariance.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167121 - This test validates Data existance and Excel file exportaion of Rods Special Inventory Report")
+	public void rodsSpecialInventoryReport() {
+		try {
+			final String CASE_NUM = "167121";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			rodsSpecialInventoryReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			rodsSpecialInventoryReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167122 - This test validates Data existance and Excel file exportaion of Advana Eligible Locations Report")
+	public void advanaEligibleLocations() {
+		try {
+			final String CASE_NUM = "167122";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			advanaEligibleLocations.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			advanaEligibleLocations.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167123 - This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
+	public void heartlandEFTVariance() {
+		try {
+			final String CASE_NUM = "167123";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			heartlandEFTVariance.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					foundation.getText(heartlandEFTVariance.LBL_REPORT_NAME));
+
+			// Verifying, whether the Report data available or not
+			heartlandEFTVariance.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167124 - This test validates Data existance and Excel file exportaion of CC Batch Report")
+	public void CCBatch() {
+		try {
+			final String CASE_NUM = "167124";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			ccBatch.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// verified file existence and deleted the file
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			ccBatch.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167125 - This test validates Data existance and Excel file exportaion of DC Locker Orders Report")
+	public void DCLockerOrders() {
+		try {
+			final String CASE_NUM = "167125";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectCurrentDay();
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			dcLockerOrders.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// Downloading the Report
+//			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+//
+//			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+//			reportList.verifyTheFileContainsNameWithDate(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+//					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			dcLockerOrders.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167126 - This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	public void guestPassByDevice() {
+		try {
+			final String CASE_NUM = "167126";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			guestPassByDevice.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			guestPassByDevice.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167127 - This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	public void orderOnly() {
+		try {
+			final String CASE_NUM = "167127";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			orderOnly.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			orderOnly.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167128 - This test validates Data existance and Excel file exportaion of Send A Snack Report")
+	public void sendASnack() {
+		try {
+			final String CASE_NUM = "167128";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			sendASnack.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			sendASnack.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167129 - This test validates Data existance and Excel file exportaion of Send A Snack Report")
+	public void unpaidOrder() {
+		try {
+			final String CASE_NUM = "167129";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			unpaidOrder.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			unpaidOrder.checkForDataAvailabilyInResultTable();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
