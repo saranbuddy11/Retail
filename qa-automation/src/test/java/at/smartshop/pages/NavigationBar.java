@@ -19,7 +19,7 @@ public class NavigationBar extends Factory {
 	private static final By TXT_ORG = By.className("select2-search__field");
 	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
 
-	public void selectOrganization(String selectText) {	
+	public void selectOrganization(String selectText) {
 		try {
 			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 			foundation.click(DPD_ORG);
@@ -31,19 +31,23 @@ public class NavigationBar extends Factory {
 	}
 
 	public void navigateToMenuItem(String optionNames) {
-        try {
-            List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
-            foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
-            if (optionName.size() == 2) {
-                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
-            } else if(optionName.size() > 2) {
-                foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
-                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
-            }
-            foundation.WaitForAjax(Constants.SHORT_TIME);
-        } catch (Exception exc) {
-            Assert.fail(exc.toString());
-        }
-    }
-	
+		try {
+			List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
+			foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
+			if (optionName.size() == 2) {
+				foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
+						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+			} else if (optionName.size() > 2) {
+				foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
+						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+				foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
+						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='"
+						+ optionName.get(2) + "')]"));
+			}
+			foundation.WaitForAjax(Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 }
