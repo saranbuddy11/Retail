@@ -36,9 +36,16 @@ public class SOSHome extends Factory {
 	public void verifyColumnNames(List<String> expected, List<String> actual) {
 		List<String> expectedColumns = expected;
 		List<String> actualColumns = actual;
-		System.out.println(expectedColumns);
-		System.out.println(actualColumns);
-
+		Assert.assertTrue(expectedColumns.get(0).equals(actualColumns.get(4)));
+		Assert.assertTrue(expectedColumns.get(1).equals(actualColumns.get(5)));
+		Assert.assertTrue(expectedColumns.get(2).equals(actualColumns.get(6)));
+		Assert.assertTrue(expectedColumns.get(3).equals(actualColumns.get(8)));
+		Assert.assertTrue(expectedColumns.get(4).equals(actualColumns.get(1)));
+		Assert.assertTrue(actualColumns.get(2).contains(expectedColumns.get(5)));
+		Assert.assertTrue(expectedColumns.get(6).equals(actualColumns.get(3)));
+		Assert.assertTrue(actualColumns.get(7).contains(expectedColumns.get(7)));
+		Assert.assertTrue(actualColumns.get(9).contains(expectedColumns.get(8)));
+		Assert.assertTrue(expectedColumns.get(9).equals(actualColumns.get(0)));
 	}
 
 }

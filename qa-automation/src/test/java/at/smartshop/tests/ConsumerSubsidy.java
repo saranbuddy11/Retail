@@ -137,6 +137,12 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				if (checkBox.isChecked(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+					checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+				else if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+					if (checkBox.isChecked(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+						checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			locationSummary.enterGroupNames(requiredData.get(7), requiredData.get(8), requiredData.get(9));
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
