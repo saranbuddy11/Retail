@@ -48,8 +48,15 @@ public class ConsumerSubsidy extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
 
-	@Test(description = "166050-Verify the selection of defaults for the GMA subsidy")
-	public void verifySelectionDefaults() {
+	@Test(description = "166048 - verify the GMA subsidy under the location summary page"
+			+ "166049 - verify the GMA subsidy field when its set to 'Yes' under the location summary page"
+			+ "166050 - Verify the selection of defaults for the GMA subsidy"
+			+ "166051 - Verify the whether the default radio buttons are mandatory fields."
+			+ "166052 - Verify the duplicate names for both the Top of subsidy and Rollover subsidy"
+			+ "166053 - Verify the Start Date field for both Top off subsidy and Rollover subsidy"
+			+ "166054 - Verify the 'Recurrence' field for both the Top of subsidy and Rollover subsidy"
+			+ "166055 - Verify the 'Group Name' field for both the Top off subsidy and Rollover subsidy")
+	public void verifyGmaSubsidy() {
 		final String CASE_NUM = "166050";
 
 		// Reading test data from database
@@ -59,6 +66,8 @@ public class ConsumerSubsidy extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String recurrence = new String();
 
 		try {
 
@@ -76,7 +85,13 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying the selection of defaults for the Both GMA subsidy
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
+			List<String> expectedValues = new ArrayList<String>();
+			expectedValues.add(requiredData.get(1));
+			expectedValues.add(requiredData.get(0));
+			Assert.assertTrue(values.equals(expectedValues));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			Assert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
@@ -94,61 +109,91 @@ public class ConsumerSubsidy extends TestInfra {
 				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			}
 
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
-		}
-	}
-
-	@Test(description = "166051-Verify the whether the default radio buttons are mandatory fields.")
-	public void verifyDefaultRadioButtonsMandatory() {
-		final String CASE_NUM = "166051";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
 			// Verifying default radio buttons are mandatory fields for both subsidy
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY)) {
 				if (checkBox.isChecked(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 					checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-				else if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
-					if (checkBox.isChecked(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
-						checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			} else if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY)) {
+				if (checkBox.isChecked(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+					checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			}
 			locationSummary.enterGroupNames(requiredData.get(7), requiredData.get(8), requiredData.get(9));
+
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+
+			// Verifying the duplicate names for both subsidy
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(10));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(10));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(11));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+
+			// Verifying Date picker of Top Off
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(12));
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
+			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+
+			// Verifying Date picker of Roll Over
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			locationSummary.verifyRollOverDateLocation1(currentDate);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
+			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+
+			// Validating Recurrence field of Top Off subsidy
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(13), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(13));
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(14), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(14));
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(15), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(15));
+			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+
+			// Validating Recurrence field of Roll Over subsidy
+			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(13), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(13));
+			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(14), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(14));
+			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(15), Constants.TEXT);
+			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
+			Assert.assertEquals(recurrence, requiredData.get(15));
+			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+
+			// Verifying Group name field in both subsidy
+			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(16));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TOP_OFF_WARNING_MSG));
+			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
-			locationSummary.subsidyResettingOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
 		}
 	}
@@ -400,75 +445,6 @@ public class ConsumerSubsidy extends TestInfra {
 		}
 	}
 
-	@Test(description = "166054 - Verify the 'Recurrence' field for both the Top of subsidy and Rollover subsidy")
-	public void verifyRecurrenceFieldInBothSubsidy() {
-		final String CASE_NUM = "166054";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String recurrence = new String();
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy field
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-
-			// Validating Recurrence field of Top Off subsidy
-			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(7), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(7));
-			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(8));
-			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(9), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_TOP_OFF_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(9));
-			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-
-			// Validating Recurrence field of Roll Over subsidy
-			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(7), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(7));
-			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(8), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(8));
-			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(9), Constants.TEXT);
-			recurrence = dropDown.getSelectedItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE);
-			Assert.assertEquals(recurrence, requiredData.get(9));
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
-		}
-	}
-
 	@Test(description = "165958 - Verify the 'Top Off Subsidy' setting up for Subsidy groups in Location Summary Page")
 	public void verifyTopOffSubsidy() {
 		final String CASE_NUM = "165958";
@@ -594,151 +570,6 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_ROLL_OVER));
 			locationSummary.verifySignsTopOff();
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
-		}
-	}
-
-	@Test(description = "166052 - Verify the duplicate names for both the Top of subsidy and Rollover subsidy")
-	public void verifyDuplicateNamesforBothSubsidy() {
-		final String CASE_NUM = "166052";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy fields
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-
-			// Verifying the duplicate names for both subsidy
-			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(7));
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(8));
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.threadWait(Constants.ONE_SECOND);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
-		}
-	}
-
-	@Test(description = "166049 - verify the GMA subsidy field when its set to 'Yes' under the location summary page")
-	public void verifyGMASubsidyFieldYes() {
-		final String CASE_NUM = "166049";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy fields
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
-		}
-	}
-
-	@Test(description = "166048 - verify the GMA subsidy under the location summary page")
-	public void verifyGMASubsidy() {
-		final String CASE_NUM = "166048";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy fields
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertTrue(values.equals(requiredData));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(0));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(1), Constants.TEXT);
-			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1243,128 +1074,6 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifySignsTopOff();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "166053 - Verify the Start Date field for both Top off subsidy and Rollover subsidy")
-	public void verifyStartDateFieldforBothSubsidy() {
-		final String CASE_NUM = "166053";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy fields
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-			if (checkBox.isChecked(LocationSummary.CHK_TOP_OFF_SUBSIDY)) {
-				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-				foundation.threadWait(Constants.ONE_SECOND);
-			} else if (checkBox.isChecked(LocationSummary.CHK_ROLL_OVER_SUBSIDY)) {
-				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-				foundation.threadWait(Constants.ONE_SECOND);
-			}
-			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-
-			// Verifying Date picker of Top Off
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
-			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(7));
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
-			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-
-			// Verifying Date picker of Roll Over
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
-			locationSummary.verifyRollOverDateLocation1(currentDate);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
-			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
-		}
-	}
-
-	@Test(description = "166055 - Verify the 'Group Name' field for both the Top off subsidy and Rollover subsidy")
-	public void verifyGroupNameInBothSubsidy() {
-		final String CASE_NUM = "166055";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// Verifying GMA subsidy fields
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			locationSummary.verifyTopOffSubsidy(requiredData);
-			locationSummary.verifyRolloverSubsidy(requiredData);
-			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-
-			// Verifying Group name field in both subsidy
-			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TOP_OFF_WARNING_MSG));
-			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(7));
-			Assert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			locationSummary.subsidyResettingValidationOff(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(1));
 		}
 	}
 }
