@@ -262,6 +262,7 @@ public class Foundation extends Factory {
 
 	public boolean verifySortDate(By object, String type, String pattern) {
 		boolean isSorted = false;
+		try {
 		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object), pattern);
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
@@ -272,11 +273,16 @@ public class Foundation extends Factory {
 					.equals(listDate);
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in decending manner-" + isSorted);
 		}
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 		return isSorted;
 	}
 
 	public boolean verifySortText(By object, String type) {
 		boolean isSorted = false;
+		try {
 		List<String> listOfText = getTextofListElement(object);
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
@@ -286,6 +292,10 @@ public class Foundation extends Factory {
 			isSorted = listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listOfText);
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-" + isSorted);
+		}
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return isSorted;
 	}

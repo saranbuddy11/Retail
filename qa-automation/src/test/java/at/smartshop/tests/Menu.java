@@ -96,6 +96,8 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualData = foundation.getText(SelfService.LBL_NO_PRINT);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			
+			//Verify has print group
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);

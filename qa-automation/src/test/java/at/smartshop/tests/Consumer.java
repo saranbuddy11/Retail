@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -103,6 +102,7 @@ public class Consumer extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -113,7 +113,6 @@ public class Consumer extends TestInfra {
 					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balanceText = consumerTblRecords.get(columnName);
 			String balance=balanceText.replaceAll("[\\(\\)\\$]", "");
-			String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
@@ -126,7 +125,9 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -152,6 +153,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance2));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Enter fields in Consumer Search Page
@@ -175,8 +177,9 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 
@@ -2531,28 +2534,4 @@ public class Consumer extends TestInfra {
 		}
 	}
 	
-	@Test(description = "165193-ADM>Super>Consumer>Consumer Search- Move")
-	public void Test() {
-		final String CASE_NUM = "165193";
-		
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-		
-		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		
-		try {
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			foundation.click(By.id("sup-location"));
-			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
-		}
-	}
 }
