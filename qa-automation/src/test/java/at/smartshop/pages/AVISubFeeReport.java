@@ -166,11 +166,11 @@ public class AVISubFeeReport extends Factory {
 			WebElement lastMonthDate = getDriver().findElement(
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
-					foundation.click(By
-							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
+						+ "'][not(contains(@class , 'off'))]"));
 			} else {
-				foundation.click(
-						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2) + "'][not(contains(@class , 'off'))]"));
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
+						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -202,9 +202,9 @@ public class AVISubFeeReport extends Factory {
 		}
 	}
 
-	public void processAPI() {
+	public void processAPI(String deviceId) {
 		try {
-			generateJsonDetails();
+			generateJsonDetails(deviceId);
 			salesJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -225,13 +225,12 @@ public class AVISubFeeReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);

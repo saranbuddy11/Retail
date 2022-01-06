@@ -107,8 +107,8 @@ public class HealthAheadReport extends Factory {
 
 	public void updateData(String columnName, String requiredValue) {
 		try {
-			String initialData = intialData.get(recordCount).get(columnName)
-					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+			String initialData = intialData.get(recordCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
 			double updatedData = Double.parseDouble(initialData) + Double.parseDouble(requiredValue);
 			reportsData.get(recordCount).put(columnName, String.valueOf(updatedData));
 		} catch (Exception exc) {
@@ -153,9 +153,9 @@ public class HealthAheadReport extends Factory {
 		}
 	}
 
-	public void processAPI(String redeemed, String coupon) {
+	public void processAPI(String redeemed, String coupon, String deviceId) {
 		try {
-			generateJsonDetails();
+			generateJsonDetails(deviceId);
 			salesJsonDataUpdate(redeemed, coupon);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -179,13 +179,12 @@ public class HealthAheadReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);

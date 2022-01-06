@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerMove;
+import at.smartshop.pages.ConsumerMoveHistory;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.LocationSummary;
@@ -1930,128 +1933,23 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle.get(0)));
 		}
-	}
-	
-	@Test(description = "165199-QAA-88-Verify moved Active Consumer details is displays Correct in History (Org movement)")
-	public void verifyConsumerOrgMovementHistory() {
-		final String CASE_NUM = "165199";
-	
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		try {
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			String notFound=foundation.getText(ConsumerMove.TBL_CONSUMER_ROW);
-			
-			
-			if(!notFound.equals(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME))) {
-			
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			
-			foundation.click(ConsumerMove.BTN_MOVE);
-			foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-			
-			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			}else{
-				
-				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-				foundation.click(ConsumerMove.BTN_GO);
-				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				
-				foundation.click(ConsumerMove.BTN_MOVE);
-				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-				foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-				
-				foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			}
-			
-			foundation.click(ConsumerMove.BTN_SAVE);
-			foundation.waitforElement(ConsumerMove.BTN_EXPORT,Constants.SHORT_TIME);
-			String message= foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
-			CustomisedAssert.assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
-			
-			//commented as reflecting moved Consumer will take 30 min 
-//			String path = consumerMove.getFileName();	
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerMove.BTN_EXPORT));
-//			boolean fileExists = foundation.isFileExists(path);
-//			if (fileExists == false) {
-//				foundation.deleteFile(path);
-//			}
-//			
-//			foundation.click(ConsumerMove.BTN_EXPORT);
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			// download assertion
-//			CustomisedAssert.assertTrue(excel.isFileDownloaded(path));
-//
-//			Map<String, String> singleRowData= consumerMove.getExcelDataAsMap(path);
-//			System.out.println(singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID)));
-//			
-//			navigationBar.selectOrganization(
-//					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-//			navigationBar.navigateToMenuItem(menuItem.get(1));
-//			
-//			//search consumer
-//			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
-//			// Enter fields in Consumer Search Page
-//			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), rstConsumerSearchData.get(CNConsumerSearch.SEARCH), propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), rstConsumerSearchData.get(CNConsumerSearch.STATUS));
-//			
-//			Map<String, String> tableData = table.getTblSingleRowRecordUI(ConsumerSearch.TBL_LOCATION,
-//					ConsumerSearch.TBL_ROW);
-//			
-//			CustomisedAssert.assertTrue(tableData.containsValue(rstConsumerSearchData.get(CNConsumerSearch.SEARCH)));
-//			
-//			navigationBar.navigateToMenuItem(menuItem.get(0));
-//			foundation.click(ConsumerMove.BTN_HISTORY);
-//			textBox.enterText(ConsumerMoveHistory.TXT_FILTER, singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID)));
-//			Map<String, String> moveHistory = table.getTblSingleRowRecordUI(ConsumerMoveHistory.TBL_MOVE_HISTORY,
-//					ConsumerMoveHistory.TBL_HISTORY_DATA);
-//			CustomisedAssert.assertTrue(moveHistory.containsValue(singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID))));
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+	}	
 	
 	@Test(description = "165197-QAA-88-Move Active Consumer from One Org to Another Org and Verify the Consumer is moved")
 	public void verifyConsumerOrgMovement() {
 		final String CASE_NUM = "165197";
-	
+
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
+		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
+
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2059,62 +1957,34 @@ public class Consumer extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			String notFound=foundation.getText(ConsumerMove.TBL_CONSUMER_ROW);
-			
-			
-			if(!notFound.equals(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME))) {
-			
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			
-			foundation.click(ConsumerMove.BTN_MOVE);
-			foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-			
-			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			}else{
-				
-				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-				foundation.click(ConsumerMove.BTN_GO);
-				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				
-				foundation.click(ConsumerMove.BTN_MOVE);
-				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-				foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-				
-				foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			boolean isConsumerPresent = consumerMove.searchConsumer(consumerName, fromOrg, Constants.ALL);
+			if (isConsumerPresent) {
+				consumerMove.moveConsumer(consumerName, toOrg, toLocation);
+				navigationBar.navigateToMenuItem(menuItem.get(0));
+				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				CustomisedAssert.assertTrue(isConsumerMoved);
+
 			}
-			
-			foundation.click(ConsumerMove.BTN_SAVE);
-			foundation.waitforElement(ConsumerMove.BTN_EXPORT,Constants.SHORT_TIME);
-			String message= foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
-			CustomisedAssert.assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
+
+			else {
+				consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				consumerMove.moveConsumer(consumerName, fromOrg, fromLocation);
+				navigationBar.navigateToMenuItem(menuItem.get(0));
+				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, fromOrg, fromLocation);
+				CustomisedAssert.assertTrue(isConsumerMoved);
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			if (consumerMove.searchConsumer(consumerName, toOrg, toLocation))
+				CustomisedAssert.assertTrue(consumerMove.moveConsumer(consumerName, fromOrg, fromLocation));
 		}
+
 	}
+	
+	
 	
 	@Test(description = "165200-QAA-88-Move Active Consumer from One Location to Another Location within the same Org and Verify the Consumer is moved")
 	public void verifyConsumerLocationMovement() {
@@ -2158,9 +2028,9 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 			
 			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, rstConsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_LOCATION, rstConsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
 			}else{
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
@@ -2175,9 +2045,9 @@ public class Consumer extends TestInfra {
 				foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 				
 				foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			}
 			
 			foundation.click(ConsumerMove.BTN_SAVE);
@@ -2192,12 +2062,18 @@ public class Consumer extends TestInfra {
 	@Test(description = "165206-QAA-88-Move closed Consumer from One Org to Another Org and Verify the Consumer is moved")
 	public void verifyClosedConsumerOrgMovement() {
 		final String CASE_NUM = "165206";
-	
+
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
+		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
+
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2205,62 +2081,32 @@ public class Consumer extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			String notFound=foundation.getText(ConsumerMove.TBL_CONSUMER_ROW);
-			
-			
-			if(!notFound.equals(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME))) {
-			
-			dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_LOCATION, Constants.ALL, Constants.TEXT);
-			foundation.click(ConsumerMove.BTN_GO);
-			textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-			table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			
-			foundation.click(ConsumerMove.BTN_MOVE);
-			foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-			
-			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-			}else{
-				
-				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.click(ConsumerMove.BTN_GO);
-				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER,rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				
-				foundation.click(ConsumerMove.BTN_MOVE);
-				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
-				foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
-				
-				foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
-				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			boolean isConsumerPresent = consumerMove.searchConsumer(consumerName, fromOrg, Constants.ALL);
+			if (isConsumerPresent) {
+				consumerMove.moveConsumer(consumerName, toOrg, toLocation);
+				navigationBar.navigateToMenuItem(menuItem.get(0));
+				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				CustomisedAssert.assertTrue(isConsumerMoved);
+
 			}
-			
-			foundation.click(ConsumerMove.BTN_SAVE);
-			foundation.waitforElement(ConsumerMove.BTN_EXPORT,Constants.SHORT_TIME);
-			String message= foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
-			CustomisedAssert.assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
+
+			else {
+				consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				consumerMove.moveConsumer(consumerName, fromOrg, fromLocation);
+				navigationBar.navigateToMenuItem(menuItem.get(0));
+				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, fromOrg, fromLocation);
+				CustomisedAssert.assertTrue(isConsumerMoved);
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			if (consumerMove.searchConsumer(consumerName, toOrg, toLocation))
+				CustomisedAssert.assertTrue(consumerMove.moveConsumer(consumerName, fromOrg, fromLocation));
 		}
 	}
+	
 	
 	@Test(description = "165207-QAA-88-Move closed Consumer from One Location to Another Location within the same Org and Verify the Consumer is moved")
 	public void verifyClosedConsumerLocationMovement() {
@@ -2304,9 +2150,9 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 			
 			foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_ORG,propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, rstConsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
+			dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_LOCATION, rstConsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
 			}else{
 				
 				dropDown.selectItem(ConsumerMove.DPD_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
@@ -2321,9 +2167,9 @@ public class Consumer extends TestInfra {
 				foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
 				
 				foundation.waitforElement(ConsumerMove.BTN_SAVE, Constants.SHORT_TIME);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_ORG, propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 				foundation.threadWait(Constants.THREE_SECOND);
-				dropDown.selectItem(ConsumerMove.DPD_MOVE_FROM_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+				dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_LOCATION, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
 			}
 			
 			foundation.click(ConsumerMove.BTN_SAVE);
@@ -2522,7 +2368,7 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			foundation.waitforElementToDisappear(ConsumerSummary.SPINNER,Constants.SHORT_TIME);
 			boolean isConsumerMoved=consumerSummary.moveConsumer(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(isConsumerMoved);
 			
@@ -2533,5 +2379,4 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
 }

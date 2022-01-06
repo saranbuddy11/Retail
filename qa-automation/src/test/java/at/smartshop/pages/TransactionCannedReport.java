@@ -227,11 +227,11 @@ public class TransactionCannedReport extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType) {
+	public void processAPI(String paymentType, String deviceId) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int paymentCount = 0; paymentCount < payType.size(); paymentCount++) {
-				generateJsonDetails();
+				generateJsonDetails(deviceId);
 				salesJsonDataUpdate(payType.get(paymentCount));
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -255,13 +255,12 @@ public class TransactionCannedReport extends Factory {
 		}
 	}
 
-	private Map<String, Object> generateJsonDetails() {
+	private Map<String, Object> generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
