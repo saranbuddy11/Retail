@@ -41,4 +41,11 @@ public class DateAndTime {
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
 		return currentDay;
 	}
+
+	public String getFutureDate(String format, String days) {
+		LocalDate date = LocalDate.now();
+		date = date.plusDays(Integer.parseInt(days));
+		String formattedDate = date.format(DateTimeFormatter.ofPattern(format));
+		return formattedDate;
+	}
 }
