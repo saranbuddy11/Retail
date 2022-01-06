@@ -45,6 +45,7 @@ public class ReportList extends Factory {
 //	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
 	private static final By DPD_LOCATIONS = By.xpath("//input[@placeholder='Select...']");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
+	private static final By DPD_CLIENT_AND_NATIONALACCOUNT_LIST = By.cssSelector("span.select2-results > #select2-national-account-results");
 	private static final By FIRST_LOCATION_FROM_LIST = By.cssSelector("span.select2-results > #select2-locdt-results > li");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
@@ -128,6 +129,16 @@ public class ReportList extends Factory {
 			foundation.click(DPD_LOCATIONS);
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void selectClientAndNationalAccount(String nationalAccountName) {
+		try {
+			foundation.click(DPD_LOCATIONS);
+			textBox.enterText(DPD_LOCATIONS, nationalAccountName);
+			foundation.click(DPD_CLIENT_AND_NATIONALACCOUNT_LIST);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -305,54 +316,24 @@ public class ReportList extends Factory {
 		return present;
 	}
 
-//	public void checkForDataAvailabilyInResultTable() {
-//		try {
-////			foundation.waitforElement(NO_DATA_AVAILABLE_IN_TABLE, 5);
-////			System.out.println("Waited for element***********");
-//			
-////		   noDataAvailableInTable = getDriver().findElement(NO_DATA_AVAILABLE_IN_TABLE);
-//			if(foundation.isDisplayed(By.xpath("//tbody//tr[@class='odd'][1]"))){
-//				
-//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-//					System.out.println("***NOOOOOOOO data available ***********");
-//					Assert.fail("Failed************1");
-//				}else {
-//					System.out.println("***data available ***********");
-//				}
-//				
-//			}else if(foundation.isDisplayed(By.cssSelector("#dataGrid > tbody > tr:nth-child(1)"))){
-//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-//					System.out.println("***NOOOOOOOO data available ***********");
-//					Assert.fail("Failed************2");
-//				}else {
-//					System.out.println("***data available ***********");
-//				}		
-//			}
-//			else if(foundation.isDisplayed(By.cssSelector("#dataGridPayrollDeductDetails > tbody > tr:nth-child(1)"))){
-//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-//					System.out.println("***NOOOOOOOO data available ***********");
-//					Assert.fail("Failed************2");
-//				}else {
-//					System.out.println("***data available ***********");
-//				}		
-//			}else if(foundation.isDisplayed(By.cssSelector("#payrollGrid > tbody > tr:nth-child(1) "))){
-//				if(foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
-//					System.out.println("***NOOOOOOOO data available ***********");
-//					Assert.fail("Failed************2");
-//				}else {
-//					System.out.println("***data available ***********");
-//				}		
-//			}else if(foundation.isDisplayed( By.xpath("//span[@class='ui-icon ui-iggrid-expandbutton ui-icon-plus']"))){
-//				System.out.println("*** data available ***********");
-//				ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element [ " + NO_DATA_AVAILABLE_IN_TABLE + " ] and the object is visible");
-//			}else {
-//				System.out.println("***NOOOOOOOO data available ***********");
-//				Assert.fail("Failed************3");
-//			}
-//		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
-//		}
-//	}
+	public void checkForDataAvailabilyInResultTable(By object1, By object2) {
+		try {
+			if (foundation.isDisplayed(object1)) {
+				if (foundation.isDisplayed(object2)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
+					Assert.fail("Failed Report because No Data Available in Report Table");
+				} else {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"Report Data Available in the Table, Hence passing the Test case");
+				}
+			} else {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
+				Assert.fail("Failed Report because No Report Table Available");
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
 	
 	public void selectCurrentDay() {
 		foundation.click(ReportList.DPD_DATE);
