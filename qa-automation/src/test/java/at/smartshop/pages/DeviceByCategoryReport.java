@@ -54,11 +54,10 @@ public class DeviceByCategoryReport extends Factory {
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
-	public void getTblRecordsUI() {
+	public void getTblRecordsUI(String deviceId) {
 		try {
 			int recordCount = 0;
-			textBox.enterText(TXT_SEARCH, propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			textBox.enterText(TXT_SEARCH, deviceId.toUpperCase());
 			tableHeaders.clear();
 			WebElement tableReportsList = getDriver().findElement(TBL_DEVICE_BY_CATEGORY_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_DEVICE_BY_CATEGORY);
@@ -146,9 +145,9 @@ public class DeviceByCategoryReport extends Factory {
 		}
 	}
 
-	public void processAPI() {
+	public void processAPI(String deviceId) {
 		try {
-			generateJsonDetails();
+			generateJsonDetails(deviceId);
 			salesJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -159,13 +158,12 @@ public class DeviceByCategoryReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);

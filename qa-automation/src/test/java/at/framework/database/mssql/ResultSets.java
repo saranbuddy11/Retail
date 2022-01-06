@@ -186,6 +186,8 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNProductSummary.RECORDS_PER_PAGE_LIST));
 				rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
+				rstProductSummary.put(CNProductSummary.DEVICE_ID,
+						resultSet.getString(CNProductSummary.DEVICE_ID));
 
 			}
 
