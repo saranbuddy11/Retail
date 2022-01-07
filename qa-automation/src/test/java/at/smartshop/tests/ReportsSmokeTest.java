@@ -144,20 +144,23 @@ public class ReportsSmokeTest extends TestInfra {
 	private CrossOrgDeviceEvent crossOrgDeviceEvent = new CrossOrgDeviceEvent();
 	private CrossOrgPantryDisbursement crossOrgPantryDisbursement = new CrossOrgPantryDisbursement();
 	private CrossOrgRateReport crossOrgRateReport = new CrossOrgRateReport();
-	
-	
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
-	/*
-	 * @Parameters({ "driver", "browser", "reportsDB" })
-	 * 
-	 * @BeforeClass public void beforeTest(String drivers, String browsers, String
-	 * reportsDB) { try { browser.launch(drivers, browsers);
-	 * dataSourceManager.switchToReportsDB(reportsDB); browser.close(); } catch
-	 * (Exception exc) { Assert.fail(exc.toString()); } }
-	 */
-	@Test(description = "166893 - This test validates Product Tax Report Data Calculation")
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	@Test(description = "166893 - This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {
 		try {
 			final String CASE_NUM = "166893";
@@ -205,7 +208,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166894 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166894 - This test validates Data existance and Excel file exportaion of Sales Analysis Report")
 	public void salesAnalysisReport() {
 		try {
 
@@ -253,7 +256,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166899 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166899 - This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
 	public void CustomerReportSkymiles() {
 		try {
 			final String CASE_NUM = "166899";
@@ -300,7 +303,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166900 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166900 - This test validates Data existance and Excel file exportaion of Account Adjustment Report")
 	public void accountAdjustmentReport() {
 		try {
 			final String CASE_NUM = "166900";
@@ -348,7 +351,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166901 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166901 - This test validates Data existance and Excel file exportaion of Modifiers Report Report")
 	public void modifiersReport() {
 		try {
 			final String CASE_NUM = "166901";
@@ -396,7 +399,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166902 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166902 - This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
 	public void EFTGMADisbursement() {
 		try {
 			final String CASE_NUM = "166902";
@@ -444,7 +447,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166903 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166903 - This test validates Data existance and Excel file exportaion of GMA Migration Report")
 	public void GMAMigration() {
 		try {
 			final String CASE_NUM = "166903";
@@ -487,7 +490,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166904 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166904 - This test validates Data existance and Excel file exportaion of Express Disbursement Report")
 	public void expressDisbursement() {
 		try {
 			final String CASE_NUM = "166904";
@@ -535,7 +538,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166905 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166905 - This test validates Data existance and Excel file exportaion of Canada Multitax Report")
 	public void canadaMultitax() {
 		try {
 			final String CASE_NUM = "166905";
@@ -583,7 +586,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166906 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166906 - This test validates Data existance and Excel file exportaion of Intl Web App Funding Report")
 	public void intlWebAppFunding() {
 		try {
 			final String CASE_NUM = "166906";
@@ -631,7 +634,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166907 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166907 - This test validates Data existance and Excel file exportaion of Payroll Deduct Details Report")
 	public void payrollDeductDetails() {
 		try {
 			final String CASE_NUM = "166907";
@@ -679,7 +682,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166908 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166908 - This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
 	public void payrollDeductSummary() {
 		try {
 			final String CASE_NUM = "166908";
@@ -726,7 +729,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166910 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166910 - This test validates Data existance and Excel file exportaion of Cash Flow Details Report")
 	public void cashFlowDetails() {
 		try {
 			final String CASE_NUM = "166910";
@@ -776,7 +779,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166928 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166928 - This test validates Data existance and Excel file exportaion of MultiTax Report")
 	public void multiTaxReport() {
 		try {
 			final String CASE_NUM = "166928";
@@ -824,7 +827,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166929 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166929 - This test validates Data existance and Excel file exportaion of Hiatus Mode Report")
 	public void hiatusModeReport() {
 		try {
 			final String CASE_NUM = "166929";
@@ -872,7 +875,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166930 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166930 - This test validates Data existance and Excel file exportaion of EFT Cross Org: GMA Disbursement Report")
 	public void EFTCrossOrgGMADisbursement() {
 		try {
 			final String CASE_NUM = "166930";
@@ -921,7 +924,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166931 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166931 - This test validates Data existance and Excel file exportaion of G&J Commission Report")
 	public void GJCommission() {
 		try {
 			final String CASE_NUM = "166931";
@@ -968,7 +971,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166932 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166932 - This test validates Data existance and Excel file exportaion of Advana Billings Report")
 	public void advanaBilling() {
 		try {
 			final String CASE_NUM = "166932";
@@ -1020,7 +1023,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166934 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166934 - This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
 	public void EFTDisbursementDetail() {
 		try {
 			final String CASE_NUM = "166934";
@@ -1068,7 +1071,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166935 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166935 - This test validates Data existance and Excel file exportaion of App Funding By Location Report")
 	public void appFundingByLocation() {
 		try {
 			final String CASE_NUM = "166935";
@@ -1116,7 +1119,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166954 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166954 - This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
 	public void orderAheadTrans() {
 		try {
 			final String CASE_NUM = "166954";
@@ -1164,7 +1167,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166955 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166955 - This test validates Data existance and Excel file exportaion of Referrals Report")
 	public void referrals() {
 		try {
 			final String CASE_NUM = "166955";
@@ -1213,7 +1216,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166956 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166956 - This test validates Data existance and Excel file exportaion of Bulk Top Off Report")
 	public void bulkTopOff() {
 		try {
 			final String CASE_NUM = "166956";
@@ -1251,7 +1254,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166957 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166957 - This test validates Data existance and Excel file exportaion of Remaining Guest Pass Liability Report")
 	public void remainingGuestPassLiability() {
 		try {
 			final String CASE_NUM = "166957";
@@ -1297,7 +1300,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166963 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166963 - This test validates Data existance and Excel file exportaion of Unsold Products Report")
 	public void unsoldProducts() {
 		try {
 			final String CASE_NUM = "166963";
@@ -1350,7 +1353,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166964 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166964 - This test validates Data existance and Excel file exportaion of Sales Time Details By Device Report")
 	public void salesTimeDetailsByDevice() {
 		try {
 			final String CASE_NUM = "166964";
@@ -1404,7 +1407,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166965 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166965 - This test validates Data existance and Excel file exportaion of Redeemed Guest Pass Value Report")
 	public void redeemedGuestPassValue() {
 		try {
 			final String CASE_NUM = "166965";
@@ -1452,7 +1455,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166966 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166966 - This test validates Data existance and Excel file exportaion of Skymiles Detail Report")
 	public void skymilesDetail() {
 		try {
 			final String CASE_NUM = "166966";
@@ -1500,7 +1503,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166967 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166967 - This test validates Data existance and Excel file exportaion of Sold Details Report")
 	public void soldDetails() {
 		try {
 			final String CASE_NUM = "166967";
@@ -1548,7 +1551,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166969 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166969 - This test validates Data existance and Excel file exportaion of Product Pricing Report")
 	public void productPricing() {
 		try {
 			final String CASE_NUM = "166969";
@@ -4373,7 +4376,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgMiddidAssignment.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -4421,7 +4423,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			intlDisbursementReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -4517,7 +4518,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgSelfProvisionedDevices.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -4565,7 +4565,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgEFTVariance.verifyReportName(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -4660,7 +4659,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			advanaEligibleLocations.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -5013,7 +5011,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167131 - This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
 	public void aramarkFinancialRecap() {
 		try {
@@ -5049,7 +5047,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167132 - This test validates Data existance and Excel file exportaion of National Account Exception Report")
 	public void nationalAccountException() {
 		try {
@@ -5057,7 +5055,9 @@ public class ReportsSmokeTest extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase
@@ -5087,7 +5087,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167133 - This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
 	public void crossOrgDeviceEvent() {
 		try {
@@ -5118,7 +5118,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgDeviceEvent.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -5166,7 +5165,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgPantryDisbursement.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -5183,7 +5181,7 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "167135 - This test validates Data existance and Excel file exportaion of Cross-Org: Rate Report")
 	public void crossOrgRateReport() {
 		try {
@@ -5213,7 +5211,6 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			crossOrgRateReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -5231,5 +5228,3 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 }
-
-
