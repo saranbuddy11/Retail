@@ -1,14 +1,9 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -19,7 +14,6 @@ import at.framework.files.Excel;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.keys.Configuration;
@@ -1598,7 +1592,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166970 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166970 - This test validates Data existance and Excel file exportaion of Sold Details Int Report")
 	public void soldDetailsInt() {
 		try {
 			final String CASE_NUM = "166970";
@@ -1646,7 +1640,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166971 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166971 - This test validates Data existance and Excel file exportaion of Cash Flow Report")
 	public void cashFlow() {
 		try {
 			final String CASE_NUM = "166971";
@@ -1694,7 +1688,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166972 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166972 - This test validates Data existance and Excel file exportaion of Entry Summary Report")
 	public void entrySummaryReport() {
 		try {
 			final String CASE_NUM = "166972";
@@ -1742,7 +1736,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166976 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166976 - This test validates Data existance and Excel file exportaion of Delete Summary Report Report")
 	public void deleteSummaryReport() {
 		try {
 			final String CASE_NUM = "166976";
@@ -1790,7 +1784,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166985 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166985 - This test validates Data existance and Excel file exportaion of Transaction Canned Report")
 	public void transactionCanned() {
 		try {
 			final String CASE_NUM = "166985";
@@ -1838,7 +1832,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166986 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166986 - This test validates Data existance and Excel file exportaion of Product Canned Report")
 	public void productCannedReport() {
 		try {
 			final String CASE_NUM = "166986";
@@ -1888,7 +1882,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166988 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166988 - This test validates Data existance and Excel file exportaion of Bad Scan Report")
 	public void badScanReport() {
 		try {
 			final String CASE_NUM = "166988";
@@ -1936,7 +1930,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166989 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166989 - This test validates Data existance and Excel file exportaion of Order Transaction Time Report")
 	public void orderTransactionTime() {
 		try {
 			final String CASE_NUM = "166989";
@@ -1984,7 +1978,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166990 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166990 - This test validates Data existance and Excel file exportaion of Cashout Log Report")
 	public void cashoutLog() {
 		try {
 			final String CASE_NUM = "166990";
@@ -2032,7 +2026,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166991 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166991 - This test validates Data existance and Excel file exportaion of Product Tax Report")
 	public void productTax() {
 		try {
 			final String CASE_NUM = "166991";
@@ -2080,7 +2074,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166992 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166992 - This test validates Data existance and Excel file exportaion of Balance Report")
 	public void balanceReport() {
 		try {
 			final String CASE_NUM = "166992";
@@ -2127,7 +2121,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166993 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "166993 - This test validates Data existance and Excel file exportaion of Credit Transaction Report")
 	public void creditTransaction() {
 		try {
 			final String CASE_NUM = "166993";
@@ -2175,7 +2169,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167009 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167009 - This test validates Data existance and Excel file exportaion of Queued Credit Transactions Report")
 	public void queuedCreditTransactions() {
 		try {
 			final String CASE_NUM = "167009";
@@ -2223,7 +2217,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167010 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167010 - This test validates Data existance and Excel file exportaion of Ice Reportg Report")
 	public void iceReport() {
 		try {
 			final String CASE_NUM = "167010";
@@ -2271,7 +2265,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167011 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167011 - This test validates Data existance and Excel file exportaion of Financial Recap Report")
 	public void financialRecap() {
 		try {
 			final String CASE_NUM = "167011";
@@ -2319,7 +2313,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167012 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167012 - This test validates Data existance and Excel file exportaion of Member Purchase Summary Report")
 	public void memberPurchaseSummary() {
 		try {
 			final String CASE_NUM = "167012";
@@ -2365,7 +2359,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167013 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167013 - This test validates Data existance and Excel file exportaion of Member Purchase Details Report")
 	public void memberPurchaseDetails() {
 		try {
 			final String CASE_NUM = "167013";
@@ -2411,7 +2405,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167014 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167014 - This test validates Data existance and Excel file exportaion of Daily Sales Summary Report")
 	public void dailySalesSummary() {
 		try {
 			final String CASE_NUM = "167014";
@@ -2459,7 +2453,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167015 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167015 - This test validates Data existance and Excel file exportaion of Cancel Report Report")
 	public void cancelReport() {
 		try {
 			final String CASE_NUM = "167015";
@@ -2507,7 +2501,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167016 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167016 - This test validates Data existance and Excel file exportaion of Invoice Detail  Report")
 	public void invoiceDetail() {
 		try {
 			final String CASE_NUM = "167016";
@@ -2555,7 +2549,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167017 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167017 - This test validates Data existance and Excel file exportaion of Cash Audit Report")
 	public void cashAudit() {
 		try {
 			final String CASE_NUM = "167017";
@@ -2603,7 +2597,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167018 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167018 - This test validates Data existance and Excel file exportaion of Billing Information Report")
 	public void billingInformation() {
 		try {
 			final String CASE_NUM = "167018";
@@ -2651,7 +2645,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167019 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167019 - This test validates Data existance and Excel file exportaion of Inventory Totals Report")
 	public void inventoryTotals() {
 		try {
 			final String CASE_NUM = "167019";
@@ -2696,7 +2690,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167020 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167020 - This test validates Data existance and Excel file exportaion of Loyalty User Report")
 	public void loyaltyUser() {
 		try {
 			final String CASE_NUM = "167020";
@@ -2744,7 +2738,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167021 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167021 - This test validates Data existance and Excel file exportaion of Folio Billing Report")
 	public void folioBilling() {
 		try {
 			final String CASE_NUM = "167021";
@@ -2792,7 +2786,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167022 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167022 - This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
 	public void inventoryAdjustmentDetail() {
 		try {
 			final String CASE_NUM = "167022";
@@ -2840,7 +2834,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167023 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167023 - This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
 	public void alcoholSoldDetails() {
 		try {
 			final String CASE_NUM = "167023";
@@ -2888,7 +2882,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167024 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167024 - This test validates Data existance and Excel file exportaion of Cash Flow Details International Report")
 	public void cashFlowDetailsInternational() {
 		try {
 			final String CASE_NUM = "167024";
@@ -2939,7 +2933,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167025 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167025 - This test validates Data existance and Excel file exportaion of Integration Payments Report")
 	public void integrationPayments() {
 		try {
 			final String CASE_NUM = "167025";
@@ -2987,7 +2981,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167026 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167026 - This test validates Data existance and Excel file exportaion of Sales Summary and Cost Report")
 	public void salesSummaryAndCost() {
 		try {
 			final String CASE_NUM = "167026";
@@ -3035,7 +3029,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167035 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167035 - This test validates Data existance and Excel file exportaion of Financial Canned Report")
 	public void financialCanned() {
 		try {
 			final String CASE_NUM = "167035";
@@ -3083,7 +3077,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167036 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167036 - This test validates Data existance and Excel file exportaion of Item Stockout Report")
 	public void itemStockout() {
 		try {
 			final String CASE_NUM = "167036";
@@ -3131,7 +3125,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167037 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167037 - This test validates Data existance and Excel file exportaion of Sold Item COGS Report")
 	public void soldItemCOGS() {
 		try {
 			final String CASE_NUM = "167037";
@@ -3179,7 +3173,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167038 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167038 - This test validates Data existance and Excel file exportaion of Account Funding Detail Report")
 	public void accountFundingDetail() {
 		try {
 			final String CASE_NUM = "167038";
@@ -3227,7 +3221,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167039 - This test validates Product Tax Report Data Calculation")
+	@Test(description = "167039 - This test validates Data existance and Excel file exportaion of Consumer Purchase Summary Report")
 	public void consumerPurchaseSummary() {
 		try {
 			final String CASE_NUM = "167039";
