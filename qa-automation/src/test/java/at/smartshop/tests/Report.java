@@ -130,18 +130,18 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 	
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
