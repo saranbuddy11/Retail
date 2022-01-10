@@ -20,7 +20,7 @@ public class CheckBox extends Factory {
 				element.click();
 			}
 			if (ExtFactory.getInstance().getExtent() != null)
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Checked the checkbox [ "+object +" ]");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "Checked the checkbox [ " + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -33,7 +33,7 @@ public class CheckBox extends Factory {
 				element.click();
 			}
 			if (ExtFactory.getInstance().getExtent() != null)
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Unchecked the checkbox [ "+object +" ]");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "Unchecked the checkbox [ " + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

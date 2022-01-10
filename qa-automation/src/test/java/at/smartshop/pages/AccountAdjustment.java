@@ -14,7 +14,6 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class AccountAdjustment extends Factory {
 	private Foundation foundation = new Foundation();
@@ -44,8 +43,6 @@ public class AccountAdjustment extends Factory {
 		}
 		return uiTblRowValues;
 	}
-	
-	
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -56,7 +53,7 @@ public class AccountAdjustment extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
