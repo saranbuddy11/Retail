@@ -992,7 +992,6 @@ public class LocationSummary extends Factory {
 
 	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
-		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
@@ -1034,6 +1033,13 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
 		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
 		textBox.enterText(TXT_PICKUP_LOCATION_NAME, pickUp);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void enterSubsidyGroupNames(String topOff, String RollOver) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}

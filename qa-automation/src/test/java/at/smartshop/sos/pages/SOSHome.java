@@ -9,6 +9,7 @@ import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class SOSHome extends Factory {
 
@@ -22,6 +23,8 @@ public class SOSHome extends Factory {
 	public static final By MENU = By.cssSelector("a[title=UserLoad]");
 	public static final By LANDING_PAGE_HEADING = By.xpath("//li[contains(text(),'Dashboard')]");
 	public static final By PAGE_HEADING = By.xpath("//li[contains(text(),'Load GMA User Parameters')]");
+	public static final By LBL_USER_NAME = By.id("drop5");
+	private static final By MUN_LOGOUT = By.xpath("//a[@title='Logout']");
 
 	public void selectOrginazation(String selectText) {
 		try {
@@ -46,6 +49,16 @@ public class SOSHome extends Factory {
 		Assert.assertTrue(actualColumns.get(7).contains(expectedColumns.get(7)));
 		Assert.assertTrue(actualColumns.get(9).contains(expectedColumns.get(8)));
 		Assert.assertTrue(expectedColumns.get(9).equals(actualColumns.get(0)));
+	}
+
+	public void logout() {
+		try {
+			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
+			foundation.click(LBL_USER_NAME);
+			foundation.click(MUN_LOGOUT);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
 	}
 
 }
