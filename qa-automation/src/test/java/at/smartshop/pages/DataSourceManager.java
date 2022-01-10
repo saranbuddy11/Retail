@@ -1,17 +1,13 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
-import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
-import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -29,7 +25,7 @@ public class DataSourceManager extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By TXT_SEARCH = By.id("search-box");
-	public static final String dataSourceManagerMenu = "Super#Data Source Manager";
+	public static final String DATA_SOURCE_MANAGER_MANU = "Super#Data Source Manager";
 
 	public static final By PAGINATION_LIST = By
 			.xpath("//ul[@class='ui-helper-reset ui-iggrid-pagelist ui-iggrid-paging-item']//li");
@@ -49,43 +45,41 @@ public class DataSourceManager extends Factory {
 
 	public void checkInListOfCheckBoxes(By object1, By object2) {
 		try {
-			List<WebElement> paginationList1 = getDriver().findElements(object1);
-			for (int iter = 0; iter < paginationList1.size(); iter++) {
-				List<WebElement> paginationList2 = getDriver().findElements(object1);
-				paginationList2.get(iter).click();
-				List<WebElement> checkBoxList1 = getDriver().findElements(object2);
-				for (int count = 0; count < checkBoxList1.size(); count++) {
-					List<WebElement> checkBoxList2 = getDriver().findElements(object2);
-					if (!checkBoxList2.get(count).isSelected()) {
-						checkBoxList2.get(count).click();
-						Thread.sleep(2000);
+			int countPaginationList = foundation.getSizeofListElement(object1);
+			for (int iter = 0; iter < countPaginationList; iter++) {
+				List<WebElement> paginationList = getDriver().findElements(object1);
+				paginationList.get(iter).click();
+				int countOfCheckboxes = foundation.getSizeofListElement(object2);
+				for (int count = 0; count < countOfCheckboxes; count++) {
+					List<WebElement> checkBoxList = getDriver().findElements(object2);
+					if (!checkBoxList.get(count).isSelected()) {
+						checkBoxList.get(count).click();
+						foundation.threadWait(2);
 					}
 				}
-				System.out.println("****pagination : " + iter);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void unCheckInListOfCheckBoxes(By object1, By object2) {
 		try {
-			List<WebElement> paginationList1 = getDriver().findElements(object1);
-			for (int iter = 0; iter < paginationList1.size(); iter++) {
-				List<WebElement> paginationList2 = getDriver().findElements(object1);
-				paginationList2.get(iter).click();
-				List<WebElement> checkBoxList1 = getDriver().findElements(object2);
-				for (int count = 0; count < checkBoxList1.size(); count++) {
-					List<WebElement> checkBoxList2 = getDriver().findElements(object2);
-					if (checkBoxList2.get(count).isSelected()) {
-						checkBoxList2.get(count).click();
-						Thread.sleep(2000);
+			int countPaginationList = foundation.getSizeofListElement(object1);
+			for (int iter = 0; iter < countPaginationList; iter++) {
+				List<WebElement> paginationList = getDriver().findElements(object1);
+				paginationList.get(iter).click();			
+				int countOfCheckboxes = foundation.getSizeofListElement(object2);
+				for (int count = 0; count < countOfCheckboxes; count++) {
+					List<WebElement> checkBoxList = getDriver().findElements(object2);
+					if (checkBoxList.get(count).isSelected()) {
+						checkBoxList.get(count).click();
+						foundation.threadWait(2);
 					}
 				}
-				System.out.println("****pagination : " + iter);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -100,26 +94,13 @@ public class DataSourceManager extends Factory {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.navigateToMenuItem(dataSourceManagerMenu);
-//		textBox.enterText(By.id("search-box"), rstReportListData.get(CNReportList.REPORT_NAME));
+			navigationBar.navigateToMenuItem(DATA_SOURCE_MANAGER_MANU);
 			if (reportsDB.equals("Snowflake")) {
-				Thread.sleep(5000);
 				checkInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
-
-//				checkBox.check(By.xpath(
-//						"//tr[contains(@data-id, 'yyyyy8ea13e811eba2300afaa3adjadu')]//input[@type='checkbox']"));
-//				Thread.sleep(5000);
-				System.out.println("*****CHEKED");
-			} else if (reportsDB.equals("RDC")) {
-				Thread.sleep(5000);
+			} else if (reportsDB.equals("RDS")) {
 				unCheckInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
-
-//				checkBox.unCheck(By.xpath(
-//						"//tr[contains(@data-id, 'yyyyy8ea13e811eba2300afaa3adjadu')]//input[@type='checkbox']"));
-//				Thread.sleep(5000);
-				System.out.println("*****UNCHEKED");
 			}
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

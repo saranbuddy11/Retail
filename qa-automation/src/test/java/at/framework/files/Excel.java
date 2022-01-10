@@ -146,7 +146,6 @@ public class Excel {
 			XSSFRow row = sheet.getRow(rowNum);
 
 			String cellValue = String.valueOf(row.getCell(0).getStringCellValue());
-			System.out.println(cellValue);
 
 			Assert.assertTrue(cellValue.contains(uiList));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record [" + uiList + "] is available in excel");

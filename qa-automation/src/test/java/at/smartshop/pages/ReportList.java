@@ -39,7 +39,7 @@ public class ReportList extends Factory {
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
-	private static final By SELECT_TODAY = By.xpath("//td[@class='today active start-date active end-date available']");
+	private static final By SELECT_TODAY = By.xpath("//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 //	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
@@ -54,7 +54,7 @@ public class ReportList extends Factory {
 	public static final By DPD_LOC_ON_GROUPFILTER_ = By.cssSelector("#select2-locdt-container");
 	public static final By DPD_FILTER_BY_GROUP = By.id("flt-group-by");
 	public static final By DPD_FILTER = By.cssSelector("#add-filter-container > span > span.selection > span");
-	public final By TO_EXCEL_BUTTON = By.id("runexcel");
+	public final By TO_EXCEL_BUTTON = By.xpath("//button[@id='runexcel']");
 	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
@@ -241,9 +241,6 @@ public class ReportList extends Factory {
 
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePath(fileName));
 
-//			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
-//			System.out.println(FilePath.reportFilePath(fileName));
-
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePath(fileName), 0);
 
 			if (fileExists == false) {
@@ -256,11 +253,7 @@ public class ReportList extends Factory {
 
 	public void verifyTheFileContainsNameWithDate(String reportName, String formate) {
 		try {
-			System.out.println(reportName +"*****"+ formate);
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDate(reportName, formate));
-
-//			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
-//			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
@@ -274,7 +267,6 @@ public class ReportList extends Factory {
 	
 	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String fileName, String formate) {
 		try {
-			System.out.println(reportName +"*****"+ formate);
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDateWithoutSpace(fileName, formate), 0);
@@ -289,13 +281,9 @@ public class ReportList extends Factory {
 	
 	public void verifyTheFileContainsNameAsOrgDateAndGMA(String reportName, String orgName, String formate) {
 		try {
-			System.out.println(reportName +"*****"+ formate+"**********"+orgName);
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 
-//			List<String> ReportName = Arrays.asList(reportName.split(Constants.DELIMITER_HASH));
-//			excel.verifyExcelData(ReportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
-
-//			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
+			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
 
 			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));

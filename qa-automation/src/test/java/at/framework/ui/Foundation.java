@@ -169,6 +169,7 @@ public class Foundation extends Factory {
 		int sizeofObj = 0;
 		try {
 			sizeofObj = getDriver().findElements(object).size();
+			if (ExtFactory.getInstance().getExtent() != null)
 			ExtFactory.getInstance().getExtent().log(Status.INFO, object + "count of list element is " + sizeofObj +" ");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -180,6 +181,7 @@ public class Foundation extends Factory {
 		try {
 			long timeMilliSec = seconds * 1000;
 			Thread.sleep(timeMilliSec);
+			if (ExtFactory.getInstance().getExtent() != null)
 			ExtFactory.getInstance().getExtent().log(Status.INFO,   "thread wait for " + seconds +" seconds");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
