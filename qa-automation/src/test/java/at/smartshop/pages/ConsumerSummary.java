@@ -9,10 +9,10 @@ import at.smartshop.keys.Constants;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
-	private Dropdown dropdown=new Dropdown();
+	private Dropdown dropdown = new Dropdown();
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
-	private static final By LBL_READ_BALANCE = By.id("readbalance");	
+	private static final By LBL_READ_BALANCE = By.id("readbalance");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
@@ -47,6 +47,9 @@ public class ConsumerSummary {
 	public static final By BTN_MODEL_MOVE_SAVE = By.id("modalsave");
 	public static final By LBL_LOCATION_SELECTED = By.id("locname");
 	public static final By SPINNER = By.id("//span[contains(@id,'container_loading')]");
+	public static final By TXT_SUBSIDY_GROUP = By.id("mkashow-pantry");
+	public static final By DPD_SUBSIDY_GROUP_NAME = By.id("pantrygroup");
+	public static final By TXT_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
 
 	public double getBalance() {
 		double initBalance = 0;
@@ -61,11 +64,11 @@ public class ConsumerSummary {
 		}
 		return initBalance;
 	}
-	
+
 	public By objTaxCategory(String reasonCode) {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
-	
+
 	public boolean moveConsumer(String toOrg, String toLocation) {
 		foundation.click(BTN_MOVE);
 		foundation.threadWait(Constants.THREE_SECOND);
