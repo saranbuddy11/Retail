@@ -8,6 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 
@@ -50,6 +51,15 @@ public class TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	/*
+	 * @Parameters({ "driver", "browser", "reportsDB" })
+	 * 
+	 * @BeforeTest public void beforeTest(String drivers, String browsers, String
+	 * reportsDB) { try { browser.launch(drivers, browsers);
+	 * browser.switchToReportsDB(reportsDB); browser.close(); } catch (Exception
+	 * exc) { Assert.fail(exc.toString()); } }
+	 */
 
 	@Parameters({ "driver", "browser" })
 	@BeforeMethod

@@ -1,5 +1,8 @@
 package at.smartshop.sos.tests;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Listeners;
@@ -74,7 +77,6 @@ public class Sos extends TestInfra {
 
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
-
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
 										rstGmaUser.get(CNGmaUser.PIN_VALUE),
 										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
@@ -92,19 +94,21 @@ public class Sos extends TestInfra {
 			final String CASE_NUM = "117465";
 
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);			
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
 			rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
 
 			// Login into SOS application
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// select Organization
-			sosHome.selectOrginazation(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(SOSHome.MENU);
 
 			// construct string with no value for payroll id and payroll group
@@ -112,7 +116,8 @@ public class Sos extends TestInfra {
 			int requiredValue = numbers.generateRandomNumber(0, 999999);
 			String requiredData = strings.getRandomCharacter();
 			String requiredString = (requiredData + "#" + requiredData + "#" + requiredData + "#" + "5" + "#"
-					+ requiredData + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredData + "#" + " "	+ "#" + " ");
+					+ requiredData + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredData + "#" + " "
+					+ "#" + " ");
 
 			// Write excel and upload file
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
@@ -123,6 +128,43 @@ public class Sos extends TestInfra {
 			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	// SOS-12754 user story under Consumer Subsidy
+	@Test(description = "166958 - Verify the updated column data in consumer template from sos load")
+	public void verifyUpdatedColumnDataOfSubsidyGroup() {
+
+		try {
+			final String CASE_NUM = "166958";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
+
+			// Login into SOS application
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+
+			// select Organization and navigate to menu
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+
+			Map<String, String> excelData = excel.getExcelAsMap(FilePath.GMA_ACCOUNT_TEMPLATE,
+					rstGmaUser.get(CNGmaUser.SHEET_NAME));
+			List<String> actualColumnNames = new ArrayList<String>(excelData.keySet());
+			List<String> expectedColumnNames = Arrays
+					.asList(rstGmaUser.get(CNGmaUser.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			sosHome.verifyColumnNames(expectedColumnNames, actualColumnNames);
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

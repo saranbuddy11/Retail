@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,6 +17,7 @@ import com.google.gson.JsonObject;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -25,7 +28,10 @@ import at.smartshop.utilities.WebService;
 
 public class SalesAnalysisReport {
 	
-	public static final By LBL_REPORT_NAME = By.cssSelector("div[id='Sales Analysis Report']");
+	public static final By LBL_REPORT_NAME = By.id("Sales Analysis Report");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(1)");
+	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
 	private JsonFile jsonFunctions = new JsonFile();
@@ -41,6 +47,25 @@ public class SalesAnalysisReport {
 			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void checkForDataAvailabilyInResultTable() {
+		try {
+			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
+				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
+					Assert.fail("Failed Report because No Data Available in Report Table");
+				} else {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"Report Data Available in the Table, Hence passing the Test case");
+				}
+			} else {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
+				Assert.fail("Failed Report because No Report Table Available");
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 	}
 	

@@ -28,7 +28,7 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
 	public String getTextFromInput(By object) {
 		String text = null;
 		try {
@@ -131,3 +131,4 @@ public class TextBox extends Factory {
 
 	}
 }
+

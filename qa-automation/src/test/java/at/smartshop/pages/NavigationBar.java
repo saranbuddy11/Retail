@@ -19,7 +19,7 @@ public class NavigationBar extends Factory {
 	private static final By TXT_ORG = By.className("select2-search__field");
 	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
 
-	public void selectOrganization(String selectText) {	
+	public void selectOrganization(String selectText) {
 		try {
 			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 			foundation.click(DPD_ORG);
@@ -45,5 +45,4 @@ public class NavigationBar extends Factory {
             TestInfra.failWithScreenShot(exc.toString());
         }
     }
-	
 }

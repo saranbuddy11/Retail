@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
@@ -87,7 +88,6 @@ public class DataSourceManager extends Factory {
 				List<WebElement> paginationList = getDriver().findElements(object1);
 				paginationList.get(iter).click();			
 				int countOfCheckboxes = foundation.getSizeofListElement(object2);
-//				List<WebElement> checkBoxList1 = getDriver().findElements(object2);
 				for (int count = 0; count < countOfCheckboxes; count++) {
 					List<WebElement> checkBoxList = getDriver().findElements(object2);
 					if (checkBoxList.get(count).isSelected()) {

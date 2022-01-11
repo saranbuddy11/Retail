@@ -47,4 +47,9 @@ public class Configuration {
 	public static final String AUTOMATIONLOCATION1 = "third_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
+	public static final String ALL_LOCATIONS = "all_locations";
+	public static final String ALL_ORGS = "all_orgs";
+	public static final String ALL = "all";
+	public static final String FILTER_FOR_LOC = "filter_for_loc";
+	public static final String FILTER_FOR_ORG = "filter_for_org";
 }
