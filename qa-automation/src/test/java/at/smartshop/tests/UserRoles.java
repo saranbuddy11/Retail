@@ -282,19 +282,23 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SELECT_EXPIRATION_DATE);
 			foundation.click(UserList.SEND_NOTIFICATION);
 			foundation.click(UserList.ADD_ROLE_USER_BTN);
-		
+			foundation.threadWait(Constants.TWO_SECOND);
 			//Navigate to User Summary Tab
 			foundation.click(UserList.USER_SUMMARY);
+			foundation.threadWait(Constants.TWO_SECOND);
 			
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
+			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.MEDIUM_TIME);
+			foundation.waitforElementToDisappear(UserList.TXT_SPINNER_MSG, Constants.MEDIUM_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
 			// resetting test data	
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 			foundation.click(UserList.MANAGE_USER_ROLES);
 			foundation.click(UserList.REMOVE_USER_ROLES);

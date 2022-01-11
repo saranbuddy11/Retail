@@ -29,7 +29,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class HealthAheadReport extends Factory {
@@ -45,6 +44,7 @@ public class HealthAheadReport extends Factory {
 	private static final By TBL_HEALTH_AHEAD_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public final By SEARCH_RESULT = By.xpath("//input[@aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();

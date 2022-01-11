@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +42,8 @@ public class OrderTransactionTimeReport extends Factory {
 	private static final By TBL_ORDER_TRANSACTION_TIME_GRID = By.cssSelector("#datagridorder > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#datagridorder > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-
+	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private int requiredCount;
 	private Map<String, Object> jsonData = new HashMap<>();

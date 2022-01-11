@@ -11,7 +11,7 @@ public class Payments {
 	private Foundation foundation = new Foundation();
 
 	public By objText(String text) {
-		return By.xpath("//*[text()='" + text + "']");
+		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
 
 	public void verifyPaymentPageLanguage(String paymentPage) {

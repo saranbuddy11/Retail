@@ -29,7 +29,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class TransactionCannedReport extends Factory {
@@ -182,8 +181,6 @@ public class TransactionCannedReport extends Factory {
 		}
 	}
 
-	
-
 	public void updatePercent(String amountColumn, String totalAmountColumn, String requiredColumn) {
 		try {
 			String amount = reportsData.get(0).get(amountColumn);
@@ -235,11 +232,17 @@ public class TransactionCannedReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					if (iter == 3 || iter == 5 || iter == 6) {
+						continue;
+					}
 					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				if (iter == 3 || iter == 5 || iter == 6) {
+					continue;
+				}
 				Assert.assertTrue(updatedTotal.get(0).get(tableHeaders.get(iter))
 						.contains(intialTotal.get(0).get(tableHeaders.get(iter))));
 			}
@@ -254,8 +257,9 @@ public class TransactionCannedReport extends Factory {
 			for (int paymentCount = 0; paymentCount < payType.size(); paymentCount++) {
 				generateJsonDetails();
 				salesJsonDataUpdate(payType.get(paymentCount));
-				webService.apiReportPostRequest(propertyFile.readPropertyFile(Configuration.TRANS_SALES,
-						FilePath.PROPERTY_CONFIG_FILE), (String) jsonData.get(Reports.JSON));
+				webService.apiReportPostRequest(
+						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
+						(String) jsonData.get(Reports.JSON));
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
@@ -280,8 +284,8 @@ public class TransactionCannedReport extends Factory {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);

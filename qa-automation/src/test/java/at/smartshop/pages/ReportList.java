@@ -2,10 +2,8 @@ package at.smartshop.pages;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
@@ -18,15 +16,12 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.files.Excel;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNReportList;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.framework.ui.Dropdown;
 
 public class ReportList extends Factory {
 
@@ -39,14 +34,16 @@ public class ReportList extends Factory {
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
-	private static final By SELECT_TODAY = By.xpath("//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
+	private static final By SELECT_TODAY = By.xpath(
+			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
-//	private static final By DPD_LOCATIONS = By.cssSelector("div.span12.m-0 > span > span.selection > span");
 	private static final By DPD_LOCATIONS = By.xpath("//input[@placeholder='Select...']");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
-	private static final By DPD_CLIENT_AND_NATIONALACCOUNT_LIST = By.cssSelector("span.select2-results > #select2-national-account-results");
-	private static final By FIRST_LOCATION_FROM_LIST = By.cssSelector("span.select2-results > #select2-locdt-results > li");
+	private static final By DPD_CLIENT_AND_NATIONALACCOUNT_LIST = By
+			.cssSelector("span.select2-results > #select2-national-account-results");
+	private static final By FIRST_LOCATION_FROM_LIST = By
+			.cssSelector("span.select2-results > #select2-locdt-results > li");
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
@@ -58,10 +55,11 @@ public class ReportList extends Factory {
 	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
-	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath("//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
-	private static final By DPD_LOCATION_LIST_SECONDTYPE  = By.xpath("//span[@class='select2-results']//ul[@role='listbox']");
+	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath(
+			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
+	private static final By DPD_LOCATION_LIST_SECONDTYPE = By
+			.xpath("//span[@class='select2-results']//ul[@role='listbox']");
 
-	
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -95,8 +93,9 @@ public class ReportList extends Factory {
 			textBox.enterTextOnFocus(TXT_SEARCH, reportName);
 //			WebElement object = getDriver()
 //					.findElement(By.xpath("//div[@class='currentReport'][starts-with(text(),'" + reportName + "')]"));
-			WebElement object = getDriver()
-					.findElement(By.xpath("//div[@class='checkbox-row']//div[@class='currentReport'][normalize-space()='" + reportName + "']"));
+			WebElement object = getDriver().findElement(
+					By.xpath("//div[@class='checkbox-row']//div[@class='currentReport'][normalize-space()='"
+							+ reportName + "']"));
 			Actions builder = new Actions(getDriver());
 			builder.moveToElement(object).build();
 			object.click();
@@ -133,7 +132,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectClientAndNationalAccount(String nationalAccountName) {
 		try {
 			foundation.click(DPD_LOCATIONS);
@@ -143,7 +142,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectLocationForSecondTypeDropdown(String locationName) {
 		try {
 			foundation.click(DPD_LOCATIONS_SECONDTYPE);
@@ -153,22 +152,22 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	
+
 	public String firstLocationName() {
-			String text = null;
-			try {
-				foundation.click(DPD_LOCATIONS);
-				List<WebElement> ListElement = getDriver().findElements(FIRST_LOCATION_FROM_LIST);
-				 text = ListElement.get(1).getText();
-				 foundation.click(DPD_LOCATIONS);
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of Fisrt location Name as " + text + ".");
-			} catch (Exception exc) {
-				Assert.fail(exc.toString());
-			}
-			return text;
+		String text = null;
+		try {
+			foundation.click(DPD_LOCATIONS);
+			List<WebElement> ListElement = getDriver().findElements(FIRST_LOCATION_FROM_LIST);
+			text = ListElement.get(1).getText();
+			foundation.click(DPD_LOCATIONS);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"got the text of Fisrt location Name as " + text + ".");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
-	
+		return text;
+	}
+
 	public void selectOrg(String orgName) {
 		try {
 			foundation.click(DPD_ORG);
@@ -177,7 +176,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectFilter(String orgName) {
 		try {
 			foundation.click(DPD_FILTER);
@@ -186,7 +185,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectOrgOnFilter(String orgName) {
 		try {
 			foundation.click(DPD_ORG_ON_FILTER);
@@ -195,7 +194,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectFilterOption(String filterName, String type) {
 		try {
 			dropdown.selectItem(DPD_FILTER_BY_GROUP, filterName, type);
@@ -203,7 +202,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectLocationOnGroupFilter(String orgName) {
 		try {
 			foundation.click(DPD_LOC_ON_GROUPFILTER_);
@@ -264,10 +263,11 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String fileName, String formate) {
 		try {
-			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
+			boolean fileExists = foundation
+					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDateWithoutSpace(fileName, formate), 0);
 
@@ -278,7 +278,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void verifyTheFileContainsNameAsOrgDateAndGMA(String reportName, String orgName, String formate) {
 		try {
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
@@ -322,18 +322,18 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void selectCurrentDay() {
 		foundation.click(ReportList.DPD_DATE);
 		foundation.click(SELECT_TODAY);
 	}
-	
+
 	public void selectPriorMonthDate(String requiredDate) {
 		foundation.click(ReportList.DPD_DATE);
 		foundation.click(BTN_PREVIOUS_MONTH);
 		selectLastDate(requiredDate);
 	}
-	
+
 	public void selectLastDate(String requiredDate) {
 		try {
 			List<String> reqDate = Arrays.asList(requiredDate.split(Constants.DELIMITER_HASH));

@@ -269,6 +269,9 @@ public class FinancialRecapReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					if (iter == 15 || iter == 16 ) {
+						continue;
+					}
 					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}

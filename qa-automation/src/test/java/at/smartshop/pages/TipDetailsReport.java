@@ -29,7 +29,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
-import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class TipDetailsReport extends Factory {
@@ -85,8 +84,8 @@ public class TipDetailsReport extends Factory {
 		try {
 			for (recordCount = 0; recordCount < intialData.size(); recordCount++) {
 				for (int val = 0; val < intialData.size(); val++) {
-					if (intialData.get(val).get(tableHeaders.get(0)).equals(name.get(0))
-							&& intialData.get(val).get(tableHeaders.get(1)).equals(name.get(1))
+					if (intialData.get(val).get(tableHeaders.get(1)).equals(name.get(0))
+							&& intialData.get(val).get(tableHeaders.get(0)).equals(name.get(1))
 							&& intialData.get(val).get(tableHeaders.get(8)).equals(transID)) {
 						flag = true;
 						rowCount = recordCount;

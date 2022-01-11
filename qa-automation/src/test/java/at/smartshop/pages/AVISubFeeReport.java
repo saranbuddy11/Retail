@@ -23,7 +23,6 @@ import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.ui.Foundation;
-import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -54,6 +53,7 @@ public class AVISubFeeReport extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			foundation.waitforElement(TBL_AVI_SUB_FEE_GRID, Constants.SHORT_TIME);
 			WebElement tableReportsList = getDriver().findElement(TBL_AVI_SUB_FEE_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_AVI_SUB_FEE);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
@@ -165,10 +165,10 @@ public class AVISubFeeReport extends Factory {
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
 					foundation.click(By
-							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "'][not(contains(@class , 'off'))]"));
+							.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
 			} else {
 				foundation.click(
-						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1) + "'][not(contains(@class , 'off'))]"));
+						By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2) + "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

@@ -16,6 +16,8 @@ public class Browser extends Factory {
 	public void launch(String driver, String browser) {
 		try {
 			setDriver(driver, browser);
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "[" + browser + " ]launched the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -25,6 +27,8 @@ public class Browser extends Factory {
 		try {
 			WebDriver browser = getDriver();
 			browser.quit();
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "closed the browser");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -36,7 +40,7 @@ public class Browser extends Factory {
 			getDriver().manage().window().maximize();
 			getDriver().manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
 			if (ExtFactory.getInstance().getExtent() != null)
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url + " ]");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated to url [" + url + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

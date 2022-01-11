@@ -1,7 +1,11 @@
 package at.framework.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
@@ -110,4 +114,35 @@ public class TextBox extends Factory {
 		}
 	}
 
+	public List<String> getValueofListElement(By object) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(object);
+			for (WebElement webElement : ListElement) {
+				text = webElement.getAttribute("value");
+				elementsText.add(text);
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return elementsText;
+	}
+
+	public void enterTextOnFocus(By object, String text) {
+		try {
+			foundation.objectFocus(object);
+			getDriver().findElement(object).clear();
+			getDriver().findElement(object).sendKeys(text);
+
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "entered text " + text);
+			}
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+	}
 }

@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 import org.testng.Assert;
 
-import at.smartshop.tests.TestInfra;
-
 public class DateAndTime {
 	public String getDateAndTime(String format, String requiredTimeZone) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -42,5 +40,12 @@ public class DateAndTime {
 		Date date = calendar.getTime();
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
 		return currentDay;
+	}
+
+	public String getFutureDate(String format, String days) {
+		LocalDate date = LocalDate.now();
+		date = date.plusDays(Integer.parseInt(days));
+		String formattedDate = date.format(DateTimeFormatter.ofPattern(format));
+		return formattedDate;
 	}
 }

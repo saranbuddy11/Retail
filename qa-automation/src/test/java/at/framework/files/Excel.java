@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,7 +27,6 @@ import com.google.common.base.Verify;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class Excel {
 
@@ -196,41 +196,45 @@ public class Excel {
 		return false;
 	}
 
-	public Map<String, String> getExcelAsMap(String filePath) throws IOException {
-		FileInputStream fis = new FileInputStream(filePath);
-		XSSFWorkbook workBook = new XSSFWorkbook(fis);
-		XSSFSheet sheet = workBook.getSheetAt(0);
+
+	public Map<String, String> getExcelAsMap(String fileName, String workSheetName) throws IOException {
+		HSSFWorkbook workBook = null;
 		Map<String, String> singleRowData = new HashMap<>();
 		List<String> columnHeader = new ArrayList<String>();
-		Row row = sheet.getRow(0);
-		Iterator<Cell> cellIterator = row.cellIterator();
-		while (cellIterator.hasNext()) {
-			columnHeader.add(cellIterator.next().getStringCellValue());
-		}
-		int rowCount = sheet.getLastRowNum();
-		int columnCount = row.getLastCellNum();
-		for (int i = 1; i <= rowCount; i++) {
-
-			Row row1 = sheet.getRow(i);
-			for (int j = 0; j < columnCount; j++) {
-				Cell cell = row1.getCell(j);
-				int cellType = cell.getCellType();
-
-				if (cellType == 0) {
-					singleRowData.put(columnHeader.get(j), String.valueOf(cell.getNumericCellValue()));
-
-				} else if (cellType == 4) {
-					singleRowData.put(columnHeader.get(j), String.valueOf(cell.getBooleanCellValue()));
-				} else {
-
-					singleRowData.put(columnHeader.get(j), cell.getStringCellValue());
-				}
-
+		try {
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			workBook = new HSSFWorkbook(fis);
+			HSSFSheet workSheet = workBook.getSheet(workSheetName);
+			Row row = workSheet.getRow(0);
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext()) {
+				columnHeader.add(cellIterator.next().getStringCellValue());
 			}
+			int rowCount = workSheet.getLastRowNum();
+			int columnCount = row.getLastCellNum();
+			for (int i = 1; i <= rowCount; i++) {
 
+				Row row1 = workSheet.getRow(i);
+				for (int j = 0; j < columnCount; j++) {
+					Cell cell = row1.getCell(j);
+					int cellType = cell.getCellType();
+
+					if (cellType == 0) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getNumericCellValue()));
+
+					} else if (cellType == 4) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getBooleanCellValue()));
+					} else {
+
+						singleRowData.put(columnHeader.get(j), cell.getStringCellValue());
+					}
+				}
+			}
+			workBook.close();
+		} catch (Exception exc) {
+			exc.printStackTrace();
 		}
-		workBook.close();
 		return singleRowData;
 	}
-
 }

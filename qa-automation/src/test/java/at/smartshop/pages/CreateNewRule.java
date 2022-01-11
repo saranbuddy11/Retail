@@ -15,7 +15,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class CreateNewRule extends Factory {
 	private Foundation foundation = new Foundation();

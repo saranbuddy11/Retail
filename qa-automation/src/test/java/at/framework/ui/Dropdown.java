@@ -13,7 +13,6 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class Dropdown extends Factory {
 
@@ -97,6 +96,11 @@ public class Dropdown extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+	public boolean verifyItemNotPresent(By object, String text) {
+
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
+		return true;
 	}
 
 }

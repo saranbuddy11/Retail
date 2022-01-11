@@ -11,6 +11,7 @@ public class Configuration {
 	public static final String ALL_ORGS = "all_orgs";
 	public static final String FILTER_FOR_ORG = "filter_for_org";
 	public static final String FILTER_FOR_LOC = "filter_for_loc";
+	public static final String SECOND_LOC = "second_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
 	public static final String DASHBOARD_URL = "dashboard_url";
@@ -46,7 +47,7 @@ public class Configuration {
 	public static final String EMAIL_TO = "emailTo";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
 	public static final String DRIVER_USER = "DriverUser";
-	public static final String SECOND_LOC = "second_loc";
+	public static final String AUTOMATIONLOCATION1 = "second_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
 	public static final String ALL = "all";

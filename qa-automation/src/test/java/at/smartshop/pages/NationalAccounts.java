@@ -10,6 +10,7 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class NationalAccounts extends Factory {
 
@@ -42,7 +43,6 @@ public class NationalAccounts extends Factory {
 	public static final By TXT_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
-
 
 	private Foundation foundation = new Foundation();
 
@@ -87,10 +87,11 @@ public class NationalAccounts extends Factory {
 		}
 	}
 
-	public void verifyBackgroundColour(String text, String actualcolor) {
-		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + text + "']");
-		String expected = getDriver().findElement(locationElement).getAttribute("style");
-		Assert.assertEquals(actualcolor, expected);
+	public void verifyBackgroundColour(String location, String expctedlcolor) {
+		foundation.threadWait(Constants.TWO_SECOND);
+		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
+		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
+		Assert.assertEquals(actualColor, expctedlcolor);
 	}
 
 	public boolean trySelectNonVisibleTextLocation(String text) {

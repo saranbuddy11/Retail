@@ -35,6 +35,7 @@ public class ConsumerSearch extends Factory {
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
 	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
@@ -45,6 +46,8 @@ public class ConsumerSearch extends Factory {
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
+	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -62,6 +65,10 @@ public class ConsumerSearch extends Factory {
 
 	public By objCell(String consumerName) {
 		return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='" + consumerName + "']");
+	}
+	
+	public String getConsumerName() {
+		return foundation.getText(By.xpath("//table[@id='consumerdt']//tbody//tr//td//a"));
 	}
 
 	public void verifyConsumerSummary(String consumerName) {
@@ -107,7 +114,7 @@ public class ConsumerSearch extends Factory {
     	textBox.enterText(TXT_EMAIL, emailID);
     	textBox.enterText(TXT_SCAN_ID, ""+scanID);
     	textBox.enterText(TXT_PIN, ""+pin);
-    	foundation.click(BTN_CREATE);
+    	foundation.click(BTN_CREATE_OR_INVITE);
     	return emailID;
     }
 }

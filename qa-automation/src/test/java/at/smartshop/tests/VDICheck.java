@@ -65,8 +65,9 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.FIFTEEN_SECOND);
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			orgSummary.deleteVDIIsAlreadySelected(rstOrgSummaryData.get(CNOrgSummary.NAME));
 			String actualDpd = dropDown.getSelectedItem(OrgSummary.DPD_VDI_PROVDIER);
-			Assert.assertEquals(actualDpd, requiredData.get(0));
+			Assert.assertTrue(requiredData.get(0).contains(actualDpd));
 			Assert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_USER_KEY));
 			dropDown.selectItem(OrgSummary.DPD_VDI_PROVDIER, rstOrgSummaryData.get(CNOrgSummary.NAME), Constants.TEXT);
 			textBox.enterText(OrgSummary.TXT_USER_KEY, string.getRandomCharacter());
@@ -278,7 +279,7 @@ public class VDICheck extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_YES);
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			Assert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
@@ -364,7 +365,7 @@ public class VDICheck extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
 			locationSummary.selectTab(requiredData.get(4));
-			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(5));
 			// price validation
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),
 					Constants.ATTRIBUTE_READ);
@@ -507,14 +508,15 @@ public class VDICheck extends TestInfra {
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_YES);
-			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+//			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(OrgSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_YES);
-			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforClikableElement(OrgSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();

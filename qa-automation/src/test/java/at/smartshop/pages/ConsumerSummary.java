@@ -3,14 +3,16 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
+	private Dropdown dropdown=new Dropdown();
 
-	private static final By LBL_READ_BALANCE = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
+//	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
+	private static final By LBL_READ_BALANCE = By.id("readbalance");	
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
@@ -37,21 +39,43 @@ public class ConsumerSummary {
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
+	public static final By ERROR_FIRSTNAME = By.id("firstname-error");
+	public static final By ERROR_LASTNAME = By.id("lastname-error");
+	public static final By BTN_MOVE = By.id("moveBtn");
+	public static final By DPD_MOVE_ORG = By.id("moveform-org");
+	public static final By DPD_MOVE_LOCATION = By.id("moveform-loc");
+	public static final By BTN_MODEL_MOVE_SAVE = By.id("modalsave");
+	public static final By LBL_LOCATION_SELECTED = By.id("locname");
+	public static final By SPINNER = By.id("//span[contains(@id,'container_loading')]");
 
 	public double getBalance() {
 		double initBalance = 0;
 		try {
 			String balance = foundation.getText(LBL_READ_BALANCE);
-			initBalance = Double
-					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+			balance = balance.replaceAll("[\\(\\)\\$]", "");
+//			initBalance = Double
+//					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+			initBalance = Double.parseDouble(balance);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return initBalance;
 	}
-
+	
 	public By objTaxCategory(String reasonCode) {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
+	}
+	
+	public boolean moveConsumer(String toOrg, String toLocation) {
+		foundation.click(BTN_MOVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+		dropdown.selectItem(DPD_MOVE_ORG, toOrg, Constants.TEXT);
+		foundation.threadWait(Constants.ONE_SECOND);
+		dropdown.selectItem(DPD_MOVE_LOCATION, toLocation, Constants.TEXT);
+		foundation.click(BTN_MODEL_MOVE_SAVE);
+		foundation.alertAccept();
+		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
+		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
 	}
 
 }

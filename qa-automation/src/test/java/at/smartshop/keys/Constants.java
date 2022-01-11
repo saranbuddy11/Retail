@@ -13,6 +13,8 @@ public class Constants {
 	public static final String DELIMITER_COMMA = ",";
 	public static final String EMPTY_STRING = "";
 	public static final String REPLACE_DOLLOR = "[^-?0-9.]+";
+	public static final String PARENTHESES = "[()]";
+	public static final String REMOVE_LEADING_ZERO = "^0+(?!$)";
 	public static final String VALUE = "value";
 	public static final String SRC = "src";
 	public static final String TEXT = "text";
@@ -32,6 +34,7 @@ public class Constants {
 	public static final String REGEX_MMDDYY = "MM/dd/YY";
 	public static final String REGEX_DDMMYY = "dd/MM/YY";
 	public static final String REGEX_DD_MM_YYYY = "dd/MM/YYYY";
+	public static final String REGEX_MM_DD_YYYY = "MM/dd/YYYY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String TIME_STAMP = "dd_MM_yy_hh_mm_ss_aa";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
@@ -44,12 +47,13 @@ public class Constants {
 	public static final String TIME_ZONE_INDIA = "Asia/Kolkata";
 	public static final String NEW_LINE = "\n";
 	public static final String DOLLAR = "\\$";
+	public static final String DOLLAR_SYMBOL = "$";
 	public static final int ONE_SECOND = 1;
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
 	public static final int FIVE_SECOND = 5;
-	public static final int SHORT_TIME = 15;
-	public static final int MEDIUM_TIME = 30;
+	public static final int SHORT_TIME = 5;
+	public static final int MEDIUM_TIME = 15;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
 	public static final String ATTRIBUTE_VALUE = "value";
@@ -88,6 +92,8 @@ public class Constants {
 	public static final String AUTO_TEST = "Autotest";
 	public static final String SCHEDULED = "Scheduled";
 	public static final String TESTING = "Testing";
-	public static final String DELIMITER_DOT= ".";
+	public static final String DELIMITER_DOT = ".";
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
+	public static final String EDITED = "Edited";
+	public static final String ALL = "All";
 }

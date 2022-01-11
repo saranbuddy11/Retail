@@ -650,11 +650,9 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			Assert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
 
-			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+			List<String> locationVaules = adminNationalAccounts.getLocationDetails(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+																													rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
@@ -707,11 +705,10 @@ public class NationalAccount extends TestInfra {
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 		String ruleName="";
 		
-		try {
-			
+		try {			
 			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));			
 
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1172,8 +1169,9 @@ public class NationalAccount extends TestInfra {
 			// Location field validation
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			String actualColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
-			nationalAccounts.verifyBackgroundColour(location, actualColour);
+			foundation.threadWait(Constants.TWO_SECOND);
+			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
+			nationalAccounts.verifyBackgroundColour(location, expectedColour);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1212,6 +1210,7 @@ public class NationalAccount extends TestInfra {
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
+			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 
 			// Navigating to National Account Page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1489,6 +1488,7 @@ public class NationalAccount extends TestInfra {
 		}	finally {
 			foundation.click(adminNationalAccounts.getLocationObj(ruleName));
 			checkBox.unCheck(AdminNationalAccounts.CHK_AUTOADD);
+			foundation.waitforClikableElement(AdminNationalAccounts.BTN_SAVE_MODAL, Constants.THREE_SECOND);
 			foundation.click(AdminNationalAccounts.BTN_SAVE_MODAL);
 		}
 	}

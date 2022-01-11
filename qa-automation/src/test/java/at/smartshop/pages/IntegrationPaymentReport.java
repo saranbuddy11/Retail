@@ -56,6 +56,7 @@ public class IntegrationPaymentReport extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			foundation.waitforClikableElement(TBL_INTEGRATION_PAYMENTS_GRID, Constants.SHORT_TIME);
 			WebElement tableReportsList = getDriver().findElement(TBL_INTEGRATION_PAYMENTS_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_INTEGRATION_PAYMENTS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
@@ -150,7 +151,7 @@ public class IntegrationPaymentReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
+	
 	public void calculateAmount(List<String> amount) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
@@ -159,12 +160,14 @@ public class IntegrationPaymentReport extends Factory {
 				String data = String.valueOf(amount.get(iter));
 				double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(data);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(3), String.valueOf(updatedAmount));
+				String finalValue = Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount);	
+				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(3), finalValue);
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+	
 
 	public void updateData(String columnName, String value) {
 		try {

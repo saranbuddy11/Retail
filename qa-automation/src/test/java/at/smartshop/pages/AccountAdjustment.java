@@ -15,6 +15,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
+
 public class AccountAdjustment extends Factory {
 	private Foundation foundation = new Foundation();
 

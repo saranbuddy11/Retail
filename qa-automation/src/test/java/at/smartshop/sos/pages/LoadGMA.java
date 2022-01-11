@@ -2,13 +2,13 @@ package at.smartshop.sos.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+
 import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class LoadGMA extends Factory {
 	
