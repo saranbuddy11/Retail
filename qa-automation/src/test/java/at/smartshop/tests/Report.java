@@ -2014,7 +2014,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
+			Assert.assertTrue(Factory.getDriver().findElement(aviSubFee.LBL_REPORT_NAME).isDisplayed());
 			aviSubFee.getTblRecordsUI();
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
 
