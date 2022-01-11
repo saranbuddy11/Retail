@@ -29,21 +29,6 @@ public class TextBox extends Factory {
 		}
 	}
 	
-	public void enterTextOnFocus(By object,  String text) {
-		try {
-			foundation.objectFocus(object);
-			getDriver().findElement(object).clear();
-			getDriver().findElement(object).sendKeys(text);
-
-			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "entered text " + text);
-			}
-
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
 	public String getTextFromInput(By object) {
 		String text = null;
 		try {
@@ -146,3 +131,4 @@ public class TextBox extends Factory {
 
 	}
 }
+
