@@ -32,6 +32,7 @@ public class Constants {
 	public static final String REGEX_MMDDUU = "MM/dd/uu";
 	public static final String REGEX_MMDDYY = "MM/dd/yy";
 	public static final String REGEX_DDMMYY = "dd/MM/YY";
+	public static final String REGEX_MM_DD_YYYY = "MM/dd/YYYY";
 	public static final String REGEX_DD_MM_YYYY = "dd/MM/YYYY";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String TIME_STAMP = "dd_MM_yy_hh_mm_ss_aa";
@@ -94,4 +95,5 @@ public class Constants {
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
 	public static final String EDITED = "Edited";
 	public static final String ALL= "All";
+	public static final String REMOVE_LEADING_ZERO = "^0+(?!$)";
 }

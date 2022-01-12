@@ -16,8 +16,11 @@
 		<classes>
 			
 			
-			<class name="at.smartshop.v5.tests.V5Test"/>
-			<class name="at.smartshop.v5.tests.V5ReleaseTest"/>
+			<!-- <class name="at.smartshop.v5.tests.V5Test"/>
+			<class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
+			<class name="at.smartshop.tests.ReportsSmokeTest"/>
+			<class name="at.smartshop.tests.Report"/>
+			<class name="at.smartshop.tests.ConsumerSubsidy"/>
 			<class name="at.smartshop.tests.Consumer"/>
 			<class name="at.smartshop.tests.Device"/>
 			<class name="at.smartshop.tests.GlobalProducts"/>
@@ -28,7 +31,7 @@
 			<class name="at.smartshop.tests.OrganizationSummary"/>
 			<class name="at.smartshop.tests.PickLists"/>
 			<class name="at.smartshop.tests.Promotions"/>			
-			<class name="at.smartshop.tests.Report"/>
+			
 			<class name="at.smartshop.tests.SuperOthers"/>
 			<class name="at.smartshop.tests.UserRoles"/>
 			<class name="at.smartshop.tests.VDICheck"/>
