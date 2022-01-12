@@ -5088,7 +5088,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
+	@Test(enabled=false, description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
 	public void crossOrgDeviceEvent() {
 		try {
 			final String CASE_NUM = "167133";
@@ -5136,7 +5136,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
+	@Test(enabled=false, description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
 	public void crossOrgPantryDisbursement() {
 		try {
 			final String CASE_NUM = "167134";
@@ -5184,7 +5184,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167135- This test validates Data existance and Excel file exportaion of Cross-Org: Rate Report")
+	@Test(enabled=false, description = "167135- This test validates Data existance and Excel file exportaion of Cross-Org: Rate Report")
 	public void crossOrgRateReport() {
 		try {
 			final String CASE_NUM = "167135";
