@@ -45,7 +45,7 @@ public class ReportList extends Factory {
 	private static final By FIRST_LOCATION_FROM_LIST = By
 			.cssSelector("span.select2-results > #select2-locdt-results > li");
 	public static final By BTN_RUN_REPORT = By.id("run");
-	public static final By DPD_GROUP_BY = By.id("rpt-group-by");
+	public static final By DPD_GROUP_BY = By.xpath("//select[@id='rpt-group-by']");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
 	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOC_ON_GROUPFILTER_ = By.cssSelector("#select2-locdt-container");
@@ -203,6 +203,14 @@ public class ReportList extends Factory {
 		}
 	}
 
+	public void selectGroupByOption(String filterName, String type) {
+		try {
+			dropdown.selectItem(DPD_GROUP_BY, filterName, type);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	public void selectLocationOnGroupFilter(String orgName) {
 		try {
 			foundation.click(DPD_LOC_ON_GROUPFILTER_);
@@ -270,6 +278,19 @@ public class ReportList extends Factory {
 					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDateWithoutSpace(fileName, formate), 0);
+
+			if (fileExists == false) {
+				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void verifyTheFileExistanceWithDateAndWithoutDataValidation(String fileName, String formate) {
+		try {
+			boolean fileExists = foundation
+					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 
 			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));

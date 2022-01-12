@@ -132,7 +132,14 @@ public class ReportsSmokeTest extends TestInfra {
 	private CrossOrgDeviceEvent crossOrgDeviceEvent = new CrossOrgDeviceEvent();
 	private CrossOrgPantryDisbursement crossOrgPantryDisbursement = new CrossOrgPantryDisbursement();
 	private CrossOrgRateReport crossOrgRateReport = new CrossOrgRateReport();
+	private AVISubFeeReport AVISubFeeReport = new AVISubFeeReport();
+	private ConsumerFeedbackSurvey consumerFeedbackSurvey = new ConsumerFeedbackSurvey();
+	private CrossOrgGoLive crossOrgGoLive = new CrossOrgGoLive();
+	private ProductSalesByCategoryReport productSalesByCategoryReport = new ProductSalesByCategoryReport();
+	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
 
+	
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
@@ -1001,7 +1008,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+			reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Verifying, whether the Report data available or not
@@ -2238,7 +2246,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			
+
 			// Verifying the Report name with with the displayed name on the Front end
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
@@ -4856,7 +4864,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167127 - This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	@Test(description = "167127 - This test validates Data existance and Excel file exportaion of Order Only Report")
 	public void orderOnly() {
 		try {
 			final String CASE_NUM = "167127";
@@ -4953,7 +4961,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167129 - This test validates Data existance and Excel file exportaion of Send A Snack Report")
+	@Test(description = "167129 - This test validates Data existance and Excel file exportaion of Unpaid Order Report")
 	public void unpaidOrder() {
 		try {
 			final String CASE_NUM = "167129";
@@ -5212,6 +5220,243 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying, whether the Report data available or not
 			crossOrgRateReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167145 - This test validates Data existance and Excel file exportaion of Cross Org: AVI Sub Fee Report")
+	public void AVISubFee() {
+		try {
+			final String CASE_NUM = "167145";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectCurrentDay();
+			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			AVISubFeeReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.FIVE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					foundation.getText(AVISubFeeReport.LBL_REPORT_NAME));
+
+			// Verifying, whether the Report data available or not
+			AVISubFeeReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167146 - This test validates Data existance and Excel file exportaion of Consumer Feedback Survey Report")
+	public void consumerFeedbackSurvey() {
+		try {
+			final String CASE_NUM = "167146";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
+
+			foundation.threadWait(Constants.FIVE_SECOND);
+
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			consumerFeedbackSurvey.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167147 - This test validates Data existance and Excel file exportaion of Cross-Org: GoLive Report")
+	public void crossOrgGoLive() {
+		try {
+			final String CASE_NUM = "167147";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			crossOrgRateReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.FIVE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			crossOrgGoLive.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167148 - This test validates Data existance and Excel file exportaion of Product Sales by Category Report")
+	public void productSalesByCategoryReport() {
+		try {
+			final String CASE_NUM = "167148";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			productSalesByCategoryReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.FIVE_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			productSalesByCategoryReport.checkForDataAvailabilyInResultTable();
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "167149 - This test validates Data existance and Excel file exportaion of Promotion Analysis Report")
+	public void promotionAnalysis() {
+		try {
+			final String CASE_NUM = "167149";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectGroupByOption(
+					propertyFile.readPropertyFile(Configuration.ALL_PROMOTIONS, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
+
+			reportList.selectFilter(
+					propertyFile.readPropertyFile(Configuration.FILTER_FOR_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			reportList.selectOrgOnFilter(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
+
+			foundation.threadWait(Constants.FIVE_SECOND);
+
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			promotionAnalysis.checkForDataAvailabilyInResultTable();
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

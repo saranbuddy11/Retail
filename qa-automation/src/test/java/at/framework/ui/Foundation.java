@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -23,7 +22,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,7 +34,6 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-import at.smartshop.tests.TestInfra;
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime = new DateAndTime();
@@ -51,7 +48,7 @@ public class Foundation extends Factory {
 		} catch (NoSuchElementException exc) {
 			isElementDisplayed = false;
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return isElementDisplayed;
 	}
@@ -61,22 +58,22 @@ public class Foundation extends Factory {
 		try {
 			text = getDriver().findElement(object).getText();
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return (text);
 	}
 
 	public void click(By object) {
 		try {
-			//waitforClikableElement(object, Constants.SHORT_TIME);
-			//waitforElement(object, Constants.SHORT_TIME);
+			waitforClikableElement(object, Constants.SHORT_TIME);
+			waitforElement(object, Constants.SHORT_TIME);
 			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
 			}
-		}  catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -91,7 +88,7 @@ public class Foundation extends Factory {
 				}
 			});
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -100,14 +97,13 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
-			if (ExtFactory.getInstance().getExtent() != null) 
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					"waited for element [ " + object + " ] and the object is visible");
-		}catch (TimeoutException exc) {
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element [ " + object + " ] and the object is visible");
+		} catch (TimeoutException exc) {
 			// Continue
-		} 
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 		return element;
 	}
@@ -124,14 +120,12 @@ public class Foundation extends Factory {
 				displayed = getDriver().findElement(object).isDisplayed();
 				ExtFactory.getInstance().getExtent().log(Status.INFO,
 						"waited for element [ " + object + "] and the object is visible ");
-			} 
-			catch (TimeoutException exc) {
+			} catch (TimeoutException exc) {
 				// Continue
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
 			}
-			catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
-		} while ((!displayed)&&(System.currentTimeMillis()-startTime)<waitTime*1000);
+		} while ((!displayed) && (System.currentTimeMillis() - startTime) < waitTime * 1000);
 		return element;
 	}
 
@@ -140,14 +134,13 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.elementToBeClickable(object));
-			if (ExtFactory.getInstance().getExtent() != null) 
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "waited for element clickable [ " + object + " ]");
-		}
-		catch (TimeoutException exc) {
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element clickable [ " + object + " ]");
+		} catch (TimeoutException exc) {
 			// Continue
-		} 
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 		return element;
 	}
@@ -157,7 +150,7 @@ public class Foundation extends Factory {
 			getDriver().navigate().refresh();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "page refreshed");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -169,7 +162,7 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return textAttribute;
 	}
@@ -178,8 +171,16 @@ public class Foundation extends Factory {
 		Actions action = new Actions(getDriver());
 		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
 		seriesOfActions.perform();
-		if (ExtFactory.getInstance().getExtent() != null) 
-		ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
+		if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
+	}
+
+	public void objectFocusOnWebElement(WebElement element) {
+		Actions action = new Actions(getDriver());
+		Action seriesOfActions = action.moveToElement(element).build();
+		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
 	}
 
 	public boolean isEnabled(By object) {
@@ -199,11 +200,11 @@ public class Foundation extends Factory {
 		int sizeofObj = 0;
 		try {
 			sizeofObj = getDriver().findElements(object).size();
-			if (ExtFactory.getInstance().getExtent() != null) 
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					object + "count of list element is " + sizeofObj + " ");
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						object + "count of list element is " + sizeofObj + " ");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return sizeofObj;
 	}
@@ -212,10 +213,10 @@ public class Foundation extends Factory {
 		try {
 			long timeMilliSec = seconds * 1000;
 			Thread.sleep(timeMilliSec);
-			if (ExtFactory.getInstance().getExtent() != null) 
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "thread wait for " + seconds + " seconds");
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "thread wait for " + seconds + " seconds");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -227,7 +228,7 @@ public class Foundation extends Factory {
 			hexColor = Color.fromString(colorValue).asHex();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object + "is " + hexColor);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return hexColor;
 	}
@@ -240,7 +241,7 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "double clicked on [ " + object + " ]");
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -255,14 +256,13 @@ public class Foundation extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return elementsText;
 	}
 
 	public boolean verifySortDate(By object, String type, String pattern) {
 		boolean isSorted = false;
-		try {
 		Collection<LocalDate> listDate = dateAndTime.stringListToDateList(getTextofListElement(object), pattern);
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
@@ -273,16 +273,11 @@ public class Foundation extends Factory {
 					.equals(listDate);
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in decending manner-" + isSorted);
 		}
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
 		return isSorted;
 	}
 
 	public boolean verifySortText(By object, String type) {
 		boolean isSorted = false;
-		try {
 		List<String> listOfText = getTextofListElement(object);
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
@@ -293,10 +288,6 @@ public class Foundation extends Factory {
 					.equals(listOfText);
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-" + isSorted);
 		}
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
 		return isSorted;
 	}
 
@@ -306,17 +297,17 @@ public class Foundation extends Factory {
 			executor.executeScript("document.body.style.zoom = '" + size + "'");
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "adjusted browser size to " + size);
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void objectClick(By object) {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked object [ " + object + " ] using javascript");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -324,9 +315,10 @@ public class Foundation extends Factory {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Scroll into view object [ " + object + " ] using javascript");
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Scroll into view object [ " + object + " ] using javascript");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -341,7 +333,7 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Copied Successfully");
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -351,6 +343,7 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
 			return true;
 		} else
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File exists");
 			return false;
 	}
 
@@ -362,7 +355,7 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, filePath + " -File Deleted Successfully");
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -372,7 +365,7 @@ public class Foundation extends Factory {
 			alert.accept();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Accepted the alert");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -382,7 +375,7 @@ public class Foundation extends Factory {
 			alert.dismiss();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Dismissed the alert");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -394,7 +387,7 @@ public class Foundation extends Factory {
 
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Alert Message ");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return text;
 	}
@@ -407,9 +400,8 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Waited for element [" + object + " ] to disappear");
 		} catch (TimeoutException e) {
 			// Continue
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 		return element;
 	}
@@ -426,7 +418,7 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"got the element attribute value for the object [" + object + " ]");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return elementsAttributeValue;
 	}
@@ -439,7 +431,7 @@ public class Foundation extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return textAttribute;
 	}
@@ -449,7 +441,7 @@ public class Foundation extends Factory {
 			getDriver().navigate().back();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated back");
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 	}
 
@@ -463,11 +455,11 @@ public class Foundation extends Factory {
 		} catch (NoSuchElementException exc) {
 			isElementDisabled = false;
 		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+			Assert.fail(exc.toString());
 		}
 		return isElementDisabled;
 	}
-	
+
 	public void WaitForAjax(int waitTime) {
 		try {
 			long startTime = System.currentTimeMillis();
@@ -481,12 +473,10 @@ public class Foundation extends Factory {
 				threadWait(100);
 			}
 
-		}catch (TimeoutException exc) {
+		} catch (TimeoutException exc) {
 			// continue
-		} 
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
 		}
 	}
 }
-

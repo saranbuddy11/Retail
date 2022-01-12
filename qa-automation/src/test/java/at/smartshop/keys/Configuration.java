@@ -7,6 +7,10 @@ public class Configuration {
 
 	public static final String CURRENT_ORG = "current_org";
 	public static final String CURRENT_LOC = "current_loc";
+	public static final String ALL_LOCATIONS = "all_locations";
+	public static final String ALL_ORGS = "all_orgs";
+	public static final String FILTER_FOR_ORG = "filter_for_org";
+	public static final String FILTER_FOR_LOC = "filter_for_loc";
 	public static final String SECOND_LOC = "second_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
@@ -27,7 +31,6 @@ public class Configuration {
 	public static final String CURRENT_PASSWORD = "password";
 	public static final String OPERATOR_USER = "OperatorUser";
 	public static final String RNOUS_ORG = "second_org";
-	public static final String RNOUS_ORGANIZATION = "Rnous_organiization";
 	public static final String TRANS_BAD_SCAN = "trans_badscan";
 	public static final String TRANS_SALES = "trans_sales";
 	public static final String TRANS_GMA = "trans_gma";
@@ -44,12 +47,9 @@ public class Configuration {
 	public static final String EMAIL_TO = "emailTo";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
 	public static final String DRIVER_USER = "DriverUser";
-	public static final String AUTOMATIONLOCATION1 = "third_loc";
+	public static final String AUTOMATIONLOCATION1 = "second_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
-	public static final String ALL_LOCATIONS = "all_locations";
-	public static final String ALL_ORGS = "all_orgs";
 	public static final String ALL = "all";
-	public static final String FILTER_FOR_LOC = "filter_for_loc";
-	public static final String FILTER_FOR_ORG = "filter_for_org";
+	public static final String ALL_PROMOTIONS = "All_Promotions";	
 }
