@@ -9,8 +9,6 @@ public class Configuration {
 	public static final String CURRENT_LOC = "current_loc";
 	public static final String ALL_LOCATIONS = "all_locations";
 	public static final String ALL_ORGS = "all_orgs";
-	public static final String FILTER_FOR_ORG = "filter_for_org";
-	public static final String FILTER_FOR_LOC = "filter_for_loc";
 	public static final String SECOND_LOC = "second_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
@@ -51,5 +49,7 @@ public class Configuration {
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
 	public static final String ALL = "all";
-	public static final String ALL_PROMOTIONS = "All_Promotions";	
+	public static final String RNOUS_ORGANIZATION = "Rnous_organization";
+	
+	
 }

@@ -138,8 +138,6 @@ public class ReportsSmokeTest extends TestInfra {
 	private ProductSalesByCategoryReport productSalesByCategoryReport = new ProductSalesByCategoryReport();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
 
-	
-	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
@@ -155,7 +153,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166893 - This test validates Data existance and Excel file exportaion of Sales Time Details Report")
+	@Test(description = "166893- This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {
 		try {
 			final String CASE_NUM = "166893";
@@ -170,7 +168,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -203,7 +201,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166894 - This test validates Data existance and Excel file exportaion of Sales Analysis Report")
+	@Test(description = "166894- This test validates Data existance and Excel file exportaion of Sales Analysis Report")
 	public void salesAnalysisReport() {
 		try {
 
@@ -219,7 +217,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -251,7 +249,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166899 - This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
+	@Test(description = "166899- This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
 	public void CustomerReportSkymiles() {
 		try {
 			final String CASE_NUM = "166899";
@@ -266,7 +264,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -298,7 +296,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166900 - This test validates Data existance and Excel file exportaion of Account Adjustment Report")
+	@Test(description = "166900- This test validates Data existance and Excel file exportaion of Account Adjustment Report")
 	public void accountAdjustmentReport() {
 		try {
 			final String CASE_NUM = "166900";
@@ -315,7 +313,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -346,7 +344,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166901 - This test validates Data existance and Excel file exportaion of Modifiers Report Report")
+	@Test(description = "166901- This test validates Data existance and Excel file exportaion of Modifiers Report Report")
 	public void modifiersReport() {
 		try {
 			final String CASE_NUM = "166901";
@@ -363,7 +361,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -394,7 +392,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166902 - This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
+	@Test(description = "166902- This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
 	public void EFTGMADisbursement() {
 		try {
 			final String CASE_NUM = "166902";
@@ -411,7 +409,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -442,7 +440,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166903 - This test validates Data existance and Excel file exportaion of GMA Migration Report")
+	@Test(description = "166903- This test validates Data existance and Excel file exportaion of GMA Migration Report")
 	public void GMAMigration() {
 		try {
 			final String CASE_NUM = "166903";
@@ -457,7 +455,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -485,7 +483,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166904 - This test validates Data existance and Excel file exportaion of Express Disbursement Report")
+	@Test(description = "166904- This test validates Data existance and Excel file exportaion of Express Disbursement Report")
 	public void expressDisbursement() {
 		try {
 			final String CASE_NUM = "166904";
@@ -502,7 +500,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -519,7 +517,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -533,7 +531,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166905 - This test validates Data existance and Excel file exportaion of Canada Multitax Report")
+	@Test(description = "166905- This test validates Data existance and Excel file exportaion of Canada Multitax Report")
 	public void canadaMultitax() {
 		try {
 			final String CASE_NUM = "166905";
@@ -549,7 +547,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -581,7 +579,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166906 - This test validates Data existance and Excel file exportaion of Intl Web App Funding Report")
+	@Test(description = "166906- This test validates Data existance and Excel file exportaion of Intl Web App Funding Report")
 	public void intlWebAppFunding() {
 		try {
 			final String CASE_NUM = "166906";
@@ -597,7 +595,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -629,7 +627,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166907 - This test validates Data existance and Excel file exportaion of Payroll Deduct Details Report")
+	@Test(description = "166907- This test validates Data existance and Excel file exportaion of Payroll Deduct Details Report")
 	public void payrollDeductDetails() {
 		try {
 			final String CASE_NUM = "166907";
@@ -645,7 +643,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -677,7 +675,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166908 - This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
+	@Test(description = "166908- This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
 	public void payrollDeductSummary() {
 		try {
 			final String CASE_NUM = "166908";
@@ -693,7 +691,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -724,7 +722,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166910 - This test validates Data existance and Excel file exportaion of Cash Flow Details Report")
+	@Test(description = "166910- This test validates Data existance and Excel file exportaion of Cash Flow Details Report")
 	public void cashFlowDetails() {
 		try {
 			final String CASE_NUM = "166910";
@@ -740,7 +738,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -774,7 +772,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166928 - This test validates Data existance and Excel file exportaion of MultiTax Report")
+	@Test(description = "166928- This test validates Data existance and Excel file exportaion of MultiTax Report")
 	public void multiTaxReport() {
 		try {
 			final String CASE_NUM = "166928";
@@ -790,7 +788,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -822,7 +820,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166929 - This test validates Data existance and Excel file exportaion of Hiatus Mode Report")
+	@Test(description = "166929- This test validates Data existance and Excel file exportaion of Hiatus Mode Report")
 	public void hiatusModeReport() {
 		try {
 			final String CASE_NUM = "166929";
@@ -838,7 +836,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -870,7 +868,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166930 - This test validates Data existance and Excel file exportaion of EFT Cross Org: GMA Disbursement Report")
+	@Test(description = "166930- This test validates Data existance and Excel file exportaion of EFT Cross Org: GMA Disbursement Report")
 	public void EFTCrossOrgGMADisbursement() {
 		try {
 			final String CASE_NUM = "166930";
@@ -886,7 +884,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -894,7 +892,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -904,12 +903,12 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(rstReportListData.get(CNReportList.REPORT_NAME),
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Verifying, whether the Report data available or not
@@ -919,7 +918,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166931 - This test validates Data existance and Excel file exportaion of G&J Commission Report")
+	@Test(description = "166931- This test validates Data existance and Excel file exportaion of G&J Commission Report")
 	public void GJCommission() {
 		try {
 			final String CASE_NUM = "166931";
@@ -935,7 +934,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -943,7 +942,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -952,7 +952,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -966,7 +966,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166932 - This test validates Data existance and Excel file exportaion of Advana Billings Report")
+	@Test(description = "166932- This test validates Data existance and Excel file exportaion of Advana Billings Report")
 	public void advanaBilling() {
 		try {
 			final String CASE_NUM = "166932";
@@ -982,7 +982,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -991,11 +991,10 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectFilter(
-					propertyFile.readPropertyFile(Configuration.FILTER_FOR_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectFilter(rstReportListData.get(CNReportList.SELECT_FILTER_TO_INCLUDE));
 
 			reportList.selectOrgOnFilter(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -1019,7 +1018,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166934 - This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
+	@Test(description = "166934- This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
 	public void EFTDisbursementDetail() {
 		try {
 			final String CASE_NUM = "166934";
@@ -1035,7 +1034,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1067,7 +1066,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166935 - This test validates Data existance and Excel file exportaion of App Funding By Location Report")
+	@Test(description = "166935- This test validates Data existance and Excel file exportaion of App Funding By Location Report")
 	public void appFundingByLocation() {
 		try {
 			final String CASE_NUM = "166935";
@@ -1083,7 +1082,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1115,7 +1114,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166954 - This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
+	@Test(description = "166954- This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
 	public void orderAheadTrans() {
 		try {
 			final String CASE_NUM = "166954";
@@ -1131,7 +1130,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1163,7 +1162,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166955 - This test validates Data existance and Excel file exportaion of Referrals Report")
+	@Test(description = "166955- This test validates Data existance and Excel file exportaion of Referrals Report")
 	public void referrals() {
 		try {
 			final String CASE_NUM = "166955";
@@ -1179,7 +1178,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1212,7 +1211,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166956 - This test validates Data existance and Excel file exportaion of Bulk Top Off Report")
+	@Test(description = "166956- This test validates Data existance and Excel file exportaion of Bulk Top Off Report")
 	public void bulkTopOff() {
 		try {
 			final String CASE_NUM = "166956";
@@ -1228,7 +1227,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1250,7 +1249,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166957 - This test validates Data existance and Excel file exportaion of Remaining Guest Pass Liability Report")
+	@Test(description = "166957- This test validates Data existance and Excel file exportaion of Remaining Guest Pass Liability Report")
 	public void remainingGuestPassLiability() {
 		try {
 			final String CASE_NUM = "166957";
@@ -1266,7 +1265,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1296,7 +1295,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166963 - This test validates Data existance and Excel file exportaion of Unsold Products Report")
+	@Test(description = "166963- This test validates Data existance and Excel file exportaion of Unsold Products Report")
 	public void unsoldProducts() {
 		try {
 			final String CASE_NUM = "166963";
@@ -1312,7 +1311,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1321,8 +1320,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectFilterOption(
-					propertyFile.readPropertyFile(Configuration.FILTER_FOR_LOC, FilePath.PROPERTY_CONFIG_FILE),
+			reportList.selectFilterOption(rstReportListData.get(CNReportList.SELECT_FILTER_TO_INCLUDE),
 					Constants.VALUE);
 
 			reportList.selectLocationOnGroupFilter(
@@ -1349,7 +1347,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166964 - This test validates Data existance and Excel file exportaion of Sales Time Details By Device Report")
+	@Test(description = "166964- This test validates Data existance and Excel file exportaion of Sales Time Details By Device Report")
 	public void salesTimeDetailsByDevice() {
 		try {
 			final String CASE_NUM = "166964";
@@ -1365,7 +1363,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1402,7 +1400,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166965 - This test validates Data existance and Excel file exportaion of Redeemed Guest Pass Value Report")
+	@Test(description = "166965- This test validates Data existance and Excel file exportaion of Redeemed Guest Pass Value Report")
 	public void redeemedGuestPassValue() {
 		try {
 			final String CASE_NUM = "166965";
@@ -1418,7 +1416,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1450,7 +1448,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166966 - This test validates Data existance and Excel file exportaion of Skymiles Detail Report")
+	@Test(description = "166966- This test validates Data existance and Excel file exportaion of Skymiles Detail Report")
 	public void skymilesDetail() {
 		try {
 			final String CASE_NUM = "166966";
@@ -1466,7 +1464,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1498,7 +1496,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166967 - This test validates Data existance and Excel file exportaion of Sold Details Report")
+	@Test(description = "166967- This test validates Data existance and Excel file exportaion of Sold Details Report")
 	public void soldDetails() {
 		try {
 			final String CASE_NUM = "166967";
@@ -1514,7 +1512,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1546,7 +1544,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166969 - This test validates Data existance and Excel file exportaion of Product Pricing Report")
+	@Test(description = "166969- This test validates Data existance and Excel file exportaion of Product Pricing Report")
 	public void productPricing() {
 		try {
 			final String CASE_NUM = "166969";
@@ -1562,7 +1560,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1579,7 +1577,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -1593,7 +1591,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166970 - This test validates Data existance and Excel file exportaion of Sold Details Int Report")
+	@Test(description = "166970- This test validates Data existance and Excel file exportaion of Sold Details Int Report")
 	public void soldDetailsInt() {
 		try {
 			final String CASE_NUM = "166970";
@@ -1609,7 +1607,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1641,7 +1639,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166971 - This test validates Data existance and Excel file exportaion of Cash Flow Report")
+	@Test(description = "166971- This test validates Data existance and Excel file exportaion of Cash Flow Report")
 	public void cashFlow() {
 		try {
 			final String CASE_NUM = "166971";
@@ -1657,7 +1655,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1689,7 +1687,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166972 - This test validates Data existance and Excel file exportaion of Entry Summary Report")
+	@Test(description = "166972- This test validates Data existance and Excel file exportaion of Entry Summary Report")
 	public void entrySummaryReport() {
 		try {
 			final String CASE_NUM = "166972";
@@ -1705,7 +1703,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1737,7 +1735,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166976 - This test validates Data existance and Excel file exportaion of Delete Summary Report Report")
+	@Test(description = "166976- This test validates Data existance and Excel file exportaion of Delete Summary Report Report")
 	public void deleteSummaryReport() {
 		try {
 			final String CASE_NUM = "166976";
@@ -1753,7 +1751,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1771,7 +1769,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -1785,7 +1783,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166985 - This test validates Data existance and Excel file exportaion of Transaction Canned Report")
+	@Test(description = "166985- This test validates Data existance and Excel file exportaion of Transaction Canned Report")
 	public void transactionCanned() {
 		try {
 			final String CASE_NUM = "166985";
@@ -1801,7 +1799,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1833,7 +1831,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166986 - This test validates Data existance and Excel file exportaion of Product Canned Report")
+	@Test(description = "166986- This test validates Data existance and Excel file exportaion of Product Canned Report")
 	public void productCannedReport() {
 		try {
 			final String CASE_NUM = "166986";
@@ -1849,7 +1847,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1883,7 +1881,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166988 - This test validates Data existance and Excel file exportaion of Bad Scan Report")
+	@Test(description = "166988- This test validates Data existance and Excel file exportaion of Bad Scan Report")
 	public void badScanReport() {
 		try {
 			final String CASE_NUM = "166988";
@@ -1899,7 +1897,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1931,7 +1929,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166989 - This test validates Data existance and Excel file exportaion of Order Transaction Time Report")
+	@Test(description = "166989- This test validates Data existance and Excel file exportaion of Order Transaction Time Report")
 	public void orderTransactionTime() {
 		try {
 			final String CASE_NUM = "166989";
@@ -1947,7 +1945,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1979,7 +1977,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166990 - This test validates Data existance and Excel file exportaion of Cashout Log Report")
+	@Test(description = "166990- This test validates Data existance and Excel file exportaion of Cashout Log Report")
 	public void cashoutLog() {
 		try {
 			final String CASE_NUM = "166990";
@@ -1995,7 +1993,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2027,7 +2025,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166991 - This test validates Data existance and Excel file exportaion of Product Tax Report")
+	@Test(description = "166991- This test validates Data existance and Excel file exportaion of Product Tax Report")
 	public void productTax() {
 		try {
 			final String CASE_NUM = "166991";
@@ -2043,7 +2041,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2075,7 +2073,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166992 - This test validates Data existance and Excel file exportaion of Balance Report")
+	@Test(description = "166992- This test validates Data existance and Excel file exportaion of Balance Report")
 	public void balanceReport() {
 		try {
 			final String CASE_NUM = "166992";
@@ -2091,7 +2089,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2109,7 +2107,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -2123,7 +2121,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166993 - This test validates Data existance and Excel file exportaion of Credit Transaction Report")
+	@Test(description = "166993- This test validates Data existance and Excel file exportaion of Credit Transaction Report")
 	public void creditTransaction() {
 		try {
 			final String CASE_NUM = "166993";
@@ -2139,7 +2137,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2171,7 +2169,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167009 - This test validates Data existance and Excel file exportaion of Queued Credit Transactions Report")
+	@Test(description = "167009- This test validates Data existance and Excel file exportaion of Queued Credit Transactions Report")
 	public void queuedCreditTransactions() {
 		try {
 			final String CASE_NUM = "167009";
@@ -2187,7 +2185,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2219,7 +2217,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167010 - This test validates Data existance and Excel file exportaion of Ice Reportg Report")
+	@Test(description = "167010- This test validates Data existance and Excel file exportaion of Ice Reportg Report")
 	public void iceReport() {
 		try {
 			final String CASE_NUM = "167010";
@@ -2235,7 +2233,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2268,7 +2266,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167011 - This test validates Data existance and Excel file exportaion of Financial Recap Report")
+	@Test(description = "167011- This test validates Data existance and Excel file exportaion of Financial Recap Report")
 	public void financialRecap() {
 		try {
 			final String CASE_NUM = "167011";
@@ -2284,7 +2282,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2302,7 +2300,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -2316,7 +2314,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167012 - This test validates Data existance and Excel file exportaion of Member Purchase Summary Report")
+	@Test(description = "167012- This test validates Data existance and Excel file exportaion of Member Purchase Summary Report")
 	public void memberPurchaseSummary() {
 		try {
 			final String CASE_NUM = "167012";
@@ -2332,7 +2330,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2362,7 +2360,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167013 - This test validates Data existance and Excel file exportaion of Member Purchase Details Report")
+	@Test(description = "167013- This test validates Data existance and Excel file exportaion of Member Purchase Details Report")
 	public void memberPurchaseDetails() {
 		try {
 			final String CASE_NUM = "167013";
@@ -2378,7 +2376,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2408,7 +2406,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167014 - This test validates Data existance and Excel file exportaion of Daily Sales Summary Report")
+	@Test(description = "167014- This test validates Data existance and Excel file exportaion of Daily Sales Summary Report")
 	public void dailySalesSummary() {
 		try {
 			final String CASE_NUM = "167014";
@@ -2424,7 +2422,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2456,7 +2454,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167015 - This test validates Data existance and Excel file exportaion of Cancel Report Report")
+	@Test(description = "167015- This test validates Data existance and Excel file exportaion of Cancel Report Report")
 	public void cancelReport() {
 		try {
 			final String CASE_NUM = "167015";
@@ -2472,7 +2470,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2504,7 +2502,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167016 - This test validates Data existance and Excel file exportaion of Invoice Detail  Report")
+	@Test(description = "167016- This test validates Data existance and Excel file exportaion of Invoice Detail  Report")
 	public void invoiceDetail() {
 		try {
 			final String CASE_NUM = "167016";
@@ -2520,7 +2518,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2552,7 +2550,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167017 - This test validates Data existance and Excel file exportaion of Cash Audit Report")
+	@Test(description = "167017- This test validates Data existance and Excel file exportaion of Cash Audit Report")
 	public void cashAudit() {
 		try {
 			final String CASE_NUM = "167017";
@@ -2568,7 +2566,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2600,7 +2598,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167018 - This test validates Data existance and Excel file exportaion of Billing Information Report")
+	@Test(description = "167018- This test validates Data existance and Excel file exportaion of Billing Information Report")
 	public void billingInformation() {
 		try {
 			final String CASE_NUM = "167018";
@@ -2616,7 +2614,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2648,7 +2646,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167019 - This test validates Data existance and Excel file exportaion of Inventory Totals Report")
+	@Test(description = "167019- This test validates Data existance and Excel file exportaion of Inventory Totals Report")
 	public void inventoryTotals() {
 		try {
 			final String CASE_NUM = "167019";
@@ -2664,7 +2662,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2693,7 +2691,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167020 - This test validates Data existance and Excel file exportaion of Loyalty User Report")
+	@Test(description = "167020- This test validates Data existance and Excel file exportaion of Loyalty User Report")
 	public void loyaltyUser() {
 		try {
 			final String CASE_NUM = "167020";
@@ -2709,7 +2707,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2741,7 +2739,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167021 - This test validates Data existance and Excel file exportaion of Folio Billing Report")
+	@Test(description = "167021- This test validates Data existance and Excel file exportaion of Folio Billing Report")
 	public void folioBilling() {
 		try {
 			final String CASE_NUM = "167021";
@@ -2757,7 +2755,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2789,7 +2787,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167022 - This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
+	@Test(description = "167022- This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
 	public void inventoryAdjustmentDetail() {
 		try {
 			final String CASE_NUM = "167022";
@@ -2805,7 +2803,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2837,7 +2835,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167023 - This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
+	@Test(description = "167023- This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
 	public void alcoholSoldDetails() {
 		try {
 			final String CASE_NUM = "167023";
@@ -2853,7 +2851,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2885,7 +2883,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167024 - This test validates Data existance and Excel file exportaion of Cash Flow Details International Report")
+	@Test(description = "167024- This test validates Data existance and Excel file exportaion of Cash Flow Details International Report")
 	public void cashFlowDetailsInternational() {
 		try {
 			final String CASE_NUM = "167024";
@@ -2901,7 +2899,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2936,7 +2934,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167025 - This test validates Data existance and Excel file exportaion of Integration Payments Report")
+	@Test(description = "167025- This test validates Data existance and Excel file exportaion of Integration Payments Report")
 	public void integrationPayments() {
 		try {
 			final String CASE_NUM = "167025";
@@ -2952,7 +2950,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2984,7 +2982,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167026 - This test validates Data existance and Excel file exportaion of Sales Summary and Cost Report")
+	@Test(description = "167026- This test validates Data existance and Excel file exportaion of Sales Summary and Cost Report")
 	public void salesSummaryAndCost() {
 		try {
 			final String CASE_NUM = "167026";
@@ -3000,7 +2998,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3018,7 +3016,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -3032,7 +3030,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167035 - This test validates Data existance and Excel file exportaion of Financial Canned Report")
+	@Test(description = "167035- This test validates Data existance and Excel file exportaion of Financial Canned Report")
 	public void financialCanned() {
 		try {
 			final String CASE_NUM = "167035";
@@ -3048,7 +3046,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3080,7 +3078,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167036 - This test validates Data existance and Excel file exportaion of Item Stockout Report")
+	@Test(description = "167036- This test validates Data existance and Excel file exportaion of Item Stockout Report")
 	public void itemStockout() {
 		try {
 			final String CASE_NUM = "167036";
@@ -3096,7 +3094,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3128,7 +3126,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167037 - This test validates Data existance and Excel file exportaion of Sold Item COGS Report")
+	@Test(description = "167037- This test validates Data existance and Excel file exportaion of Sold Item COGS Report")
 	public void soldItemCOGS() {
 		try {
 			final String CASE_NUM = "167037";
@@ -3144,7 +3142,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3176,7 +3174,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167038 - This test validates Data existance and Excel file exportaion of Account Funding Detail Report")
+	@Test(description = "167038- This test validates Data existance and Excel file exportaion of Account Funding Detail Report")
 	public void accountFundingDetail() {
 		try {
 			final String CASE_NUM = "167038";
@@ -3192,7 +3190,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3210,7 +3208,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -3224,7 +3222,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167039 - This test validates Data existance and Excel file exportaion of Consumer Purchase Summary Report")
+	@Test(description = "167039- This test validates Data existance and Excel file exportaion of Consumer Purchase Summary Report")
 	public void consumerPurchaseSummary() {
 		try {
 			final String CASE_NUM = "167039";
@@ -3240,7 +3238,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3258,7 +3256,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -3272,7 +3270,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167040 - This test validates Data existance and Excel file exportaion of Inventory Value Summary Report")
+	@Test(description = "167040- This test validates Data existance and Excel file exportaion of Inventory Value Summary Report")
 	public void inventoryValueSummary() {
 		try {
 			final String CASE_NUM = "167040";
@@ -3288,7 +3286,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3320,7 +3318,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167041 - This test validates Data existance and Excel file exportaion of Account Profitability Report")
+	@Test(description = "167041- This test validates Data existance and Excel file exportaion of Account Profitability Report")
 	public void accountProfitability() {
 		try {
 			final String CASE_NUM = "167041";
@@ -3336,7 +3334,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3368,7 +3366,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167042 - This test validates Data existance and Excel file exportaion of cross Org: Loyalty Report")
+	@Test(description = "167042- This test validates Data existance and Excel file exportaion of cross Org: Loyalty Report")
 	public void crossOrgLoyalty() {
 		try {
 			final String CASE_NUM = "167042";
@@ -3384,7 +3382,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3392,7 +3390,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -3416,7 +3415,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167043 - This test validates Data existance and Excel file exportaion of Employee Comp Details Report")
+	@Test(description = "167043- This test validates Data existance and Excel file exportaion of Employee Comp Details Report")
 	public void employeeCompDetails() {
 		try {
 			final String CASE_NUM = "167043";
@@ -3432,7 +3431,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3450,7 +3449,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
@@ -3464,7 +3463,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167044 - This test validates Data existance and Excel file exportaion of UFS Report")
+	@Test(description = "167044- This test validates Data existance and Excel file exportaion of UFS Report")
 	public void UFSReport() {
 		try {
 			final String CASE_NUM = "167044";
@@ -3480,7 +3479,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3500,7 +3499,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -3515,7 +3514,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167045 - This test validates Data existance and Excel file exportaion of Sales By 15 Minutes Report")
+	@Test(description = "167045- This test validates Data existance and Excel file exportaion of Sales By 15 Minutes Report")
 	public void salesBy15Minutes() {
 		try {
 			final String CASE_NUM = "167045";
@@ -3531,7 +3530,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3563,7 +3562,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167046 - This test validates Data existance and Excel file exportaion of Sales By 30 Minutes Report")
+	@Test(description = "167046- This test validates Data existance and Excel file exportaion of Sales By 30 Minutes Report")
 	public void salesBy30Minutes() {
 		try {
 			final String CASE_NUM = "167046";
@@ -3579,7 +3578,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3611,7 +3610,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167047 - This test validates Data existance and Excel file exportaion of Health Ahead Report")
+	@Test(description = "167047- This test validates Data existance and Excel file exportaion of Health Ahead Report")
 	public void healthAhead() {
 		try {
 			final String CASE_NUM = "167047";
@@ -3627,7 +3626,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3659,7 +3658,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167048 - This test validates Data existance and Excel file exportaion of Health Ahead Percentages Report")
+	@Test(description = "167048- This test validates Data existance and Excel file exportaion of Health Ahead Percentages Report")
 	public void healthAheadPercentages() {
 		try {
 			final String CASE_NUM = "167048";
@@ -3675,7 +3674,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3707,7 +3706,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167049 - This test validates Data existance and Excel file exportaion of Personal Charge Report")
+	@Test(description = "167049- This test validates Data existance and Excel file exportaion of Personal Charge Report")
 	public void personalCharge() {
 		try {
 			final String CASE_NUM = "167049";
@@ -3723,7 +3722,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3755,7 +3754,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167050 - This test validates Data existance and Excel file exportaion of Cash Flow Device Report")
+	@Test(description = "167050- This test validates Data existance and Excel file exportaion of Cash Flow Device Report")
 	public void cashFlowDevice() {
 		try {
 			final String CASE_NUM = "167050";
@@ -3771,7 +3770,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3790,7 +3789,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
@@ -3805,7 +3804,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167051 - This test validates Data existance and Excel file exportaion of Cash Flow Employee Report")
+	@Test(description = "167051- This test validates Data existance and Excel file exportaion of Cash Flow Employee Report")
 	public void cashFlowEmployee() {
 		try {
 			final String CASE_NUM = "167051";
@@ -3821,7 +3820,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3855,7 +3854,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167052 - This test validates Data existance and Excel file exportaion of Cash Flow Employee Device Report")
+	@Test(description = "167052- This test validates Data existance and Excel file exportaion of Cash Flow Employee Device Report")
 	public void cashFlowEmployeeDevice() {
 		try {
 			final String CASE_NUM = "167052";
@@ -3871,7 +3870,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3905,7 +3904,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167055 - This test validates Data existance and Excel file exportaion of UFS By Device Report")
+	@Test(description = "167055- This test validates Data existance and Excel file exportaion of UFS By Device Report")
 	public void UFSByDevice() {
 		try {
 			final String CASE_NUM = "167055";
@@ -3921,7 +3920,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3956,7 +3955,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167056 - This test validates Data existance and Excel file exportaion of Tip Details Report")
+	@Test(description = "167056- This test validates Data existance and Excel file exportaion of Tip Details Report")
 	public void tipDetails() {
 		try {
 			final String CASE_NUM = "167056";
@@ -3972,7 +3971,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4004,7 +4003,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167057 - This test validates Data existance and Excel file exportaion of Tip Summary Report")
+	@Test(description = "167057- This test validates Data existance and Excel file exportaion of Tip Summary Report")
 	public void tipSummary() {
 		try {
 			final String CASE_NUM = "167057";
@@ -4020,7 +4019,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4052,7 +4051,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167058 - This test validates Data existance and Excel file exportaion of Product Sales Report")
+	@Test(description = "167058- This test validates Data existance and Excel file exportaion of Product Sales Report")
 	public void productSales() {
 		try {
 			final String CASE_NUM = "167058";
@@ -4068,7 +4067,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4100,7 +4099,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167059 - This test validates Data existance and Excel file exportaion of Device By Category Report")
+	@Test(description = "167059- This test validates Data existance and Excel file exportaion of Device By Category Report")
 	public void deviceByCategory() {
 		try {
 			final String CASE_NUM = "167059";
@@ -4116,7 +4115,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4148,7 +4147,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167060 - This test validates Data existance and Excel file exportaion of UFS By Employee Device Report")
+	@Test(description = "167060- This test validates Data existance and Excel file exportaion of UFS By Employee Device Report")
 	public void UFSByEmployeeDevice() {
 		try {
 			final String CASE_NUM = "167060";
@@ -4164,7 +4163,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4184,7 +4183,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -4199,7 +4198,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167061 - This test validates Data existance and Excel file exportaion of Unfinished Close Report")
+	@Test(description = "167061- This test validates Data existance and Excel file exportaion of Unfinished Close Report")
 	public void unfinishedClose() {
 		try {
 			final String CASE_NUM = "167061";
@@ -4215,7 +4214,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4247,7 +4246,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167062 - This test validates Data existance and Excel file exportaion of Voided Product Report")
+	@Test(description = "167062- This test validates Data existance and Excel file exportaion of Voided Product Report")
 	public void voidedProduct() {
 		try {
 			final String CASE_NUM = "167062";
@@ -4263,7 +4262,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4295,7 +4294,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167063 - This test validates Data existance and Excel file exportaion of Voided Product Report")
+	@Test(description = "167063- This test validates Data existance and Excel file exportaion of Voided Product Report")
 	public void accountFunding() {
 		try {
 			final String CASE_NUM = "167063";
@@ -4311,7 +4310,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4343,7 +4342,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167064 - This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
+	@Test(description = "167064- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgMiddidAssignment() {
 		try {
 			final String CASE_NUM = "167064";
@@ -4359,7 +4358,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4367,7 +4366,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -4376,7 +4376,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -4390,7 +4390,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167065 - This test validates Data existance and Excel file exportaion of Intl Disbursement Report")
+	@Test(description = "167065- This test validates Data existance and Excel file exportaion of Intl Disbursement Report")
 	public void intlDisbursementReport() {
 		try {
 			final String CASE_NUM = "167065";
@@ -4406,7 +4406,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4437,7 +4437,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167066 - This test validates Data existance and Excel file exportaion of Tender Transaction Log Report")
+	@Test(description = "167066- This test validates Data existance and Excel file exportaion of Tender Transaction Log Report")
 	public void tenderTransactionLog() {
 		try {
 			final String CASE_NUM = "167066";
@@ -4453,7 +4453,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4485,7 +4485,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167067 - This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
+	@Test(description = "167067- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgSelfProvisionedDevices() {
 		try {
 			final String CASE_NUM = "167067";
@@ -4501,7 +4501,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4509,7 +4509,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -4532,7 +4533,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167068 - This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
+	@Test(description = "167068- This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
 	public void CrossOrgEFTVariance() {
 		try {
 			final String CASE_NUM = "167068";
@@ -4548,7 +4549,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4556,7 +4557,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectCurrentDay();
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -4579,7 +4581,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167121 - This test validates Data existance and Excel file exportaion of Rods Special Inventory Report")
+	@Test(description = "167121- This test validates Data existance and Excel file exportaion of Rods Special Inventory Report")
 	public void rodsSpecialInventoryReport() {
 		try {
 			final String CASE_NUM = "167121";
@@ -4595,7 +4597,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4613,7 +4615,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
@@ -4627,7 +4629,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167122 - This test validates Data existance and Excel file exportaion of Advana Eligible Locations Report")
+	@Test(description = "167122- This test validates Data existance and Excel file exportaion of Advana Eligible Locations Report")
 	public void advanaEligibleLocations() {
 		try {
 			final String CASE_NUM = "167122";
@@ -4643,14 +4645,15 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -4673,7 +4676,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167123 - This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
+	@Test(description = "167123- This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
 	public void heartlandEFTVariance() {
 		try {
 			final String CASE_NUM = "167123";
@@ -4689,7 +4692,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4719,7 +4722,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167124 - This test validates Data existance and Excel file exportaion of CC Batch Report")
+	@Test(description = "167124- This test validates Data existance and Excel file exportaion of CC Batch Report")
 	public void CCBatch() {
 		try {
 			final String CASE_NUM = "167124";
@@ -4735,7 +4738,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4767,7 +4770,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167125 - This test validates Data existance and Excel file exportaion of DC Locker Orders Report")
+	@Test(description = "167125- This test validates Data existance and Excel file exportaion of DC Locker Orders Report")
 	public void DCLockerOrders() {
 		try {
 			final String CASE_NUM = "167125";
@@ -4783,7 +4786,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4816,7 +4819,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167126 - This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	@Test(description = "167126- This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
 	public void guestPassByDevice() {
 		try {
 			final String CASE_NUM = "167126";
@@ -4864,7 +4867,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167127 - This test validates Data existance and Excel file exportaion of Order Only Report")
+	@Test(description = "167127- This test validates Data existance and Excel file exportaion of Order Only Report")
 	public void orderOnly() {
 		try {
 			final String CASE_NUM = "167127";
@@ -4880,7 +4883,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4912,7 +4915,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167128 - This test validates Data existance and Excel file exportaion of Send A Snack Report")
+	@Test(description = "167128- This test validates Data existance and Excel file exportaion of Send A Snack Report")
 	public void sendASnack() {
 		try {
 			final String CASE_NUM = "167128";
@@ -4961,7 +4964,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167129 - This test validates Data existance and Excel file exportaion of Unpaid Order Report")
+	@Test(description = "167129- This test validates Data existance and Excel file exportaion of Unpaid Order Report")
 	public void unpaidOrder() {
 		try {
 			final String CASE_NUM = "167129";
@@ -4977,7 +4980,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5009,7 +5012,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167131 - This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
+	@Test(description = "167131- This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
 	public void aramarkFinancialRecap() {
 		try {
 			final String CASE_NUM = "167131";
@@ -5025,7 +5028,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5045,7 +5048,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167132 - This test validates Data existance and Excel file exportaion of National Account Exception Report")
+	@Test(description = "167132- This test validates Data existance and Excel file exportaion of National Account Exception Report")
 	public void nationalAccountException() {
 		try {
 			final String CASE_NUM = "167132";
@@ -5063,7 +5066,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5085,7 +5088,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167133 - This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
+	@Test(description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
 	public void crossOrgDeviceEvent() {
 		try {
 			final String CASE_NUM = "167133";
@@ -5101,7 +5104,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5109,7 +5112,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5132,7 +5136,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167134 - This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
+	@Test(description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
 	public void crossOrgPantryDisbursement() {
 		try {
 			final String CASE_NUM = "167134";
@@ -5148,7 +5152,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5156,7 +5160,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5179,7 +5184,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167135 - This test validates Data existance and Excel file exportaion of Cross-Org: Rate Report")
+	@Test(description = "167135- This test validates Data existance and Excel file exportaion of Cross-Org: Rate Report")
 	public void crossOrgRateReport() {
 		try {
 			final String CASE_NUM = "167135";
@@ -5195,14 +5200,15 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5225,7 +5231,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167145 - This test validates Data existance and Excel file exportaion of Cross Org: AVI Sub Fee Report")
+	@Test(description = "167145- This test validates Data existance and Excel file exportaion of Cross Org: AVI Sub Fee Report")
 	public void AVISubFee() {
 		try {
 			final String CASE_NUM = "167145";
@@ -5241,7 +5247,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5249,7 +5255,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectCurrentDay();
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5258,7 +5265,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.FIVE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -5272,7 +5279,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167146 - This test validates Data existance and Excel file exportaion of Consumer Feedback Survey Report")
+	@Test(description = "167146- This test validates Data existance and Excel file exportaion of Consumer Feedback Survey Report")
 	public void consumerFeedbackSurvey() {
 		try {
 			final String CASE_NUM = "167146";
@@ -5288,7 +5295,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5303,10 +5310,11 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
 
-			foundation.threadWait(Constants.FIVE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Verifying, whether the Report data available or not
@@ -5315,8 +5323,8 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	@Test(description = "167147 - This test validates Data existance and Excel file exportaion of Cross-Org: GoLive Report")
+
+	@Test(description = "167147- This test validates Data existance and Excel file exportaion of Cross-Org: GoLive Report")
 	public void crossOrgGoLive() {
 		try {
 			final String CASE_NUM = "167147";
@@ -5332,14 +5340,15 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5348,7 +5357,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.FIVE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -5361,8 +5370,8 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	@Test(description = "167148 - This test validates Data existance and Excel file exportaion of Product Sales by Category Report")
+
+	@Test(description = "167148- This test validates Data existance and Excel file exportaion of Product Sales by Category Report")
 	public void productSalesByCategoryReport() {
 		try {
 			final String CASE_NUM = "167148";
@@ -5378,7 +5387,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5396,7 +5405,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.FIVE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -5409,8 +5418,8 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	@Test(description = "167149 - This test validates Data existance and Excel file exportaion of Promotion Analysis Report")
+
+	@Test(description = "167149- This test validates Data existance and Excel file exportaion of Promotion Analysis Report")
 	public void promotionAnalysis() {
 		try {
 			final String CASE_NUM = "167149";
@@ -5426,7 +5435,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5435,24 +5444,22 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectGroupByOption(
-					propertyFile.readPropertyFile(Configuration.ALL_PROMOTIONS, FilePath.PROPERTY_CONFIG_FILE),
-					Constants.TEXT);
+			reportList.selectGroupByOption(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN), Constants.TEXT);
 
-			reportList.selectFilter(
-					propertyFile.readPropertyFile(Configuration.FILTER_FOR_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectFilter(rstReportListData.get(CNReportList.SELECT_FILTER_TO_INCLUDE));
 
 			reportList.selectOrgOnFilter(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
 
-			foundation.threadWait(Constants.FIVE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Verifying, whether the Report data available or not

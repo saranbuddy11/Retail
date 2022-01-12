@@ -1144,8 +1144,8 @@ public class Report extends TestInfra {
 			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 			
 			// process sales API to generate data
-//			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-//					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId);
+			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1615,9 +1615,11 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-
+			
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			// process sales API to generate data
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1641,8 +1643,8 @@ public class Report extends TestInfra {
 			integrationPayments.getIntialData().putAll(integrationPayments.getReportsData());
 			integrationPayments.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
-			integrationPayments.processAPI(Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
+					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
 			Thread.sleep(1000);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -1651,10 +1653,9 @@ public class Report extends TestInfra {
 			// apply calculation and update data
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1), deviceId.toUpperCase());
 			integrationPayments.updateValue(integrationPayments.getTableHeaders().get(2),
-					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
+					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
 			integrationPayments.calculateAmount(integrationPayments.getAmountData());
 
 			// verify report headers

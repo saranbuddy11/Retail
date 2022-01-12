@@ -130,7 +130,7 @@ public class IntegrationPaymentReport extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void updateValue(String columnName, String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_TILD));
@@ -153,7 +153,7 @@ public class IntegrationPaymentReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void calculateAmount(List<String> amount) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
@@ -162,14 +162,13 @@ public class IntegrationPaymentReport extends Factory {
 				String data = String.valueOf(amount.get(iter));
 				double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(data);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-				String finalValue = Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount);	
+				String finalValue = Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount);
 				intialData.get(requiredRecords.get(iter)).put(tableHeaders.get(3), finalValue);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
 
 	public void updateData(String columnName, String value) {
 		try {
@@ -206,11 +205,11 @@ public class IntegrationPaymentReport extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType) {
+	public void processAPI(String paymentType, String deviceId) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_TILD));
 			for (int iter = 0; iter < payType.size(); iter++) {
-				generateJsonDetails();
+				generateJsonDetails(deviceId);
 				salesJsonDataUpdate(payType.get(iter));
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -221,13 +220,12 @@ public class IntegrationPaymentReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
