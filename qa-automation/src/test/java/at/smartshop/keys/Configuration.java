@@ -51,4 +51,5 @@ public class Configuration {
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
 	public static final String ALL = "all";
+	public static final String ALL_PROMOTIONS = "All_Promotions";	
 }

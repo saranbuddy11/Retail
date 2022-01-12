@@ -343,6 +343,7 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
 			return true;
 		} else
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File exists");
 			return false;
 	}
 
