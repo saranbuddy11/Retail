@@ -1144,8 +1144,8 @@ public class Report extends TestInfra {
 			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 			
 			// process sales API to generate data
-			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId);
+//			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+//					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
