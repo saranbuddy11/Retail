@@ -33,6 +33,8 @@ public class Constants {
 	public static final String REGEX_MMDDYY = "MM/dd/YY";
 	public static final String REGEX_DDMMYY = "dd/MM/YY";
 	public static final String REGEX_DD_MM_YYYY = "dd/MM/YYYY";
+	public static final String REGEX_DD = "dd";
+	public static final String TIME_ZERO = "00:00";
 	public static final String REGEX_HHMMSS = "HHmmss";
 	public static final String TIME_STAMP = "dd_MM_yy_hh_mm_ss_aa";
 	public static final String REGEX_CHAR = "abcdefghijklmnopqrstuvwxyz";
@@ -93,4 +95,8 @@ public class Constants {
 	public static final String REGEX_MMDDYYYY = "MM.dd.yyyy";
 	public static final String EDITED = "Edited";
 	public static final String ALL= "All";
+	public static final String LANGUAGE= "LANGUAGE";
+	public static final String CONTINUE= "Continue";
+	public static final String ENGLISH= "English";
+	public static final String CHOOSENOTHING= "-Choose-";
 }

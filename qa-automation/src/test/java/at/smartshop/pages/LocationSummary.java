@@ -23,6 +23,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
 
 public class LocationSummary extends Factory {
@@ -32,6 +33,7 @@ public class LocationSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
+	private NavigationBar navigationBar=new NavigationBar();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -647,5 +649,17 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_REMOVE_DEVICE);
 		foundation.click(LocationSummary.BTN_YES_REMOVE);
 		foundation.navigateToBackPage();
+	}
+	
+	public void navigateAndAddTaxMap(String locationName, String taxCategory, String taxRateName) {
+		navigationBar.navigateToMenuItem("Location");
+		locationList.selectLocationName(locationName);
+		saveTaxMapping(taxCategory, taxRateName);
+	}
+	
+	public void navigateAndRemoveTaxMap(String locationName, String taxCategory) {
+		navigationBar.navigateToMenuItem("Location");
+		locationList.selectLocationName(locationName);
+		removeTaxMapping(taxCategory);
 	}
 }

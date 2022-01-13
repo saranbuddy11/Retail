@@ -4,13 +4,23 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 
+import at.framework.files.PropertyFile;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class UserList {
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private TextBox textBox=new TextBox();
+	private NavigationBar navigationBar=new NavigationBar();
+	private Strings string = new Strings();
+	private PropertyFile propertyFile=new PropertyFile();
 	
 	public static final By BTN_MANAGE_ROLES = By.id("customBtn");
 	public static final By TXT_FILTER = By.cssSelector("#dt_filter input");
@@ -27,6 +37,7 @@ public class UserList {
 	public static final By FIRST_NAME_FIELD = By.id("firstname");
 	public static final By LAST_NAME_FIELD = By.id("lastname");
 	public static final By EMAIL_ADDRESS_FIELD = By.id("email");
+	public static final By PIN_TXT = By.id("pin");
 	public static final By SELECT_LOCATION = By.id("loc-dropdown");
 	public static final By SELECT_CLIENT = By.xpath("//span[@id='select2-client-container']");
 	public static final By ENTER_CLIENT = By.xpath("//span[@class='select2-search select2-search--dropdown']//input");
@@ -75,6 +86,71 @@ public class UserList {
 		dropdown.selectItem(object, orgName.get(i), Constants.TEXT);
 		}
 	}  
+    
+    public String createNewUser(String location, String client, String nationalAccount) {
+    	String firstName=Constants.AUTO_TEST+string.getRandomCharacter();
+    	String lastName=Constants.AUTO_TEST+string.getRandomCharacter();
+    	String email=string.getRandomCharacter()+Constants.AUTO_TEST_EMAIL;
+    	foundation.click(CREATE_NEW_ROLE);
+		textBox.enterText(FIRST_NAME_FIELD, firstName);
+		textBox.enterText(LAST_NAME_FIELD, lastName);
+		textBox.enterText(EMAIL_ADDRESS_FIELD, email);
+		textBox.enterText(PIN_TXT, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		dropdown.selectItem(SELECT_LOCATION, location, Constants.TEXT);
+		foundation.click(CLICK_OUTSIDE);
+		foundation.click(SELECT_CLIENT);
+		textBox.enterText(ENTER_CLIENT, client);
+		foundation.click(CLICK_CLIENT);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(SELECT_NATIONAL_ACCOUNT);
+		textBox.enterText(SELECT_NATIONAL_ACCOUNT, nationalAccount);
+		foundation.click(CLICK_NATIONAL_ACCOUNT);
+		foundation.click(SAVE_USER);
+		foundation.waitforElementToDisappear(UserList.TXT_SPINNER_MSG, Constants.MEDIUM_TIME);
+		return email;
+    }
+    
+    public void removeRole(String navigationData, String userEmail) {
+		textBox.enterText(UserList.SEARCH_FILTER, userEmail);
+		foundation.click(UserList.TBL_DATA);
+		foundation.click(UserList.MANAGE_USER_ROLES);
+		foundation.click(UserList.REMOVE_USER_ROLES);
+		foundation.click(UserList.CONFIRM_DISABLE);
+    }
+    
+    public void updateORAddUserRole(String newRole) {
+		foundation.click(UserList.MANAGE_USER_ROLES);
+		while(foundation.isDisplayed(REMOVE_USER_ROLES)) {
+			foundation.click(REMOVE_USER_ROLES);
+			foundation.click(CONFIRM_DISABLE);
+		}
+		dropdown.selectItem(UserList.SECURITY_ROLE, newRole, Constants.TEXT);
+		foundation.click(UserList.EXPIRATION_DATE);
+		foundation.click(UserList.SELECT_EXPIRATION_DATE);
+		foundation.click(UserList.SEND_NOTIFICATION);
+		foundation.click(UserList.ADD_ROLE_USER_BTN);
+		foundation.threadWait(Constants.TWO_SECOND);
+		//Navigate to User Summary Tab
+		foundation.click(UserList.USER_SUMMARY);
+		foundation.threadWait(Constants.TWO_SECOND);
+		// Click on Update User Button
+		foundation.click(UserList.SAVE_USER);
+		foundation.waitforElementToDisappear(UserList.TXT_SPINNER_MSG, Constants.MEDIUM_TIME);
+    }
+    
+    public void disableUser(String userFirstName) {
+    	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
+		foundation.click(UserList.TBL_DATA);
+		foundation.click(UserList.MANAGE_USER_ROLES);
+		foundation.click(UserList.DISABLE_USER);
+		foundation.click(UserList.CONFIRM_DISABLE);
+    }
+    
+    public void searchAndSelectUser(String userFirstName) {
+    	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
+		foundation.click(UserList.TBL_DATA);
+    }
+   
       
 
 }

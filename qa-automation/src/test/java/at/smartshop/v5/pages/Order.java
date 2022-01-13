@@ -107,6 +107,7 @@ public class Order {
 		double expectedTaxWithRoundUp = Math.round(calculatedTax * 100.0) / 100.0;
 
 		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
+		
 	}
 
 	public String getSubtotal() {
