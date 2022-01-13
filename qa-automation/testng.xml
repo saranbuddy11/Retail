@@ -12,12 +12,12 @@
 	<parameter name = "driver" value="Local" />
 	<parameter name = "browser" value="Chrome" />
 	<!-- <parameter name = "reportsDB" value="Snowflake" />  -->
-	<parameter name = "reportsDB" value="RDC" />
+	<parameter name = "reportsDB" value="RDS" />
 		<classes>
 			
 			
-			<!-- <class name="at.smartshop.v5.tests.V5Test"/>
-			<class name="at.smartshop.v5.tests.V5ReleaseTest"/> -->
+			<class name="at.smartshop.v5.tests.V5Test"/>
+			<class name="at.smartshop.v5.tests.V5ReleaseTest"/>
 			<class name="at.smartshop.tests.ReportsSmokeTest"/>
 			<class name="at.smartshop.tests.Report"/>
 			<class name="at.smartshop.tests.ConsumerSubsidy"/>
