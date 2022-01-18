@@ -21,6 +21,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNUserRoles;
@@ -28,6 +29,8 @@ import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.ConsumerSearch;
+import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
@@ -38,6 +41,7 @@ import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.TaxList;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
+import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -49,7 +53,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 	private NavigationBar navigationBar = new NavigationBar();
 	private CreatePromotions createPromotions = new CreatePromotions();
 	private LocationList locationList = new LocationList();
-	private Dropdown dropdown = new Dropdown();
+	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime = new DateAndTime();
@@ -66,6 +70,8 @@ public class SmokeAdminAndV5 extends TestInfra{
 	public Browser browser = new Browser();
 	private ProductSearch productSearch=new ProductSearch();
 	private Order order=new Order();
+	private ConsumerSearch consumerSearch = new ConsumerSearch();
+	private AccountLogin accountLogin=new AccountLogin(); 
 	
 	
 
@@ -75,6 +81,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstUserRolesData;
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstConsumerSearchData;
 
 	@Test(description = "167028-Tax list - create and edit tax rate")
 	public void createAndEditTaxRate() {
@@ -176,7 +183,78 @@ public class SmokeAdminAndV5 extends TestInfra{
 			//reset data
 			navigationBar.navigateToMenuItem(menuItem);
 			userList.disableUser(userEmail);
+		}
+	}
+	
+	@Test(description = "167030-Verify consumer search")
+	public void consumerSearch() {
+		final String CASE_NUM = "167030";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		
+		try {
+			//launch and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
+			//search for consumer and verify the navigation to consumer summary
+			navigationBar.navigateToMenuItem(menuItem);
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+			assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_EMAIL));
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "164515-ADM>Super>Consumer>Consumer Search- Payout and Close")
+	public void verifyPayoutAndClose() {
+		final String CASE_NUM = "164515";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		String location= propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//search for consumer and verify the navigation to consumer summary
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
+			String emailID=consumerSearch.createConsumer(location);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
+			//login in v5 application using the newly created user
+			landingPage.launchV5AndSelectLanguageEnglish();
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//verify payout and close
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), emailID, location,
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
