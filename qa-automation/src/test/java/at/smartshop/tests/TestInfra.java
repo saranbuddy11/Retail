@@ -51,15 +51,6 @@ public class TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	/*
-	 * @Parameters({ "driver", "browser", "reportsDB" })
-	 * 
-	 * @BeforeTest public void beforeTest(String drivers, String browsers, String
-	 * reportsDB) { try { browser.launch(drivers, browsers);
-	 * browser.switchToReportsDB(reportsDB); browser.close(); } catch (Exception
-	 * exc) { Assert.fail(exc.toString()); } }
-	 */
 
 	@Parameters({ "driver", "browser" })
 	@BeforeMethod
@@ -90,7 +81,8 @@ public class TestInfra {
 				sendReport.triggerMail(ExtReport.reportFullPath);
 				}
 			ResultSets.connection.close();
-		} catch (SQLException exc) {
+			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
