@@ -45,7 +45,7 @@ public class AVISubFeeReport extends Factory {
 	public final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div:nth-child(1) > div");
 	private static final By TBL_AVI_SUB_FEE_GRID = By.cssSelector("#subFeeGrid > tbody");
 	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#subFeeGrid  > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private List<String> tableHeaders = new ArrayList<>();

@@ -235,7 +235,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -854,7 +854,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -907,7 +907,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(rstReportListData.get(CNReportList.REPORT_NAME),
+			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -4037,7 +4037,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
@@ -4232,7 +4232,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file

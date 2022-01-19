@@ -354,6 +354,8 @@ public class ResultSets extends Connections {
 				rstReportList.put(CNReportList.START_MONTH, resultSet.getString(CNReportList.START_MONTH));
 				rstReportList.put(CNReportList.END_MONTH, resultSet.getString(CNReportList.END_MONTH));
 				rstReportList.put(CNReportList.DOWNLOADED_FILE_NAME, resultSet.getString(CNReportList.DOWNLOADED_FILE_NAME));
+				rstReportList.put(CNReportList.GROUPBY_DROPDOWN, resultSet.getString(CNReportList.GROUPBY_DROPDOWN));
+				rstReportList.put(CNReportList.SELECT_FILTER_TO_INCLUDE, resultSet.getString(CNReportList.SELECT_FILTER_TO_INCLUDE));		
 			}
 
 		} catch (Exception exc) {
