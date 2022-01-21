@@ -344,7 +344,7 @@ public class Foundation extends Factory {
 			return true;
 		} else
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "File exists");
-			return false;
+		return false;
 	}
 
 	public void deleteFile(String filePath) {
