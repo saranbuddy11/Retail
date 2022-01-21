@@ -60,5 +60,4 @@ public class SOSHome extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-
 }

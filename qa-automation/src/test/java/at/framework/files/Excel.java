@@ -22,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
 import com.aventstack.extentreports.Status;
+import com.google.common.base.Verify;
 
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
@@ -133,6 +134,37 @@ public class Excel {
 
 	}
 
+	public boolean verifyFirstCellData(String uiList, String filePath, int rowNum) {
+		XSSFWorkbook workBook = null;
+		Boolean isTest = false;
+		try {
+			File file = new File(filePath);
+			FileInputStream fis = new FileInputStream(file);
+
+			workBook = new XSSFWorkbook(fis);
+			XSSFSheet sheet = workBook.getSheetAt(0);
+			XSSFRow row = sheet.getRow(rowNum);
+
+			String cellValue = String.valueOf(row.getCell(0).getStringCellValue());
+
+			Assert.assertTrue(cellValue.contains(uiList));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "UI record [" + uiList + "] is available in excel");
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+
+				workBook.close();
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		return isTest;
+
+	}
+
 	public int getExcelRowCount(String filePath) {
 		int rowNum = 0;
 		try {
@@ -163,6 +195,7 @@ public class Excel {
 		}
 		return false;
 	}
+
 
 	public Map<String, String> getExcelAsMap(String fileName, String workSheetName) throws IOException {
 		HSSFWorkbook workBook = null;

@@ -45,11 +45,9 @@ public class LoadGMA extends Factory {
 				radio.set(RADIO_NO);
 				foundation.click(BTN_SUBMIT);
 			}
-
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 
 	}
-
 }

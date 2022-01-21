@@ -175,6 +175,14 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
 	}
 
+	public void objectFocusOnWebElement(WebElement element) {
+		Actions action = new Actions(getDriver());
+		Action seriesOfActions = action.moveToElement(element).build();
+		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
+	}
+
 	public boolean isEnabled(By object) {
 		boolean ObjEnabled = false;
 		try {
@@ -303,6 +311,17 @@ public class Foundation extends Factory {
 		}
 	}
 
+	public void scrollIntoViewElement(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Scroll into view object [ " + object + " ] using javascript");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
 	public void copyFile(String from, String to) {
 
 		Path sourceDirectory = Paths.get(from);
@@ -324,7 +343,8 @@ public class Foundation extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
 			return true;
 		} else
-			return false;
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File exists");
+		return false;
 	}
 
 	public void deleteFile(String filePath) {
