@@ -22,14 +22,14 @@ public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
-	private Strings strings=new Strings();
-	private Numbers numbers=new Numbers();
-	
+	private Strings strings = new Strings();
+	private Numbers numbers = new Numbers();
+
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
-	private static final By BTN_GO = By.id("findBtn");
+	public static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
@@ -49,7 +49,7 @@ public class ConsumerSearch extends Factory {
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
-	
+	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -67,9 +67,21 @@ public class ConsumerSearch extends Factory {
 	public By objCell(String consumerName) {
 		return By.xpath("//table[@id='consumerdt']//tbody//tr//td//a[text()='" + consumerName + "']");
 	}
-	
+
+	public By objFirstNameCell(String consumerFirstName) {
+		return By.xpath("(//table[@id='consumerdt']//tbody//tr//td//a[text()='" + consumerFirstName + "'])[1]");
+	}
+
 	public String getConsumerName() {
 		return foundation.getText(By.xpath("//table[@id='consumerdt']//tbody//tr//td//a"));
+	}
+
+	public String getConsumerFirstName() {
+		return foundation.getText(By.xpath("(//table[@id='consumerdt']//tbody//tr//td//a)[1]"));
+	}
+
+	public String getSubsidyName() {
+		return foundation.getText(By.xpath("(//table[@id='consumerdt']//tbody//tr//td)[17]"));
 	}
 
 	public void verifyConsumerSummary(String consumerName) {
@@ -78,46 +90,48 @@ public class ConsumerSearch extends Factory {
 	}
 
 	public List<String> getConsumerHeaders() {
-        List<String> tableHeaders = new ArrayList<>();
-        try {
-            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
-            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
-            for (WebElement columnHeader : columnHeaders) {
-                tableHeaders.add(columnHeader.getText());
-            }
-        } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
-        }
-        return tableHeaders;
-    }
-	
-    public Map<String, String> getConsumerRecords(String location) {
-        Map<String, String> consumerRecord = new LinkedHashMap<>();
-        try {
-            List<String> tableHeaders = getConsumerHeaders();
-            for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-                WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"+location+"')]//..//..//td[" + columnCount + "]"));
-                consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
-            }
-        } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
-        }
-        return consumerRecord;
-    }
-    
-    public String createConsumer(String location) {
-    	String emailID=strings.getRandomCharacter()+Constants.AUTO_TEST_EMAIL;
-    	int scanID=numbers.generateRandomNumber(99999, 999999);
-    	int pin=numbers.generateRandomNumber(1000, 9999);
-    	dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
-    	textBox.enterText(TXT_FIRST_NAME, Constants.AUTO_TEST+strings.getRandomCharacter());
-    	textBox.enterText(TXT_LAST_NAME, Constants.AUTO_TEST+strings.getRandomCharacter());
-    	textBox.enterText(TXT_EMAIL, emailID);
-    	textBox.enterText(TXT_SCAN_ID, ""+scanID);
-    	textBox.enterText(TXT_PIN, ""+pin);
-    	foundation.click(BTN_CREATE_OR_INVITE);
-    	foundation.WaitForAjax(Constants.SHORT_TIME);
-    	foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
-    	return emailID;
-    }
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableHeaders;
+	}
+
+	public Map<String, String> getConsumerRecords(String location) {
+		Map<String, String> consumerRecord = new LinkedHashMap<>();
+		try {
+			List<String> tableHeaders = getConsumerHeaders();
+			for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+				WebElement column = getDriver().findElement(By.xpath("//table[@id='consumerdt']//tr//td[(text()='"
+						+ location + "')]//..//..//td[" + columnCount + "]"));
+				consumerRecord.put(tableHeaders.get(columnCount - 1), column.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return consumerRecord;
+	}
+
+	public String createConsumer(String location) {
+		String emailID = strings.getRandomCharacter() + Constants.AUTO_TEST_EMAIL;
+		int scanID = numbers.generateRandomNumber(99999, 999999);
+		int pin = numbers.generateRandomNumber(1000, 9999);
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		textBox.enterText(TXT_FIRST_NAME, Constants.AUTO_TEST + strings.getRandomCharacter());
+		textBox.enterText(TXT_LAST_NAME, Constants.AUTO_TEST + strings.getRandomCharacter());
+		textBox.enterText(TXT_EMAIL, emailID);
+		textBox.enterText(TXT_SCAN_ID, "" + scanID);
+		textBox.enterText(TXT_PIN, "" + pin);
+		foundation.click(BTN_CREATE_OR_INVITE);
+		foundation.WaitForAjax(Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		return emailID;
+	}
+
 }

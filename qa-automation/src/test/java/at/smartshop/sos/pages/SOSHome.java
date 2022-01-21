@@ -1,15 +1,14 @@
 package at.smartshop.sos.pages;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
-
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.keys.Constants;
 
 public class SOSHome extends Factory {
 
@@ -23,13 +22,15 @@ public class SOSHome extends Factory {
 	public static final By MENU = By.cssSelector("a[title=UserLoad]");
 	public static final By LANDING_PAGE_HEADING = By.xpath("//li[contains(text(),'Dashboard')]");
 	public static final By PAGE_HEADING = By.xpath("//li[contains(text(),'Load GMA User Parameters')]");
+	public static final By LBL_USER_NAME = By.id("drop5");
+	private static final By MUN_LOGOUT = By.xpath("//a[@title='Logout']");
 
 	public void selectOrginazation(String selectText) {
 		try {
 			foundation.click(DPD_ORG);
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
-		} catch (Exception exc) {			
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -49,4 +50,13 @@ public class SOSHome extends Factory {
 		CustomisedAssert.assertTrue(expectedColumns.get(9).equals(actualColumns.get(0)));
 	}
 
+	public void logout() {
+		try {
+			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
+			foundation.click(LBL_USER_NAME);
+			foundation.click(MUN_LOGOUT);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
