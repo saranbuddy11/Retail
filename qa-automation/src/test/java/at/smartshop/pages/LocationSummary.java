@@ -1061,4 +1061,18 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
+
+	public void enterSubsidyGroupNames(String topOff, String RollOver) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void enterSubsidyAmount(String topOff, String RollOver) {
+		foundation.click(TXT_TOP_OFF_AMOUNT);
+		textBox.enterText(TXT_TOP_OFF_AMOUNT, topOff);
+		foundation.click(TXT_ROLL_OVER_AMOUNT);
+		textBox.enterText(TXT_ROLL_OVER_AMOUNT, RollOver);
+	}
 }
