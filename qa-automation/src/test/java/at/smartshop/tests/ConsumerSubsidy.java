@@ -1314,4 +1314,70 @@ public class ConsumerSubsidy extends TestInfra {
 					requiredData.get(1));
 		}
 	}
+
+	@Test(description = "166014 - verify Subsidy group is set to 'No' in Location Summary page."
+			+ "165948 - Verify the 'SUBSIDY GROUP' and Hint text '- SELECT SUBSIDY GROUP -' in Consumer Search")
+	public void verifySubsidyGroupWithOperator() {
+		final String CASE_NUM = "166014";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+		try {
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Setting GMA Subsidy OFF
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.checkSubsidy(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData.get(1));
+
+			// Verify GMA Subsidy column in Consumer Summary Page
+			consumerSearch.searchConsumer(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			List<String> consumerHeaders = consumerSearch.getConsumerHeaders();
+			Assert.assertFalse(consumerHeaders.contains(requiredData.get(2)));
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+
+			// Setting GMA Subsidy ON
+			locationSummary.checkSubsidy(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData.get(1));
+			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Verify GMA Subsidy column in Consumer Summary Page
+			consumerSearch.searchConsumer(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			consumerHeaders = consumerSearch.getConsumerHeaders();
+			Assert.assertTrue(consumerHeaders.contains(requiredData.get(2)));
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			String hintText = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
+			Assert.assertEquals(hintText, requiredData.get(3));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			// resetting test data
+			locationSummary.subsidyResettingOff(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData.get(1));
+		}
+	}
 }

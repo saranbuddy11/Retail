@@ -21,6 +21,7 @@ public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private NavigationBar navigationBar = new NavigationBar();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 
@@ -130,4 +131,13 @@ public class ConsumerSearch extends Factory {
 		foundation.click(BTN_CREATE_OR_INVITE);
 		return emailID;
 	}
+
+	public void searchConsumer(String option, String location) {
+		navigationBar.navigateToMenuItem(option);
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+		foundation.threadWait(Constants.ONE_SECOND);
+	}
+
 }

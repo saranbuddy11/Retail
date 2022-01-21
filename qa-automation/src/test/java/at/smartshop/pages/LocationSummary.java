@@ -1051,4 +1051,12 @@ public class LocationSummary extends Factory {
 		foundation.click(TXT_ROLL_OVER_AMOUNT);
 		textBox.enterText(TXT_ROLL_OVER_AMOUNT, RollOver);
 	}
+
+	public void checkSubsidy(String menu, String location, String data) {
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+		Assert.assertEquals(value, data);
+	}
 }
