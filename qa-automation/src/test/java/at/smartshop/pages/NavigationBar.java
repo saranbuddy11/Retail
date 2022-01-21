@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class NavigationBar extends Factory {
 	private TextBox textBox = new TextBox();
@@ -26,28 +26,23 @@ public class NavigationBar extends Factory {
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void navigateToMenuItem(String optionNames) {
-		try {
-			List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
-			foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
-			if (optionName.size() == 2) {
-				foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
-			} else if (optionName.size() > 2) {
-				foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
-				foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)
-						+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='"
-						+ optionName.get(2) + "')]"));
-			}
-			foundation.WaitForAjax(Constants.SHORT_TIME);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
-
+        try {
+            List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));
+            foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
+            if (optionName.size() == 2) {
+                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+            } else if(optionName.size() > 2) {
+                foundation.objectFocus(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]"));
+                foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0)+ "')]//..//ul//li//a[(text()='" + optionName.get(1) + "')]//..//ul/li/a[(text()='" + optionName.get(2) + "')]"));
+            }
+            foundation.WaitForAjax(Constants.SHORT_TIME);
+        } catch (Exception exc) {
+            TestInfra.failWithScreenShot(exc.toString());
+        }
+    }
 }

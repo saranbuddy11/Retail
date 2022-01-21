@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -22,14 +22,14 @@ public class ScanPayment {
 
 		if (requiredData.equals(actualData)) {
 			String barcodeLogin = foundation.getText(LBL_BARCODE_GERMAN);
-			Assert.assertEquals(barcodeLogin, scanSetupPageData.get(1));
+			CustomisedAssert.assertEquals(barcodeLogin, scanSetupPageData.get(1));
 		} else {
 			String scanTxt = foundation.getText(LBL_BARCODE_GERMAN);
-			Assert.assertEquals(scanTxt, scanSetupPageData.get(1));
+			CustomisedAssert.assertEquals(scanTxt, scanSetupPageData.get(1));
 		}
 
-		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(2))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(0))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(scanSetupPageData.get(2))));
 		foundation.click(objText(scanSetupPageData.get(2)));
 
 	}

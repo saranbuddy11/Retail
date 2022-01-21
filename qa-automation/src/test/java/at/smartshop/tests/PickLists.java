@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
@@ -86,13 +86,13 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			//Table validations
 			Map<String, String> uiData = pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID, PickList.TBL_ROW);
-			Assert.assertEquals(dbData_Product, uiData);
+			CustomisedAssert.assertEquals(dbData_Product, uiData);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -149,14 +149,14 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_Add);
 			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			Map<String, String> uiData = pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID, PickList.TBL_ROW);
-			Assert.assertEquals(dbData_Product, uiData);
+			CustomisedAssert.assertEquals(dbData_Product, uiData);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
 			
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 
 			TestInfra.failWithScreenShot(exc.toString());
 		}

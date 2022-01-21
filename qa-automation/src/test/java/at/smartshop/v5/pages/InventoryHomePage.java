@@ -1,7 +1,9 @@
 package at.smartshop.v5.pages;
 
 import java.util.List;
+
 import org.openqa.selenium.By;
+
 import at.framework.ui.Foundation;
 
 public class InventoryHomePage {
