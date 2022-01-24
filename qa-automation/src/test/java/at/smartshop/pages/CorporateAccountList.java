@@ -1,15 +1,11 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertTrue;
-
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
 
 public class CorporateAccountList extends Factory {
 	

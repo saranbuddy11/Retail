@@ -19,8 +19,8 @@ public class DateAndTime {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date date = new Date();
 		try {
-			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
-			formatter.setTimeZone(timeZone);
+			//TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
+			//formatter.setTimeZone(timeZone);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

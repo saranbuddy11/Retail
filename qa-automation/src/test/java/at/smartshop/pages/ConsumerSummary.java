@@ -1,18 +1,20 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
+import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
-public class ConsumerSummary {
+public class ConsumerSummary extends Factory {
 	private Foundation foundation = new Foundation();
-	private Dropdown dropdown=new Dropdown();
+	private Dropdown dropdown = new Dropdown();
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
-	private static final By LBL_READ_BALANCE = By.id("readbalance");	
+	private static final By LBL_READ_BALANCE = By.id("readbalance");
+	private static final By LBL_READ_TYPE_BALANCE = By.id("readTypebalance");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
@@ -47,6 +49,12 @@ public class ConsumerSummary {
 	public static final By BTN_MODEL_MOVE_SAVE = By.id("modalsave");
 	public static final By LBL_LOCATION_SELECTED = By.id("locname");
 	public static final By SPINNER = By.id("//span[contains(@id,'container_loading')]");
+	public static final By TXT_SUBSIDY_GROUP = By.id("mkashow-pantry");
+	public static final By DPD_SUBSIDY_GROUP_NAME = By.id("pantrygroup");
+	public static final By TXT_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
+	public static final By TXT_CONSUMER_ACCOUNT = By.xpath("//dt[text()='Consumer Account']");
+	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
+	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='ROLL_OVER']");
 
 	public double getBalance() {
 		double initBalance = 0;
@@ -57,15 +65,27 @@ public class ConsumerSummary {
 //					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 			initBalance = Double.parseDouble(balance);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initBalance;
 	}
-	
+
+	public double getTypeBalance() {
+		double initTypeBalance = 0;
+		try {
+			String typeBalance = foundation.getText(LBL_READ_TYPE_BALANCE);
+			typeBalance = typeBalance.replaceAll("[\\(\\)\\$]", "");
+			initTypeBalance = Double.parseDouble(typeBalance);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return initTypeBalance;
+	}
+
 	public By objTaxCategory(String reasonCode) {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
-	
+
 	public boolean moveConsumer(String toOrg, String toLocation) {
 		foundation.click(BTN_MOVE);
 		foundation.threadWait(Constants.THREE_SECOND);

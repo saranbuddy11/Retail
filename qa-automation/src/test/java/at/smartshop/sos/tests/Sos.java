@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
@@ -77,13 +77,13 @@ public class Sos extends TestInfra {
 
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
+			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), 
+										rstGmaUser.get(CNGmaUser.PIN_VALUE),
+										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
+										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
-			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
-					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
-					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
-
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -112,7 +112,7 @@ public class Sos extends TestInfra {
 			foundation.click(SOSHome.MENU);
 
 			// construct string with no value for payroll id and payroll group
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
 			int requiredValue = numbers.generateRandomNumber(0, 999999);
 			String requiredData = strings.getRandomCharacter();
 			String requiredString = (requiredData + "#" + requiredData + "#" + requiredData + "#" + "5" + "#"
@@ -121,14 +121,14 @@ public class Sos extends TestInfra {
 
 			// Write excel and upload file
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
-					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
-			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
-					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
-					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
-
-		} catch (Throwable exc) {
+										rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);			
+										loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
+										rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
+										rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));			
+			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);				
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -150,13 +150,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			Map<String, String> excelData = excel.getExcelAsMap(FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstGmaUser.get(CNGmaUser.SHEET_NAME));
@@ -165,7 +165,7 @@ public class Sos extends TestInfra {
 					.asList(rstGmaUser.get(CNGmaUser.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			sosHome.verifyColumnNames(expectedColumnNames, actualColumnNames);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
