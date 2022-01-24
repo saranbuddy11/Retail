@@ -39,6 +39,8 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By LBL_POPUP_ADJUST_BALANCE = By.id("reasontitle");
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
+	public static final By LBL_BALANCE_HISTORY = By.xpath("//h3[text()='Balance History']");
+	public static final By BALANCE_HISTORY_GRID = By.id("balance-history_container");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
 	public static final By ERROR_FIRSTNAME = By.id("firstname-error");
@@ -54,6 +56,8 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_CONSUMER_ACCOUNT = By.xpath("//dt[text()='Consumer Account']");
 	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
 	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='ROLL_OVER']");
+	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
+	public static final By REASON_CODE = By.id("reason");
 
 	public double getBalance() {
 		double initBalance = 0;
