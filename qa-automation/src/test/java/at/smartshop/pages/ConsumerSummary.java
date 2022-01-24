@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
@@ -97,5 +98,4 @@ public class ConsumerSummary extends Factory {
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
 	}
-
 }
