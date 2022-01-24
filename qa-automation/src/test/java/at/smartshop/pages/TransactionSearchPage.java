@@ -1,5 +1,6 @@
 	package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
@@ -7,10 +8,13 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class TransactionSearchPage extends Factory{
 	
@@ -36,6 +40,15 @@ public class TransactionSearchPage extends Factory{
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
 	public static final By BTN_PRINT = By.id("printBtn");
+	
+	public static final By LBL_LOCATION = By.xpath("//*[@id='location']/following-sibling::dd[1]");
+	public static final By LBL_DEVICE = By.xpath("//*[@id='device']/following-sibling::dd[1]");
+	public static final By LBL_SUBTOTAL = By.xpath("//*[@id='subtotal']/following-sibling::dd[1]");
+	public static final By LBL_TAX = By.xpath("//*[@id='tax:']/following-sibling::dd[1]");
+	public static final By LBL_TOTAL = By.xpath("//*[@id='total']/following-sibling::dd[1]");
+	public static final By LBL_STATUS = By.id("printBtn");
+	public static final By LBL_PAYMENT_TYPE = By.id("paytype_0");
+	public static final By LBL_PRODUCT = By.id("item_0");
 	
 	public void selectDate(String optionName) {
 		try {
@@ -77,6 +90,16 @@ public class TransactionSearchPage extends Factory{
 		foundation.click(objTransactionId(transactionAmount));
 		foundation.waitforElement(BTN_PRINT,Constants.SHORT_TIME);
 		assertTrue(foundation.isDisplayed(BTN_PRINT));
+	}
+	
+	public void verifyTransactionDetails(String total,String paymentType,String product) {
+		assertEquals(foundation.getText(LBL_LOCATION),propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+		assertEquals(foundation.getText(LBL_DEVICE),propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+		//assertEquals(foundation.getText(LBL_SUBTOTAL),propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+		assertEquals(foundation.getText(LBL_TOTAL),total);
+		assertEquals(foundation.getText(LBL_STATUS),Constants.ACCEPTED);
+		assertEquals(foundation.getText(LBL_PAYMENT_TYPE),paymentType);
+		assertEquals(foundation.getText(LBL_PRODUCT),product);
 	}
 	
 }

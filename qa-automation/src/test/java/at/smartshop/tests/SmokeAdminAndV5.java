@@ -409,9 +409,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 			//login back to adm and confirm balance updated accordingly
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
 			transactionSearchPage.selectTransactionID(Constants.TODAY, location, subTotal);
-			
-			
-			
+			transactionSearchPage.verifyTransactionDetails(subTotal, "", productName);
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
