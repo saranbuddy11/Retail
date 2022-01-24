@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
@@ -996,7 +995,6 @@ public class LocationSummary extends Factory {
 
 	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
-		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
