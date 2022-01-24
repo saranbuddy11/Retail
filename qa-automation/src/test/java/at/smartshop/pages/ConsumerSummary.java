@@ -61,6 +61,7 @@ import at.smartshop.tests.TestInfra;
 	public static final By ERROR_MESSAGE= By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By TXT_SUBSIDY_GROUP = By.id("mkashow-pantry");
 	public static final By DPD_SUBSIDY_GROUP_NAME = By.id("pantrygroup");
+	public static final By TXT_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
 	public static final By TXT_CONSUMER_ACCOUNT = By.xpath("//dt[text()='Consumer Account']");
 	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
 	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='ROLL_OVER']");
@@ -107,5 +108,8 @@ import at.smartshop.tests.TestInfra;
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
 	}
-	
+
 	}
+
+
+
