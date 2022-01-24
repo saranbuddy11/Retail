@@ -14,18 +14,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
@@ -56,6 +56,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_LOCATION_SETTINGS = By.xpath("//button[@id='toggleinfo']");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_GMA_SUBSIDY = By.id("gmasubsidy");
+	public static final By DPD_SPECIAL_TYPE = By.id("specialtype");
 	public static final By DPD_TOP_OFF_RECURRENCE = By.xpath("//*[@id='topoffsubsidyrange']//td/select");
 	public static final By DPD_ROLL_OVER_RECURRENCE = By.xpath("//*[@id='rolloversubsidyrange']//td/select");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
@@ -72,6 +73,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
 	private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
 	public static final By TXT_GMA_SUBSIDY = By.xpath("//dt[text()='GMA Subsidy']");
+	public static final By TXT_SPECIAL_TYPE = By.xpath("//dt[text()='Special Type']");
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
@@ -209,6 +211,7 @@ public class LocationSummary extends Factory {
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
+	public static final By TXT_PAYROLL_GROUP_NAME = By.xpath("//*[@id='newrow-1']//input[@name='groupname']");
 	public static final By TXT_TOP_OFF_AMOUNT = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='amount']");
 	public static final By TXT_ROLL_OVER_AMOUNT = By.xpath("//*[@id='rolloversubsidyrange']//input[@name='amount']");
 	public static final By TXT_TOP_OFF_AMOUNT_VALUE = By.xpath(
@@ -268,7 +271,7 @@ public class LocationSummary extends Factory {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
 			foundation.WaitForAjax(Constants.FIFTEEN_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -354,7 +357,7 @@ public class LocationSummary extends Factory {
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -368,7 +371,7 @@ public class LocationSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -393,7 +396,7 @@ public class LocationSummary extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsData;
 	}
@@ -403,7 +406,7 @@ public class LocationSummary extends Factory {
 			foundation.click(BTN_MANAGE_COLUMNS);
 			foundation.click(BTN_SHOW);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		foundation.click(BTN_APPLY);
 	}
@@ -416,57 +419,57 @@ public class LocationSummary extends Factory {
 	public void verifyHasLockerField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
 			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyHasOrderAheadField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
 			String value = dropDown.getSelectedItem(DPD_HAS_ORDER_AHEAD);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyTopOffSubsidy(List<String> values) {
 		try {
 			foundation.waitforElement(TXT_TOP_OFF_SUBSIDY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(TXT_TOP_OFF_SUBSIDY));
-			Assert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(2))));
-			Assert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(3))));
-			Assert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(4))));
-			Assert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(5))));
-			Assert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_TOP_OFF_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(6))));
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the TOP Off Subsidy default Value" + values);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyRolloverSubsidy(List<String> columns) {
 		try {
 			foundation.waitforElement(TXT_ROLL_OVER_SUBSIDY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(TXT_ROLL_OVER_SUBSIDY));
-			Assert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(2))));
-			Assert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(3))));
-			Assert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(4))));
-			Assert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(5))));
-			Assert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(6))));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Roll Over Subsidy Value" + columns);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -595,7 +598,7 @@ public class LocationSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
 
@@ -639,7 +642,7 @@ public class LocationSummary extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return textAttribute;
 	}
@@ -757,7 +760,7 @@ public class LocationSummary extends Factory {
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return elementsText;
 	}
@@ -771,7 +774,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList()).equals(listRuleNameAscending);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return ascending;
 	}
@@ -784,7 +787,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER.reversed()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return descending;
 	}
@@ -832,12 +835,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectTopOffCalendarDayAutoLocation1(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarDayAutoLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
@@ -849,12 +852,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectTopOffCalendarNewDayAutoLocation1(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
@@ -866,12 +869,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectTopOffCalendarDayAutoLocation2(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarDayAutoLocation2(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		}
 	}
@@ -883,12 +886,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectTopOffCalendarNewDayAutoLocation2(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		}
 	}
@@ -900,12 +903,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectRollOverCalendarDayLocation(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
 			foundation.click(objectRollOverCalendarDayLocation(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
 			foundation.waitforElement(objectRollOverCalendarMonthLocation(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation(date));
 		}
 	}
@@ -917,12 +920,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectRollOverCalendarNewDayLocation(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
 			foundation.waitforElement(objectRollOverCalendarMonthLocation(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation(date));
 		}
 	}
@@ -934,12 +937,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectRollOverCalendarDayLocation1(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
 			foundation.click(objectRollOverCalendarDayLocation1(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
 			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
 		}
 	}
@@ -951,12 +954,12 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectRollOverCalendarNewDayLocation1(date))) {
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
 			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
 		}
 	}
@@ -966,7 +969,7 @@ public class LocationSummary extends Factory {
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
-		Assert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonth(monthName)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonth(monthName)));
 		foundation.click(objectRollOverCalendarDay(date));
 	}
 
@@ -992,7 +995,6 @@ public class LocationSummary extends Factory {
 
 	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
-		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
@@ -1018,7 +1020,28 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
-		Assert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value == requiredData) {
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} else {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
+	public void resettingSpecialTypeAndSubsidy(String optionNames, String location, String specialType,
+			String requiredData) {
+		navigationBar.navigateToMenuItem(optionNames);
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, specialType, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
 		if (value == requiredData) {
 			foundation.click(BTN_SAVE);

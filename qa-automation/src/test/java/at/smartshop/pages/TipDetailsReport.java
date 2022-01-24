@@ -23,12 +23,14 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class TipDetailsReport extends Factory {
@@ -73,7 +75,7 @@ public class TipDetailsReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -97,7 +99,7 @@ public class TipDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -105,9 +107,9 @@ public class TipDetailsReport extends Factory {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -144,7 +146,7 @@ public class TipDetailsReport extends Factory {
 			intialData.get(rowCount).put(tableHeaders.get(9),
 					(String) jsonData.get(Reports.TRANS_DATE_TIME));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -157,7 +159,7 @@ public class TipDetailsReport extends Factory {
 			updatedTip = Math.round(updatedTip * 100.0) / 100.0;
 			intialData.get(rowCount).put(columnName, String.valueOf(updatedTip));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -165,21 +167,21 @@ public class TipDetailsReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyReportData() {
 		try {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
+				CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -192,7 +194,7 @@ public class TipDetailsReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -203,7 +205,7 @@ public class TipDetailsReport extends Factory {
 			requiredJsonData.add(total);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -218,7 +220,7 @@ public class TipDetailsReport extends Factory {
 //			jsonData.put(Reports.TRANS_ID, transID);
 //			jsonData.put(Reports.TRANS_DATE, transDate);
 //		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
+//			TestInfra.failWithScreenShot(exc.toString());
 //		}
 //	}
 
@@ -236,7 +238,7 @@ public class TipDetailsReport extends Factory {
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -255,7 +257,7 @@ public class TipDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -278,7 +280,7 @@ public class TipDetailsReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

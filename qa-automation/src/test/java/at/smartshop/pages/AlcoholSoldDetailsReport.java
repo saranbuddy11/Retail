@@ -23,12 +23,14 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class AlcoholSoldDetailsReport extends Factory {
@@ -75,7 +77,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -95,7 +97,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -103,12 +105,12 @@ public class AlcoholSoldDetailsReport extends Factory {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
@@ -124,7 +126,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -135,7 +137,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, value);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -145,7 +147,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, values);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -161,7 +163,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, String.valueOf(updatedAmount));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -169,13 +171,13 @@ public class AlcoholSoldDetailsReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateTax(String columnName, String tax) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {
@@ -188,7 +190,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				intialData.get(requiredRecords.get(iter)).put(columnName, String.valueOf(updatedAmount));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -197,12 +199,12 @@ public class AlcoholSoldDetailsReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -216,7 +218,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			getJsonSalesData();
 			getJsonArrayData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -230,7 +232,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			requiredJsonData.add(totalTax);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -245,7 +247,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -258,7 +260,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				productNameData.add(element.get(Reports.NAME).getAsString());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -274,7 +276,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -297,7 +299,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

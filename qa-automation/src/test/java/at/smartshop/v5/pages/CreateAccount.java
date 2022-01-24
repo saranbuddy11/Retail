@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -41,9 +41,9 @@ public class CreateAccount {
 
 	public void verifyCreateAccoutnPageLanguage(String createAccount, String requiredData, String actualData) {
 		List<String> createAccountPageData = Arrays.asList(createAccount.split(Constants.DELIMITER_TILD));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(1))));
-		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(2))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(0))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(1))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(2))));
 		foundation.click(LBL_SKIP_TO_END);
 		foundation.objectFocus(CHK_LABEL);
 		foundation.click(CHK_LABEL);
@@ -51,22 +51,22 @@ public class CreateAccount {
 
 		foundation.waitforElement(LBL_TITLE, Constants.SHORT_TIME);
 		String title = foundation.getText(LBL_TITLE);
-		Assert.assertEquals(title, createAccountPageData.get(3));
+		CustomisedAssert.assertEquals(title, createAccountPageData.get(3));
 
 //		String header = foundation.getText(LBL_HEADER);
-//		Assert.assertEquals(header, createAccountPageData.get(4));
+//		CustomisedAssert.assertEquals(header, createAccountPageData.get(4));
 //
 //		String optionOne = foundation.getText(LBL_OPTION1);
-//		Assert.assertEquals(optionOne, createAccountPageData.get(5));
+//		CustomisedAssert.assertEquals(optionOne, createAccountPageData.get(5));
 //
 //		String createAccountTxt = foundation.getText(LBL_OPTION2);
-//		Assert.assertTrue(createAccountTxt.equalsIgnoreCase(createAccountPageData.get(6)));
+//		CustomisedAssert.assertTrue(createAccountTxt.equalsIgnoreCase(createAccountPageData.get(6)));
 //
 //		String optionThreeTxt = foundation.getText(LBL_OPTION3);
-//		Assert.assertEquals(optionThreeTxt, createAccountPageData.get(7));
+//		CustomisedAssert.assertEquals(optionThreeTxt, createAccountPageData.get(7));
 //
 //		String headerTxt = foundation.getText(LBL_WAITING_TO_COME_BACK);
-//		Assert.assertEquals(headerTxt, createAccountPageData.get(8));
+//		CustomisedAssert.assertEquals(headerTxt, createAccountPageData.get(8));
 
 //		foundation.click(objText(createAccountPageData.get(6)));
 //		foundation.objectFocus(CreateAccount.CHK_LABEL);
@@ -74,10 +74,10 @@ public class CreateAccount {
 //		foundation.click(objText(createAccountPageData.get(1)));
 //		
 //		foundation.waitforElement(objText(createAccountPageData.get(8)), Constants.SHORT_TIME);
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(7))));
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(8))));
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(9))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(7))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(8))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(9))));
 //				
 //		foundation.click(objText(createAccountPageData.get(9)));
 //		foundation.waitforElement(objText(createAccountPageData.get(4)), Constants.SHORT_TIME);
@@ -85,19 +85,19 @@ public class CreateAccount {
 //		if(requiredData.equals(actualData)) {
 //		String barCode = foundation.getText(CreateAccount.TXT_BARCODE_GERMAN);
 //		foundation.waitforElement(objText(createAccountPageData.get(10)), Constants.SHORT_TIME);
-//		Assert.assertEquals(barCode, createAccountPageData.get(11));
+//		CustomisedAssert.assertEquals(barCode, createAccountPageData.get(11));
 //		}else {
 //		foundation.waitforElement(objText(createAccountPageData.get(11)), Constants.SHORT_TIME);
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(11))));
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(10))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(11))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(10))));
 //		}
-//		Assert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(3))));
 //		
 
 //		foundation.click(CreateAccount.BTN_CLOSE);
 
 //		String willBeBackBtn = foundation.getText(LBL_WILL_BE_BACK);
-//		Assert.assertEquals(willBeBackBtn, createAccountPageData.get(9));
+//		CustomisedAssert.assertEquals(willBeBackBtn, createAccountPageData.get(9));
 
 		foundation.click(BTN_WILL_BE_BACK);
 		foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);

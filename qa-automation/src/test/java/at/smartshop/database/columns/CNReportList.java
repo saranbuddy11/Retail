@@ -16,4 +16,6 @@ public class CNReportList {
 	public static final String YESTERDAY = "Yesterday";
 	public static final String TRANS_ID = "transid";
 	public static final String DOWNLOADED_FILE_NAME = "DownloadedFileName";
+	public static final String GROUPBY_DROPDOWN = "GroupByDropdown";
+	public static final String SELECT_FILTER_TO_INCLUDE = "SelectFiltersToInclude";
 }
