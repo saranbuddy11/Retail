@@ -48,17 +48,17 @@ public class ConsumerSubsidy extends TestInfra {
 	private PropertyFile propertyFile = new PropertyFile();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
+	private Strings strings = new Strings();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private Foundation foundation = new Foundation();
 	private LocationSummary locationSummary = new LocationSummary();
 	private LocationList locationList = new LocationList();
 	private CheckBox checkBox = new CheckBox();
+	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private SOSHome sosHome = new SOSHome();
-	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private Excel excel = new Excel();
 	private LoadGMA loadGma = new LoadGMA();
-	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1203,8 +1203,7 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-
-			// resetting test data
+			// resetting Test Data
 			locationSummary.subsidyResettingOff(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					requiredData.get(1));
 		}
@@ -1308,10 +1307,187 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-
 			// resetting test data
 			locationSummary.subsidyResettingOff(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					requiredData.get(1));
+		}
+	}
+
+	@Test(description = "165970 - Verify to view the ADM Hiding Subsidy for USConnect"
+			+ "166067 - verify the GMA Subsidy field when Special Type as USConnect.")
+	public void verifyHidingSubsidyForUSConnect() {
+		final String CASE_NUM = "165970";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String groupNames = strings.getRandomCharacter();
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Menu, Menu Item and Location
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Clearing all Subsidy data on the Location level
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			Assert.assertEquals(value, requiredData.get(1));
+			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			locationSummary.verifyTopOffSubsidy(requiredData);
+			locationSummary.verifyRolloverSubsidy(requiredData);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			else if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, groupNames);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, groupNames + "test");
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, "0");
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, "0");
+
+			// Setting up Special type as USConnect
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_SPECIAL_TYPE));
+			dropDown.selectItem(LocationSummary.DPD_SPECIAL_TYPE, requiredData.get(8), Constants.TEXT);
+			value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
+			Assert.assertEquals(value, requiredData.get(8));
+			textBox.enterText(LocationSummary.TXT_PAYROLL_GROUP_NAME, groupNames + "PayRoll");
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+
+			// Validation Subsidy for Special Type USConnect in Location Summary Page
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			Assert.assertEquals(value, requiredData.get(1));
+			Assert.assertFalse(foundation.isEnabled(LocationSummary.DPD_GMA_SUBSIDY));
+
+			// Validation Subsidy for Special Type USConnect in Consumer Summary Page
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			List<String> tableHeaders = consumerSearch.getConsumerHeaders();
+			Assert.assertFalse(tableHeaders.contains(requiredData.get(9)));
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_TOP_OFF));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting Test Data
+			locationSummary.resettingSpecialTypeAndSubsidy(menus.get(0),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(7), requiredData.get(1));
+		}
+	}
+
+	@Test(description = "166068 - verify the existing GMA Subsidy field setup after selecting the Special Type as USConnect")
+	public void verifyExistingSubsidyForUSConnect() {
+		final String CASE_NUM = "166068";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String groupNames = strings.getRandomCharacter();
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Menu, Menu Item and Location
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Setting up Subsidy data on the Location level
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			Assert.assertEquals(value, requiredData.get(1));
+			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			locationSummary.verifyTopOffSubsidy(requiredData);
+			locationSummary.verifyRolloverSubsidy(requiredData);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			else if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, groupNames);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, groupNames + "test");
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, "20");
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, "0");
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+
+			// Setting up Special type as USConnect
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_SPECIAL_TYPE));
+			dropDown.selectItem(LocationSummary.DPD_SPECIAL_TYPE, requiredData.get(8), Constants.TEXT);
+			value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
+			Assert.assertEquals(value, requiredData.get(8));
+			textBox.enterText(LocationSummary.TXT_PAYROLL_GROUP_NAME, groupNames + "PayRoll");
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+
+			// Validation Subsidy for Special Type USConnect in Location Summary Page
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			Assert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			Assert.assertEquals(value, requiredData.get(1));
+			Assert.assertFalse(foundation.isEnabled(LocationSummary.DPD_GMA_SUBSIDY));
+
+			// Validation Subsidy for Special Type USConnect in Consumer Summary Page
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			List<String> tableHeaders = consumerSearch.getConsumerHeaders();
+			Assert.assertFalse(tableHeaders.contains(requiredData.get(9)));
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_TOP_OFF));
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting Test Data
+			locationSummary.resettingSpecialTypeAndSubsidy(menus.get(0),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(7), requiredData.get(1));
 		}
 	}
 }
