@@ -149,7 +149,7 @@ public class ReportsSmokeTest extends TestInfra {
 			dataSourceManager.switchToReportsDB(reportsDB);
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

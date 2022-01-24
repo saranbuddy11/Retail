@@ -14,6 +14,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 
 public class AccountAdjustment extends Factory {
@@ -40,7 +41,7 @@ public class AccountAdjustment extends Factory {
 				curColumnIndex++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblRowValues;
 	}
@@ -51,7 +52,7 @@ public class AccountAdjustment extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -70,7 +71,7 @@ public class AccountAdjustment extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

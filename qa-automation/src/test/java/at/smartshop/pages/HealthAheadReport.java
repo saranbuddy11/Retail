@@ -29,6 +29,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class HealthAheadReport extends Factory {
@@ -74,7 +75,7 @@ public class HealthAheadReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -94,7 +95,7 @@ public class HealthAheadReport extends Factory {
 				Assert.fail();
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -104,7 +105,7 @@ public class HealthAheadReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -123,7 +124,7 @@ public class HealthAheadReport extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -135,7 +136,7 @@ public class HealthAheadReport extends Factory {
 			double updatedData = Double.parseDouble(initialData) + Double.parseDouble(requiredValue);
 			reportsData.get(recordCount).put(columnName, String.valueOf(updatedData));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -147,7 +148,7 @@ public class HealthAheadReport extends Factory {
 					+ Double.parseDouble(earned.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 			reportsData.get(recordCount).put(tableHeaders.get(4), String.valueOf(net));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -158,7 +159,7 @@ public class HealthAheadReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -172,7 +173,7 @@ public class HealthAheadReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -185,7 +186,7 @@ public class HealthAheadReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -198,7 +199,7 @@ public class HealthAheadReport extends Factory {
 			requiredJsonData.add(coupon);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -213,7 +214,7 @@ public class HealthAheadReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -229,7 +230,7 @@ public class HealthAheadReport extends Factory {
 				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -254,7 +255,7 @@ public class HealthAheadReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

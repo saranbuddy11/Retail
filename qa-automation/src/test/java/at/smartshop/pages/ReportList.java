@@ -22,6 +22,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 
 public class ReportList extends Factory {
 
@@ -68,7 +69,7 @@ public class ReportList extends Factory {
 	 * FilePath.PROPERTY_CONFIG_FILE),
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
 	 * FilePath.PROPERTY_CONFIG_FILE)); } catch (Exception exc) {
-	 * Assert.fail(exc.toString()); } }
+	 * TestInfra.failWithScreenShot(exc.toString()); } }
 	 */
 
 //	public void runReport(Map<String, String> rstNavigationMenuData, Map<String, String> rstReportListData) {
@@ -83,7 +84,7 @@ public class ReportList extends Factory {
 //			foundation.click(ReportList.BTN_RUN_REPORT);
 //
 //		} catch (Exception exc) {
-//			Assert.fail(exc.toString());
+//			TestInfra.failWithScreenShot(exc.toString());
 //		}
 //	}
 
@@ -100,7 +101,7 @@ public class ReportList extends Factory {
 			builder.moveToElement(object).build();
 			object.click();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -119,7 +120,7 @@ public class ReportList extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -129,7 +130,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_LOCATIONS, locationName);
 			foundation.click(DPD_LOCATION_LIST);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -139,7 +140,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_LOCATIONS, nationalAccountName);
 			foundation.click(DPD_CLIENT_AND_NATIONALACCOUNT_LIST);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -149,7 +150,7 @@ public class ReportList extends Factory {
 			textBox.enterText(DPD_SERACH_LOCATIONS_SECONDTYPE, locationName);
 			foundation.click(DPD_LOCATION_LIST_SECONDTYPE);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -163,7 +164,7 @@ public class ReportList extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"got the text of Fisrt location Name as " + text + ".");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return text;
 	}
@@ -173,7 +174,7 @@ public class ReportList extends Factory {
 			foundation.click(DPD_ORG);
 			foundation.click(By.xpath("//ul[@id = 'select2-orgdt-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -182,7 +183,7 @@ public class ReportList extends Factory {
 			foundation.click(DPD_FILTER);
 			foundation.click(By.xpath("//ul[@id='select2-add-filter-select-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -191,7 +192,7 @@ public class ReportList extends Factory {
 			foundation.click(DPD_ORG_ON_FILTER);
 			foundation.click(By.xpath("//ul[@id='select2-org-select-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -199,7 +200,7 @@ public class ReportList extends Factory {
 		try {
 			dropdown.selectItem(DPD_FILTER_BY_GROUP, filterName, type);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -207,7 +208,7 @@ public class ReportList extends Factory {
 		try {
 			dropdown.selectItem(DPD_GROUP_BY, filterName, type);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -216,7 +217,7 @@ public class ReportList extends Factory {
 			foundation.click(DPD_LOC_ON_GROUPFILTER_);
 			foundation.click(By.xpath("//ul[@id='select2-locdt-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -229,7 +230,7 @@ public class ReportList extends Factory {
 			String transDate = tranDate.format(dateFormat);
 			reportDate = tranDate.format(reqFormat);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportDate;
 	}
@@ -239,7 +240,7 @@ public class ReportList extends Factory {
 			foundation.waitforClikableElement(object, Constants.EXTRA_LONG_TIME);
 			foundation.click(object);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -254,7 +255,7 @@ public class ReportList extends Factory {
 				foundation.deleteFile(FilePath.reportFilePath(fileName));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -268,7 +269,7 @@ public class ReportList extends Factory {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -283,7 +284,7 @@ public class ReportList extends Factory {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -296,7 +297,7 @@ public class ReportList extends Factory {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -310,7 +311,7 @@ public class ReportList extends Factory {
 				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -340,7 +341,7 @@ public class ReportList extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -368,7 +369,7 @@ public class ReportList extends Factory {
 						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

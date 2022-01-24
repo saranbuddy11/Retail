@@ -121,7 +121,7 @@ public class ProductSalesByCategoryReport extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	

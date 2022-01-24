@@ -76,7 +76,7 @@ public class ConsumerSummary extends Factory {
 			typeBalance = typeBalance.replaceAll("[\\(\\)\\$]", "");
 			initTypeBalance = Double.parseDouble(typeBalance);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initTypeBalance;
 	}

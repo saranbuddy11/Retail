@@ -48,7 +48,7 @@ public class TestInfra {
 		HOST=InetAddress.getLocalHost().getHostName();
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -58,7 +58,7 @@ public class TestInfra {
 		try {
 			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -67,7 +67,7 @@ public class TestInfra {
 		try {
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 
 		}
 
@@ -83,7 +83,7 @@ public class TestInfra {
 			ResultSets.connection.close();
 			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	

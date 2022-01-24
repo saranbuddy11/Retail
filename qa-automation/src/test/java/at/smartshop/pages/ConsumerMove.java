@@ -20,8 +20,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
