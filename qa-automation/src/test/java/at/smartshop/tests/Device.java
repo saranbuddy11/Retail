@@ -1,19 +1,16 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
@@ -67,11 +64,11 @@ public class Device extends TestInfra {
 			
 			//navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -90,11 +87,11 @@ public class Device extends TestInfra {
 			
 			//navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -113,11 +110,11 @@ public class Device extends TestInfra {
 			
 			//navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -143,7 +140,7 @@ public class Device extends TestInfra {
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -169,7 +166,7 @@ public class Device extends TestInfra {
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -195,7 +192,7 @@ public class Device extends TestInfra {
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -217,11 +214,11 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
+			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -243,11 +240,11 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
+			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -269,11 +266,11 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
+			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -296,13 +293,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -325,13 +322,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -354,13 +351,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -383,13 +380,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -412,13 +409,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -441,13 +438,13 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -470,24 +467,24 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
 			
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
 			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			// record count validation
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			uiList.removeAll(Arrays.asList("", null));
 			// excel data validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
 			// delete files
@@ -515,25 +512,25 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
 			
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
 			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			// record count validation
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			uiList.removeAll(Arrays.asList("", null));
 			// excel data validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
 			// delete files
@@ -561,25 +558,25 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
 			
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
 			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 			// record count validation
-			Assert.assertEquals(String.valueOf(excelCount), uiData[0]);
+			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
 			uiList.removeAll(Arrays.asList("", null," "));
 			// excel data validation
-			Assert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
 			
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
 			// delete files
@@ -607,21 +604,21 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
 			
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
 			// record count validation
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.click(Commission.BTN_COMMISSION_CANCEL);
-			assertTrue(foundation.isDisplayed(DeviceList.TXT_SEARCH_DEVICE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_SEARCH_DEVICE));
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.click(Commission.BTN_COMMISSION_CREATE_NEW);
-			assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
 		}
 		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
 			// delete files
@@ -655,9 +652,9 @@ public class Device extends TestInfra {
 
 			//Verifying Cooler Type is Present 
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			assertTrue(coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert.assertTrue(coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -687,9 +684,9 @@ public class Device extends TestInfra {
 
 			//Verifying Cooler Type is not Present 
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -719,9 +716,9 @@ public class Device extends TestInfra {
 
 			//Verifying Cooler Type is not Present 
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -773,9 +770,9 @@ public class Device extends TestInfra {
 			
 			// Verifying Cooler Type is Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			assertTrue(coolerType.toString().contains(dbData.get(3)));
+			CustomisedAssert.assertTrue(coolerType.toString().contains(dbData.get(3)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -830,9 +827,9 @@ public class Device extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			
-			assertTrue(deviceName.contains(device));
+			CustomisedAssert.assertTrue(deviceName.contains(device));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -867,9 +864,9 @@ public class Device extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			for (int i=0;i<deviceName.size();i=i+2)
-			assertTrue(deviceName.contains(device));
+			CustomisedAssert.assertTrue(deviceName.contains(device));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -906,9 +903,9 @@ public class Device extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			for (int i=1;i<deviceName.size();i=i+2)
-				assertTrue(deviceName.get(i).contains(device));
+				CustomisedAssert.assertTrue(deviceName.get(i).contains(device));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -952,9 +949,9 @@ public class Device extends TestInfra {
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(DeviceList.TBL_ROW);
-			assertTrue(deviceName.contains(Constants.EMPTY_STRING));
+			CustomisedAssert.assertTrue(deviceName.contains(Constants.EMPTY_STRING));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -991,9 +988,9 @@ public class Device extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			Assert.assertFalse(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert.assertFalse(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
@@ -1048,9 +1045,9 @@ public class Device extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			Assert.assertTrue(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert.assertTrue(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			
 			
@@ -1093,10 +1090,10 @@ public class Device extends TestInfra {
 			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceNameUI = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			Assert.assertFalse(deviceNameUI.contains(deviceName.get(0)));
-			Assert.assertFalse(deviceNameUI.contains(deviceName.get(1)));
+			CustomisedAssert.assertFalse(deviceNameUI.contains(deviceName.get(0)));
+			CustomisedAssert.assertFalse(deviceNameUI.contains(deviceName.get(1)));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
@@ -1141,7 +1138,7 @@ public class Device extends TestInfra {
 			foundation.verifySortText(LocationSummary.TBL_DEVICE_NAME_COLUMN, Constants.DESCENDING);
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 		
@@ -1165,13 +1162,13 @@ public class Device extends TestInfra {
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
 
-				assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
 				
 				foundation.click(DeviceList.BTN_COMMISSION);
 				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
 				
-				assertTrue(foundation.isDisplayed(Commission.BTN_CANCEL));
-				assertTrue(foundation.isDisplayed(Commission.BTN_CREATE_NEW));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CANCEL));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CREATE_NEW));
 				
 				foundation.click(Commission.BTN_CANCEL);
 				foundation.waitforElement(DeviceList.BTN_COMMISSION, Constants.SHORT_TIME);
@@ -1189,14 +1186,14 @@ public class Device extends TestInfra {
 				table.selectRow("KSK_TEST_ELOR");
 						//rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 				foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
-				assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
 				
 				foundation.click(AssignDeviceToOrg.BTN_CANCEL);
 				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				assertTrue(foundation.isDisplayed(Commission.LBL_COMMISSION));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.LBL_COMMISSION));
 
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 		
@@ -1220,7 +1217,7 @@ public class Device extends TestInfra {
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
 
-				assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
 				
 				foundation.click(DeviceList.BTN_COMMISSION);
 				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
@@ -1229,10 +1226,10 @@ public class Device extends TestInfra {
 						.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
 				
 				dropDown.selectItem(Commission.TXT_SELECT, recordCount.get(0), Constants.VALUE);
-				assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(0)));
+				CustomisedAssert.assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(0)));
 				
 				dropDown.selectItem(Commission.TXT_SELECT,  recordCount.get(1), Constants.VALUE);
-				assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(1)));
+				CustomisedAssert.assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(1)));
 							
 				foundation.verifySortText(Commission.TBL_COMMISSION, Constants.ASCENDING);
 				foundation.click(Commission.TBL_NAME_COLUMN);
@@ -1242,11 +1239,11 @@ public class Device extends TestInfra {
 				textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 				Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
 						Commission.TBL_ROW);
-				assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+				CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 				textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
 
 			} catch (Exception exc) {
-				Assert.fail(exc.toString());
+				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
 }

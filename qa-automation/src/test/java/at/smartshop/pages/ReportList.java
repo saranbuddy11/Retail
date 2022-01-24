@@ -299,6 +299,7 @@ public class ReportList extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+
 	public void verifyTheFileContainsNameAsOrgDateAndGMA(String reportName, String orgName, String formate) {
 		try {
 			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));

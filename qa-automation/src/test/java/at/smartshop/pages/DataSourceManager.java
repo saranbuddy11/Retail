@@ -57,7 +57,7 @@ public class DataSourceManager extends Factory {
 			checkBox.unCheck(objCheckBox);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -78,7 +78,6 @@ public class DataSourceManager extends Factory {
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-			Assert.fail(exc.toString());
 		}
 	}
 
@@ -99,7 +98,6 @@ public class DataSourceManager extends Factory {
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-			Assert.fail(exc.toString());
 		}
 	}
 
@@ -122,8 +120,6 @@ public class DataSourceManager extends Factory {
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-			Assert.fail(exc.toString());
 		}
 	}
 }
-
