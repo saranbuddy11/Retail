@@ -9,12 +9,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
+import at.smartshop.database.columns.CNConsumerSummary;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
 
 public class ConsumerSearch extends Factory {
@@ -25,10 +31,11 @@ public class ConsumerSearch extends Factory {
 	private Numbers numbers=new Numbers();
 	
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
-	private static final By DPD_STATUS = By.id("isdisabled");
+	public static final By CANCEL=By.xpath("//span[@class='select2-selection__clear']");
+    private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
-	private static final By BTN_GO = By.id("findBtn");
+	public static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
@@ -48,6 +55,11 @@ public class ConsumerSearch extends Factory {
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By ACTION_BTN = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
+	public static final By BULK_SUBSIDY= By.id("subsidyGroupSelectedBtn");
+	public static final By SUBSIDY_GROUP = By.id("subsidyGroupData");
+	public static final By RSN_CANCEL = By.id("reasoncancel");
+	
 	
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -117,4 +129,27 @@ public class ConsumerSearch extends Factory {
     	foundation.click(BTN_CREATE_OR_INVITE);
     	return emailID;
     }
+    
+    public By Actionmenu(String column) {
+		return By.xpath("(//ul[@class='dropdown-menu'])[9]" + column + "']");
+	}
+    public void MenuinActiondropdown(List<String> values) {
+		try {
+			foundation.waitforElement(ACTION_BTN, Constants.SHORT_TIME);
+			Assert.assertTrue(foundation.isDisplayed(ACTION_BTN));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(0))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(1))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(2))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(3))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(5))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(6))));
+			Assert.assertTrue(foundation.isDisplayed(Actionmenu(values.get(7))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Validated the menus in action dropdown" + values);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+   
+    
 }
