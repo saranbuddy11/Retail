@@ -1,7 +1,5 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -2048,7 +2046,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerMove.BTN_SAVE);
 			foundation.waitforElement(ConsumerMove.BTN_EXPORT, Constants.SHORT_TIME);
 			String message = foundation.getText(ConsumerMove.LBL_COMPLETE_MOVE);
-			assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
+			CustomisedAssert.assertTrue(message.equals(rstConsumerSearchData.get(CNConsumerSearch.TITLE)));
 
 			// commented as reflecting moved Consumer will take 30 min
 //			String path = consumerMove.getFileName();	

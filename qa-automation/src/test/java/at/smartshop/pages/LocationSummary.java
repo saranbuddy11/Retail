@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
@@ -1042,7 +1041,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
-		Assert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
 		if (value == requiredData) {
 			foundation.click(BTN_SAVE);
