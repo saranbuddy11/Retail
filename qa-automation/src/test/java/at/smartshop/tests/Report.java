@@ -37,6 +37,7 @@ import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
+import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CrossOrgLoyaltyReport;
@@ -124,6 +125,8 @@ public class Report extends TestInfra {
 	private LoyaltyUserReport loyaltyUser = new LoyaltyUserReport();
 	private CrossOrgLoyaltyReport crossOrgLoyalty = new CrossOrgLoyaltyReport();
 	private AlcoholSoldDetailsReport alcoholSoldDetails = new AlcoholSoldDetailsReport();
+	private CashFlow cashFlow = new CashFlow();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -131,19 +134,19 @@ public class Report extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
-	
-	@Parameters({ "driver", "browser", "reportsDB" })
 
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -281,7 +284,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			
+
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.LONG_TIME);
 
 			productTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -640,7 +643,6 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI();
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 			deviceByCategory.processAPI();
-			
 
 			// apply calculation and update data
 			List<String> requiredData = Arrays
@@ -662,7 +664,7 @@ public class Report extends TestInfra {
 
 			// verify report headers
 			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
-			
+
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			deviceByCategory.getTblRecordsUI();
 
@@ -1088,8 +1090,9 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			List<String> dateRange = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
-			
+			List<String> dateRange = Arrays
+					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
 			reportList.selectDate(dateRange.get(0));
 
 			reportList.selectLocation(
@@ -1823,7 +1826,8 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			orderTransactionTime.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			textBox.enterText(orderTransactionTime.SEARCH_RESULT, ((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
+			textBox.enterText(orderTransactionTime.SEARCH_RESULT,
+					((String) orderTransactionTime.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 			orderTransactionTime.getTblRecordsUI();
 			orderTransactionTime.getIntialData().putAll(orderTransactionTime.getReportsData());
 			orderTransactionTime.getRequiredRecord(
@@ -2004,7 +2008,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
 					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			aviSubFee.selectToday();
@@ -2263,8 +2267,9 @@ public class Report extends TestInfra {
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			personalCharge.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			textBox.enterText(personalCharge.SEARCH_RESULT, (String) personalCharge.getJsonData().get(Reports.TRANS_ID));
-			
+			textBox.enterText(personalCharge.SEARCH_RESULT,
+					(String) personalCharge.getJsonData().get(Reports.TRANS_ID));
+
 			personalCharge.getTblRecordsUI();
 			personalCharge.getIntialData().putAll(personalCharge.getReportsData());
 			personalCharge.getRequiredRecord(
@@ -2399,7 +2404,8 @@ public class Report extends TestInfra {
 			loyaltyUser.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			loyaltyUser.getTblRecordsUI();
 			loyaltyUser.getIntialData().putAll(loyaltyUser.getReportsData());
-			loyaltyUser.getRequiredRecord(propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			loyaltyUser.getRequiredRecord(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			// apply calculation and update data
 			loyaltyUser.updateData(loyaltyUser.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2459,16 +2465,18 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			crossOrgLoyalty.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			
+			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT,
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
 			crossOrgLoyalty.getTblRecordsUI();
 			crossOrgLoyalty.getIntialData().putAll(crossOrgLoyalty.getReportsData());
 			crossOrgLoyalty.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			crossOrgLoyalty.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			
+			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT,
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
 			crossOrgLoyalty.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -2559,7 +2567,50 @@ public class Report extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 
+	@Test(description = "167219-This test validates Cash Flow Report Data Calculation")
+	public void cashFlowReportData() {
+		try {
+
+			final String CASE_NUM = "167219";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+//			alcoholSoldDetails.getTblRecordsUI();
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 }
