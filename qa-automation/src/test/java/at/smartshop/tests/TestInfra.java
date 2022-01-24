@@ -34,6 +34,7 @@ public class TestInfra {
 	private SendReport sendReport=new SendReport();
 	public static String HOST = "";
 	public static String THROWABLE_EXCEPTION="";
+	public static boolean THROWED_EXCEPTION=false;
 	
 	public static String updateTestRail="";
 	
@@ -50,15 +51,6 @@ public class TestInfra {
 			Assert.fail(exc.toString());
 		}
 	}
-	
-	/*
-	 * @Parameters({ "driver", "browser", "reportsDB" })
-	 * 
-	 * @BeforeTest public void beforeTest(String drivers, String browsers, String
-	 * reportsDB) { try { browser.launch(drivers, browsers);
-	 * browser.switchToReportsDB(reportsDB); browser.close(); } catch (Exception
-	 * exc) { Assert.fail(exc.toString()); } }
-	 */
 
 	@Parameters({ "driver", "browser" })
 	@BeforeMethod
@@ -89,18 +81,20 @@ public class TestInfra {
 				sendReport.triggerMail(ExtReport.reportFullPath);
 				}
 			ResultSets.connection.close();
-		} catch (SQLException exc) {
+			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
+		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
 	
 	public static void failWithScreenShot(String exc) {
 		try {
-		THROWABLE_EXCEPTION=exc;	
+			String linesofExc[] = exc.split("\\r?\\n");
+		THROWABLE_EXCEPTION=linesofExc[0];	
 		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
 		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
-		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Failed due to "+exc.toString());
+		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Failed due to "+ linesofExc[0]);
 		Assert.fail(exc);
 		}
 		catch (Exception e) {

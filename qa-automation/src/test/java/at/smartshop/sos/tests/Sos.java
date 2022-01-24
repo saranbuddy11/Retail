@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
@@ -93,13 +93,12 @@ public class Sos extends TestInfra {
 
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
-
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -128,10 +127,12 @@ public class Sos extends TestInfra {
 			foundation.click(SOSHome.MENU);
 
 			// construct string with no value for payroll id and payroll group
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
-			String requiredString = (requiredDatas + "#" + requiredDatas + "#" + requiredDatas + "#" + "5" + "#"
-					+ requiredDatas + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredDatas + "#"
-					+ " " + "#" + " ");
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
+			int requiredValue = numbers.generateRandomNumber(0, 999999);
+			String requiredData = strings.getRandomCharacter();
+			String requiredString = (requiredData + "#" + requiredData + "#" + requiredData + "#" + "5" + "#"
+					+ requiredData + "@gmail.com" + "#" + String.valueOf(requiredValue) + "#" + requiredData + "#" + " "
+					+ "#" + " ");
 
 			// Write excel and upload file
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
@@ -140,9 +141,9 @@ public class Sos extends TestInfra {
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			foundation.waitforElement(LoadGMA.LBL_SUCCESS, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -164,13 +165,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			Map<String, String> excelData = excel.getExcelAsMap(FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstGmaUser.get(CNGmaUser.SHEET_NAME));
@@ -179,7 +180,7 @@ public class Sos extends TestInfra {
 					.asList(rstGmaUser.get(CNGmaUser.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			sosHome.verifyColumnNames(expectedColumnNames, actualColumnNames);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -208,7 +209,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Setting GMA Subsidy ON with Group Names
 			navigationBar.selectOrganization(
@@ -217,7 +218,7 @@ public class Sos extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
+			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
 			login.logout();
@@ -227,13 +228,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			// Configuring the Fields in GMA page and Uploading Template in SOS Load
 			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + requiredData.get(2));
@@ -242,7 +243,7 @@ public class Sos extends TestInfra {
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -250,7 +251,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			navigationBar.selectOrganization(
@@ -262,12 +263,12 @@ public class Sos extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.threadWait(Constants.ONE_SECOND);
 			String subsidyName = consumerSearch.getSubsidyName();
-			Assert.assertEquals(subsidyName, requiredData.get(2));
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(2));
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
-			Assert.assertEquals(subsidyName, requiredData.get(2));
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(2));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -303,7 +304,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Setting GMA Subsidy ON with Group Names
 			navigationBar.selectOrganization(
@@ -312,7 +313,7 @@ public class Sos extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
+			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
 			login.logout();
@@ -322,13 +323,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			// Configuring the Fields in GMA page and Uploading Template in SOS Load
 			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + requiredDatas + "TopOff");
@@ -337,7 +338,7 @@ public class Sos extends TestInfra {
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -345,7 +346,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			navigationBar.selectOrganization(
@@ -357,12 +358,12 @@ public class Sos extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.threadWait(Constants.ONE_SECOND);
 			String subsidyName = consumerSearch.getSubsidyName();
-			Assert.assertTrue(subsidyName.isEmpty());
+			CustomisedAssert.assertTrue(subsidyName.isEmpty());
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
-			Assert.assertEquals(subsidyName, requiredData.get(4));
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(4));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -398,7 +399,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Setting GMA Subsidy ON with Group Names
 			navigationBar.selectOrganization(
@@ -407,7 +408,7 @@ public class Sos extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			Assert.assertEquals(value, requiredData.get(1));
+			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
 			login.logout();
@@ -417,13 +418,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			// Configuring the Fields in GMA page and Uploading Template in SOS Load
 			excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, rstGmaUser.get(CNGmaUser.SHEET_NAME),
@@ -431,7 +432,7 @@ public class Sos extends TestInfra {
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -439,7 +440,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			navigationBar.selectOrganization(
@@ -451,12 +452,12 @@ public class Sos extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.threadWait(Constants.ONE_SECOND);
 			String subsidyName = consumerSearch.getSubsidyName();
-			Assert.assertTrue(subsidyName.isEmpty());
+			CustomisedAssert.assertTrue(subsidyName.isEmpty());
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
-			Assert.assertEquals(subsidyName, requiredData.get(4));
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(4));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -492,7 +493,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Setting GMA Subsidy ON with Group Names
 			navigationBar.selectOrganization(
@@ -516,13 +517,13 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 
 			// select Organization and navigate to menu
 			sosHome.selectOrginazation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
-			Assert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.PAGE_HEADING));
 
 			// Configuring the Fields in GMA page and Uploading Template in SOS Load
 			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + requiredDatas + "TopOff");
@@ -531,7 +532,7 @@ public class Sos extends TestInfra {
 			loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
-			Assert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -539,7 +540,7 @@ public class Sos extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			Assert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			navigationBar.selectOrganization(
@@ -551,10 +552,10 @@ public class Sos extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.threadWait(Constants.ONE_SECOND);
 			List<String> tableHeaders = consumerSearch.getConsumerHeaders();
-			Assert.assertFalse(tableHeaders.contains(requiredData.get(2)));
+			CustomisedAssert.assertFalse(tableHeaders.contains(requiredData.get(2)));
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
-			Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			Assert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

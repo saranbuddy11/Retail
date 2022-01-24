@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -89,7 +90,7 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.addCategory(newTaxCat, requiredData.get(3));
 
 			// verify newly added category displays in category list page
-			assertTrue(categoryList.verifyCategoryExist(newTaxCat));
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newTaxCat));
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			// Select Menu and Menu Item and add the tax category to a global product
@@ -106,9 +107,9 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.updateName(editedTaxCat);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -153,7 +154,7 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.addCategory(newDepositCat, requiredData.get(3));
 
 			// verify newly added category displays in category list page
-			assertTrue(categoryList.verifyCategoryExist(newDepositCat));
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newDepositCat));
 
 			// Select Menu and Menu Item and add the tax category to a global product
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -167,8 +168,8 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.updateName(editedDepositCat);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), editedDepositCat);
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), editedDepositCat);
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -241,10 +242,10 @@ public class V5ReleaseTest extends TestInfra {
 			// verify edits applied to product or not
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -286,7 +287,7 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.addCategory(newInvReason, requiredData.get(1));
 
 			// verify newly added category displays in category list page
-			assertTrue(categoryList.verifyCategoryExist(newInvReason));
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newInvReason));
 
 			// edit invReason code and verify the edits on product page
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -298,9 +299,9 @@ public class V5ReleaseTest extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
-			assertTrue(listReasonCode.contains(editedInvReason));
+			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -359,7 +360,7 @@ public class V5ReleaseTest extends TestInfra {
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCategory1);
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCategory1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCategory1)));
 			// reset data- remove added mapping
 			foundation.click(locationSummary.objTaxCategory(editedTaxCategory1));
 			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
@@ -369,10 +370,10 @@ public class V5ReleaseTest extends TestInfra {
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_ADD_MAPPING);
 			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
-			assertTrue(listTaxCategory.contains(editedTaxCategory2));
+			CustomisedAssert.assertTrue(listTaxCategory.contains(editedTaxCategory2));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -419,7 +420,7 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.addCategory(newBalCat, requiredData.get(1));
 
 			// verify newly added category displays in category list page
-			assertTrue(categoryList.verifyCategoryExist(newBalCat));
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newBalCat));
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -449,9 +450,9 @@ public class V5ReleaseTest extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.refreshPage();
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
-			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -495,7 +496,7 @@ public class V5ReleaseTest extends TestInfra {
 			categorySummary.addCategory(newTaxCat, requiredData.get(4));
 
 			// verify newly added category displays in category list page
-			assertTrue(categoryList.verifyCategoryExist(newTaxCat));
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newTaxCat));
 
 			// save tax mapping on location summary page as precondition
 			navigationBar.navigateToMenuItem(menuItem.get(2));
@@ -524,7 +525,7 @@ public class V5ReleaseTest extends TestInfra {
 			locationList.selectLocationName(location);
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AUTOTAXPERCENTAGE2", Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
@@ -540,10 +541,10 @@ public class V5ReleaseTest extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(2));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -561,7 +562,7 @@ public class V5ReleaseTest extends TestInfra {
 			locationList.selectLocationName(location);
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
 			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
 			// reset category

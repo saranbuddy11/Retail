@@ -23,12 +23,14 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class TransactionCannedReport extends Factory {
@@ -85,7 +87,7 @@ public class TransactionCannedReport extends Factory {
 			}
 			updatedTotal.put(0, uiTblRowValues);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -137,9 +139,9 @@ public class TransactionCannedReport extends Factory {
 		try {
 			foundation.waitforElement(lblReportName, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(lblReportName);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -167,7 +169,7 @@ public class TransactionCannedReport extends Factory {
 		try {
 			intialData.get(0).put(columnName, values);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -177,7 +179,7 @@ public class TransactionCannedReport extends Factory {
 			int updatedTrans = Integer.parseInt(initialTrans) + Integer.parseInt(transactions);
 			intialData.get(0).put(columnName, String.valueOf(updatedTrans));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -189,7 +191,7 @@ public class TransactionCannedReport extends Factory {
 			amountPercent = Math.round(amountPercent * 100.0) / 100.0;
 			intialData.get(0).put(requiredColumn, String.valueOf(amountPercent));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -201,7 +203,7 @@ public class TransactionCannedReport extends Factory {
 			unitsPerTrans = Math.round(unitsPerTrans * 100.0) / 100.0;
 			intialData.get(0).put(requiredColumn, String.valueOf(unitsPerTrans));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -212,7 +214,7 @@ public class TransactionCannedReport extends Factory {
 			double unitsPerTrans = Double.parseDouble(salesUnits) / Integer.parseInt(transactions);
 			intialData.get(0).put(requiredColumn, String.valueOf(unitsPerTrans));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -220,10 +222,10 @@ public class TransactionCannedReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_TILD));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -235,7 +237,7 @@ public class TransactionCannedReport extends Factory {
 					if (iter == 3 || iter == 5 || iter == 6) {
 						continue;
 					}
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
@@ -243,19 +245,19 @@ public class TransactionCannedReport extends Factory {
 				if (iter == 3 || iter == 5 || iter == 6) {
 					continue;
 				}
-				Assert.assertTrue(updatedTotal.get(0).get(tableHeaders.get(iter))
+				CustomisedAssert.assertTrue(updatedTotal.get(0).get(tableHeaders.get(iter))
 						.contains(intialTotal.get(0).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public void processAPI(String paymentType) {
+	public void processAPI(String paymentType, String deviceId) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int paymentCount = 0; paymentCount < payType.size(); paymentCount++) {
-				generateJsonDetails();
+				generateJsonDetails(deviceId);
 				salesJsonDataUpdate(payType.get(paymentCount));
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
@@ -263,7 +265,7 @@ public class TransactionCannedReport extends Factory {
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -275,22 +277,21 @@ public class TransactionCannedReport extends Factory {
 			String locationID = objSales.get(Reports.LOCATION).getAsString();
 			requiredJsonData.add(locationID);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	private Map<String, Object> generateJsonDetails() {
+	private Map<String, Object> generateJsonDetails(String deviceId) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
+			String transID = deviceId + Constants.DELIMITER_HYPHEN
 					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return jsonData;
 	}
@@ -311,7 +312,7 @@ public class TransactionCannedReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -334,7 +335,7 @@ public class TransactionCannedReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return jsonData;
 	}

@@ -1,22 +1,24 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+
 import com.aventstack.extentreports.Status;
 
-import at.framework.reportsetup.ExtFactory;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class CreatePromotions extends Factory  {
 
@@ -138,7 +140,7 @@ public class CreatePromotions extends Factory  {
 	public void verifyOrgField(List<String> orgs) {
 		List<String> orgData = dropDown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 		for (int iter = 0; iter < orgData.size(); iter++) {
-			Assert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
+			CustomisedAssert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
 		}
 	}
 	
@@ -151,7 +153,7 @@ public class CreatePromotions extends Factory  {
 			foundation.click(BTN_NEXT);
 			foundation.waitforElement(DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}		
 			
@@ -172,10 +174,10 @@ public class CreatePromotions extends Factory  {
 				foundation.threadWait(Constants.TWO_SECOND);
 				actualValue = dropDown.getSelectedItem(DPD_CATEGORY);
 			}
-			assertEquals(actualValue, item);
+			CustomisedAssert.assertEquals(actualValue, item);
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionMin);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -183,7 +185,7 @@ public class CreatePromotions extends Factory  {
 		try {
 			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);	
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	public void selectBundlePromotionTimes(String discountTime,String discountDuration) {
@@ -192,7 +194,7 @@ public class CreatePromotions extends Factory  {
 			if (!Constants.DELIMITER_SPACE.equals(discountDuration))
 				dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -204,7 +206,7 @@ public class CreatePromotions extends Factory  {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
 			
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -220,7 +222,7 @@ public class CreatePromotions extends Factory  {
 				
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -232,7 +234,7 @@ public class CreatePromotions extends Factory  {
 				discountprice[i]=foundation.getText(By.xpath("//*[@id='bundlesummary']/b/span["+i+"]"));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return discountprice;
 	}

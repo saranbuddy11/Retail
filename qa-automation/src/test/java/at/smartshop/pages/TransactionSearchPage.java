@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+
 import at.framework.browser.Factory;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class TransactionSearchPage extends Factory{
 	
@@ -47,7 +48,7 @@ public class TransactionSearchPage extends Factory{
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -57,7 +58,7 @@ public class TransactionSearchPage extends Factory{
 			textBox.enterText(TXT_LOCATION_SEARCH, locationName);
 			foundation.click(DPD_LOCATION_LIST);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
