@@ -60,6 +60,12 @@ public class NavigationBar extends Factory {
 		selectOrganization(org);
 	}
 	
+	public void launchBrowserAndSelectOrg(String user, String org) {
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(user, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		selectOrganization(org);
+	}
+	
 	public By getMainMenuObj(String mainMenuName) {
 		return By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + mainMenuName + "')]");
 	}

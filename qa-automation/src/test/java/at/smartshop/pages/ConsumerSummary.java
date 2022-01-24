@@ -5,11 +5,14 @@ import org.testng.Assert;
 
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.keys.Constants;
 
 public class ConsumerSummary {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropdown=new Dropdown();
+	private TextBox textBox=new TextBox();
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
 	private static final By LBL_READ_BALANCE = By.id("readbalance");	
@@ -76,6 +79,14 @@ public class ConsumerSummary {
 		foundation.alertAccept();
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
+	}
+	
+	public void adjustBalance(String newBalance, String reasonCode) {
+		foundation.click(BTN_ADJUST);
+		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
+		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
+		foundation.click(BTN_REASON_SAVE);
+		foundation.click(BTN_SAVE);
 	}
 
 }

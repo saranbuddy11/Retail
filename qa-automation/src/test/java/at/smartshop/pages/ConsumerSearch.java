@@ -15,6 +15,7 @@ import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.keys.Constants;
 
 public class ConsumerSearch extends Factory {
@@ -116,5 +117,10 @@ public class ConsumerSearch extends Factory {
     	textBox.enterText(TXT_PIN, ""+pin);
     	foundation.click(BTN_CREATE_OR_INVITE);
     	return emailID;
+    }
+    
+    public String getBalance(String location) {
+    	Map<String, String> consumerTblRecords = getConsumerRecords(location);
+		return consumerTblRecords.get("Balance").replaceAll("[\\(\\)\\$]", "");
     }
 }
