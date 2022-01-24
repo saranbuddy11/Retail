@@ -1,9 +1,9 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import org.testng.Assert;
 
 import at.framework.ui.Foundation;
+import at.smartshop.tests.TestInfra;
 
 public class TaxList {
 
@@ -29,7 +29,7 @@ public class TaxList {
 			By rowData = By.xpath("//tr//td[@class= 'day  active' and text() = '" + text + "']");
 			foundation.click(rowData);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

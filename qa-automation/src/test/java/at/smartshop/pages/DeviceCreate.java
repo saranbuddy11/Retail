@@ -1,7 +1,10 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
-import at.framework.ui.*;
+
+import at.framework.ui.Dropdown;
+import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 
 public class DeviceCreate {
 	private Foundation foundation=new Foundation();

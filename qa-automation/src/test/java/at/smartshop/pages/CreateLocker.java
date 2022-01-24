@@ -2,11 +2,12 @@ package at.smartshop.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.tests.TestInfra;
 
 public class CreateLocker extends Factory {
 
@@ -27,9 +28,9 @@ public class CreateLocker extends Factory {
 			foundation.click(DPD_LOCATION);
 			textBox.enterText(TXT_LOCATION, locationName);
 			WebElement text = getDriver().findElement(By.xpath("//li[contains(text(),'" + value + "')]"));
-			Assert.assertEquals(text.getText(), value);
+			CustomisedAssert.assertEquals(text.getText(), value);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

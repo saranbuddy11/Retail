@@ -2,12 +2,14 @@ package at.smartshop.pages;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 
 import at.framework.browser.Factory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class EditPromotion extends Factory {
 
@@ -48,12 +50,19 @@ public class EditPromotion extends Factory {
 	}
 	
 	public void switchAlert(String action) {
-		
+		try {
 		Alert alert = getDriver().switchTo().alert();
 		if(action.equals("ok"))
 			alert.accept();
 		else
 			alert.dismiss();
+		}
+		catch (NoAlertPresentException exc) {
+			// Continue
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 }
