@@ -20,6 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.reportsetup.ExtFactory;
@@ -28,9 +29,10 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
-public class CashFlow {
+public class CashFlow extends Factory {
 	private Foundation foundation = new Foundation();
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
@@ -39,6 +41,8 @@ public class CashFlow {
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	private static final By TBL_CASH_FLOW = By.id("rptdt");
+	private static final By TBL_CASH_FLOW_GRID = By.cssSelector("#rptdt > tbody");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> scancodeData = new LinkedList<>();
@@ -48,6 +52,40 @@ public class CashFlow {
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
+	
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableReportsList = getDriver().findElement(TBL_CASH_FLOW_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_CASH_FLOW);
+			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				reportsData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return reportsData;
+	}
+
+	public void updateData(String columnName, String value) {
+		try {
+			intialData.get(0).put(columnName, value);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	public void verifyReportName(String reportName) {
 		try {

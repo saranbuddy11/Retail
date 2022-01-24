@@ -132,7 +132,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 
- 	@Parameters({ "driver", "browser", "reportsDB" })	
+	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
 	public void beforeTest(String drivers, String browsers, String reportsDB) {
 		try {
@@ -143,8 +143,8 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	@Test(description="119928-This test validates account adjustment report")
+
+	@Test(description = "119928-This test validates account adjustment report")
 
 	public void accountAdjustmentReport() {
 		try {
@@ -621,7 +621,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
-			
+
 			// process sales API to generate data
 			deviceByCategory.processAPI(deviceId);
 			navigationBar.selectOrganization(
@@ -2612,7 +2612,12 @@ public class Report extends TestInfra {
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-//			alcoholSoldDetails.getTblRecordsUI();
+			cashFlow.getTblRecordsUI();
+			cashFlow.getIntialData().putAll(cashFlow.getReportsData());
+
+			// apply calculation and update data
+//			cashFlow.updateData(cashFlow.getTableHeaders().get(0),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
