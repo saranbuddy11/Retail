@@ -40,6 +40,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.TaxList;
+import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
 import at.smartshop.v5.pages.AccountLogin;
@@ -75,6 +76,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private AccountLogin accountLogin=new AccountLogin(); 
+	private TransactionSearchPage transactionSearchPage=new TransactionSearchPage();
 	
 	
 
@@ -391,7 +393,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
 		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
-		String location=rstConsumerSearchData.get(CNConsumerSearch.LOCATION);
+		String location=propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
 			// place order in v5 using the above consumer
@@ -406,6 +408,9 @@ public class SmokeAdminAndV5 extends TestInfra{
 			
 			//login back to adm and confirm balance updated accordingly
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
+			transactionSearchPage.selectTransactionID(Constants.TODAY, location, subTotal);
+			
+			
 			
 			
 		} catch (Exception exc) {

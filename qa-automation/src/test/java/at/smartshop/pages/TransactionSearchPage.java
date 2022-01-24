@@ -1,5 +1,7 @@
 	package at.smartshop.pages;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -33,6 +35,7 @@ public class TransactionSearchPage extends Factory{
 	private static final By TXT_LOCATION_SEARCH = By.cssSelector("span.select2-search.select2-search--dropdown > input");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
+	public static final By BTN_PRINT = By.id("printBtn");
 	
 	public void selectDate(String optionName) {
 		try {
@@ -60,6 +63,20 @@ public class TransactionSearchPage extends Factory{
 			Assert.fail(exc.toString());
 		}
 
+	}
+	
+	public By objTransactionId(String transactionAmount) {
+		return By.xpath("//td[text()='"+transactionAmount+"']//..//td//span");
+	}
+	
+	public void selectTransactionID(String optionName,String location,String transactionAmount) {
+		selectDate(optionName);
+		selectLocation(location);
+		foundation.click(TransactionSearchPage.BTN_FIND);
+		textBox.enterText(TransactionSearchPage.TXT_SEARCH, transactionAmount);
+		foundation.click(objTransactionId(transactionAmount));
+		foundation.waitforElement(BTN_PRINT,Constants.SHORT_TIME);
+		assertTrue(foundation.isDisplayed(BTN_PRINT));
 	}
 	
 }

@@ -99,4 +99,5 @@ public class Constants {
 	public static final String CONTINUE= "Continue";
 	public static final String ENGLISH= "English";
 	public static final String CHOOSENOTHING= "-Choose-";
+	public static final String TODAY= "Today";
 }
