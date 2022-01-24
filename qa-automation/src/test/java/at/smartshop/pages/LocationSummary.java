@@ -1043,7 +1043,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
-		Assert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
 		if (value == requiredData) {
 			foundation.click(BTN_SAVE);
@@ -1082,6 +1082,6 @@ public class LocationSummary extends Factory {
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-		Assert.assertEquals(value, data);
+		CustomisedAssert.assertEquals(value, data);
 	}
 }
