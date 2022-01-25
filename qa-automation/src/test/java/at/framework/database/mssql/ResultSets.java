@@ -185,8 +185,7 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNProductSummary.RECORDS_PER_PAGE_LIST));
 				rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
-				rstProductSummary.put(CNProductSummary.DEVICE_ID,
-						resultSet.getString(CNProductSummary.DEVICE_ID));
+				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
 
 			}
 
@@ -353,9 +352,11 @@ public class ResultSets extends Connections {
 				rstReportList.put(CNReportList.END_DATE, resultSet.getString(CNReportList.END_DATE));
 				rstReportList.put(CNReportList.START_MONTH, resultSet.getString(CNReportList.START_MONTH));
 				rstReportList.put(CNReportList.END_MONTH, resultSet.getString(CNReportList.END_MONTH));
-				rstReportList.put(CNReportList.DOWNLOADED_FILE_NAME, resultSet.getString(CNReportList.DOWNLOADED_FILE_NAME));
+				rstReportList.put(CNReportList.DOWNLOADED_FILE_NAME,
+						resultSet.getString(CNReportList.DOWNLOADED_FILE_NAME));
 				rstReportList.put(CNReportList.GROUPBY_DROPDOWN, resultSet.getString(CNReportList.GROUPBY_DROPDOWN));
-				rstReportList.put(CNReportList.SELECT_FILTER_TO_INCLUDE, resultSet.getString(CNReportList.SELECT_FILTER_TO_INCLUDE));		
+				rstReportList.put(CNReportList.SELECT_FILTER_TO_INCLUDE,
+						resultSet.getString(CNReportList.SELECT_FILTER_TO_INCLUDE));
 			}
 
 		} catch (Exception exc) {

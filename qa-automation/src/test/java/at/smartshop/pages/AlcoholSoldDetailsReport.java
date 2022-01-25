@@ -110,7 +110,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
@@ -177,7 +177,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateTax(String columnName, String tax) {
 		try {
 			for (int iter = 0; iter < requiredRecords.size(); iter++) {

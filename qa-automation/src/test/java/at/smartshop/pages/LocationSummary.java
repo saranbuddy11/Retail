@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
@@ -57,6 +56,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_LOCATION_SETTINGS = By.xpath("//button[@id='toggleinfo']");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_GMA_SUBSIDY = By.id("gmasubsidy");
+	public static final By DPD_SPECIAL_TYPE = By.id("specialtype");
 	public static final By DPD_TOP_OFF_RECURRENCE = By.xpath("//*[@id='topoffsubsidyrange']//td/select");
 	public static final By DPD_ROLL_OVER_RECURRENCE = By.xpath("//*[@id='rolloversubsidyrange']//td/select");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
@@ -73,6 +73,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
 	private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
 	public static final By TXT_GMA_SUBSIDY = By.xpath("//dt[text()='GMA Subsidy']");
+	public static final By TXT_SPECIAL_TYPE = By.xpath("//dt[text()='Special Type']");
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
@@ -210,6 +211,7 @@ public class LocationSummary extends Factory {
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
+	public static final By TXT_PAYROLL_GROUP_NAME = By.xpath("//*[@id='newrow-1']//input[@name='groupname']");
 	public static final By TXT_TOP_OFF_AMOUNT = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='amount']");
 	public static final By TXT_ROLL_OVER_AMOUNT = By.xpath("//*[@id='rolloversubsidyrange']//input[@name='amount']");
 	public static final By TXT_TOP_OFF_AMOUNT_VALUE = By.xpath(
@@ -993,7 +995,6 @@ public class LocationSummary extends Factory {
 
 	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
-		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
@@ -1017,6 +1018,27 @@ public class LocationSummary extends Factory {
 	public void subsidyResettingValidationOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
 		textBox.enterText(LocationList.TXT_FILTER, location);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value == requiredData) {
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} else {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
+	public void resettingSpecialTypeAndSubsidy(String optionNames, String location, String specialType,
+			String requiredData) {
+		navigationBar.navigateToMenuItem(optionNames);
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, specialType, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
