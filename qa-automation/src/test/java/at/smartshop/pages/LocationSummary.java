@@ -834,8 +834,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectTopOffCalendarDayAutoLocation1(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
 			foundation.click(objectTopOffCalendarDayAutoLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
@@ -851,8 +850,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectTopOffCalendarNewDayAutoLocation1(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
@@ -868,8 +866,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectTopOffCalendarDayAutoLocation2(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName))) {
 			foundation.click(objectTopOffCalendarDayAutoLocation2(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
@@ -885,8 +882,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectTopOffCalendarNewDayAutoLocation2(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName))) {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
@@ -902,8 +898,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectRollOverCalendarDayLocation(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName))) {
 			foundation.click(objectRollOverCalendarDayLocation(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
@@ -919,8 +914,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectRollOverCalendarNewDayLocation(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName))) {
 			foundation.click(objectRollOverCalendarNewDayLocation(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
@@ -936,8 +930,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectRollOverCalendarDayLocation1(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName))) {
 			foundation.click(objectRollOverCalendarDayLocation1(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
@@ -953,8 +946,7 @@ public class LocationSummary extends Factory {
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectRollOverCalendarNewDayLocation1(date))) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName))) {
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
