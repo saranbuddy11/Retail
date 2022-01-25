@@ -1506,6 +1506,7 @@ public class ConsumerSubsidy extends TestInfra {
 				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menus = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 
 		try {
 			// Login to ADM
@@ -1603,7 +1604,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Balance History
 			consumerSummary.balanceHistory(requiredData);
-			consumerSummary.balanceHistoryData();
+			consumerSummary.balanceHistoryData(requiredData.get(14), currentDate);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -154,7 +154,12 @@ public class ConsumerSummary extends Factory {
 		CustomisedAssert.assertTrue(tableHeaders.get(5).equals(expected.get(13)));
 	}
 
-	public void balanceHistoryData() {
+	public void balanceHistoryData(String value, String date) {
 		List<String> data = balanceHistoryDatas();
+		for (int i = data.size(); i < 0; i--) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objBalanceHistoryData(data.get(i))));
+		}
+		CustomisedAssert.assertTrue(data.get(1).equals(value));
+		CustomisedAssert.assertTrue(data.get(4).contains(date));
 	}
 }
