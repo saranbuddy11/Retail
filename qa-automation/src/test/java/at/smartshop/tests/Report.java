@@ -132,17 +132,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 
@@ -2610,14 +2610,34 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-
 			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			cashFlow.getTblRecordsUI();
 			cashFlow.getIntialData().putAll(cashFlow.getReportsData());
+			
+			// process sales API to generate data
+			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			
+			//rerun and reread report
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			cashFlow.getTblRecordsUI();
 
 			// apply calculation and update data
-//			cashFlow.updateData(cashFlow.getTableHeaders().get(0),
-//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlow.updateData(cashFlow.getTableHeaders().get(0),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(1), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(3), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(4), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(5), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(6), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(9), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(11), cashFlow.getRequiredJsonData().get(0));
+			
+			// verify report headers
+			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),cashFlow.getTableHeaders());
+
+			// verify report data
+			reportList.verifyReportData(cashFlow.tableHeaders, cashFlow.getReportsData(), cashFlow.getIntialData());
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
