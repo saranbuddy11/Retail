@@ -1525,7 +1525,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
-				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			locationSummary.enterSubsidyAmount(requiredData.get(4), requiredData.get(5));
@@ -1571,8 +1571,6 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.threadWait(Constants.ONE_SECOND);
-			String subsidyName = consumerSearch.getSubsidyName();
-			CustomisedAssert.assertEquals(subsidyName, requiredData.get(2));
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 
 			// Validating Consumer Summary page
@@ -1580,8 +1578,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
-			subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
-			CustomisedAssert.assertEquals(subsidyName, requiredData.get(2));
+			String subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(7));
 			value = String.valueOf(consumerSummary.getBalance());
 			CustomisedAssert.assertTrue(value.equals("25.0"));
 			value = String.valueOf(consumerSummary.getTypeBalance());
@@ -1604,8 +1602,8 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 
 			// Verifying Balance History
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_BALANCE_HISTORY));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BALANCE_HISTORY_GRID));
+			consumerSummary.balanceHistory(requiredData);
+			consumerSummary.balanceHistoryData();
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

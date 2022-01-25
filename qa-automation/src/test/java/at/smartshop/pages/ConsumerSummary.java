@@ -1,9 +1,14 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
@@ -60,6 +65,7 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='ROLL_OVER']");
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
+	public static final By TBL_LOCATION = By.id("balance-history");
 
 	public double getBalance() {
 		double initBalance = 0;
@@ -91,6 +97,10 @@ public class ConsumerSummary extends Factory {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
+	public By objBalanceHistoryData(String data) {
+		return By.xpath("(//tbody[@role='rowgroup']/tr)[1]/td[text()='" + data + "']");
+	}
+
 	public boolean moveConsumer(String toOrg, String toLocation) {
 		foundation.click(BTN_MOVE);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -101,5 +111,50 @@ public class ConsumerSummary extends Factory {
 		foundation.alertAccept();
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
+	}
+
+	public List<String> balanceHistoryHeaders() {
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> columnHeaders = tableProducts
+					.findElements(By.cssSelector("thead > tr > th > span.ui-iggrid-headertext"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableHeaders;
+	}
+
+	public List<String> balanceHistoryDatas() {
+		List<String> tableDatas = new ArrayList<>();
+		try {
+			WebElement details = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> rowDatas = details.findElements(By.xpath("(//tbody[@role='rowgroup']/tr)[1]/td"));
+			for (WebElement rowData : rowDatas) {
+				tableDatas.add(rowData.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableDatas;
+	}
+
+	public void balanceHistory(List<String> expected) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_BALANCE_HISTORY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BALANCE_HISTORY_GRID));
+		List<String> tableHeaders = balanceHistoryHeaders();
+		CustomisedAssert.assertTrue(tableHeaders.get(0).equals(expected.get(8)));
+		CustomisedAssert.assertTrue(tableHeaders.get(1).equals(expected.get(9)));
+		CustomisedAssert.assertTrue(tableHeaders.get(2).equals(expected.get(10)));
+		CustomisedAssert.assertTrue(tableHeaders.get(3).equals(expected.get(11)));
+		CustomisedAssert.assertTrue(tableHeaders.get(4).equals(expected.get(12)));
+		CustomisedAssert.assertTrue(tableHeaders.get(5).equals(expected.get(13)));
+	}
+
+	public void balanceHistoryData() {
+		List<String> data = balanceHistoryDatas();
 	}
 }
