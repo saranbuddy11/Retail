@@ -2085,7 +2085,7 @@ public class Consumer extends TestInfra {
 //					ConsumerMoveHistory.TBL_HISTORY_DATA);
 //			assertTrue(moveHistory.containsValue(singleRowData.get(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

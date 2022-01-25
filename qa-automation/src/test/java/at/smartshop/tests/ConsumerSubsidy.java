@@ -215,7 +215,7 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -267,7 +267,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Setting start date of GMA Subsidy as Weekly with Group Names
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(10), Constants.TEXT);
 			locationSummary.enterGroupNames(requiredData.get(7), requiredData.get(8), requiredData.get(9));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -318,7 +318,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Setting start date of GMA Subsidy as Daily with Group Names
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(11), Constants.TEXT);
 			locationSummary.enterGroupNames(requiredData.get(7), requiredData.get(8), requiredData.get(9));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -369,7 +369,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Setting start date of GMA Subsidy as Monthly with Group Names
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(12), Constants.TEXT);
 			locationSummary.enterGroupNames(requiredData.get(7), requiredData.get(8), requiredData.get(9));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -451,7 +451,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -597,7 +597,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_ROLL_OVER));
 			locationSummary.verifySignsTopOff();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -649,7 +649,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -700,7 +700,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -770,7 +770,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_DELETE_ROLL_OVER);
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			locationSummary.verifySignsRollOver();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -906,7 +906,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_ROLL_OVER));
 			locationSummary.verifySignsRollOver();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -1001,7 +1001,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_ROLL_OVER));
 			locationSummary.verifySignsRollOver();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1100,7 +1100,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_TOP_OFF));
 			locationSummary.verifySignsTopOff();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1200,7 +1200,7 @@ public class ConsumerSubsidy extends TestInfra {
 			value = String.valueOf(consumerSummary.getTypeBalance());
 			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting Test Data
@@ -1304,7 +1304,7 @@ public class ConsumerSubsidy extends TestInfra {
 			value = String.valueOf(consumerSummary.getTypeBalance());
 			CustomisedAssert.assertTrue(value.equals(requiredData.get(5) + ".0"));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -1392,7 +1392,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_TOP_OFF));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting Test Data
@@ -1482,7 +1482,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_TOP_OFF));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting Test Data
