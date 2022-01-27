@@ -281,7 +281,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
