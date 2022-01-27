@@ -148,7 +148,6 @@ public class CashFlow extends Factory {
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
 			String total = sales.get(Reports.TOTAL).getAsString();
 			requiredJsonData.add(total);
-			System.out.println("requiredJsonData :" + requiredJsonData);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());
