@@ -76,7 +76,6 @@ public class CashFlow extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :" + reportsData);
 		return reportsData;
 	}
 
@@ -95,7 +94,6 @@ public class CashFlow extends Factory {
 		BigDecimal val = BigDecimal.valueOf(amount);
 		val = val.setScale(2, RoundingMode.HALF_EVEN);
 		intialData.get(0).put(columnName, String.valueOf(val));
-		System.out.println("intialData :" + intialData);
 	}
 
 	public void verifyReportName(String reportName) {
