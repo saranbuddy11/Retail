@@ -1617,13 +1617,14 @@ public class ConsumerSubsidy extends TestInfra {
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 			accountAdjustment.checkForDataAvailabilyInResultTable();
+			foundation.click(AccountAdjustment.TABLE_AMOUNT_SORT);
 
 			// Storing UI data and verifying the values
 			Map<String, String> uiData = accountAdjustment.getTblRecords("2");
 			accountAdjustment.verifyReasonCodeAndAmount(uiData, requiredData.get(7), requiredData.get(8),
 					requiredData.get(9), requiredDatas);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
