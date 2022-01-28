@@ -11,11 +11,11 @@ import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
-
 
 public class AccountAdjustment extends Factory {
 	private Foundation foundation = new Foundation();
@@ -26,6 +26,7 @@ public class AccountAdjustment extends Factory {
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TABLE_AMOUNT_SORT = By.id("rpt-amount");
 
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -73,5 +74,38 @@ public class AccountAdjustment extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	public Map<String, String> getTblRecords(String index) {
+		Map<String, String> uiTblRowValues = new HashMap<>();
+		try {
+			int curColumnIndex = 1;
+			WebElement tableReports = getDriver().findElement(TBL_ACCOUNT_ADJUSTMENT);
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
+			WebElement row = getDriver().findElement(By.cssSelector("#rptdt > tbody > tr:nth-child(" + index + ")"));
+
+			for (WebElement columnHeader : columnHeaders) {
+				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + curColumnIndex + ")"));
+				uiTblRowValues.put(columnHeader.getText(), column.getText());
+				curColumnIndex++;
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return uiTblRowValues;
+	}
+
+	public void verifyReasonCodeAndAmount(Map<String, String> actuals, String reason, String amount, String reflect,
+			String name) {
+		String value = actuals.get("Reason");
+		CustomisedAssert.assertEquals(value, reason);
+		value = actuals.get("After");
+		CustomisedAssert.assertEquals(value, amount);
+		value = actuals.get("Amount");
+		CustomisedAssert.assertEquals(value, amount);
+		value = actuals.get("Reflect on EFT");
+		CustomisedAssert.assertEquals(value, reflect);
+		value = actuals.get("Consumer Name");
+		CustomisedAssert.assertTrue(value.contains(name));
 	}
 }

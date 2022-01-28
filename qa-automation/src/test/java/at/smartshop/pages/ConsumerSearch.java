@@ -22,6 +22,7 @@ public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private NavigationBar navigationBar = new NavigationBar();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 
@@ -47,6 +48,7 @@ public class ConsumerSearch extends Factory {
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
+	public static final By LNK_RECORD = By.xpath("//table[@id='consumerdt']//td");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
@@ -134,4 +136,11 @@ public class ConsumerSearch extends Factory {
 		return emailID;
 	}
 
+	public void searchConsumer(String option, String location) {
+		navigationBar.navigateToMenuItem(option);
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+		foundation.threadWait(Constants.ONE_SECOND);
+	}
 }
