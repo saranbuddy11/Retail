@@ -1126,7 +1126,7 @@ public class ConsumerSubsidy extends TestInfra {
 	}
 
 	 @Test(description="165971-ADM>Subsidy Balance>Adjustment")	
-	   public void SubsidyBalanceAdjustment() {
+	   public void verifySubsidyBalanceAdjustment() {
 	     final String CASE_NUM="165971";
 	        
 	       //reading a data from database
@@ -1173,7 +1173,7 @@ public class ConsumerSubsidy extends TestInfra {
 		}}
 	 
 	   @Test(description="165972 Verify subsidy balance adjustments in ADM Consumer summary page as operator role")
-	   public void SubsidyBalanceIncrement() {
+	   public void verifySubsidyBalanceIncrement() {
 		   final String CASE_NUM="165972";
 		   
 		   rstNavigationMenuData  = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -1223,7 +1223,7 @@ public class ConsumerSubsidy extends TestInfra {
 	
 	   @Test(description="165950- Verify to view the more than one location is filtered then the 'Bulk Assign Subsidy Group' option"
 			    +"165949- Verify to view the 'Bulk Assign Subsidy Group' action in the Actions dropdown")	
-	    public void VerifyBulkAssignSubsidyGroupInAction() {
+	    public void verifyBulkAssignSubsidyGroupInAction() {
 	    	final String CASE_NUM="165950";
 	    	
 	    	rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
