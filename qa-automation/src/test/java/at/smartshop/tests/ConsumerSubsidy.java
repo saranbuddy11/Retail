@@ -1,6 +1,7 @@
 package at.smartshop.tests;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -1252,7 +1253,8 @@ public class ConsumerSubsidy extends TestInfra {
 	   }
 			  catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
-}}
+}
+}
 	@Test(description = "166058 - Verify the top off subsidy option")
 	public void verifyTopOffSubsidyOption() {
 		final String CASE_NUM = "166058";

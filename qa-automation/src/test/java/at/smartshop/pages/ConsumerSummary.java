@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.openqa.selenium.By;

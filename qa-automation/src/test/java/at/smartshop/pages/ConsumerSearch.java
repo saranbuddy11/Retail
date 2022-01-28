@@ -7,22 +7,15 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-
-import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
-import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
-import at.smartshop.database.columns.CNConsumerSummary;
-import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -30,13 +23,13 @@ public class ConsumerSearch extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private NavigationBar navigationBar = new NavigationBar();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
-	
-	private Table table=new Table();
-	
+	private Table table= new Table();
+
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
-    private static final By DPD_STATUS = By.id("isdisabled");
+	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
 	public static final By BTN_GO = By.id("findBtn");
