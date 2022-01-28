@@ -159,7 +159,7 @@ public class ConsumerSummary extends Factory {
 		for (int i = data.size(); i < 0; i--) {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objBalanceHistoryData(data.get(i))));
 		}
-		//CustomisedAssert.assertTrue(data.get(1).equals(value));
-		//CustomisedAssert.assertTrue(data.get(4).contains(date));
+		// CustomisedAssert.assertTrue(data.get(1).equals(value));
+		// CustomisedAssert.assertTrue(data.get(4).contains(date));
 	}
 }
