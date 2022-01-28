@@ -18,6 +18,7 @@ import at.framework.generic.Strings;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -31,10 +32,10 @@ public class ConsumerSearch extends Factory {
 	private Foundation foundation = new Foundation();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
-	private NavigationBar navigationBar = new NavigationBar();
+	
+	private Table table=new Table();
 	
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
-	public static final By CANCEL=By.xpath("//span[@class='select2-selection__clear']");
     private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
 	private static final By TXT_SEARCH = By.id("search");
@@ -60,14 +61,12 @@ public class ConsumerSearch extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
     public static final By BTN_ACTION =By.xpath("//ul[@style='left: -100px; right: auto;']//li");
 	public static final By ACTION_BTN = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
-	public static final By BULK_SUBSIDY= By.id("subsidyGroupSelectedBtn");
+	public static final By BULK_ASSIGN_SUBSIDY_GROUP= By.id("subsidyGroupSelectedBtn");
 	public static final By SUBSIDY_GROUP = By.id("subsidyGroupData");
 	public static final By RSN_CANCEL = By.id("reasoncancel");
-	
-	
-
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
-
+    public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
+    
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -153,16 +152,26 @@ public class ConsumerSearch extends Factory {
 		return emailID;
 	}
    
-	public void Incrementsubsidy(String menuitem,String location) {
-		navigationBar.navigateToMenuItem(menuitem);
-		foundation.click(ConsumerSearch.CANCEL);
-		dropdown.selectItem(ConsumerSearch.DPD_LOCATION,location, Constants.TEXT);
-        foundation.click(ConsumerSearch.BTN_GO);
-        Assert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-        Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-        foundation.click(ConsumerSummary.BTN_ADJUST);
-        
-	}
+	
+    public void BulkAssignSubsidyGroup(String location,String row, List<String> values) {
+    		
+    		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+    		foundation.click(ConsumerSearch.BTN_GO);
+            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+            table.selectRow(row);
+            foundation.click(ConsumerSearch.ACTION_BTN);
+            foundation.threadWait(Constants.SHORT_TIME);
+            List<String> actualData = foundation.getTextofListElement(BTN_ACTION);            
+            CustomisedAssert.assertTrue(actualData.equals(values));
+    		
+    			
+		
+			
+	    }	
+		}
 
-}
+
+
+
+    
+

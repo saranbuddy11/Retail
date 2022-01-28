@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import at.framework.generic.Numbers;
@@ -45,6 +46,7 @@ import at.smartshop.sos.pages.SOSHome;
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class ConsumerSubsidy extends TestInfra {
 
+	
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private PropertyFile propertyFile = new PropertyFile();
@@ -63,10 +65,12 @@ public class ConsumerSubsidy extends TestInfra {
 	private Excel excel = new Excel();
 	private LoadGMA loadGma = new LoadGMA();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	
+
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
-
 	private Map<String, String> rstconsumerSearchData;
 	private Map<String,String>  rstConsumerSummaryData;
 	private Map<String, String> rstLoadProduct;
@@ -1136,12 +1140,7 @@ public class ConsumerSubsidy extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				
 				//select menu and menuitems and verifying increment in subsidy 
-				consumerSearch.Incrementsubsidy(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), rstconsumerSearchData.get(CNConsumerSearch.LOCATION));
-	            foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
-	            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,values.get(0));
-	            dropDown.selectItem(ConsumerSummary.DPD_REASON,rstConsumerSummaryData.get(CNConsumerSummary.REASON), Constants.TEXT);
-	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-	            foundation.click(ConsumerSummary.REF_EFT);
+				consumerSummary.Incrementsubsidy(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), rstconsumerSearchData.get(CNConsumerSearch.LOCATION), values.get(0), rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 	            List<String> datas = dropDown.getAllItems(ConsumerSummary.REF_EFT);
 				ArrayList<String> expectedValues = new ArrayList<String>();
 				expectedValues.add(values.get(2));
@@ -1149,7 +1148,6 @@ public class ConsumerSubsidy extends TestInfra {
 				CustomisedAssert.assertTrue(datas.equals(expectedValues));
 	            foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 	            foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-	            
 	            //verify the decrement in subsidy   
 	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 	            foundation.click(ConsumerSummary.BTN_ADJUST);
@@ -1159,16 +1157,8 @@ public class ConsumerSubsidy extends TestInfra {
 	            foundation.click(ConsumerSummary.REF_EFT);
 	            foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 	            foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-	            
-	            
 	            //verifying cancel button
-	            foundation.click(ConsumerSummary.BTN_ADJUST);
-	            foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
-	            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,values.get(0));
-	            dropDown.selectItem(ConsumerSummary.DPD_REASON,rstConsumerSummaryData.get(CNConsumerSummary.REASON), Constants.TEXT);
-	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-		        foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
-		        
+	            consumerSummary.CancelButtonInSubsidyAdjustment(values.get(0), rstConsumerSummaryData.get(CNConsumerSummary.REASON));   
 		   }	    	
 		
 	       catch (Throwable exc) {
@@ -1194,17 +1184,15 @@ public class ConsumerSubsidy extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 				navigationBar.selectOrganization(
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-				
 				//verify increment in subsidy balance
-				consumerSearch.Incrementsubsidy(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), rstconsumerSearchData.get(CNConsumerSearch.LOCATION));
-	            foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-	            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,values.get(0));
-	            dropDown.selectItem(ConsumerSummary.DPD_REASON,rstConsumerSummaryData.get(CNConsumerSummary.REASON), Constants.TEXT);
-	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-	            foundation.click(ConsumerSummary.REF_EFT);
+				consumerSummary.Incrementsubsidy(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), rstconsumerSearchData.get(CNConsumerSearch.LOCATION), values.get(0), rstConsumerSummaryData.get(CNConsumerSummary.REASON));
+				List<String> datas = dropDown.getAllItems(ConsumerSummary.REF_EFT);
+				ArrayList<String> expectedValues = new ArrayList<String>();
+				expectedValues.add(values.get(2));
+				expectedValues.add(values.get(3));
+				CustomisedAssert.assertTrue(datas.equals(expectedValues));
 	            foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 	            foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-	            
 	            //verify the decrement in subsidy balance  
 	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 	            foundation.click(ConsumerSummary.BTN_ADJUST);
@@ -1212,78 +1200,35 @@ public class ConsumerSubsidy extends TestInfra {
 	            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,values.get(1));
 	            dropDown.selectItem(ConsumerSummary.DPD_REASON,rstConsumerSummaryData.get(CNConsumerSummary.REASON), Constants.TEXT);
 	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-	            foundation.click(ConsumerSummary.REF_EFT);
-	            List<String> datas = dropDown.getAllItems(ConsumerSummary.REF_EFT);
-				ArrayList<String> expectedValues = new ArrayList<String>();
-				expectedValues.add(values.get(2));
-				expectedValues.add(values.get(3));
-				CustomisedAssert.assertTrue(datas.equals(expectedValues));
+	            foundation.click(ConsumerSummary.REF_EFT);         
 	            foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 	            foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 	            foundation.waitforElement(ConsumerSummary.ERROR_MESSAGE, Constants.SHORT_TIME);
 	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.ERROR_MESSAGE));
 	            foundation.click(ConsumerSummary.ERROR_MESSAGE);
-	            
-	            
 	            //verifying cancel button
-	            foundation.click(ConsumerSummary.BTN_ADJUST);
-	            foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
-	            textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,values.get(0));
-	            dropDown.selectItem(ConsumerSummary.DPD_REASON,rstConsumerSummaryData.get(CNConsumerSummary.REASON), Constants.TEXT);
-	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BTN_REASON_CANCEL));
-		        foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
-		       
+	            consumerSummary.CancelButtonInSubsidyAdjustment(values.get(0), rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 		   }	    	
 		
 	       catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}}
-	   
-	   @Test(description="165949- Verify to view the 'Bulk Assign Subsidy Group' action in the Actions dropdown")	
-	    public void BulkAssignSubsidyGroup() {
-	    	final String CASE_NUM="165949";
-	    	rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			List<String> values = Arrays
-					.asList(rstconsumerSearchData.get(CNConsumerSearch.ACTIONS).split(Constants.DELIMITER_TILD));
-			
-			
-			  try {
-				   browser.navigateURL(
-							propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-					login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-					
-					navigationBar.selectOrganization(
-							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-					foundation.click(ConsumerSearch.CANCEL);
-					dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstconsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
-	                foundation.click(ConsumerSearch.BTN_GO);
-	                CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-	                table.selectRow(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
-	                foundation.click(ConsumerSearch.ACTION_BTN);
-	                foundation.threadWait(Constants.SHORT_TIME);
-	                List<String> datas = foundation.getTextofListElement(consumerSearch.BTN_ACTION);
-	    			CustomisedAssert.assertTrue(datas.equals(values));
-	    			foundation.click(ConsumerSearch.BULK_SUBSIDY);
-	                foundation.click(ConsumerSearch.RSN_CANCEL);	     
-	   }
-			  catch (Exception exc) {
-					TestInfra.failWithScreenShot(exc.toString());
-}}
-	   @Test(description="165950- Verify to view the more than one location is filtered then the 'Bulk Assign Subsidy Group' option")	
-	    public void BulkAssignSubsidyGroupGrey() {
+	
+	   @Test(description="165950- Verify to view the more than one location is filtered then the 'Bulk Assign Subsidy Group' option"
+			    +"165949- Verify to view the 'Bulk Assign Subsidy Group' action in the Actions dropdown")	
+	    public void VerifyBulkAssignSubsidyGroupInAction() {
 	    	final String CASE_NUM="165950";
+	    	
 	    	rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			
+			 List<String> expectedData = Arrays
+					.asList(rstconsumerSearchData.get(CNConsumerSearch.ACTIONS).split(Constants.DELIMITER_TILD));
 			 List<String> values = Arrays
 						.asList(rstconsumerSearchData.get(CNConsumerSearch.LOCATION).split(Constants.DELIMITER_TILD));
-			 List<String> menu = Arrays
-						.asList(rstconsumerSearchData.get(CNConsumerSearch.ACTIONS).split(Constants.DELIMITER_TILD));
+			
 			  try {
-				   browser.navigateURL(
+				    browser.navigateURL(
 							propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 					login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -1292,21 +1237,20 @@ public class ConsumerSubsidy extends TestInfra {
 					navigationBar.selectOrganization(
 							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-					foundation.click(ConsumerSearch.CANCEL);
-					dropDown.selectItem(ConsumerSearch.DPD_LOCATION, values.get(0), Constants.TEXT);
-					dropDown.selectItem(ConsumerSearch.DPD_LOCATION, values.get(1), Constants.TEXT);
-	                foundation.click(ConsumerSearch.BTN_GO);
-	                CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-	                table.selectRow(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
-	                foundation.click(ConsumerSearch.ACTION_BTN);
-	                List<String> datas = foundation.getTextofListElement(consumerSearch.BTN_ACTION);
-	    			CustomisedAssert.assertTrue(datas.equals(menu));
-	                CustomisedAssert.assertTrue(foundation.isDisabled(consumerSearch.BULK_SUBSIDY));
+					foundation.click(ConsumerSearch.CLEAR_SEARCH);
+					consumerSearch.BulkAssignSubsidyGroup(values.get(0),rstconsumerSearchData.get(CNConsumerSearch.SEARCH), expectedData);
+					foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+					foundation.threadWait(Constants.SHORT_TIME);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
+		            foundation.click(ConsumerSearch.RSN_CANCEL);
+		            dropDown.selectItem(ConsumerSearch.DPD_LOCATION, values.get(1), Constants.TEXT);
+	                consumerSearch.BulkAssignSubsidyGroup(values.get(0), rstconsumerSearchData.get(CNConsumerSearch.SEARCH), expectedData);
 	                foundation.threadWait(Constants.SHORT_TIME);
-	                login.logout();
-	       
+	    			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP));
+	    			
+	                
 	   }
-			  catch (Throwable exc) {
+			  catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
 }}
 	@Test(description = "166058 - Verify the top off subsidy option")

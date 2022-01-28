@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -18,6 +19,7 @@ import at.smartshop.tests.TestInfra;
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
     private Dropdown dropdown = new Dropdown();
+    private NavigationBar navigationBar = new NavigationBar();
 
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
@@ -108,7 +110,31 @@ import at.smartshop.tests.TestInfra;
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
 	}
-
+	public void Incrementsubsidy(String menuitem,String location,String data,String reason) {
+		navigationBar.navigateToMenuItem(menuitem);
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropdown.selectItem(DPD_LOCATION,location, Constants.TEXT);
+        foundation.click(ConsumerSearch.BTN_GO);
+        Assert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+        Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+        foundation.click(ConsumerSummary.BTN_ADJUST);
+        foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+        textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,data);
+        dropdown.selectItem(ConsumerSummary.DPD_REASON,reason, Constants.TEXT);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+        foundation.click(ConsumerSummary.REF_EFT);
+        
+	}
+    public void CancelButtonInSubsidyAdjustment(String data, String reason) {
+    	
+    	foundation.click(ConsumerSummary.BTN_ADJUST);
+        foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+        textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,data);
+        dropdown.selectItem(ConsumerSummary.DPD_REASON,reason, Constants.TEXT);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BTN_REASON_CANCEL));
+        foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
+    }
 	}
 
 
