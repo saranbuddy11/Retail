@@ -69,6 +69,7 @@ public class DataSourceManager extends Factory {
 				int countOfCheckboxes = foundation.getSizeofListElement(object2);
 				for (int count = 0; count < countOfCheckboxes; count++) {
 					List<WebElement> checkBoxList = getDriver().findElements(object2);
+					foundation.objectFocusOnWebElement(checkBoxList.get(count));
 					if (!checkBoxList.get(count).isSelected()) {
 						checkBoxList.get(count).click();
 						foundation.threadWait(2);
@@ -89,6 +90,7 @@ public class DataSourceManager extends Factory {
 				int countOfCheckboxes = foundation.getSizeofListElement(object2);
 				for (int count = 0; count < countOfCheckboxes; count++) {
 					List<WebElement> checkBoxList = getDriver().findElements(object2);
+					foundation.objectFocusOnWebElement(checkBoxList.get(count));
 					if (checkBoxList.get(count).isSelected()) {
 						checkBoxList.get(count).click();
 						foundation.threadWait(2);
