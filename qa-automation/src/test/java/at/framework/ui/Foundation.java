@@ -65,8 +65,6 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
-			waitforClikableElement(object, Constants.SHORT_TIME);
-			waitforElement(object, Constants.SHORT_TIME);
 			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
