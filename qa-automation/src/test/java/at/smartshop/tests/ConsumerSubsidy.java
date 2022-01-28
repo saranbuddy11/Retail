@@ -1555,7 +1555,7 @@ public class ConsumerSubsidy extends TestInfra {
 			String hintText = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
 			CustomisedAssert.assertEquals(hintText, requiredData.get(3));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
