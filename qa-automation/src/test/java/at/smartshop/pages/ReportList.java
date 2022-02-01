@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
@@ -22,6 +23,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 
 public class ReportList extends Factory {
 
@@ -369,6 +371,54 @@ public class ReportList extends Factory {
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			System.out.println("columnName :" + columnName);
+			System.out.println("tableHeaders :" + tableHeaders);
+			for (int iter = 1; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				System.out.println("columnName :" + columnName.get(iter));
+				System.out.println("tableHeaders :" + tableHeaders.get(iter));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData, Map<Integer, Map<String, String>> intialData) {
+		try {
+			int count = intialData.size();
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("intialData :" + intialData);
+			for (int counter = 1; counter < count; counter++) {
+				for (int iter = 1; iter < tableHeaders.size(); iter++) {
+					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println("reportsData :" + reportsData.get(counter).get(tableHeaders.get(iter)));
+					System.out.println("intialData :" + intialData.get(counter).get(tableHeaders.get(iter)));
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void verifyReportDataOfFirstRow(List<String> tableHeaders, Map<String, String> reportsData, Map<String, String> intialData) {
+		try {
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("intialData :" + intialData);
+				for (int iter = 1; iter < tableHeaders.size(); iter++) {
+					Assert.assertTrue(reportsData.get(tableHeaders.get(iter))
+							.contains(intialData.get(tableHeaders.get(iter))));
+					System.out.println("reportsData :" + reportsData.get(tableHeaders.get(iter)));
+					System.out.println("intialData :" + intialData.get(tableHeaders.get(iter)));
+				}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
