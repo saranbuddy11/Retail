@@ -472,7 +472,9 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+     
+	
+	
 	public List<String> getProductsNames() {
 		List<String> productNames = new LinkedList<>();
 		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
