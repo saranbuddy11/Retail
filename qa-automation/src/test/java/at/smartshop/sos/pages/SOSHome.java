@@ -53,7 +53,7 @@ public class SOSHome extends Factory {
 	public void logout() {
 		try {
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
-			foundation.click(LBL_USER_NAME);
+			foundation.objectClick(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
