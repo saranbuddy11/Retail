@@ -249,6 +249,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD_ROLL_OVER = By
 			.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy']");
 	public static final By BTN_ADD_TOP_OFF = By.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtn']");
+	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -472,9 +473,7 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-     
-	
-	
+
 	public List<String> getProductsNames() {
 		List<String> productNames = new LinkedList<>();
 		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);

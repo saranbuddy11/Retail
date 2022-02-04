@@ -26,12 +26,12 @@ public class ConsumerSearch extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
-	private Table table= new Table();
+	private Table table = new Table();
 
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
-	private static final By TXT_SEARCH = By.id("search");
+	public static final By TXT_SEARCH = By.id("search");
 	public static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
@@ -53,14 +53,13 @@ public class ConsumerSearch extends Factory {
 	public static final By LNK_RECORD = By.xpath("//table[@id='consumerdt']//td");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
-    public static final By BTN_ACTION =By.xpath("//ul[@style='left: -100px; right: auto;']//li");
+	public static final By BTN_ACTION = By.xpath("//ul[@style='left: -100px; right: auto;']//li");
 	public static final By ACTION_BTN = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
-	public static final By BULK_ASSIGN_SUBSIDY_GROUP= By.id("subsidyGroupSelectedBtn");
+	public static final By BULK_ASSIGN_SUBSIDY_GROUP = By.id("subsidyGroupSelectedBtn");
 	public static final By SUBSIDY_GROUP = By.id("subsidyGroupData");
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
-    public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
-    
+	public static final By LBL_BULK_ASSIGN_POPUP = By.id("reasontitle");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -102,19 +101,19 @@ public class ConsumerSearch extends Factory {
 
 	public List<String> getConsumerHeaders() {
 
-        List<String> tableHeaders = new ArrayList<>();
-        try {
-            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
-            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
-            for (WebElement columnHeader : columnHeaders) {
-                tableHeaders.add(columnHeader.getText());
-            }
-        } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
-        }
-        return tableHeaders;
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableHeaders;
 	}
-   
+
 	public Map<String, String> getConsumerRecords(String location) {
 		Map<String, String> consumerRecord = new LinkedHashMap<>();
 		try {
@@ -145,21 +144,20 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		return emailID;
 	}
-   
-	
-    public void BulkAssignSubsidyGroup(String location,String row, List<String> values) {
-    		
-    		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
-    		foundation.click(ConsumerSearch.BTN_GO);
-            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-            table.selectRow(row);
-            foundation.click(ConsumerSearch.ACTION_BTN);
-            foundation.threadWait(Constants.SHORT_TIME);
-            List<String> actualData = foundation.getTextofListElement(BTN_ACTION);            
-            CustomisedAssert.assertTrue(actualData.equals(values));
-   	
-	    }	
-		
+
+	public void BulkAssignSubsidyGroup(String location, String row, List<String> values) {
+
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		table.selectRow(row);
+		foundation.click(ConsumerSearch.ACTION_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+		List<String> actualData = foundation.getTextofListElement(BTN_ACTION);
+		CustomisedAssert.assertTrue(actualData.equals(values));
+
+	}
+
 	public void searchConsumer(String option, String location) {
 		navigationBar.navigateToMenuItem(option);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -168,4 +166,3 @@ public class ConsumerSearch extends Factory {
 		foundation.threadWait(Constants.ONE_SECOND);
 	}
 }
-
