@@ -357,6 +357,8 @@ public class ResultSets extends Connections {
 				rstReportList.put(CNReportList.GROUPBY_DROPDOWN, resultSet.getString(CNReportList.GROUPBY_DROPDOWN));
 				rstReportList.put(CNReportList.SELECT_FILTER_TO_INCLUDE,
 						resultSet.getString(CNReportList.SELECT_FILTER_TO_INCLUDE));
+				rstReportList.put(CNReportList.SELECT_VALUE_FOR_SELECTED_FILTER_TYPE,
+						resultSet.getString(CNReportList.SELECT_VALUE_FOR_SELECTED_FILTER_TYPE));
 			}
 
 		} catch (Exception exc) {

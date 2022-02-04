@@ -75,6 +75,7 @@ import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
+import at.smartshop.pages.PromotionAnalysis;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Report extends TestInfra {
@@ -128,6 +129,9 @@ public class Report extends TestInfra {
 	private AlcoholSoldDetailsReport alcoholSoldDetails = new AlcoholSoldDetailsReport();
 	private Strings strings = new Strings();
 	private PromotionList promotionList = new PromotionList();
+	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
+	
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -2585,6 +2589,8 @@ public class Report extends TestInfra {
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
@@ -2601,7 +2607,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			navigationBar.navigateToMenuItem(menuItems.get(0));
+//			navigationBar.navigateToMenuItem(menuItems.get(0));
 
 //			// validate UI of promotion list page info section
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.LBL_SEARCH));
@@ -2612,36 +2618,37 @@ public class Report extends TestInfra {
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BTN_CREATE));
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BTN_SEARCH));
 
-			foundation.click(PromotionList.BTN_CREATE);
-			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
-			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
-
-			dropdown.selectItem(CreatePromotions.DPD_ORG, orgName, Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
-
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
-			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
-			dropdown.selectItem(CreatePromotions.DPD_APPLY_DISCOUNT_TO, requiredData.get(2), Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
-			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
-			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
-			foundation.click(CreatePromotions.CHK_SUNDAY);
-
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.click(PromotionList.BTN_CREATE);
+//			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+//			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//
+//			dropdown.selectItem(CreatePromotions.DPD_ORG, orgName, Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
+//
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			List<String> requiredData = Arrays
+//					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//
+//			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
+//			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
+//			dropdown.selectItem(CreatePromotions.DPD_APPLY_DISCOUNT_TO, requiredData.get(2), Constants.TEXT);
+//			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
+//			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
+//			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
+//			foundation.click(CreatePromotions.CHK_SUNDAY);
+//
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_OK);
+//			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -2652,19 +2659,54 @@ public class Report extends TestInfra {
 			
 			reportList.selectGroupByOption(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN), Constants.TEXT);
 
-			reportList.selectFilter(rstReportListData.get(CNReportList.SELECT_FILTER_TO_INCLUDE));
+			reportList.selectAllOptionOfFilter();
+			
+			
+			List<String> selectValueForSelectedFilterType = Arrays
+					.asList(rstReportListData.get(CNReportList.SELECT_VALUE_FOR_SELECTED_FILTER_TYPE).split(Constants.DELIMITER_HASH));
 
-			reportList.selectOrgOnFilter(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrgOnFilter(selectValueForSelectedFilterType.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
+			reportList.selectLocationOnFilter(selectValueForSelectedFilterType.get(0));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			
+			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS, Constants.EXTRA_LONG_TIME);
 
+//			promotionAnalysis.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			promotionAnalysis.getTblRecordsUI();
+			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
+			promotionAnalysis.getRequiredRecord("Tsjrghdfag");
+
+		//	Cash~Amount~Line Items~10.00~5.00~Recurrence~All
+//			You are all set!~Your promotion details are below:~Tender: Cash~Discount: $10.00~Applies to: Each Line Item~Min Transaction: $5.00~Timing: Recurrence
+//			Tender Discount#$10.00#Each Line Item#Recurrence#Sun,#Active
+			
+//			Mmbjoxsrgp	N/A	Tender Discount	$10.00	Each Line Item	0	0	$0.00	Recurrence	02/03/22	02/03/22	Sun,	Active
+			
+//			Promotion Name#Display Name#Type#Discount#Applied To#Reward Points#Redemptions#Amount#Timing#Start Date#End Date#Frequency#Status
+			
+			String date = dateAndTime.getCurrentDay();
+			System.out.println(date);
+			List<String> expectedData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(1), promotionName);
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(3), expectedData.get(0));
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(4), expectedData.get(1));
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(5), expectedData.get(2));
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(9), expectedData.get(3));
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(10), date);
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(11), date);
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(12), expectedData.get(4));
+			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(13), expectedData.get(5));
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
-					gridName);
+//			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+//					gridName);
 		}
 	}
 }
