@@ -7,11 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import at.framework.browser.Factory;
-import at.smartshop.database.columns.CNOrgSummary;
-import at.smartshop.keys.Constants;
-import junit.framework.Assert;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
+import junit.framework.Assert;
 
 public class OrgSummary extends Factory {
 	private Foundation foundation=new Foundation();
