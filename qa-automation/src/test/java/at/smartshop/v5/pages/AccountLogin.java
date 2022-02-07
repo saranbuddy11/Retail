@@ -50,6 +50,7 @@ public class AccountLogin {
 		textBox.enterKeypadText(emailId);
 		foundation.click(BTN_ENTER);
 		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(BTN_PIN_NEXT);
 	}
@@ -86,6 +87,19 @@ public class AccountLogin {
 		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_HEADER), loginPageData.get(9));
 		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
 		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_NEXT), loginPageData.get(10));
+	}
+
+	public void verifyConsumerAccountLogin(String email, String pin, String consumerName, String expectedBal) {
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(BTN_EMAIL_LOGIN);
+		login(email, pin);
+		String text = foundation.getText(LBL_CONSUMER_NAME);
+		CustomisedAssert.assertTrue(text.contains(consumerName));
+		foundation.click(LBL_SUBSIDY);
+		text = foundation.getText(LBL_SUBSIDY_BALANCE);
+		CustomisedAssert.assertEquals(text, expectedBal);
+		foundation.click(BTN_PROFILE_CLOSE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 	}
 
 }

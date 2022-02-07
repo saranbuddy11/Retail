@@ -12,6 +12,8 @@ import at.smartshop.keys.Constants;
 public class Payments {
 	private Foundation foundation = new Foundation();
 
+	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
+
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
