@@ -10666,6 +10666,10 @@ public class V5Test extends TestInfra {
 			text = foundation.getText(AccountLogin.LBL_SUBSIDY_BALANCE);
 			String balance = "$" + requiredData.get(4) + ".00";
 			CustomisedAssert.assertEquals(text, balance);
+			foundation.click(AccountLogin.BTN_PROFILE_CLOSE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
