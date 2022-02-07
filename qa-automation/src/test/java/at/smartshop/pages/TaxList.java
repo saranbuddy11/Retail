@@ -1,5 +1,7 @@
 package at.smartshop.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
@@ -32,6 +34,7 @@ public class TaxList {
 	public static final By TBL_TAX_GRID = By.id("dataGrid");
 	public static final By TBL_ROW = By.xpath("//*[@id='dataGrid']/tbody/tr");
 	public static final By TBL_ROW_ENDDATE = By.xpath("//td[@aria-describedby='dataGrid_enddate']");
+	public static final By BTN_MODAL_SAVE_TAXRATE = By.id("modalsave");
 
 	public void selectDate(String text) {
 		try {
@@ -57,7 +60,7 @@ public class TaxList {
 		//select admin>tax, select the tax name and navigate to tax summary page
 		navigationBar.navigateToMenuItem("Admin#Tax");
 		textBox.enterText(LBL_SEARCH, taxName);
-		foundation.click(By.xpath("//tr//td[text() = '" + taxName + "']"));
+		foundation.click(By.xpath("//tr//td//span[text() = '" + taxName + "']"));
 		
 		//get initial row count
 		int totalRowIntial=foundation.getSizeofListElement(TBL_ROW);
@@ -68,16 +71,19 @@ public class TaxList {
 		textBox.enterText(TXT_RATE_2, taxRate2);
 		textBox.enterText(TXT_RATE_3, taxRate3);
 		textBox.enterText(TXT_RATE_4, taxRate4);
+		foundation.click(TaxList.LBL_CALENDER);
 		selectDate(getCurrentDateForCalender());
 		textBox.enterText(TXT_EFFECTIVETIME, Constants.TIME_ZERO);
-		foundation.click(BTN_SAVE);
+		foundation.click(BTN_MODAL_SAVE_TAXRATE);
 		foundation.waitforElement(TBL_ROW, Constants.SHORT_TIME);
 		
 		// get final row count- it should be increased by 1 
 		// total number of final date rows should be less than 1 of total row count
 		int totalRowUpdated = foundation.getSizeofListElement(TBL_ROW);
 		int totalEndDate = foundation.getSizeofListElement(TBL_ROW_ENDDATE);
-		if (totalRowIntial == (totalRowUpdated + 1) && totalEndDate == totalRowUpdated - 1) {
+		 List<String> endDate = foundation.getTextofListElement(TBL_ROW_ENDDATE);
+		 endDate.remove(" ");
+		if (totalRowIntial == (totalRowUpdated - 1) && endDate.size() == totalRowUpdated - 1) {
 			taxRateUpdated = true;
 		}
 		return taxRateUpdated;

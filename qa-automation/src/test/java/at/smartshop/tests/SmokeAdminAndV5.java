@@ -115,7 +115,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			// Assign tax category to product
-			globalProducts.assignTaxCategory(productName,productName);
+			globalProducts.assignTaxCategory(productName,taxCategory);
 
 			// assign tax mapping - location summary
 			locationSummary.navigateAndAddTaxMap(locationName,taxCategory, taxRateName);
@@ -124,6 +124,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 			assertTrue(taxList.updateTaxRate(taxRateName, taxRate1, requiredData.get(3), requiredData.get(3), requiredData.get(3)));
 
 			// login to application
+			browser.close();
 			landingPage.launchV5AndSelectLanguageEnglish();
 			
 			//search and add product to cart
@@ -131,6 +132,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 
 			//verify the tax in order page
 			order.verifyTax(taxRate1);
+			browser.close();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -138,6 +140,9 @@ public class SmokeAdminAndV5 extends TestInfra{
 		finally {
 			//reset data-- 
 			//remove tax mapping
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.navigateAndRemoveTaxMap(locationName,taxCategory);
 			
 			//remove tax assignment from product
@@ -170,11 +175,12 @@ public class SmokeAdminAndV5 extends TestInfra{
 			userList.updateORAddUserRole(roleData.get(0));
 			
 			//logout and login with created user and verify role applied
+			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
 			login.login(userEmail,
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(NavigationBar.MENU_SUPER));
+			//assertTrue(foundation.isDisplayed(NavigationBar.MENU_SUPER));
 			
 			//update user role to admin
 			navigationBar.navigateToMenuItem(menuItem);
@@ -187,6 +193,9 @@ public class SmokeAdminAndV5 extends TestInfra{
 		}
 		finally {
 			//reset data
+			login.logout();
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			userList.disableUser(userEmail);
 		}
@@ -220,9 +229,9 @@ public class SmokeAdminAndV5 extends TestInfra{
 		}
 	}
 	
-	@Test(description = "164515-ADM>Super>Consumer>Consumer Search- Payout and Close")
+	@Test(description = "167031-Consumer summary- create account, edit account, payout and close")
 	public void verifyPayoutAndClose() {
-		final String CASE_NUM = "164515";
+		final String CASE_NUM = "167031";
 		
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -266,13 +275,22 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		String operator=propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE);
-		String driver=propertyFile.readPropertyFile(Configuration.DRIVER, FilePath.PROPERTY_CONFIG_FILE);
+		String driver=propertyFile.readPropertyFile(Configuration.DRIVER_USER, FilePath.PROPERTY_CONFIG_FILE);
 		String nationalAccount=propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE);
 		String masterNationalAccount=propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE);
 		String reporter=propertyFile.readPropertyFile(Configuration.REPORTER_USER, FilePath.PROPERTY_CONFIG_FILE);
 		String automationOrg=propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		
 		try {
+			
+			//launch and select org as reporter
+			navigationBar.launchBrowserAndSelectOrg(reporter,automationOrg);
+			login.logout();
+			
+			//launch and select org as master national account
+			navigationBar.launchBrowserAndSelectOrg(masterNationalAccount,automationOrg);
+			login.logout();
+			
 			//launch and select org as super
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
 			login.logout();
@@ -287,15 +305,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 			
 			//launch and select org as national account
 			navigationBar.launchBrowserAndSelectOrg(nationalAccount,automationOrg);
-			login.logout();
-			
-			//launch and select org as master national account
-			navigationBar.launchBrowserAndSelectOrg(masterNationalAccount,automationOrg);
-			login.logout();
-			
-			//launch and select org as reporter
-			navigationBar.launchBrowserAndSelectOrg(reporter,automationOrg);
-			login.logout();
+			login.logout();			
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -310,14 +320,16 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		String automationOrg=propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		
 		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
 		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
 		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
-		String location=rstConsumerSearchData.get(CNConsumerSearch.LOCATION);
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+		String consumer=propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE);
+		String location= propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		try {
 			// launch and select org as super and navigate to consumer search page
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
@@ -325,30 +337,30 @@ public class SmokeAdminAndV5 extends TestInfra{
 
 			// search a consumer and navigate to its summary page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					consumer,
+					location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
-			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			//update balance
 			consumerSummary.adjustBalance(dbBalance, reasonCode);
 			
 			//verify updated balance displays on search page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					consumer,
+					location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			String balanceSearchPage = consumerSearch.getBalance(location);
 			assertEquals(balanceSearchPage, dbBalance);
 			
 			//increment balance
 			String incrementedBalance=String.valueOf(String.format("%.2f", (Double.parseDouble(dbBalance) + 2)));
-			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			consumerSummary.adjustBalance(incrementedBalance, reasonCode);
 			
 			//verify balance increment
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					consumer,
+					location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			String balanceIncrementSearchPage = consumerSearch.getBalance(location);
 			assertEquals(balanceIncrementSearchPage, incrementedBalance);
@@ -367,8 +379,8 @@ public class SmokeAdminAndV5 extends TestInfra{
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					consumer,
+					location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			Double actualBalanceUpdatedAfterOrder = Double.parseDouble(consumerSearch.getBalance(location));
 			Double expectedbalanceUpdatedAfterOrder=Double.parseDouble(incrementedBalance)-Double.parseDouble(subTotal);
@@ -387,29 +399,34 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		String automationOrg=propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		
-		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
-		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
-		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
+//		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+//		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
+//		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
+//		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
 		String location=propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
 			// place order in v5 using the above consumer
-			landingPage.launchV5AndSelectLanguageEnglish();
-			assertTrue(productSearch.searchProduct(productName));
-			String subTotal=order.getSubtotal();
-			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
-			browser.close();
+//			browser.close();
+//			landingPage.launchV5AndSelectLanguageEnglish();
+//			assertTrue(productSearch.searchProduct(productName));
+//			String subTotal=order.getSubtotal();
+//			foundation.click(Order.LBL_EMAIL);
+//			if(foundation.isDisplayed(Order.BTN_EMAIL_LOGIN))
+//				foundation.click(Order.BTN_EMAIL_LOGIN);
+//			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
+//			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+//			browser.close();
 			
 			//login back to adm and confirm balance updated accordingly
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
-			transactionSearchPage.selectTransactionID(Constants.TODAY, location, subTotal);
-			transactionSearchPage.verifyTransactionDetails(subTotal, "", productName);
+			transactionSearchPage.selectTransactionID(Constants.TODAY, location, "");
+			transactionSearchPage.verifyTransactionDetails("", "", productName);
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -45,6 +45,7 @@ public class Login extends Factory {
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
+			foundation.waitforElement(BTN_SIGN_IN, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}

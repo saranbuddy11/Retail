@@ -21,9 +21,9 @@ public class NavigationBar extends Factory {
 	private Login login=new Login();
 
 	public static final By DPD_ORG = By.className("select2");
-	private static final By TXT_ORG = By.className("select2-search__field");
+	private static final By TXT_ORG = By.xpath("//span/input[@class='select2-search__field']");
 	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
-	public static final By MENU_SUPER = By.className("//ul[@role='navigation']//li//a[contains(text(),'Super')]"); 
+	public static final By MENU_SUPER = By.className("//ul[@olre='navigation']//li//a[contains(text(),'Super')]"); 
 
 	public void selectOrganization(String selectText) {	
 		try {

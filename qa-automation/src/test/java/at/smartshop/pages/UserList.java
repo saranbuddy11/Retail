@@ -51,6 +51,7 @@ public class UserList {
 	public static final By SEARCH_FILTER = By.xpath("//input[@aria-controls='dt']");
 	public static final By TBL_DATA = By.xpath("//td[@class=' sorting_1']");
 	public static final By DISABLE_USER = By.xpath("//button[@id='disableBtn']");
+	public static final By ENABLE_USER = By.xpath("//button[text()='Enable User']");
 	public static final By CONFIRM_DISABLE = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By FIRST_NAME_ERROR = By.xpath("//label[@id='firstname-error']");
 	public static final By LAST_NAME_ERROR = By.xpath("//label[@id='lastname-error']");
@@ -95,7 +96,7 @@ public class UserList {
 		textBox.enterText(FIRST_NAME_FIELD, firstName);
 		textBox.enterText(LAST_NAME_FIELD, lastName);
 		textBox.enterText(EMAIL_ADDRESS_FIELD, email);
-		textBox.enterText(PIN_TXT, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		//textBox.enterText(PIN_TXT, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		dropdown.selectItem(SELECT_LOCATION, location, Constants.TEXT);
 		foundation.click(CLICK_OUTSIDE);
 		foundation.click(SELECT_CLIENT);
@@ -106,6 +107,13 @@ public class UserList {
 		textBox.enterText(SELECT_NATIONAL_ACCOUNT, nationalAccount);
 		foundation.click(CLICK_NATIONAL_ACCOUNT);
 		foundation.click(SAVE_USER);
+		foundation.waitforElement(PASSWORD_TXT, Constants.LONG_TIME);
+		foundation.click(MANAGE_PASSWORD);
+		foundation.waitforElement(PASSWORD_TXT, Constants.LONG_TIME);
+		textBox.enterText(PASSWORD_TXT, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		textBox.enterText(CNFRM_PASSWORD_TXT, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(SAVE_PASSWORD_BTN);
+		foundation.waitforElement(DISABLE_USER, Constants.FIFTEEN_SECOND);
 		foundation.waitforElementToDisappear(UserList.TXT_SPINNER_MSG, Constants.MEDIUM_TIME);
 		return email;
     }
@@ -129,7 +137,7 @@ public class UserList {
 		foundation.click(UserList.SELECT_EXPIRATION_DATE);
 		foundation.click(UserList.SEND_NOTIFICATION);
 		foundation.click(UserList.ADD_ROLE_USER_BTN);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		//Navigate to User Summary Tab
 		foundation.click(UserList.USER_SUMMARY);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -141,9 +149,10 @@ public class UserList {
     public void disableUser(String userFirstName) {
     	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
 		foundation.click(UserList.TBL_DATA);
-		foundation.click(UserList.MANAGE_USER_ROLES);
+		//foundation.click(UserList.MANAGE_USER_ROLES);
 		foundation.click(UserList.DISABLE_USER);
 		foundation.click(UserList.CONFIRM_DISABLE);
+		foundation.waitforElement(ENABLE_USER, Constants.EXTRA_LONG_TIME);
     }
     
     public void searchAndSelectUser(String userFirstName) {

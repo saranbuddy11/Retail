@@ -111,7 +111,7 @@ public class GlobalProduct extends Factory {
 	}
 	
 	public void assignTaxCategory(String productName, String taxCategory) {
-		navigationBar.navigateToMenuItem("Products#Global Products");
+		navigationBar.navigateToMenuItem("Product#Global Products");
 		selectGlobalProduct(productName);
 		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, taxCategory, Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);
@@ -119,7 +119,7 @@ public class GlobalProduct extends Factory {
 	}
 	
 	public void removeTaxCategory(String productName) {
-		navigationBar.navigateToMenuItem("Products#Global Products");
+		navigationBar.navigateToMenuItem("Product#Global Products");
 		selectGlobalProduct(productName);
 		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, Constants.CHOOSENOTHING, Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);

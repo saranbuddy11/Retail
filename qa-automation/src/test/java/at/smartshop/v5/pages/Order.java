@@ -35,7 +35,7 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By
 			.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
-	public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
+	public static final By LBL_EMAIL = By.xpath("(//h3[text()='My Account']//.)[2]//..//..//img");
 	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div");
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div");
@@ -46,6 +46,7 @@ public class Order {
 	public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
 	public static final By LBL_MULTI_PRODUCTS = By.xpath("//*[@class='product-price']");
 	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
+	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
