@@ -96,6 +96,7 @@ public class AccountLogin {
 		String text = foundation.getText(LBL_CONSUMER_NAME);
 		CustomisedAssert.assertTrue(text.contains(consumerName));
 		foundation.click(LBL_SUBSIDY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SUBSIDY));
 		text = foundation.getText(LBL_SUBSIDY_BALANCE);
 		CustomisedAssert.assertEquals(text, expectedBal);
 		foundation.click(BTN_PROFILE_CLOSE);

@@ -250,6 +250,8 @@ public class LocationSummary extends Factory {
 			.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy']");
 	public static final By BTN_ADD_TOP_OFF = By.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtn']");
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
+	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
+	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");

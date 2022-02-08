@@ -10571,7 +10571,8 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "166026 - Verify subsidy balance in kiosk device for the consumer part of home campus")
+	@Test(description = "166026 - Verify subsidy balance in kiosk device for the consumer part of home campus"
+			+ "166030 - Verify the payroll balance when having multi balances in V5 device.")
 
 	public void verifySubsidyBalanceForConsumer() {
 
@@ -10634,6 +10635,10 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(6), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(3));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(5));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
+			CustomisedAssert.assertFalse(foundation.isEnabled(LocationSummary.INPUT_PAYROLL));
+			value = dropDown.getSelectedItem(LocationSummary.INPUT_PAYROLL);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
