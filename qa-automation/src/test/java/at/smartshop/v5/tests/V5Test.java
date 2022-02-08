@@ -10572,7 +10572,8 @@ public class V5Test extends TestInfra {
 	}
 
 	@Test(description = "166026 - Verify subsidy balance in kiosk device for the consumer part of home campus"
-			+ "166030 - Verify the payroll balance when having multi balances in V5 device.")
+			+ "166030 - Verify the payroll balance when having multi balances in V5 device."
+			+ "166031 - Verify the UI for the multi balance in V5 device.")
 
 	public void verifySubsidyBalanceForConsumer() {
 
@@ -10654,6 +10655,7 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			String balance = foundation.getText(ConsumerSummary.LBL_READ_BALANCE);
 			String subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
 			CustomisedAssert.assertEquals(subsidyName, requiredData.get(10));
 			foundation.click(ConsumerSummary.BTN_SAVE);
@@ -10666,9 +10668,10 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			String balance = "$" + requiredData.get(4) + ".00";
+			String typeBalance = "$" + requiredData.get(4) + ".00";
 			accountLogin.verifyConsumerAccountLogin(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance);
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance, typeBalance,
+					rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS));
 
 			// Product Search
 			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
@@ -10678,7 +10681,7 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 			String balanceDue = foundation.getText(Order.LBL_BALANCE_DUE).split(Constants.DOLLAR)[1];
 			double bal = Double.valueOf(requiredData.get(4)) - Double.valueOf(balanceDue);
-			balance = "$" + String.valueOf(bal) + "0";
+			typeBalance = "$" + String.valueOf(bal) + "0";
 
 			// Transaction Done using Consumer Account Subsidy Balance
 			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
@@ -10696,7 +10699,8 @@ public class V5Test extends TestInfra {
 
 			// Verifying Consumer Subsidy Balance after Transaction
 			accountLogin.verifyConsumerAccountLogin(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance);
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance, typeBalance,
+					rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
