@@ -13,6 +13,7 @@ public class Login extends Factory {
 	private Foundation foundation = new Foundation();
 
 	private static final By TXT_EMAIL = By.id("username");
+	private static final By TXT_SOS_EMAIL = By.id("email");
 	private static final By TXT_PASSWORD = By.id("password");
 	private static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
 	public static final By LBL_USER_NAME = By.id("drop5");
@@ -32,6 +33,17 @@ public class Login extends Factory {
 		try {
 			foundation.click(BTN_SIGN_IN);
 			insertLoginFields(userName, password);
+			foundation.click(BTN_SIGN_IN);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void sosLogin(String userName, String password) {
+		try {
+			foundation.waitforElement(TXT_SOS_EMAIL, Constants.TWO_SECOND);
+			textBox.enterText(TXT_SOS_EMAIL, userName);
+			textBox.enterText(TXT_PASSWORD, password);
 			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
