@@ -26,21 +26,16 @@ public class PromotionAnalysis extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#promoPromotionLevel > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
-	
 	public final By TBL_PROMOTIONAL_ANALYSIS = By.xpath("//table[@id='promoPromotionLevel']");
-//	public static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
 	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID = By.cssSelector("#promoPromotionLevel > tbody");
-//	private static final By TBL_ITEM_STOCKOUT_DETAILS = By.cssSelector("table[aria-describedby='detaildt_info']");
-//	private static final By TBL_ITEM_STOCKOUT_DETAILS_GRID = By.cssSelector("table[aria-describedby='detaildt_info'] > tbody");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input[placeholder='  - Enter Product Description -']");
 
-	private List<String> tableHeaders = new ArrayList<>();
-	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
+	public List<String> tableHeaders = new ArrayList<>();
 	private int recordCount;
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> reportsDetailsData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> intialDetailsData = new LinkedHashMap<>();
+	private Map<String, String> promoActualData = new LinkedHashMap<>();
+	private Map<String, String> PromoExpectedData = new LinkedHashMap<>();
 
 	public void checkForDataAvailabilyInResultTable() {
 		try {
@@ -61,7 +56,7 @@ public class PromotionAnalysis extends Factory {
 		}
 	}
 	
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public void getTblRecordsUI() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
@@ -89,13 +84,13 @@ public class PromotionAnalysis extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		System.out.println("reportsData :"+ reportsData);
-		return reportsData;
 	}
 	
 	public void getRequiredRecord(String promotionName) {
 		try {
-			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
+			for (int rowCount = 1; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
+					System.out.println(intialData.get(rowCount).get(tableHeaders.get(1)));
 					recordCount = rowCount;
 					break;
 				}
@@ -108,9 +103,8 @@ public class PromotionAnalysis extends Factory {
 
 	public void updateData(String columnName, String values) {
 		try {
-//			for (int iter = 0; iter < requiredRecords.size(); iter++) {
 				intialData.get(recordCount).put(columnName, values);
-//			}
+				System.out.println("intialData :"+ intialData.get(recordCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -126,16 +120,42 @@ public class PromotionAnalysis extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public Map<String, String> promotionActualData() {
+		try {
+			System.out.println("recordCount22 :" + recordCount);
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
+				}
+//			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return promoActualData;
+	}
+	
+	public Map<String, String> PromotionExpectedData() {
+		try {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
+				}
+//			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return PromoExpectedData;
+	}
 
 	public void verifyReportData() {
 		try {
-			int count = intialData.size();
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+			System.out.println("reportsData :" + promoActualData);
+			System.out.println("intialData :" + PromoExpectedData);
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {	
+					CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
+							.contains(PromoExpectedData.get(tableHeaders.get(iter))));
+					System.out.println("reportsData :" + promoActualData.get(tableHeaders.get(iter)));
+					System.out.println("intialData :" + PromoExpectedData.get(tableHeaders.get(iter)));
 				}
-			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -149,20 +169,7 @@ public class PromotionAnalysis extends Factory {
 		return reportsData;
 	}
 
-	public Map<Integer, Map<String, String>> getIntialDetailsData() {
-		return intialDetailsData;
-	}
-
-	public Map<Integer, Map<String, String>> getReportsDetailsData() {
-		return reportsDetailsData;
-	}
-
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-
-//	public List<String> getItemStockoutDetailsHeaders() {
-//		return itemStockoutDetailsHeaders;
-//	}
-
 }

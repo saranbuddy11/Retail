@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
@@ -16,6 +17,7 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -422,6 +424,21 @@ public class ReportList extends Factory {
 			} else {
 				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
 						+ "'][not(contains(@class , 'off'))]"));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			System.out.println("columnName :" + columnName);
+			System.out.println("tableHeaders :" + tableHeaders);
+			for (int iter = 1; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				System.out.println("columnName :" + columnName.get(iter));
+				System.out.println("tableHeaders :" + tableHeaders.get(iter));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
