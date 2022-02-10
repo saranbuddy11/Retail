@@ -16,6 +16,7 @@ import at.framework.files.PropertyFile;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Factory {
 
@@ -38,7 +39,8 @@ public class Factory {
 					chromeOptions.addArguments("--disable-plugins", "--disable-extensions","--disable.popup.blocking");
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setCapability("applicationCacheEnabled", false);
-					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
+					//System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
+					WebDriverManager.chromedriver().setup();
 					webDriver.set(new ChromeDriver(chromeOptions));
 				} else if (browser.equals(Constants.FIREFOX)) {
 				} else if (browser.equals(Constants.INTERNET_EXPOLRER)) {
@@ -54,8 +56,9 @@ public class Factory {
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setBrowserName("chrome");
 					capabilities.setPlatform(Platform.ANY);
-					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
+					//System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
 					//chromeOptions.setBinary("/usr/bin/chromium-browser");
+					WebDriverManager.chromedriver().setup();
 					webDriver.set(new RemoteWebDriver(new URL(	propertyFile.readPropertyFile(Configuration.HUB_URL, FilePath.PROPERTY_CONFIG_FILE)),capabilities));
 
 				} else if (browser.equals(Constants.FIREFOX)) {
