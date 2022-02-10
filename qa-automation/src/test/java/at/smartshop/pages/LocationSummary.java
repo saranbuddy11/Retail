@@ -1,5 +1,7 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
+
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,18 +26,31 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNV5Device;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
+import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.ProductSearch;
+
 import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
 	private Dropdown dropDown = new Dropdown();
+	public Login login = new Login();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
+	private NavigationBar navigationBar = new NavigationBar();
+	private LandingPage landingPage = new LandingPage();
+	
+	private Map<String, String> rstV5DeviceData;
 	private CheckBox checkBox = new CheckBox();
+
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -204,6 +219,21 @@ public class LocationSummary extends Factory {
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+
+	public static final By PRODUCT_NAME = By
+			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
+	public static final By INVENTORY_NAME = By
+			.xpath("//table[@id='inventoryDataGrid']/tbody/tr/td[@aria-describedby='inventoryDataGrid_name']");
+	public static final By VALIDATE_HEADING = By.id("Location Summary");
+	public static final By DPP_MARKET_CARD = By.id("mkcidedit");
+	public static final By BTN_UPDATE_PRICE = By.id("updprice");
+	public static final By BTN_EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
+	public static final By TXT_NAME = By.id("name");
+	public static final By BTN_CREATE_PROMO = By.id("promoAddBtn");
+	public static final By TXT_CATEGORY = By.id("taxcat");
+	public static final By INVENTORY_QUANTITY = By
+			.xpath("//table[@id='inventoryDataGrid']/tbody/tr/td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+
 	public static final By CHK_TOP_OFF_SUBSIDY = By.xpath("//input[@class='topoffsubsidy-default topoffcheckbox']");
 	public static final By CHK_DEFAULT_TOP_OFF = By.xpath("//input[@class='topoffsubsidy topoffdefaultcheckbox']");
 	public static final By CHK_DEFAULT_ROLL_OVER = By
@@ -265,6 +295,7 @@ public class LocationSummary extends Factory {
 	public By objDeleteRollOverSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
+
 
 	public void selectTab(String tabName) {
 		try {
@@ -610,6 +641,7 @@ public class LocationSummary extends Factory {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
 		if (foundation.isDisplayed(objTaxCategory(taxCategory)) == false) {
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(BTN_ADD_MAPPING);
 			foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
 			dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
@@ -819,6 +851,65 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_YES_REMOVE);
 		foundation.navigateToBackPage();
 	}
+
+	public void resetInventory(String scancode, String inventory) {
+
+		By inventoryLink = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+		By inventoryValue = By.xpath(
+				"//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input");
+		foundation.click(inventoryLink);
+		textBox.enterText(inventoryValue, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(inventoryValue, inventory);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(inventoryLink));
+	}
+
+	public void selectingMarketCard(String locationName, String ValidateHeading,String marketCard) {
+		// Selecting location
+		locationList.selectLocationName(locationName);
+		foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
+		Assert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(ValidateHeading));
+		foundation.waitforElement(LocationSummary.DPP_MARKET_CARD, Constants.SHORT_TIME);
+		dropDown.selectItem(LocationSummary.DPP_MARKET_CARD, marketCard, Constants.TEXT);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+	
+	public void selectingProduct(String tab, String productName,String scanCode,String productPrice) {
+		selectTab(tab);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		enterPrice(scanCode,productPrice);
+		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
+	}
+	
+	public void launchingBrowserAndSelectingOrg() {
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+	}
+	
+	public void addEditProduct(String tab, String productName, String updatedProductName, String menuItem) {
+		
+		selectTab(tab);
+		foundation.WaitForAjax(5000);
+		foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		foundation.WaitForAjax(5000);
+		Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+		foundation.click(LocationSummary.PRODUCT_NAME);
+		foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
+		foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
+		textBox.enterText(LocationSummary.TXT_NAME, updatedProductName);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+		navigationBar.navigateToMenuItem(menuItem);
+	}
+}
 
 	public static String getMonthName(int monthIndex) {
 		if (monthIndex > 12) {
