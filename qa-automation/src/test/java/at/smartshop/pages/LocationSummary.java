@@ -45,12 +45,11 @@ public class LocationSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
-	
+
 	private LandingPage landingPage = new LandingPage();
-	
+
 	private Map<String, String> rstV5DeviceData;
 	private CheckBox checkBox = new CheckBox();
-
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By BTN_SAVE = By.id("saveBtn");
@@ -296,7 +295,6 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
 
-
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -503,9 +501,7 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-     
-	
-	
+
 	public List<String> getProductsNames() {
 		List<String> productNames = new LinkedList<>();
 		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
@@ -864,7 +860,7 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(inventoryLink));
 	}
 
-	public void selectingMarketCard(String locationName, String ValidateHeading,String marketCard) {
+	public void selectingMarketCard(String locationName, String ValidateHeading, String marketCard) {
 		// Selecting location
 		locationList.selectLocationName(locationName);
 		foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
@@ -874,26 +870,25 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 	}
-	
-	public void selectingProduct(String tab, String productName,String scanCode,String productPrice) {
+
+	public void selectingProduct(String tab, String productName, String scanCode, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-		enterPrice(scanCode,productPrice);
+		enterPrice(scanCode, productPrice);
 		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
 	}
-	
+
 	public void launchingBrowserAndSelectingOrg() {
-		browser.navigateURL(
-				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 	}
-	
+
 	public void addEditProduct(String tab, String productName, String updatedProductName, String menuItem) {
-		
+
 		selectTab(tab);
 		foundation.WaitForAjax(5000);
 		foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
