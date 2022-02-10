@@ -33,6 +33,7 @@ import at.smartshop.pages.ConsumerMove;
 import at.smartshop.pages.ConsumerMoveHistory;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
@@ -761,12 +762,13 @@ public class Consumer extends TestInfra {
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle);
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.alertAccept();
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and reset data
-			login.logout();
+			
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -1249,13 +1251,14 @@ public class Consumer extends TestInfra {
 			// delete consumer
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.alertAccept();
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			login.logout();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and turn on pay-cycle
-			login.logout();
+			
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -1743,12 +1746,13 @@ public class Consumer extends TestInfra {
 			// delete consumer
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.alertAccept();
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and delete pay-cycle
-			login.logout();
+			
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -2428,7 +2432,8 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.alertAccept();
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2506,7 +2511,9 @@ public class Consumer extends TestInfra {
 
 			// reset- payout and close
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.alertAccept();
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
