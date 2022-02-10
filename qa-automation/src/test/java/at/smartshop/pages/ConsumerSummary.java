@@ -13,6 +13,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -72,6 +73,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
+	public static final By ADJUST_BAL = By.id("readTypebalance");
 
 	public double getBalance() {
 		double initBalance = 0;
@@ -195,4 +197,23 @@ public class ConsumerSummary extends Factory {
 		// CustomisedAssert.assertTrue(data.get(1).equals(value));
 		// CustomisedAssert.assertTrue(data.get(4).contains(date));
 	}
+	public void balanceResettingData(String menu,String location,String balance,String reason) {
+		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+        foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+        foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason,Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+	}
+	
+	
+	
 }

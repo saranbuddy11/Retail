@@ -60,6 +60,7 @@ public class ConsumerSearch extends Factory {
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
     public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
+    public static final By BTN_SAVE = By.id("reasonSaveBtn");
     
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
