@@ -128,10 +128,13 @@ public class UserList {
     
     public void updateORAddUserRole(String newRole) {
 		foundation.click(UserList.MANAGE_USER_ROLES);
-		while(foundation.isDisplayed(REMOVE_USER_ROLES)) {
-			foundation.click(REMOVE_USER_ROLES);
-			foundation.click(CONFIRM_DISABLE);
+		if(foundation.isDisplayed(REMOVE_USER_ROLES)) {
+		foundation.click(REMOVE_USER_ROLES);
+		foundation.click(CONFIRM_DISABLE);
 		}
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.refreshPage();
+		foundation.click(UserList.MANAGE_USER_ROLES);
 		dropdown.selectItem(UserList.SECURITY_ROLE, newRole, Constants.TEXT);
 		foundation.click(UserList.EXPIRATION_DATE);
 		foundation.click(UserList.SELECT_EXPIRATION_DATE);
@@ -144,6 +147,7 @@ public class UserList {
 		// Click on Update User Button
 		foundation.click(UserList.SAVE_USER);
 		foundation.waitforElementToDisappear(UserList.TXT_SPINNER_MSG, Constants.MEDIUM_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
     }
     
     public void disableUser(String userFirstName) {

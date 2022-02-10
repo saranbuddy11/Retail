@@ -14,16 +14,10 @@ import at.framework.browser.Browser;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
-import at.framework.generic.DateAndTime;
-import at.framework.generic.Strings;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
-import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
@@ -32,17 +26,12 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
-import at.smartshop.pages.CreatePromotions;
-import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
-import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
-import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.TaxList;
 import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.pages.UserList;
-import at.smartshop.pages.UserRoles;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
@@ -54,18 +43,8 @@ public class SmokeAdminAndV5 extends TestInfra{
 	private ResultSets dataBase = new ResultSets();
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
-	private CreatePromotions createPromotions = new CreatePromotions();
-	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
-	private TextBox textBox = new TextBox();
-	private Strings strings = new Strings();
-	private DateAndTime dateAndTime = new DateAndTime();
-	private PromotionList promotionList = new PromotionList();
-	private EditPromotion editPromotion = new EditPromotion();
-	private UserRoles userRoles = new UserRoles();
 	private UserList userList = new UserList();
-	private CheckBox checkBox = new CheckBox();
-	private Table table = new Table();
 	private GlobalProduct globalProducts=new GlobalProduct();
 	private LocationSummary locationSummary=new LocationSummary();
 	private TaxList taxList=new TaxList();
@@ -77,13 +56,8 @@ public class SmokeAdminAndV5 extends TestInfra{
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private AccountLogin accountLogin=new AccountLogin(); 
 	private TransactionSearchPage transactionSearchPage=new TransactionSearchPage();
-	
-	
 
 	private Map<String, String> rstNavigationMenuData;
-	private Map<String, String> rstLocationData;
-	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstUserRolesData;
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstConsumerSearchData;
@@ -97,10 +71,6 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> language = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String locationName=propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
@@ -118,7 +88,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 			globalProducts.assignTaxCategory(productName,taxCategory);
 
 			// edit tax rate OR update tax rate
-						assertTrue(taxList.updateTaxRate(taxRateName, taxRate1, requiredData.get(3), requiredData.get(3), requiredData.get(3)));
+			assertTrue(taxList.updateTaxRate(taxRateName, taxRate1, requiredData.get(3), requiredData.get(3), requiredData.get(3)));
 						
 			// assign tax mapping - location summary
 			locationSummary.navigateAndAddTaxMap(locationName,taxCategory, taxRateName);
@@ -152,6 +122,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 		}
 	}
 	
+	//This test fails since there is a issue on effecting user role timings- Mahi yet to check and get back
 	@Test(description = "167029-User and roles- create user role assign it to user, edit it then verify disable ")
 	public void createUserAndRoleEditDelete() {
 		final String CASE_NUM = "167029";
@@ -182,14 +153,21 @@ public class SmokeAdminAndV5 extends TestInfra{
 			login.login(userEmail,
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			assertTrue(foundation.isDisplayed(NavigationBar.MENU_SUPER));
 			login.logout();
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//update user role to admin
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			userList.searchAndSelectUser(userEmail);
 			userList.updateORAddUserRole(roleData.get(1));
+			
+			//verify user can logs in
+			login.logout();
+			login.login(userEmail,
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			assertFalse(foundation.isDisplayed(NavigationBar.MENU_SUPER));
 			
 		} catch (Exception exc) {
@@ -316,6 +294,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 		}
 	}
 	
+	//Due to stripe balance issue tests fails,once it is fixed this suppose to pass
 	@Test(description = "167034-Adjust balance- adjust consumer balance and place order on kiosk to verify remaining balance")
 	public void adjustBalance() {
 		final String CASE_NUM = "167034";
@@ -327,8 +306,6 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		String automationOrg=propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		
-		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
 		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
@@ -395,6 +372,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 		}
 	}
 	
+	//Due to stripe balance issue tests fails
 	@Test(description = "167027-Transaction search-Place order via kiosk and verify the transaction created under transaction search")
 	public void transactionSearch() {
 		final String CASE_NUM = "167027";
@@ -406,10 +384,6 @@ public class SmokeAdminAndV5 extends TestInfra{
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		String automationOrg=propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		
-//		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
-//		String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
-//		String dbBalance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
-//		String reasonCode=rstConsumerSummaryData.get(CNConsumerSummary.REASON);
 		String location=propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
