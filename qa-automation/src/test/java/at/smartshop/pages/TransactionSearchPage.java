@@ -47,7 +47,7 @@ public class TransactionSearchPage extends Factory{
 	public static final By LBL_SUBTOTAL = By.xpath("//*[@id='subtotal']/following-sibling::dd[1]");
 	public static final By LBL_TAX = By.xpath("//*[@id='tax:']/following-sibling::dd[1]");
 	public static final By LBL_TOTAL = By.xpath("//*[@id='total']/following-sibling::dd[1]");
-	public static final By LBL_STATUS = By.id("printBtn");
+	public static final By LBL_STATUS = By.id("status_0");
 	public static final By LBL_PAYMENT_TYPE = By.id("paytype_0");
 	public static final By LBL_PRODUCT = By.id("item_0");
 	
@@ -80,7 +80,7 @@ public class TransactionSearchPage extends Factory{
 	}
 	
 	public By objTransactionId(String transactionAmount) {
-		return By.xpath("//td[text()='"+transactionAmount+"']//..//td//span");
+		return By.xpath("//td[contains(text(),'"+transactionAmount+"')]//..//td//span");
 	}
 	
 	public void selectTransactionID(String optionName,String location,String transactionAmount) {

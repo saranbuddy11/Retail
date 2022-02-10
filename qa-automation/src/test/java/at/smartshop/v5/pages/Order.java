@@ -111,8 +111,8 @@ public class Order {
 		
 	}
 
-	public String getSubtotal() {
-		String uiSubTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
-		return uiSubTotal;
+	public String getTotalBalance() {
+		String uiTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
+		return uiTotal;
 	}
 }

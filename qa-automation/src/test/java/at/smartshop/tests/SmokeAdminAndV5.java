@@ -117,12 +117,14 @@ public class SmokeAdminAndV5 extends TestInfra{
 			// Assign tax category to product
 			globalProducts.assignTaxCategory(productName,taxCategory);
 
+			// edit tax rate OR update tax rate
+						assertTrue(taxList.updateTaxRate(taxRateName, taxRate1, requiredData.get(3), requiredData.get(3), requiredData.get(3)));
+						
 			// assign tax mapping - location summary
 			locationSummary.navigateAndAddTaxMap(locationName,taxCategory, taxRateName);
-
-			// edit tax rate OR update tax rate
-			assertTrue(taxList.updateTaxRate(taxRateName, taxRate1, requiredData.get(3), requiredData.get(3), requiredData.get(3)));
-
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.waitforElementToDisappear(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);;
+			
 			// login to application
 			browser.close();
 			landingPage.launchV5AndSelectLanguageEnglish();
@@ -180,7 +182,9 @@ public class SmokeAdminAndV5 extends TestInfra{
 			login.login(userEmail,
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			//assertTrue(foundation.isDisplayed(NavigationBar.MENU_SUPER));
+			login.logout();
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//update user role to admin
 			navigationBar.navigateToMenuItem(menuItem);
@@ -368,7 +372,7 @@ public class SmokeAdminAndV5 extends TestInfra{
 			// place order in v5 using the above consumer
 			landingPage.launchV5AndSelectLanguageEnglish();
 			assertTrue(productSearch.searchProduct(productName));
-			String subTotal=order.getSubtotal();
+			String subTotal=order.getTotalBalance();
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
@@ -410,24 +414,24 @@ public class SmokeAdminAndV5 extends TestInfra{
 		String productName=rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
 			// place order in v5 using the above consumer
-//			browser.close();
-//			landingPage.launchV5AndSelectLanguageEnglish();
-//			assertTrue(productSearch.searchProduct(productName));
-//			String subTotal=order.getSubtotal();
-//			foundation.click(Order.LBL_EMAIL);
-//			if(foundation.isDisplayed(Order.BTN_EMAIL_LOGIN))
-//				foundation.click(Order.BTN_EMAIL_LOGIN);
-//			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
-//					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-//			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
-//			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
-//			browser.close();
+			browser.close();
+			landingPage.launchV5AndSelectLanguageEnglish();
+			assertTrue(productSearch.searchProduct(productName));
+			String totalBalance=order.getTotalBalance();
+			foundation.click(Order.LBL_EMAIL);
+			if(foundation.isDisplayed(Order.BTN_EMAIL_LOGIN))
+				foundation.click(Order.BTN_EMAIL_LOGIN);
+			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
+			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+			browser.close();
 			
 			//login back to adm and confirm balance updated accordingly
 			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			transactionSearchPage.selectTransactionID(Constants.TODAY, location, "0.10");
-			transactionSearchPage.verifyTransactionDetails("$0.10", "ACCOUNT - SCANCODE", productName);
+			transactionSearchPage.selectTransactionID(Constants.TODAY, location, totalBalance);
+			transactionSearchPage.verifyTransactionDetails(totalBalance, "ACCOUNT - SCANCODE", productName);
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -13,9 +13,9 @@ public class Login extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	
-	private static final By TXT_EMAIL = By.id("email");
+	private static final By TXT_EMAIL = By.id("username");
 	private static final By TXT_PASSWORD = By.id("password");
-	private static final By BTN_SIGN_IN = By.cssSelector("#loginform > button");
+	private static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
 	public static final By LBL_USER_NAME = By.id("drop5");
 	private static final By MUN_LOGOUT = By.id("logout");
 	
@@ -32,6 +32,7 @@ public class Login extends Factory {
 
 	public void login(String userName, String password) {
 		try {
+			foundation.click(BTN_SIGN_IN);
 			insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
