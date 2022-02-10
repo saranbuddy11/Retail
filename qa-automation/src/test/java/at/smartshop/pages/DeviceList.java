@@ -13,6 +13,8 @@ public class DeviceList {
 	public static final By TBL_ROW = By.xpath("//*[@id='deviceDataGrid_table']/tbody");
 	public static final By BTN_COMMISSION = By.id("commissionBtn");
 	public static final By BTN_SEARCH = By.id("submitBtn");
+	public static final By BTN_SUBMIT = By.id("submitBtn");
+	public static final By DRP_PICO_DEVICE_TYPE = By.id("picodevicetype");
 
 	public By objDeveiceLink(String deviceName) {
 		return By.xpath("//td[@aria-describedby='device-grid_name']//a[text()='" + deviceName + "']");
