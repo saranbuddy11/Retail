@@ -36,16 +36,16 @@ public class Device extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private NavigationBar navigationBar = new NavigationBar();
 	private Foundation foundation = new Foundation();
-	private TextBox textBox=new TextBox();
-	private DeviceList deviceList=new DeviceList();
+	private TextBox textBox = new TextBox();
+	private DeviceList deviceList = new DeviceList();
 	private Excel excel = new Excel();
 	private Table table = new Table();
 	private Strings string = new Strings();
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private LocationList locationList = new LocationList();
-	private LocationSummary locationSummary=new LocationSummary();
-	
+	private LocationSummary locationSummary = new LocationSummary();
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 
@@ -55,147 +55,155 @@ public class Device extends TestInfra {
 			final String CASE_NUM = "145232";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number section display
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertFalse(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145233-QAA-24-Verify serial number section display on Admin>Device page as super")
 	public void serialNumberDisplaySuperAdmin() {
 		try {
 			final String CASE_NUM = "145233";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number section display
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145234-QAA-24-Verify serial number section display on Super>Device page")
 	public void serialNumberDisplaySuper() {
 		try {
 			final String CASE_NUM = "145234";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number section display
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145235-QAA-24-Verify the sort functionality of serial number column on Admin>Device page as operator")
 	public void serialNumberSortOperatorAdmin() {
 		try {
 			final String CASE_NUM = "145235";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number sort functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
-			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
-			
-		}
-		catch (Exception exc) {
+			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			// Constants.ASCENDING);
+			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			// Constants.DESCENDING);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator")
 	public void serialNumberSortSuperAdmin() {
 		try {
 			final String CASE_NUM = "145238";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number sort functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145239-QAA-24-Verify the sort functionality of serial number column on Super>Device page")
 	public void serialNumberSortSuper() {
 		try {
 			final String CASE_NUM = "145239";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number sort functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator")
 	public void serialNumberSearchOperatorAdmin() {
 		try {
@@ -203,25 +211,26 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145239-QAA-24-Verify the search based on serial number field on Admin>Device page as super")
 	public void serialNumberSearchSuperAdmin() {
 		try {
@@ -229,25 +238,26 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145240-QAA-24-Verify the search based on serial number field on Super>Device page")
 	public void serialNumberSearchSuper() {
 		try {
@@ -255,25 +265,26 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145241-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as operator")
 	public void serialNumberMatchOperatorAdmin() {
 		try {
@@ -281,28 +292,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145693-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as super")
 	public void serialNumberMatchSuperAdmin() {
 		try {
@@ -310,28 +322,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145242-QAA-24-Verify for any of the device serial number in device page (Super>Device) is matching with serial number in device summary page")
 	public void serialNumberMatchSuper() {
 		try {
@@ -339,28 +352,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145243-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as Operator")
 	public void serialNumberNAOperatorAdmin() {
 		try {
@@ -368,28 +382,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145695-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as super")
 	public void serialNumberNASuperAdmin() {
 		try {
@@ -397,28 +412,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145244-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Super>Device)")
 	public void serialNumberNASuper() {
 		try {
@@ -426,28 +442,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.DEVICE));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER)," ");			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER),serialNumberDeviceList);
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "145245-QAA-24-Verify the serial number column display in device export file (Admin>Device) as Operator")
 	public void serialNumberExportOperatorAdmin() {
 		try {
@@ -455,21 +472,23 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-			
+
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
@@ -482,17 +501,15 @@ public class Device extends TestInfra {
 			uiList.removeAll(Arrays.asList("", null));
 			// excel data validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
-	
+
 	@Test(description = "145696-QAA-24-Verify the serial number column display in device export file (Admin>Device) as super")
 	public void serialNumberExportSuperAdmin() {
 		try {
@@ -500,21 +517,23 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-			
+
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
@@ -527,18 +546,16 @@ public class Device extends TestInfra {
 			uiList.removeAll(Arrays.asList("", null));
 			// excel data validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
-	
+
 	@Test(description = "145697-QAA-24-Verify the serial number column display in device export file (Super>Device)")
 	public void serialNumberExportSuper() {
 		try {
@@ -546,21 +563,23 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-			
+
 			// download assertion
 			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
@@ -570,21 +589,19 @@ public class Device extends TestInfra {
 			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
 			List<String> uiList = new ArrayList<String>(uidata.values());
-			uiList.removeAll(Arrays.asList("", null," "));
+			uiList.removeAll(Arrays.asList("", null, " "));
 			// excel data validation
 			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
 		}
 	}
-	
+
 	@Test(description = "164070-QAA-81-ADM>Super>Device>Device List")
 	public void superDeviceList() {
 		try {
@@ -592,21 +609,23 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList=rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-			
-			//verify daily revenue			
-			browser.navigateURL(	propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//navigate to admin>device and verify serial number filter functionality
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,serialNumberDeviceList);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
 			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),serialNumberDeviceList);			
+			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-			
+
 			// download assertion
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
 			// record count validation
@@ -616,11 +635,9 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.click(Commission.BTN_COMMISSION_CREATE_NEW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
 		}
@@ -650,9 +667,10 @@ public class Device extends TestInfra {
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 
-			//Verifying Cooler Type is Present 
+			// Verifying Cooler Type is Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			CustomisedAssert.assertTrue(coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert
+					.assertTrue(coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -682,9 +700,10 @@ public class Device extends TestInfra {
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 
-			//Verifying Cooler Type is not Present 
+			// Verifying Cooler Type is not Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			CustomisedAssert.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert
+					.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -708,15 +727,17 @@ public class Device extends TestInfra {
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.click(DeviceList.BTN_SEARCH);
 			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
 					Constants.MEDIUM_TIME);
 
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 
-			//Verifying Cooler Type is not Present 
+			// Verifying Cooler Type is not Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			CustomisedAssert.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			CustomisedAssert
+					.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -758,16 +779,16 @@ public class Device extends TestInfra {
 			foundation.click(KioskCreate.BTN_SAVE);
 			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
 			foundation.refreshPage();
-			
+
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			foundation.click(deviceList.objDeveiceLink(device));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
-			
+
 			// selecting Hardware type as PicoMarket
 			dropDown.selectItem(KioskCreate.DPD_HARDWARE_TYPE, dbData.get(2), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// Verifying Cooler Type is Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
 			CustomisedAssert.assertTrue(coolerType.toString().contains(dbData.get(3)));
@@ -775,8 +796,7 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
+
 	@Test(description = "164600-QAA-106-Add new device and check if the device is displayed in the Deploy Device List")
 	public void verifyAddedDeviceDisplay() {
 		try {
@@ -794,7 +814,7 @@ public class Device extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			
+
 			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
@@ -815,24 +835,23 @@ public class Device extends TestInfra {
 			foundation.click(KioskCreate.BTN_SAVE);
 			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
 			foundation.refreshPage();
-			
+
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(location);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
-			
-			
+
 			// searching for newly created kiosk Device
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			
+
 			CustomisedAssert.assertTrue(deviceName.contains(device));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "164601-QAA-106-Search for specific Device with name and check if search filter is working fine")
 	public void verifyDeviceSearchByName() {
 		try {
@@ -848,28 +867,27 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			String device = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
-			
-			
+
 			// searching for newly created kiosk Device
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			for (int i=0;i<deviceName.size();i=i+2)
-			CustomisedAssert.assertTrue(deviceName.contains(device));
+			for (int i = 0; i < deviceName.size(); i = i + 2)
+				CustomisedAssert.assertTrue(deviceName.contains(device));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "164602-QAA-106-Search for specific Device ip and check if search filter is working fine")
 	public void verifyDeviceSearchByIp() {
 		try {
@@ -885,30 +903,29 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			String device = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT_ADD, Constants.SHORT_TIME);
-			
-			
+
 			// searching for newly created kiosk Device
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
-			for (int i=1;i<deviceName.size();i=i+2)
+			for (int i = 1; i < deviceName.size(); i = i + 2)
 				CustomisedAssert.assertTrue(deviceName.get(i).contains(device));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "164603-QAA-106-Search for specific Device name and click on cancel")
 	public void verifyNewDeviceIsNotDisplayed() {
 		try {
@@ -924,7 +941,7 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
@@ -945,7 +962,7 @@ public class Device extends TestInfra {
 			foundation.click(KioskCreate.BTN_CANCEL);
 			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
 			foundation.refreshPage();
-				
+
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			List<String> deviceName = foundation.getTextofListElement(DeviceList.TBL_ROW);
@@ -954,7 +971,7 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "164604-QAA-106-Search for specific Device name and click on add")
 	public void verifyDeviceIsNotDisplayed() {
 		try {
@@ -970,28 +987,28 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstDeviceListData.get(CNDeviceList.LOCATION));
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			
+
 			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.refreshPage();
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			CustomisedAssert.assertFalse(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}finally {
+		} finally {
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
@@ -999,10 +1016,10 @@ public class Device extends TestInfra {
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 		}
 	}
-	
+
 	@Test(description = "164605-QAA-106-Remove device and check if the device is displayed in Deploy Device List")
 	public void verifyDeviceIsDisplayed() {
 		try {
@@ -1018,42 +1035,41 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstDeviceListData.get(CNDeviceList.LOCATION));
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			
+
 			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.refreshPage();
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
-			//foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
+
+			// foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceName = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			CustomisedAssert.assertTrue(deviceName.contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}finally {
-			
-			
+		} finally {
+
 		}
 	}
-	
+
 	@Test(description = "164606-QAA-106-Select multiple device and click on add")
 	public void verifyMultipleDeviceDisplayed() {
 		try {
@@ -1069,48 +1085,49 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			List<String> deviceName = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstDeviceListData.get(CNDeviceList.LOCATION));
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			locationSummary.selectDevice(deviceName.get(0));
 			locationSummary.selectDevice(deviceName.get(1));
-			
+
 			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.refreshPage();
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			List<String> deviceNameUI = foundation.getTextofListElement(LocationSummary.TBL_DEVICE_LIST);
 			CustomisedAssert.assertFalse(deviceNameUI.contains(deviceName.get(0)));
 			CustomisedAssert.assertFalse(deviceNameUI.contains(deviceName.get(1)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}finally {
+		} finally {
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			if(foundation.isDisplayed(DeviceDashboard.BTN_YES_REMOVE))
+			if (foundation.isDisplayed(DeviceDashboard.BTN_YES_REMOVE))
 				foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
 			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 		}
 	}
+
 	@Test(description = "C164607-QAA-106-Verify sorting in the Deploy Device UI")
 	public void verifySortingDevice() {
 		try {
@@ -1126,13 +1143,13 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstDeviceListData.get(CNDeviceList.LOCATION));
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			
+
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE,Constants.SHORT_TIME);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
 
 			foundation.verifySortText(LocationSummary.TBL_DEVICE_NAME_COLUMN, Constants.ASCENDING);
 			foundation.verifySortText(LocationSummary.TBL_DEVICE_NAME_COLUMN, Constants.DESCENDING);
@@ -1141,109 +1158,111 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-		
-		@Test(description = "165988-QAA-89-Verify Commission page is displayed")
-		public void verifyCommissionPage() {
-			try {
-				final String CASE_NUM = "165988";
 
-				browser.navigateURL(
-						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-				navigationBar.selectOrganization(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+	@Test(description = "165988-QAA-89-Verify Commission page is displayed")
+	public void verifyCommissionPage() {
+		try {
+			final String CASE_NUM = "165988";
 
-				// Reading test data from DataBase
-				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-				rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-				// navigate to admin>device
-				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-				foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-				CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
-				
-				foundation.click(DeviceList.BTN_COMMISSION);
-				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				
-				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CANCEL));
-				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CREATE_NEW));
-				
-				foundation.click(Commission.BTN_CANCEL);
-				foundation.waitforElement(DeviceList.BTN_COMMISSION, Constants.SHORT_TIME);
-				
-				foundation.click(DeviceList.BTN_COMMISSION);
-				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				foundation.click(Commission.BTN_CREATE_NEW);
-				foundation.waitforElement(KioskCreate.LBL_KIOSK_CREATE, Constants.SHORT_TIME);
-				
-				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-				foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
-				
-				foundation.click(DeviceList.BTN_COMMISSION);
-				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				table.selectRow("KSK_TEST_ELOR");
-						//rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-				foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
-				
-				foundation.click(AssignDeviceToOrg.BTN_CANCEL);
-				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.LBL_COMMISSION));
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
 
-			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
+
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.BTN_CREATE_NEW));
+
+			foundation.click(Commission.BTN_CANCEL);
+			foundation.waitforElement(DeviceList.BTN_COMMISSION, Constants.SHORT_TIME);
+
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			foundation.click(Commission.BTN_CREATE_NEW);
+			foundation.waitforElement(KioskCreate.LBL_KIOSK_CREATE, Constants.SHORT_TIME);
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			table.selectRow("KSK_TEST_ELOR");
+			// rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
+
+			foundation.click(AssignDeviceToOrg.BTN_CANCEL);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Commission.LBL_COMMISSION));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
-		
-		@Test(description = "165989-QAA-89-Verify Search, Sorting in Commission page")
-		public void verifySearchAndSortingInCommissionPage() {
-			try {
-				final String CASE_NUM = "165989";
+	}
 
-				browser.navigateURL(
-						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-				navigationBar.selectOrganization(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+	@Test(description = "165989-QAA-89-Verify Search, Sorting in Commission page")
+	public void verifySearchAndSortingInCommissionPage() {
+		try {
+			final String CASE_NUM = "165989";
 
-				// Reading test data from DataBase
-				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-				rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-				// navigate to admin>device
-				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-				foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-				CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
-				
-				foundation.click(DeviceList.BTN_COMMISSION);
-				foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-				
-				List<String> recordCount = Arrays
-						.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
-				
-				dropDown.selectItem(Commission.TXT_SELECT, recordCount.get(0), Constants.VALUE);
-				CustomisedAssert.assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(0)));
-				
-				dropDown.selectItem(Commission.TXT_SELECT,  recordCount.get(1), Constants.VALUE);
-				CustomisedAssert.assertTrue(table.getTblRowCount(Commission.TBL_ROW)<= Integer.parseInt(recordCount.get(1)));
-							
-				foundation.verifySortText(Commission.TBL_COMMISSION, Constants.ASCENDING);
-				foundation.click(Commission.TBL_NAME_COLUMN);
-				foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
-				foundation.click(Commission.TBL_NAME_COLUMN);
-				
-				textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-				Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
-						Commission.TBL_ROW);
-				CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-				textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
+			// navigate to admin>device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(KioskCreate.BTN_CREATE, Constants.SHORT_TIME);
 
-			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.BTN_COMMISSION));
+
+			foundation.click(DeviceList.BTN_COMMISSION);
+			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
+
+			List<String> recordCount = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
+
+			dropDown.selectItem(Commission.TXT_SELECT, recordCount.get(0), Constants.VALUE);
+			CustomisedAssert
+					.assertTrue(table.getTblRowCount(Commission.TBL_ROW) <= Integer.parseInt(recordCount.get(0)));
+
+			dropDown.selectItem(Commission.TXT_SELECT, recordCount.get(1), Constants.VALUE);
+			CustomisedAssert
+					.assertTrue(table.getTblRowCount(Commission.TBL_ROW) <= Integer.parseInt(recordCount.get(1)));
+
+			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.ASCENDING);
+			foundation.click(Commission.TBL_NAME_COLUMN);
+			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
+			foundation.click(Commission.TBL_NAME_COLUMN);
+
+			textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
+					Commission.TBL_ROW);
+			CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 }
