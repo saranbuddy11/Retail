@@ -45,6 +45,7 @@ public class LocationSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
+
 	private LandingPage landingPage = new LandingPage();
 
 	private Map<String, String> rstV5DeviceData;
@@ -903,6 +904,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.TWO_SECOND);
 		navigationBar.navigateToMenuItem(menuItem);
 	}
+
 
 	public static String getMonthName(int monthIndex) {
 		if (monthIndex > 12) {
