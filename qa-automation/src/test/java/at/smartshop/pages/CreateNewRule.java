@@ -5,16 +5,17 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class CreateNewRule extends Factory {
 	private Foundation foundation = new Foundation();
@@ -53,7 +54,7 @@ public class CreateNewRule extends Factory {
 			textbox.enterText(TXT_PRICE, price);
 			foundation.click(BTN_SAVE);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -63,7 +64,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(By.xpath("//ul[@id='select2-orgdt-results']//li[text()='" + org + "']"));
 			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -73,7 +74,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(By.xpath("//ul[@id='select2-locdt-results']//li[text()='" + location + "']"));
 			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -86,7 +87,7 @@ public class CreateNewRule extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Verified the Hint text for the Field" + hintText);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -101,7 +102,7 @@ public class CreateNewRule extends Factory {
 				locationDPDValues.add(value.get(iter).getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return locationDPDValues;
 	}
@@ -109,9 +110,9 @@ public class CreateNewRule extends Factory {
 	public void verifyCancelButton() {
 		try {
 			foundation.click(BTN_NO);
-			Assert.assertTrue(foundation.isDisplayed(BTN_DELETE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_DELETE));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -122,7 +123,7 @@ public class CreateNewRule extends Factory {
 			foundation.click(BTN_YES);
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

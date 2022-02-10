@@ -1,17 +1,15 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -19,9 +17,9 @@ import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNUserRoles;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.keys.Configuration;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserSummary;
@@ -60,18 +58,18 @@ public class UserRoles extends TestInfra {
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			List<String> lblRowRecord = Arrays
 					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
 			table.selectRow(lblRowRecord.get(0));
-			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
 			List<String> clientdropDownList = Arrays
 					.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(2)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(2)));
 
 			login.logout();
 			login.login(
@@ -84,14 +82,14 @@ public class UserRoles extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(1));
 			table.selectRow(lblRowRecord.get(1));
-			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -142,7 +140,7 @@ public class UserRoles extends TestInfra {
 			// Click on cancel Button
 			foundation.click(UserList.CANCEL_USER);
 			foundation.click(UserList.CONFIRM_CANCEL);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
 
 			// Create New
 			foundation.click(UserList.CREATE_NEW_ROLE);
@@ -163,7 +161,7 @@ public class UserRoles extends TestInfra {
 			// Click on Save Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			foundation.waitforElement(UserList.DISABLE_USER, Constants.SHORT_TIME);
@@ -197,7 +195,7 @@ public class UserRoles extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
@@ -209,7 +207,7 @@ public class UserRoles extends TestInfra {
 
 			// Search for already created User
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
 			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
@@ -218,13 +216,13 @@ public class UserRoles extends TestInfra {
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
 			// resetting test data
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			//textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(1));
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
@@ -260,7 +258,7 @@ public class UserRoles extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 
@@ -271,7 +269,7 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SELECT_EXPIRATION_DATE);
 			foundation.click(UserList.SEND_NOTIFICATION);
 			foundation.click(UserList.CANCEL_USER_ROLE);
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			
 			//Check for Manage User Roles and click save 
 			textBox.enterText(UserList.SEARCH_FILTER, device);
@@ -330,7 +328,7 @@ public class UserRoles extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 			
@@ -341,7 +339,7 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.CANCEL_USER_PASSWORD);
 			
 			//Check for Manage Password button and click save button
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 			foundation.click(UserList.MANAGE_PASSWORD);
@@ -355,7 +353,7 @@ public class UserRoles extends TestInfra {
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -392,22 +390,22 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SAVE_USER);
 
 			// Validate the error message
-			Assert.assertEquals(foundation.getText(UserList.FIRST_NAME_ERROR), error_Status);
-			Assert.assertEquals(foundation.getText(UserList.LAST_NAME_ERROR),error_Status);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.FIRST_NAME_ERROR), error_Status);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.LAST_NAME_ERROR),error_Status);
 			//foundation.scroll();
-			Assert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),error_Status);
-			Assert.assertEquals(foundation.getText(UserList.LOCATION_ERROR),error_Status);	
+			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),error_Status);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.LOCATION_ERROR),error_Status);	
 			foundation.click(UserList.CANCEL_USER);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
 
 			// Create New
 			foundation.click(UserList.CREATE_NEW_ROLE);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, rowData);
 			foundation.click(UserList.SAVE_USER);
 			foundation.waitforElement(UserList.EMAIL_ERROR, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),invalid_Email);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),invalid_Email);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

@@ -2,8 +2,10 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.By;
-import org.testng.Assert;
+
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
@@ -54,13 +56,13 @@ public class LandingPage {
 		List<String> landingPageData = Arrays.asList(landingPage.split(Constants.DELIMITER_TILD));
 
 		// Validating Landing Page
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
-		// Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(2))));
-		// Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(3))));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
+		// CustomisedAssert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(2))));
+		// CustomisedAssert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(3))));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
 
 	}
 

@@ -57,7 +57,7 @@ public class DataSourceManager extends Factory {
 			checkBox.unCheck(objCheckBox);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -77,7 +77,7 @@ public class DataSourceManager extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -88,7 +88,6 @@ public class DataSourceManager extends Factory {
 				List<WebElement> paginationList = getDriver().findElements(object1);
 				paginationList.get(iter).click();			
 				int countOfCheckboxes = foundation.getSizeofListElement(object2);
-//				List<WebElement> checkBoxList1 = getDriver().findElements(object2);
 				for (int count = 0; count < countOfCheckboxes; count++) {
 					List<WebElement> checkBoxList = getDriver().findElements(object2);
 					if (checkBoxList.get(count).isSelected()) {
@@ -98,7 +97,7 @@ public class DataSourceManager extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -119,7 +118,7 @@ public class DataSourceManager extends Factory {
 			} else if (reportsDB.equals("RDS")) {
 				unCheckInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
 			}
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

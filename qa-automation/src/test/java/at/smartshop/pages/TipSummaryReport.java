@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,11 +23,14 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class TipSummaryReport extends Factory {
@@ -40,6 +44,8 @@ public class TipSummaryReport extends Factory {
 	private static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By TBL_TIP_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
+	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -69,7 +75,7 @@ public class TipSummaryReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -92,14 +98,34 @@ public class TipSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyReportName(String reportName) {
 		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void checkForDataAvailabilyInResultTable() {
+		try {
+			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
+				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
+					Assert.fail("Failed Report because No Data Available in Report Table");
+				} else {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"Report Data Available in the Table, Hence passing the Test case");
+				}
+			} else {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
+				Assert.fail("Failed Report because No Report Table Available");
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -112,7 +138,7 @@ public class TipSummaryReport extends Factory {
 			intialData.get(rowCount).put(tableHeaders.get(4), value.get(1));
 			intialData.get(rowCount).put(tableHeaders.get(5), value.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -125,7 +151,7 @@ public class TipSummaryReport extends Factory {
 			updatedTip = Math.round(updatedTip * 100.0) / 100.0;
 			intialData.get(rowCount).put(columnName, String.valueOf(updatedTip));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -133,21 +159,21 @@ public class TipSummaryReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyReportData() {
 		try {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
+				CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -160,7 +186,7 @@ public class TipSummaryReport extends Factory {
 					(String) jsonData.get(Reports.JSON));
 			getJsonSalesData();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -171,7 +197,7 @@ public class TipSummaryReport extends Factory {
 			requiredJsonData.add(total);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -186,7 +212,7 @@ public class TipSummaryReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -205,7 +231,7 @@ public class TipSummaryReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -228,7 +254,7 @@ public class TipSummaryReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

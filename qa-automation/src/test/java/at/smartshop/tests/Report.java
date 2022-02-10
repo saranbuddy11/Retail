@@ -1,13 +1,10 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -17,6 +14,7 @@ import org.testng.annotations.Test;
 import at.framework.browser.Factory;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -141,7 +139,7 @@ public class Report extends TestInfra {
 			dataSourceManager.switchToReportsDB(reportsDB);
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -213,12 +211,12 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			// Validate Account Adjustment Report Title
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
-			Assert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
+			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 
 			// Add db data to Array list
 			dbData.put(tblColumnHeader.get(1),
@@ -233,15 +231,15 @@ public class Report extends TestInfra {
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
 			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime.toUpperCase()));
-			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime));
+			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
-			assertEquals(uiData, dbData);
+			CustomisedAssert.assertEquals(uiData, dbData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -310,7 +308,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productTax.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -376,7 +374,7 @@ public class Report extends TestInfra {
 			// verify report data
 			productPricing.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -399,8 +397,10 @@ public class Report extends TestInfra {
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			// process sales API to generate data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId);
 
 			// Select Organization
 			navigationBar.selectOrganization(
@@ -424,7 +424,7 @@ public class Report extends TestInfra {
 			transactionCanned.getIntialTotal().putAll(transactionCanned.getUpdatedTotal());
 
 			// read updated data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.getTblRecordsUI();
 
@@ -478,7 +478,7 @@ public class Report extends TestInfra {
 			// verify report data
 			transactionCanned.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -539,7 +539,7 @@ public class Report extends TestInfra {
 
 			// Verify Report Data
 			memberPurchaseDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -597,7 +597,7 @@ public class Report extends TestInfra {
 			// verify report data
 			badScan.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -618,8 +618,10 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			// process sales API to generate data
-			deviceByCategory.processAPI();
+			deviceByCategory.processAPI(deviceId);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -637,18 +639,16 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			deviceByCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			foundation.waitforElement(DeviceByCategoryReport.TBL_DEVICE_BY_CATEGORY_GRID, Constants.SHORT_TIME);
-			deviceByCategory.getTblRecordsUI();
+			deviceByCategory.getTblRecordsUI(deviceId);
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
-			deviceByCategory.processAPI();
-			
+			deviceByCategory.processAPI(deviceId);
 
 			// apply calculation and update data
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(1), deviceId.toUpperCase());
 			foundation.threadWait(Constants.TWO_SECOND);
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(2), requiredData.get(0));
 			deviceByCategory.updateData(deviceByCategory.getTableHeaders().get(3),
@@ -664,12 +664,12 @@ public class Report extends TestInfra {
 			deviceByCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 			
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			deviceByCategory.getTblRecordsUI();
+			deviceByCategory.getTblRecordsUI(deviceId);
 
 			// verify report data
 			deviceByCategory.verifyReportData();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -734,7 +734,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			employeeCompDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -792,7 +792,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			memberPurchaseSummary.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -843,7 +843,7 @@ public class Report extends TestInfra {
 			// run and read report
 			Thread.sleep(1000);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			iceReport.getTblRecordsUI();
@@ -887,7 +887,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			iceReport.getTblRecordsUI();
 
 			// verify report headers
@@ -896,8 +896,8 @@ public class Report extends TestInfra {
 			// verify report data
 			iceReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
-		} catch (Throwable exc) {
-			Assert.fail(exc.toString());
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 
 	}
@@ -957,7 +957,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipSummary.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1053,7 +1053,7 @@ public class Report extends TestInfra {
 
 			// verify report details data
 			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1120,7 +1120,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			tipDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1141,6 +1141,8 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			// process sales API to generate data
 			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
@@ -1159,19 +1161,19 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+			
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			healthAhead.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			textBox.enterText(healthAhead.SEARCH_RESULT, propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+//			textBox.enterText(healthAhead.SEARCH_RESULT, deviceId.toUpperCase());
 
 			healthAhead.getTblRecordsUI();
 			healthAhead.getIntialData().putAll(healthAhead.getReportsData());
-			healthAhead.getRequiredRecord(propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			healthAhead.getRequiredRecord(deviceId.toUpperCase());
 			healthAhead.updateData(healthAhead.getTableHeaders().get(2), healthAhead.getRequiredJsonData().get(0));
 			healthAhead.updateData(healthAhead.getTableHeaders().get(3), healthAhead.getRequiredJsonData().get(1));
 			healthAhead.updateHealthAheadNet();
@@ -1180,7 +1182,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			healthAhead.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1261,7 +1263,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			canadaMultiTax.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1326,7 +1328,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSalesCategory.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1392,7 +1394,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			unfinishedClose.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1458,7 +1460,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			folioBilling.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1525,7 +1527,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			queuedCreditTrans.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1593,7 +1595,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			voidedProduct.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1613,9 +1615,11 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-
+			
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			// process sales API to generate data
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1639,8 +1643,8 @@ public class Report extends TestInfra {
 			integrationPayments.getIntialData().putAll(integrationPayments.getReportsData());
 			integrationPayments.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
-			integrationPayments.processAPI(Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
+					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
 			Thread.sleep(1000);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -1649,10 +1653,9 @@ public class Report extends TestInfra {
 			// apply calculation and update data
 			integrationPayments.updateData(integrationPayments.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			integrationPayments.updateData(integrationPayments.getTableHeaders().get(1), deviceId.toUpperCase());
 			integrationPayments.updateValue(integrationPayments.getTableHeaders().get(2),
-					Reports.SPECIAL + Constants.DELIMITER_TILD + Reports.GENESIS);
+					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
 			integrationPayments.calculateAmount(integrationPayments.getAmountData());
 
 			// verify report headers
@@ -1703,9 +1706,9 @@ public class Report extends TestInfra {
 					columnName.get(0), columnName.get(1), columnName.get(2));
 			double actualGMValue = salesAnalysisReport.getGMValue(columnName.get(3), productName);
 
-			Assert.assertEquals(actualGMValue, expectedGMValue);
+			CustomisedAssert.assertEquals(actualGMValue, expectedGMValue);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2000,10 +2003,11 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 
+			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
 			aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), deviceId);
 			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -2014,12 +2018,13 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			Assert.assertTrue(Factory.getDriver().findElement(AVISubFeeReport.LBL_REPORT_NAME).isDisplayed());
+			Assert.assertTrue(Factory.getDriver().findElement(aviSubFee.LBL_REPORT_NAME).isDisplayed());
+
 			aviSubFee.getTblRecordsUI();
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
 
 			// process sales API to generate data
-			aviSubFee.processAPI();
+			aviSubFee.processAPI(deviceId);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			aviSubFee.getTblRecordsUI();
@@ -2031,8 +2036,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3), propertyFile
-					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(3), deviceId);
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(5), (String) aviSubFee.getRequiredJsonData().get(0));
 			aviSubFee.calculateTotalBillable();
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(7), (String) aviSubFee.getRequiredJsonData().get(2));
@@ -2156,7 +2160,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			financialRecap.getTblRecordsUI();
 			financialRecap.getIntialData().putAll(financialRecap.getReportsData());
@@ -2179,7 +2183,7 @@ public class Report extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			financialRecap.getTblRecordsUI();
 
@@ -2291,7 +2295,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			personalCharge.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2354,7 +2358,7 @@ public class Report extends TestInfra {
 			// verify report data
 			unsold.verifySoldProductsExist();
 			unsold.verifyAllUnSoldProductsExist();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2417,7 +2421,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			loyaltyUser.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2466,6 +2470,7 @@ public class Report extends TestInfra {
 			crossOrgLoyalty.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			crossOrgLoyalty.processAPI();
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT, propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			
@@ -2490,7 +2495,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			crossOrgLoyalty.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -2556,7 +2561,7 @@ public class Report extends TestInfra {
 
 			// verify report data
 			alcoholSoldDetails.verifyReportData();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
