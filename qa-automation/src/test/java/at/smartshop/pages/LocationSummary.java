@@ -45,7 +45,7 @@ public class LocationSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
-	private NavigationBar navigationBar = new NavigationBar();
+	
 	private LandingPage landingPage = new LandingPage();
 	
 	private Map<String, String> rstV5DeviceData;
@@ -868,7 +868,7 @@ public class LocationSummary extends Factory {
 		// Selecting location
 		locationList.selectLocationName(locationName);
 		foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
-		Assert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(ValidateHeading));
+		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(ValidateHeading));
 		foundation.waitforElement(LocationSummary.DPP_MARKET_CARD, Constants.SHORT_TIME);
 		dropDown.selectItem(LocationSummary.DPP_MARKET_CARD, marketCard, Constants.TEXT);
 		foundation.click(LocationSummary.BTN_SAVE);
@@ -900,7 +900,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.MEDIUM_TIME);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 		foundation.WaitForAjax(5000);
-		Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
 		foundation.click(LocationSummary.PRODUCT_NAME);
 		foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
 		foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
@@ -909,7 +909,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.TWO_SECOND);
 		navigationBar.navigateToMenuItem(menuItem);
 	}
-}
+
 
 	public static String getMonthName(int monthIndex) {
 		if (monthIndex > 12) {
