@@ -45,14 +45,15 @@ public class PromotionList extends Factory {
 	public static final By LBL_PROMOTYPE = By.xpath("//select[@id='promotype']//..//..//dt");
 	public static final By LBL_ORG_NAME = By.xpath("//td[contains(@aria-describedby,'orgs_child_orgname')]");
 	public static final By LINK_EXPAND = By.xpath("//span[@title='Expand Row']");
-	public static final By LBL_LOCATION_NAME = By.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
+	public static final By LBL_LOCATION_NAME = By
+			.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 	}
 
 	public void searchPromotion(String promoName) {
-		foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 	}
@@ -70,11 +71,12 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	public void expirePromotion(String menuItem,String promotionName, String gridName) {
+
+	public void expirePromotion(String menuItem, String promotionName, String gridName) {
 		foundation.threadWait(Constants.TWO_SECOND);
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem);		
+		// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
+		// FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menuItem);
 		searchPromotion(promotionName);
 		assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 		editPromotion.expirePromotion(gridName, promotionName);

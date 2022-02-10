@@ -1,7 +1,5 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertEquals;
-
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
@@ -26,15 +25,11 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.v5.pages.LandingPage;
-import at.smartshop.v5.pages.Order;
-import at.smartshop.v5.pages.ProductSearch;
-
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.LandingPage;
 
 public class LocationSummary extends Factory {
 
