@@ -98,7 +98,6 @@ public class MultiTaxReport extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :" + reportsData);
 		return reportsData;
 	}
 
@@ -118,7 +117,6 @@ public class MultiTaxReport extends Factory {
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 			String UpdatedTax =  Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount);
 			intialData.put(columnName, UpdatedTax);
-			System.out.println("intialData2222 :" + intialData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -143,7 +141,6 @@ public class MultiTaxReport extends Factory {
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
 			String totalTax = sales.get(Reports.TAX).getAsString();
 			requiredJsonData.add(totalTax);
-			System.out.println("requiredJsonData : "+ requiredJsonData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -198,7 +195,6 @@ public class MultiTaxReport extends Factory {
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
-			System.out.println("jsonData :" + jsonData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
