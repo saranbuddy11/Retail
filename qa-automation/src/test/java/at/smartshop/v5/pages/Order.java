@@ -37,6 +37,8 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By
 			.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
 	public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
+	public static final By LBL_MY_ACCOUNT = By.xpath("//h3[text()='My Account']");
+	public static final By BTN_LOGIN_WITH_EMAIL = By.id("email-login-btn-id");
 	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div[@class='total-value']");

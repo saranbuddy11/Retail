@@ -15,7 +15,8 @@ import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class TextBox extends Factory {
-	private Foundation foundation=new Foundation();
+	private Foundation foundation = new Foundation();
+
 	public void enterText(By object, String text) {
 		try {
 			getDriver().findElement(object).clear();
@@ -29,12 +30,13 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public String getTextFromInput(By object) {
 		String text = null;
 		try {
 			text = getDriver().findElement(object).getAttribute("value");
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text [" + text +" ] from the input [" + object +" ]");
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"got the text [" + text + " ] from the input [" + object + " ]");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -68,7 +70,7 @@ public class TextBox extends Factory {
 			}
 		}
 	}
-	
+
 	public void enterKeypadNumber(String number) {
 		char[] charArray = number.toCharArray();
 		for (char eachChar : charArray) {
@@ -83,6 +85,7 @@ public class TextBox extends Factory {
 	public void enterPin(String pin) {
 		for (int i = 0; i < pin.length(); i++) {
 			int number = Integer.parseInt(pin.substring(i, i + 1));
+			foundation.waitforElementToBeVisible(By.xpath("//td[text()='" + number + "']"), Constants.SHORT_TIME);
 			foundation.click(By.xpath("//td[text()='" + number + "']"));
 		}
 	}
@@ -132,4 +135,3 @@ public class TextBox extends Factory {
 
 	}
 }
-
