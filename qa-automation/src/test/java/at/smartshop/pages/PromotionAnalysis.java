@@ -26,16 +26,25 @@ public class PromotionAnalysis extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#promoPromotionLevel > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
-	public final By TBL_PROMOTIONAL_ANALYSIS = By.xpath("//table[@id='promoPromotionLevel']");
-	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID = By.cssSelector("#promoPromotionLevel > tbody");
+	public final By TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS = By.xpath("//table[@id='promoPromotionLevel']");
+	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS = By.cssSelector("#promoPromotionLevel > tbody");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input[placeholder='  - Enter Product Description -']");
-
+	public final By TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS = By.xpath("//table[@id='promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child']");
+	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS = By.cssSelector("#promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child > tbody");
+	public static final By EXPAND_ROW = By.xpath("//span[@title='Collapse Row']");
+	public final By REPORT_GROUPBY_DPD = By.xpath("//select[@id='sorting']");
+	
+	
 	public List<String> tableHeaders = new ArrayList<>();
 	private int recordCount;
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private Map<String, String> promoActualData = new LinkedHashMap<>();
 	private Map<String, String> PromoExpectedData = new LinkedHashMap<>();
+	private Map<Integer, Map<String, String>> reportsDataForGroupByrLocation = new LinkedHashMap<>();
+	private Map<Integer, Map<String, String>> intialDataForGroupByrLocation = new LinkedHashMap<>();
+	
+	
 
 	public void checkForDataAvailabilyInResultTable() {
 		try {
@@ -56,14 +65,45 @@ public class PromotionAnalysis extends Factory {
 		}
 	}
 	
-	public void getTblRecordsUI() {
+	public void getUITblRecordsGroupbyPromotions() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS);
+			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS);
+			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS);
+			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			System.out.println("columnHeaders :"+ columnHeaders.size());
+			System.out.println("rows :"+ rows.size());
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				reportsData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		System.out.println("reportsData :"+ reportsData);
+	}
+	
+	public void getUITblRecordsGroupbyLocations() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			reportsData.clear();
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS);
+			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			System.out.println("columnHeaders :"+ columnHeaders.size());
@@ -169,5 +209,13 @@ public class PromotionAnalysis extends Factory {
 
 	public List<String> getTableHeaders() {
 		return tableHeaders;
+	}
+	
+	public Map<Integer, Map<String, String>> getIntialDataForGroupByrLocation() {
+		return intialDataForGroupByrLocation;
+	}
+
+	public Map<Integer, Map<String, String>> getReportsDataForGroupByrLocation() {
+		return reportsDataForGroupByrLocation;
 	}
 }

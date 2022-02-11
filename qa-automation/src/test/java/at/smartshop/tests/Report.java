@@ -2608,8 +2608,8 @@ public class Report extends TestInfra {
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItems.get(0));
-			
-			//creation of promotion
+
+			// creation of promotion
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
@@ -2662,16 +2662,18 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			reportList.selectLocationOnFilter(selectValueForSelectedFilterType.get(0));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS, Constants.EXTRA_LONG_TIME);
-			
+			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS,
+					Constants.EXTRA_LONG_TIME);
+
+			// Report data validation basesd on Groupby Promotions
 			// reading the report data
-			promotionAnalysis.getTblRecordsUI();
+			promotionAnalysis.getUITblRecordsGroupbyPromotions();
 			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
 			promotionAnalysis.getRequiredRecord(promotionName);
-			
+
 			// Actual data
 			promotionAnalysis.promotionActualData();
-			
+
 			String date = String
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
@@ -2692,7 +2694,27 @@ public class Report extends TestInfra {
 
 			// Expected data
 			promotionAnalysis.PromotionExpectedData();
-			
+
+			// verify report headers
+			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
+					promotionAnalysis.getTableHeaders());
+
+			// verify report data
+			promotionAnalysis.verifyReportData();
+
+			// Report data validation based on Groupby Locations
+			// reading the report data
+			dropdown.selectItemByIndex(promotionAnalysis.REPORT_GROUPBY_DPD, 1);
+			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS,
+					Constants.EXTRA_LONG_TIME);
+			foundation.click(PromotionAnalysis.EXPAND_ROW);
+			promotionAnalysis.getUITblRecordsGroupbyPromotions();
+			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
+			promotionAnalysis.getRequiredRecord(promotionName);
+
+			// Actual data
+			promotionAnalysis.promotionActualData();
+
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
 					promotionAnalysis.getTableHeaders());
