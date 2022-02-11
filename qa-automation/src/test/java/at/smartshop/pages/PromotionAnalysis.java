@@ -127,7 +127,6 @@ public class PromotionAnalysis extends Factory {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
 				}
-//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -139,7 +138,6 @@ public class PromotionAnalysis extends Factory {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
 				}
-//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -2608,16 +2608,8 @@ public class Report extends TestInfra {
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItems.get(0));
-
-//			// validate UI of promotion list page info section
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.LBL_SEARCH));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.CALENDER_DATE_RANGE));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.DPD_LOCATION));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.DPD_STATUS));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.DPD_PROMOTYPE));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BTN_CREATE));
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BTN_SEARCH));
-
+			
+			//creation of promotion
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			dropdown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
@@ -2648,8 +2640,9 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_OK);
 			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -2669,27 +2662,16 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			reportList.selectLocationOnFilter(selectValueForSelectedFilterType.get(0));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-
 			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS, Constants.EXTRA_LONG_TIME);
-
-//			promotionAnalysis.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			// reading the report data
 			promotionAnalysis.getTblRecordsUI();
 			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
 			promotionAnalysis.getRequiredRecord(promotionName);
+			
+			// Actual data
 			promotionAnalysis.promotionActualData();
-//			promotionActualData = 
-//			System.out.println("reportsData00 :" + promotionAnalysis.getReportsData());
-//			System.out.println("intialData00 :" + promotionAnalysis.getIntialData());
-
-			// Cash~Amount~Line Items~10.00~5.00~Recurrence~All
-//			You are all set!~Your promotion details are below:~Tender: Cash~Discount: $10.00~Applies to: Each Line Item~Min Transaction: $5.00~Timing: Recurrence
-//			Tender Discount#$10.00#Each Line Item#Recurrence#Sun,#Active
-
-//			Mmbjoxsrgp	N/A	Tender Discount	$10.00	Each Line Item	0	0	$0.00	Recurrence	02/03/22	02/03/22	Sun,	Active
-
-//			Promotion Name#Display Name#Type#Discount#Applied To#Reward Points#Redemptions#Amount#Timing#Start Date#End Date#Frequency#Status
-
-//			String date1 = dateAndTime.getCurrentDay();
+			
 			String date = String
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
@@ -2708,11 +2690,12 @@ public class Report extends TestInfra {
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(12), expectedData.get(4));
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(13), expectedData.get(5));
 
+			// Expected data
+			promotionAnalysis.PromotionExpectedData();
+			
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
 					promotionAnalysis.getTableHeaders());
-
-			promotionAnalysis.PromotionExpectedData();
 
 			// verify report data
 			promotionAnalysis.verifyReportData();
@@ -2721,9 +2704,9 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			List<String> menuItems = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
+//			List<String> menuItems = Arrays
+//					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
 		}
 	}
 }
