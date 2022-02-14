@@ -27,24 +27,28 @@ public class PromotionAnalysis extends Factory {
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	public final By TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS = By.xpath("//table[@id='promoPromotionLevel']");
-	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS = By.cssSelector("#promoPromotionLevel > tbody");
+	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS = By
+			.cssSelector("#promoPromotionLevel > tbody");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input[placeholder='  - Enter Product Description -']");
-	public final By TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS = By.xpath("//table[@id='promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child']");
-	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS = By.cssSelector("#promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child > tbody");
+	public final By TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS = By.xpath("//table[@id='promoLocationLevel']");
+	public final By TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS = By.cssSelector("#promoLocationLevel > tbody");
+//	public final By TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
+//			.xpath("//table[@id='promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child']");
+//	private static final By TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
+//			.cssSelector("#promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child > tbody");
 	public static final By EXPAND_ROW = By.xpath("//span[@title='Collapse Row']");
 	public final By REPORT_GROUPBY_DPD = By.xpath("//select[@id='sorting']");
-	
-	
+
 	public List<String> tableHeaders = new ArrayList<>();
+	public List<String> tableHeadersForGroupbyLocation = new ArrayList<>();
 	private int recordCount;
+	private int recordCountForGroupbyLocation;
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private Map<String, String> promoActualData = new LinkedHashMap<>();
 	private Map<String, String> PromoExpectedData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsDataForGroupByrLocation = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialDataForGroupByrLocation = new LinkedHashMap<>();
-	
-	
 
 	public void checkForDataAvailabilyInResultTable() {
 		try {
@@ -64,7 +68,7 @@ public class PromotionAnalysis extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public void getUITblRecordsGroupbyPromotions() {
 		try {
 			int recordCount = 0;
@@ -75,8 +79,8 @@ public class PromotionAnalysis extends Factory {
 			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			System.out.println("columnHeaders :"+ columnHeaders.size());
-			System.out.println("rows :"+ rows.size());
+			System.out.println("columnHeaders :" + columnHeaders.size());
+			System.out.println("rows :" + rows.size());
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -92,22 +96,27 @@ public class PromotionAnalysis extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :"+ reportsData);
+		System.out.println("reportsData :" + reportsData);
 	}
-	
+
 	public void getUITblRecordsGroupbyLocations() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
 			reportsData.clear();
+			By TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
+					.cssSelector("#promoLocationLevel > tbody > tr:nth-child("+(recordCountForGroupbyLocation+2)+") > td > div > div > div > table");
+			By TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
+					.cssSelector("#promoLocationLevel > tbody > tr:nth-child("+(recordCountForGroupbyLocation+2)+") > td > div > div > div > table > tbody");
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS);
-			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS);
+			WebElement tableReportsList = getDriver()
+					.findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS);
+			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			System.out.println("columnHeaders :"+ columnHeaders.size());
-			System.out.println("rows :"+ rows.size());
+			System.out.println("columnHeaders :" + columnHeaders.size());
+			System.out.println("rows :" + rows.size());
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -123,12 +132,12 @@ public class PromotionAnalysis extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :"+ reportsData);
+		System.out.println("reportsData :" + reportsData);
 	}
-	
+
 	public void getRequiredRecord(String promotionName) {
 		try {
-			for (int rowCount = 1; rowCount < intialData.size(); rowCount++) {
+			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
 					System.out.println(intialData.get(rowCount).get(tableHeaders.get(1)));
 					recordCount = rowCount;
@@ -141,10 +150,59 @@ public class PromotionAnalysis extends Factory {
 		}
 	}
 
+	public void getFirstRecordsOfGroupbyLocations() {
+		try {
+			int recordCount = 0;
+			WebElement tableReportsListOfGroupbyLocations = getDriver()
+					.findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS);
+			WebElement tableReportsOfGroupbyLocations = getDriver()
+					.findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS);
+			List<WebElement> columnHeadersOfGroupbyLocations = tableReportsOfGroupbyLocations
+					.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsListOfGroupbyLocations.findElements(By.tagName("tr"));
+			System.out.println("columnHeaders :" + columnHeadersOfGroupbyLocations.size());
+			System.out.println("rows :" + rows.size());
+			for (WebElement columnHeader : columnHeadersOfGroupbyLocations) {
+				tableHeadersForGroupbyLocation.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeadersForGroupbyLocation.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeadersForGroupbyLocation.get(columnCount - 1), column.getText());
+				}
+				intialDataForGroupByrLocation.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void getRequiredRecordGroupbyLocations(String promotionName) {
+		try {
+//			recordCountForGroupbyLocation=0;
+			getFirstRecordsOfGroupbyLocations();
+			for (int rowCount = 1; rowCount < intialDataForGroupByrLocation.size(); rowCount++) {
+				if (intialDataForGroupByrLocation.get(rowCount).get(tableHeadersForGroupbyLocation.get(2))
+						.equals(promotionName)) {
+					System.out.println(
+							intialDataForGroupByrLocation.get(rowCount).get(tableHeadersForGroupbyLocation.get(2)));
+					recordCountForGroupbyLocation = rowCount;
+					System.out.println("rowCount :" + rowCount);
+					break;
+				}
+			}
+			System.out.println("recordCountForGroupbyLocation :" + recordCountForGroupbyLocation);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public void updateData(String columnName, String values) {
 		try {
-				intialData.get(recordCount).put(columnName, values);
-				System.out.println("intialData :"+ intialData.get(recordCount));
+			intialData.get(recordCount).put(columnName, values);
+			System.out.println("intialData :" + intialData.get(recordCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -160,24 +218,24 @@ public class PromotionAnalysis extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public Map<String, String> promotionActualData() {
 		try {
 			System.out.println("recordCount22 :" + recordCount);
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
-				}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return promoActualData;
 	}
-	
+
 	public Map<String, String> PromotionExpectedData() {
 		try {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
-				}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -188,17 +246,26 @@ public class PromotionAnalysis extends Factory {
 		try {
 			System.out.println("reportsData :" + promoActualData);
 			System.out.println("intialData :" + PromoExpectedData);
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {	
-					CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
-							.contains(PromoExpectedData.get(tableHeaders.get(iter))));
-					System.out.println("reportsData :" + promoActualData.get(tableHeaders.get(iter)));
-					System.out.println("intialData :" + PromoExpectedData.get(tableHeaders.get(iter)));
-				}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
+						.contains(PromoExpectedData.get(tableHeaders.get(iter))));
+				System.out.println("reportsData :" + promoActualData.get(tableHeaders.get(iter)));
+				System.out.println("intialData :" + PromoExpectedData.get(tableHeaders.get(iter)));
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
+	public void expandRow() {
+		try {
+			foundation.click(By.cssSelector("#promoLocationLevel > tbody > tr:nth-child("
+					+ (recordCountForGroupbyLocation + 1) + ") >  td > span"));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public Map<Integer, Map<String, String>> getIntialData() {
 		return intialData;
 	}
@@ -210,7 +277,11 @@ public class PromotionAnalysis extends Factory {
 	public List<String> getTableHeaders() {
 		return tableHeaders;
 	}
-	
+
+	public List<String> getTableHeadersForGroupbyLocation() {
+		return tableHeadersForGroupbyLocation;
+	}
+
 	public Map<Integer, Map<String, String>> getIntialDataForGroupByrLocation() {
 		return intialDataForGroupByrLocation;
 	}

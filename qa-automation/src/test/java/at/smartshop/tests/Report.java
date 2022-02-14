@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -130,6 +131,7 @@ public class Report extends TestInfra {
 	private Strings strings = new Strings();
 	private PromotionList promotionList = new PromotionList();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
+	private CreatePromotions createPromotions = new CreatePromotions();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -139,18 +141,18 @@ public class Report extends TestInfra {
 	private Map<String, String> rstReportListData;
 	private Map<String, String> rstLocationData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -2596,7 +2598,9 @@ public class Report extends TestInfra {
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
+//		String promotionName = "Zrzxldjtfo";
 		System.out.println(promotionName + "**********" + gridName);
+		
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2705,10 +2709,14 @@ public class Report extends TestInfra {
 			// Report data validation based on Groupby Locations
 			// reading the report data
 			dropdown.selectItemByIndex(promotionAnalysis.REPORT_GROUPBY_DPD, 1);
+			Thread.sleep(2000);
 			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS,
 					Constants.EXTRA_LONG_TIME);
-			foundation.click(PromotionAnalysis.EXPAND_ROW);
-			promotionAnalysis.getUITblRecordsGroupbyPromotions();
+			promotionAnalysis.getRequiredRecordGroupbyLocations("Automation@365");
+			promotionAnalysis.expandRow();
+//			foundation.click(PromotionAnalysis.EXPAND_ROW);
+//			Thread.sleep(4000);
+			promotionAnalysis.getUITblRecordsGroupbyLocations();
 			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
 			promotionAnalysis.getRequiredRecord(promotionName);
 
@@ -2726,9 +2734,9 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-//			List<String> menuItems = Arrays
-//					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-//			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
+			List<String> menuItems = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
 		}
 	}
 }
