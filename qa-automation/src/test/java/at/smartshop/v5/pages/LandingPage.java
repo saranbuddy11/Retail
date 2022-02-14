@@ -22,7 +22,7 @@ public class LandingPage {
 	public static final By TXT_PRODUCT = By.xpath("//div[@id='cartContainer']//div[@class='product-name']");
 	public static final By LINK_ENGLISH = By.xpath("//button[text()='English']");
 	public static final By BTN_LOGIN = By.id("account-login-id");
-	public static final By BTN_CREATE_ACCOUNT = By.id("create-account-id");
+	public static final By BTN_CREATE_ACCOUNT = By.xpath("//h3[@data-reactid='.0.0.0.0.2.0.1']");
 	public static final By BTN_LANG = By.xpath("//h3[@data-reactid='.0.0.0.2.1']");
 	public static final By LBL_ACCOUNT_LOGIN = By.xpath("//div[@id='account-login-id']//h3");
 	public static final By LBL_CREATE_ACCOUNT = By.xpath("//div[@id='create-account-id']/div//h3");
@@ -67,8 +67,8 @@ public class LandingPage {
 	}
 
 	public void changeLanguage(String languageButton, String newLanguage, String button) {
-		foundation.waitforElement(objText(languageButton), Constants.SHORT_TIME);
-		foundation.click(objText(languageButton));
+		foundation.waitforElement(BTN_LANG, Constants.SHORT_TIME);
+		foundation.click(BTN_LANG);
 		foundation.waitforElement(objText(newLanguage), Constants.SHORT_TIME);
 		foundation.click(objText(newLanguage));
 		foundation.click(objText(button));
