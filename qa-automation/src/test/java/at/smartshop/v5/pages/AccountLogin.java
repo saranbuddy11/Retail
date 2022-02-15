@@ -52,7 +52,7 @@ public class AccountLogin {
 		textBox.enterKeypadText(emailId);
 		foundation.click(BTN_ENTER);
 		foundation.click(BTN_NEXT);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(BTN_PIN_NEXT);
 	}
