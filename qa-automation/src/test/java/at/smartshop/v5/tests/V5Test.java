@@ -10640,6 +10640,8 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isEnabled(LocationSummary.INPUT_PAYROLL));
 			value = dropDown.getSelectedItem(LocationSummary.INPUT_PAYROLL);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
