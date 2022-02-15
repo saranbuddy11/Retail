@@ -1102,11 +1102,13 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.navigateToMenuItem(menuItem.get(2));
-			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(9), Constants.TEXT);
-			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(9), Constants.TEXT);
-			foundation.click(OrgSummary.BTN_SAVE);
-			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+			
+			  navigationBar.navigateToMenuItem(menuItem.get(2));
+			  dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(9),
+			  Constants.TEXT); dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM,
+			  requiredData.get(9), Constants.TEXT); foundation.click(OrgSummary.BTN_SAVE);
+			  foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
+			 
 
 			// navigate to global product of V5 associated and update tax category and sync
 			navigationBar.navigateToMenuItem(menuItem.get(0));
