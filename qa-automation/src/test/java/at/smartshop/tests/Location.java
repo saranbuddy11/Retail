@@ -437,7 +437,6 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-			
 			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 			String location = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
@@ -493,7 +492,8 @@ public class Location extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
 			// Select Menu and Menu Item
@@ -508,7 +508,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
 			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
 			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
-			 foundation.click(locationSummary.objDevice(device));
+			foundation.isDisplayed(locationSummary.objDevice(device));
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
 
@@ -532,7 +532,8 @@ public class Location extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
 			// Select Menu and Menu Item
@@ -542,7 +543,7 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(location);
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
-		    textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
 			foundation.click(LocationSummary.BTN_DEVICE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
 			locationSummary.selectDeviceName(device);
@@ -572,9 +573,11 @@ public class Location extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-			String ipaddres = propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE).split(":")[1].split("/")[2];
-			
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+			String ipaddres = propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE)
+					.split(":")[1].split("/")[2];
+
 			List<String> dbData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
@@ -585,8 +588,8 @@ public class Location extends TestInfra {
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
-			//textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			//CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			// textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			// CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
 					LocationSummary.TBL_DEVICE_ROW);
 			// Table Validations

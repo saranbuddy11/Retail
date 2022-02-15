@@ -1102,13 +1102,11 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			
-			  navigationBar.navigateToMenuItem(menuItem.get(2));
-			  dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(9),
-			  Constants.TEXT); dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM,
-			  requiredData.get(9), Constants.TEXT); foundation.click(OrgSummary.BTN_SAVE);
-			  foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
-			 
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(9), Constants.TEXT);
+			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(9), Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 
 			// navigate to global product of V5 associated and update tax category and sync
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -10681,14 +10679,14 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
-			String balanceDue = foundation.getText(Order.LBL_BALANCE_DUE).split(Constants.DOLLAR)[1];
-			double bal = Double.valueOf(requiredData.get(4)) - Double.valueOf(balanceDue);
-			typeBalance = "$" + String.valueOf(bal) + "0";
 
 			// Transaction Done using Consumer Account Subsidy Balance
 			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
 			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
 			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
+			String balanceDue = foundation.getText(Order.LBL_CHARGE_AMT).split(Constants.DOLLAR)[1];
+			double bal = Double.valueOf(requiredData.get(4)) - Double.valueOf(balanceDue);
+			typeBalance = "$" + String.valueOf(bal);
 			foundation.click(Payments.BTN_EMAIL_LOGIN);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
