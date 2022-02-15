@@ -5447,7 +5447,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectGroupByOption(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN), Constants.TEXT);
 
 			reportList.selectFilter(rstReportListData.get(CNReportList.SELECT_FILTER_TO_INCLUDE));
-
+			foundation.threadWait(Constants.TWO_SECOND);
 			reportList.selectOrgOnFilter(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
