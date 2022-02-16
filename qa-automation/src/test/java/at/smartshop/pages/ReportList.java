@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
@@ -15,6 +16,7 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -22,6 +24,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 
 public class ReportList extends Factory {
 
@@ -369,6 +372,43 @@ public class ReportList extends Factory {
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
+		}
+	}
+	
+	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData, Map<Integer, Map<String, String>> intialData) {
+		try {
+			int count = intialData.size();
+			for (int counter = 0; counter < count; counter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportDataOfFirstRow(List<String> tableHeaders, Map<String, String> reportsData,
+			Map<String, String> intialData) {
+		try {
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(
+						reportsData.get(tableHeaders.get(iter)).contains(intialData.get(tableHeaders.get(iter))));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
