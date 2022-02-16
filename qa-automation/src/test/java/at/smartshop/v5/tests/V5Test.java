@@ -10625,6 +10625,8 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			foundation.click(LocationSummary.TXT_TOP_OFF_SUBSIDY);
