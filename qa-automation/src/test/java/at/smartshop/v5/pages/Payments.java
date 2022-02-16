@@ -13,6 +13,7 @@ public class Payments {
 	private Foundation foundation = new Foundation();
 
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
+	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
