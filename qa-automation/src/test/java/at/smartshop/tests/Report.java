@@ -55,6 +55,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.LoyaltyUserReport;
 import at.smartshop.pages.MemberPurchaseDetailsReport;
 import at.smartshop.pages.MemberPurchaseSummaryReport;
+import at.smartshop.pages.MultiTaxReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.PersonalChargeReport;
@@ -123,6 +124,7 @@ public class Report extends TestInfra {
 	private LoyaltyUserReport loyaltyUser = new LoyaltyUserReport();
 	private CrossOrgLoyaltyReport crossOrgLoyalty = new CrossOrgLoyaltyReport();
 	private AlcoholSoldDetailsReport alcoholSoldDetails = new AlcoholSoldDetailsReport();
+	private MultiTaxReport multiTaxReport = new MultiTaxReport();
 	private CashFlow cashFlow = new CashFlow();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -2644,4 +2646,66 @@ public class Report extends TestInfra {
 		}
 	}
 
+	@Test(description = "167474-This test validates Multi Tax Report Data Calculation")
+	public void multiTaxReportData() {
+		try {
+
+			final String CASE_NUM = "167474";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			multiTaxReport.processAPI();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			multiTaxReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			multiTaxReport.getTblRecordsUI();
+			multiTaxReport.getIntialData().putAll(multiTaxReport.getReportsData());
+			
+			// process sales API to generate data
+			multiTaxReport.processAPI();
+			
+			//rerun and reread report
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			multiTaxReport.getTblRecordsUI();
+
+			// apply calculation and update data
+			multiTaxReport.updateData(multiTaxReport.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			multiTaxReport.updateTax(multiTaxReport.getTableHeaders().get(2), multiTaxReport.getRequiredJsonData().get(0));	
+			
+			// verify report headers
+			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),multiTaxReport.getTableHeaders());
+
+			// verify report data
+			reportList.verifyReportDataOfFirstRow(multiTaxReport.tableHeaders, multiTaxReport.getReportsData(), multiTaxReport.getIntialData());
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
