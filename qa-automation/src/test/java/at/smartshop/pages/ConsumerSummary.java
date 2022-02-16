@@ -13,7 +13,9 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -214,6 +216,23 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSummary.BTN_SAVE);
 	}
 	
-	
+	public void balanceResettingDataInAutomationLocation1(String menu,String Search,String location,String balance,String reason) {
+		navigationBar.navigateToMenuItem(menu);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSearch.TXT_SEARCH, Search);
+		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+        foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+        foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason,Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+	}
 	
 }

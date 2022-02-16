@@ -76,6 +76,8 @@ public class ConsumerSubsidy extends TestInfra {
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private Table table=new  Table();
 	private Order order = new Order();
+	private Payments payments = new Payments();
+	
 	
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -2071,8 +2073,6 @@ public class ConsumerSubsidy extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
-			// verifying the
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
@@ -2085,7 +2085,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(AccountAdjustment.REP_DATE);
 			String header = foundation.getText(AccountAdjustment.TABLE_HEAD);
 			accountAdjustment.verifyTblHeaderData(headData.get(0), headData.get(1), headData.get(2), headData.get(3), headData.get(4), headData.get(5), headData.get(6), headData.get(7), headData.get(8), headData.get(9), headData.get(10), headData.get(11));			
-			Map<String, String> datas=accountAdjustment.getTblRecords("2");
+			Map<String, String> datas=accountAdjustment.getTblRecords("1");
 			accountAdjustment.verifyDatasInReports(datas, columndatas.get(0), columndatas.get(1), columndatas.get(2), columndatas.get(3), columndatas.get(4), columndatas.get(5), columndatas.get(6), columndatas.get(7), columndatas.get(8), columndatas.get(9));
 			
 		}catch (Exception exc) {
@@ -2100,12 +2100,13 @@ public class ConsumerSubsidy extends TestInfra {
            public void verifyReasonCodeAfterTranscationFromDevice() {
 		   final String CASE_NUM="166062";
 		   
-		// Reading test data from database
+		    // Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-
+			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 			
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -2131,7 +2132,7 @@ public class ConsumerSubsidy extends TestInfra {
 				navigationBar.navigateToMenuItem(menu.get(0));
 				locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
-				// Verifying the selection of defaults for the Both GMA subsidy
+				// Verifying the selection of defaults for GMA subsidy
 				foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 				List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
@@ -2150,11 +2151,9 @@ public class ConsumerSubsidy extends TestInfra {
 				locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 				locationSummary.enterTopoffAmount(requiredData.get(7), requiredData.get(8), requiredData.get(9));
 		        foundation.click(LocationSummary.BTN_SAVE);
-		        foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		        login.logout();
-		        browser.close();
- 		        //Launch v4 Device
-		        
+		        foundation.threadWait(Constants.SHORT_TIME);
+		  
+		        //Launch v4 Device
 		        foundation.threadWait(Constants.SHORT_TIME);
 				browser.launch(Constants.REMOTE, Constants.CHROME);
 				browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2177,6 +2176,12 @@ public class ConsumerSubsidy extends TestInfra {
     			browser.close();
     			
     			//Navigate to Reports
+    			browser.launch(Constants.LOCAL, Constants.CHROME);
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
     			 navigationBar.navigateToMenuItem(menu.get(1));
     			 reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
     			 reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -2189,32 +2194,148 @@ public class ConsumerSubsidy extends TestInfra {
     			 accountAdjustment.checkForDataAvailabilyInResultTable();
     			 String header = foundation.getText(AccountAdjustment.TABLE_HEAD);
     			 accountAdjustment.verifyTblHeaderData(headData.get(0), headData.get(1), headData.get(2), headData.get(3), headData.get(4), headData.get(5), headData.get(6), headData.get(7), headData.get(8), headData.get(9), headData.get(10), headData.get(11));
-    			 
-    			
-	}
-	
-			catch (Exception exc) {
+    			 CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.REP_REASON));
+    			}
+	     		catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
-			}
-			finally {
+			    }
+			    finally {
+				// resetting test data	
+				locationSummary.subsidyResettingOff(menu.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
+						requiredData.get(1));
+				consumerSummary.balanceResettingDataInAutomationLocation1(menu.get(2), rstconsumerSearchData.get(CNConsumerSearch.SEARCH), rstLocationListData.get(CNLocationList.LOCATION_NAME), rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE), rstConsumerSummaryData.get(CNConsumerSummary.REASON));
+			}}
+		
+           	
+           @Test(description= "165231- To Verify whether the 'Subsidy' reason code is displayed in report after completing the transaction")   	
+           public void verifyReasonCodeInReport() {
+		   final String CASE_NUM="165231";
+           
+		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		    rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			
+			List<String> headData = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		   List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		   List<String> requiredData = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+		   try {
 
-				// resetting test data
-				browser.launch(Constants.LOCAL, Constants.CHROME);
 				browser.navigateURL(
 						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-				foundation.threadWait(Constants.TWO_SECOND);	
-				locationSummary.subsidyResettingOff(menu.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
-						requiredData.get(1));
+
+				// Select Menu, Menu Item and Location
+				navigationBar.selectOrganization(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menu.get(0));
+				locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+	
+				// Verifying the selection of defaults for GMA subsidy
+				foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+				List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
+				List<String> expectedValues = new ArrayList<String>();
+				expectedValues.add(requiredData.get(1));
+				expectedValues.add(requiredData.get(0));
+				CustomisedAssert.assertTrue(values.equals(expectedValues));
+				String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+				CustomisedAssert.assertEquals(value, requiredData.get(1));
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+				foundation.threadWait(Constants.ONE_SECOND);
+				foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+				locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
+				locationSummary.enterTopoffAmount(requiredData.get(2), requiredData.get(3), requiredData.get(4));
+		        foundation.click(LocationSummary.BTN_SAVE);
+		        foundation.threadWait(Constants.SHORT_TIME);
+		        
+		        
+		        //Navigate to Admin>consumer
+		        navigationBar.navigateToMenuItem(menu.get(1));
+		        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+				foundation.click(ConsumerSearch.CLEAR_SEARCH);
+				foundation.threadWait(Constants.SHORT_TIME);
+				textBox.enterText(ConsumerSearch.TXT_SEARCH, rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
+				dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+	    		foundation.click(ConsumerSearch.BTN_GO);
+	            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+	            table.selectRow(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+	            foundation.click(ConsumerSearch.ACTION_BTN);
+	            foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+	            foundation.isDisabled(ConsumerSearch.LBL_BULK_ASSIGN_POPUP);
+	            foundation.threadWait(Constants.SHORT_TIME);
+	            dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.TITLE), Constants.TEXT);
+	            foundation.click(ConsumerSearch.BTN_SAVE);
+	            browser.close();
+	            foundation.threadWait(Constants.SHORT_TIME);
+		        
+		        //Launch v5 Device
+		        foundation.threadWait(Constants.SHORT_TIME);
+				browser.launch(Constants.REMOTE, Constants.CHROME);
+				browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+                CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+                foundation.click(LandingPage.IMG_SEARCH_ICON);
+                foundation.click(AccountLogin.BTN_CAMELCASE);
+    			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+    			foundation.click(ProductSearch.BTN_PRODUCT);
+    			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+    			foundation.click(Payments.ACCOUNT_EMAIL);
+    			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+    			foundation.click(Payments.EMAIL_lOGIN_BTN);
+    			foundation.threadWait(Constants.ONE_SECOND);
+    			foundation.click(AccountLogin.BTN_CAMELCASE);
+    			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+    			foundation.click(AccountLogin.BTN_NEXT);
+    			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+    			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+    			foundation.click(AccountLogin.BTN_PIN_NEXT);
+    			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+    			browser.close();
+            
+    			//Navigate to Reports
+    			foundation.threadWait(Constants.SHORT_TIME);
+    			browser.launch(Constants.LOCAL, Constants.CHROME);
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+    			 navigationBar.navigateToMenuItem(menu.get(1));
+    			 reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+    			 reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+    			 reportList.selectLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+    			 foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
+    			 foundation.click(ReportList.BTN_RUN_REPORT);
+    			 foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
+    			 String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
+    			 CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
+    			 accountAdjustment.checkForDataAvailabilyInResultTable();
+    			 String header = foundation.getText(AccountAdjustment.TABLE_HEAD);
+    			 accountAdjustment.verifyTblHeaderData(headData.get(0), headData.get(1), headData.get(2), headData.get(3), headData.get(4), headData.get(5), headData.get(6), headData.get(7), headData.get(8), headData.get(9), headData.get(10), headData.get(11));
+    			 Map<String, String> datas=accountAdjustment.getTblRecords("1");
+    			 //accountAdjustment.verifyDatasInReports(datas, columndatas.get(0), columndatas.get(1), columndatas.get(2), columndatas.get(3), columndatas.get(4), columndatas.get(5), columndatas.get(6), columndatas.get(7), columndatas.get(8), columndatas.get(9));
+    			}
+		        catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
 			}
-			
-			
-           }	
-	
-	
-}
+		   finally {
+			   locationSummary.subsidyResettingOff(menu.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
+						requiredData.get(1));
+				    consumerSummary.balanceResettingDataInAutomationLocation1(menu.get(1), rstconsumerSearchData.get(CNConsumerSearch.SEARCH), rstLocationListData.get(CNLocationList.LOCATION_NAME), rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE), rstConsumerSummaryData.get(CNConsumerSummary.REASON));
+		}
+		      
+           }}
 
 
 

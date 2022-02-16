@@ -31,7 +31,7 @@ public class ConsumerSearch extends Factory {
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
-	private static final By TXT_SEARCH = By.id("search");
+	public static final By TXT_SEARCH = By.id("search");
 	public static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");

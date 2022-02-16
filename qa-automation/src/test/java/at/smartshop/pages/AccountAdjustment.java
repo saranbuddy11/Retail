@@ -30,8 +30,8 @@ public class AccountAdjustment extends Factory {
     public static final By TABLE_HEAD = By.xpath("//table[@id='rptdt']/thead");
     public static final By DATE_COLUMN = By.xpath("//*[@id=\"rptdt\"]/tbody/tr/td");
     public static final By ACTION_COLUMN = By.xpath("//*[@id=\"rptdt\"]/tbody/tr[3]/td[7]");
-    public static final By REP_DATE= By.id("rpt-date");
-	
+    public static final By REP_DATE= By.xpath("//th[@aria-sort='ascending']");
+	public static final By REP_REASON =By.id("rpt-reason");
 	
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
