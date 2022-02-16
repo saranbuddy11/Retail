@@ -32,6 +32,8 @@ public class AccountAdjustment extends Factory {
     public static final By ACTION_COLUMN = By.xpath("//*[@id=\"rptdt\"]/tbody/tr[3]/td[7]");
     public static final By REP_DATE= By.xpath("//th[@aria-sort='ascending']");
 	public static final By REP_REASON =By.id("rpt-reason");
+    public static final By COLUMN_ROWDATA=By.xpath("//tbody[@role='alert']/tr");
+    public static final By REASON = By.xpath("/html/body/div[4]/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/table/tbody/tr[4]/td[11]");
 	
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -113,7 +115,7 @@ public class AccountAdjustment extends Factory {
 		value = actuals.get("Consumer Name");
 		CustomisedAssert.assertTrue(value.contains(name));
 	}
-	public void verifyTblHeaderData(String d1,String d2,String d3,String d4,String d5,String d6,String d7,String d8,String d9,String d10,String d11,String d12 ) {
+	public void verifyTblHeaderData(Map<String, String> actuals,String d1,String d2,String d3,String d4,String d5,String d6,String d7,String d8,String d9,String d10,String d11,String d12) {
 		ArrayList<String> expectedValues = new ArrayList<String>();
 		expectedValues.add(d1);
 		expectedValues.add(d2);
@@ -128,34 +130,7 @@ public class AccountAdjustment extends Factory {
 		expectedValues.add(d11);
 		expectedValues.add(d12);
 	}
-	public void verifyDatasInReports(Map<String, String> actuals,String location,String adjid,String adjname,String consid,String consname,String before,String after,String amount,String reason, String reflect) {
-		
-		
-		String value = actuals.get("Location");
-		CustomisedAssert.assertEquals(value, location);
-		value = actuals.get("Adjuster ID");
-		CustomisedAssert.assertEquals(value, adjid);
-		value = actuals.get("Adjuster Name");
-		CustomisedAssert.assertEquals(value, adjname);
-		value = actuals.get("Consumer ID");
-		CustomisedAssert.assertEquals(value, consid);
-		value = actuals.get("Consumer Name");
-		CustomisedAssert.assertTrue(value.contains(consname));
-//		value = actuals.get("Action");
-//		CustomisedAssert.assertEquals(value, action);
-		value = actuals.get("Before");
-		CustomisedAssert.assertEquals(value, before);
-		value = actuals.get("After");
-		CustomisedAssert.assertEquals(value, after);
-		value = actuals.get("Amount");
-		CustomisedAssert.assertEquals(value, amount);
-		value = actuals.get("Reason");
+	public void verifyReasonCode(Map<String, String> actuals, String reason) {
+		String value = actuals.get("Reason");
 		CustomisedAssert.assertEquals(value, reason);
-		value = actuals.get("Reflect on EFT");
-		CustomisedAssert.assertEquals(value, reflect);
-		
-	}
-	
-	
-	
-}
+}}

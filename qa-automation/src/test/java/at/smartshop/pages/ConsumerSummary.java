@@ -232,7 +232,9 @@ public class ConsumerSummary extends Factory {
 		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason,Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);
+		
 	}
 	
 }

@@ -38,6 +38,7 @@ public class LocationSummary extends Factory {
 	private CheckBox checkBox = new CheckBox();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
+	public static final By PANTRY_TYPE=By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
