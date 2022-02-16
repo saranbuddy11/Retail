@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -8,6 +9,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
 
 import com.aventstack.extentreports.Status;
 
@@ -97,6 +100,7 @@ public class CreatePromotions extends Factory  {
 	public static final By DPD_SELECTED_ITEM = By.id("categorySelectInput");
 	public static final By SELECT_DISABLED_LOCATION = By.id("filtervalues");
 	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
+	public static final By TXT_SELECTED_ITEM = By.xpath("//li[text()='AutomationApple']");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

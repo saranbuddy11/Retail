@@ -22,7 +22,7 @@ public class SOSHome extends Factory {
 	public static final By MENU = By.cssSelector("a[title=UserLoad]");
 	public static final By LANDING_PAGE_HEADING = By.xpath("//li[contains(text(),'Dashboard')]");
 	public static final By PAGE_HEADING = By.xpath("//li[contains(text(),'Load GMA User Parameters')]");
-	public static final By LBL_USER_NAME = By.id("drop5");
+	public static final By LBL_USER_NAME = By.xpath("//a[@id='drop5' and @class='dropdown-toggle']");
 	private static final By MUN_LOGOUT = By.xpath("//a[@title='Logout']");
 
 	public void selectOrginazation(String selectText) {
@@ -53,7 +53,7 @@ public class SOSHome extends Factory {
 	public void logout() {
 		try {
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
-			foundation.click(LBL_USER_NAME);
+			foundation.objectClick(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

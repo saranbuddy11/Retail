@@ -444,4 +444,41 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData, Map<Integer, Map<String, String>> intialData) {
+		try {
+			int count = intialData.size();
+			for (int counter = 0; counter < count; counter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportDataOfFirstRow(List<String> tableHeaders, Map<String, String> reportsData,
+			Map<String, String> intialData) {
+		try {
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(
+						reportsData.get(tableHeaders.get(iter)).contains(intialData.get(tableHeaders.get(iter))));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
