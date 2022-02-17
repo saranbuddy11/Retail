@@ -16,6 +16,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class AccountAdjustment extends Factory {
 	private Foundation foundation = new Foundation();
@@ -34,6 +35,11 @@ public class AccountAdjustment extends Factory {
 	public static final By REP_REASON =By.id("rpt-reason");
     public static final By COLUMN_ROWDATA=By.xpath("//tbody[@role='alert']/tr");
     public static final By REASON = By.xpath("/html/body/div[4]/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/table/tbody/tr[4]/td[11]");
+    
+    
+    public By objHeaderDataColumn(String column) {
+		return By.xpath("//table[@id='rptdt']//th[text()='" + column + "']");
+	}
 	
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -115,20 +121,29 @@ public class AccountAdjustment extends Factory {
 		value = actuals.get("Consumer Name");
 		CustomisedAssert.assertTrue(value.contains(name));
 	}
-	public void verifyTblHeaderData(Map<String, String> actuals,String d1,String d2,String d3,String d4,String d5,String d6,String d7,String d8,String d9,String d10,String d11,String d12) {
-		ArrayList<String> expectedValues = new ArrayList<String>();
-		expectedValues.add(d1);
-		expectedValues.add(d2);
-		expectedValues.add(d3);
-		expectedValues.add(d4);
-		expectedValues.add(d5);
-		expectedValues.add(d6);
-		expectedValues.add(d7);
-		expectedValues.add(d8);
-		expectedValues.add(d9);
-		expectedValues.add(d10);
-		expectedValues.add(d11);
-		expectedValues.add(d12);
+	
+		public void verifyHeaderData(List<String> values) {
+			try {
+				foundation.waitforElement(LBL_REPORT_NAME, Constants.SHORT_TIME);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(TABLE_HEAD));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(1))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(2))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(3))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(4))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(5))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(6))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(7))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(8))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(9))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(10))));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(objHeaderDataColumn(values.get(11))));
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"Validated the Column Header Datas" + values);
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		
+		
 	}
 	public void verifyReasonCode(Map<String, String> actuals, String reason) {
 		String value = actuals.get("Reason");
