@@ -430,20 +430,20 @@ public class ReportList extends Factory {
 		}
 	}
 	
-	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
-		try {
-			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("columnName :" + columnName);
-			System.out.println("tableHeaders :" + tableHeaders);
-			for (int iter = 1; iter < tableHeaders.size(); iter++) {
-				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
-				System.out.println("columnName :" + columnName.get(iter));
-				System.out.println("tableHeaders :" + tableHeaders.get(iter));
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+//		try {
+//			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+//			System.out.println("columnName :" + columnName);
+//			System.out.println("tableHeaders :" + tableHeaders);
+//			for (int iter = 1; iter < tableHeaders.size(); iter++) {
+//				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+//				System.out.println("columnName :" + columnName.get(iter));
+//				System.out.println("tableHeaders :" + tableHeaders.get(iter));
+//			}
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 	
 	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
 		try {

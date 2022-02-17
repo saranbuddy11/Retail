@@ -2606,7 +2606,6 @@ public class Report extends TestInfra {
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
-//		String promotionName = "Zrzxldjtfo";
 		System.out.println(promotionName + "**********" + gridName);
 		
 		try {
