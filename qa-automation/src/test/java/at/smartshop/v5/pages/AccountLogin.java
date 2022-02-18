@@ -16,6 +16,7 @@ import at.smartshop.keys.FilePath;
 public class AccountLogin {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private Order order = new Order();
 
 	public static final By BTN_EMAIL_LOGIN = By.id("email-account-login-btn-id");
 	public static final By TXT_EMAIL = By.id("emailLoginInput");
@@ -113,4 +114,45 @@ public class AccountLogin {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 	}
 
+	public String productPurchase(String product, List<String> actuals, String orderPage, String mail, String pin,
+			String expectedBal) {
+		if (expectedBal.contains(Constants.DOLLAR))
+			expectedBal = expectedBal.split(Constants.DOLLAR)[1];
+		foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actuals.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actuals.get(1));
+
+		// Verify product purchase Transaction with Account balance
+		foundation.objectFocus(order.objText(orderPage));
+		foundation.click(order.objText(orderPage));
+		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
+		String balanceDue = foundation.getText(Order.LBL_CHARGE_AMT).split(Constants.DOLLAR)[1];
+		double bal = Double.valueOf(expectedBal) - Double.valueOf(balanceDue);
+		String accBalance = "$" + String.valueOf(bal);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(mail);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		return accBalance;
+	}
+
+	public void verifyAccountDetails(String mail, String pin, String expectedBal) {
+		if (!expectedBal.contains("$"))
+			expectedBal = "$" + expectedBal + ".00";
+		else
+			expectedBal = expectedBal + ".00";
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(BTN_EMAIL_LOGIN);
+		login(mail, pin);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AccountLogin.LBL_ACCOUNT));
+		String balance = foundation.getText(AccountLogin.LBL_BALANCE);
+		CustomisedAssert.assertEquals(balance, expectedBal);
+		foundation.click(BTN_PROFILE_CLOSE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+	}
 }
