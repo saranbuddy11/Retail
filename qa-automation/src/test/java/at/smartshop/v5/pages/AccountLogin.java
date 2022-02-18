@@ -115,7 +115,7 @@ public class AccountLogin {
 	}
 
 	public String productPurchase(String product, List<String> actuals, String orderPage, String mail, String pin,
-			String expectedBal) {
+			String expectedBal, String payment) {
 		if (expectedBal.contains(Constants.DOLLAR))
 			expectedBal = expectedBal.split(Constants.DOLLAR)[1];
 		foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
@@ -138,6 +138,8 @@ public class AccountLogin {
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(payment)));
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 		return accBalance;
 	}
 
@@ -145,7 +147,7 @@ public class AccountLogin {
 		if (!expectedBal.contains("$"))
 			expectedBal = "$" + expectedBal + ".00";
 		else
-			expectedBal = expectedBal + ".00";
+			expectedBal = expectedBal + "0";
 		foundation.click(LandingPage.BTN_LOGIN);
 		foundation.click(BTN_EMAIL_LOGIN);
 		login(mail, pin);
