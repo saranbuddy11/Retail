@@ -11000,8 +11000,9 @@ public class V5Test extends TestInfra {
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			foundation.click(LocationSummary.TXT_PAYROLL);
 			dropDown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, requiredData.get(7), Constants.TEXT);
-			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_NAME, rstLocationListData.get(CNLocationList.PAY_CYCLE));
-			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_SPEND_LIMIT, requiredData.get(6));
+			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME,
+					rstLocationListData.get(CNLocationList.PAY_CYCLE));
+			textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, requiredData.get(6));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);

@@ -181,6 +181,8 @@ public class LocationSummary extends Factory {
 	public static final By DPD_SHOW_DINING = By.id("hasdiningpreference");
 	public static final By TXT_PAY_CYCLE_NAME = By
 			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_CYCLE_GROUP_NAME = By.xpath("//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_ROLL_SPEND_LIMIT = By.xpath("//input[contains(@class,'paycycle-spndlimit')]");
 	public static final By TXT_PAY_CYCLE_SPEND_LIMIT = By
 			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-spndlimit')]");
 	public static final By DPD_PAYROLL_DEDUCT = By.id("payrolldeduct");
