@@ -161,14 +161,15 @@ public class ConsumerSearch extends Factory {
             CustomisedAssert.assertTrue(actualData.equals(values));
    	
 	    }	
-    public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location,String row) {
+    public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location,String row,String row2) {
 		
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
         CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
         foundation.threadWait(Constants.SHORT_TIME);
         table.selectRow(row); 
-        foundation.threadWait(Constants.ONE_SECOND);
+        table.selectRow(row2); 
+        foundation.threadWait(Constants.SHORT_TIME);
         foundation.click(ConsumerSearch.ACTION_BTN);
         foundation.threadWait(Constants.SHORT_TIME);
     }		

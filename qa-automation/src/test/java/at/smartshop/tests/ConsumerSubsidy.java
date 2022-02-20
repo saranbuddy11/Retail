@@ -2001,8 +2001,7 @@ public class ConsumerSubsidy extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
-			consumerSearch.BulkAssignSubsidyGroupInMoreThanTwoGrid(rstconsumerSearchData.get(CNConsumerSearch.LOCATION), rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
-			
+			consumerSearch.BulkAssignSubsidyGroupInMoreThanTwoGrid(rstconsumerSearchData.get(CNConsumerSearch.LOCATION), rstconsumerSearchData.get(CNConsumerSearch.SEARCH), rstconsumerSearchData.get(CNConsumerSearch.SEARCH_BY));
 			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
@@ -2032,7 +2031,6 @@ public class ConsumerSubsidy extends TestInfra {
 	
 	
 	
-	
-	
-	
 }
+	
+
