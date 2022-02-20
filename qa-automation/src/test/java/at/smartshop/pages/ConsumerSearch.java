@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.KeyDownAction;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -60,6 +61,7 @@ public class ConsumerSearch extends Factory {
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
     public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
+    public static final By BTN_SAVE_IN_SUBSIDY=By.id("reasonSaveBtn");
     
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -159,7 +161,21 @@ public class ConsumerSearch extends Factory {
             CustomisedAssert.assertTrue(actualData.equals(values));
    	
 	    }	
+    public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location,String row) {
 		
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.threadWait(Constants.SHORT_TIME);
+        table.selectRow(row); 
+        foundation.threadWait(Constants.ONE_SECOND);
+        foundation.click(ConsumerSearch.ACTION_BTN);
+        foundation.threadWait(Constants.SHORT_TIME);
+    }		
+    
+    
+    
+    
 	public void searchConsumer(String option, String location) {
 		navigationBar.navigateToMenuItem(option);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);

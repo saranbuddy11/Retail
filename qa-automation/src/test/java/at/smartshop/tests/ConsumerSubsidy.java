@@ -20,6 +20,7 @@ import at.framework.generic.DateAndTime;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -66,6 +67,7 @@ public class ConsumerSubsidy extends TestInfra {
 	private Excel excel = new Excel();
 	private LoadGMA loadGma = new LoadGMA();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Table table=new Table();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -1257,7 +1259,7 @@ public class ConsumerSubsidy extends TestInfra {
 					expectedData);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP));
-
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1979,4 +1981,58 @@ public class ConsumerSubsidy extends TestInfra {
 					requiredData.get(1));
 		}
 	}
+	@Test(description = "165951- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page."
+			+ "165953-To Verify the bulk assigns a subsidy group to one or more consumer accounts.")
+	public void verifyBulkAssignSubsidyGroup() {
+		final String CASE_NUM = "165953";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+        rstConsumerSummaryData=dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			consumerSearch.BulkAssignSubsidyGroupInMoreThanTwoGrid(rstconsumerSearchData.get(CNConsumerSearch.LOCATION), rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
+			
+			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.SUBSIDY_GROUP));
+			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.RSN_CANCEL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.ACTION_BTN);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
+			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS), Constants.TEXT);
+			foundation.click(consumerSearch.BTN_SAVE_IN_SUBSIDY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
+			foundation.click(consumerSummary.CANCEL_BTN);			
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	
+	
+	
+	
+	
 }
