@@ -11334,7 +11334,7 @@ public class V5Test extends TestInfra {
 			propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 			navigationBar.navigateToMenuItem(menus.get(1));
 
-			// Search Consumer Account foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			// Search Consumer Account
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_SEARCH_BY,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), Constants.TEXT);
