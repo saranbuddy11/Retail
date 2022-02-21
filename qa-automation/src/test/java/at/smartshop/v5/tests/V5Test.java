@@ -11287,14 +11287,12 @@ public class V5Test extends TestInfra {
 					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
 					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(10),
 					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-			System.out.println(actualBal);
 
 			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
 					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
 			actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
 					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
 					rstV5DeviceData.get(CNV5Device.PIN), actualBal, rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-			System.out.println(actualBal);
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);

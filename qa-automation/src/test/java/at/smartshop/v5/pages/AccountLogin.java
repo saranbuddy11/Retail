@@ -116,8 +116,10 @@ public class AccountLogin {
 
 	public String productPurchase(String product, List<String> actuals, String orderPage, String mail, String pin,
 			String expectedBal, String payment) {
-		if (expectedBal.contains(Constants.DOLLAR))
+		if (expectedBal.contains(Constants.DOLLAR_SYMBOL)) {
 			expectedBal = expectedBal.split(Constants.DOLLAR)[1];
+			expectedBal = expectedBal.replace(".0", "");
+		}
 		foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
