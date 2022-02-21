@@ -126,7 +126,7 @@ public class AccountLogin {
 		CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actuals.get(0));
 		CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actuals.get(1));
 
-		// Verify product purchase Transaction with Account balance
+		// Verify product purchase Transaction with balance
 		foundation.objectFocus(order.objText(orderPage));
 		foundation.click(order.objText(orderPage));
 		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
@@ -155,6 +155,23 @@ public class AccountLogin {
 		login(mail, pin);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(AccountLogin.LBL_ACCOUNT));
 		String balance = foundation.getText(AccountLogin.LBL_BALANCE);
+		CustomisedAssert.assertEquals(balance, expectedBal);
+		foundation.click(BTN_PROFILE_CLOSE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+	}
+
+	public void verifySubsidyDetails(String mail, String pin, String expectedBal) {
+		if (!expectedBal.contains("$"))
+			expectedBal = "$" + expectedBal + ".00";
+		else
+			expectedBal = expectedBal + "0";
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(BTN_EMAIL_LOGIN);
+		login(mail, pin);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AccountLogin.LBL_ACCOUNT));
+		foundation.click(LBL_SUBSIDY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SUBSIDY));
+		String balance = foundation.getText(LBL_BALANCE);
 		CustomisedAssert.assertEquals(balance, expectedBal);
 		foundation.click(BTN_PROFILE_CLOSE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
