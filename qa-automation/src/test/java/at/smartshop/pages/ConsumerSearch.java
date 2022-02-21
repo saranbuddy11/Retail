@@ -62,6 +62,7 @@ public class ConsumerSearch extends Factory {
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
     public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
     public static final By BTN_SAVE_IN_SUBSIDY=By.id("reasonSaveBtn");
+    public static final By BTN_EXPORT=By.id("exportBtn");
     
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -173,10 +174,7 @@ public class ConsumerSearch extends Factory {
         foundation.click(ConsumerSearch.ACTION_BTN);
         foundation.threadWait(Constants.SHORT_TIME);
     }		
-    
-    
-    
-    
+  
 	public void searchConsumer(String option, String location) {
 		navigationBar.navigateToMenuItem(option);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -184,5 +182,8 @@ public class ConsumerSearch extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		foundation.threadWait(Constants.ONE_SECOND);
 	}
-}
-
+	public void verifyColumnName(List<String> expected, String actual) {
+		List<String> expectedColumns = expected;
+		
+		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
+	}}

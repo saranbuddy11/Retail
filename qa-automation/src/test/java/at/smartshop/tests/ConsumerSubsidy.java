@@ -2029,8 +2029,52 @@ public class ConsumerSubsidy extends TestInfra {
 		}
 	}
 	
+	@Test(description = "165947- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page")
+	public void verifyExportButtonInActions() {
+		final String CASE_NUM = "165947";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+       
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+           
+			//
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstconsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
+    		foundation.click(ConsumerSearch.BTN_GO);
+            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+            table.selectRow(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
+            foundation.click(ConsumerSearch.ACTION_BTN);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.BTN_EXPORT);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONSUMER));
+			foundation.threadWait(Constants.SHORT_TIME);
+			Map<String, String> excelData = excel.getExcelData(FilePath.EXCEL_CONSUMER,
+					rstconsumerSearchData.get(CNConsumerSearch.ACTIONS));
+			foundation.threadWait(Constants.SHORT_TIME);
+			List<String> actualColumnNames = new ArrayList<String>(excelData.keySet());
+			CustomisedAssert.assertTrue(actualColumnNames.get(2).equals(rstconsumerSearchData.get(CNConsumerSearch.COLUMN_NAME)));
+			
+
+		}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_CONSUMER);
+			
+		}
 	
-	
-}
+}}
 	
 
