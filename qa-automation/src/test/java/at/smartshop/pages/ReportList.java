@@ -192,35 +192,16 @@ public class ReportList extends Factory {
 	}
 
 	public void selectAllOptionOfFilter() {
-		try {
-//			By TO_xyz = By.xpath("//ul[@id='select2-add-filter-select-results']//li");
-//			int countPaginationList = foundation.getSizeofListElement(TO_xyz);
-//			for (int iter = 0; iter < countPaginationList; iter++) {
-//				List<WebElement> paginationList = getDriver().findElements(object1);
-//				paginationList.get(iter).click();			
-//				int countOfCheckboxes = foundation.getSizeofListElement(object2);
-//				for (int count = 0; count < countOfCheckboxes; count++) {
-//					List<WebElement> checkBoxList = getDriver().findElements(object2);
-//					if (checkBoxList.get(count).isSelected()) {
-//						checkBoxList.get(count).click();
-//						foundation.threadWait(2);
-//					}
-//				}
-//			}
-//					
+		try {		
 			foundation.click(DPD_FILTER);
-			By TO_xyz = By.xpath("//ul[@id='select2-add-filter-select-results']//li");
-//			Select select = new Select(getDriver().findElement(TO_xyz));
-			List<WebElement> items = getDriver().findElements(TO_xyz);
+			By filter = By.xpath("//ul[@id='select2-add-filter-select-results']//li");
+			List<WebElement> items = getDriver().findElements(filter);
 
 			for (int i=1; i<items.size(); i++) {
-				List<WebElement> items1 = getDriver().findElements(TO_xyz);
+				List<WebElement> items1 = getDriver().findElements(filter);
 				for (int j=1; j<2;j++) {
 				String itemText = items1.get(1).getText();
-				System.out.println(itemText);
 				items1.get(1).click();
-//				foundation.click(By.xpath("//ul[@id='select2-add-filter-select-results']/li[text()='" + itemText + "']"));
-//				item.click();
 				if (i==items.size()-1) {
 					break;
 				}			
@@ -429,21 +410,6 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-//	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
-//		try {
-//			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-//			System.out.println("columnName :" + columnName);
-//			System.out.println("tableHeaders :" + tableHeaders);
-//			for (int iter = 1; iter < tableHeaders.size(); iter++) {
-//				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
-//				System.out.println("columnName :" + columnName.get(iter));
-//				System.out.println("tableHeaders :" + tableHeaders.get(iter));
-//			}
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
 	
 	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
 		try {

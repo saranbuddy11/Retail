@@ -2721,8 +2721,6 @@ public class Report extends TestInfra {
 					Constants.EXTRA_LONG_TIME);
 			promotionAnalysis.getRequiredRecordGroupbyLocations("Automation@365");
 			promotionAnalysis.expandRow();
-//			foundation.click(PromotionAnalysis.EXPAND_ROW);
-//			Thread.sleep(4000);
 			promotionAnalysis.getUITblRecordsGroupbyLocations();
 			promotionAnalysis.getIntialData().putAll(promotionAnalysis.getReportsData());
 			promotionAnalysis.getRequiredRecord(promotionName);

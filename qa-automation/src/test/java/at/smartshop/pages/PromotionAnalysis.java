@@ -79,8 +79,6 @@ public class PromotionAnalysis extends Factory {
 			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GROUPBY_PROMOTIONS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			System.out.println("columnHeaders :" + columnHeaders.size());
-			System.out.println("rows :" + rows.size());
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -96,7 +94,6 @@ public class PromotionAnalysis extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :" + reportsData);
 	}
 
 	public void getUITblRecordsGroupbyLocations() {
@@ -115,8 +112,6 @@ public class PromotionAnalysis extends Factory {
 			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			System.out.println("columnHeaders :" + columnHeaders.size());
-			System.out.println("rows :" + rows.size());
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -132,19 +127,16 @@ public class PromotionAnalysis extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :" + reportsData);
 	}
 
 	public void getRequiredRecord(String promotionName) {
 		try {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
-					System.out.println(intialData.get(rowCount).get(tableHeaders.get(1)));
 					recordCount = rowCount;
 					break;
 				}
 			}
-			System.out.println("recordCount :" + recordCount);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -160,8 +152,6 @@ public class PromotionAnalysis extends Factory {
 			List<WebElement> columnHeadersOfGroupbyLocations = tableReportsOfGroupbyLocations
 					.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsListOfGroupbyLocations.findElements(By.tagName("tr"));
-			System.out.println("columnHeaders :" + columnHeadersOfGroupbyLocations.size());
-			System.out.println("rows :" + rows.size());
 			for (WebElement columnHeader : columnHeadersOfGroupbyLocations) {
 				tableHeadersForGroupbyLocation.add(columnHeader.getText());
 			}
@@ -186,14 +176,10 @@ public class PromotionAnalysis extends Factory {
 			for (int rowCount = 1; rowCount < intialDataForGroupByrLocation.size(); rowCount++) {
 				if (intialDataForGroupByrLocation.get(rowCount).get(tableHeadersForGroupbyLocation.get(2))
 						.equals(promotionName)) {
-					System.out.println(
-							intialDataForGroupByrLocation.get(rowCount).get(tableHeadersForGroupbyLocation.get(2)));
 					recordCountForGroupbyLocation = rowCount;
-					System.out.println("rowCount :" + rowCount);
 					break;
 				}
 			}
-			System.out.println("recordCountForGroupbyLocation :" + recordCountForGroupbyLocation);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -202,7 +188,6 @@ public class PromotionAnalysis extends Factory {
 	public void updateData(String columnName, String values) {
 		try {
 			intialData.get(recordCount).put(columnName, values);
-			System.out.println("intialData :" + intialData.get(recordCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -221,7 +206,6 @@ public class PromotionAnalysis extends Factory {
 
 	public Map<String, String> promotionActualData() {
 		try {
-			System.out.println("recordCount22 :" + recordCount);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
 			}
@@ -244,13 +228,9 @@ public class PromotionAnalysis extends Factory {
 
 	public void verifyReportData() {
 		try {
-			System.out.println("reportsData :" + promoActualData);
-			System.out.println("intialData :" + PromoExpectedData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
 						.contains(PromoExpectedData.get(tableHeaders.get(iter))));
-				System.out.println("reportsData :" + promoActualData.get(tableHeaders.get(iter)));
-				System.out.println("intialData :" + PromoExpectedData.get(tableHeaders.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
