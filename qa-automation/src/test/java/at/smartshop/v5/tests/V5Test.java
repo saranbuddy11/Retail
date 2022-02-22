@@ -12057,14 +12057,18 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
-			// Remove Device from AutoLocationConsumerVerified Location
+			// Resetting GMA Subsidy ON
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(location.get(1));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value.equals(requiredData.get(1)))
-				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Remove Device from AutoLocationConsumerVerified Location
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(location.get(1));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
