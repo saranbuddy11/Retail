@@ -12048,7 +12048,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 
-			// Resetting Subsidy Balance and consumer balance
+			// Resetting consumer balance
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(7));
