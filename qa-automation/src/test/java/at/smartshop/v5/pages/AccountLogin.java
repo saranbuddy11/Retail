@@ -42,7 +42,9 @@ public class AccountLogin {
 	public static final By LBL_CONSUMER_NAME = By.xpath("//h1[@data-reactid='.0.4.0.0.0.0.1']");
 	public static final By LBL_SUBSIDY = By.xpath("//span[text()='Subsidy']");
 	public static final By LBL_ACCOUNT = By.xpath("//span[text()='Account']");
+	public static final By LBL_ACCOUNT_1 = By.xpath("//h2[text()='Account']");
 	public static final By LBL_BALANCE = By.xpath("//button[@class='active']/h3");
+	public static final By LBL_BALANCE_1 = By.xpath("//div[@class='account-balance']");
 	public static final By TAB_BALANCE = By.xpath("//button[@class='active']");
 	public static final By BTN_PROFILE_CLOSE = By.xpath("//i[@data-reactid='.0.4.0.0.0.0.2.0']");
 

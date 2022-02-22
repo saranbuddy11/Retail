@@ -10975,7 +10975,7 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy ON
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value == requiredData.get(1))
+			if (value.equals(requiredData.get(1)))
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -11204,7 +11204,7 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy ON
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value == requiredData.get(1))
+			if (value.equals(requiredData.get(1)))
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -11453,7 +11453,7 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy ON
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value == requiredData.get(1))
+			if (value.equals(requiredData.get(1)))
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -11695,7 +11695,7 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy ON
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value == requiredData.get(1))
+			if (value.equals(requiredData.get(1)))
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -11947,7 +11947,7 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy Off
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value == requiredData.get(0))
+			if (value.equals(requiredData.get(0)))
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(1), Constants.TEXT);
 
 			// Select Payroll Deduct ON
@@ -11980,14 +11980,12 @@ public class V5Test extends TestInfra {
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(6));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(4), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSummary.SUCCESS_MESSAGE, Constants.SHORT_TIME);
-			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, requiredData.get(5), Constants.TEXT);
 			value = dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE);
 			CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.PAY_CYCLE));
 			foundation.click(ConsumerSummary.BTN_SAVE);
@@ -12008,17 +12006,21 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(6));
 
 			// Verify product purchase Transaction with Account balance
 			String actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
 					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
 					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(6),
 					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-
-			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
+			actualBal = actualBal + "0";
+			foundation.click(LandingPage.BTN_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountLogin.LBL_ACCOUNT_1));
+			String balance = foundation.getText(AccountLogin.LBL_BALANCE_1);
+			CustomisedAssert.assertEquals(balance, actualBal);
+			foundation.click(AccountLogin.BTN_PROFILE_CLOSE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -12058,7 +12060,9 @@ public class V5Test extends TestInfra {
 			// Remove Device from AutoLocationConsumerVerified Location
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(location.get(1));
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
