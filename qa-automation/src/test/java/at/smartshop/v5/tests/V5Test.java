@@ -12060,9 +12060,7 @@ public class V5Test extends TestInfra {
 			// Remove Device from AutoLocationConsumerVerified Location
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(location.get(1));
-			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
