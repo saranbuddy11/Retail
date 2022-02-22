@@ -12062,7 +12062,9 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(location.get(1));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(1)))
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
