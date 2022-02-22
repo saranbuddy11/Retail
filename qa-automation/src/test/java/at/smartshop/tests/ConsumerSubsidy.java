@@ -2192,6 +2192,7 @@ public class ConsumerSubsidy extends TestInfra {
     			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
     			foundation.click(AccountLogin.BTN_NEXT);
     			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+    			foundation.threadWait(Constants.ONE_SECOND);
     			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
     			foundation.click(AccountLogin.BTN_PIN_NEXT);
     			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
