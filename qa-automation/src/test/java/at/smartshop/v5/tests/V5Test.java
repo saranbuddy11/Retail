@@ -12049,13 +12049,8 @@ public class V5Test extends TestInfra {
 			// Resetting Subsidy Balance and consumer balance
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(11));
-			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(8), Constants.TEXT);
-			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
-			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(4));
-			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(8), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(7));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(4), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
@@ -12063,6 +12058,9 @@ public class V5Test extends TestInfra {
 			// Remove Device from AutoLocationConsumerVerified Location
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(location.get(1));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
