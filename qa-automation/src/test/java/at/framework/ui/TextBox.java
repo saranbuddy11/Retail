@@ -6,9 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;

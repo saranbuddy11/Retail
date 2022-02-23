@@ -2001,6 +2001,9 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CANCEL);
 			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+			foundation.waitforElement(
+					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)),
+					Constants.SHORT_TIME);
 			foundation.click(
 					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.click(LockerSystem.BTN_YES_DELETE);

@@ -40,6 +40,7 @@ public class Factory {
 					capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 					capabilities.setCapability("applicationCacheEnabled", false);
 					// System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
+
 					WebDriverManager.chromedriver().setup();
 					webDriver.set(new ChromeDriver(chromeOptions));
 				} else if (browser.equals(Constants.FIREFOX)) {
@@ -57,8 +58,9 @@ public class Factory {
 					capabilities.setBrowserName("chrome");
 					capabilities.setPlatform(Platform.ANY);
 					// System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
-					// chromeOptions.setBinary("/usr/bin/chromium-browser");
+					System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
 					WebDriverManager.chromedriver().setup();
+					// chromeOptions.setBinary("/usr/bin/chromium-browser");
 					webDriver.set(new RemoteWebDriver(new URL(
 							propertyFile.readPropertyFile(Configuration.HUB_URL, FilePath.PROPERTY_CONFIG_FILE)),
 							capabilities));

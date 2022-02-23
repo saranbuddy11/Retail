@@ -15,9 +15,11 @@ public class DeviceList {
 	public static final By BTN_SEARCH = By.id("submitBtn");
 	public static final By BTN_SUBMIT = By.id("submitBtn");
 	public static final By DRP_PICO_DEVICE_TYPE = By.id("picodevicetype");
+	public static final By TXT_DEVICE_LIST = By.id("Device List");
+	public static final By BTN_CREATE_NEW = By.id("newBtn");
 
 	public By objDeveiceLink(String deviceName) {
-		return By.xpath("//td[@aria-describedby='device-grid_name']//a[text()='" + deviceName + "']");
+		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='" + deviceName + "']");
 	}
 
 	public By objLocationLink(String location) {
