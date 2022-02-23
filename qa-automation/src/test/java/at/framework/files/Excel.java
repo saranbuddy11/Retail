@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -237,4 +238,46 @@ public class Excel {
 		}
 		return singleRowData;
 	}
-}
+	
+	public Map<String, String> getExcelData(String fileName, String workSheetName) throws IOException {
+		HSSFWorkbook workBook = null;
+		Map<String, String> singleRowData = new HashMap<>();
+		List<String> columnHeader = new ArrayList<String>();
+		try {
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			workBook = new HSSFWorkbook(fis);
+			HSSFSheet workSheet = workBook.getSheet(workSheetName);
+			Row row = workSheet.getRow(2);
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext()) {
+				columnHeader.add(cellIterator.next().getStringCellValue());
+			}
+			int rowCount = workSheet.getLastRowNum();
+			int columnCount = row.getLastCellNum();
+			for (int i = 2; i <= rowCount; i++) {
+
+				Row row1 = workSheet.getRow(i);
+				for (int j = 0; j < columnCount; j++) {
+					Cell cell = row1.getCell(j);
+					int cellType = cell.getCellType();
+
+					if (cellType == 0) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getNumericCellValue()));
+
+					} else if (cellType == 4) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getBooleanCellValue()));
+					} else {
+
+						singleRowData.put(columnHeader.get(j), cell.getStringCellValue());
+					}
+				}
+			}
+			workBook.close();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return singleRowData;
+	}
+	
+	}

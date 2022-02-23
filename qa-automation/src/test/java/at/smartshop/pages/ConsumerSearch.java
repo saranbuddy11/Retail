@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.KeyDownAction;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -31,7 +32,7 @@ public class ConsumerSearch extends Factory {
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
 	public static final By DPD_SEARCH_BY = By.id("searchBy");
-	private static final By TXT_SEARCH = By.id("search");
+	public static final By TXT_SEARCH = By.id("search");
 	public static final By BTN_GO = By.id("findBtn");
 	public static final By TBL_CONSUMERS = By.id("consumerdt");
 	public static final By BTN_ADJUST = By.xpath("//a[text()='Adjust']");
@@ -60,6 +61,9 @@ public class ConsumerSearch extends Factory {
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
     public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
+    public static final By BTN_SAVE = By.id("reasonSaveBtn");
+    public static final By BTN_EXPORT=By.id("exportBtn");
+
     
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
@@ -159,7 +163,19 @@ public class ConsumerSearch extends Factory {
             CustomisedAssert.assertTrue(actualData.equals(values));
    	
 	    }	
+    public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location,String row,String row2) {
 		
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.threadWait(Constants.SHORT_TIME);
+        table.selectRow(row); 
+        table.selectRow(row2); 
+        foundation.threadWait(Constants.SHORT_TIME);
+        foundation.click(ConsumerSearch.ACTION_BTN);
+        foundation.threadWait(Constants.SHORT_TIME);
+    }		
+  
 	public void searchConsumer(String option, String location) {
 		navigationBar.navigateToMenuItem(option);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -167,5 +183,8 @@ public class ConsumerSearch extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		foundation.threadWait(Constants.ONE_SECOND);
 	}
-}
-
+	public void verifyColumnName(List<String> expected, String actual) {
+		List<String> expectedColumns = expected;
+		
+		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
+	}}
