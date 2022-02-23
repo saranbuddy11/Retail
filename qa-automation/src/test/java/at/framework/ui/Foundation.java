@@ -11,9 +11,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -23,14 +26,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.openqa.selenium.Alert;
+
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
+
 import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
-
 
 public class Foundation extends Factory {
 	DateAndTime dateAndTime = new DateAndTime();
@@ -62,6 +65,9 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
+			// waitforClikableElement(object, Constants.SHORT_TIME);
+			// waitforElement(object, Constants.SHORT_TIME);
+			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
@@ -91,9 +97,35 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element [ " + object + " ] and the object is visible");
+		} catch (TimeoutException exc) {
+			// Continue
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+		return element;
+	}
+
+	public WebElement waitforElementToBeVisible(By object, int waitTime) {
+		WebElement element = null;
+		int waitTimeInSec = waitTime;
+		boolean displayed = false;
+		long startTime = System.currentTimeMillis();
+		do {
+			try {
+				WebDriverWait wait = new WebDriverWait(getDriver(), waitTimeInSec);
+				element = wait.until(ExpectedConditions.visibilityOfElementLocated(object));
+				displayed = getDriver().findElement(object).isDisplayed();
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element [ " + object + "] and the object is visible ");
+			} catch (TimeoutException exc) {
+				// Continue
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		} while ((!displayed) && (System.currentTimeMillis() - startTime) < waitTime * 1000);
 		return element;
 	}
 
@@ -102,6 +134,11 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.elementToBeClickable(object));
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						"waited for element clickable [ " + object + " ]");
+		} catch (TimeoutException exc) {
+			// Continue
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -111,6 +148,7 @@ public class Foundation extends Factory {
 	public void refreshPage() {
 		try {
 			getDriver().navigate().refresh();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "page refreshed");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -133,6 +171,16 @@ public class Foundation extends Factory {
 		Actions action = new Actions(getDriver());
 		Action seriesOfActions = action.moveToElement(getDriver().findElement(element)).build();
 		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
+	}
+
+	public void objectFocusOnWebElement(WebElement element) {
+		Actions action = new Actions(getDriver());
+		Action seriesOfActions = action.moveToElement(element).build();
+		seriesOfActions.perform();
+		if (ExtFactory.getInstance().getExtent() != null)
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "the object [" + element + " ] is focused");
 	}
 
 	public boolean isEnabled(By object) {
@@ -152,6 +200,9 @@ public class Foundation extends Factory {
 		int sizeofObj = 0;
 		try {
 			sizeofObj = getDriver().findElements(object).size();
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO,
+						object + "count of list element is " + sizeofObj + " ");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -162,6 +213,8 @@ public class Foundation extends Factory {
 		try {
 			long timeMilliSec = seconds * 1000;
 			Thread.sleep(timeMilliSec);
+			if (ExtFactory.getInstance().getExtent() != null)
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "thread wait for " + seconds + " seconds");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -173,7 +226,7 @@ public class Foundation extends Factory {
 			WebElement element = getDriver().findElement(object);
 			String colorValue = element.getCssValue("background-color");
 			hexColor = Color.fromString(colorValue).asHex();
-			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Back Ground color for " + object + "is " + hexColor);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -185,7 +238,7 @@ public class Foundation extends Factory {
 			Actions action = new Actions(getDriver());
 			action.doubleClick(getDriver().findElement(object)).perform();
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked on [ " + object + " ]");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "double clicked on [ " + object + " ]");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -201,6 +254,7 @@ public class Foundation extends Factory {
 				text = webElement.getText();
 				elementsText.add(text);
 			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got the text of list element [ " + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -213,9 +267,11 @@ public class Foundation extends Factory {
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listDate);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in ascending manner-" + isSorted);
 		} else if (type.equals(Constants.DESCENDING)) {
 			isSorted = listDate.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listDate);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "date sorted in decending manner-" + isSorted);
 		}
 		return isSorted;
 	}
@@ -226,9 +282,11 @@ public class Foundation extends Factory {
 		if (type.equals(Constants.ASCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
 					.equals(listOfText);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-" + isSorted);
 		} else if (type.equals(Constants.DESCENDING)) {
 			isSorted = listOfText.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
 					.equals(listOfText);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "text sorted in decending manner-" + isSorted);
 		}
 		return isSorted;
 	}
@@ -237,6 +295,7 @@ public class Foundation extends Factory {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("document.body.style.zoom = '" + size + "'");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "adjusted browser size to " + size);
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -246,6 +305,18 @@ public class Foundation extends Factory {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("arguments[0].click();", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "clicked object [ " + object + " ] using javascript");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public void scrollIntoViewElement(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Scroll into view object [ " + object + " ] using javascript");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -265,15 +336,15 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
-	
+
 	public boolean isFileExists(String filePath) {
 		File file = new File(filePath);
-		if(!file.exists()) {
+		if (!file.exists()) {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "File not exist");
-			return true;		
-		}
-		else
-			return false;
+			return true;
+		} else
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "File exists");
+		return false;
 	}
 
 	public void deleteFile(String filePath) {
@@ -281,7 +352,7 @@ public class Foundation extends Factory {
 			File file = new File(filePath);
 			file.delete();
 			if (ExtFactory.getInstance().getExtent() != null) {
-				ExtFactory.getInstance().getExtent().log(Status.INFO, "File Deleted Successfully");
+				ExtFactory.getInstance().getExtent().log(Status.INFO, filePath + " -File Deleted Successfully");
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -292,6 +363,7 @@ public class Foundation extends Factory {
 		try {
 			Alert alert = getDriver().switchTo().alert();
 			alert.accept();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Accepted the alert");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
@@ -300,10 +372,24 @@ public class Foundation extends Factory {
 	public void alertDismiss() {
 		try {
 			Alert alert = getDriver().switchTo().alert();
-			alert.dismiss();			
+			alert.dismiss();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Dismissed the alert");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+
+	public String getAlertMessage() {
+		String text = null;
+		try {
+			Alert alert = getDriver().switchTo().alert();
+			text = alert.getText();
+
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Alert Message ");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return text;
 	}
 
 	public Boolean waitforElementToDisappear(By object, int waitTime) {
@@ -311,13 +397,16 @@ public class Foundation extends Factory {
 		try {
 			WebDriverWait wait = new WebDriverWait(getDriver(), waitTime);
 			element = wait.until(ExpectedConditions.invisibilityOfElementLocated(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Waited for element [" + object + " ] to disappear");
+		} catch (TimeoutException e) {
+			// Continue
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return element;
 	}
-	
-	public List<String> getAttributeValueofListElement(By object,String attribute) {
+
+	public List<String> getAttributeValueofListElement(By object, String attribute) {
 		String attributeValue = null;
 		List<String> elementsAttributeValue = new ArrayList<String>();
 		try {
@@ -326,11 +415,81 @@ public class Foundation extends Factory {
 				attributeValue = webElement.getAttribute(attribute);
 				elementsAttributeValue.add(attributeValue);
 			}
-
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"got the element attribute value for the object [" + object + " ]");
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return elementsAttributeValue;
 	}
 
+	public String getAttributeValue(By object) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(Constants.ATTRIBUTE_VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return textAttribute;
+	}
+
+	public void navigateToBackPage() {
+		try {
+			getDriver().navigate().back();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "navigated back");
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public boolean isDisabled(By object) {
+		boolean isElementDisabled = true;
+		try {
+			isElementDisabled = getDriver().findElement(object).isEnabled();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is disabled");
+			}
+		} catch (NoSuchElementException exc) {
+			isElementDisabled = false;
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return isElementDisabled;
+	}
+
+	public void WaitForAjax(int waitTime) {
+		try {
+			long startTime = System.currentTimeMillis();
+			while (true) {
+
+				Boolean ajaxIsComplete = (Boolean) ((JavascriptExecutor) getDriver())
+						.executeScript("return jQuery.active == 0");
+				if (ajaxIsComplete || (System.currentTimeMillis() - startTime) < waitTime * 1000) {
+					break;
+				}
+				threadWait(100);
+			}
+
+		} catch (TimeoutException exc) {
+			// continue
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+	}
+
+	public String getBorderColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("border-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return hexColor;
+	}
 }

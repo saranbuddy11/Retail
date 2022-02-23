@@ -61,6 +61,7 @@ public class Reports {
 	public static final String UM = "um";
 	public static final String DELIVERY = "delivery";
 	public static final String REDEEMED = "redeemed";
+	public static final String REDEMTION = "redemtion";
 	public static final String COUPON = "coupon";
 	public static final String MARKET_ACCOUNT_ID = "marketaccountid";
 	public static final String CATEGORY1 = "category1";
@@ -75,6 +76,7 @@ public class Reports {
 	public static final String DATA = "data";
 	public static final String ACTION_TYPE = "at";
 	public static final String PAYMENT_TYPE = "pt";
+	public static final String MKA_PAYMENT_TYPE = "paymenttype";
 	public static final String SALE = "sale";
 	public static final String SALES = "sales";
 	public static final String GMA_TRANS = "gmatrans";
@@ -106,6 +108,7 @@ public class Reports {
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String CREDIT = "CREDIT";
 	public static final String SPECIAL = "SPECIAL";
+	public static final String BADGE = "BADGE";
 	public static final String GENESIS = "GENESIS";
 	public static final String REJECTED = "REJECTED";
 	public static final String COMP = "COMP";

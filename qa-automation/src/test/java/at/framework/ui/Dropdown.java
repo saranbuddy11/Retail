@@ -13,6 +13,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class Dropdown extends Factory {
 
@@ -29,7 +30,7 @@ public class Dropdown extends Factory {
 			}
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value " + text);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -40,14 +41,17 @@ public class Dropdown extends Factory {
 		for (WebElement item : items) {
 			String itemText = item.getText();
 			if (itemText.equalsIgnoreCase(text)) {
+				//ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is present");
 				return true;
 			}
 		}
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
 		return false;
 	}
 
 	public String getSelectedItem(By object) {
 		Select select = new Select(getDriver().findElement(object));
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value is" + select.getFirstSelectedOption().getText());
 		return select.getFirstSelectedOption().getText();
 	}
 
@@ -58,7 +62,7 @@ public class Dropdown extends Factory {
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected" + index + " dropdown value");
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -71,8 +75,9 @@ public class Dropdown extends Factory {
 				String itemText = item.getText();
 				orgList.add(itemText);
 			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "got all items from the dropdown  [" + object +" ]");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return orgList;
 	}
@@ -90,8 +95,13 @@ public class Dropdown extends Factory {
 
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "deselected dropdown value " + text);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	public boolean verifyItemNotPresent(By object, String text) {
+
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
+		return true;
 	}
 
 }

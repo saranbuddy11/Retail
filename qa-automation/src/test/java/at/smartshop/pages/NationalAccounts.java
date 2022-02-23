@@ -9,7 +9,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class NationalAccounts extends Factory {
 
@@ -43,7 +45,6 @@ public class NationalAccounts extends Factory {
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 
-
 	private Foundation foundation = new Foundation();
 
 	public By nationalAccountDetails(String accountName) {
@@ -61,7 +62,7 @@ public class NationalAccounts extends Factory {
 		getNationalAccountSummaryTableHeader();
 		int count = nationalAccountsHeadersList.size();
 		for (int iter = 0; iter < count; iter++) {
-			Assert.assertTrue(headerList.contains(nationalAccountsHeadersList.get(iter)));
+			CustomisedAssert.assertTrue(headerList.contains(nationalAccountsHeadersList.get(iter)));
 		}
 	}
 
@@ -80,17 +81,18 @@ public class NationalAccounts extends Factory {
 		try {
 			Boolean isdisplayed = (getDriver().findElement(By.xpath("//table//tbody//tr//td[text()='" + text + "']")))
 					.isDisplayed();
-			Assert.assertTrue(isdisplayed);
+			CustomisedAssert.assertTrue(isdisplayed);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			Assert.fail();
 		}
 	}
 
-	public void verifyBackgroundColour(String text, String actualcolor) {
-		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + text + "']");
-		String expected = getDriver().findElement(locationElement).getAttribute("style");
-		Assert.assertEquals(actualcolor, expected);
+	public void verifyBackgroundColour(String location, String expctedlcolor) {
+		foundation.threadWait(Constants.TWO_SECOND);
+		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
+		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
+		CustomisedAssert.assertEquals(actualColor, expctedlcolor);
 	}
 
 	public boolean trySelectNonVisibleTextLocation(String text) {
@@ -109,10 +111,10 @@ public class NationalAccounts extends Factory {
 
 			By TXT_ALREADYEXISTS = By.xpath("//b[normalize-space(text())='" + existsMsg + "']");
 			Boolean status1 = foundation.isDisplayed(TXT_ALREADYEXISTS);
-			Assert.assertTrue(status1);
+			CustomisedAssert.assertTrue(status1);
 			By TXT_ALREADYEXIST_MSG = By.xpath("//p[normalize-space(text()) ='" + message + "']");
 			Boolean status2 = foundation.isDisplayed(TXT_ALREADYEXIST_MSG);
-			Assert.assertTrue(status2);
+			CustomisedAssert.assertTrue(status2);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -122,7 +124,7 @@ public class NationalAccounts extends Factory {
 		try {
 			By popupMessage = By.xpath("//p[text()='" + deleteMsg + "']");
 			Boolean status1 = foundation.isDisplayed(popupMessage);
-			Assert.assertTrue(status1);
+			CustomisedAssert.assertTrue(status1);
 		} catch (Exception exc) {
 			Assert.fail();
 		}

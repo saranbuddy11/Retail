@@ -1,7 +1,6 @@
 package at.smartshop.database.columns;
 
 public class CNConsumer {
-
 	private CNConsumer() {
 
 	}
@@ -25,5 +24,4 @@ public class CNConsumer {
 	public static final String COLUMN_NAME = "ColumnName";
 	public static final String CONSUMER_ID = "ConsumerID";
 	public static final String ADJUST_BALANCE = "AdjustBalance";
-
 }

@@ -11,23 +11,32 @@ import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ItemStockoutReport extends Factory {
 
 	private Foundation foundation = new Foundation();
 
 	private static final By TBL_ITEM_STOCKOUT = By.id("summarydt");
-	private static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
+	public static final By LBL_REPORT_NAME = By.cssSelector("#summarydt > caption");
 	private static final By TBL_ITEM_STOCKOUT_GRID = By.cssSelector("#summarydt > tbody");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS = By.cssSelector("table[aria-describedby='detaildt_info']");
 	private static final By TBL_ITEM_STOCKOUT_DETAILS_GRID = By
 			.cssSelector("table[aria-describedby='detaildt_info'] > tbody");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input[placeholder='  - Enter Product Description -']");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#summarydt > tbody > tr:nth-child(1)");
+	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
@@ -58,7 +67,7 @@ public class ItemStockoutReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -77,13 +86,16 @@ public class ItemStockoutReport extends Factory {
 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
 				for (int columnCount = 1; columnCount < itemStockoutDetailsHeaders.size() + 1; columnCount++) {
 					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount - 1), column.getText());
+					Actions action = new Actions(getDriver());
+					Action seriesOfActions = action.moveToElement(column).build();
+					seriesOfActions.perform();				
+					uiTblRowValues.put(itemStockoutDetailsHeaders.get(columnCount-1), column.getText());
 				}
 				reportsDetailsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -96,18 +108,39 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyReportName(String reportName) {
 		try {
+			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void checkForDataAvailabilyInResultTable() {
+		try {
+			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
+				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
+					Assert.fail("Failed Report because No Data Available in Report Table");
+				} else {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"Report Data Available in the Table, Hence passing the Test case");
+				}
+			} else {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
+				Assert.fail("Failed Report because No Report Table Available");
+			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 	}
+
 
 	public void updateData(String values, String invValue, String stockoutTime) {
 		try {
@@ -118,7 +151,7 @@ public class ItemStockoutReport extends Factory {
 			intialData.get(recordCount).put(tableHeaders.get(5), invValue);
 			intialData.get(recordCount).put(tableHeaders.get(6), stockoutTime);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -131,7 +164,7 @@ public class ItemStockoutReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return headerCount + 1;
 	}
@@ -144,7 +177,7 @@ public class ItemStockoutReport extends Factory {
 			foundation.click(By.xpath("//table[@id = 'summarydt']/tbody/tr/td[" + scancodeCount + "][text()='"
 					+ scancode + "']//..//td[" + locationCount + "]/a[text()='" + locationName + "']"));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -168,10 +201,10 @@ public class ItemStockoutReport extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < headers.size(); iter++) {
-				Assert.assertTrue(headers.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(headers.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -180,12 +213,12 @@ public class ItemStockoutReport extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -198,7 +231,7 @@ public class ItemStockoutReport extends Factory {
 				intialDetailsData.get(rowCount).put(tableHeaders.get(count + 1), value.get(count));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -214,11 +247,11 @@ public class ItemStockoutReport extends Factory {
 		try {
 			int rowCount = getReportDetailsRecord(stockoutTime, scancode);
 			for (int iter = 0; iter < itemStockoutDetailsHeaders.size(); iter++) {
-				Assert.assertTrue(reportsDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))
+				CustomisedAssert.assertTrue(reportsDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))
 						.contains(intialDetailsData.get(rowCount).get(itemStockoutDetailsHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

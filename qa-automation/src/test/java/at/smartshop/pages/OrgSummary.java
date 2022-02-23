@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -8,9 +7,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import at.framework.browser.Factory;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 import junit.framework.Assert;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Foundation;
+import at.smartshop.keys.Constants;
 
 public class OrgSummary extends Factory {
+	private Foundation foundation=new Foundation();
+	private CheckBox checkBox=new CheckBox();
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
 	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
@@ -30,6 +38,7 @@ public class OrgSummary extends Factory {
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
+	public static final By DPD_TAX_METHOD = By.xpath("//select[@id='taxmethod']");
 	public static final By TXT_DISPLAYNAME = By.id("displayname");
 	public static final By TXT_ADDRESS = By.xpath("//input[@id='address']");
 	public static final By TXT_ZIP = By.xpath("//input[@id='zip']");
@@ -59,7 +68,6 @@ public class OrgSummary extends Factory {
 			.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']");
 	public static final By LBL_COOLER = By.xpath("//div[@id='cooler']//p[@class='green-highlighter']");
 	public static final By LBL_FREEZER = By.xpath("//div[@id='freezer']//p[@class='green-highlighter']");
-	public static final By DPD_TAX_METHOD = By.xpath("//select[@id='taxmethod']");
 	public static final By DPD_PROCESSORACCOUNT = By.cssSelector("select#processoraccount");
 	public static final By TXT_TAXID = By.cssSelector("#operatortaxid");
 	public static final By DPD_GMA_ACCOUNT = By.cssSelector("select#gma");
@@ -106,6 +114,10 @@ public class OrgSummary extends Factory {
 	public static final By DPD_HAS_CONSUMER_ENGAGEMENT = By.cssSelector("select#hasconsumerengagement");
 	public static final By DPD_HAS_SEND_SNACK = By.cssSelector("select#hassendsnack");
 	public static final By DPD_HAS_LIGHTSPEED = By.cssSelector("select#haslightspeed");
+	public static final By TXT_ABN = By.cssSelector("input#abn");	
+	public static final By TXT_NAME = By.id("name");
+	public static final By BTN_CANCEL = By.xpath("//button[@id='cancelBtn']");
+	
 
 	public By objVDI(String text) {
 
@@ -124,7 +136,20 @@ public class OrgSummary extends Factory {
 				break;
 			}
 		}
-		Assert.assertTrue(flag);
+		CustomisedAssert.assertTrue(flag);
 
+	}
+	
+	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
+		if (foundation.isDisplayed(objVDI(VDIProvideName))) {
+			foundation.click(OrgSummary.BTN_VDI_DEL);
+			foundation.waitforElement(OrgSummary.BTN_YES, Constants.SHORT_TIME);
+			foundation.click(OrgSummary.BTN_YES);
+			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
+			checkBox.check(OrgSummary.CHK_VDI);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+		}
+		
 	}
 }

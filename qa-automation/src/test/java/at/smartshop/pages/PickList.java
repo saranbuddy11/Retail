@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.smartshop.tests.TestInfra;
 
 public class PickList extends Factory {
 
@@ -38,7 +38,7 @@ public class PickList extends Factory {
 			element = By.xpath("//td[text()='" + text + "']");
 		} catch (Exception exc) {
 
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return element;
 	}
@@ -59,7 +59,7 @@ public class PickList extends Factory {
 				index++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblRowValues;
 	}

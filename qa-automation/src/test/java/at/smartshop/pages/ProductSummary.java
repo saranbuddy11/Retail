@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import at.framework.browser.Factory;
+import at.smartshop.tests.TestInfra;
 
 public class ProductSummary extends Factory {
 
@@ -35,7 +35,7 @@ public class ProductSummary extends Factory {
 	public static final By DPD_CATEGORY3 = By.id("category3");
 	public static final By LBL_REASON_CODE=By.xpath("//td[contains(@class,'column-reasonCode')]");
 	public static final By DPD_REASON_CODE = By.xpath("//td[contains(@class,'column-reasonCode')]//select");
-	
+	public static final By TXT_PRICE = By.xpath("//input[@id='price']");
 
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");
@@ -50,7 +50,7 @@ public class ProductSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -65,7 +65,7 @@ public class ProductSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
 	}

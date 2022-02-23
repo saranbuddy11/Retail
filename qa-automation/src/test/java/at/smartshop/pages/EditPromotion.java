@@ -2,17 +2,21 @@ package at.smartshop.pages;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class EditPromotion extends Factory {
 
 	private Table table = new Table();
 	private Foundation foundation = new Foundation();
-
+	private Dropdown dropDown = new Dropdown();
+	
 	public static final By DPD_CATEGORY=By.id("categorySelectInput");
 	public static final By BTN_NEXT =By.xpath("//button[text()='Next']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
@@ -33,21 +37,32 @@ public class EditPromotion extends Factory {
 	public static final By TXT_POPUP_ALERT_MSG = By.xpath("//div[@class='ajs-content']");
 
 	public void expirePromotion(String dataGridname, String promoName) {
-		
+		if(!foundation.isDisplayed(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"))){
+			dropDown.selectItem(PromotionList.DPD_STATUS, Constants.SCHEDULED, Constants.TEXT);
+			foundation.click(PromotionList.BTN_SEARCH);
+		}
 		table.selectRow(dataGridname, promoName);
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 		foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_END_PROMO);
+		foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
 		foundation.click(EditPromotion.BTN_CONTINUE);
 	}
 	
 	public void switchAlert(String action) {
-		
+		try {
 		Alert alert = getDriver().switchTo().alert();
 		if(action.equals("ok"))
 			alert.accept();
 		else
 			alert.dismiss();
+		}
+		catch (NoAlertPresentException exc) {
+			// Continue
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 }

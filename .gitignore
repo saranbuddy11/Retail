@@ -9,3 +9,6 @@ qa-automation/src/test/resources/SOS_GMA_Account_template.xls
 *.xls
 *.xml
 qa-automation/src/test/resources/chromedriver.exe
+qa-automation/runProject2.bat
+.sonarlint/default/.sonartmp_11551513561439719297/sonarlint-slf4j-sonar-log13100491186392153552.jar
+qa-automation/src/test/resources/SOS_GMA_Account_template.xls

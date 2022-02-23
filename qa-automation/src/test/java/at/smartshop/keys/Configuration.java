@@ -7,8 +7,12 @@ public class Configuration {
 
 	public static final String CURRENT_ORG = "current_org";
 	public static final String CURRENT_LOC = "current_loc";
+	public static final String ALL_LOCATIONS = "all_locations";
+	public static final String ALL_ORGS = "all_orgs";
+	public static final String SECOND_LOC = "second_loc";
 	public static final String SALES_TRANS = "sales_trans";
 	public static final String CURRENT_URL = "current_url";
+	public static final String DASHBOARD_URL = "dashboard_url";
 	public static final String HUB_URL = "Hub_url";
 	public static final String V5_APP_URL = "V5_application_url";
 	public static final String V5_DRIVER_PIN = "V5_Driver_Pin";
@@ -40,5 +44,12 @@ public class Configuration {
 	public static final String TEST_RAIL_RUNID = "testRailRunID";
 	public static final String EMAIL_TO = "emailTo";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
+	public static final String DRIVER_USER = "DriverUser";
+	public static final String AUTOMATIONLOCATION1 = "third_loc";
+	public static final String CONSUMER_USER = "consumerUser";
+	public static final String CONSUMER_PASSWORD = "consumerPassword";
+	public static final String REPORTER_USER = "ReporterUser";
+	public static final String ALL = "all";
+	public static final String RNOUS_ORGANIZATION = "Rnous_organization";
 
 }

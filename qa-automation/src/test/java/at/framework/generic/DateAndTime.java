@@ -19,8 +19,8 @@ public class DateAndTime {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date date = new Date();
 		try {
-			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
-			formatter.setTimeZone(timeZone);
+			//TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
+			//formatter.setTimeZone(timeZone);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -40,5 +40,12 @@ public class DateAndTime {
 		Date date = calendar.getTime();
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
 		return currentDay;
+	}
+
+	public String getFutureDate(String format, String days) {
+		LocalDate date = LocalDate.now();
+		date = date.plusDays(Integer.parseInt(days));
+		String formattedDate = date.format(DateTimeFormatter.ofPattern(format));
+		return formattedDate;
 	}
 }

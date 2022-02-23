@@ -1,11 +1,12 @@
 package at.smartshop.v5.pages;
 
-
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.By;
-import org.testng.Assert;
+
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
@@ -32,12 +33,17 @@ public class AccountLogin {
 	public static final By LBL_EMAIL_HEADER = By.xpath("//label[@class='input-label']");
 	public static final By BTN_EMAIl_BACK = By.id("emaillogin-input-btn-back-id");
 	public static final By BTN_PIN_BACK = By.id("pin-input-btn-back-id");
-	public static final By LBL_PIN_PAGE_TITLE = By.xpath("//h1[@data-reactid='.0.q.0.0.0.1']");
-	public static final By LBL_PIN_HEADER = By.xpath("//label[@data-reactid='.0.q.0.0.1.0.0']");
 	public static final By LBL_Email = By.xpath("//div[@data-reactid='.0.7.0.0.1.0.0.0.1']");
-	
+	public static final By LBL_PIN_PAGE_TITLE = By.xpath("//h1[@data-reactid='.0.r.0.0.0.1']");
+	public static final By LBL_PIN_HEADER = By.xpath("//label[@data-reactid='.0.r.0.0.1.0.0']");
 	public static final By LBL_ACCOUNT_NOT_AVAILABLE = By.xpath("//*[@id='errorModal']//h1");
 	public static final By LBL_GEO_GRAPHIC_LOCATION = By.xpath("//*[@id='errorModal']//h2");
+	public static final By LBL_CONSUMER_NAME = By.xpath("//h1[@data-reactid='.0.4.0.0.0.0.1']");
+	public static final By LBL_SUBSIDY = By.xpath("//span[text()='Subsidy']");
+	public static final By LBL_ACCOUNT = By.xpath("//span[text()='Account']");
+	public static final By LBL_BALANCE = By.xpath("//button[@class='active']/h3");
+	public static final By TAB_BALANCE = By.xpath("//button[@class='active']");
+	public static final By BTN_PROFILE_CLOSE = By.xpath("//i[@data-reactid='.0.4.0.0.0.0.2.0']");
 
 	private PropertyFile propertyFile = new PropertyFile();
 
@@ -46,30 +52,31 @@ public class AccountLogin {
 		textBox.enterKeypadText(emailId);
 		foundation.click(BTN_ENTER);
 		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(BTN_PIN_NEXT);
 	}
 
 	public By objText(String text) {
-		return By.xpath("//*[text()='" + text + "']");
+		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
 
 	public void verifyAccountLoginPageLanguage(String accountLoginPage) {
 		List<String> loginPageData = Arrays.asList(accountLoginPage.split(Constants.DELIMITER_TILD));
-		Assert.assertEquals(foundation.getText(LBL_PAGE_TITLE), loginPageData.get(0));
-		Assert.assertEquals(foundation.getText(LBL_PAGE_HEADER), loginPageData.get(1));
-		Assert.assertEquals(foundation.getText(LBL_SCAN), loginPageData.get(2));
-		Assert.assertEquals(foundation.getText(LBL_FINGER_PRINT), loginPageData.get(3));
-		Assert.assertEquals(foundation.getText(BTN_EMAIL_LOGIN), loginPageData.get(4));
-		Assert.assertEquals(foundation.getText(BTN_I_DONT_HAVE_ACCOUNT), loginPageData.get(5));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PAGE_TITLE), loginPageData.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PAGE_HEADER), loginPageData.get(1));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_SCAN), loginPageData.get(2));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_FINGER_PRINT), loginPageData.get(3));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_EMAIL_LOGIN), loginPageData.get(4));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_I_DONT_HAVE_ACCOUNT), loginPageData.get(5));
 
 		// Validating Account Login Email Page
 		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 		foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
-		Assert.assertEquals(foundation.getText(LBL_PAGE_TITLE), loginPageData.get(0));
-		Assert.assertEquals(foundation.getText(LBL_EMAIL_HEADER), loginPageData.get(6));
-		Assert.assertEquals(foundation.getText(BTN_EMAIl_BACK), loginPageData.get(7));
-		Assert.assertEquals(foundation.getText(BTN_NEXT), loginPageData.get(8));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PAGE_TITLE), loginPageData.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_EMAIL_HEADER), loginPageData.get(6));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_EMAIl_BACK), loginPageData.get(7));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_NEXT), loginPageData.get(8));
 
 		foundation.click(BTN_CAMELCASE);
 		textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
@@ -78,10 +85,32 @@ public class AccountLogin {
 
 		// Validating Account Login PIN Page
 		foundation.waitforElement(BTN_PIN_NEXT, Constants.SHORT_TIME);
-		Assert.assertEquals(foundation.getText(LBL_PIN_PAGE_TITLE), loginPageData.get(0));
-		Assert.assertEquals(foundation.getText(LBL_PIN_HEADER), loginPageData.get(9));
-		Assert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
-		Assert.assertEquals(foundation.getText(BTN_PIN_NEXT), loginPageData.get(10));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_PAGE_TITLE), loginPageData.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_HEADER), loginPageData.get(9));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
+		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_NEXT), loginPageData.get(10));
+	}
+
+	public void verifyConsumerAccountLogin(String email, String pin, String consumerName, String expectedBal,
+			String typeBalance, String borderColor) {
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(BTN_EMAIL_LOGIN);
+		login(email, pin);
+		String text = foundation.getText(LBL_CONSUMER_NAME);
+		CustomisedAssert.assertTrue(text.contains(consumerName));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ACCOUNT));
+		String color = foundation.getBorderColor(TAB_BALANCE);
+		CustomisedAssert.assertEquals(borderColor, color);
+		text = foundation.getText(LBL_BALANCE);
+		CustomisedAssert.assertEquals(text, expectedBal);
+		foundation.click(LBL_SUBSIDY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SUBSIDY));
+		color = foundation.getBorderColor(TAB_BALANCE);
+		CustomisedAssert.assertEquals(borderColor, color);
+		text = foundation.getText(LBL_BALANCE);
+		CustomisedAssert.assertEquals(text, typeBalance);
+		foundation.click(BTN_PROFILE_CLOSE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 	}
 
 }

@@ -9,7 +9,6 @@ import org.apache.commons.mail.HtmlEmail;
 import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
-import at.framework.reportsetup.Listeners;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
