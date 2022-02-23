@@ -92,8 +92,9 @@ public class Listeners implements ITestListener {
 		//get screenshot
 		try {
 			String screenshot = null;
-			if(!result.getThrowable().toString().equals(TestInfra.THROWABLE_EXCEPTION)) {				
-				ExtFactory.getInstance().getExtent().log(Status.FAIL, result.getThrowable().getMessage().toString());
+			String linesofExc[] = result.getThrowable().toString().split("\\r?\\n");
+			if(!linesofExc[0].contains(TestInfra.THROWABLE_EXCEPTION)) {				
+				ExtFactory.getInstance().getExtent().log(Status.FAIL, linesofExc[0]);
 			 screenshot = objReportName.getScreenshot(Factory.getDriver());
 			String sysPath=FilePath.FILE+TestInfra.HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
 			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);

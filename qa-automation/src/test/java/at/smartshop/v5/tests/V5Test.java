@@ -1,22 +1,17 @@
 package at.smartshop.v5.tests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.Keys;
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
@@ -31,8 +26,8 @@ import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNOrgSummary;
+import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -41,8 +36,9 @@ import at.smartshop.pages.CategoryList;
 import at.smartshop.pages.CategorySummary;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
-import at.smartshop.pages.CorporateAccountList;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.DeviceCreate;
+import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
@@ -56,8 +52,8 @@ import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.ReportList;
-import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.pages.TaxList;
+import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountDetails;
 import at.smartshop.v5.pages.AccountLogin;
@@ -95,6 +91,7 @@ public class V5Test extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private Dropdown dropdown = new Dropdown();
 	private AdminMenu adminMenu = new AdminMenu();
+	private Strings strings = new Strings();
 	private DeviceSummary deviceSummary = new DeviceSummary();
 	private DriverLoginPage driverLoginPage = new DriverLoginPage();
 	private DriverHomePage driverHomePage = new DriverHomePage();
@@ -160,8 +157,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -189,15 +187,16 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, actualData.get(2), emailAddress);
 			foundation.click(EditAccount.BTN_SAVE);
 			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 
 			// navigate back to edit account and verify all data are populating as entered
 			// before
 			foundation.click(EditAccount.BTN_EDIT_ACCOUNT);
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_FIRST_NAME).equals(actualData.get(0)));
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_LAST_NAME).equals(actualData.get(1)));
-			assertTrue(textBox.getTextFromInput(EditAccount.TXT_EMAIL_ADDRESS).equals(actualData.get(2)));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(textBox.getTextFromInput(EditAccount.TXT_FIRST_NAME).equals(actualData.get(0)));
+			CustomisedAssert.assertTrue(textBox.getTextFromInput(EditAccount.TXT_LAST_NAME).equals(actualData.get(1)));
+			CustomisedAssert
+					.assertTrue(textBox.getTextFromInput(EditAccount.TXT_EMAIL_ADDRESS).equals(actualData.get(2)));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset the data
@@ -207,7 +206,7 @@ public class V5Test extends TestInfra {
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, emailAddress, actualData.get(2));
 			foundation.click(EditAccount.BTN_SAVE);
 			foundation.waitforClikableElement(EditAccount.BTN_EDIT_ACCOUNT, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -228,9 +227,10 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			//locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			
+			// locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -243,8 +243,9 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(DeviceSummary.DPD_SHOW_SEARCH_BTN, requiredData.get(0), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			//locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			// locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
 			dropDown.selectItem(LocationSummary.DPD_SHOW_PROD_LOOKUP, requiredData.get(1), Constants.TEXT);
@@ -262,7 +263,7 @@ public class V5Test extends TestInfra {
 
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -286,7 +287,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -327,7 +329,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -388,13 +390,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -409,7 +412,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -439,7 +443,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(1), Constants.TEXT);
 
@@ -481,7 +486,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -541,14 +546,15 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -562,7 +568,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -591,8 +598,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -606,7 +614,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AdminMenu.LINK_DRIVER_LOGOUT);
 			foundation.isDisplayed(AdminMenu.BTN_SIGN_IN);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -629,8 +637,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -650,8 +659,8 @@ public class V5Test extends TestInfra {
 			foundation.click(EditAccount.BTN_EDIT_NEXT);
 			textBox.enterPin(requiredData.get(1));
 			foundation.click(EditAccount.BTN_SAVE_PIN);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -661,7 +670,7 @@ public class V5Test extends TestInfra {
 			foundation.click(EditAccount.BTN_EDIT_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(EditAccount.BTN_SAVE_PIN);
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -683,8 +692,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -697,14 +707,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// cancel order
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -742,7 +752,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
@@ -759,13 +770,15 @@ public class V5Test extends TestInfra {
 			// save tax mapping
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(requiredData.get(0), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_SAVE);
 
 			// sync machine
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// login to application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -775,8 +788,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -786,10 +799,10 @@ public class V5Test extends TestInfra {
 
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(tax);
 
-			assertEquals(balanceDue, expectedBalanceDue.toString());
-			assertEquals(subTotal, productPrice);
-			assertEquals(tax, requiredData.get(2));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(balanceDue, expectedBalanceDue.toString());
+			CustomisedAssert.assertEquals(subTotal, productPrice);
+			CustomisedAssert.assertEquals(tax, requiredData.get(2));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -804,7 +817,8 @@ public class V5Test extends TestInfra {
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.removeTaxMapping(requiredData.get(0));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -845,8 +859,9 @@ public class V5Test extends TestInfra {
 
 			// sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch V5
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -857,8 +872,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -871,9 +886,9 @@ public class V5Test extends TestInfra {
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit)
 					+ Double.parseDouble(tax);
 			String expBalanceDue = String.format("%.2f", expectedBalanceDue);
-			assertTrue(balanceDue.contains(expBalanceDue));
-			assertTrue(subTotal.contains(productPrice));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(balanceDue.contains(expBalanceDue));
+			CustomisedAssert.assertTrue(subTotal.contains(productPrice));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -910,8 +925,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -924,16 +940,16 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.enterKeypadText(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
+			CustomisedAssert.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(actualData.get(1)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -957,8 +973,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -971,16 +988,17 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			foundation.click(ProductSearch.BTN_123);
 			textBox.enterKeypadNumber(requiredData.get(1));
-			assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.enterKeypadNumber(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
+			CustomisedAssert
+					.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(3)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1022,8 +1040,9 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElementToDisappear(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1033,14 +1052,15 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
 			textBox.deleteKeypadText(requiredData.get(1));
 			textBox.enterKeypadText(requiredData.get(2));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
+			CustomisedAssert
+					.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(2));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1099,11 +1119,14 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(requiredData.get(2), requiredData.get(8));
 
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1113,10 +1136,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_VAT_VALUE), requiredData.get(6));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1130,7 +1153,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objTaxCategory(requiredData.get(2)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -1177,7 +1201,8 @@ public class V5Test extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, actualData.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, actualData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -1202,11 +1227,11 @@ public class V5Test extends TestInfra {
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.click(AccountDetails.BTN_FUND_CASH);
-			Assert.assertTrue(foundation.isDisplayed(fundAccount.objText(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(fundAccount.objText(requiredData.get(2))));
 			foundation.click(fundAccount.objText(requiredData.get(3)));
-			Assert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountDetails.BTN_FUND_CASH));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset the data
@@ -1225,7 +1250,8 @@ public class V5Test extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -1262,7 +1288,9 @@ public class V5Test extends TestInfra {
 			dropdown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			foundation.threadWait(Constants.MEDIUM_TIME);
@@ -1272,14 +1300,15 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
+			CustomisedAssert
+					.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(1)));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DEPOSIT), requiredData.get(6));
 
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -1319,8 +1348,10 @@ public class V5Test extends TestInfra {
 
 			// navigate to location summary and update price and sync
 			navigationBar.navigateToMenuItem(menuItem);
-			textBox.enterText(LocationList.TXT_FILTER, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(LocationList.TXT_FILTER,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(requiredData.get(8));
 			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
@@ -1328,7 +1359,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1338,9 +1371,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -1353,8 +1386,10 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			textBox.enterText(LocationList.TXT_FILTER, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(LocationList.TXT_FILTER,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(requiredData.get(8));
 			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData.get(1));
@@ -1395,7 +1430,9 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1404,8 +1441,8 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
-			assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data- enable back product
@@ -1428,8 +1465,10 @@ public class V5Test extends TestInfra {
 
 			// reset data-assign back the product to location
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			textBox.enterText(LocationList.TXT_FILTER, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterText(LocationList.TXT_FILTER,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(requiredData.get(7));
 			foundation.waitforElement(LocationSummary.BTN_ADD_PRODUCT, 2);
 			locationSummary.addProduct(requiredData.get(0));
@@ -1453,8 +1492,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1471,7 +1511,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			adminMenu.verifyOptions(optionNames);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1494,8 +1534,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1509,15 +1550,15 @@ public class V5Test extends TestInfra {
 			String prodCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String prodFoundText = foundation.getText(ProductSearch.LBL_PROD_MESSAGE);
 			String unMatchedProdMsg = prodCount + " " + prodFoundText;
-			Assert.assertEquals(unMatchedProdMsg, requiredData.get(1));
+			CustomisedAssert.assertEquals(unMatchedProdMsg, requiredData.get(1));
 			foundation.click(ProductSearch.LINK_CLOSE_POPUP);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName.get(0));
 			String matchedCount = foundation.getText(ProductSearch.LBL_PROD_COUNT);
 			String matchedProdMsg = matchedCount + " " + prodFoundText;
-			Assert.assertEquals(matchedProdMsg, requiredData.get(0));
+			CustomisedAssert.assertEquals(matchedProdMsg, requiredData.get(0));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1538,8 +1579,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1550,10 +1592,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_HEADER), rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER),
+					rstV5DeviceData.get(CNV5Device.REQUIRED_DATA));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT),
+					rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1576,8 +1620,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1586,12 +1631,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1612,14 +1657,16 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+			deviceSummary.setTime(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1630,12 +1677,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_YES);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1657,15 +1704,17 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+			deviceSummary.setTime(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1676,13 +1725,13 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
 			foundation.click(Order.POP_UP_TIMEOUT_NO);
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1704,7 +1753,8 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+			deviceSummary.setTime(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1712,8 +1762,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1724,14 +1775,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.LONG_TIME);
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
 			foundation.waitforElementToDisappear(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1753,7 +1804,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+			deviceSummary.setTime(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1762,8 +1814,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1772,14 +1825,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.waitforElement(Order.POP_UP_LBL_ORDER_TIMEOUT, Constants.EXTRA_LONG_TIME);
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT_MSG));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
-			Assert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_LBL_ORDER_TIMEOUT_MSG));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.POP_UP_TIMEOUT_NO));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1802,15 +1855,17 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			deviceSummary.setTime(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+			deviceSummary.setTime(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1819,11 +1874,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.threadWait(Constants.FIFTEEN_SECOND);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1845,8 +1900,9 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -1856,9 +1912,9 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserProfile.BTN_PRIVACY));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1878,8 +1934,9 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -1895,11 +1952,11 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText((requiredData.get(1)));
 			foundation.click(LandingPage.BTN_PRODUCT);
 			String actualHeader = foundation.getText(LandingPage.TXT_HEADER);
-			assertEquals(actualHeader, actualData.get(1));
+			CustomisedAssert.assertEquals(actualHeader, actualData.get(1));
 			String actualProduct = foundation.getText(LandingPage.TXT_PRODUCT);
-			assertEquals(actualProduct, actualData.get(0));
+			CustomisedAssert.assertEquals(actualProduct, actualData.get(0));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1908,7 +1965,8 @@ public class V5Test extends TestInfra {
 	public void verifyHomeCommercialJPG() {
 		final String CASE_NUM = "142690";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+				FilePath.PROPERTY_CONFIG_FILE);
 		final String imageName = string.getRandomCharacter();
 		try {
 
@@ -1937,8 +1995,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(actualData, requiredData);
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -1960,7 +2018,8 @@ public class V5Test extends TestInfra {
 	public void verifyHomeCommercialPNG() {
 		final String CASE_NUM = "142691";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+				FilePath.PROPERTY_CONFIG_FILE);
 		final String imageName = string.getRandomCharacter();
 		try {
 			browser.navigateURL(
@@ -1989,8 +2048,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(actualData, requiredData);
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -2022,7 +2081,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 			List<String> language = Arrays
@@ -2039,7 +2099,7 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 			browser.close();
 
 			// Remove home commercial
@@ -2059,9 +2119,9 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2081,7 +2141,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			final String imageName = string.getRandomCharacter();
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 			List<String> language = Arrays
@@ -2099,7 +2160,7 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.LONG_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData);
+			CustomisedAssert.assertEquals(actualData, requiredData);
 			browser.close();
 
 			// Remove home commercial
@@ -2119,9 +2180,9 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2140,7 +2201,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			final String cmrName = string.getRandomCharacter();
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -2158,7 +2220,7 @@ public class V5Test extends TestInfra {
 			foundation.refreshPage();
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			assertEquals(actualData, requiredData.get(1));
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			browser.close();
 
 			// Remove home commercial
@@ -2180,10 +2242,10 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
-			assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2192,7 +2254,8 @@ public class V5Test extends TestInfra {
 	public void verifyMultipleHomeCommercial() {
 		final String CASE_NUM = "142695";
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+				FilePath.PROPERTY_CONFIG_FILE);
 		final String cmrName1 = string.getRandomCharacter();
 		final String cmrName2 = string.getRandomCharacter();
 		try {
@@ -2223,10 +2286,10 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(0)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(0))));
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData.get(1)), Constants.MEDIUM_TIME);
-			assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objImageDisplay(requiredData.get(1))));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -2259,7 +2322,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2273,9 +2337,9 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
 			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2295,7 +2359,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2310,9 +2375,9 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_TEXT_PATH);
 			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2332,7 +2397,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2350,9 +2416,9 @@ public class V5Test extends TestInfra {
 			// Constants.SHORT_TIME);
 			String expectedData = foundation.getAlertMessage();
 			;
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2372,7 +2438,8 @@ public class V5Test extends TestInfra {
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String actualData = rstV5DeviceData.get(CNV5Device.ACTUAL_DATA);
 
 			// Selecting location
@@ -2388,14 +2455,14 @@ public class V5Test extends TestInfra {
 
 			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			// assertEquals(expectedData, actualData);
+			// CustomisedAssert.assertEquals(expectedData, actualData);
 			String expectedData = foundation.getAlertMessage();
 			// foundation.waitforElement(locationSummary.objUploadStatus(actualData),
 			// Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			assertEquals(expectedData, actualData);
+			CustomisedAssert.assertEquals(expectedData, actualData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2422,7 +2489,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, language.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, language.get(1), Constants.TEXT);
@@ -2441,7 +2509,7 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.waitforElement(landingPage.objText(actualData.get(0)), Constants.MEDIUM_TIME);
 			String actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
-			assertEquals(actualLanguage, actualData.get(0));
+			CustomisedAssert.assertEquals(actualLanguage, actualData.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(landingPage.objText(language.get(2)));
 			foundation.click(landingPage.objLanguage(requiredData.get(1)));
@@ -2449,9 +2517,9 @@ public class V5Test extends TestInfra {
 			foundation.click(landingPage.objText(language.get(4)));
 			foundation.waitforElement(landingPage.objText(actualData.get(1)), Constants.SHORT_TIME);
 			actualLanguage = foundation.getText(LandingPage.LBL_HEADER);
-			assertEquals(actualLanguage, actualData.get(1));
+			CustomisedAssert.assertEquals(actualLanguage, actualData.get(1));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2472,8 +2540,9 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -2486,10 +2555,10 @@ public class V5Test extends TestInfra {
 
 			foundation.click(UserProfile.BTN_PRIVACY);
 			String title = foundation.getText(Policy.LBL_POLICY_TITLE);
-			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			CustomisedAssert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2510,8 +2579,9 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -2525,10 +2595,10 @@ public class V5Test extends TestInfra {
 
 			foundation.click(UserProfile.BTN_TERMS_CONDITION);
 			String title = foundation.getText(Policy.LBL_TERMS_CONDITION_TITLE);
-			Assert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
+			CustomisedAssert.assertTrue(title.equals(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA)));
 			foundation.click(Policy.BTN_OK);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -2552,7 +2622,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
@@ -2594,7 +2665,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -2658,14 +2729,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -2680,7 +2752,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -2712,7 +2785,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -2755,7 +2829,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(1)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -2818,14 +2892,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -2840,7 +2915,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -2873,7 +2949,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -2913,7 +2990,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -2974,14 +3051,15 @@ public class V5Test extends TestInfra {
 			foundation.click(order.objText(orderPageData.get(7)));
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
@@ -2996,7 +3074,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -3027,7 +3106,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
 
@@ -3069,7 +3149,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3132,14 +3212,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting the data
@@ -3154,7 +3235,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -3186,7 +3268,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -3229,7 +3312,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3292,14 +3375,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting data
@@ -3314,7 +3398,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -3346,7 +3431,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -3389,7 +3475,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(cardPayment.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3452,14 +3538,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting data
@@ -3474,7 +3561,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -3506,7 +3594,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -3549,7 +3638,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3612,14 +3701,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -3634,7 +3724,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -3666,7 +3757,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -3710,7 +3802,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			landingPage.changeLanguage(language.get(2), requiredData.get(3), language.get(3));
@@ -3775,14 +3867,15 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -3797,7 +3890,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -3829,7 +3923,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -3871,7 +3966,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
 			// Validating Create Account Page
@@ -3934,7 +4029,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
@@ -3942,7 +4038,7 @@ public class V5Test extends TestInfra {
 			payments.verifyPaymentPageLanguage(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 //			// resetting test data
@@ -3957,7 +4053,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(4), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, requiredData.get(5), Constants.TEXT);
@@ -4002,7 +4099,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
@@ -4034,7 +4132,8 @@ public class V5Test extends TestInfra {
 			// save tax mapping- precondition
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(requiredData.get(7), requiredData.get(8));
 			locationSummary.saveTaxMapping(requiredData.get(9), requiredData.get(10));
 			locationSummary.saveTaxMapping(requiredData.get(11), requiredData.get(12));
@@ -4044,7 +4143,9 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// login into Kiosk Device add both rate 5 and rate 8 product and verify the
 			// display of tax
@@ -4056,19 +4157,19 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.TXT_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.TXT_HEADER));
 			String uiSubTotal = foundation.getText(Order.LBL_SUB_TOTAL).replace("$", Constants.EMPTY_STRING);
 			List<String> lblTaxes = foundation.getTextofListElement(Order.LBL_TAX);
 			List<String> lblTaxValues = foundation.getTextofListElement(Order.LBL_VAT_VALUE);
-			Assert.assertEquals(lblTaxes.get(0), taxes.get(0));
-			Assert.assertEquals(lblTaxes.get(1), taxes.get(1));
+			CustomisedAssert.assertEquals(lblTaxes.get(0), taxes.get(0));
+			CustomisedAssert.assertEquals(lblTaxes.get(1), taxes.get(1));
 			double calculatedTax1 = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxes.get(7)) / 100);
 			double expectedTaxWithRoundUp1 = Math.round(calculatedTax1 * 100.0) / 100.0;
 			double calculatedTax2 = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxes.get(8)) / 100);
 			double expectedTaxWithRoundUp2 = Math.round(calculatedTax2 * 100.0) / 100.0;
-			Assert.assertEquals(Double.parseDouble(lblTaxValues.get(0).replace("$", Constants.EMPTY_STRING)),
+			CustomisedAssert.assertEquals(Double.parseDouble(lblTaxValues.get(0).replace("$", Constants.EMPTY_STRING)),
 					expectedTaxWithRoundUp1);
-			Assert.assertEquals(Double.parseDouble(lblTaxValues.get(1).replace("$", Constants.EMPTY_STRING)),
+			CustomisedAssert.assertEquals(Double.parseDouble(lblTaxValues.get(1).replace("$", Constants.EMPTY_STRING)),
 					expectedTaxWithRoundUp2);
 
 			// add rate 5 product and verify the display of tax
@@ -4078,8 +4179,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_TAX), taxes.get(0));
 			order.verifyTax(taxes.get(7));
 
 			// add rate 8 product and verify the display of tax
@@ -4089,8 +4190,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
 			order.verifyTax(taxes.get(8));
 
 			// add no tax assigned product and verify the display of tax section
@@ -4100,11 +4201,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(products.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_TAX));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -4128,7 +4229,8 @@ public class V5Test extends TestInfra {
 			// remove mapping ,sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.removeTaxMapping(requiredData.get(7));
 			locationSummary.removeTaxMapping(requiredData.get(9));
 			locationSummary.removeTaxMapping(requiredData.get(11));
@@ -4194,7 +4296,9 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// verify login error
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4205,12 +4309,15 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.BTN_LOGIN);
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(3));
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(4));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE),
+					requiredData.get(3));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION),
+					requiredData.get(4));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetData
@@ -4245,7 +4352,7 @@ public class V5Test extends TestInfra {
 			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditAccount.BTN_EDIT_ACCOUNT));
 		}
 	}
 
@@ -4267,8 +4374,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4279,13 +4387,13 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			List<String> tabNames = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			driverHomePage.verifyData(tabNames);
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4307,8 +4415,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4318,13 +4427,13 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4347,8 +4456,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4360,19 +4470,19 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			String value = foundation.getBGColor(DriverHomePage.LINK_CASHOUT);
-			Assert.assertEquals(actualData.get(1), value);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
+			CustomisedAssert.assertEquals(actualData.get(1), value);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_CASHOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.LBL_BILL_ACCEPTOR));
 			List<String> currency = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			driverHomePage.verifyData(currency);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.BTN_CASHOUT));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverLoginPage.BTN_SIGN_IN));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4394,8 +4504,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4405,21 +4516,21 @@ public class V5Test extends TestInfra {
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_INVENTORY);
 			foundation.waitforElement(InventoryHomePage.TXT_SELECT_ACTION, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),
+			CustomisedAssert.assertEquals(foundation.getText(InventoryHomePage.TXT_LOCATION),
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> options = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			inventoryHomePage.verifyInventoryOptions(options);
 			foundation.click(InventoryHomePage.BTN_LOGOUT);
-			Assert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DriverHomePage.TXT_MENU));
 			foundation.click(DriverHomePage.LINK_LOGOUT);
 			foundation.click(DriverLoginPage.BTN_SELF_SERVICE_MODE);
 			foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4446,7 +4557,9 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			dropDown.selectItem(MicroMarketMenuList.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			dropDown.selectItem(MicroMarketMenuList.DPD_LOCATION,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
 			foundation.click(MicroMarketMenuList.BTN_CREATE_NEW);
 			textBox.enterText(MicroMarketMenuList.TXT_MENU_NAME, requiredData.get(1));
 			checkBox.check(microMarketMenu.getCurrentDayObj(dateAndTime.getCurrentDay()));
@@ -4474,7 +4587,9 @@ public class V5Test extends TestInfra {
 			// update language pre-condition and sync
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// login into Kiosk Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4483,14 +4598,14 @@ public class V5Test extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			// foundation.refreshPage();
 			foundation.waitforElementToBeVisible(landingPage.objText(requiredData.get(2)), Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(landingPage.objText(requiredData.get(2))));
 			foundation.click(landingPage.objText(requiredData.get(2)));
 			foundation.click(landingPage.objText(requiredData.get(3)));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(requiredData.get(3))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting testdata
@@ -4512,7 +4627,8 @@ public class V5Test extends TestInfra {
 			// navigating to Home Page
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationList.LINK_HOME_PAGE);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
@@ -4541,7 +4657,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
@@ -4570,7 +4687,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4587,12 +4704,12 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4618,7 +4735,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			locationSummary.selectTab(requiredData.get(2));
@@ -4653,7 +4771,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4670,7 +4788,7 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -4688,7 +4806,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			locationSummary.selectTab(requiredData.get(2));
@@ -4697,10 +4816,10 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> invCountAfterSale = locationSummary.getProductDetails(requiredData.get(3));
 
-			Assert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3))) == Integer
+			CustomisedAssert.assertTrue(Integer.valueOf(invCountAfterSale.get(requiredData.get(3))) == Integer
 					.valueOf(invCountBeforeSale.get(requiredData.get(3))) - 1);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -4755,7 +4874,8 @@ public class V5Test extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			// update Kiosk Language
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
@@ -4784,7 +4904,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4800,11 +4920,11 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
@@ -4857,7 +4977,8 @@ public class V5Test extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(requiredData.get(2));
 			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.EXTRA_LONG_TIME);
 			locationSummary.updateInventory(requiredData.get(3), requiredData.get(4), requiredData.get(5));
@@ -4865,7 +4986,9 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// login into Kiosk Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -4887,7 +5010,7 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
@@ -4904,11 +5027,11 @@ public class V5Test extends TestInfra {
 
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 
 		} finally {
@@ -4924,7 +5047,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Selecting location
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(1), Constants.TEXT);
 			locationSummary.selectTab(requiredData.get(2));
 			foundation.waitforElement(LocationSummary.TBL_INVENTORY, Constants.SHORT_TIME);
@@ -4971,12 +5095,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4985,21 +5111,23 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(order.objText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5018,7 +5146,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5067,12 +5196,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -5082,29 +5213,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.click(Order.BTN_CANCEL_ORDER);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
 			foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5123,7 +5256,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5166,7 +5300,8 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5184,12 +5319,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -5199,23 +5336,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.waitforElement(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE)),
 					Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -5235,7 +5374,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5279,7 +5419,8 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5297,12 +5438,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -5312,21 +5455,23 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -5346,7 +5491,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5387,7 +5533,8 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			List<String> deviceData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -5405,8 +5552,9 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -5416,20 +5564,22 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_VAT_VALUE));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5448,7 +5598,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -5492,12 +5643,14 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
-			Assert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -5507,28 +5660,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(0))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(product.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(product.get(1))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 			foundation.waitforElement(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE)),
 					Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the data
@@ -5548,7 +5703,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5594,8 +5750,9 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(requiredData.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), requiredData.get(1));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY),
+					requiredData.get(1));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5650,10 +5807,10 @@ public class V5Test extends TestInfra {
 			// verify edits applied to product or not
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), requiredData.get(3));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), requiredData.get(4));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), requiredData.get(5));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5706,9 +5863,10 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(requiredData.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
-			assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY), requiredData.get(1));
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY),
+					requiredData.get(1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5749,8 +5907,8 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
-			assertTrue(listReasonCode.contains(requiredData.get(1)));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(listReasonCode.contains(requiredData.get(1)));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -5779,8 +5937,9 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// navigate to payment success page and validate No receipt
 			browser.close();
@@ -5790,14 +5949,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(PaymentSuccess.BTN_YES, Constants.EXTRA_LONG_TIME);
-			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -5819,10 +5978,12 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(LocationList.TXT_FILTER, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)));
-			assertNotEquals(dailyRevenue, requiredData.get(1));
-		} catch (Throwable exc) {
+			textBox.enterText(LocationList.TXT_FILTER,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)));
+			CustomisedAssert.assertNotEquals(dailyRevenue, requiredData.get(1));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -5866,8 +6027,8 @@ public class V5Test extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5921,9 +6082,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 
-			assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -5997,11 +6158,14 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_APPLY);
 			// verify edits
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(4)), requiredDataV5Device.get(3));
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)), requiredDataV5Device.get(4));
-			assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)), requiredDataV5Device.get(5));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(4)),
+					requiredDataV5Device.get(3));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(5)),
+					requiredDataV5Device.get(4));
+			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredDataLocationSummary.get(6)),
+					requiredDataV5Device.get(5));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// -reset data-
@@ -6061,9 +6225,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = foundation.getAttributeValueofListElement(LocationSummary.LIST_REASON_CODE,
 					Constants.INNER_TEXT);
-			assertTrue(listReasonCode.contains(requiredData.get(1)));
+			CustomisedAssert.assertTrue(listReasonCode.contains(requiredData.get(1)));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6115,7 +6279,7 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(2));
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(2))));
 			// reset data- remove added mapping
 			foundation.click(locationSummary.objTaxCategory(requiredData.get(2)));
 			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
@@ -6125,10 +6289,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			foundation.click(LocationSummary.BTN_ADD_MAPPING);
 			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
-			assertTrue(listTaxCategory.contains(requiredData.get(4)));
+			CustomisedAssert.assertTrue(listTaxCategory.contains(requiredData.get(4)));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6190,9 +6354,9 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.refreshPage();
 			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
-			assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6249,15 +6413,16 @@ public class V5Test extends TestInfra {
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			foundation.click(LocationSummary.TAB_TAX_MAPPING);
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
-			assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
 			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(2), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
 
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(2));
-			locationSummary.kiosklanguageSetting(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), language.get(0),
-					language.get(1));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
 			// launch v5 application
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -6267,10 +6432,10 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			order.verifyTax(requiredData.get(3));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
@@ -6330,7 +6495,8 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
-			locationList.selectLocationName(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -6344,16 +6510,19 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_ENTER);
 			foundation.click(AccountLogin.BTN_NEXT);
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE), requiredData.get(4));
-			Assert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION), requiredData.get(5));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_ACCOUNT_NOT_AVAILABLE),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(AccountLogin.LBL_GEO_GRAPHIC_LOCATION),
+					requiredData.get(5));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetData
@@ -6386,11 +6555,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_EMAIL));
 			foundation.click(Order.LBL_EMAIL);
 			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
-			assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PaymentSuccess.BTN_YES));
 		}
 	}
 
@@ -6415,17 +6584,20 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			String scanCode = foundation.getText(ProductSearch.LBL_PRODUCT_SCANCODE);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
 			String total = order.getTotalBalance();
 			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			Assert.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6448,12 +6620,12 @@ public class V5Test extends TestInfra {
 			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(
 					TransactionSearchPage.TABLE_TRANSACTION_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					transactionDetails.get(requiredData.get(0)).contains(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					transactionDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			Assert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
-			Assert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
+			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
+			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
 
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			reportList.selectReport(rstReportsListData.get(CNReportList.REPORT_NAME));
@@ -6466,15 +6638,15 @@ public class V5Test extends TestInfra {
 			textBox.enterText(TransactionSearchPage.TXT_REPORT_SEARCH, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			Map<String, String> salesItemDetails = table.getTblSingleRowRecordUI(
 					TransactionSearchPage.TABLE_SALES_ITEM_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(4)).equals(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					salesItemDetails.get(requiredData.get(5)).equals(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME)));
-			Assert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
+			CustomisedAssert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -6576,7 +6748,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(9), taxRateName);
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -6604,29 +6776,30 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualTaxRate1 = foundation.getText(Order.LBL_TAX_1);
 			String actualTaxRate2 = foundation.getText(Order.LBL_TAX_2);
 			String actualTaxRate3 = foundation.getText(Order.LBL_TAX_3);
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
@@ -6634,13 +6807,13 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6742,8 +6915,8 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			Assert.assertTrue(foundation.isDisplayed(Order.LBL_TAX_1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_TAX_1));
 
 			// removing Tax Mapping
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -6762,7 +6935,7 @@ public class V5Test extends TestInfra {
 			table.selectRow(requiredData.get(1));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
-			Assert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
@@ -6786,12 +6959,12 @@ public class V5Test extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 
 			// verify Order Page
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
-			Assert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
-			Assert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
+			CustomisedAssert.assertEquals(actualBalDue, requiredData.get(3) + expectedPrice);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.LBL_TAX_1));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -6838,7 +7011,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(2));
 			dbData_Tax.put(requiredData.get(9), requiredData.get(0));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 
 			// reading another tax rate
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -6868,7 +7041,7 @@ public class V5Test extends TestInfra {
 			dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(8), requiredData.get(2));
 			dbData_Tax.put(requiredData.get(9), requiredData.get(1));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -6924,22 +7097,23 @@ public class V5Test extends TestInfra {
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(10) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(10) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(10) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(10) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(10) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
@@ -6947,7 +7121,7 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			// Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			// CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -6971,7 +7145,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 			foundation.waitforElement(LocationSummary.BTN_CLOSE_COMMERCIAL, Constants.SHORT_TIME);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -7028,7 +7202,7 @@ public class V5Test extends TestInfra {
 			Map<String, String> dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(3), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(4), requiredData.get(0));
-			Assert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
 
 			// editing tax rates and description name
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -7078,8 +7252,8 @@ public class V5Test extends TestInfra {
 			dbData_Tax = new HashMap<>();
 			dbData_Tax.put(requiredData.get(3), requiredData.get(1));
 			dbData_Tax.put(requiredData.get(4), taxRateName);
-			Assert.assertEquals(uiData, dbData_Tax);
-			Assert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
+			CustomisedAssert.assertEquals(uiData, dbData_Tax);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objTable(requiredData.get(0))));
 
 			// navigation global product
 			dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, requiredData.get(2), Constants.TEXT);
@@ -7109,29 +7283,30 @@ public class V5Test extends TestInfra {
 			// verify Order Page
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			String actualTaxRate1 = foundation.getText(Order.LBL_TAX_1);
 			String actualTaxRate2 = foundation.getText(Order.LBL_TAX_2);
 			String actualTaxRate3 = foundation.getText(Order.LBL_TAX_3);
 			String actualTaxRate4 = foundation.getText(Order.LBL_TAX_4);
 			String actualBalDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String actualSubTotal = foundation.getText(Order.LBL_SUB_TOTAL);
-			Assert.assertEquals(actualTaxRate1, requiredData.get(5) + String.valueOf(expectedTaxRate1));
-			Assert.assertEquals(actualTaxRate2, requiredData.get(5) + String.valueOf(expectedTaxRate2));
-			Assert.assertEquals(actualTaxRate3, requiredData.get(5) + String.valueOf(expectedTaxRate3));
-			Assert.assertEquals(actualTaxRate4, requiredData.get(5) + String.valueOf(expectedTaxRate4));
-			Assert.assertEquals(actualSubTotal, requiredData.get(5) + expectedPrice);
+			CustomisedAssert.assertEquals(actualTaxRate1, requiredData.get(5) + String.valueOf(expectedTaxRate1));
+			CustomisedAssert.assertEquals(actualTaxRate2, requiredData.get(5) + String.valueOf(expectedTaxRate2));
+			CustomisedAssert.assertEquals(actualTaxRate3, requiredData.get(5) + String.valueOf(expectedTaxRate3));
+			CustomisedAssert.assertEquals(actualTaxRate4, requiredData.get(5) + String.valueOf(expectedTaxRate4));
+			CustomisedAssert.assertEquals(actualSubTotal, requiredData.get(5) + expectedPrice);
 
 			float expectedBalDue = (float) (Float.parseFloat(expectedPrice) + expectedTaxRate1 + expectedTaxRate2
 					+ expectedTaxRate3 + expectedTaxRate4);
-			Assert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
+			CustomisedAssert.assertTrue(actualBalDue.contains(String.valueOf(expectedBalDue)));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
 			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
 
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(
+					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
@@ -7139,13 +7314,13 @@ public class V5Test extends TestInfra {
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
 
-			Assert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(payments.objText(paymentPageData.get(0))));
 
 			foundation.click(payments.objText(paymentPageData.get(1)));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			browser.close();
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting test data
@@ -7207,11 +7382,14 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-			
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -7261,30 +7439,32 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),
+					Constants.DELIMITER_HYPHEN + bundleDiscount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7321,7 +7501,8 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays
@@ -7383,25 +7564,26 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -7426,7 +7608,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -7490,35 +7673,37 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
 			// String productPrice =
 			// foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(priceTotal) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),
+					Constants.DELIMITER_HYPHEN + bundleDiscount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7558,7 +7743,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -7613,11 +7799,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
+			CustomisedAssert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
 					.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1])
 					&& Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) <= Double
 							.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
@@ -7626,20 +7812,22 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),
+					Constants.DELIMITER_HYPHEN + "$" + discount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7679,7 +7867,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -7734,12 +7923,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 
-			Assert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
+			CustomisedAssert.assertTrue(Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) >= Double
 					.parseDouble(bundleDiscount.get(0).split(Constants.DOLLAR)[1])
 					&& Double.parseDouble(discountList.get(2).split(Constants.DOLLAR)[1]) <= Double
 							.parseDouble(bundleDiscount.get(1).split(Constants.DOLLAR)[1]));
@@ -7748,21 +7937,23 @@ public class V5Test extends TestInfra {
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			// assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
-			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + "$" + discount);
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			// CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),Constants.DELIMITER_HYPHEN+bundleDiscount);
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_DISCOUNT),
+					Constants.DELIMITER_HYPHEN + "$" + discount);
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7804,7 +7995,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7858,25 +8050,26 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -7921,7 +8114,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -7991,16 +8185,16 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(7));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).equals(foundation.getText(Order.LBL_PRODUCT_PRICE)));
+			CustomisedAssert.assertTrue(discountList.get(2).equals(foundation.getText(Order.LBL_PRODUCT_PRICE)));
 
 			List<String> subProductPrice = foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
 			// verify the display of total section
@@ -8011,12 +8205,12 @@ public class V5Test extends TestInfra {
 			// foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = totalProductPrice - totalProductPrice;
 			String balanceDue = String.format("%.2f", expectedBalanceDue);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(balanceDue));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(balanceDue));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(productPrice)));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8057,7 +8251,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -8130,11 +8325,11 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(bundleDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(bundleDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
@@ -8142,20 +8337,21 @@ public class V5Test extends TestInfra {
 			// remove next 5 lines and uncomment next 2 lines
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8197,7 +8393,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8260,30 +8457,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8321,7 +8519,8 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays
@@ -8395,25 +8594,26 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(2).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -8439,7 +8639,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -8500,12 +8701,12 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(2));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			List<String> productPrice = foundation.getTextofListElement(Order.LBL_MULTI_PRODUCTS);
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
@@ -8519,14 +8720,16 @@ public class V5Test extends TestInfra {
 					- Double.parseDouble(
 							discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			double subToal = Double
 					.parseDouble(productPrice.get(0).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					+ Double.parseDouble(
 							productPrice.get(1).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 			double expectedTotalRoundUp = Math.round(subToal * 100.0) / 100.0;
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(expectedTotalRoundUp)));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(expectedTotalRoundUp)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(String.valueOf(Double
 					.parseDouble(discountList.get(2).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					+ Double.parseDouble(
 							discountList.get(6).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)))));
@@ -8535,12 +8738,12 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8583,7 +8786,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -8636,30 +8840,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8701,13 +8906,17 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-			
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
-			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(navigationMenu.get(0));
 
 			// Select Org,Menu and Menu Item
@@ -8758,30 +8967,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			CustomisedAssert.assertTrue(displayName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+			CustomisedAssert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(onScreenDiscount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8823,7 +9033,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -8879,25 +9090,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(productPrice));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -8938,11 +9149,14 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-		
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -8994,28 +9208,29 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// remove next 5 lines and uncomment next 2 lines
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9056,7 +9271,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -9113,28 +9329,29 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9174,7 +9391,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -9231,31 +9449,32 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(3).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_DISCOUNT).contains(discount));
 
 			double discountamount = Double.parseDouble(productPrice) * Double.parseDouble(requiredData.get(7)) / 100;
-			assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
+			CustomisedAssert.assertTrue(discount.equalsIgnoreCase(String.valueOf(discountamount)));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9297,7 +9516,8 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -9354,25 +9574,27 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9410,7 +9632,8 @@ public class V5Test extends TestInfra {
 			final String promotionName = string.getRandomCharacter();
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
 			List<String> navigationMenu = Arrays
@@ -9484,18 +9707,20 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -9520,11 +9745,14 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> requiredData = Arrays.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -9575,26 +9803,28 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9636,10 +9866,12 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName =propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -9691,26 +9923,28 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9752,9 +9986,11 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -9808,25 +10044,27 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9868,10 +10106,12 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -9924,25 +10164,27 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-			Assert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -9984,10 +10226,12 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -10040,30 +10284,31 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			double price = Double.parseDouble(productPrice);
 			price = price + price;
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(price)));
-			assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(price)));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10105,10 +10350,12 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName =propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -10162,28 +10409,30 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert
+					.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			foundation.waitforClikableElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10225,10 +10474,12 @@ public class V5Test extends TestInfra {
 
 			String displayName = string.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
-						
-			List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -10283,23 +10534,25 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(4));
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 
 			// verify the display of total section
-			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
-			assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
+			CustomisedAssert
+					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(String.valueOf(productPrice)));
+			CustomisedAssert
+					.assertFalse(foundation.isDisplayed(order.objText(rstLocationData.get(CNLocation.ACTUAL_DATA))));
 
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			List<String> paymentPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
@@ -10315,6 +10568,196 @@ public class V5Test extends TestInfra {
 
 			// Deleting the Promotion
 			editPromotion.expirePromotion(gridName, promotionName);
+		}
+	}
+
+	@Test(description = "166026 - Verify subsidy balance in kiosk device for the consumer part of home campus"
+			+ "166030 - Verify the payroll balance when having multi balances in V5 device."
+			+ "166031 - Verify the UI for the multi balance in V5 device.")
+
+	public void verifySubsidyBalanceForConsumer() {
+
+		final String CASE_NUM = "166026";
+
+		// Reading test data from DataBase
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String requiredDatas = strings.getRandomCharacter();
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> paymentPageData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
+		try {
+			// Launch ADM and select Org & Location
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Super> Device and Verify Create New Device page
+			navigationBar.navigateToMenuItem(menus.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			foundation.click(DeviceList.BTN_CREATE_NEW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_KIOSK));
+			textBox.enterText(DeviceCreate.TXT_NAME, requiredDatas);
+			String text = dropDown.getSelectedItem(DeviceCreate.TYPE);
+			CustomisedAssert.assertEquals(text, requiredData.get(7));
+			foundation.click(DeviceCreate.BTN_CANCEl);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+			// Select Location and Set Consumer Subsidy as Yes with requried details
+			navigationBar.navigateToMenuItem(menus.get(1));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
+			text = foundation.getText(LocationSummary.DEVICE_NAME);
+			CustomisedAssert.assertEquals(text, requiredData.get(8));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			foundation.click(LocationSummary.TXT_TOP_OFF_SUBSIDY);
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(2));
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(4));
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			locationSummary.verifyRollOverCurrentDate(currentDate);
+			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(3));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(5));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
+			CustomisedAssert.assertFalse(foundation.isEnabled(LocationSummary.INPUT_PAYROLL));
+			value = dropDown.getSelectedItem(LocationSummary.INPUT_PAYROLL);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin>Consumer, verify Subsidy Group and Logout
+			navigationBar.navigateToMenuItem(menus.get(2));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, requiredData.get(9));
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			String balance = foundation.getText(ConsumerSummary.LBL_READ_BALANCE);
+			String subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
+			CustomisedAssert.assertEquals(subsidyName, requiredData.get(10));
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+
+			// Select location and sync with device
+			navigationBar.navigateToMenuItem(menus.get(1));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			String typeBalance = "$" + requiredData.get(4) + ".00";
+			accountLogin.verifyConsumerAccountLogin(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance, typeBalance,
+					rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS));
+
+			// Product Search
+			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+
+			// Transaction Done using Consumer Account Subsidy Balance
+			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
+			String balanceDue = foundation.getText(Order.LBL_CHARGE_AMT).split(Constants.DOLLAR)[1];
+			double bal = Double.valueOf(requiredData.get(4)) - Double.valueOf(balanceDue);
+			typeBalance = "$" + String.valueOf(bal);
+			foundation.click(Payments.BTN_EMAIL_LOGIN);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(paymentPageData.get(0))));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+
+			// Verifying Consumer Subsidy Balance after Transaction
+			accountLogin.verifyConsumerAccountLogin(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(9), balance, typeBalance,
+					rstV5DeviceData.get(CNV5Device.ACCOUNT_DETAILS));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(2));
+
+			// Search Consumer Account
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, requiredData.get(9));
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+
+			// Resetting Subsidy Balance
+			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(4));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(11), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+
+			// Select location and sync with device
+			navigationBar.navigateToMenuItem(menus.get(1));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			login.logout();
 		}
 	}
 }

@@ -2,13 +2,11 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -24,6 +22,7 @@ public class Order {
 	public static final By LBL_SUB_TOTAL = By.xpath("//*[@class='total subtotal']//*[@class='total-value']");
 	public static final By LBL_VAT_VALUE = By.xpath("//*[@class='total total-tax']//*[@class='total-value']");
 	public static final By LBL_BALANCE_DUE = By.xpath("//*[@class='total grand-total']//*[@class='total-value']");
+	public static final By LBL_CHARGE_AMT = By.xpath("//*[@data-reactid='.0.8.0.0.1.0.1.0.2']");
 	public static final By LBL_TAX = By.xpath("//*[@class='total total-tax']//*[@class='total-label']");
 	public static final By LBL_DEPOSIT = By.xpath("//*[@class='total']//*[@class='total-value']");
 	public static final By TXT_HEADER = By.xpath("//div[@class='user-bar']/h1");
@@ -36,17 +35,18 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By
 			.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
 	public static final By LBL_EMAIL = By.xpath("(//h3[text()='My Account']//.)[2]//..//..//img");
-	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div");
-	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div");
-	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div");
-	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div");
-
+	// public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
+	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div[@class='total-value']");
+	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div[@class='total-value']");
+	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div[@class='total-value']");
+	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div[@class='total-value']");
 	public static final By LBL_PROMOTION_NAME = By.className("product-name");
 	public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
 	public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
 	public static final By LBL_MULTI_PRODUCTS = By.xpath("//*[@class='product-price']");
 	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
+	public static final By TXT_TENDER_DISCOUNT = By.xpath("//div[@class='content-promotions']//div//div//div");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -54,16 +54,16 @@ public class Order {
 
 	public void verifyOrderPageLanguage(String order) {
 		List<String> orderPageData = Arrays.asList(order.split(Constants.DELIMITER_TILD));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(1))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(2))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(3))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(4))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(5))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(6))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(0))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(1))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(2))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(3))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(4))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(5))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(6))));
 		foundation.objectFocus(objText(orderPageData.get(7)));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
-		Assert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(7))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(orderPageData.get(8))));
 	}
 
 	public void completeOrder(String email, String purchaseComplete, String yesButton) {
@@ -76,7 +76,7 @@ public class Order {
 		textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		// foundation.click(objText(email));
-		Assert.assertTrue(foundation.isDisplayed(objText(purchaseComplete)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(purchaseComplete)));
 
 		foundation.click(objText(yesButton));
 		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -90,13 +90,13 @@ public class Order {
 		String uiBalanceDue = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
 
 		String VATValue = foundation.getText(LBL_TAX).replaceAll("[A-Z%@]", " ");
-		Assert.assertTrue(taxRate.equals(VATValue.trim()));
+		CustomisedAssert.assertTrue(taxRate.equals(VATValue.trim()));
 
 		Double taxAmount = 1 + (tax / 100);
 		double totalProductCost = Double.parseDouble(uiSubTotal) - Double.parseDouble(uiVat);
 		double balanceDue = (totalProductCost) * (taxAmount);
 		balanceDue = Math.round(balanceDue * 100.0) / 100.0;
-		Assert.assertTrue(uiBalanceDue.contains(String.valueOf(balanceDue)));
+		CustomisedAssert.assertTrue(uiBalanceDue.contains(String.valueOf(balanceDue)));
 
 	}
 
@@ -106,9 +106,7 @@ public class Order {
 
 		double calculatedTax = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxRate) / 100);
 		double expectedTaxWithRoundUp = Math.round(calculatedTax * 100.0) / 100.0;
-
-		Assert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
-		
+		CustomisedAssert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
 	}
 
 	public String getTotalBalance() {

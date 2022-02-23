@@ -29,7 +29,6 @@ import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
-import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Constants;
 
 public class ResultSets extends Connections {
@@ -186,6 +185,7 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNProductSummary.RECORDS_PER_PAGE_LIST));
 				rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
+				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
 
 			}
 
@@ -352,6 +352,11 @@ public class ResultSets extends Connections {
 				rstReportList.put(CNReportList.END_DATE, resultSet.getString(CNReportList.END_DATE));
 				rstReportList.put(CNReportList.START_MONTH, resultSet.getString(CNReportList.START_MONTH));
 				rstReportList.put(CNReportList.END_MONTH, resultSet.getString(CNReportList.END_MONTH));
+				rstReportList.put(CNReportList.DOWNLOADED_FILE_NAME,
+						resultSet.getString(CNReportList.DOWNLOADED_FILE_NAME));
+				rstReportList.put(CNReportList.GROUPBY_DROPDOWN, resultSet.getString(CNReportList.GROUPBY_DROPDOWN));
+				rstReportList.put(CNReportList.SELECT_FILTER_TO_INCLUDE,
+						resultSet.getString(CNReportList.SELECT_FILTER_TO_INCLUDE));
 			}
 
 		} catch (Exception exc) {
@@ -442,6 +447,9 @@ public class ResultSets extends Connections {
 			while (resultSet.next()) {
 				rstGmaUser.put(CNGmaUser.START_BALANCE, resultSet.getString(CNGmaUser.START_BALANCE));
 				rstGmaUser.put(CNGmaUser.PIN_VALUE, resultSet.getString(CNGmaUser.PIN_VALUE));
+				rstGmaUser.put(CNGmaUser.SHEET_NAME, resultSet.getString(CNGmaUser.SHEET_NAME));
+				rstGmaUser.put(CNGmaUser.COLUMN_NAME, resultSet.getString(CNGmaUser.COLUMN_NAME));
+				rstGmaUser.put(CNGmaUser.COLUMN_VALUE, resultSet.getString(CNGmaUser.COLUMN_VALUE));
 
 			}
 		} catch (Exception exc) {
@@ -913,10 +921,11 @@ public class ResultSets extends Connections {
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstSuperListData.put(CNSuperList.SUPER_NAME, resultSet.getString(CNSuperList.SUPER_NAME));
-				rstSuperListData.put(CNSuperList.EFT_DISBURSEMENT,resultSet.getString(CNSuperList.EFT_DISBURSEMENT));
-				rstSuperListData.put(CNSuperList.DISBURSEMENT_PAGE_RECORD, resultSet.getString(CNSuperList.DISBURSEMENT_PAGE_RECORD));
-				rstSuperListData.put(CNSuperList.DISBURSEMENT_DATE,resultSet.getString(CNSuperList.DISBURSEMENT_DATE));
-				rstSuperListData.put(CNSuperList.ERROR_MESSAGE,resultSet.getString(CNSuperList.ERROR_MESSAGE));
+				rstSuperListData.put(CNSuperList.EFT_DISBURSEMENT, resultSet.getString(CNSuperList.EFT_DISBURSEMENT));
+				rstSuperListData.put(CNSuperList.DISBURSEMENT_PAGE_RECORD,
+						resultSet.getString(CNSuperList.DISBURSEMENT_PAGE_RECORD));
+				rstSuperListData.put(CNSuperList.DISBURSEMENT_DATE, resultSet.getString(CNSuperList.DISBURSEMENT_DATE));
+				rstSuperListData.put(CNSuperList.ERROR_MESSAGE, resultSet.getString(CNSuperList.ERROR_MESSAGE));
 
 			}
 		} catch (Exception exc) {

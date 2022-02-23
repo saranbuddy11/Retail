@@ -3,21 +3,19 @@ package at.smartshop.v5.pages;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.testng.Assert;
-
 import at.framework.browser.Browser;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.Login;
 
 public class LandingPage {
 
 	public Browser browser = new Browser();
 	public PropertyFile propertyFile = new PropertyFile();
-	
+
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
 	// public static final By IMG_SEARCH_ICON =
@@ -63,13 +61,13 @@ public class LandingPage {
 		List<String> landingPageData = Arrays.asList(landingPage.split(Constants.DELIMITER_TILD));
 
 		// Validating Landing Page
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
-		// Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(2))));
-		// Assert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(3))));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
-		Assert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
+		// CustomisedAssert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(2))));
+		// CustomisedAssert.assertTrue(foundation.isDisplayed(objText(landingPageData.get(3))));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
+		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
 
 	}
 
@@ -80,7 +78,7 @@ public class LandingPage {
 		foundation.click(objText(newLanguage));
 		foundation.click(objText(button));
 	}
-	
+
 	public void launchV5AndSelectLanguageEnglish() {
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));

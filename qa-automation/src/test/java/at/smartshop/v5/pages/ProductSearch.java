@@ -2,8 +2,10 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.By;
-import org.testng.Assert;
+
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
@@ -34,9 +36,9 @@ public class ProductSearch {
 
 		List<String> productSearchPage = Arrays.asList(productSearch.split(Constants.DELIMITER_TILD));
 
-		Assert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(0))));
-		Assert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(1))));
-		Assert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(0))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(1))));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
 	}
 	
 	public boolean searchProduct(String product) {

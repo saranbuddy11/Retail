@@ -1,5 +1,8 @@
 package at.smartshop.pages;
 
+import static org.testng.Assert.assertEquals;
+
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,29 +16,42 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNV5Device;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
+import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.ProductSearch;
+
+import at.smartshop.tests.TestInfra;
 
 public class LocationSummary extends Factory {
 
 	private Dropdown dropDown = new Dropdown();
+	public Login login = new Login();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
-	private NavigationBar navigationBar=new NavigationBar();
+	private LandingPage landingPage = new LandingPage();
+	private Map<String, String> rstV5DeviceData;
+	private CheckBox checkBox = new CheckBox();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
+	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
@@ -48,9 +64,15 @@ public class LocationSummary extends Factory {
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
+	public static final By TXT_TOP_OFF_SUBSIDY = By.cssSelector("div.topoffsubsidymain");
+	public static final By TXT_ROLL_OVER_SUBSIDY = By.cssSelector("div.rolloversubsidymain");
 	public static final By POP_UP_BTN_SAVE = By.id("confirmDisableId");
 	public static final By BTN_LOCATION_SETTINGS = By.xpath("//button[@id='toggleinfo']");
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
+	public static final By DPD_GMA_SUBSIDY = By.id("gmasubsidy");
+	public static final By DPD_SPECIAL_TYPE = By.id("specialtype");
+	public static final By DPD_TOP_OFF_RECURRENCE = By.xpath("//*[@id='topoffsubsidyrange']//td/select");
+	public static final By DPD_ROLL_OVER_RECURRENCE = By.xpath("//*[@id='rolloversubsidyrange']//td/select");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
 	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
 	public static final By LNK_PICK_UP_LOCATION = By.xpath("//span[@id='pickupLocationToggle']");
@@ -64,7 +86,10 @@ public class LocationSummary extends Factory {
 	public static final By FIELD_RETRIEVE_CHECKBOX = By.cssSelector("div#enableRetrieveAccountOptions");
 	public static final By TXT_ERR_MSG = By.cssSelector("dd.error-txt");
 	private static final By TXT_HAS_LOCKERS = By.xpath("//dt[text()='Has Lockers']");
-	private static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
+	public static final By TXT_GMA_SUBSIDY = By.xpath("//dt[text()='GMA Subsidy']");
+	public static final By TXT_SPECIAL_TYPE = By.xpath("//dt[text()='Special Type']");
+	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
+	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
 	public static final By TXT_SEARCH = By.id("productFilterType");
 	public static final By LBL_TAX_CATEGORY = By
@@ -194,13 +219,171 @@ public class LocationSummary extends Factory {
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
 
+	public static final By PRODUCT_NAME = By
+			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
+	public static final By INVENTORY_NAME = By
+			.xpath("//table[@id='inventoryDataGrid']/tbody/tr/td[@aria-describedby='inventoryDataGrid_name']");
+	public static final By VALIDATE_HEADING = By.id("Location Summary");
+	public static final By DPP_MARKET_CARD = By.id("mkcidedit");
+	public static final By BTN_UPDATE_PRICE = By.id("updprice");
+	public static final By BTN_EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
+	public static final By TXT_NAME = By.id("name");
+	public static final By BTN_CREATE_PROMO = By.id("promoAddBtn");
+	public static final By TXT_CATEGORY = By.id("taxcat");
+	public static final By INVENTORY_QUANTITY = By
+			.xpath("//table[@id='inventoryDataGrid']/tbody/tr/td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+
+	public static final By CHK_TOP_OFF_SUBSIDY = By.xpath("//input[@class='topoffsubsidy-default topoffcheckbox']");
+	public static final By CHK_DEFAULT_TOP_OFF = By.xpath("//input[@class='topoffsubsidy topoffdefaultcheckbox']");
+	public static final By CHK_DEFAULT_ROLL_OVER = By
+			.xpath("//input[@class='rolloversubsidy rolloverdefaultcheckbox']");
+	public static final By CHK_ROLL_OVER_SUBSIDY = By
+			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
+	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
+	public static final By TXT_PAYROLL_GROUP_NAME = By.xpath("//*[@id='newrow-1']//input[@name='groupname']");
+	public static final By TXT_TOP_OFF_AMOUNT = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='amount']");
+	public static final By TXT_ROLL_OVER_AMOUNT = By.xpath("//*[@id='rolloversubsidyrange']//input[@name='amount']");
+	public static final By TXT_TOP_OFF_AMOUNT_VALUE = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/input");
+	public static final By TXT_ROLL_OVER_AMOUNT_VALUE = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/input");
+	public static final By CHK_TOP_OFF_ERROR = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p");
+	public static final By CHK_ROLL_OVER_ERROR = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p");
+	public static final By TXT_ROLL_OVER_GROUP_NAME = By
+			.xpath("//*[@id='rolloversubsidyrange']//input[@name='groupname']");
+	public static final By TXT_PICKUP_LOCATION_NAME = By
+			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
+	public static final By START_DATE_PICKER_TOP_OFF = By
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+
+	public static final By START_DATE_PICKER_ROLL_OVER = By
+			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
+	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
+			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1 = By
+			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION2 = By
+			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
+			.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
+			.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By TOP_OFF_WARNING_MSG = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[5]/p[1]");
+	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[5]/p[1]");
+	public static final By BTN_DELETE_TOP_OFF = By
+			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
+	public static final By BTN_DELETE_ROLL_OVER = By
+			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy']");
+	public static final By BTN_ADD_ROLL_OVER = By
+			.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy']");
+	public static final By BTN_ADD_TOP_OFF = By.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtn']");
+	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
+	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
+	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
+
+	public By objAddTopOffSubsidy(int index) {
+		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
+	}
+
+	public By objDeleteTopOffSubsidy(int index) {
+		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy'])[" + index + "]");
+	}
+
+	public By objAddRollOverSubsidy(int index) {
+		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy'])[" + index + "]");
+	}
+
+	public By objDeleteRollOverSubsidy(int index) {
+		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
+	}
+
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
 			foundation.WaitForAjax(Constants.FIFTEEN_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	public By objTopOffSubsidyColumn(String column) {
+		return By.xpath("//table[@id='topoffsubsidy']//th/b[text()='" + column + "']");
+	}
+
+	public By objRollOverSubsidyColumn(String column) {
+		return By.xpath("//table[@id='rolloversubsidy']//th/b[text()='" + column + "']");
+	}
+
+	public By objectTopOffCalendarMonthAutoLocation1(String month) {
+		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectTopOffCalendarMonthAutoLocation2(String month) {
+		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectTopOffCalendarMonthAutomationLocation1(String month) {
+		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectTopOffCalendarDayAutomationLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+
+	public By objectTopOffCalendarNewDayAutomationLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
+
+	public By objectTopOffCalendarNewDayAutoLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
+
+	public By objectTopOffCalendarDayAutoLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+
+	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
+
+	public By objectTopOffCalendarDayAutoLocation2(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+
+	public By objectRollOverCalendarDayLocation(String day) {
+		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+
+	public By objectRollOverCalendarDayLocation1(String day) {
+		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+
+	public By objectRollOverCalendarMonthLocation(String month) {
+		return By.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectRollOverCalendarMonthLocation1(String month) {
+		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectRollOverCalendarNewDayLocation(String day) {
+		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
+
+	public By objectRollOverCalendarNewDayLocation1(String day) {
+		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
+
+	public By objectRollOverCalendarMonth(String month) {
+		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+
+	public By objectRollOverCalendarDay(String day) {
+		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
 	}
 
 	public void manageColumn(String columnNames) {
@@ -221,7 +404,7 @@ public class LocationSummary extends Factory {
 			foundation.click(DLG_PRODUCT_COLUMN_CHOOSER_FOOTER);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -235,7 +418,7 @@ public class LocationSummary extends Factory {
 				tableHeaders.add(columnHeader.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
 	}
@@ -260,7 +443,7 @@ public class LocationSummary extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsData;
 	}
@@ -270,7 +453,7 @@ public class LocationSummary extends Factory {
 			foundation.click(BTN_MANAGE_COLUMNS);
 			foundation.click(BTN_SHOW);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		foundation.click(BTN_APPLY);
 	}
@@ -283,26 +466,57 @@ public class LocationSummary extends Factory {
 	public void verifyHasLockerField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_HAS_LOCKERS));
 			String value = dropDown.getSelectedItem(DPD_HAS_LOCKER);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void verifyHasOrderAheadField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
-			Assert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ORDER_AHEAD));
 			String value = dropDown.getSelectedItem(DPD_HAS_ORDER_AHEAD);
-			Assert.assertEquals(value, defaultValue);
+			CustomisedAssert.assertEquals(value, defaultValue);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
 					"Validated the has Locker default Value" + defaultValue);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyTopOffSubsidy(List<String> values) {
+		try {
+			foundation.waitforElement(TXT_TOP_OFF_SUBSIDY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_TOP_OFF_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(6))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Validated the TOP Off Subsidy default Value" + values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyRolloverSubsidy(List<String> columns) {
+		try {
+			foundation.waitforElement(TXT_ROLL_OVER_SUBSIDY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(columns.get(6))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Roll Over Subsidy Value" + columns);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -431,7 +645,7 @@ public class LocationSummary extends Factory {
 				productsRecord.put(tableHeaders.get(columnCount - 1), column.getText());
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
 
@@ -441,6 +655,7 @@ public class LocationSummary extends Factory {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
 		if (foundation.isDisplayed(objTaxCategory(taxCategory)) == false) {
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(BTN_ADD_MAPPING);
 			foundation.waitforElement(DPD_TAXCAT, Constants.SHORT_TIME);
 			dropDown.selectItem(DPD_TAXCAT, taxCategory, Constants.TEXT);
@@ -475,7 +690,7 @@ public class LocationSummary extends Factory {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return textAttribute;
 	}
@@ -593,7 +808,7 @@ public class LocationSummary extends Factory {
 				elementsText.add(text);
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return elementsText;
 	}
@@ -607,7 +822,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList()).equals(listRuleNameAscending);
 
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return ascending;
 	}
@@ -620,7 +835,7 @@ public class LocationSummary extends Factory {
 					.sorted(String.CASE_INSENSITIVE_ORDER.reversed()).collect(Collectors.toList())
 					.equals(listRuleNameDescending);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return descending;
 	}
@@ -650,16 +865,354 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_YES_REMOVE);
 		foundation.navigateToBackPage();
 	}
-	
+
 	public void navigateAndAddTaxMap(String locationName, String taxCategory, String taxRateName) {
 		navigationBar.navigateToMenuItem("Location");
 		locationList.selectLocationName(locationName);
 		saveTaxMapping(taxCategory, taxRateName);
 	}
-	
+
 	public void navigateAndRemoveTaxMap(String locationName, String taxCategory) {
 		navigationBar.navigateToMenuItem("Location");
 		locationList.selectLocationName(locationName);
 		removeTaxMapping(taxCategory);
+	}
+
+	public void resetInventory(String scancode, String inventory) {
+
+		By inventoryLink = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+		By inventoryValue = By.xpath(
+				"//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input");
+		foundation.click(inventoryLink);
+		textBox.enterText(inventoryValue, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(inventoryValue, inventory);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(inventoryLink));
+	}
+
+	public void selectingMarketCard(String locationName, String ValidateHeading, String marketCard) {
+		// Selecting location
+		locationList.selectLocationName(locationName);
+		foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(ValidateHeading));
+		foundation.waitforElement(LocationSummary.DPP_MARKET_CARD, Constants.SHORT_TIME);
+		dropDown.selectItem(LocationSummary.DPP_MARKET_CARD, marketCard, Constants.TEXT);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void selectingProduct(String tab, String productName, String scanCode, String productPrice) {
+		selectTab(tab);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		enterPrice(scanCode, productPrice);
+		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
+	}
+
+	public void launchingBrowserAndSelectingOrg() {
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+	}
+
+	public void addEditProduct(String tab, String productName, String updatedProductName, String menuItem) {
+
+		selectTab(tab);
+		foundation.WaitForAjax(5000);
+		foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		foundation.WaitForAjax(5000);
+		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+		foundation.click(LocationSummary.PRODUCT_NAME);
+		foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
+		foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
+		textBox.enterText(LocationSummary.TXT_NAME, updatedProductName);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+		navigationBar.navigateToMenuItem(menuItem);
+	}
+
+	public static String getMonthName(int monthIndex) {
+		if (monthIndex > 12) {
+			monthIndex = monthIndex - 12;
+		}
+		Month name = Month.of(monthIndex);
+		String result = name.toString().toLowerCase();
+		String output = result.substring(0, 1).toUpperCase() + result.substring(1);
+		return output;
+	}
+
+	public void verifyTopOffDateAutoLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
+			foundation.click(objectTopOffCalendarDayAutoLocation1(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+		}
+	}
+
+	public void verifyTopOffDateAutomationLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName))) {
+			foundation.click(objectTopOffCalendarDayAutomationLocation1(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutomationLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutomationLocation1(date));
+		}
+	}
+
+	public void verifyTopOffFutureDateAutoLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+		}
+	}
+
+	public void verifyTopOffDateAutoLocation2(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName))) {
+			foundation.click(objectTopOffCalendarDayAutoLocation2(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
+		}
+	}
+
+	public void verifyTopOffFutureDateAutoLocation2(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName))) {
+			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION2);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
+		}
+	}
+
+	public void verifyRollOverDateCreateLocation(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName))) {
+			foundation.click(objectRollOverCalendarDayLocation(date));
+		} else {
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
+			foundation.waitforElement(objectRollOverCalendarMonthLocation(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			foundation.click(objectRollOverCalendarNewDayLocation(date));
+		}
+	}
+
+	public void verifyRollOverFutureDateCreateLocation(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName))) {
+			foundation.click(objectRollOverCalendarNewDayLocation(date));
+		} else {
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
+			foundation.waitforElement(objectRollOverCalendarMonthLocation(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
+			foundation.click(objectRollOverCalendarNewDayLocation(date));
+		}
+	}
+
+	public void verifyRollOverDateLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName))) {
+			foundation.click(objectRollOverCalendarDayLocation1(date));
+		} else {
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
+			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			foundation.click(objectRollOverCalendarNewDayLocation1(date));
+		}
+	}
+
+	public void verifyRollOverFutureDateLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName))) {
+			foundation.click(objectRollOverCalendarNewDayLocation1(date));
+		} else {
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
+			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			foundation.click(objectRollOverCalendarNewDayLocation1(date));
+		}
+	}
+
+	public void verifyRollOverCurrentDate(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonth(monthName)));
+		foundation.click(objectRollOverCalendarDay(date));
+	}
+
+	public void verifySignsTopOff() {
+		for (int i = 1; i <= 24; i++)
+			foundation.click(objAddTopOffSubsidy(i));
+		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+		for (int j = 1; j <= 12; j++) {
+			foundation.click(objDeleteTopOffSubsidy(j));
+			foundation.threadWait(Constants.ONE_SECOND);
+		}
+	}
+
+	public void verifySignsRollOver() {
+		for (int i = 1; i <= 24; i++)
+			foundation.click(objAddRollOverSubsidy(i));
+		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+		for (int j = 1; j <= 12; j++) {
+			foundation.click(objDeleteRollOverSubsidy(j));
+			foundation.threadWait(Constants.ONE_SECOND);
+		}
+	}
+
+	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
+		navigationBar.navigateToMenuItem(optionNames);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void subsidyResettingOffWithRecurrence(String optionNames, String location, String requiredData,
+			String recurrence) {
+		navigationBar.navigateToMenuItem(optionNames);
+		textBox.enterText(LocationList.TXT_FILTER, location);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		checkBox.check(CHK_TOP_OFF_SUBSIDY);
+		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
+		dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void subsidyResettingValidationOff(String optionNames, String location, String requiredData) {
+		navigationBar.navigateToMenuItem(optionNames);
+		textBox.enterText(LocationList.TXT_FILTER, location);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value == requiredData) {
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} else {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
+	public void resettingSpecialTypeAndSubsidy(String optionNames, String location, String specialType,
+			String requiredData) {
+		navigationBar.navigateToMenuItem(optionNames);
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, specialType, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value == requiredData) {
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} else {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData, Constants.TEXT);
+			foundation.click(BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
+	public void enterGroupNames(String topOff, String RollOver, String pickUp) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
+		textBox.enterText(TXT_PICKUP_LOCATION_NAME, pickUp);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void enterSubsidyGroupNames(String topOff, String RollOver) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void enterSubsidyAmount(String topOff, String RollOver) {
+		foundation.click(TXT_TOP_OFF_AMOUNT);
+		textBox.enterText(TXT_TOP_OFF_AMOUNT, topOff);
+		foundation.click(TXT_ROLL_OVER_AMOUNT);
+		textBox.enterText(TXT_ROLL_OVER_AMOUNT, RollOver);
+	}
+
+	public void checkSubsidy(String menu, String location, String data) {
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, data);
+	}
+
+	public void enterTopoffAmount(String topOff, String recurrence, String amount) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
+		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
+		foundation.click(BTN_SAVE);
 	}
 }

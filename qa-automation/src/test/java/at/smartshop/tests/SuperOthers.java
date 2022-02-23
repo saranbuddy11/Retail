@@ -1,20 +1,17 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
@@ -27,7 +24,6 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
-import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -48,7 +44,6 @@ import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SpecialService;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
-import at.smartshop.pages.UserSummary;
 
 public class SuperOthers extends TestInfra {
 
@@ -111,14 +106,14 @@ public class SuperOthers extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			// download assertion
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
 			foundation.deleteFile(FilePath.EXCEL_CONTACT_SRC);
 			textBox.enterText(ContactList.TXT_SEARCH_CONTACTS, Constants.TESTING);
 			foundation.click(ContactList.BTN_EXPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONTACT_SRC));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -167,7 +162,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
@@ -219,7 +214,7 @@ public class SuperOthers extends TestInfra {
 			// Click on Save Button
 			foundation.click(ConsumerRolesList.BTN_CANCEL);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -258,7 +253,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			//Resetting the changes
@@ -306,9 +301,9 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the error message
 			foundation.waitforElement(ConsumerRolesList.ERROR_STATUS, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -345,10 +340,10 @@ public class SuperOthers extends TestInfra {
 			foundation.click(ConsumerRolesList.BTN_SUBMIT);
 
 			// Validate the error message
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
 					expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -386,15 +381,15 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(ConsumerRolesList.BTN_SUBMIT, Constants.SHORT_TIME);
 
 			// Validate the error message
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), role_Information_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.DESCRIPTION_ERROR_STATUS),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.ERROR_STATUS), role_Information_Status);
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.DESCRIPTION_ERROR_STATUS),
 					role_Information_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_START_ERROR),
 					card_Definition_Status);
-			Assert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_END_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerRolesList.VALIDATE_CARD_DEFINITION_END_ERROR),
 					card_Definition_Status);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -438,7 +433,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -484,7 +479,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_CANCEL, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_CANCEL);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -526,7 +521,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -571,7 +566,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -622,7 +617,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -660,12 +655,12 @@ public class SuperOthers extends TestInfra {
 			// Click on Save Button
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
-			Assert.assertEquals(foundation.getText(OrgstrList.ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -705,12 +700,12 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgstrList.BTN_SAVE);
 
 			// Validating the error message
-			Assert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
-			Assert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.TYPE_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.NAME_ERROR_STATUS), expectedData);
+			CustomisedAssert.assertEquals(foundation.getText(OrgstrList.KEYSTR_ERROR_STATUS), expectedData);
 
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -752,7 +747,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(OrgstrList.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_SAVE);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
 
@@ -797,7 +792,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgSummary.BTN_CANCEL);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
-			assertTrue(foundation.isDisplayed(OrgList.LBL_NO_RESULT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_NO_RESULT));
 			
 			// verify Create New/save
 			foundation.click(OrgList.BTN_CREATE);
@@ -814,9 +809,9 @@ public class SuperOthers extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(OrgList.TXT_SPINNER_MSG,Constants.SHORT_TIME);
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
-			assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
+			CustomisedAssert.assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -892,7 +887,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Search for recently created Corporate Accounts
@@ -952,7 +947,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Search for recently updated Corporate Accounts
@@ -1013,10 +1008,10 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(CorporateAccountList.SAVE_BTN, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
-			Assert.assertEquals(foundation.getText(CorporateAccountList.ZIP_ERROR), corporate_ZIP);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.PHONE_ERROR), corporate_Phone);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.EMAIL_ERROR), corporate_Email);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.ZIP_ERROR), corporate_ZIP);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.PHONE_ERROR), corporate_Phone);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.EMAIL_ERROR), corporate_Email);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR), disbursement_Email);
 
 			// Click on Cancel Button
 			foundation.waitforElement(CorporateAccountList.CANCEL_BTN, Constants.SHORT_TIME);
@@ -1032,12 +1027,12 @@ public class SuperOthers extends TestInfra {
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
 			// Validate the error Messages
-			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPOPERATOR_ERROR), financial_Name);
-			Assert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPOPERATOR_ERROR), financial_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.CRPDISBURSEMENT_ERROR),
 					disbursement_Error_Email);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
@@ -1078,385 +1073,16 @@ public class SuperOthers extends TestInfra {
 			foundation.click(CorporateAccountList.SAVE_BTN);
 
 			// Validate the error Messages of Already entered Name
-			Assert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.NAME_ERROR), corporate_Name);
 
 			// Validate the error Messages for Checkbox
-			Assert.assertEquals(foundation.getText(CorporateAccountList.VALIDATE_MESSAGE), corporate_Checkbox);
+			CustomisedAssert.assertEquals(foundation.getText(CorporateAccountList.VALIDATE_MESSAGE), corporate_Checkbox);
 
 			// change the checkbox
 			foundation.click(CorporateAccountList.DISBURSEMENT_DAY);
 			foundation.isDisabled(CorporateAccountList.DISABLED_CHECKBOX);
 
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	//User and Roles Test Scenarios
-	@Test(description = "118208-This test is to validate 'Client' drop down field for Super and Master National Account user")
-	public void verifClientDropdownField() {
-		try {
-
-			final String CASE_NUM = "118208";
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
-			List<String> lblRowRecord = Arrays
-					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
-			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
-			table.selectRow(lblRowRecord.get(0));
-			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
-
-			List<String> clientdropDownList = Arrays
-					.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(2)));
-
-			login.logout();
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-
-			assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
-			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(1));
-			table.selectRow(lblRowRecord.get(1));
-			assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			Assert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "166000-Enter all the valid details in the fields and click on Cancel button then Save button")
-	public void UsersAndRolesCancelAndSaveValidDetails() {
-
-		final String CASE_NUM = "166000";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME) + string.getRandomCharacter();
-		final String rowData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
-
-		List<String> dropdownData = Arrays
-				.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Create New
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
-			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
-			foundation.click(UserList.GENERATE_PIN);
-			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
-			foundation.click(UserList.CLICK_OUTSIDE);
-			foundation.click(UserList.SELECT_CLIENT);
-			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
-			foundation.click(UserList.CLICK_CLIENT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
-			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
-			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
-			
-
-			// Click on cancel Button
-			foundation.click(UserList.CANCEL_USER);
-			foundation.click(UserList.CONFIRM_CANCEL);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
-
-			// Create New
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
-			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device+ rowData);
-			foundation.click(UserList.GENERATE_PIN);
-			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
-			foundation.click(UserList.CLICK_OUTSIDE);
-			foundation.click(UserList.SELECT_CLIENT);
-			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
-			foundation.click(UserList.CLICK_CLIENT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
-			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
-			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
-			
-			// Click on Save Button
-			foundation.click(UserList.SAVE_USER);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			foundation.waitforElement(UserList.DISABLE_USER, Constants.SHORT_TIME);
-			foundation.click(UserList.DISABLE_USER);
-			foundation.click(UserList.CONFIRM_DISABLE);
-		}
-	}
-
-	@Test(description = "166005-Update the previous User details in the fields and click on Cancel button and then Save button")
-	public void UpdateUsersAndRolesCancelAndSaveDetails() {
-
-		final String CASE_NUM = "166005";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
-		List<String> updatedData = Arrays
-				.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
-			foundation.click(UserList.TBL_DATA);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
-			textBox.enterText(UserList.LAST_NAME_FIELD, updatedData.get(1));
-
-			// Click on CANCEL Button
-			foundation.click(UserList.CANCEL_USER);
-			foundation.click(UserList.CONFIRM_CANCEL);
-
-			// Search for already created User
-			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
-			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
-			foundation.click(UserList.TBL_DATA);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
-			textBox.enterText(UserList.LAST_NAME_FIELD, updatedData.get(1));
-
-			// Click on Update User Button
-			foundation.click(UserList.SAVE_USER);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-
-			// resetting test data
-			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			//textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(1));
-			foundation.click(UserList.TBL_DATA);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
-			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			foundation.click(UserList.SAVE_USER);
-			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-		}
-	}
-	
-	@Test(description = "166020 - Update the User details on Manage User Roles")
-	public void UpdateManageUserRolesDetails() {
-
-		final String CASE_NUM = "166020";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
-		
-		List<String> security = Arrays
-				.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			textBox.enterText(UserList.SEARCH_FILTER, device);
-			foundation.click(UserList.TBL_DATA);
-
-			//Check for Manage User Roles and click cancel 
-			foundation.click(UserList.MANAGE_USER_ROLES);
-			dropDown.selectItem(UserList.SECURITY_ROLE, security.get(0), Constants.TEXT);
-			foundation.click(UserList.EXPIRATION_DATE);
-			foundation.click(UserList.SELECT_EXPIRATION_DATE);
-			foundation.click(UserList.SEND_NOTIFICATION);
-			foundation.click(UserList.CANCEL_USER_ROLE);
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			
-			//Check for Manage User Roles and click save 
-			textBox.enterText(UserList.SEARCH_FILTER, device);
-			foundation.click(UserList.TBL_DATA);
-			foundation.click(UserList.MANAGE_USER_ROLES);
-			dropDown.selectItem(UserList.SECURITY_ROLE, security.get(0), Constants.TEXT);
-			foundation.click(UserList.EXPIRATION_DATE);
-			foundation.click(UserList.SELECT_EXPIRATION_DATE);
-			foundation.click(UserList.SEND_NOTIFICATION);
-			foundation.click(UserList.ADD_ROLE_USER_BTN);
-		
-			//Navigate to User Summary Tab
-			foundation.click(UserList.USER_SUMMARY);
-			
-			// Click on Update User Button
-			foundation.click(UserList.SAVE_USER);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-
-			// resetting test data	
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.click(UserList.TBL_DATA);
-			foundation.click(UserList.MANAGE_USER_ROLES);
-			foundation.click(UserList.REMOVE_USER_ROLES);
-			foundation.click(UserList.CONFIRM_DISABLE);
-		}
-	}
-
-	@Test(description = "166021 - Update the User details on Manage Password Tab")
-	public void UpdateManagePasswordTabDetails() {
-
-		final String CASE_NUM = "166021";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
-		final String updatedData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Search for already created User
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			textBox.enterText(UserList.SEARCH_FILTER, device);
-			foundation.click(UserList.TBL_DATA);
-			
-			//Check for Manage Password button and click cancel button
-			foundation.click(UserList.MANAGE_PASSWORD);
-			textBox.enterText(UserList.PASSWORD_TXT, updatedData);
-			textBox.enterText(UserList.CNFRM_PASSWORD_TXT, updatedData);
-			foundation.click(UserList.CANCEL_USER_PASSWORD);
-			
-			//Check for Manage Password button and click save button
-			assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			textBox.enterText(UserList.SEARCH_FILTER, device);
-			foundation.click(UserList.TBL_DATA);
-			foundation.click(UserList.MANAGE_PASSWORD);
-			textBox.enterText(UserList.PASSWORD_TXT, updatedData);
-			textBox.enterText(UserList.CNFRM_PASSWORD_TXT, updatedData);
-			foundation.click(UserList.SAVE_PASSWORD_BTN);
-			
-			//Navigate to User Summary Tab
-			foundation.click(UserList.USER_SUMMARY);
-			
-			// Click on Update User Button
-			foundation.click(UserList.SAVE_USER);
-
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "166010- Validate the error messages for Mandatory field and invalid Email address.")
-	public void UsersAndRolesValidateError() {
-
-		final String CASE_NUM = "166010";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
-		final String rowData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
-
-		List<String> errorValidation = Arrays
-				.asList(rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
-		String error_Status = errorValidation.get(0);
-		String invalid_Email = errorValidation.get(1);
-
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
-			// Create New User button
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			foundation.click(UserList.SAVE_USER);
-
-			// Validate the error message
-			Assert.assertEquals(foundation.getText(UserList.FIRST_NAME_ERROR), error_Status);
-			Assert.assertEquals(foundation.getText(UserList.LAST_NAME_ERROR),error_Status);
-			//foundation.scroll();
-			Assert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),error_Status);
-			Assert.assertEquals(foundation.getText(UserList.LOCATION_ERROR),error_Status);	
-			foundation.click(UserList.CANCEL_USER);
-			assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
-
-			// Create New
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, rowData);
-			foundation.click(UserList.SAVE_USER);
-			foundation.waitforElement(UserList.EMAIL_ERROR, Constants.SHORT_TIME);
-			Assert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),invalid_Email);
-
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1487,26 +1113,26 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_HEADING));
-			assertTrue(foundation.isDisplayed(FinanceList.DISBURSEMENT_HEADING));
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DATE));
-			Assert.assertEquals(foundation.getText(FinanceList.VALIDATE_DATE), disbursement_Date);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DATE));
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.VALIDATE_DATE), disbursement_Date);
 
 			// download disbursement report assertion
 			foundation.click(FinanceList.DOWNLOAD_DISBURSEMENT_REPORT);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DISBURSEMENT_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DISBURSEMENT_EXPORT_SRC));
 
 			// download view Variance report
 			foundation.click(FinanceList.VIEW_VARIANCE);
 			foundation.click(FinanceList.EXPORT_TOEXCEL);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_VARIANCE_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_VARIANCE_EXPORT_SRC));
 
 			// download CSV Report
 			foundation.click(FinanceList.BACK_TO_DISBURSEMENT_PAGE);
 			foundation.click(FinanceList.DOWNLOAD_CSV_REPORT);
-			Assert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CSV_REPORT_EXPORT_SRC));
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CSV_REPORT_EXPORT_SRC));
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
@@ -1544,14 +1170,14 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Click on Save btn
 			foundation.click(FinanceList.SAVE_BTN);
-			Assert.assertEquals(foundation.getText(FinanceList.ORG_ERROR), org_Error);
-			Assert.assertEquals(foundation.getText(FinanceList.NOTES_ERROR), notes_Error);
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.ORG_ERROR), org_Error);
+			CustomisedAssert.assertEquals(foundation.getText(FinanceList.NOTES_ERROR), notes_Error);
 
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1582,7 +1208,7 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Enter the data in fields
 			foundation.click(FinanceList.CHOOSE_ORG);
@@ -1600,7 +1226,7 @@ public class SuperOthers extends TestInfra {
 
 			// Validate the heading
 			foundation.waitforElement(FinanceList.VALIDATE_DISBURSEMENT_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FinanceList.VALIDATE_DISBURSEMENT_HEADING));
 
 			// Enter the data in fields
 			foundation.click(FinanceList.CHOOSE_ORG);
@@ -1615,7 +1241,7 @@ public class SuperOthers extends TestInfra {
 			// Click on Save button
 			foundation.click(FinanceList.SAVE_BTN);
 			foundation.click(FinanceList.CONFIRM_NO);
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -1636,12 +1262,12 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
-			assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceCreate.TITLE_DEVICE_CREATE));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1663,15 +1289,15 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			String msrType=deviceCreate.createDevice(deviceName);
 			foundation.waitforElementToDisappear(SpecialService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1693,15 +1319,15 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			textBox.enterText(DeviceCreate.TXT_NAME, deviceName);
 			foundation.click(DeviceCreate.BTN_CANCEl);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.LBL_NO_RESULT));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1724,21 +1350,21 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			foundation.click(SpecialService.BTN_CREATE_NEW);
 			String msrType=deviceCreate.createDevice(deviceName);
 			foundation.waitforElementToDisappear(SpecialService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SpecialService.TXT_SEARCH, deviceName);
-			assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(SpecialService.LBL_ROW_DATA).contains(msrType));
 			foundation.click(specialService.objSplServiceName(deviceName));
 			textBox.enterText(DeviceCreate.TXT_NAME, editedDeviceName);
 			foundation.click(DeviceCreate.BTN_SAVE);
 			textBox.enterText(SpecialService.TXT_SEARCH, editedDeviceName);
-			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(editedDeviceName)));
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1758,7 +1384,7 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify all column sort functionality
 			int columnNumber=1;
@@ -1771,7 +1397,7 @@ public class SuperOthers extends TestInfra {
 				foundation.verifySortText(specialService.listColumns(columnNumber), Constants.DESCENDING);
 			}
 			
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1793,12 +1419,12 @@ public class SuperOthers extends TestInfra {
 
 			//verify navigation to special service list page
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SpecialService.TITL_SPL_SERVICE_LIST));
 			
 			//verify navigation to special service summary page
 			textBox.enterText(SpecialService.TXT_SEARCH, Constants.AUTO_TEST);
-			assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
-		} catch (Throwable exc) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(specialService.objSplServiceName(Constants.AUTO_TEST)));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
@@ -1829,18 +1455,18 @@ public class SuperOthers extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
 			foundation.waitforElement(DataSourceManager.VALIDATE_DSM_HEADING, Constants.SHORT_TIME);
-			assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING),super_Name);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING),super_Name);
 			
 			//search for Report 
 			textBox.enterText(DataSourceManager.DSM_SEARCH_BOX, search_data);
-			assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
 			foundation.click(DataSourceManager.DSM_CHECKBOX);
 			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 		
-		} catch (Throwable exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));
+			CustomisedAssert.assertTrue(checkBox.isChecked(DataSourceManager.DSM_CHECKBOX));
 			foundation.click(DataSourceManager.DSM_CHECKBOX);
 			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 
