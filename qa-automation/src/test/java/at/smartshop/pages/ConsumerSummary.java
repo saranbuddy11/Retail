@@ -75,7 +75,9 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
-	public static final By ADJUST_BAL = By.id("readTypebalance");
+	public static final By SUBSIDY_BALANCE=By.id("readTypebalance");
+	public static final By CANCEL_BTN=By.id("cancelBtn");
+
 
 	public double getBalance() {
 		double initBalance = 0;
