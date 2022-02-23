@@ -36,7 +36,8 @@ public class FilePath {
 	public static final String EXCEL_VARIANCE_EXPORT_SRC = HOME_PATH+ "\\Downloads\\EFT Variance Report 09-22-2020.xls";
 	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH+ "\\Downloads\\Upload_ 09-22-2020.csv";
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH+ "\\Downloads\\contact.xls";
-
+    public static final String EXCEL_CONSUMER = HOME_PATH+ "\\Downloads\\consumer_list.xls";
+    
 	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename +".xlsx";

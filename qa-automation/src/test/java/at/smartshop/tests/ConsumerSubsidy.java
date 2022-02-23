@@ -20,6 +20,7 @@ import at.framework.generic.DateAndTime;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -66,6 +67,7 @@ public class ConsumerSubsidy extends TestInfra {
 	private Excel excel = new Excel();
 	private LoadGMA loadGma = new LoadGMA();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Table table=new Table();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -1257,7 +1259,7 @@ public class ConsumerSubsidy extends TestInfra {
 					expectedData);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP));
-
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1979,4 +1981,122 @@ public class ConsumerSubsidy extends TestInfra {
 					requiredData.get(1));
 		}
 	}
-}
+	@Test(description = "165951- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page."
+			+ "165953-To Verify the bulk assigns a subsidy group to one or more consumer accounts.")
+	public void verifyBulkAssignSubsidyGroup() {
+		final String CASE_NUM = "165953";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+        rstConsumerSummaryData=dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+            
+			//Navigate to menuItem and verify GMA Subsidy group
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			consumerSearch.BulkAssignSubsidyGroupInMoreThanTwoGrid(rstconsumerSearchData.get(CNConsumerSearch.LOCATION), rstconsumerSearchData.get(CNConsumerSearch.SEARCH), rstconsumerSearchData.get(CNConsumerSearch.SEARCH_BY));
+			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			//Verify Cancel button in BulkAssignSubsidyGroup
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.SUBSIDY_GROUP));
+			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.RSN_CANCEL);
+			
+			//Verify Save button in BulkAssignSubsidyGroup
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.ACTION_BTN);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
+			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS), Constants.TEXT);
+			foundation.click(consumerSearch.BTN_SAVE_IN_SUBSIDY);
+			
+			//verify Grid in Consumer search
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
+			foundation.click(consumerSummary.CANCEL_BTN);			
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "165947- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page")
+	public void verifyExportButtonInActions() {
+		final String CASE_NUM = "165947";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+           
+			//Navigate to menu item and verify GMA Subsidy
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.INFO_MESSAGE));
+			
+			//Navigate to Admin>Consumer
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstconsumerSearchData.get(CNConsumerSearch.LOCATION), Constants.TEXT);
+    		foundation.click(ConsumerSearch.BTN_GO);
+            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+            table.selectRow(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
+            foundation.click(ConsumerSearch.ACTION_BTN);
+            
+            //Verify the Subsidy group in Action>Export
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(consumerSearch.BTN_EXPORT);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONSUMER));
+			foundation.threadWait(Constants.SHORT_TIME);
+			Map<String, String> excelData = excel.getExcelData(FilePath.EXCEL_CONSUMER,
+					rstconsumerSearchData.get(CNConsumerSearch.ACTIONS));
+			foundation.threadWait(Constants.SHORT_TIME);
+			List<String> actualColumnNames = new ArrayList<String>(excelData.keySet());
+			CustomisedAssert.assertTrue(actualColumnNames.get(2).equals(rstconsumerSearchData.get(CNConsumerSearch.COLUMN_NAME)));
+			
+
+		}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		finally {
+			// delete files
+			foundation.deleteFile(FilePath.EXCEL_CONSUMER);
+			
+		}
+	
+}}
+	
+
