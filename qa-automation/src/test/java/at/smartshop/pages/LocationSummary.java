@@ -52,6 +52,7 @@ public class LocationSummary extends Factory {
 
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
+	public static final By PANTRY_TYPE=By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
@@ -257,10 +258,13 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+	
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1 = By
+			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
@@ -319,6 +323,16 @@ public class LocationSummary extends Factory {
 
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+	
+	public By objectTopOffCalendarMonthAutomationLocation1(String month) {
+		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
+	public By objectTopOffCalendarDayAutomationLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+	public By objectTopOffCalendarNewDayAutomationLocation1(String day) {
+		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
 
 	public By objectTopOffCalendarNewDayAutoLocation1(String day) {
@@ -935,6 +949,22 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
+	public void verifyTopOffDateAutomationLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName))) 
+		{   
+			foundation.click(objectTopOffCalendarDayAutomationLocation1(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutomationLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutomationLocation1(date));
+		}
+	}
 
 	public void verifyTopOffFutureDateAutoLocation1(String value) {
 		String dateArray[] = value.split("/");
@@ -951,6 +981,7 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
+	
 
 	public void verifyTopOffDateAutoLocation2(String value) {
 		String dateArray[] = value.split("/");
@@ -1056,6 +1087,8 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonth(monthName)));
 		foundation.click(objectRollOverCalendarDay(date));
 	}
+	
+	
 
 	public void verifySignsTopOff() {
 		for (int i = 1; i <= 24; i++)
@@ -1166,4 +1199,14 @@ public class LocationSummary extends Factory {
 		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 		CustomisedAssert.assertEquals(value, data);
 	}
+
+	public void enterTopoffAmount(String topOff,String recurrence,String amount) {
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
+		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
+		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
+		foundation.click(BTN_SAVE);
+	}
+	
+	
 }
+
