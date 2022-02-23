@@ -38,6 +38,12 @@ public class AccountLogin {
 
 	public static final By LBL_ACCOUNT_NOT_AVAILABLE = By.xpath("//*[@id='errorModal']//h1");
 	public static final By LBL_GEO_GRAPHIC_LOCATION = By.xpath("//*[@id='errorModal']//h2");
+	public static final By LBL_CONSUMER_NAME = By.xpath("//h1[@data-reactid='.0.4.0.0.0.0.1']");
+	public static final By LBL_SUBSIDY = By.xpath("//span[text()='Subsidy']");
+	public static final By LBL_ACCOUNT = By.xpath("//span[text()='Account']");
+	public static final By LBL_BALANCE = By.xpath("//button[@class='active']/h3");
+	public static final By TAB_BALANCE = By.xpath("//button[@class='active']");
+	public static final By BTN_PROFILE_CLOSE = By.xpath("//i[@data-reactid='.0.4.0.0.0.0.2.0']");
 
 	private PropertyFile propertyFile = new PropertyFile();
 
@@ -46,6 +52,7 @@ public class AccountLogin {
 		textBox.enterKeypadText(emailId);
 		foundation.click(BTN_ENTER);
 		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(BTN_PIN_NEXT);
 	}
@@ -82,6 +89,28 @@ public class AccountLogin {
 		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_HEADER), loginPageData.get(9));
 		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
 		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_NEXT), loginPageData.get(10));
+	}
+
+	public void verifyConsumerAccountLogin(String email, String pin, String consumerName, String expectedBal,
+			String typeBalance, String borderColor) {
+		foundation.click(LandingPage.BTN_LOGIN);
+		foundation.click(BTN_EMAIL_LOGIN);
+		login(email, pin);
+		String text = foundation.getText(LBL_CONSUMER_NAME);
+		CustomisedAssert.assertTrue(text.contains(consumerName));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ACCOUNT));
+		String color = foundation.getBorderColor(TAB_BALANCE);
+		CustomisedAssert.assertEquals(borderColor, color);
+		text = foundation.getText(LBL_BALANCE);
+		CustomisedAssert.assertEquals(text, expectedBal);
+		foundation.click(LBL_SUBSIDY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SUBSIDY));
+		color = foundation.getBorderColor(TAB_BALANCE);
+		CustomisedAssert.assertEquals(borderColor, color);
+		text = foundation.getText(LBL_BALANCE);
+		CustomisedAssert.assertEquals(text, typeBalance);
+		foundation.click(BTN_PROFILE_CLOSE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 	}
 
 }

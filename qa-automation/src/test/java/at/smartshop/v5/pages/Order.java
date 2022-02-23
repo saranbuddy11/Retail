@@ -12,7 +12,6 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import static java.lang.Math.*;
 
 public class Order {
 	private Foundation foundation = new Foundation();
@@ -25,6 +24,7 @@ public class Order {
 	public static final By LBL_SUB_TOTAL = By.xpath("//*[@class='total subtotal']//*[@class='total-value']");
 	public static final By LBL_VAT_VALUE = By.xpath("//*[@class='total total-tax']//*[@class='total-value']");
 	public static final By LBL_BALANCE_DUE = By.xpath("//*[@class='total grand-total']//*[@class='total-value']");
+	public static final By LBL_CHARGE_AMT = By.xpath("//*[@data-reactid='.0.8.0.0.1.0.1.0.2']");
 	public static final By LBL_TAX = By.xpath("//*[@class='total total-tax']//*[@class='total-label']");
 	public static final By LBL_DEPOSIT = By.xpath("//*[@class='total']//*[@class='total-value']");
 	public static final By TXT_HEADER = By.xpath("//div[@class='user-bar']/h1");

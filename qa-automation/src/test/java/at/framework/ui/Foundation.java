@@ -480,4 +480,17 @@ public class Foundation extends Factory {
 			Assert.fail(exc.toString());
 		}
 	}
+	
+	public String getBorderColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("border-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return hexColor;
+	}
 }

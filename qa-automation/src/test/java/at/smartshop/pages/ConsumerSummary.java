@@ -26,7 +26,7 @@ public class ConsumerSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
-	private static final By LBL_READ_BALANCE = By.id("readbalance");
+	public static final By LBL_READ_BALANCE = By.id("readbalance");
 	private static final By LBL_READ_TYPE_BALANCE = By.id("readTypebalance");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
