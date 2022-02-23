@@ -30,6 +30,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By BTN_SAVE = By.id("saveBtn");
+	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By DPD_LOCATION = By.cssSelector("select#loc-dropdown");
 	public static final By TXT_FIRSTNAME = By.cssSelector("input#firstname");
 	public static final By TXT_LASTNAME = By.cssSelector("input#lastname");
@@ -45,7 +46,6 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_LOC_ERROR = By.xpath("//label[@id='loc-dropdown-error']");
 	public static final By TXT_FN_ERROR = By.xpath("//label[@id='firstname-error']");
 	public static final By TXT_LN_ERROR = By.xpath("//label[@id='lastname-error']");
-	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By LBL_POPUP_ADJUST_BALANCE = By.id("reasontitle");
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
 	public static final By LBL_BALANCE_HISTORY = By.xpath("//h3[text()='Balance History']");
@@ -78,6 +78,8 @@ public class ConsumerSummary extends Factory {
 		double initBalance = 0;
 		try {
 			String balance = foundation.getText(LBL_READ_BALANCE);
+			initBalance = Double
+					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 			balance = balance.replaceAll("[\\(\\)\\$]", "");
 //			initBalance = Double
 //					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
@@ -86,6 +88,10 @@ public class ConsumerSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initBalance;
+	}
+
+	public By objTaxCategory(String reasonCode) {
+		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
 	public double getTypeBalance() {
@@ -98,10 +104,6 @@ public class ConsumerSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return initTypeBalance;
-	}
-
-	public By objTaxCategory(String reasonCode) {
-		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
 	public By objBalanceHistoryData(String data) {
@@ -241,7 +243,5 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);
-
 	}
-
 }

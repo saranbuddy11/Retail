@@ -40,9 +40,16 @@ public class ConsumerSearch extends Factory {
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By BTN_ACTIONS = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
+	public static final By LBL_BULK_ADD_FUNDS = By.xpath("//li[@id='fundSelectedBtn']");
+	public static final By LBL_BULK_REMOVE_FUNDS = By.xpath("//li[@id='removeFundSelectedBtn']");
+	public static final By LBL_BULK_TOPOFF_FUNDS = By.xpath("//li[@id='topOffFundSelectedBtn']");
+	public static final By LBL_BULK_PAYOUT = By.xpath("//li[@id='payoutAndCloseBtn']");
+	public static final By BTN_OK = By.xpath("//button[text()='Ok']");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
-	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
 	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
+	public static final By BTN_CONFIRM = By.xpath("//button[text()='Confirm']");
+	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
 	public final static By TXT_EMAIL = By.id("email");
@@ -135,6 +142,17 @@ public class ConsumerSearch extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return consumerRecord;
+	}
+
+	public void objLocation(String location) {
+		List<WebElement> uiRecords = getDriver()
+				.findElements(By.xpath("//table[@id='consumerdt']//tr//td[(text()='" + location + "')]"));
+		for (int i = 0; i < uiRecords.size(); i++) {
+
+			uiRecords.get(i).click();
+
+		}
+
 	}
 
 	public String createConsumer(String location) {

@@ -13,12 +13,14 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNGlobalProductChange;
@@ -116,6 +118,7 @@ public class V5Test extends TestInfra {
 	private CategorySummary categorySummary = new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Numbers numbers = new Numbers();
 	private TransactionSearchPage transactionSearch = new TransactionSearchPage();
 	private Table table = new Table();
 	private ReportList reportList = new ReportList();
@@ -129,6 +132,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstConsumerSummaryData;
+	private Map<String, String> rstConsumerData;
 	private Map<String, String> rstReportsListData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -151,16 +155,19 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 //			List<String> requiredData = Arrays
 //					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
-
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -181,7 +188,6 @@ public class V5Test extends TestInfra {
 
 			// update information
 			foundation.click(EditAccount.BTN_CAMEL_CASE);
-
 			editAccount.updateText(EditAccount.TXT_FIRST_NAME, actualData.get(0), firstName);
 			editAccount.updateText(EditAccount.TXT_LAST_NAME, actualData.get(1), lastName);
 			editAccount.updateText(EditAccount.TXT_EMAIL_ADDRESS, actualData.get(2), emailAddress);
@@ -230,7 +236,6 @@ public class V5Test extends TestInfra {
 			// locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -637,10 +642,11 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
-
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -692,6 +698,8 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -713,7 +721,6 @@ public class V5Test extends TestInfra {
 			// cancel order
 			foundation.click(Order.BTN_CANCEL_ORDER);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_ORDER_CANCELLED));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -730,16 +737,18 @@ public class V5Test extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
 			List<String> actualData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -748,7 +757,6 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(5), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_TAX_SYSTEM, requiredData.get(5), Constants.TEXT);
 			foundation.click(OrgSummary.BTN_SAVE);
-
 			foundation.waitforElementToDisappear(OrgSummary.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElement(OrgList.TXT_SEARCH_ORG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -783,7 +791,7 @@ public class V5Test extends TestInfra {
 			// login to application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(requiredData.get(1));
@@ -837,7 +845,6 @@ public class V5Test extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -856,7 +863,10 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(requiredData.get(1));
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(0), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 			// sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationSummary.kiosklanguageSetting(
@@ -867,6 +877,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
@@ -878,6 +889,8 @@ public class V5Test extends TestInfra {
 			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String deposit = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
 			String balanceDue = foundation.getText(Order.LBL_BALANCE_DUE);
 			String subTotal = foundation.getText(Order.LBL_SUB_TOTAL);
 			String tax = "0.00";
@@ -886,6 +899,7 @@ public class V5Test extends TestInfra {
 			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(deposit)
 					+ Double.parseDouble(tax);
 			String expBalanceDue = String.format("%.2f", expectedBalanceDue);
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(expBalanceDue));
 			CustomisedAssert.assertTrue(balanceDue.contains(expBalanceDue));
 			CustomisedAssert.assertTrue(subTotal.contains(productPrice));
 		} catch (Exception exc) {
@@ -1016,6 +1030,8 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -1040,6 +1056,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			foundation.waitforElementToDisappear(GlobalProduct.IMG_DATA_GRID_LOADING, Constants.EXTRA_LONG_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
+
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -1091,6 +1108,7 @@ public class V5Test extends TestInfra {
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
+
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
@@ -1115,7 +1133,8 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0), language.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -1151,6 +1170,12 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
+			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
+			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(7), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(
@@ -1626,7 +1651,6 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
@@ -1656,14 +1680,22 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			deviceSummary.setTime(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 
 			deviceSummary.setTime(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstV5DeviceData.get(CNV5Device.TIMEOUT_POPUP),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			List<String> language = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -1712,6 +1744,8 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -1762,6 +1796,7 @@ public class V5Test extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -1804,6 +1839,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
 			deviceSummary.setTime(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -1854,7 +1890,6 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
 			deviceSummary.setTime(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -1863,6 +1898,8 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -2157,6 +2194,7 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.refreshPage();
 
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.LONG_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
@@ -2268,7 +2306,7 @@ public class V5Test extends TestInfra {
 
 			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-
+			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays
@@ -2579,6 +2617,7 @@ public class V5Test extends TestInfra {
 
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -2990,6 +3029,7 @@ public class V5Test extends TestInfra {
 
 			// verify Cancel Order Page
 			foundation.click(order.objText(orderPageData.get(0)));
+
 			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(createAccount.objText(rstV5DeviceData.get(CNV5Device.TRANSACTION_CANCEL))));
 
@@ -4077,16 +4117,20 @@ public class V5Test extends TestInfra {
 
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> products = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		List<String> taxes = Arrays.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
 		try {
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -4131,6 +4175,12 @@ public class V5Test extends TestInfra {
 
 			// save tax mapping- precondition
 			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
@@ -4141,11 +4191,6 @@ public class V5Test extends TestInfra {
 
 			// sync machine
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
-			List<String> language = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			locationSummary.kiosklanguageSetting(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
-					language.get(0), language.get(1));
 
 			// login into Kiosk Device add both rate 5 and rate 8 product and verify the
 			// display of tax
@@ -4193,6 +4238,7 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
 			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_TAX).contains(taxes.get(5)));
 			order.verifyTax(taxes.get(8));
+			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_VAT_VALUE), taxes.get(6));
 
 			// add no tax assigned product and verify the display of tax section
 			foundation.click(Order.BTN_CANCEL_ORDER);
@@ -4295,7 +4341,6 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
-
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
@@ -4459,7 +4504,6 @@ public class V5Test extends TestInfra {
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
-
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 
@@ -4467,6 +4511,7 @@ public class V5Test extends TestInfra {
 			List<String> actualData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
+
 			landingPage.navigateDriverLoginPage();
 			driverLoginPage.enterDriverPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(DriverLoginPage.BTN_SIGN_IN);
@@ -5011,7 +5056,6 @@ public class V5Test extends TestInfra {
 			List<String> orderPageData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 			foundation.click(order.objText(orderPageData.get(1)));
 
@@ -5060,22 +5104,13 @@ public class V5Test extends TestInfra {
 	}
 
 	@Test(description = "143143-V5-Verify the VAT on Kiosk when user set only Tax Rate1 in ADM for UK")
+
 	public void verifyVATwithTaxRate1() {
-
 		final String CASE_NUM = "143143";
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> country = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> actualData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 
 			browser.navigateURL(
@@ -5085,8 +5120,16 @@ public class V5Test extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> country = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.COUNTRY).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> actualData = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> language = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			navigationBar.navigateToMenuItem(menu.get(0));
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, country.get(0), Constants.TEXT);
@@ -5095,19 +5138,18 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			locationSummary.saveTaxMapping(actualData.get(0), actualData.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objVerifyTaxRate(actualData.get(1))));
 			foundation.click(LocationSummary.BTN_SAVE);
-			locationSummary.kiosklanguageSetting(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
-					language.get(0), language.get(1));
+			locationSummary.kiosklanguageSetting(rstLocationListData.get(CNLocationList.LOCATION_NAME), language.get(0),
+					language.get(1));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
+			foundation.click(landingPage.objLanguage(language.get(0)));
+			foundation.refreshPage();
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -5115,11 +5157,9 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertTrue(
 					foundation.isDisplayed(order.objText(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME))));
 			order.verifyVAT(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
-			foundation.objectFocus(Order.LBL_EMAIL);
 			foundation.click(Order.LBL_EMAIL);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(
-					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
@@ -5127,9 +5167,6 @@ public class V5Test extends TestInfra {
 					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			browser.close();
 
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
 			// Reset the data
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
@@ -5146,8 +5183,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.LNK_TAX_MAPPING);
 			foundation.click(locationSummary.objVerifyTaxRate(actualData.get(1)));
 			foundation.waitforElement(LocationSummary.BTN_POPUP_REMOVE, Constants.SHORT_TIME);
@@ -5156,6 +5192,9 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -5720,17 +5759,15 @@ public class V5Test extends TestInfra {
 	@Test(description = "143112-Edit existing tax category name and verify edits applied to product or not on product summary page")
 	public void editTaxCategory() {
 		final String CASE_NUM = "143112";
-
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
+		String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -5771,13 +5808,12 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
+		String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -5837,13 +5873,12 @@ public class V5Test extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
+		String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6081,7 +6116,6 @@ public class V5Test extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 
 		} catch (Exception exc) {
@@ -6237,6 +6271,251 @@ public class V5Test extends TestInfra {
 		}
 	}
 
+	@Test(description = "143123-Add new tax category and Edit it's name and verify edits applied to product or not on product summary page")
+	public void addEditTaxCategory() {
+		try {
+			final String CASE_NUM = "143123";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+
+			// add tax category
+			String newTaxCat = string.getRandomCharacter().toUpperCase();
+			String editedTaxCat = requiredData.get(1) + newTaxCat;
+			categorySummary.addCategory(newTaxCat, requiredData.get(3));
+
+			// verify newly added category displays in category list page
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newTaxCat));
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			// edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newTaxCat);
+			categorySummary.updateName(editedTaxCat);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
+
+			// reset data
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedTaxCat);
+			categorySummary.updateName(newTaxCat);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143124-Add new deposit category and Edit it's name and verify edits applied to product or not")
+	public void addEditDepositCategory() {
+		try {
+			final String CASE_NUM = "143124";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to category page
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+
+			// add deposit category
+			String newDepositCat = string.getRandomCharacter().toUpperCase();
+			String editedDepositCat = requiredData.get(1) + newDepositCat;
+			categorySummary.addCategory(newDepositCat, requiredData.get(3));
+
+			// verify newly added category displays in category list page
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newDepositCat));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			// edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newDepositCat);
+			categorySummary.updateName(editedDepositCat);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY),
+					editedDepositCat);
+
+			// reset data
+			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedDepositCat);
+			categorySummary.updateName(newDepositCat);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143125-QA-19-Add new category and Edit it's name and verify edits applied to product or not")
+	public void addeditCategories() {
+		try {
+			final String CASE_NUM = "143125";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item and add the tax category to a global product
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+
+			// add categories
+			String newCategory1 = string.getRandomCharacter().toUpperCase();
+			String newCategory2 = string.getRandomCharacter().toUpperCase();
+			String newCategory3 = string.getRandomCharacter().toUpperCase();
+			String editedCategory1 = requiredData.get(0) + newCategory1;
+			String editedCategory2 = requiredData.get(0) + newCategory2;
+			String editedCategory3 = requiredData.get(0) + newCategory3;
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory1, requiredData.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory2, requiredData.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newCategory3, requiredData.get(1));
+
+			// add categories to products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, newCategory1, Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, newCategory2, Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, newCategory3, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			// update tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newCategory1);
+			categorySummary.updateName(editedCategory1);
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(newCategory2);
+			categorySummary.updateName(editedCategory2);
+			foundation.threadWait(Constants.TWO_SECOND);
+			categoryList.selectCategory(newCategory3);
+			categorySummary.updateName(editedCategory3);
+
+			// verify edits applied to product or not
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);
+			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY3), editedCategory3);
+
+			// reset data
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY1, requiredData.get(2), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY2, requiredData.get(2), Constants.TEXT);
+			dropDown.selectItem(ProductSummary.DPD_CATEGORY3, requiredData.get(2), Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143126-Add new INVREASON category and Edit it's name and verify edits applied to product or not")
+	public void addEditInvReason() {
+		try {
+			final String CASE_NUM = "143126";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to category page
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+
+			// add deposit category
+			String newInvReason = string.getRandomCharacter().toUpperCase();
+			String editedInvReason = requiredData.get(0) + newInvReason;
+			categorySummary.addCategory(newInvReason, requiredData.get(1));
+
+			// verify newly added category displays in category list page
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newInvReason));
+
+			// edit invReason code and verify the edits on product page
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newInvReason);
+			categorySummary.updateName(editedInvReason);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ProductSummary.LBL_REASON_CODE);
+			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
+			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	@Test(description = "143122-QAA19-Edit existing tax category and verify edits applied to product or not on location page- tax mapping tab")
 	public void editTaxCategoryTaxMapping() {
 		final String CASE_NUM = "143122";
@@ -6248,8 +6527,8 @@ public class V5Test extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		// String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6291,7 +6570,6 @@ public class V5Test extends TestInfra {
 			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
 			CustomisedAssert.assertTrue(listTaxCategory.contains(requiredData.get(4)));
 			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -6304,23 +6582,102 @@ public class V5Test extends TestInfra {
 		}
 	}
 
+	@Test(description = "143128-QAA19-Add new tax category and Edit it's category name and verify edits applied to product or not on location page - tax mapping tab")
+
+	public void addEditTaxCategoryTaxMapping() {
+		try {
+			final String CASE_NUM = "143128";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// add tax categories
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			String newTaxCategory1 = string.getRandomCharacter().toUpperCase();
+			String newTaxCategory2 = string.getRandomCharacter().toUpperCase();
+			String editedTaxCategory1 = requiredData.get(2) + newTaxCategory1;
+			String editedTaxCategory2 = requiredData.get(2) + newTaxCategory2;
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newTaxCategory1, requiredData.get(4));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+			categorySummary.addCategory(newTaxCategory2, requiredData.get(4));
+
+			// save tax mapping on location summary page as precondition
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, newTaxCategory1, Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+
+			// edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newTaxCategory1);
+			categorySummary.updateName(editedTaxCategory1);
+			categoryList.selectCategory(newTaxCategory2);
+			categorySummary.updateName(editedTaxCategory2);
+
+			// verify tax edits on location summary page- tax mapping tab- for saved
+			// category
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCategory1);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCategory1)));
+			// reset data- remove added mapping
+			foundation.click(locationSummary.objTaxCategory(editedTaxCategory1));
+			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
+
+			// verify tax edits on location summary page- tax mapping tab- on tax category
+			// list
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			List<String> listTaxCategory = dropDown.getAllItems(LocationSummary.DPD_TAX_CATEGORY);
+			CustomisedAssert.assertTrue(listTaxCategory.contains(editedTaxCategory2));
+			foundation.click(LocationSummary.BTN_CANCEL_MAPPING);
+
+			// reset data
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedTaxCategory1);
+			categorySummary.updateName(newTaxCategory1);
+			categoryList.selectCategory(editedTaxCategory2);
+			categorySummary.updateName(newTaxCategory2);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	@Test(description = "143116-QAA-19-Edit existing BALREASON category name and verify edits applied on consumer page or not")
+
 	public void editBalReason() {
 		final String CASE_NUM = "143116";
 
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
+		// String columnName = rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME);
 		try {
-			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
-
-			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6345,8 +6702,12 @@ public class V5Test extends TestInfra {
 			foundation.click(consumerSearch.objCell(firstName));
 			foundation.click(ConsumerSearch.BTN_ADJUST);
 
+			// Map<String, String> consumerTblRecords =
+			// consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
 			String balance = textBox.getTextFromInput(ConsumerSummary.TXT_ADJUST_BALANCE);
+			// String balance1 = balance.substring(1);
 			Double newBalance = Double.parseDouble(balance) + 2;
+			// String expectedBalance = "$" + String.valueOf(newBalance);
 
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
@@ -6379,10 +6740,10 @@ public class V5Test extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
 		try {
+
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6448,10 +6809,22 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// reset mapping
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(requiredData.get(1))));
+			foundation.click(locationSummary.objTaxCategory(requiredData.get(1)));
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(4), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+
 			// reset/remove mapping
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 			locationSummary.removeTaxMapping(requiredData.get(1));
+
 			// reset category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(requiredData.get(1));
@@ -6563,88 +6936,185 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "143556-Verify user able to view the transactions when user purchase an item on Kiosk with RDS DB")
-	public void verifyKioskTransactionsWithRDS() {
+	@Test(description = "143129-QAA-19-Add new BALREASON category and Edit it's name and verify edits applied on consumer page or not")
+	public void addEditBalReason() {
 		try {
+			final String CASE_NUM = "143129";
 
-			final String CASE_NUM = "143556";
+			// Reading test data from DataBase
 			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstReportsListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			String firstName = rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME);
 			List<String> requiredData = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			browser.close();
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to new category page
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+
+			// add balance category
+			String newBalCat = string.getRandomCharacter().toUpperCase();
+			String editedBalCat = requiredData.get(0) + newBalCat;
+			categorySummary.addCategory(newBalCat, requiredData.get(1));
+
+			// verify newly added category displays in category list page
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newBalCat));
+
+			// edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(newBalCat);
+			categorySummary.updateName(editedBalCat);
+
+			// navigate to consumer summary page and verify edits applied ot not for balance
+			// reason
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+
+			// clicking consumer id
+			foundation.click(consumerSearch.objCell(firstName));
+			foundation.click(ConsumerSearch.BTN_ADJUST);
+
+			// Map<String, String> consumerTblRecords =
+			// consumerSearch.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			String balance = textBox.getTextFromInput(ConsumerSummary.TXT_ADJUST_BALANCE);
+			Double newBalance = Double.parseDouble(balance) + 2;
+
+			// enter new balance with reason
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance));
+			dropDown.selectItem(ConsumerSummary.DPD_REASON, editedBalCat, Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.refreshPage();
+			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
+
+			// reset data
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			categoryList.selectCategory(editedBalCat);
+			categorySummary.updateName(newBalCat);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143128-QAA19-Add new tax category and Edit it's category name and verify edits applied to product or not on location page - tax mapping tab")
+	public void addEditTaxRateCategory() {
+		try {
+			final String CASE_NUM = "143128";
+
+			// Reading test data from DataBase
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+			String location = rstV5DeviceData.get(CNV5Device.LOCATION);
+			List<String> requiredData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to new category page
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+
+			// add tax category
+			String newTaxCat = string.getRandomCharacter().toUpperCase();
+			// String newTaxRateCat = string.getRandomCharacter().toUpperCase();
+			String editedTaxCat = requiredData.get(0) + newTaxCat;
+			categorySummary.addCategory(newTaxCat, requiredData.get(4));
+
+			// verify newly added category displays in category list page
+			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newTaxCat));
+
+			// save tax mapping on location summary page as precondition
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			foundation.click(LocationSummary.BTN_ADD_MAPPING);
+			dropdown.selectItem(LocationSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			dropdown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+
+			// add categories to products
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			globalProduct.selectGlobalProduct(productName);
+			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			foundation.click(ProductSummary.BTN_SAVE);
+
+			// edit tax category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(newTaxCat);
+			categorySummary.updateName(editedTaxCat);
+
+			// verify tax edits on location summary page- tax mapping tab- for saved
+			// category
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AUTOTAXPERCENTAGE2", Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
+
+			// set language and sync machine
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
+
+			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.refreshPage();
+			// foundation.click(landingPage.objLanguage(language.get(0)));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-			String scanCode = foundation.getText(ProductSearch.LBL_PRODUCT_SCANCODE);
+			textBox.enterKeypadText(productName);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_YOUR_ORDER));
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME))));
-			String total = order.getTotalBalance();
-			foundation.objectFocus(Order.LBL_EMAIL);
-			foundation.click(Order.LBL_EMAIL);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(
-					propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(AccountLogin.BTN_NEXT);
-			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
-			browser.close();
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			order.verifyTax(requiredData.get(2));
 
+			// reset data
+			// reset- category name
+			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			foundation.waitforElement(TransactionSearchPage.LBL_TRANSACTION_SEARCH, Constants.THREE_SECOND);
-			textBox.enterText(TransactionSearchPage.TXT_SEARCH, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-			transactionSearch.selectDate(rstReportsListData.get(CNReportList.DATE_RANGE));
-			foundation.click(TransactionSearchPage.TXT_CLEAR_ALL);
-			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, rstV5DeviceData.get(CNV5Device.LOCATION));
-			textBox.enterText(TransactionSearchPage.TXT_LOCATION_NAME, Keys.ENTER);
-			foundation.click(TransactionSearchPage.BTN_FIND);
-			foundation.click(TransactionSearchPage.LINK_TRANSACTION_ID);
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
-			Map<String, String> transactionDetails = table.getTblSingleRowRecordUI(
-					TransactionSearchPage.TABLE_TRANSACTION_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			CustomisedAssert.assertTrue(
-					transactionDetails.get(requiredData.get(0)).contains(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			CustomisedAssert.assertTrue(
-					transactionDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(2)).contains(currentDate));
-			CustomisedAssert.assertTrue(transactionDetails.get(requiredData.get(3)).contains(total));
-
+			// reset mapping
 			navigationBar.navigateToMenuItem(menuItem.get(2));
-			reportList.selectReport(rstReportsListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportsListData.get(CNReportList.DATE_RANGE));
-			transactionSearch.selectLocation(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(TransactionSearchPage.LBL_REPORT_NAME, Constants.SHORT_TIME);
-
-			textBox.enterText(TransactionSearchPage.TXT_REPORT_SEARCH, rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-			Map<String, String> salesItemDetails = table.getTblSingleRowRecordUI(
-					TransactionSearchPage.TABLE_SALES_ITEM_GRID, TransactionSearchPage.TABLE_TRANSACTION_ROW);
-			CustomisedAssert.assertTrue(
-					salesItemDetails.get(requiredData.get(1)).equals(rstV5DeviceData.get(CNV5Device.LOCATION)));
-			CustomisedAssert.assertTrue(
-					salesItemDetails.get(requiredData.get(4)).equals(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA)));
-			CustomisedAssert.assertTrue(
-					salesItemDetails.get(requiredData.get(5)).equals(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME)));
-			CustomisedAssert.assertTrue(salesItemDetails.get(requiredData.get(6)).equals(scanCode));
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.TAB_TAX_MAPPING);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
+			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
+			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
+			// reset category
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			categoryList.selectCategory(editedTaxCat);
+			categorySummary.updateName(newTaxCat);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -10758,6 +11228,201 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
+		}
+	}
+
+	@Test(description = "145703-QAA-227-verify adding bulk funds for closed account and transactions in kiosk")
+	public void verifyAddBulkFundsClosedAccount() {
+		try {
+			final String CASE_NUM = "145703";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+
+			String balance = rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE);
+			String location = rstConsumerData.get(CNConsumerSearch.LOCATION);
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> status = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
+			List<String> searchBy = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			String eMail = string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
+			String firstName = Constants.AUTOMATION + string.getRandomCharacter();
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, firstName);
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_EMAIL, eMail);
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+
+			// Enter fields in Consumer Search Page
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
+			foundation.click(ConsumerSearch.BTN_CONFIRM);
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			consumerSearch.enterSearchFields(searchBy.get(1), firstName, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(1));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
+			// need to update validations after bug is fixed--SOS-25278
+			// Assert.assertEquals(uiBal, balance);
+			// set language and sync machine
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			// login into Kiosk Device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+
+			// Navigating to product search page
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.waitforElement(AccountLogin.BTN_CAMELCASE, Constants.SHORT_TIME);
+
+			// searching for product
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+
+			// verify Order Page
+			List<String> orderPageData = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+
+			foundation.objectFocus(order.objText(orderPageData.get(1)));
+			foundation.click(order.objText(orderPageData.get(1)));
+
+			foundation.waitforElement(AccountLogin.BTN_NEXT, Constants.SHORT_TIME);
+
+			textBox.enterKeypadText(eMail);
+			foundation.click(AccountLogin.BTN_NEXT);
+//			foundation.waitforElement(order.objText(orderPageData.get(1)), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(1))));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "145706-QAA-227-verify adding negative balance for active account and Close the account.")
+	public void verifyNegativeBalClosedAccount() {
+		try {
+			final String CASE_NUM = "145706";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			List<String> balance = Arrays
+					.asList(rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
+			String location = rstConsumerData.get(CNConsumerSearch.LOCATION);
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> status = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
+			List<String> searchBy = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			String eMail = string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_EMAIL, eMail);
+			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
+			textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
+			foundation.click(ConsumerSummary.BTN_CREATE);
+			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+
+			// Enter fields in Consumer Search Page
+
+			foundation.threadWait(Constants.ONE_SECOND);
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, location, status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(0));
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+			foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			// Negative Balance
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, location, status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_REMOVE_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(1));
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+
+			consumerSearch.enterSearchFields(searchBy.get(1), rstConsumerData.get(CNConsumerSearch.CONSUMER_ID),
+					location, status.get(1));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
+			foundation.click(ConsumerSearch.BTN_CONFIRM);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
+			CustomisedAssert.assertEquals(uiBal, balance.get(2));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
