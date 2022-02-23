@@ -17,6 +17,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -103,7 +104,6 @@ public class ConsumerSearch extends Factory {
 	}
 
 	public List<String> getConsumerHeaders() {
-
 		List<String> tableHeaders = new ArrayList<>();
 		try {
 			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
@@ -115,6 +115,11 @@ public class ConsumerSearch extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
+	}
+
+	public String getBalance(String location) {
+		Map<String, String> consumerTblRecords = getConsumerRecords(location);
+		return consumerTblRecords.get("Balance").replaceAll("[\\(\\)\\$]", "");
 	}
 
 	public Map<String, String> getConsumerRecords(String location) {

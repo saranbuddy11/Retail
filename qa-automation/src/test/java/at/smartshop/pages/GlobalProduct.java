@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
@@ -17,6 +18,8 @@ public class GlobalProduct extends Factory {
 
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private Dropdown dropDown = new Dropdown();
+	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
@@ -39,14 +42,16 @@ public class GlobalProduct extends Factory {
 	public static final By LBL_ALERT_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By LBL_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
 	public static final By TXT_SCAN_CODE_2 = By.xpath("(//input[@name='scancode'])[2]");
-	public static final By TXT_SCAN_CODE_ERROR = By.xpath("//div[@class='scmsg error' and @style='color: rgb(255, 0, 0);']");
+	public static final By TXT_SCAN_CODE_ERROR = By
+			.xpath("//div[@class='scmsg error' and @style='color: rgb(255, 0, 0);']");
 	public static final By IMG_DATA_GRID_LOADING = By.id("dataGrid_container_loading");
-	public static final By GBL_PRODUCT_DATA = By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_name']");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
+	public static final By GBL_PRODUCT_DATA = By
+			.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_name']");
 	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.id("location");
-	
-	
+
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
@@ -109,5 +114,21 @@ public class GlobalProduct extends Factory {
 	public void selectGlobalProduct(String product) {
 		textBox.enterText(TXT_FILTER, product);
 		foundation.click(By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']"));
+	}
+
+	public void assignTaxCategory(String productName, String taxCategory) {
+		navigationBar.navigateToMenuItem("Product#Global Products");
+		selectGlobalProduct(productName);
+		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, taxCategory, Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	public void removeTaxCategory(String productName) {
+		navigationBar.navigateToMenuItem("Product#Global Products");
+		selectGlobalProduct(productName);
+		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, Constants.CHOOSENOTHING, Constants.TEXT);
+		foundation.click(ProductSummary.BTN_SAVE);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 }

@@ -2,9 +2,7 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
-
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
@@ -36,17 +34,18 @@ public class Order {
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_MSG = By.xpath("//h1[text()='Do you need more time?']");
 	public static final By POP_UP_LBL_ORDER_TIMEOUT_SPANISH = By
 			.xpath("//h1[text()='Tiempo de espera de pedido finalizado']");
-	public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
+	public static final By LBL_EMAIL = By.xpath("(//h3[text()='My Account']//.)[2]//..//..//img");
+	// public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
 	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div[@class='total-value']");
-
 	public static final By LBL_PROMOTION_NAME = By.className("product-name");
 	public static final By LBL_ORDER_DISCOUNT = By.xpath("//*[@class='discount-price']/span");
 	public static final By LBL_DISCOUNT = By.xpath("//*[@class='total']//div[@class='total-value']");
 	public static final By LBL_MULTI_PRODUCTS = By.xpath("//*[@class='product-price']");
 	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
+	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By TXT_TENDER_DISCOUNT = By.xpath("//div[@class='content-promotions']//div//div//div");
 
 	public By objText(String text) {
@@ -107,12 +106,11 @@ public class Order {
 
 		double calculatedTax = Double.parseDouble(uiSubTotal) * (Double.valueOf(taxRate) / 100);
 		double expectedTaxWithRoundUp = Math.round(calculatedTax * 100.0) / 100.0;
-
 		CustomisedAssert.assertEquals(Double.parseDouble(uiTax), expectedTaxWithRoundUp);
 	}
 
-	public String getSubtotal() {
-		String uiSubTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
-		return uiSubTotal;
+	public String getTotalBalance() {
+		String uiTotal = foundation.getText(LBL_BALANCE_DUE).replace("$", Constants.EMPTY_STRING);
+		return uiTotal;
 	}
 }
