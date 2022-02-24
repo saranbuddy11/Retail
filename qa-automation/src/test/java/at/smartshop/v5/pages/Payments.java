@@ -16,6 +16,8 @@ public class Payments {
 	public static final By ACCOUNT_EMAIL=By.xpath("//div[@data-reactid='.0.3.0.0.1.1.4']");
 	public static final By EMAIL_lOGIN_BTN =By.id("email-login-btn-id");
 
+	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
+
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}

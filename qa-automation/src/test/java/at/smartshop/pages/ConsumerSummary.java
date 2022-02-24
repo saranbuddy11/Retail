@@ -1,7 +1,6 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -13,20 +12,17 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
-import at.smartshop.database.columns.CNConsumerSummary;
-import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class ConsumerSummary extends Factory {
 	private Foundation foundation = new Foundation();
-	private TextBox textBox = new TextBox();
 	private Dropdown dropdown = new Dropdown();
+	private TextBox textBox = new TextBox();
 	private NavigationBar navigationBar = new NavigationBar();
 
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
-	private static final By LBL_READ_BALANCE = By.id("readbalance");
+	public static final By LBL_READ_BALANCE = By.id("readbalance");
 	private static final By LBL_READ_TYPE_BALANCE = By.id("readTypebalance");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
@@ -34,6 +30,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By BTN_SAVE = By.id("saveBtn");
+	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By DPD_LOCATION = By.cssSelector("select#loc-dropdown");
 	public static final By TXT_FIRSTNAME = By.cssSelector("input#firstname");
 	public static final By TXT_LASTNAME = By.cssSelector("input#lastname");
@@ -49,7 +46,6 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_LOC_ERROR = By.xpath("//label[@id='loc-dropdown-error']");
 	public static final By TXT_FN_ERROR = By.xpath("//label[@id='firstname-error']");
 	public static final By TXT_LN_ERROR = By.xpath("//label[@id='lastname-error']");
-	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By LBL_POPUP_ADJUST_BALANCE = By.id("reasontitle");
 	public static final By LBL_CONSUMER_SUMMARY = By.id("Consumer Summary");
 	public static final By LBL_BALANCE_HISTORY = By.xpath("//h3[text()='Balance History']");
@@ -75,14 +71,17 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
-	public static final By SUBSIDY_BALANCE=By.id("readTypebalance");
-	public static final By CANCEL_BTN=By.id("cancelBtn");
-	 public static final By SUBSIDY_FIELD=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
+	public static final By SUBSIDY_FIELD=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
+	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
+	public static final By CANCEL_BTN = By.id("cancelBtn");
+
 
 	public double getBalance() {
 		double initBalance = 0;
 		try {
 			String balance = foundation.getText(LBL_READ_BALANCE);
+			initBalance = Double
+					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 			balance = balance.replaceAll("[\\(\\)\\$]", "");
 //			initBalance = Double
 //					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
@@ -91,6 +90,10 @@ public class ConsumerSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return initBalance;
+	}
+
+	public By objTaxCategory(String reasonCode) {
+		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
 	public double getTypeBalance() {
@@ -103,10 +106,6 @@ public class ConsumerSummary extends Factory {
 			Assert.fail(exc.toString());
 		}
 		return initTypeBalance;
-	}
-
-	public By objTaxCategory(String reasonCode) {
-		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
 	public By objBalanceHistoryData(String data) {
@@ -123,6 +122,14 @@ public class ConsumerSummary extends Factory {
 		foundation.alertAccept();
 		foundation.waitforElementToDisappear(DPD_MOVE_ORG, Constants.SHORT_TIME);
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
+	}
+
+	public void adjustBalance(String newBalance, String reasonCode) {
+		foundation.click(BTN_ADJUST);
+		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
+		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
+		foundation.click(BTN_REASON_SAVE);
+		foundation.click(BTN_SAVE);
 	}
 
 	public void Incrementsubsidy(String menuitem, String location, String data, String reason) {
@@ -201,42 +208,42 @@ public class ConsumerSummary extends Factory {
 		// CustomisedAssert.assertTrue(data.get(1).equals(value));
 		// CustomisedAssert.assertTrue(data.get(4).contains(date));
 	}
-	public void balanceResettingData(String menu,String location,String balance,String reason) {
+
+	public void balanceResettingData(String menu, String location, String balance, String reason) {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-        foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
-        foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason,Constants.TEXT);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 		foundation.click(ConsumerSummary.BTN_SAVE);
 	}
-	
-	public void balanceResettingDataInAutomationLocation1(String menu,String Search,String location,String balance,String reason) {
+
+	public void balanceResettingDataInAutomationLocation1(String menu, String Search, String location, String balance,
+			String reason) {
 		navigationBar.navigateToMenuItem(menu);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
 		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSearch.TXT_SEARCH, Search);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-        foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-        foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
-        foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason,Constants.TEXT);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);
-		
 	}
-	
 }

@@ -2,14 +2,19 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
-
+import at.framework.browser.Browser;
+import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class LandingPage {
+
+	public Browser browser = new Browser();
+	public PropertyFile propertyFile = new PropertyFile();
 
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
@@ -72,5 +77,11 @@ public class LandingPage {
 		foundation.waitforElement(objText(newLanguage), Constants.SHORT_TIME);
 		foundation.click(objText(newLanguage));
 		foundation.click(objText(button));
+	}
+
+	public void launchV5AndSelectLanguageEnglish() {
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		changeLanguage(Constants.LANGUAGE, Constants.ENGLISH, Constants.CONTINUE);
 	}
 }

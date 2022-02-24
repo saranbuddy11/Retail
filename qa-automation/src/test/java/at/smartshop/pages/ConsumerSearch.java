@@ -17,6 +17,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -27,7 +28,7 @@ public class ConsumerSearch extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
-	private Table table= new Table();
+	private Table table = new Table();
 
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	private static final By DPD_STATUS = By.id("isdisabled");
@@ -39,9 +40,16 @@ public class ConsumerSearch extends Factory {
 	public static final By TXT_BALANCE_NUM = By.id("balNum");
 	public static final By TBL_LOCATION = By.id("consumerdt");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By BTN_ACTIONS = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
+	public static final By LBL_BULK_ADD_FUNDS = By.xpath("//li[@id='fundSelectedBtn']");
+	public static final By LBL_BULK_REMOVE_FUNDS = By.xpath("//li[@id='removeFundSelectedBtn']");
+	public static final By LBL_BULK_TOPOFF_FUNDS = By.xpath("//li[@id='topOffFundSelectedBtn']");
+	public static final By LBL_BULK_PAYOUT = By.xpath("//li[@id='payoutAndCloseBtn']");
+	public static final By BTN_OK = By.xpath("//button[text()='Ok']");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
-	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
 	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
+	public static final By BTN_CONFIRM = By.xpath("//button[text()='Confirm']");
+	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
 	public final static By TXT_CONSUMER_SEARCH = By.id("Consumer Search");
 	public final static By BTN_CREATE_NEW = By.id("createNewBtn");
 	public final static By TXT_EMAIL = By.id("email");
@@ -54,18 +62,16 @@ public class ConsumerSearch extends Factory {
 	public static final By LNK_RECORD = By.xpath("//table[@id='consumerdt']//td");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
-    public static final By BTN_ACTION =By.xpath("//ul[@style='left: -100px; right: auto;']//li");
+	public static final By BTN_ACTION = By.xpath("//ul[@style='left: -100px; right: auto;']//li");
 	public static final By ACTION_BTN = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
-	public static final By BULK_ASSIGN_SUBSIDY_GROUP= By.id("subsidyGroupSelectedBtn");
+	public static final By BULK_ASSIGN_SUBSIDY_GROUP = By.id("subsidyGroupSelectedBtn");
 	public static final By SUBSIDY_GROUP = By.id("subsidyGroupData");
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
-    public static final By LBL_BULK_ASSIGN_POPUP =By.id("reasontitle");
-    public static final By BTN_SAVE = By.id("reasonSaveBtn");
-    public static final By BTN_EXPORT=By.id("exportBtn");
+	public static final By LBL_BULK_ASSIGN_POPUP = By.id("reasontitle");
+	public static final By BTN_SAVE = By.id("reasonSaveBtn");
+	public static final By BTN_EXPORT = By.id("exportBtn");
 
-   
-    
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -106,20 +112,24 @@ public class ConsumerSearch extends Factory {
 	}
 
 	public List<String> getConsumerHeaders() {
-
-        List<String> tableHeaders = new ArrayList<>();
-        try {
-            WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
-            List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
-            for (WebElement columnHeader : columnHeaders) {
-                tableHeaders.add(columnHeader.getText());
-            }
-        } catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
-        }
-        return tableHeaders;
+		List<String> tableHeaders = new ArrayList<>();
+		try {
+			WebElement tableProducts = getDriver().findElement(TBL_LOCATION);
+			List<WebElement> columnHeaders = tableProducts.findElements(By.cssSelector("thead > tr > th"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableHeaders;
 	}
-   
+
+	public String getBalance(String location) {
+		Map<String, String> consumerTblRecords = getConsumerRecords(location);
+		return consumerTblRecords.get("Balance").replaceAll("[\\(\\)\\$]", "");
+	}
+
 	public Map<String, String> getConsumerRecords(String location) {
 		Map<String, String> consumerRecord = new LinkedHashMap<>();
 		try {
@@ -133,6 +143,17 @@ public class ConsumerSearch extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return consumerRecord;
+	}
+
+	public void objLocation(String location) {
+		List<WebElement> uiRecords = getDriver()
+				.findElements(By.xpath("//table[@id='consumerdt']//tr//td[(text()='" + location + "')]"));
+		for (int i = 0; i < uiRecords.size(); i++) {
+
+			uiRecords.get(i).click();
+
+		}
+
 	}
 
 	public String createConsumer(String location) {
@@ -150,33 +171,33 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		return emailID;
 	}
-   
-	
-    public void BulkAssignSubsidyGroup(String location,String row, List<String> values) {
-    		
-    		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
-    		foundation.click(ConsumerSearch.BTN_GO);
-            CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-            table.selectRow(row);
-            foundation.click(ConsumerSearch.ACTION_BTN);
-            foundation.threadWait(Constants.SHORT_TIME);
-            List<String> actualData = foundation.getTextofListElement(BTN_ACTION);            
-            CustomisedAssert.assertTrue(actualData.equals(values));
-   	
-	    }	
-    public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location,String row,String row2) {
-		
+
+	public void BulkAssignSubsidyGroup(String location, String row, List<String> values) {
+
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-        foundation.threadWait(Constants.SHORT_TIME);
-        table.selectRow(row); 
-        table.selectRow(row2); 
-        foundation.threadWait(Constants.SHORT_TIME);
-        foundation.click(ConsumerSearch.ACTION_BTN);
-        foundation.threadWait(Constants.SHORT_TIME);
-    }		
-  
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		table.selectRow(row);
+		foundation.click(ConsumerSearch.ACTION_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+		List<String> actualData = foundation.getTextofListElement(BTN_ACTION);
+		CustomisedAssert.assertTrue(actualData.equals(values));
+
+	}
+
+	public void BulkAssignSubsidyGroupInMoreThanTwoGrid(String location, String row, String row2) {
+
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		foundation.threadWait(Constants.SHORT_TIME);
+		table.selectRow(row);
+		table.selectRow(row2);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ConsumerSearch.ACTION_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
 	public void searchConsumer(String option, String location) {
 		navigationBar.navigateToMenuItem(option);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -184,11 +205,12 @@ public class ConsumerSearch extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		foundation.threadWait(Constants.ONE_SECOND);
 	}
+
 	public void verifyColumnName(List<String> expected, String actual) {
 		List<String> expectedColumns = expected;
-		
 		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
 	}
+
 	
 	public void createConsumerInConsumerSearch(String location,String firstname,String lastname,String emailID,String scanID,String pin) {
 		
@@ -204,4 +226,5 @@ public class ConsumerSearch extends Factory {
 
 
 }
+
 }

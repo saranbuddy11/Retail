@@ -186,7 +186,6 @@ public class ResultSets extends Connections {
 				rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
 				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
-
 			}
 
 		} catch (Exception exc) {
@@ -280,7 +279,9 @@ public class ResultSets extends Connections {
 				rstLocationSummary.put(CNLocationSummary.PAYROLL_DEDUCT,
 						resultSet.getString(CNLocationSummary.PAYROLL_DEDUCT));
 			}
-		} catch (Exception exc) {
+		} catch (
+
+		Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
 			try {
@@ -319,7 +320,9 @@ public class ResultSets extends Connections {
 				rstConsumerSummary.put(CNConsumerSummary.AMOUNT, resultSet.getString(CNConsumerSummary.AMOUNT));
 				rstConsumerSummary.put(CNConsumerSummary.PAY_CYCLE, resultSet.getString(CNConsumerSummary.PAY_CYCLE));
 			}
-		} catch (Exception exc) {
+		} catch (
+
+		Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
 			try {
@@ -390,7 +393,9 @@ public class ResultSets extends Connections {
 				rstDeviceList.put(CNDeviceList.SERIAL_NUMBER, resultSet.getString(CNDeviceList.SERIAL_NUMBER));
 				rstDeviceList.put(CNDeviceList.ERROR_MESSAGE, resultSet.getString(CNDeviceList.ERROR_MESSAGE));
 			}
-		} catch (Exception exc) {
+		} catch (
+
+		Exception exc) {
 			Assert.fail(exc.toString());
 		} finally {
 			try {
@@ -450,7 +455,6 @@ public class ResultSets extends Connections {
 				rstGmaUser.put(CNGmaUser.SHEET_NAME, resultSet.getString(CNGmaUser.SHEET_NAME));
 				rstGmaUser.put(CNGmaUser.COLUMN_NAME, resultSet.getString(CNGmaUser.COLUMN_NAME));
 				rstGmaUser.put(CNGmaUser.COLUMN_VALUE, resultSet.getString(CNGmaUser.COLUMN_VALUE));
-
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -726,7 +730,6 @@ public class ResultSets extends Connections {
 		try {
 			if (connection == null)
 				getConnection();
-
 			statement = connection.createStatement();
 			sqlQuery = query + testcaseID;
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -893,6 +896,8 @@ public class ResultSets extends Connections {
 				rstConsumer.put(CNConsumer.EMAIL_ERROR, resultSet.getString(CNConsumer.EMAIL_ERROR));
 				rstConsumer.put(CNConsumer.SCANID_ERROR, resultSet.getString(CNConsumer.SCANID_ERROR));
 				rstConsumer.put(CNConsumer.COLUMN_NAME, resultSet.getString(CNConsumer.COLUMN_NAME));
+				rstConsumer.put(CNConsumer.CONSUMER_ID, resultSet.getString(CNConsumer.CONSUMER_ID));
+				rstConsumer.put(CNConsumer.ADJUST_BALANCE, resultSet.getString(CNConsumer.ADJUST_BALANCE));
 			}
 
 		} catch (Exception exc) {
@@ -905,7 +910,6 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstConsumer;
-
 	}
 
 	public Map<String, String> getSuperListData(String query, String testcaseID) {
@@ -938,7 +942,5 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstSuperListData;
-
 	}
-
 }

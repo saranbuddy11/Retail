@@ -65,9 +65,8 @@ public class Foundation extends Factory {
 
 	public void click(By object) {
 		try {
-			//waitforClikableElement(object, Constants.SHORT_TIME);
-			//waitforElement(object, Constants.SHORT_TIME);
-
+			// waitforClikableElement(object, Constants.SHORT_TIME);
+			// waitforElement(object, Constants.SHORT_TIME);
 			objectFocus(object);
 			getDriver().findElement(object).click();
 			if (ExtFactory.getInstance().getExtent() != null) {
@@ -479,5 +478,18 @@ public class Foundation extends Factory {
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
+	}
+
+	public String getBorderColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("border-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		return hexColor;
 	}
 }

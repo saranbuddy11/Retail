@@ -18,9 +18,10 @@ public class CNConsumer {
 	public static final String ERROR_MSG = "ErrorMessage";
 	public static final String INFO_MSG = "InfoMessage";
 	public static final String STATUS = "Status";
-	public static final String SEARCH_BY="SearchBy";
-	public static final String SCANID_ERROR="ScanIDError";
-	public static final String EMAIL_ERROR="EmailError";
-	public static final String COLUMN_NAME="ColumnName";
-	
+	public static final String SEARCH_BY = "SearchBy";
+	public static final String SCANID_ERROR = "ScanIDError";
+	public static final String EMAIL_ERROR = "EmailError";
+	public static final String COLUMN_NAME = "ColumnName";
+	public static final String CONSUMER_ID = "ConsumerID";
+	public static final String ADJUST_BALANCE = "AdjustBalance";
 }
