@@ -11314,15 +11314,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(1));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -11398,14 +11390,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(1));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.syncDevice(menus.get(1), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 		}
 	}
 
@@ -11487,14 +11472,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -11557,14 +11535,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.syncDevice(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 		}
 	}
 
@@ -11692,14 +11663,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -11743,7 +11707,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
-			// Search Consumer Account foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			// Search Consumer Account
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_SEARCH_BY,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), Constants.TEXT);
@@ -11763,37 +11727,10 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
-			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
-			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			locationList.removeDevice(menus.get(0), location.get(1));
 
 			// Deploy Device to AutomationLocation1 Location
-			locationList.selectLocationName(location.get(0));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 
@@ -11921,14 +11858,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device and login to consumer account to check account balance
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -12012,37 +11942,10 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
-			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
-			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			locationList.removeDevice(menus.get(0), location.get(1));
 
 			// Deploy Device to AutomationLocation1 Location
-			locationList.selectLocationName(location.get(0));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 
@@ -12168,14 +12071,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device and login to consumer account to check PDE balance
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -12254,37 +12150,10 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
-			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
-			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			locationList.removeDevice(menus.get(0), location.get(1));
 
 			// Deploy Device to AutomationLocation1 Location
-			locationList.selectLocationName(location.get(0));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 
@@ -12410,14 +12279,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device and login to consumer account to check account balance
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -12506,37 +12368,10 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
-			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
-			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			locationList.removeDevice(menus.get(0), location.get(1));
 
 			// Deploy Device to AutomationLocation1 Location
-			locationList.selectLocationName(location.get(0));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 
@@ -12648,14 +12483,7 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Select location and sync with device
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device and login to consumer account to check account balance
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -12723,37 +12551,10 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
-			navigationBar.navigateToMenuItem(menus.get(0));
-			locationList.selectLocationName(location.get(1));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
-			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
-			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
-			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			locationList.removeDevice(menus.get(0), location.get(1));
 
 			// Deploy Device to AutomationLocation1 Location
-			locationList.selectLocationName(location.get(0));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
-			foundation.click(LocationSummary.TBL_DEVICE_LIST);
-			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
-			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 }
