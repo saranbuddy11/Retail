@@ -44,6 +44,8 @@ public class CreateAccount {
     public static final By TXT_FIRST_NAME=By.id("createaccount_firstName-input");
     public static final By TXT_LAST_NAME=By.id("createaccount_lastName-input");
     public static final By NEXT_BTN=By.id("cre-pin-back-btn-go-id");
+    public static final By ADDLATER= By.xpath("(//BUTTON[@class='button-small button-primary'])[6]");
+    public static final By COMPLETE_SETUP=By.id("gotoacct-button");
     
 
 	private Foundation foundation = new Foundation();
@@ -141,10 +143,19 @@ public class CreateAccount {
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_PIN_NEXT);
 		foundation.waitforElement(TXT_FIRST_NAME, Constants.SHORT_TIME);
-		textBox.enterPin(fname);
-		textBox.enterPin(lname);
+		foundation.click(TXT_FIRST_NAME);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(fname);
+		foundation.click(TXT_LAST_NAME);
+		textBox.enterKeypadText(lname);
 		foundation.waitforElement(NEXT_BTN, Constants.SHORT_TIME);
 		foundation.click(NEXT_BTN);
+		foundation.waitforElement(ADDLATER, Constants.SHORT_TIME);
+		foundation.click(ADDLATER);
+		foundation.waitforElement(COMPLETE_SETUP, Constants.ONE_SECOND);
+		foundation.click(COMPLETE_SETUP);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 		
 	
 	}

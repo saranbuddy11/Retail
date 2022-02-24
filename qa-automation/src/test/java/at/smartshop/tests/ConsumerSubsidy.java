@@ -2546,8 +2546,8 @@ public class ConsumerSubsidy extends TestInfra {
 			final String CASE_NUM = "165967";
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-//	        rstConsumerSummaryData=dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+	        rstConsumerSummaryData=dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
 	        rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 	        rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 	        
@@ -2575,7 +2575,7 @@ public class ConsumerSubsidy extends TestInfra {
 				String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 				CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.INFO_MESSAGE));
 				CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.CHK_TOP_OFF_SUBSIDY));
-                
+                browser.close();
 				
 				//Launch v5 device
 				 foundation.threadWait(Constants.SHORT_TIME);
@@ -2584,7 +2584,31 @@ public class ConsumerSubsidy extends TestInfra {
 	             CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 	             createaccount.createAccountInDevice(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN), rstV5DeviceData.get(CNV5Device.PIN), names.get(0), names.get(1));
 				
-				
+				//Navigate to Admin>Consumer
+	             browser.close();
+	    		 browser.launch(Constants.LOCAL, Constants.CHROME);
+	             browser.navigateURL(
+							propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				 CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));	
+				 navigationBar.selectOrganization(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));	
+	             navigationBar.navigateToMenuItem(menus.get(1));
+			     CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+				 foundation.click(ConsumerSearch.CLEAR_SEARCH);
+				 textBox.enterText(ConsumerSearch.TXT_SEARCH, names.get(0));
+				 dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+		    	 foundation.click(ConsumerSearch.BTN_GO);
+		         CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		         foundation.click(consumerSearch.LNK_FIRST_ROW);
+		         String name= foundation.getText(ConsumerSummary.SUBSIDY_FIELD);
+				 CustomisedAssert.assertEquals(name, names.get(2));
+			     foundation.threadWait(Constants.THREE_SECOND);
+				 foundation.click(consumerSummary.BTN_PAYOUT_CLOSE);
+				 foundation.alertAccept();
+				 foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+		         
 				
 			}
 
