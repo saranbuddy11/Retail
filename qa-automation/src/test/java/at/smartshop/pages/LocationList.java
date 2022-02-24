@@ -72,6 +72,7 @@ public class LocationList extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
+		browser.close();
 	}
 
 	public void removeDevice(String menu, String location) {
