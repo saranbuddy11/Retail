@@ -34,9 +34,9 @@ public class AccountLogin {
 	public static final By LBL_EMAIL_HEADER = By.xpath("//label[@class='input-label']");
 	public static final By BTN_EMAIl_BACK = By.id("emaillogin-input-btn-back-id");
 	public static final By BTN_PIN_BACK = By.id("pin-input-btn-back-id");
+	public static final By LBL_Email = By.xpath("//div[@data-reactid='.0.7.0.0.1.0.0.0.1']");
 	public static final By LBL_PIN_PAGE_TITLE = By.xpath("//h1[@data-reactid='.0.r.0.0.0.1']");
 	public static final By LBL_PIN_HEADER = By.xpath("//label[@data-reactid='.0.r.0.0.1.0.0']");
-
 	public static final By LBL_ACCOUNT_NOT_AVAILABLE = By.xpath("//*[@id='errorModal']//h1");
 	public static final By LBL_GEO_GRAPHIC_LOCATION = By.xpath("//*[@id='errorModal']//h2");
 	public static final By LBL_CONSUMER_NAME = By.xpath("//h1[@data-reactid='.0.4.0.0.0.0.1']");

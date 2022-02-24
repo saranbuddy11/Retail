@@ -88,4 +88,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-email
 	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
 	
+	// https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+	implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.3'
+	
+	
 }

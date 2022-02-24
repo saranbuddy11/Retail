@@ -48,8 +48,8 @@ public class Configuration {
 	public static final String AUTOMATIONLOCATION1 = "third_loc";
 	public static final String CONSUMER_USER = "consumerUser";
 	public static final String CONSUMER_PASSWORD = "consumerPassword";
+	public static final String REPORTER_USER = "ReporterUser";
 	public static final String ALL = "all";
 	public static final String RNOUS_ORGANIZATION = "Rnous_organization";
-	
-	
+
 }
