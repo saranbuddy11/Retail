@@ -488,7 +488,7 @@ public class Foundation extends Factory {
 			hexColor = Color.fromString(colorValue).asHex();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return hexColor;
 	}
