@@ -12547,6 +12547,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(5) + "test");
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(6) + "test");
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -12626,19 +12628,24 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-
-			// Select GMA Subsidy ON
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value.equals(requiredData.get(1)))
-				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 
 			// Setting up Special type as USConnect
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_SPECIAL_TYPE));
 			dropDown.selectItem(LocationSummary.DPD_SPECIAL_TYPE, requiredData.get(2), Constants.TEXT);
-			value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
 			CustomisedAssert.assertEquals(value, requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+
+			// Select GMA Subsidy ON
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(1)))
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
