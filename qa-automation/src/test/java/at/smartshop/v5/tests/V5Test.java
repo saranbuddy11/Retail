@@ -12547,8 +12547,8 @@ public class V5Test extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(5) + "test");
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(6) + "test");
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, "testTopOff");
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, "testRollOver");
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -12644,8 +12644,11 @@ public class V5Test extends TestInfra {
 			// Select GMA Subsidy ON
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value.equals(requiredData.get(1)))
+			if (value.equals(requiredData.get(1))) {
 				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(5));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(6));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
