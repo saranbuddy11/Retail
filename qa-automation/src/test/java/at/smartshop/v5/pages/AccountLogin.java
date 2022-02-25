@@ -43,6 +43,7 @@ public class AccountLogin {
 	public static final By LBL_SUBSIDY = By.xpath("//span[text()='Subsidy']");
 	public static final By LBL_ACCOUNT = By.xpath("//span[text()='Account']");
 	public static final By LBL_ACCOUNT_1 = By.xpath("//h2[text()='Account']");
+	public static final By LBL_ACC_BAL = By.xpath("//h2[text()='Account Balance']");
 	public static final By LBL_BALANCE = By.xpath("//button[@class='active']/h3");
 	public static final By LBL_BALANCE_1 = By.xpath("//div[@class='account-balance']");
 	public static final By TAB_BALANCE = By.xpath("//button[@class='active']");

@@ -12557,4 +12557,88 @@ public class V5Test extends TestInfra {
 			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
+
+	@Test(description = "166040 - verify the multi balance are applicable to USConnect kiosk devices")
+	public void verifyMultiBalanceForUSConnectDevice() {
+		final String CASE_NUM = "166040";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Menu, Menu Item and Location
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Setting up Special type as USConnect
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_SPECIAL_TYPE));
+			dropDown.selectItem(LocationSummary.DPD_SPECIAL_TYPE, requiredData.get(3), Constants.TEXT);
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
+			CustomisedAssert.assertEquals(value, requiredData.get(3));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Select location and sync with device
+			locationList.syncDevice(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Launch V5 Device and login to consumer account to check account Tab
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.BTN_MANAGE_LOGIN);
+			foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+			String text = foundation.getText(AccountLogin.LBL_CONSUMER_NAME);
+			CustomisedAssert.assertTrue(text.contains(requiredData.get(4)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountLogin.LBL_ACC_BAL));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(AccountLogin.LBL_SUBSIDY));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			browser.close();
+			// resetting Test Data
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org and menu
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Setting up Special type as USConnect
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_SPECIAL_TYPE));
+			dropDown.selectItem(LocationSummary.DPD_SPECIAL_TYPE, requiredData.get(2), Constants.TEXT);
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_SPECIAL_TYPE);
+			CustomisedAssert.assertEquals(value, requiredData.get(2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Select location and sync with device
+			locationList.syncDevice(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+		}
+	}
 }
