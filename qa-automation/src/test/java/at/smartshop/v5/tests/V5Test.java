@@ -11659,6 +11659,7 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, requiredData.get(2), Constants.TEXT);
 			value = dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE);
 			CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.PAY_CYCLE));
+			textBox.enterText(ConsumerSummary.INPUT_PAY_ROLL_ID, requiredData.get(11));
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
@@ -12556,6 +12557,202 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, "testRollOver");
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Remove Device from AutoLocationConsumerVerified Location
+			locationList.removeDevice(menus.get(0), location.get(1));
+
+			// Deploy Device to AutomationLocation1 Location
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+		}
+	}
+
+	@Test(description = "166039 - Verify the payment of product purchase with Subsidy balance, Account and PDE")
+
+	public void verifyPaymentOfProductPurchaseWithAllBalance() {
+
+		final String CASE_NUM = "166039";
+
+		// Reading test data from DataBase
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> location = Arrays
+				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Launch ADM and select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Location and Set Consumer Subsidy as Yes with requried details
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(location.get(0));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+
+			// Remove Device from AutomationLocation1 Location
+			if (foundation.isDisplayed(LocationSummary.TBL_DEPLOYED_DEVICE_LIST)) {
+				foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
+				foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
+				foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
+				foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
+				foundation.click(DeviceDashboard.BTN_YES_REMOVE);
+				foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			}
+
+			// Deploy Device to AutoLocationConsumerVerified Location
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(location.get(1));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.click(LocationSummary.TBL_DEVICE_LIST);
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.objectFocus(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+
+			// Select GMA Subsidy ON
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(1)))
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
+				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			locationSummary.verifyTopOffDateAutoLocation2(currentDate);
+			foundation.click(LocationSummary.TXT_TOP_OFF_SUBSIDY);
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(7), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(2));
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(4));
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			locationSummary.verifyRollOverDateCreateLocation(currentDate);
+			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(7), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(3));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(5));
+
+			// Select Payroll Deduct ON
+			foundation.objectFocus(LocationSummary.TXT_PAYROLL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
+			dropDown.selectItem(LocationSummary.DPD_PAYROLL, requiredData.get(0), Constants.TEXT);
+			textBox.enterText(LocationSummary.INPUT_PAYROLL_MAIL, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			foundation.click(LocationSummary.TXT_PAYROLL);
+			dropDown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, requiredData.get(7), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME,
+					rstLocationListData.get(CNLocationList.PAY_CYCLE));
+			textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, requiredData.get(6));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin>Consumer, Select Subsidy Group & Pay cycle Group and Logout
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_SEARCH_BY,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), Constants.TEXT);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location.get(1), Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(6));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(8), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSummary.SUCCESS_MESSAGE, Constants.SHORT_TIME);
+			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, requiredData.get(2), Constants.TEXT);
+			value = dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE);
+			CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.PAY_CYCLE));
+			textBox.enterText(ConsumerSummary.INPUT_PAY_ROLL_ID, requiredData.get(11));
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+
+			// Select location and sync with device
+			locationList.syncDevice(menus.get(0), location.get(1));
+
+			// Launch V5 Device foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+
+			// Product Search
+			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+
+			// Verify product purchase which exceeds Subsidy and Account balance
+			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
+			foundation.click(Payments.BTN_EMAIL_LOGIN);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Payments.LBL_INSUFFICIENT_FUND));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org and menu
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(1));
+
+			// Search Consumer Account
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_SEARCH_BY,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), Constants.TEXT);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location.get(1), Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
+
+			// Resetting Subsidy Balance
+			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(10));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(8), Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
 			// Remove Device from AutoLocationConsumerVerified Location
 			locationList.removeDevice(menus.get(0), location.get(1));
