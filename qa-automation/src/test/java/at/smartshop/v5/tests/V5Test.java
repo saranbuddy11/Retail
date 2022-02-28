@@ -11968,8 +11968,8 @@ public class V5Test extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> location = Arrays
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		// List<String> actualData =
-		// Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Launch ADM and select Org
 			browser.navigateURL(
@@ -12035,6 +12035,12 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
 			dropDown.selectItem(LocationSummary.DPD_PAYROLL, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(LocationSummary.INPUT_PAYROLL_MAIL, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT);
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM);
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE);
 			foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			foundation.click(LocationSummary.TXT_PAYROLL);

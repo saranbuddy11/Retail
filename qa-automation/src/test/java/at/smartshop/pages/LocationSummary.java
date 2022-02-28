@@ -282,6 +282,9 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
 	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
 	public static final By INPUT_PAYROLL_MAIL = By.id("payrolldeductemail");
+	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
+	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
+	public static final By CHK_BOX_PAYROLL_DEDUCT_OFFLINE = By.xpath("//input[@name='allowofflinepd']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
