@@ -12073,6 +12073,7 @@ public class V5Test extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSummary.SUCCESS_MESSAGE, Constants.SHORT_TIME);
 			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, requiredData.get(12), Constants.TEXT);
+			textBox.enterText(ConsumerSummary.INPUT_PAY_ROLL_ID, requiredData.get(13));
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
 
@@ -12085,40 +12086,38 @@ public class V5Test extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 
-//			// Verify product purchase Transaction with PDE balance until PDE
-//			// Balance gets Zero
-//			String actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
-//					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-//					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(10),
-//					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-//			actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
-//					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-//					rstV5DeviceData.get(CNV5Device.PIN), actualBal, rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
-//			CustomisedAssert
-//					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
-//			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
-//			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
-//					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
-//
-//			// Product Search
-//			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
-//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
-//			foundation.click(ProductSearch.BTN_PRODUCT);
-//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
-//
-//			// Verify product purchase Transaction with PDE balance when Zero balance
-//			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
-//			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
-//			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
-//			foundation.click(Payments.BTN_EMAIL_LOGIN);
-//			foundation.click(AccountLogin.BTN_CAMELCASE);
-//			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-//			foundation.click(AccountLogin.BTN_NEXT);
-//			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-//			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-//			foundation.click(AccountLogin.BTN_PIN_NEXT);
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(Payments.LBL_INSUFFICIENT_FUND));
+			// Verify product purchase Transaction with PDE balance until PDE
+			// Balance gets Zero
+			String actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
+					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(10),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			foundation.threadWait(Constants.ONE_SECOND);
+			actualBal = accountLogin.productPurchase(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME), actualData,
+					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), actualBal, rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
+
+			// Product Search
+			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+
+			// Verify product purchase Transaction with PDE balance when Zero balance
+			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
+			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
+			foundation.click(Payments.BTN_EMAIL_LOGIN);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Payments.LBL_INSUFFICIENT_FUND));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

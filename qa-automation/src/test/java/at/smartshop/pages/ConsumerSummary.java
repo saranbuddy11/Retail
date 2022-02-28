@@ -74,6 +74,7 @@ public class ConsumerSummary extends Factory {
 	public static final By TBL_LOCATION = By.id("balance-history");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
+	public static final By INPUT_PAY_ROLL_ID = By.id("payrollid");
 
 	public double getBalance() {
 		double initBalance = 0;
