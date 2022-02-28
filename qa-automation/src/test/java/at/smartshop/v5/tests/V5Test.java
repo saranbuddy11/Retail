@@ -125,6 +125,7 @@ public class V5Test extends TestInfra {
 	private TaxList taxList = new TaxList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private CreateAccount createaccount =new CreateAccount();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -11425,4 +11426,63 @@ public class V5Test extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	@Test(description = "148841-Verify to Applying Default Group for Subsidy")
+	
+    public void verifykioskCreateAccountByEmail() {
+	final String CASE_NUM = "148841";
+
+    rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+    
+    List<String> datas = Arrays
+			.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+  
+	try {
+
+		//Launch v5 device
+		 
+		 browser.launch(Constants.REMOTE, Constants.CHROME);
+		 browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+         CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+         foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+ 		 foundation.click(LandingPage.BTN_CREATE_ACCOUNT);	
+ 		foundation.click(createaccount.LBL_SKIP_TO_END);
+ 		foundation.objectFocus(createaccount.CHK_LABEL);
+ 		foundation.click(createaccount.CHK_LABEL);
+ 		foundation.threadWait(Constants.ONE_SECOND);
+ 		foundation.click(createaccount.CONFIRM_BTN);
+ 		foundation.waitforElement(createaccount.EMAIL_BTN, Constants.SHORT_TIME);
+ 		foundation.click(createaccount.EMAIL_BTN);
+ 		foundation.waitforElement(createaccount.EMAIL_BTN_CREATE, Constants.ONE_SECOND);
+ 		foundation.click(createaccount.EMAIL_BTN_CREATE);
+ 		foundation.threadWait(Constants.ONE_SECOND);
+ 		foundation.click(AccountLogin.BTN_CAMELCASE);
+ 		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+ 		foundation.click(createaccount.BTN_NEXT);
+ 		foundation.threadWait(Constants.SHORT_TIME);
+ 		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+ 		foundation.waitforElement(CreateAccount.BTN_PIN_NEXT, Constants.SHORT_TIME);
+ 		foundation.click(createaccount.BTN_PIN_NEXT);
+ 		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+ 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+ 		foundation.click(CreateAccount.BTN_PIN_NEXT);
+ 		foundation.waitforElement(CreateAccount.TXT_FIRST_NAME, Constants.SHORT_TIME);
+ 		foundation.click(CreateAccount.TXT_FIRST_NAME);
+ 		foundation.threadWait(Constants.ONE_SECOND);
+ 		foundation.click(AccountLogin.BTN_CAMELCASE);
+ 		textBox.enterKeypadText(datas.get(0));
+ 		foundation.click(CreateAccount.TXT_LAST_NAME);
+ 		textBox.enterKeypadText(datas.get(1));
+ 		foundation.waitforElement(createaccount.NEXT_BTN, Constants.SHORT_TIME);
+ 		foundation.click(createaccount.NEXT_BTN);
+ 		foundation.waitforElement(createaccount.ADDLATER, Constants.SHORT_TIME);
+ 		foundation.click(createaccount.ADDLATER);
+ 		foundation.waitforElement(createaccount.COMPLETE_SETUP, Constants.ONE_SECOND);
+		foundation.click(createaccount.CANCEL_BTN);
+	}
+         catch (Exception exc) {
+         TestInfra.failWithScreenShot(exc.toString());
+
+}
+	}
+	
 }

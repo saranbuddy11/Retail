@@ -78,7 +78,7 @@ public class ConsumerSubsidy extends TestInfra {
 	private Table table=new  Table();
 	private Order order = new Order();
 	private Payments payments = new Payments();
-	private CreateAccount createaccount =new CreateAccount();
+	
 	private Map<String, String> rstV5DeviceData;
 
 
@@ -2553,46 +2553,10 @@ public class ConsumerSubsidy extends TestInfra {
 
          }}
       
-	        @Test(description = "148841-Verify to Applying Default Group for Subsidy")
-				
-		    public void verifykioskCreateAccountByEmail() {
-			final String CASE_NUM = "148841";
-
-	        rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-	        
 	        
 			
-			try {
-				browser.navigateURL(
-						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-				navigationBar.selectOrganization(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-				
-				
-				//Launch v5 device
-				 foundation.threadWait(Constants.SHORT_TIME);
-				 browser.launch(Constants.REMOTE, Constants.CHROME);
-				 browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-	             CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-	             createaccount.createAccountInDevice(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN), rstV5DeviceData.get(CNV5Device.PIN), names.get(0), names.get(1));
-				
-				
-				
-				
-			}
-
-                catch (Exception exc) {
-		         TestInfra.failWithScreenShot(exc.toString());
-
-}
-			
-			
 	        
-	        }}
+	        }
 		
 
 

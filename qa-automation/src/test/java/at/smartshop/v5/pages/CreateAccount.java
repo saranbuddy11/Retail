@@ -32,14 +32,24 @@ public class CreateAccount {
 	public static final By LBL_WAITING_TO_COME_BACK = By.xpath("//h2[@data-reactid='.0.b.0.0.0.1.0.2.1']");
 	public static final By LBL_WILL_BE_BACK = By.xpath("//button[@data-reactid='.0.b.0.0.0.1.0.2.2.0']");
 	public static final By LBL_TITLE = By.xpath("//h1[@data-reactid='.0.b.0.0.0.0.1']");
-
+	public static final By CONFIRM_BTN=By.id("policy-btn-go-id");
+	public static final By EMAIL_BTN_CREATE =By.id("emailInput-input");
+	public static final By EMAIL_BTN=By.xpath("//h2[@data-reactid='.0.b.0.0.0.1.0.0.2.1']");
+	public static final By BTN_NEXT=By.id("emailinput-btn-go-id");
+    public static final By BTN_PIN=By.id("pinInput0");
+    public static final By BTN_PIN_NEXT=By.id("cre-pin-next-btn-go-id");
+    public static final By TXT_FIRST_NAME=By.id("createaccount_firstName-input");
+    public static final By TXT_LAST_NAME=By.id("createaccount_lastName-input");
+    public static final By NEXT_BTN=By.id("cre-pin-back-btn-go-id");
+    public static final By ADDLATER= By.xpath("(//BUTTON[@class='button-small button-primary'])[6]");
+    public static final By COMPLETE_SETUP=By.id("gotoacct-button");
+    public static final By CANCEL_BTN=By.xpath("//i[@data-reactid='.0.b.0.0.0.0.2.0']");
 	private Foundation foundation = new Foundation();
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
 	
-
 	public void verifyCreateAccoutnPageLanguage(String createAccount, String requiredData, String actualData) {
 		List<String> createAccountPageData = Arrays.asList(createAccount.split(Constants.DELIMITER_TILD));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(0))));
