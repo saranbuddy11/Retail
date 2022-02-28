@@ -12587,6 +12587,8 @@ public class V5Test extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> actualData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> productName = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			// Launch ADM and select Org
 			browser.navigateURL(
@@ -12645,7 +12647,7 @@ public class V5Test extends TestInfra {
 			locationSummary.verifyRollOverDateCreateLocation(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(7), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(3));
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(5));
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(4));
 
 			// Select Payroll Deduct ON
 			foundation.objectFocus(LocationSummary.TXT_PAYROLL);
@@ -12679,7 +12681,7 @@ public class V5Test extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(6));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(5));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(8), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSummary.SUCCESS_MESSAGE, Constants.SHORT_TIME);
@@ -12697,15 +12699,26 @@ public class V5Test extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(5));
+
+			// Verify product purchase Transaction with Account balance
+			String actualBal = accountLogin.productPurchase(productName.get(0), actualData,
+					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(5),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+
+			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
 
 			// Product Search
 			foundation.click(LandingPage.IMG_ORDER_SEARCH_ICON);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
+			textBox.enterKeypadText(productName.get(1));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), actualData.get(0));
-			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), actualData.get(2));
 
-			// Verify product purchase which exceeds Subsidy and Account balance
+			// Verify product purchase Transaction with PDE balance
 			foundation.objectFocus(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
 			foundation.click(order.objText(rstV5DeviceData.get(CNV5Device.ORDER_PAGE)));
 			foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.SHORT_TIME);
@@ -12716,7 +12729,11 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Payments.LBL_INSUFFICIENT_FUND));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
+			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			accountLogin.verifyAccountDetails(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), actualBal);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
