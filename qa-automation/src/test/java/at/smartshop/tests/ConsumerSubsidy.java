@@ -47,6 +47,7 @@ import at.smartshop.pages.ReportList;
 import at.smartshop.sos.pages.LoadGMA;
 import at.smartshop.sos.pages.SOSHome;
 import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.CreateAccount;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.Payments;
@@ -77,6 +78,7 @@ public class ConsumerSubsidy extends TestInfra {
 	private Table table=new  Table();
 	private Order order = new Order();
 	private Payments payments = new Payments();
+	private CreateAccount createaccount =new CreateAccount();
 	private Map<String, String> rstV5DeviceData;
 
 
@@ -2493,7 +2495,7 @@ public class ConsumerSubsidy extends TestInfra {
 	  // Reading test data from database
 	  rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 	  rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-	  rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+	 
 
 	  List<String> menus = Arrays
 			.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -2545,15 +2547,16 @@ public class ConsumerSubsidy extends TestInfra {
 		dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME,datas.get(4),Constants.TEXT);
 		foundation.click(ConsumerSummary.CANCEL_BTN);
 		
-}
+        }
         catch (Exception exc) {
 		TestInfra.failWithScreenShot(exc.toString());
 
-}}
-	   @Test(description = "165967-Verify to Applying Default Group for Subsidy"
-				+ "166017-Verify to Applying Default Group for Subsidy in V5 Device")
-		public void verifyDefaultGroupInSubisyUsingDevice() {
-			final String CASE_NUM = "165967";
+         }}
+      
+	        @Test(description = "148841-Verify to Applying Default Group for Subsidy")
+				
+		    public void verifykioskCreateAccountByEmail() {
+			final String CASE_NUM = "148841";
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstconsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -2585,7 +2588,7 @@ public class ConsumerSubsidy extends TestInfra {
 				String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 				CustomisedAssert.assertEquals(value, rstLocationListData.get(CNLocationList.INFO_MESSAGE));
 				CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.CHK_TOP_OFF_SUBSIDY));
-               browser.close();
+                browser.close();
 				
 				//Launch v5 device
 				 foundation.threadWait(Constants.SHORT_TIME);
@@ -2625,13 +2628,17 @@ public class ConsumerSubsidy extends TestInfra {
                 catch (Exception exc) {
 		         TestInfra.failWithScreenShot(exc.toString());
 
-}	}}
+}
+			
+			
+	        
+	        }}
 		
 
 
       
       
-      }}
+     
 		
 		
 		

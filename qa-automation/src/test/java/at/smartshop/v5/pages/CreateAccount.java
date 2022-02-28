@@ -38,6 +38,8 @@ public class CreateAccount {
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
+	
+	
 
 	public void verifyCreateAccoutnPageLanguage(String createAccount, String requiredData, String actualData) {
 		List<String> createAccountPageData = Arrays.asList(createAccount.split(Constants.DELIMITER_TILD));
