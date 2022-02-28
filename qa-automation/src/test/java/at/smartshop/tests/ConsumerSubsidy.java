@@ -2482,9 +2482,81 @@ public class ConsumerSubsidy extends TestInfra {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_CONSUMER);
 			
-		}
+		}}
+
 	
-}}
+
+      @Test(description = "168121-Verify the default option for the subsidy group")
+      public void verifyDefaultOptionInSubsidyGroupDropdown() {
+	  final String CASE_NUM = "168121";
+
+	  // Reading test data from database
+	  rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	  rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+	  rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+	  List<String> menus = Arrays
+			.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+	  List<String> datas = Arrays
+			.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
+	  String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+	  
+	   try {
+		// Login to ADM
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+       
+		//Navigate to Location and verify GMA Subsidy on
+		navigationBar.navigateToMenuItem(menus.get(0));
+		foundation.threadWait(Constants.ONE_SECOND);
+		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY)); 
+		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, datas.get(0));
+		checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+		locationSummary.verifyTopOffDateAutomationNewLocation(currentDate);
+		dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, datas.get(1), Constants.TEXT);
+		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, datas.get(2));
+		textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, datas.get(3));
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+        foundation.threadWait(Constants.SHORT_TIME);
+		
+		
+        //Navigate to Admin>Consumer
 	
+		navigationBar.navigateToMenuItem(menus.get(1));
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.click(consumerSearch.LNK_FIRST_ROW);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
+		foundation.threadWait(Constants.THREE_SECOND);
+		dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME,datas.get(4),Constants.TEXT);
+		foundation.click(ConsumerSummary.CANCEL_BTN);
+		
+}
+        catch (Exception exc) {
+		TestInfra.failWithScreenShot(exc.toString());
+
+}
+	   
+      
+      
+      }}
+		
+		
+		
+			
 
 
