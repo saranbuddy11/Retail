@@ -1218,14 +1218,4 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SAVE);
 	}
 	
-	public void resettingAgeVerification(String menu, String location) {
-		navigationBar.navigateToMenuItem(menu);
-		locationList.selectLocationName(location);
-		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-		foundation.isDisabled(LocationSummary.AGE_VERIFICATION);
-		checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-		foundation.click(LocationSummary.BTN_SAVE);
-	}
-	
 }
