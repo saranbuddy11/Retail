@@ -2217,7 +2217,7 @@ public class ConsumerSubsidy extends TestInfra {
     			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
     			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
     			accountAdjustment.checkForDataAvailabilyInResultTable();
-    			Map<String, String> reasonData = accountAdjustment.getTblRecords("11");
+    			Map<String, String> reasonData = accountAdjustment.getTblRecords("22");
     			accountAdjustment.verifyReasonCode(reasonData,rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME));
     			 
     			}
