@@ -26,6 +26,7 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -218,7 +219,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
-
+     public static final By AGE_VERIFICATION=By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -257,6 +258,7 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+	public static final By DEVICE_BTN=By.xpath("(//a[@style='color: #2555D9;'])[2]");
 
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
@@ -1215,4 +1217,15 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
+	
+	public void resettingAgeVerification(String menu, String location) {
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+		foundation.isDisabled(LocationSummary.AGE_VERIFICATION);
+		checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+		foundation.click(LocationSummary.BTN_SAVE);
+	}
+	
 }
