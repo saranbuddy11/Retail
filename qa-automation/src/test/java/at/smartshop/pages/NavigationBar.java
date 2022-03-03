@@ -1,9 +1,11 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
@@ -71,5 +73,20 @@ public class NavigationBar extends Factory {
 
 	public By getMainMenuObj(String mainMenuName) {
 		return By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + mainMenuName + "')]");
+	}
+
+	public List<String> getSubTabs(String tab) {
+		List<String> subTabs = new ArrayList<>();
+		List<String> optionName = Arrays.asList(tab.split(Constants.DELIMITER_HASH));
+		try {
+			foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
+			subTabs = foundation.getTextofListElement(By.xpath(
+					"//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]//..//ul//li//a"));
+			foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
+			foundation.WaitForAjax(Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return subTabs;
 	}
 }

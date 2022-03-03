@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.testng.Assert;
 
+import at.smartshop.database.columns.CNAdminAgeVerification;
 import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -942,5 +943,36 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstSuperListData;
+	}
+
+	public Map<String, String> getAdminAgeVerificationData(String query, String testcaseID) {
+		Map<String, String> rstAdminAgeVerificationData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstAdminAgeVerificationData.put(CNAdminAgeVerification.LOCATION_NAME,
+						resultSet.getString(CNAdminAgeVerification.LOCATION_NAME));
+				rstAdminAgeVerificationData.put(CNAdminAgeVerification.MAIL,
+						resultSet.getString(CNAdminAgeVerification.MAIL));
+				rstAdminAgeVerificationData.put(CNAdminAgeVerification.REQUIRED_DATA,
+						resultSet.getString(CNAdminAgeVerification.REQUIRED_DATA));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstAdminAgeVerificationData;
 	}
 }

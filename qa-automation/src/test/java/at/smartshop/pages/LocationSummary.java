@@ -284,6 +284,8 @@ public class LocationSummary extends Factory {
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
 	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
 	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
+	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
+	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
