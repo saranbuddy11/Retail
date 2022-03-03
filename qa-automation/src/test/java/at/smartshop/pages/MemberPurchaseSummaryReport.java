@@ -141,7 +141,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 					Constants.EMPTY_STRING);
 			double updatedValue = Double.parseDouble(intialValue) + Double.parseDouble(value);
 			updatedValue = Math.round(updatedValue * 100.0) / 100.0;
-			intialData.get(recordCount).put(columnName, String.valueOf(updatedValue));
+			intialData.get(recordCount).put(columnName, Constants.DOLLAR_SYMBOL+String.valueOf(updatedValue));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -155,7 +155,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 					.get(tableHeaders.get(4)).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
 			double updatedTotal = Double.parseDouble(subTotal) + Double.parseDouble(taxAmount);
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
-			intialData.get(recordCount).put(tableHeaders.get(5), String.valueOf(updatedTotal));
+			intialData.get(recordCount).put(tableHeaders.get(5), Constants.DOLLAR_SYMBOL+String.valueOf(updatedTotal));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

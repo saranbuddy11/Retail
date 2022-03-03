@@ -80,10 +80,10 @@ public class ConsumerSummary extends Factory {
 			String balance = foundation.getText(LBL_READ_BALANCE);
 			initBalance = Double
 					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-			balance = balance.replaceAll("[\\(\\)\\$]", "");
+//			balance = balance.replaceAll("[\\(\\)\\$]", "");
 //			initBalance = Double
 //					.parseDouble(balance.substring(1).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-			initBalance = Double.parseDouble(balance);
+//			initBalance = Double.parseDouble(balance);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

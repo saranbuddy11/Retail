@@ -65,7 +65,7 @@ public class TestInfra {
 	@AfterMethod
 	public void afterMethod() {
 		try {
-			//browser.close();
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 
@@ -81,7 +81,7 @@ public class TestInfra {
 				sendReport.triggerMail(ExtReport.reportFullPath);
 				}
 			ResultSets.connection.close();
-			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
+//			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

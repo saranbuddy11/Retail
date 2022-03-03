@@ -1,5 +1,7 @@
 package at.smartshop.pages;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -157,13 +159,14 @@ public class AVISubFeeReport extends Factory {
 			if (Double.parseDouble(
 					requiredJsonData.get(0).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) > 75) {
 				totalBillable = Double.parseDouble(initialData) * 0.05;
+				totalBillable = Math.round(totalBillable * 100.0) / 100.0;
 				if (totalBillable > 100) {
 					totalBillable = 100;
 				}
 			} else {
 				totalBillable = 0;
 			}
-			requiredJsonData.add(String.valueOf(totalBillable));
+			requiredJsonData.add(Constants.DOLLAR_SYMBOL +String.valueOf(totalBillable));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -190,10 +193,10 @@ public class AVISubFeeReport extends Factory {
 			WebElement lastMonthDate = getDriver().findElement(
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
-				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
 						+ "'][not(contains(@class , 'off'))]"));
 			} else {
-				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
 						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
