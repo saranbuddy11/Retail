@@ -138,6 +138,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstCreateAccount;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -11432,10 +11433,12 @@ public class V5Test extends TestInfra {
 	final String CASE_NUM = "148841";
 
     rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-    
+    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+    rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
     List<String> datas = Arrays
 			.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-  
+   
 	try {
 
 		//Launch v5 device
@@ -11481,8 +11484,31 @@ public class V5Test extends TestInfra {
 	}
          catch (Exception exc) {
          TestInfra.failWithScreenShot(exc.toString());
-
-}
+         }
+	finally {
+		 browser.close();
+		 browser.launch(Constants.LOCAL, Constants.CHROME);
+         browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		 CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));	
+		 navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));	
+         navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+	     CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		 foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		 textBox.enterText(ConsumerSearch.TXT_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+		 dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+    	 foundation.click(ConsumerSearch.BTN_GO);
+         CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+         foundation.click(consumerSearch.LNK_FIRST_ROW);
+	     foundation.threadWait(Constants.THREE_SECOND);
+		 foundation.click(consumerSummary.BTN_PAYOUT_CLOSE);
+		 foundation.alertAccept();
+		 foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+		
+	}
 	}
 	
 }
