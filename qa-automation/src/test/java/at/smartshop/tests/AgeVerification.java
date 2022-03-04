@@ -40,7 +40,10 @@ public class AgeVerification extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstAdminAgeVerificationData;
 
-	@Test(description = "168272 - Verify the Expire pin confirmation prompt text")
+	@Test(description = "168272 - Verify the Expire pin confirmation prompt text"
+			+ "168273 - Verify the buttons on Expire pin confirmation prompt"
+			+ "168274 - Verify the cancel button in Expire pin confirmation prompt"
+			+ "168275 - Verify the expiry of the pin")
 	public void verifyExpirePinPrompt() {
 		final String CASE_NUM = "168272";
 
@@ -76,13 +79,28 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
 
-			// Verify Exit Pin Confirmation Prompt
-			ageVerificationDetails.verifyPinExpiration(
+			// Verify Expire Pin Confirmation Prompt content, its buttons and cancel the
+			// prompt
+			ageVerificationDetails.verifyPinExpirationPrompt(
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData);
+
+			// Verify Expire Pin Confirmation Prompt with clicking Yes
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.refreshPage();
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
+			foundation.threadWait(Constants.ONE_SECOND);
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting Age Verification Checkbox
+			ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
