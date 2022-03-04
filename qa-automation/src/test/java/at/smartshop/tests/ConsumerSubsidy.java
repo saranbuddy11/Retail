@@ -1855,7 +1855,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Storing UI data and verifying the values
 			Map<String, String> uiData = accountAdjustment.getTblRecords("2");
 			accountAdjustment.verifyReasonCodeAndAmount(uiData, requiredData.get(7), requiredData.get(8),
-					requiredData.get(9), requiredDatas);
+					requiredData.get(9), requiredData.get(10), requiredDatas);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
