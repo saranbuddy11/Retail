@@ -794,6 +794,8 @@ public class Device extends TestInfra {
 			// selecting Hardware type as PicoMarket
 			dropDown.selectItem(KioskCreate.DPD_HARDWARE_TYPE, dbData.get(2), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
+			dropDown.selectItem(DeviceList.DRP_PICO_DEVICE_TYPE, dbData.get(4), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 			// Verifying Cooler Type is Present
 			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);

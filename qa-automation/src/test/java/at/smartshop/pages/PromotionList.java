@@ -53,7 +53,7 @@ public class PromotionList extends Factory {
 	}
 
 	public void searchPromotion(String promoName) {
-		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		foundation.click(PromotionList.BTN_SEARCH);
 	}
