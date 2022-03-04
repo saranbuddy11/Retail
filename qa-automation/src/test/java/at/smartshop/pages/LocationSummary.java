@@ -752,6 +752,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void deletePaycyle(String location, String payCycle) {
+		
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));

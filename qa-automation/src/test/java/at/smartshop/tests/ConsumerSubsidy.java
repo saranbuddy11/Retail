@@ -2174,6 +2174,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			browser.close();
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2217,8 +2218,8 @@ public class ConsumerSubsidy extends TestInfra {
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 			accountAdjustment.checkForDataAvailabilyInResultTable();
-			Map<String, String> reasonData = accountAdjustment.getTblRecords("11");
-			accountAdjustment.verifyReasonCode(reasonData, rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(accountAdjustment.REASON_CODE));
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

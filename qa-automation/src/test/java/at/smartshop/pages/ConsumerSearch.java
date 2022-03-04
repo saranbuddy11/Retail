@@ -76,6 +76,7 @@ public class ConsumerSearch extends Factory {
 		try {
 			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
 			textBox.enterText(TXT_SEARCH, search);
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
