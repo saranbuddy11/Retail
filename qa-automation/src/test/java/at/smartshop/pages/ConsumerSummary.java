@@ -73,6 +73,7 @@ public class ConsumerSummary extends Factory {
 	public static final By TBL_LOCATION = By.id("balance-history");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
+	public static final By LBL_ROLL_OVER_SUBSIDY=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]"); 
 
 	public double getBalance() {
 		double initBalance = 0;

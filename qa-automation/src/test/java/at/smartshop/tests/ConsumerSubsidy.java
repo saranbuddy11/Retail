@@ -2545,13 +2545,38 @@ public class ConsumerSubsidy extends TestInfra {
         CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
 		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME,datas.get(4),Constants.TEXT);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+	
+		//Navige to Admin>Consumer to verify the RollOver Subsidy
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+        foundation.click(consumerSearch.LNK_FIRST_ROW);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_ROLL_OVER_SUBSIDY));
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(ConsumerSummary.CANCEL_BTN);
+	
 		
         }
         catch (Exception exc) {
 		TestInfra.failWithScreenShot(exc.toString());
 
-         }}
+         }
+	   finally {
+		    foundation.threadWait(Constants.TWO_SECOND);
+		    foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+	        CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+	        foundation.click(consumerSearch.LNK_FIRST_ROW);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME,datas.get(5),Constants.TEXT);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}}
       
 	        
 			
