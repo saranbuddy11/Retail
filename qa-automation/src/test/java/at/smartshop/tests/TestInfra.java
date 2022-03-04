@@ -65,7 +65,7 @@ public class TestInfra {
 	@AfterMethod
 	public void afterMethod() {
 		try {
-			//browser.close();
+			browser.close();
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 
