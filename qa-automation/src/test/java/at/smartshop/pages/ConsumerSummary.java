@@ -71,8 +71,10 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
+	public static final By SUBSIDY_FIELD=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
+
 
 	public double getBalance() {
 		double initBalance = 0;
