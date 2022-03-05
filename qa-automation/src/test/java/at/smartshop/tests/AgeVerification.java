@@ -86,9 +86,48 @@ public class AgeVerification extends TestInfra {
 	
      	catch (Exception exc) {
 		TestInfra.failWithScreenShot(exc.toString());
-	}
+	}}
 	
        
-	}
 
+	@Test(description = "168266 -Verify the location is availble on age verification screen after it is enabled at location summary page"
+	           + "168267-Verify the location is not availble on age verification screen after it is diabled at location summary page")
+     public void verifyLocationAvailableInAgeVerification() {
+     final String CASE_NUM = "168266";
+
+    // Reading test data from database
+    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+    rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+    
+    List<String> menus = Arrays
+			.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+try {
+	browser.navigateURL(
+			propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+	login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+			propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+	navigationBar.selectOrganization(
+			propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+	//Select Menu, Menu Item and verify the age verification disabled
+	navigationBar.navigateToMenuItem(menus.get(0));
+	locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+	foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+	foundation.isDisabled(LocationSummary.AGE_VERIFICATION);
+	checkBox.check(LocationSummary.AGE_VERIFICATION);
+	foundation.click(LocationSummary.BTN_SAVE);
+	
+	//Navigate to Admin>Age verification
+	navigationBar.navigateToMenuItem(menus.get(0));
+	
+	
+	
+	
+	
 }
+    catch (Exception exc) {
+	TestInfra.failWithScreenShot(exc.toString());
+}}}
