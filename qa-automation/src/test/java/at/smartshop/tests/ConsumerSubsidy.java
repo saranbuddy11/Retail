@@ -1,16 +1,12 @@
 package at.smartshop.tests;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import at.framework.generic.Numbers;
-import at.framework.generic.Strings;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
@@ -18,6 +14,8 @@ import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -76,7 +74,6 @@ public class ConsumerSubsidy extends TestInfra {
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private Table table = new Table();
 	private Order order = new Order();
-	private Payments payments = new Payments();
 	private Map<String, String> rstV5DeviceData;
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1854,7 +1851,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Storing UI data and verifying the values
 			Map<String, String> uiData = accountAdjustment.getTblRecords("2");
 			accountAdjustment.verifyReasonCodeAndAmount(uiData, requiredData.get(7), requiredData.get(8),
-					requiredData.get(9), requiredDatas);
+					requiredData.get(9), requiredData.get(10), requiredDatas);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2112,11 +2109,8 @@ public class ConsumerSubsidy extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> orderPageData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-		List<String> headData = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> Balance = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-
 		try {
 
 			browser.navigateURL(
@@ -2216,8 +2210,7 @@ public class ConsumerSubsidy extends TestInfra {
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 			accountAdjustment.checkForDataAvailabilyInResultTable();
-			Map<String, String> reasonData = accountAdjustment.getTblRecords("11");
-			accountAdjustment.verifyReasonCode(reasonData, rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.REASON_CODE));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2360,7 +2353,6 @@ public class ConsumerSubsidy extends TestInfra {
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			browser.close();
 		}
-
 	}
 
 	@Test(description = "165951- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page."

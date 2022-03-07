@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="methods" thread-count="1">
-<parameter name = "environment" value="Test4" />
-<parameter name = "SendEmail" value="Yes" />
-<parameter name = "UpdateTestRail" value="Yes" />
+	<parameter name="environment" value="Test4" />
+	<parameter name="SendEmail" value="Yes" />
+	<parameter name="UpdateTestRail" value="Yes" />
 	<listeners>
 		<listener class-name="at.framework.reportsetup.Listeners"></listener>
 	</listeners>
 
 	<test name="Test">
-	<parameter name = "driver" value="Local" />
-	<parameter name = "browser" value="Chrome" />
-	<!-- <parameter name = "reportsDB" value="Snowflake" />  -->
-	<parameter name = "reportsDB" value="RDS" />
+		<parameter name="driver" value="Local" />
+		<parameter name="browser" value="Chrome" />
+		<!-- <parameter name = "reportsDB" value="Snowflake" /> -->
+		<parameter name="reportsDB" value="RDS" />
 		<classes>
-			
-			
-			<class name="at.smartshop.v5.tests.V5Test"/>
-			<class name="at.smartshop.v5.tests.V5ReleaseTest"/>
-			<class name="at.smartshop.tests.ReportsSmokeTest"/>
-			<class name="at.smartshop.tests.Report"/>
-			<class name="at.smartshop.tests.ConsumerSubsidy"/>
-			<class name="at.smartshop.tests.Consumer"/>
-			<class name="at.smartshop.tests.Device"/>
-			<class name="at.smartshop.tests.GlobalProducts"/>
-			<class name="at.smartshop.tests.Location"/>	
-			<class name="at.smartshop.tests.Locker"/>
-			<class name="at.smartshop.tests.Menu"/>
-			<class name="at.smartshop.tests.NationalAccount"/>	
-			<class name="at.smartshop.tests.OrganizationSummary"/>
-			<class name="at.smartshop.tests.PickLists"/>
-			<class name="at.smartshop.tests.Promotions"/>			
-			
-			<class name="at.smartshop.tests.SuperOthers"/>
-			<class name="at.smartshop.tests.UserRoles"/>
-			<class name="at.smartshop.tests.VDICheck"/>
-			<class name="at.smartshop.sos.tests.Sos"/>
-			
+
+
+			<class name="at.smartshop.v5.tests.V5Test" />
+			<class name="at.smartshop.v5.tests.V5ReleaseTest" />
+			<class name="at.smartshop.tests.ReportsSmokeTest" />
+			<class name="at.smartshop.tests.Report" />
+			<class name="at.smartshop.tests.ConsumerSubsidy" />
+			<class name="at.smartshop.tests.Consumer" />
+			<class name="at.smartshop.tests.Device" />
+			<class name="at.smartshop.tests.GlobalProducts" />
+			<class name="at.smartshop.tests.Location" />
+			<class name="at.smartshop.tests.Locker" />
+			<class name="at.smartshop.tests.Menu" />
+			<class name="at.smartshop.tests.NationalAccount" />
+			<class name="at.smartshop.tests.OrganizationSummary" />
+			<class name="at.smartshop.tests.PickLists" />
+			<class name="at.smartshop.tests.Promotions" />
+
+			<class name="at.smartshop.tests.SuperOthers" />
+			<class name="at.smartshop.tests.UserRoles" />
+			<class name="at.smartshop.tests.VDICheck" />
+			<class name="at.smartshop.sos.tests.Sos" />
+			<class name="at.smartshop.v5.tests.SmokeTests" />
+
 		</classes>
 	</test> <!-- Test -->
-	
-	
+
+
 </suite> <!-- Suite -->

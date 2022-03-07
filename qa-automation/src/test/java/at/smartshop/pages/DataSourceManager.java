@@ -8,10 +8,12 @@ import org.testng.Assert;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
+import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
@@ -23,7 +25,6 @@ public class DataSourceManager extends Factory {
 	public static final By DSM_SUCCESS_POPUP = By.xpath("//div[@class='humane humane-libnotify-success']");
 	public static final By VALIDATE_CSS_HEADING = By.id("CSS List");
 	public static final By CSS_CREATE_NEW_BTN = By.id("newBtn");
-	public static final By CSS_SEARCH_FILTER = By.xpath("//input[@type='text']");
 	public static final By CSS_PATH = By.id("path");
 	public static final By CSS_NAME = By.id("name");
 	public static final By CSS_SAVE_BTN = By.id("saveBtn");
@@ -34,6 +35,7 @@ public class DataSourceManager extends Factory {
 	public static final By CSS_PATH_ERROR = By.id("path-error");
 	public static final By CSS_NAME_ERROR = By.id("name-error");
 	public static final By CSS_SUCCESS_POPUP = By.xpath("//div[@class='humane ']");
+	public static final By CSS_SEARCH_BOX= By.xpath("//input[@aria-controls='dt']");
 
 	private TextBox textBox = new TextBox();
 	private CheckBox checkBox = new CheckBox();
@@ -122,4 +124,15 @@ public class DataSourceManager extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public void createCSS(String css_Path) {
+		try {
+			foundation.click(CSS_CREATE_NEW_BTN);
+			textBox.enterText(CSS_PATH, css_Path);
+			textBox.enterText(CSS_NAME, css_Path);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }
