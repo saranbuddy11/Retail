@@ -72,6 +72,7 @@ public class ConsumerSearch extends Factory {
 	public static final By BTN_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_EXPORT = By.id("exportBtn");
 
+
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
 			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
@@ -210,4 +211,21 @@ public class ConsumerSearch extends Factory {
 		List<String> expectedColumns = expected;
 		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
 	}
+
+	
+	public void createConsumerInConsumerSearch(String location,String firstname,String lastname,String emailID,String scanID,String pin) {
+		
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		textBox.enterText(TXT_FIRST_NAME, firstname );
+		textBox.enterText(TXT_LAST_NAME, lastname);
+		textBox.enterText(TXT_EMAIL, emailID);
+		textBox.enterText(TXT_SCAN_ID,scanID);
+		textBox.enterText(TXT_PIN, pin);
+		foundation.click(BTN_CREATE_OR_INVITE);
+		foundation.WaitForAjax(Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+
+}
+
 }

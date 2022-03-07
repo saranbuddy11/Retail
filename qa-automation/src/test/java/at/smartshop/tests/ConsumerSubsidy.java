@@ -2218,13 +2218,11 @@ public class ConsumerSubsidy extends TestInfra {
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 			accountAdjustment.checkForDataAvailabilyInResultTable();
-			CustomisedAssert.assertTrue(foundation.isDisplayed(accountAdjustment.REASON_CODE));
-			
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.REASON_CODE));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "165231- To Verify whether the 'Subsidy' reason code is displayed in report after completing the transaction"
@@ -2401,23 +2399,23 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.RSN_CANCEL);
 
 			// Verify Save button in BulkAssignSubsidyGroup
-			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSearch.TXT_CONSUMER_SEARCH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.ACTION_BTN);
+			foundation.click(ConsumerSearch.ACTION_BTN);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
 			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS),
 					Constants.TEXT);
-			foundation.click(consumerSearch.BTN_SAVE);
+			foundation.click(ConsumerSearch.BTN_SAVE);
 
 			// verify Grid in Consumer search
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.LNK_FIRST_ROW);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
-			foundation.click(consumerSummary.CANCEL_BTN);
+			foundation.click(ConsumerSummary.CANCEL_BTN);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2466,7 +2464,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verify the Subsidy group in Action>Export
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.BTN_EXPORT);
+			foundation.click(ConsumerSearch.BTN_EXPORT);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONSUMER));
 			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> excelData = excel.getExcelData(FilePath.EXCEL_CONSUMER,
