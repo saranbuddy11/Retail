@@ -48,9 +48,9 @@ public class Consumer extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private Table table = new Table();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
-	private Table table = new Table();
 	private LocationSummary locationSummary = new LocationSummary();
 	private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
@@ -116,7 +116,6 @@ public class Consumer extends TestInfra {
 
 			// String balance1 = balance.substring(1);
 			String balance = balanceText.replaceAll("[\\(\\)\\$]", "");
-
 			Double newBalance = Double.parseDouble(balance) + 2;
 			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
 
@@ -2507,6 +2506,96 @@ public class Consumer extends TestInfra {
 			// reset- payout and close
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "145705-QAA-227-Verify adding bulk top off for Closed Consumer account")
+	public void verifyAddBulkTopOffClosedAccount() {
+		try {
+			final String CASE_NUM = "145705";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			String balance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Enter fields in Consumer Search Page
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			consumerSearch.objLocation(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_TOPOFF_FUNDS);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			// need to update validations after bug is fixed
+			CustomisedAssert.assertEquals(uiBal, balance);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "145704-QAA-227-verify removing bulk funds for closed account")
+	public void verifyRemoveBulkFundsClosedAccount() {
+		try {
+			final String CASE_NUM = "145704";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			String balance = rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Enter fields in Consumer Search Page
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			consumerSearch.objLocation(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_REMOVE_FUNDS);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			// need to update validations after bug is fixed
+			CustomisedAssert.assertEquals(uiBal, balance);
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

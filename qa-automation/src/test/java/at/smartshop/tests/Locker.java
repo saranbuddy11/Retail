@@ -1195,8 +1195,10 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			CustomisedAssert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
-			CustomisedAssert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
+			CustomisedAssert
+					.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			CustomisedAssert
+					.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
 
 			login.logout();
 			browser.navigateURL(
@@ -1211,8 +1213,10 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CREATE_SYSTEM);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateLocker.LBL_CREATE_SYSTEM));
 
-			CustomisedAssert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
-			CustomisedAssert.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
+			CustomisedAssert
+					.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_SYSTEM_NAME, Constants.VALUE).isEmpty());
+			CustomisedAssert
+					.assertTrue(foundation.getTextAttribute(CreateLocker.TXT_DISPLAY_NAME, Constants.VALUE).isEmpty());
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1997,6 +2001,9 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_CANCEL);
 			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
+			foundation.waitforElement(
+					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)),
+					Constants.SHORT_TIME);
 			foundation.click(
 					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.click(LockerSystem.BTN_YES_DELETE);

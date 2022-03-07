@@ -2,14 +2,19 @@ package at.smartshop.v5.pages;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.By;
-
+import at.framework.browser.Browser;
+import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class LandingPage {
+
+	public Browser browser = new Browser();
+	public PropertyFile propertyFile = new PropertyFile();
 
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
@@ -22,6 +27,7 @@ public class LandingPage {
 	public static final By TXT_PRODUCT = By.xpath("//div[@id='cartContainer']//div[@class='product-name']");
 	public static final By LINK_ENGLISH = By.xpath("//button[text()='English']");
 	public static final By BTN_LOGIN = By.id("account-login-id");
+	public static final By BTN_MANAGE_LOGIN = By.xpath("//button[@class='button-primary']");
 	public static final By BTN_CREATE_ACCOUNT = By.id("create-account-id");
 	public static final By BTN_LANG = By.xpath("//h3[@data-reactid='.0.0.0.2.1']");
 	public static final By LBL_ACCOUNT_LOGIN = By.xpath("//div[@id='account-login-id']//h3");
@@ -72,5 +78,11 @@ public class LandingPage {
 		foundation.waitforElement(objText(newLanguage), Constants.SHORT_TIME);
 		foundation.click(objText(newLanguage));
 		foundation.click(objText(button));
+	}
+
+	public void launchV5AndSelectLanguageEnglish() {
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		changeLanguage(Constants.LANGUAGE, Constants.ENGLISH, Constants.CONTINUE);
 	}
 }
