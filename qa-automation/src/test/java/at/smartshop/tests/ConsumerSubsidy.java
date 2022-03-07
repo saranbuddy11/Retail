@@ -1,16 +1,12 @@
 package at.smartshop.tests;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import at.framework.generic.Numbers;
-import at.framework.generic.Strings;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
@@ -18,6 +14,8 @@ import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -76,7 +74,6 @@ public class ConsumerSubsidy extends TestInfra {
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private Table table = new Table();
 	private Order order = new Order();
-	private Payments payments = new Payments();
 	private Map<String, String> rstV5DeviceData;
 
 	private Map<String, String> rstNavigationMenuData;
@@ -2113,8 +2110,6 @@ public class ConsumerSubsidy extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> orderPageData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-		List<String> headData = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> Balance = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
 
