@@ -75,7 +75,9 @@ public class ConsumerSummary extends Factory {
 	public static final By SUBSIDY_FIELD=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
+	public static final By LBL_ROLL_OVER_SUBSIDY=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]"); 
 	public static final By INPUT_PAY_ROLL_ID = By.id("payrollid");
+
 
 
 	public double getBalance() {

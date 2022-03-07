@@ -326,6 +326,9 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
+	public By objectTopOffCalendarMonthAutomationNew(String month) {
+		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
 
 	public By objectTopOffCalendarMonthAutomationLocation1(String month) {
 		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
@@ -350,8 +353,14 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
+	public By objectTopOffCalendarNewDayAutomationnew(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
 
 	public By objectTopOffCalendarDayAutoLocation2(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+	public By objectTopOffCalendarDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
@@ -1008,6 +1017,21 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
+		}
+	}
+	public void verifyTopOffDateAutomationNewLocation(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutomationNew(monthName))) {
+			foundation.click(objectTopOffCalendarDayAutomationnew(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationNew(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutomationnew(date));
 		}
 	}
 
