@@ -2606,7 +2606,6 @@ public class Report extends TestInfra {
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
-		System.out.println(promotionName + "**********" + gridName);
 		
 		try {
 			browser.navigateURL(
@@ -2688,10 +2687,8 @@ public class Report extends TestInfra {
 			String date = String
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			System.out.println(date);
 			List<String> expectedData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			System.out.println("expectedData :" + expectedData);
 
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(1), promotionName);
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(3), expectedData.get(0));
@@ -2716,7 +2713,7 @@ public class Report extends TestInfra {
 			// Report data validation based on Groupby Locations
 			// reading the report data
 			dropdown.selectItemByIndex(promotionAnalysis.REPORT_GROUPBY_DPD, 1);
-			Thread.sleep(2000);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS,
 					Constants.EXTRA_LONG_TIME);
 			promotionAnalysis.getRequiredRecordGroupbyLocations("Automation@365");
@@ -2728,6 +2725,7 @@ public class Report extends TestInfra {
 			// Actual data
 			promotionAnalysis.promotionActualData();
 
+			foundation.threadWait(Constants.TWO_SECOND);
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
 					promotionAnalysis.getTableHeaders());
