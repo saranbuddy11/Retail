@@ -40,6 +40,8 @@ import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
 import at.smartshop.pages.PrintGroupLists;
+import at.smartshop.pages.PromotionList;
+import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
 
 public class SuperOthers extends TestInfra {
@@ -61,6 +63,9 @@ public class SuperOthers extends TestInfra {
 	private DeviceCreate deviceCreate=new DeviceCreate();
 	private PrintGroupLists printGroupLists=new PrintGroupLists();
 	private DICRules dicRules=new DICRules();
+	private SequenceNumber sequenceNumber = new SequenceNumber();
+	private DataSourceManager dataSourceManager = new DataSourceManager();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -705,11 +710,8 @@ public class SuperOthers extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 		
-
 		List<String> dbData = Arrays
 				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
-
 		try {
 
 			browser.navigateURL(
@@ -1457,8 +1459,7 @@ public class SuperOthers extends TestInfra {
 
 		}
 	}
-	
-	@Test(description = "168041-QAA-281 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields.")
+@Test(description = "168041-QAA-281 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields.")
 	public void PrintGroupsValidateAllFields() {
 		final String CASE_NUM = "168041";
 		// Reading test data from DataBase
