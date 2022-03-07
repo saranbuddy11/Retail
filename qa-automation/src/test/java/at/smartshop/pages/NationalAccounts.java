@@ -89,8 +89,9 @@ public class NationalAccounts extends Factory {
 	}
 
 	public void verifyBackgroundColour(String location, String expctedlcolor) {
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
+		foundation.threadWait(Constants.ONE_SECOND);
 		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
 		CustomisedAssert.assertEquals(actualColor, expctedlcolor);
 	}
