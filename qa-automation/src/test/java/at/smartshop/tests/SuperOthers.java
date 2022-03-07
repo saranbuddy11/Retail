@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
@@ -12,7 +13,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
-import at.framework.generic.DateAndTime;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
@@ -30,21 +30,19 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
 import at.smartshop.pages.CorporateAccountList;
-import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.DICRules;
 import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
-import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.FinanceList;
-import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
+import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
-import at.smartshop.pages.UserList;
-import at.smartshop.pages.UserRoles;
 
 public class SuperOthers extends TestInfra {
 
@@ -52,14 +50,7 @@ public class SuperOthers extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
-	private CreatePromotions createPromotions = new CreatePromotions();
-	private LocationList locationList = new LocationList();
 	private TextBox textBox = new TextBox();
-	private DateAndTime dateAndTime = new DateAndTime();
-	private PromotionList promotionList = new PromotionList();
-	private EditPromotion editPromotion = new EditPromotion();
-	private UserRoles userRoles = new UserRoles();
-	private UserList userList = new UserList();
 	private CheckBox checkBox = new CheckBox();
 	private Table table = new Table();
 	private Excel excel = new Excel();
@@ -67,19 +58,16 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
-	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService=new SpecialService();
 	private Strings strings=new Strings();
 	private DeviceCreate deviceCreate=new DeviceCreate();
+	private PrintGroupLists printGroupLists=new PrintGroupLists();
+	private DICRules dicRules=new DICRules();
 	private SequenceNumber sequenceNumber = new SequenceNumber();
 	private DataSourceManager dataSourceManager = new DataSourceManager();
 	
 
 	private Map<String, String> rstNavigationMenuData;
-	private Map<String, String> rstLocationData;
-	private Map<String, String> rstLocationListData;
-	private Map<String, String> rstLocationSummaryData;
-	private Map<String, String> rstUserRolesData;
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstSuperListData;
@@ -1407,7 +1395,6 @@ public class SuperOthers extends TestInfra {
 		final String CASE_NUM = "166897";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		String deviceName=strings.getRandomCharacter();
 
 		try {
 			browser.navigateURL(
@@ -1472,24 +1459,25 @@ public class SuperOthers extends TestInfra {
 
 		}
 	}
-	@Test(description = "167985-QAA-285 Validate the error message when click on save button without entering any detail in Path and Name Fields and validate the successfully entered fields.")
-	public void CSSValidateAllMandatoryFields() {
-		final String CASE_NUM = "167985";
+@Test(description = "168041-QAA-281 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields.")
+	public void PrintGroupsValidateAllFields() {
+		final String CASE_NUM = "168041";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
 		
-		final String css_Path = rstSuperListData.get(CNSuperList.SUPER_NAME) + string.getRandomCharacter();
+		final String printGrpName = rstSuperListData.get(CNSuperList.SUPER_NAME) + string.getRandomCharacter();
+		final String printGrpType = rstSuperListData.get(CNSuperList.EFT_DISBURSEMENT);
 		List<String> validateHeading = Arrays
 				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
-		String css_list_Page = validateHeading.get(0);
-		String css_Create_Page = validateHeading.get(1);
-		String existing_path = validateHeading.get(3);
+		String printGroup_list_Page = validateHeading.get(0);
+		String printGroup_Create_Page = validateHeading.get(1);
+		String wrong_Printer_Name = validateHeading.get(3);
 		
 		List<String> errorMessage = Arrays
 				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
-		String css_Mandatory_Error = errorMessage.get(0);
-		String css_Existing_Error = errorMessage.get(1);
+		String mandatory_Name_Error = errorMessage.get(0);
+		String quotes_Error = errorMessage.get(2);
 	
 		try {
 
@@ -1503,186 +1491,63 @@ public class SuperOthers extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
-			foundation.waitforElement(DataSourceManager.VALIDATE_CSS_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_CSS_HEADING),css_list_Page);
+			foundation.waitforElement(PrintGroupLists.VALIDATE_PRINT_LIST_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PrintGroupLists.VALIDATE_PRINT_LIST_HEADING),printGroup_list_Page);
 
-			//click on create New Btn and Validate the error Message for Mandatory Fields
-			foundation.click(DataSourceManager.CSS_CREATE_NEW_BTN);
+			//Select Location and click on create New Btn and Validate the error Message for Mandatory Fields
+			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			foundation.click(PrintGroupLists.BTN_CREATENEW);
 			
-			foundation.waitforElement(DataSourceManager.VALIDATE_CREATE_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_CREATE_HEADING),css_Create_Page);
-			
-			foundation.click(DataSourceManager.CSS_SAVE_BTN);
-			CustomisedAssert.assertEquals(foundation.getText(DataSourceManager.CSS_PATH_ERROR), css_Mandatory_Error);
-			CustomisedAssert.assertEquals(foundation.getText(DataSourceManager.CSS_NAME_ERROR), css_Mandatory_Error);
-			
-			//validating existing Path error
-			textBox.enterText(DataSourceManager.CSS_PATH, existing_path);
-			foundation.waitforElement(DataSourceManager.CSS_PATH_ERROR, Constants.TWO_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DataSourceManager.CSS_PATH_ERROR), css_Existing_Error);
-			foundation.click(DataSourceManager.CSS_CANCEL_BTN);
-			
-			//click on create New Btn & Cancel Btn
-			dataSourceManager.createCSS(css_Path);
-			foundation.click(DataSourceManager.CSS_CANCEL_BTN);
-			
-			//click on create New Btn & Save Btn
-			dataSourceManager.createCSS(css_Path);
-			foundation.click(DataSourceManager.CSS_SAVE_BTN);
-			
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} 
-	}
-	
-	@Test(description = "167986-QAA-285 Update the changes and click on 'Cancel' then 'Save' button")
-	public void CSSUpdateFields() {
-		final String CASE_NUM = "167986";
-		
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
-		
-		final String validate_Space_Error = rstSuperListData.get(CNSuperList.ERROR_MESSAGE);
-		
-		List<String> validate_Heading = Arrays
-				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
-		String css_List_Page = validate_Heading.get(0);
-		String css_Show_Page = validate_Heading.get(1);
-	
-		List<String> rowdata = Arrays
-				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
-		String search_css_record = rowdata.get(0);
-		String validate_Space_Text = rowdata.get(1);
-		String update_CSS_record = rowdata.get(2);
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
-			foundation.waitforElement(DataSourceManager.VALIDATE_CSS_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_CSS_HEADING),css_List_Page);
-
-			//Search for Already created CSS list
-			textBox.enterText(DataSourceManager.CSS_SEARCH_BOX, search_css_record);
-			foundation.click(DataSourceManager.CSS_GRID);
-			
-			foundation.waitforElement(DataSourceManager.VALIDATE_UPDATE_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_UPDATE_HEADING),css_Show_Page);
-		
-			//Validate the error for Space in text
-			textBox.enterText(DataSourceManager.CSS_PATH, validate_Space_Text);
-			foundation.click(DataSourceManager.CSS_SAVE_BTN);
-			CustomisedAssert.assertEquals(foundation.getText(DataSourceManager.CSS_PATH_ERROR), validate_Space_Error);
-			
-			//Update the changes, Cancel and save
-			textBox.enterText(DataSourceManager.CSS_PATH, update_CSS_record);
-			foundation.click(DataSourceManager.CSS_CANCEL_BTN);
-			
-			//navigate to CSS List page
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_CSS_HEADING),css_List_Page);
-			foundation.click(DataSourceManager.CSS_GRID);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_UPDATE_HEADING),css_Show_Page);
-			textBox.enterText(DataSourceManager.CSS_PATH, update_CSS_record);
-			foundation.click(DataSourceManager.CSS_SAVE_BTN);
-			
-		} catch (Throwable exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} 
-		//Reset the data
-		textBox.enterText(DataSourceManager.CSS_SEARCH_BOX, update_CSS_record);
-		foundation.click(DataSourceManager.CSS_GRID);
-		textBox.enterText(DataSourceManager.CSS_PATH, search_css_record);
-		foundation.click(DataSourceManager.CSS_SAVE_BTN);
-	}
-
-	@Test(description = "168032-QAA-286 Validate the error message when click on save button without entering any detail in Source and Type Fields and validate the successfully entered fields.")
-	public void SequenceNumberValidateAllFields() {
-		final String CASE_NUM = "168032";
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
-		
-		final String seq_Source = rstSuperListData.get(CNSuperList.SUPER_NAME) + string.getRandomCharacter();
-		final String seq_Type = rstSuperListData.get(CNSuperList.EFT_DISBURSEMENT);
-		List<String> validateHeading = Arrays
-				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
-		String seqNbr_list_Page = validateHeading.get(0);
-		String seqNbr_Create_Page = validateHeading.get(1);
-		String existing_path = validateHeading.get(2);
-		
-		List<String> errorMessage = Arrays
-				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
-		String  seqNbr_Mandatory_Error = errorMessage.get(0);
-		String  seqNbr_Existing_Error = errorMessage.get(1);
-	
-		try {
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
-			foundation.waitforElement(SequenceNumber.VALIDATE_SEQLIST_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(SequenceNumber.VALIDATE_SEQLIST_HEADING),seqNbr_list_Page);
-
-			//click on create New Btn and Validate the error Message for Mandatory Fields
-			foundation.click(SequenceNumber.BTN_CREATE);
-			
-			foundation.waitforElement(SequenceNumber.VALIDATE_SEQCREATE_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(SequenceNumber.VALIDATE_SEQCREATE_HEADING),seqNbr_Create_Page);
-			
-			foundation.click(SequenceNumber.BTN_SAVE);
-			CustomisedAssert.assertEquals(foundation.getText(SequenceNumber.SEQ_SOURCE_ERROR), seqNbr_Mandatory_Error);
-			CustomisedAssert.assertEquals(foundation.getText(SequenceNumber.SEQ_TYPE_ERROR), seqNbr_Mandatory_Error);
-			
-			//validating existing Source error
-			textBox.enterText(SequenceNumber.TXT_SOURCE, existing_path);			
-			CustomisedAssert.assertEquals(foundation.getText(SequenceNumber.SEQ_TYPE_ERROR), seqNbr_Mandatory_Error);
-			
-			textBox.enterText(SequenceNumber.TXT_SOURCE, existing_path);
-			foundation.waitforElement(SequenceNumber.SEQ_SOURCE_ERROR, Constants.TWO_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(SequenceNumber.SEQ_SOURCE_ERROR), seqNbr_Existing_Error);
-			foundation.click(SequenceNumber.BTN_CANCEL);
+			foundation.waitforElement(PrintGroupLists.VALIDATE_PRINT_GROUPCREATE_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PrintGroupLists.VALIDATE_PRINT_GROUPCREATE_HEADING),printGroup_Create_Page);	
+			foundation.click(PrintGroupLists.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), mandatory_Name_Error);	
+			textBox.enterText(PrintGroupLists.TXT_NAME, wrong_Printer_Name);
+			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
+			foundation.click(PrintGroupLists.BTN_CANCEL);
 						
 			//click on create New Btn & Cancel Btn
-			sequenceNumber.createSeqNbr(seq_Source, seq_Type);
-			foundation.click(SequenceNumber.BTN_CANCEL);
+			printGroupLists.createPrintGroup(printGrpName, printGrpType);
+			foundation.click(PrintGroupLists.BTN_CANCEL);
 			
 			//click on create New Btn & Save Btn
-			sequenceNumber.createSeqNbr(seq_Source, seq_Type);
-			foundation.click(SequenceNumber.BTN_SAVE);
+			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			printGroupLists.createPrintGroup(printGrpName, printGrpType);
+			foundation.click(PrintGroupLists.BTN_SAVE);
+			foundation.waitforElementToDisappear(PrintGroupLists.TXT_SPINNER_MSG,Constants.SHORT_TIME);
+			browser.close();
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
 	}
 	
-	@Test(description = "168033-QAA-286 Update the changes and click on 'Cancel' then 'Save' button")
-	public void SequenceNumberUpdateFields() {
-		final String CASE_NUM = "168033";
+	@Test(description = "168090-QAA-281 Update the changes on Print Summary Page and click on 'Cancel' then 'Save' button")
+	public void PrintGroupUpdateFields() {
+		final String CASE_NUM = "168090";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
 		
+		List<String> printGrpType = Arrays
+				.asList(rstSuperListData.get(CNSuperList.EFT_DISBURSEMENT).split(Constants.DELIMITER_TILD));
+		String updated_Printer_Type= printGrpType.get(0);
+		String existing_Printer_Type = printGrpType.get(1);
+		
+		List<String> printer_Name = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String existing_Printer_Name= printer_Name.get(0);
+		String updated_Printer_Name = printer_Name.get(1);
+			
 		List<String> validateHeading = Arrays
 				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
-		String seqNbr_list_Page = validateHeading.get(0);
-		String seqNbr_Show_Page = validateHeading.get(1);
-		String search_seqNbr_record = validateHeading.get(2);
-		String update_seqNbr_record = validateHeading.get(3);		
+		String printGroup_list_Page = validateHeading.get(0);
+		String printGroup_Summary_Page = validateHeading.get(1);
+		
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String existing_Name_Error = errorMessage.get(0);
+		String result_Data = errorMessage.get(1);
 	
 		try {
 
@@ -1696,19 +1561,147 @@ public class SuperOthers extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			
-			foundation.waitforElement(SequenceNumber.VALIDATE_SEQLIST_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(SequenceNumber.VALIDATE_SEQLIST_HEADING),seqNbr_list_Page);
-
-			//Search for already created Sequence Number
-			sequenceNumber.updatingSeqNbr(search_seqNbr_record, seqNbr_Show_Page, update_seqNbr_record);
+			foundation.waitforElement(PrintGroupLists.VALIDATE_PRINT_LIST_HEADING, Constants.TWO_SECOND);
+			String heading = foundation.getText(PrintGroupLists.VALIDATE_PRINT_LIST_HEADING);
+			CustomisedAssert.assertEquals(heading, printGroup_list_Page);
+			
+			//Validating the existing printer name
+			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE), Constants.TEXT);
+			foundation.click(PrintGroupLists.BTN_CREATENEW);
+			textBox.enterText(PrintGroupLists.TXT_NAME, existing_Printer_Name);
+			foundation.click(PrintGroupLists.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), existing_Name_Error);
+			foundation.click(PrintGroupLists.BTN_CANCEL);
+			
+			//updating the printer name
+			printGroupLists.updatePrintGroup(existing_Printer_Name, result_Data, printGroup_Summary_Page, updated_Printer_Name, updated_Printer_Type);
 			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
-		//Reset the changes
-		sequenceNumber.updatingSeqNbr(update_seqNbr_record, seqNbr_Show_Page, search_seqNbr_record);
-		foundation.waitforElementToDisappear(OrgList.TXT_SPINNER_MSG,Constants.SHORT_TIME);
+		
+		//Resetting the data
+		printGroupLists.updatePrintGroup(updated_Printer_Name, result_Data, printGroup_Summary_Page, existing_Printer_Name, existing_Printer_Type);
+		
+	}
+
+	
+	@Test(description = "168124-QAA-301 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields.")
+	public void DICRulesValidateAllFields() {
+		final String CASE_NUM = "168124";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.EFT_DISBURSEMENT).split(Constants.DELIMITER_TILD));
+		String dicRule_Page = validateHeading.get(0);
+		String dicRule_Create_Page = validateHeading.get(1);
+		
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String mandatory_Error = errorMessage.get(0);
+		String quotes_Error = errorMessage.get(1);
+		
+		List<String> create_Page_Data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+		String invalid_data= create_Page_Data.get(0);
+		String type_Field = create_Page_Data.get(1) + string.getRandomCharacter();
+		String label_Field = create_Page_Data.get(3) + numbers.generateRandomNumber(0, 4);
+		
+	
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			foundation.waitforElement(DICRules.TXT_DIC_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_DIC_HEADING), dicRule_Page);
+            foundation.click(DICRules.BTN_CREATE_NEW);
+            CustomisedAssert.assertTrue(foundation.isDisplayed(DICRules.TXT_CREATE_HEADING),dicRule_Create_Page);	
+			foundation.click(PrintGroupLists.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_REQUIRED_ERROR), mandatory_Error);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_NAME_ERROR), mandatory_Error);
+			textBox.enterText(DICRules.TXTBX_NAME, invalid_data);
+			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
+			foundation.click(DICRules.BTN_CANCEL);
+			foundation.waitforElement(DICRules.TXT_DIC_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_DIC_HEADING), dicRule_Page);
+			//click on create New Btn & Cancel Btn
+			dicRules.createDICRule(type_Field,label_Field,create_Page_Data);
+			foundation.click(DICRules.BTN_CANCEL);
+			
+			//click on create New Btn & Save Btn
+			dicRules.createDICRule(type_Field,label_Field,create_Page_Data);
+			foundation.click(DICRules.BTN_SAVE);
+			foundation.waitforElementToDisappear(PrintGroupLists.TXT_SPINNER_MSG,Constants.SHORT_TIME);
+			browser.close();
+			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
 	}
 	
+	@Test(description = "168140-QAA-301 Update the changes on Print Summary Page and click on 'Cancel' then 'Save' button")
+	public void DICRulesUpdateFields() {
+		final String CASE_NUM = "168140";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.EFT_DISBURSEMENT).split(Constants.DELIMITER_TILD));
+		String dicRule_Page = validateHeading.get(0);
+		String dicRule_Show_Page = validateHeading.get(1);
+		
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String existing_DIC = errorMessage.get(0);
+		String active_disabled_message = errorMessage.get(1);
+		String validating_record = errorMessage.get(2);
+		
+		List<String> create_Page_Data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+		String existing_DICRule= create_Page_Data.get(0);
+		String updated_DICRule = create_Page_Data.get(1);
+		String existing_seqNbr= create_Page_Data.get(2);
 	
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+			foundation.waitforElement(DICRules.TXT_DIC_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_DIC_HEADING), dicRule_Page);
+			foundation.click(DICRules.BTN_CREATE_NEW);
+			textBox.enterText(DICRules.TXTBX_NAME, existing_DICRule);
+			textBox.enterText(DICRules.TXTBX_SEQNBR, existing_seqNbr);
+			foundation.click(DICRules.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_NAME_ERROR), existing_DIC);
+			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXTBX_SEQNBR_ERROR), existing_DIC);
+			foundation.click(DICRules.BTN_CANCEL);
+			
+			//Update the DIC Rule
+			dicRules.updateDICRule(existing_DICRule, validating_record,dicRule_Show_Page,updated_DICRule,active_disabled_message);
+
+			
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+		//Resetting the data
+		dicRules.updateDICRule(updated_DICRule, validating_record,dicRule_Show_Page,existing_DICRule,active_disabled_message);
+
+	}
 }
