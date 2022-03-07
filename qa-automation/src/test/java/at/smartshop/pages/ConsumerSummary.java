@@ -62,6 +62,7 @@ public class ConsumerSummary extends Factory {
 	public static final By SPINNER = By.id("//span[contains(@id,'container_loading')]");
 	public static final By REF_EFT = By.id("oneft");
 	public static final By ERROR_MESSAGE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By SUCCESS_MESSAGE = By.xpath("//div[text()='Success!']");
 	public static final By TXT_SUBSIDY_GROUP = By.id("mkashow-pantry");
 	public static final By DPD_SUBSIDY_GROUP_NAME = By.id("pantrygroup");
 	public static final By TXT_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
@@ -71,8 +72,13 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
+	public static final By SUBSIDY_FIELD=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
+	public static final By LBL_ROLL_OVER_SUBSIDY=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]"); 
+	public static final By INPUT_PAY_ROLL_ID = By.id("payrollid");
+
+
 
 	public double getBalance() {
 		double initBalance = 0;

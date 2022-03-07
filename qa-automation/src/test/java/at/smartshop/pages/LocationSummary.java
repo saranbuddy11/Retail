@@ -1,7 +1,5 @@
 package at.smartshop.pages;
 
-import static org.testng.Assert.assertEquals;
-
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Browser;
@@ -29,14 +28,12 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
+
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.v5.pages.LandingPage;
-import at.smartshop.v5.pages.Order;
-import at.smartshop.v5.pages.ProductSearch;
-
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.LandingPage;
 
 public class LocationSummary extends Factory {
 
@@ -72,8 +69,10 @@ public class LocationSummary extends Factory {
 	public static final By DPD_HAS_LOCKER = By.id("haslocker");
 	public static final By DPD_GMA_SUBSIDY = By.id("gmasubsidy");
 	public static final By DPD_SPECIAL_TYPE = By.id("specialtype");
+	public static final By DPD_PAYROLL = By.id("payrolldeduct");
 	public static final By DPD_TOP_OFF_RECURRENCE = By.xpath("//*[@id='topoffsubsidyrange']//td/select");
 	public static final By DPD_ROLL_OVER_RECURRENCE = By.xpath("//*[@id='rolloversubsidyrange']//td/select");
+	public static final By DPD_PAY_CYCLE_RECURRENCE = By.xpath("//*[@id='payRollRange']//td/select");
 	public static final By DPD_HAS_ORDER_AHEAD = By.id("hasonlineordering");
 	public static final By DPD_HAS_PICK_UP_LOCATIONS = By.id("haspickuplocations");
 	public static final By LNK_PICK_UP_LOCATION = By.xpath("//span[@id='pickupLocationToggle']");
@@ -186,6 +185,8 @@ public class LocationSummary extends Factory {
 	public static final By DPD_SHOW_DINING = By.id("hasdiningpreference");
 	public static final By TXT_PAY_CYCLE_NAME = By
 			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_CYCLE_GROUP_NAME = By.xpath("//input[contains(@class,'paycycle-grpname')]");
+	public static final By TXT_PAY_ROLL_SPEND_LIMIT = By.xpath("//input[contains(@class,'paycycle-spndlimit')]");
 	public static final By TXT_PAY_CYCLE_SPEND_LIMIT = By
 			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-spndlimit')]");
 	public static final By DPD_PAYROLL_DEDUCT = By.id("payrolldeduct");
@@ -219,7 +220,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
-     public static final By AGE_VERIFICATION=By.id("ageverification");
+    public static final By AGE_VERIFICATION=By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -233,7 +234,6 @@ public class LocationSummary extends Factory {
 	public static final By TXT_CATEGORY = By.id("taxcat");
 	public static final By INVENTORY_QUANTITY = By
 			.xpath("//table[@id='inventoryDataGrid']/tbody/tr/td[@aria-describedby='inventoryDataGrid_qtyonhand']");
-
 	public static final By CHK_TOP_OFF_SUBSIDY = By.xpath("//input[@class='topoffsubsidy-default topoffcheckbox']");
 	public static final By CHK_DEFAULT_TOP_OFF = By.xpath("//input[@class='topoffsubsidy topoffdefaultcheckbox']");
 	public static final By CHK_DEFAULT_ROLL_OVER = By
@@ -262,6 +262,7 @@ public class LocationSummary extends Factory {
 
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
+	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1 = By
@@ -286,6 +287,10 @@ public class LocationSummary extends Factory {
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
 	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
 	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
+	public static final By INPUT_PAYROLL_MAIL = By.id("payrolldeductemail");
+	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
+	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
+	public static final By CHK_BOX_PAYROLL_DEDUCT_OFFLINE = By.xpath("//input[@name='allowofflinepd']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -327,6 +332,9 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
+	public By objectTopOffCalendarMonthAutomationNew(String month) {
+		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+	}
 
 	public By objectTopOffCalendarMonthAutomationLocation1(String month) {
 		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
@@ -351,8 +359,14 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
+	public By objectTopOffCalendarNewDayAutomationnew(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+	}
 
 	public By objectTopOffCalendarDayAutoLocation2(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+	public By objectTopOffCalendarDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
@@ -1009,6 +1023,21 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation2(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
+		}
+	}
+	public void verifyTopOffDateAutomationNewLocation(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutomationNew(monthName))) {
+			foundation.click(objectTopOffCalendarDayAutomationnew(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation2(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationNew(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutomationnew(date));
 		}
 	}
 
