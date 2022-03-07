@@ -964,6 +964,8 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNAdminAgeVerification.MAIL));
 				rstAdminAgeVerificationData.put(CNAdminAgeVerification.REQUIRED_DATA,
 						resultSet.getString(CNAdminAgeVerification.REQUIRED_DATA));
+				rstAdminAgeVerificationData.put(CNAdminAgeVerification.STATUS,
+						resultSet.getString(CNAdminAgeVerification.STATUS));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

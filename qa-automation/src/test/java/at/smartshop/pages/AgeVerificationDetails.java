@@ -32,12 +32,19 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
+	public static final By DPD_STATUS = By.id("filtervalues");
+	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
 	}
 
-	public void verifyPinExpirationPrompt(String location, List<String> prompt) {
+	public By objExpiredPinlist(String text) {
+		return By.xpath("//tr[@class='odd']/td[text()='" + text + "']");
+	}
+
+	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
 		foundation.click(objExpirePinConfirmation(location, prompt.get(0)));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_MSG));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_CONTENT));
@@ -50,6 +57,8 @@ public class AgeVerificationDetails extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_YES));
 		foundation.click(BTN_NO);
 		foundation.threadWait(Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_STATUS));
+		dropDown.selectItem(DPD_STATUS, status, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, prompt.get(0))));
 	}
 

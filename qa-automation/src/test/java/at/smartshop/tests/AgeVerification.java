@@ -11,7 +11,9 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.DateAndTime;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.database.columns.CNAdminAgeVerification;
 import at.smartshop.database.columns.CNLocationList;
@@ -34,7 +36,9 @@ public class AgeVerification extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private LocationList locationList = new LocationList();
 	private CheckBox checkBox = new CheckBox();
+	private Dropdown dropDown = new Dropdown();
 	private AgeVerificationDetails ageVerificationDetails = new AgeVerificationDetails();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -43,7 +47,9 @@ public class AgeVerification extends TestInfra {
 	@Test(description = "168272 - Verify the Expire pin confirmation prompt text"
 			+ "168273 - Verify the buttons on Expire pin confirmation prompt"
 			+ "168274 - Verify the cancel button in Expire pin confirmation prompt"
-			+ "168275 - Verify the expiry of the pin")
+			+ "168275 - Verify the expiry of the pin" + "168276 - verify expired pins are moving to expiry pin list"
+			+ "168277 - check active pin list after cancelling the pin expiration"
+			+ "168278 - Verify close button on expire pin confirmation prompt")
 	public void verifyExpirePinPrompt() {
 		final String CASE_NUM = "168272";
 
@@ -56,6 +62,9 @@ public class AgeVerification extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> status = Arrays
+				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 
 		try {
 			// Select Menu and Location
@@ -82,7 +91,15 @@ public class AgeVerification extends TestInfra {
 			// Verify Expire Pin Confirmation Prompt content, its buttons and cancel the
 			// prompt
 			ageVerificationDetails.verifyPinExpirationPrompt(
-					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData);
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData, status.get(1));
+
+			// Verify Close Button on Expire Pin Confirmation Prompt
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_CLOSE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Verify Expire Pin Confirmation Prompt with clicking Yes
 			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
@@ -92,6 +109,15 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
 			foundation.threadWait(Constants.ONE_SECOND);
+
+			// Verify expired pins are moving to expiry pin list
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_STATUS));
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails
+					.objExpiredPinlist(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(requiredData.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(currentDate)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -113,5 +139,4 @@ public class AgeVerification extends TestInfra {
 			browser.close();
 		}
 	}
-
 }
