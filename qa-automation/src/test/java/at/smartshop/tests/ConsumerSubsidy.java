@@ -2115,7 +2115,6 @@ public class ConsumerSubsidy extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 		List<String> Balance = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-
 		try {
 
 			browser.navigateURL(
@@ -2358,7 +2357,6 @@ public class ConsumerSubsidy extends TestInfra {
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 			browser.close();
 		}
-
 	}
 
 	@Test(description = "165951- Verify to views the 'Bulk Assign Subsidy Group' prompt in Consumer Search page."
@@ -2471,7 +2469,6 @@ public class ConsumerSubsidy extends TestInfra {
 			List<String> actualColumnNames = new ArrayList<String>(excelData.keySet());
 			CustomisedAssert.assertTrue(
 					actualColumnNames.get(2).equals(rstconsumerSearchData.get(CNConsumerSearch.COLUMN_NAME)));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
