@@ -46,15 +46,16 @@ public class CreateAccount {
     public static final By NEXT_BTN=By.id("cre-pin-back-btn-go-id");
     public static final By ADDLATER= By.xpath("(//BUTTON[@class='button-small button-primary'])[6]");
     public static final By COMPLETE_SETUP=By.id("gotoacct-button");
+    public static final By CANCEL_BTN=By.xpath("//i[@data-reactid='.0.b.0.0.0.0.2.0']");
     
-
+    
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
 	}
-
+	
 	public void verifyCreateAccoutnPageLanguage(String createAccount, String requiredData, String actualData) {
 		List<String> createAccountPageData = Arrays.asList(createAccount.split(Constants.DELIMITER_TILD));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(createAccountPageData.get(0))));

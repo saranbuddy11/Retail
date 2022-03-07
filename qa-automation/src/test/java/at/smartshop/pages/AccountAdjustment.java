@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,4 +144,8 @@ public class AccountAdjustment extends Factory {
 
 	}
 
+	public void verifyReasonCode(Map<String, String> actuals, String reason) {
+		String value = actuals.get("Reason");
+		CustomisedAssert.assertEquals(value, reason);
+	}
 }
