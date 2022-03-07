@@ -1,16 +1,12 @@
 package at.smartshop.tests;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import at.framework.generic.Numbers;
-import at.framework.generic.Strings;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
@@ -18,6 +14,8 @@ import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -76,7 +74,6 @@ public class ConsumerSubsidy extends TestInfra {
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private Table table = new Table();
 	private Order order = new Order();
-	private Payments payments = new Payments();
 	private Map<String, String> rstV5DeviceData;
 
 	private Map<String, String> rstNavigationMenuData;
@@ -2112,8 +2109,6 @@ public class ConsumerSubsidy extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> orderPageData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-		List<String> headData = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> Balance = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
 
@@ -2216,8 +2211,7 @@ public class ConsumerSubsidy extends TestInfra {
 			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
 			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
 			accountAdjustment.checkForDataAvailabilyInResultTable();
-			Map<String, String> reasonData = accountAdjustment.getTblRecords("11");
-			accountAdjustment.verifyReasonCode(reasonData, rstConsumerSummaryData.get(CNConsumerSummary.FIRST_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.REASON_CODE));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2399,23 +2393,23 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.RSN_CANCEL);
 
 			// Verify Save button in BulkAssignSubsidyGroup
-			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSearch.TXT_CONSUMER_SEARCH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.ACTION_BTN);
+			foundation.click(ConsumerSearch.ACTION_BTN);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.LBL_BULK_ASSIGN_POPUP));
 			dropDown.selectItem(ConsumerSearch.SUBSIDY_GROUP, rstconsumerSearchData.get(CNConsumerSearch.ACTIONS),
 					Constants.TEXT);
-			foundation.click(consumerSearch.BTN_SAVE);
+			foundation.click(ConsumerSearch.BTN_SAVE);
 
 			// verify Grid in Consumer search
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.LNK_FIRST_ROW);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
-			foundation.click(consumerSummary.CANCEL_BTN);
+			foundation.click(ConsumerSummary.CANCEL_BTN);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2464,7 +2458,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verify the Subsidy group in Action>Export
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(consumerSearch.BTN_EXPORT);
+			foundation.click(ConsumerSearch.BTN_EXPORT);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONSUMER));
 			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> excelData = excel.getExcelData(FilePath.EXCEL_CONSUMER,
@@ -2479,8 +2473,6 @@ public class ConsumerSubsidy extends TestInfra {
 		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_CONSUMER);
-
 		}
-
 	}
 }

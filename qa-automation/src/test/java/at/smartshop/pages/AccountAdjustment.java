@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +35,7 @@ public class AccountAdjustment extends Factory {
 	public static final By COLUMN_ROWDATA = By.xpath("//tbody[@role='alert']/tr");
 	public static final By REASON = By
 			.xpath("/html/body/div[4]/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/table/tbody/tr[4]/td[11]");
+	public static final By REASON_CODE = By.id("rpt-reason");
 
 	public By objHeaderDataColumn(String column) {
 		return By.xpath("//table[@id='rptdt']//th[text()='" + column + "']");
