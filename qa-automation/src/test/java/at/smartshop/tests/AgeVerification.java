@@ -143,7 +143,7 @@ public class AgeVerification extends TestInfra {
 }
          catch (Exception exc) {
 	     TestInfra.failWithScreenShot(exc.toString());
-}}
+      }}         
 	      
 	      @Test(description = "168310 -age verification enable on device summary page"
 		           + "168311-age verification disable on device summary page")
