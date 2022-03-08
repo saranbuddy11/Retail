@@ -30,25 +30,24 @@ public class TestInfra {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	public PropertyFile propertyFile = new PropertyFile();
-	public FilePath filePath=new FilePath();
-	private SendReport sendReport=new SendReport();
+	public FilePath filePath = new FilePath();
+	private SendReport sendReport = new SendReport();
 	public static String HOST = "";
-	public static String THROWABLE_EXCEPTION="";
-	public static boolean THROWED_EXCEPTION=false;
-	
-	public static String updateTestRail="";
-	
-	@Parameters({"environment","UpdateTestRail"})
+	public static String THROWABLE_EXCEPTION = "";
+	public static boolean THROWED_EXCEPTION = false;
+
+	public static String updateTestRail = "";
+
+	@Parameters({ "environment", "UpdateTestRail" })
 	@BeforeSuite
-	public void beforeSuit(String environment,String testRail) {
+	public void beforeSuit(String environment, String testRail) {
 		try {
-		ResultSets.getConnection();
-		filePath.setEnvironment(environment);
-		updateTestRail=testRail;
-		HOST=InetAddress.getLocalHost().getHostName();
-		}
-		catch (Exception exc) {
-			Assert.fail(exc.toString());
+			ResultSets.getConnection();
+			filePath.setEnvironment(environment);
+			updateTestRail = testRail;
+			HOST = InetAddress.getLocalHost().getHostName();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -58,7 +57,7 @@ public class TestInfra {
 		try {
 			browser.launch(drivers, browsers);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -67,38 +66,35 @@ public class TestInfra {
 		try {
 			browser.close();
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-
+			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
-	
-	@Parameters({"SendEmail"})
+
+	@Parameters({ "SendEmail" })
 	@AfterSuite
 	public void afterSuit(String sendEmail) {
-		try {					
-			if(sendEmail.equals(Constants.YES)) {
+		try {
+			if (sendEmail.equals(Constants.YES)) {
 				sendReport.triggerMail(ExtReport.reportFullPath);
-				}
+			}
 			ResultSets.connection.close();
-			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
+			Process process = Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public static void failWithScreenShot(String exc) {
 		try {
 			String linesofExc[] = exc.split("\\r?\\n");
-		THROWABLE_EXCEPTION=linesofExc[0];	
-		String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
-		String sysPath=FilePath.FILE+HOST+screenshot.split(Constants.DELIMITER_COLON)[1];
-		ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
-		ExtFactory.getInstance().getExtent().log(Status.FAIL, "Failed due to "+ linesofExc[0]);
-		Assert.fail(exc);
-		}
-		catch (Exception e) {
-			Assert.fail("Failed due to "+exc.toString()+" could not capture the screenshot due to "+e);
+			THROWABLE_EXCEPTION = linesofExc[0];
+			String screenshot = at.framework.reportsetup.Listeners.objReportName.getScreenshot(Factory.getDriver());
+			String sysPath = FilePath.FILE + HOST + screenshot.split(Constants.DELIMITER_COLON)[1];
+			ExtFactory.getInstance().getExtent().addScreenCaptureFromPath(sysPath);
+			ExtFactory.getInstance().getExtent().log(Status.FAIL, "Failed due to " + linesofExc[0]);
+			Assert.fail(exc);
+		} catch (Exception e) {
+			Assert.fail("Failed due to " + exc.toString() + " could not capture the screenshot due to " + e);
 		}
 	}
 
