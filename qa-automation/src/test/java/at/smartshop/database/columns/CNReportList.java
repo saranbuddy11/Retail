@@ -18,4 +18,5 @@ public class CNReportList {
 	public static final String DOWNLOADED_FILE_NAME = "DownloadedFileName";
 	public static final String GROUPBY_DROPDOWN = "GroupByDropdown";
 	public static final String SELECT_FILTER_TO_INCLUDE = "SelectFiltersToInclude";
+	public static final String SELECT_VALUE_FOR_SELECTED_FILTER_TYPE = "SelectValueForSelectedFilterType";
 }

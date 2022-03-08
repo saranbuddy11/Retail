@@ -73,13 +73,17 @@ public class PromotionList extends Factory {
 	}
 
 	public void expirePromotion(String menuItem, String promotionName, String gridName) {
-		foundation.threadWait(Constants.TWO_SECOND);
-		// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
-		// FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(menuItem);
-		searchPromotion(promotionName);
-		assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
-		editPromotion.expirePromotion(gridName, promotionName);
-		foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+		try {
+			foundation.threadWait(Constants.TWO_SECOND);
+			// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
+			// FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem);
+			searchPromotion(promotionName);
+			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			editPromotion.expirePromotion(gridName, promotionName);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
