@@ -32,7 +32,11 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
-	public static final By AUOMATIONNEWLOCATION=By.xpath("/html/body/div[3]/div[2]/div/form/div[1]/dd/select/option[2]");
+	
+	
+	public By automationNewLocation(String text) {
+		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
+	}
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");

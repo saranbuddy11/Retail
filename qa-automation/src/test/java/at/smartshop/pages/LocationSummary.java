@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.formula.functions.EOMonth;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -47,6 +49,7 @@ public class LocationSummary extends Factory {
 	private LandingPage landingPage = new LandingPage();
 	private Map<String, String> rstV5DeviceData;
 	private CheckBox checkBox = new CheckBox();
+	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
