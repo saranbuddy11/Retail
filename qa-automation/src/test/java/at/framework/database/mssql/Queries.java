@@ -22,4 +22,5 @@ public class Queries {
 	public static final String PRODUCT = "SELECT * FROM QA.dbo.Product where TestcaseID=";
 	public static final String CONSUMER = "SELECT * FROM QA.dbo.Consumer where TestcaseID=";
 	public static final String SUPER = "SELECT * FROM QA.dbo.Super where TestcaseID=";
+	public static final String ADMIN_AGE_VERIFICATION = "SELECT * FROM QA.dbo.AdminAgeVerification where TestcaseID=";
 }
