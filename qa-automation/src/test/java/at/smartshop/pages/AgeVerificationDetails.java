@@ -71,6 +71,6 @@ public class AgeVerificationDetails extends Factory {
 		dropDown.selectItem(DPD_LANGUAGE, datas.get(6), Constants.TEXT);
 		textBox.enterText(CHECKOUT_DATE, currentDate);
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
-		foundation.click(BTN_CREATE_PIN);
+		foundation.objectClick(BTN_CREATE_PIN);
 	}
 }
