@@ -23,6 +23,7 @@ public class Login extends Factory {
 		try {
 			foundation.waitforElement(TXT_EMAIL, Constants.TWO_SECOND);
 			textBox.enterText(TXT_EMAIL, userName);
+			foundation.click(BTN_SIGN_IN);
 			textBox.enterText(TXT_PASSWORD, password);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -34,6 +35,7 @@ public class Login extends Factory {
 			foundation.click(BTN_SIGN_IN);
 			insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
+			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
