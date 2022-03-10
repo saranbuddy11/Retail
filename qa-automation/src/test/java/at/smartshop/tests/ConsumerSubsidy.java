@@ -2167,8 +2167,9 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			login.logout();
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.close();
+			
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2196,6 +2197,7 @@ public class ConsumerSubsidy extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
+			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
