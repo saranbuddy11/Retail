@@ -238,7 +238,8 @@ public class AgeVerification extends TestInfra {
 	}
 
 	@Test(description = "168291 - verify the default status on pin status filter"
-			+ "168292 - verify the options in pin status dropdown" + "168293 - verify the expired option")
+			+ "168292 - verify the options in pin status dropdown" + "168293 - verify the expired option"
+			+ "168294 - verify the active option")
 	public void verifyDefaultPinStatusInSuperUser() {
 		final String CASE_NUM = "168291";
 
@@ -251,6 +252,8 @@ public class AgeVerification extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAndSelectOrg(
@@ -285,17 +288,29 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertEquals(options.get(1), status.get(1));
 			CustomisedAssert.assertEquals(options.get(2), status.get(2));
 
-			// Verify Expired Pin status
+			// Verify Expired PIN status
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
 			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 			foundation.threadWait(Constants.TWO_SECOND);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
 			for (int i = 0; i < uiTableData.size(); i++) {
 				innerMap = uiTableData.get(i);
-				String innerValue = innerMap.get("Actions");
-				CustomisedAssert.assertEquals(innerValue,
-						rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA));
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
+			}
+			uiTableData.clear();
+
+			// Verify Active PIN Status
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
 			}
 
 		} catch (Exception exc) {
