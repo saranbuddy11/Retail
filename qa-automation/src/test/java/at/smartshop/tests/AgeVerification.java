@@ -42,7 +42,7 @@ public class AgeVerification extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstDeviceListData;
 
-	@Test(description = "168264 -Age verification enable by operator" + "168265-Age verification disable by operator")
+	@Test(description = "168558- Age verification enable by operator")
 	public void verifyAgeVerificationByOperator() {
 		final String CASE_NUM = "168264";
 
@@ -75,6 +75,9 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
 			// Navigate to Location to verify the age verification is enabled
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
@@ -83,15 +86,6 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
-
-			// Navigate to deviceSummary
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.click(LocationSummary.DEVICE_BTN);
-			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -255,7 +249,7 @@ public class AgeVerification extends TestInfra {
 				foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 				foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			}
-			
+
 			// Deploy Device to AutoLocationConsumerVerified Location
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location.get(0));
@@ -378,8 +372,8 @@ public class AgeVerification extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 			foundation.refreshPage();
 			foundation.objectFocus(LocationSummary.BTN_LOCATION_SETTINGS);
-            login.logout();
-            browser.close();
+			login.logout();
+			browser.close();
 		}
 
 	}
