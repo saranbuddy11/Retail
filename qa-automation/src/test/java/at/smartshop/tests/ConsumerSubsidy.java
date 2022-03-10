@@ -139,8 +139,12 @@ public class ConsumerSubsidy extends TestInfra {
 			expectedValues.add(requiredData.get(0));
 			CustomisedAssert.assertTrue(values.equals(expectedValues));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY)) {
@@ -277,8 +281,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -328,8 +336,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -379,8 +391,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -430,8 +446,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(10), Constants.TEXT);
@@ -525,7 +545,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
@@ -760,8 +785,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
@@ -832,7 +861,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 
@@ -1305,8 +1339,12 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
@@ -1409,8 +1447,12 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
@@ -1516,8 +1558,12 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
@@ -1603,8 +1649,12 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
@@ -1759,8 +1809,12 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
@@ -1853,6 +1907,7 @@ public class ConsumerSubsidy extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecords("2");
 			accountAdjustment.verifyReasonCodeAndAmount(uiData, requiredData.get(7), requiredData.get(8),
 					requiredData.get(9), requiredData.get(10), requiredDatas);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1897,8 +1952,12 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			CustomisedAssert.assertEquals(value, requiredData.get(1));
-			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			if (value.equals(requiredData.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, requiredData.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))

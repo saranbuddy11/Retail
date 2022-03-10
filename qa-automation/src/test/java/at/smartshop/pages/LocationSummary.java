@@ -29,7 +29,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.LandingPage;
 
 public class LocationSummary extends Factory {
 
@@ -40,8 +39,6 @@ public class LocationSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
-	private LandingPage landingPage = new LandingPage();
-	private Map<String, String> rstV5DeviceData;
 	private CheckBox checkBox = new CheckBox();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
@@ -326,6 +323,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
+
 	public By objectTopOffCalendarMonthAutomationNew(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
@@ -353,6 +351,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
+
 	public By objectTopOffCalendarNewDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
@@ -360,6 +359,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
+
 	public By objectTopOffCalendarDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
@@ -766,7 +766,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void deletePaycyle(String location, String payCycle) {
-		
+
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
@@ -1020,6 +1020,7 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		}
 	}
+
 	public void verifyTopOffDateAutomationNewLocation(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1174,7 +1175,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
@@ -1195,7 +1196,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
