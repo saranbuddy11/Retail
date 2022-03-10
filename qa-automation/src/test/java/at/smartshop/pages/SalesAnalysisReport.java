@@ -3,6 +3,7 @@ package at.smartshop.pages;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -41,7 +42,7 @@ public class SalesAnalysisReport extends Factory {
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#hierarchicalGrid");
 	private static final By TBL_SALES_ANALYSIS_GRID = By.cssSelector("#hierarchicalGrid > tbody");
 	public static final By TBL_EXPAND_ROW = By.xpath("//span[@title='Expand Row']");
-	//span[@title='Expand Row']
+	// span[@title='Expand Row']
 
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
@@ -233,12 +234,12 @@ public class SalesAnalysisReport extends Factory {
 		System.out.println("reportsData :" + reportsData);
 		return reportsData;
 	}
-	
+
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
-			System.out.println("reportsData :"+reportsData);
-			System.out.println("intialData :"+intialData);
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -250,30 +251,32 @@ public class SalesAnalysisReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, String values) {
+	public void removeReportDataFirstValue() {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
 //				intialData.get(iter).put(columnName, values);
-				((List<String>) intialData.get(iter)).add(0, "");
+//				((List<String>) intialData.get(iter)).add(0, "");
+
+				intialData.get(iter).remove("");
 			}
-			System.out.println("intialData2 :"+intialData);
+			System.out.println("intialData2 :" + intialData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void calculateAmount(String columnName, String amount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
-				String initialAmount = intialData.get(iter).get(columnName)
-						.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+						Constants.EMPTY_STRING);
 				double updatedAmount = Double
 						.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 						+ Double.parseDouble(initialAmount);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL+ String.valueOf(updatedAmount));
+				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			}
-			System.out.println("intialData2 :"+intialData);
+			System.out.println("intialData2 :" + intialData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -281,12 +284,12 @@ public class SalesAnalysisReport extends Factory {
 
 	public void saleCount(String columnName) {
 		try {
-			System.out.println("requiredData2 :"+reportsData);
-			System.out.println("intialData2 :"+intialData);
+			System.out.println("requiredData2 :" + reportsData);
+			System.out.println("intialData2 :" + intialData);
 			for (int iter = 0; iter < reportsData.size(); iter++) {
 				String saleCount = intialData.get(iter).get(columnName);
 				int updatedCount = Integer.parseInt(saleCount) + 1;
-				System.out.println("updatedCount :" +updatedCount);
+				System.out.println("updatedCount :" + updatedCount);
 				intialData.get(iter).put(columnName, String.valueOf(updatedCount));
 			}
 		} catch (Exception exc) {
@@ -296,28 +299,27 @@ public class SalesAnalysisReport extends Factory {
 
 	public void getGMValueUsingCalculationForAllProducts(String columnName, String productPrice) {
 		for (int iter = 0; iter < reportsData.size(); iter++) {
-		String soldCount =  intialData.get(iter).get(tableHeaders.get(7));
-		
-//		String soldCount = foundation.getText(objReportColumn(columnSold, productName));
-		double totalProductPrice = Double.parseDouble(soldCount) * Double.parseDouble(productPrice);
+			String soldCount = intialData.get(iter).get(tableHeaders.get(7));
 
-		
-		String discountValue = intialData.get(iter).get(tableHeaders.get(11)).replace("$",Constants.EMPTY_STRING);
-		String costValue =  intialData.get(iter).get(tableHeaders.get(13)).replace("$",Constants.EMPTY_STRING);
-		
+//		String soldCount = foundation.getText(objReportColumn(columnSold, productName));
+			double totalProductPrice = Double.parseDouble(soldCount) * Double.parseDouble(productPrice);
+
+			String discountValue = intialData.get(iter).get(tableHeaders.get(11)).replace("$", Constants.EMPTY_STRING);
+			String costValue = intialData.get(iter).get(tableHeaders.get(13)).replace("$", Constants.EMPTY_STRING);
+
 //		String discountValue = foundation.getText(objReportColumn(columnDiscount, productName)).replace("$",
 //				Constants.EMPTY_STRING);
 //		String costValue = foundation.getText(objReportColumn(columnCost, productName)).replace("$",
 //				Constants.EMPTY_STRING);
 
-		double finalValue = (totalProductPrice - Double.parseDouble(discountValue.trim())
-				- Double.parseDouble(costValue.trim())) * 100
-				/ (totalProductPrice - Double.parseDouble(discountValue.trim()));
-		finalValue = Math.round(finalValue * 100.0) / 100.0;
-		String gmValue =  String.valueOf(finalValue)+ "%" ;
-		System.out.println("gmValue :"+ gmValue);
-		
-		intialData.get(iter).put(columnName, gmValue);
+			double finalValue = (totalProductPrice - Double.parseDouble(discountValue.trim())
+					- Double.parseDouble(costValue.trim())) * 100
+					/ (totalProductPrice - Double.parseDouble(discountValue.trim()));
+			finalValue = Math.round(finalValue * 100.0) / 100.0;
+			String gmValue = String.valueOf(finalValue) + "%";
+			System.out.println("gmValue :" + gmValue);
+
+			intialData.get(iter).put(columnName, gmValue);
 		}
 	}
 
@@ -327,7 +329,7 @@ public class SalesAnalysisReport extends Factory {
 ////		String value = foundation.getText(objReportColumn(columnName, productName));
 //		return Double.parseDouble(value.replace("%", Constants.EMPTY_STRING).trim());
 //	}
-	
+
 	public void getUITblRecordsGroupbyLocations() {
 		try {
 			int recordCount = 0;
@@ -356,13 +358,31 @@ public class SalesAnalysisReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData :"+ reportsData);
-			System.out.println("tableHeaders :"+ tableHeaders);
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("tableHeaders :" + tableHeaders);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	public List<String> removeHeaderFirstValue(String columnNames) {
+		List<String> columnName = new LinkedList<String>(Arrays.asList(columnNames.split(Constants.DELIMITER_HASH)));
+		columnName.remove(0);
+		System.out.println("columnName :" + columnName);
+		return columnName;
+	}
+
+	public void verifyReportHeadersForLocation(List<String> columnName, List<String> tableHeaders) {
+		try {
+			System.out.println("tableHeaders :" + tableHeaders);
+			System.out.println("columnName :" + columnName);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	public Map<String, Object> getJsonData() {
 		return jsonData;

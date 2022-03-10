@@ -2878,9 +2878,7 @@ public class Report extends TestInfra {
 	@Test(description = "168454-Verify the Data Validation of Sales Analysis Report")
 	public void salesAnalysisReportDataValication() {
 		try {
-
 			final String CASE_NUM = "168454";
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -2892,19 +2890,17 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// process sales API to generate data
 			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			List<String> reportName = Arrays
-					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_TILD));
-			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
-			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			List<String> groupBy = Arrays
 					.asList(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN).split(Constants.DELIMITER_HASH));
-
-			reportList.selectReport(reportName.get(0));
+			
+			// Data validation for Report Based on Groupby ITEMS		
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -2912,8 +2908,9 @@ public class Report extends TestInfra {
 			reportList.selectGroupByOption(groupBy.get(0), Constants.TEXT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(SalesAnalysisReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			salesAnalysisReport.verifyReportName(reportName.get(0));
+			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
+			// Read the Report the Data
 			salesAnalysisReport.getTblRecordsUI();
 			salesAnalysisReport.getIntialData().putAll(salesAnalysisReport.getReportsData());
 			
@@ -2921,12 +2918,13 @@ public class Report extends TestInfra {
 			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			
 			//rerun and reread report
-//			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			salesAnalysisReport.getTblRecordsUI();
 
+			// update the report date baseed on calculation
 			List<String> expectedData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			
 			salesAnalysisReport.saleCount(salesAnalysisReport.getTableHeaders().get(7));
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(8), expectedData.get(0));
@@ -2938,6 +2936,27 @@ public class Report extends TestInfra {
 
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME), salesAnalysisReport.getTableHeaders());
+
+			// verify report data
+			salesAnalysisReport.verifyReportData();
+			
+            System.out.println("*************8by location************");
+            
+            // Data validation for Report Based on Groupby LOCATION
+            // Run the Report and read the data based on Loaction
+			reportList.selectGroupByOption(groupBy.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			foundation.click(SalesAnalysisReport.TBL_EXPAND_ROW);
+			foundation.threadWait(Constants.TWO_SECOND);
+			salesAnalysisReport.getUITblRecordsGroupbyLocations();
+			salesAnalysisReport.getIntialData().putAll(promotionAnalysis.getReportsData());
+			 
+			salesAnalysisReport.removeReportDataFirstValue();
+			
+			// verify report headers
+			salesAnalysisReport.verifyReportHeadersForLocation(salesAnalysisReport.removeHeaderFirstValue(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME)), salesAnalysisReport.getTableHeaders());
 
 			// verify report data
 			salesAnalysisReport.verifyReportData();
