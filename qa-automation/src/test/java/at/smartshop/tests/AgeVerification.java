@@ -239,7 +239,7 @@ public class AgeVerification extends TestInfra {
 
 	@Test(description = "168291 - verify the default status on pin status filter"
 			+ "168292 - verify the options in pin status dropdown" + "168293 - verify the expired option"
-			+ "168294 - verify the active option")
+			+ "168294 - verify the active option" + "168295 - verify the all option")
 	public void verifyDefaultPinStatusInSuperUser() {
 		final String CASE_NUM = "168291";
 
@@ -312,7 +312,19 @@ public class AgeVerification extends TestInfra {
 				innerValue = innerMap.get("Actions");
 				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
 			}
+			uiTableData.clear();
 
+			// Verify ALL options
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				String actions = requiredData.get(0) + requiredData.get(1);
+				CustomisedAssert.assertTrue(actions.contains(innerValue));
+			}
+			uiTableData.clear();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
