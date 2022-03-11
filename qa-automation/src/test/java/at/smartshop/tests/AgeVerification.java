@@ -269,13 +269,12 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 
-			//Navigate to Admin>Age verification
+			// Navigate to Admin>Age verification
 			navigationBar.navigateToMenuItem(menus.get(1));
 			List<String> values = dropDown.getAllItems(AgeVerificationDetails.DPD_LOCATION);
-			List<String> expectedValues = new ArrayList<String>();
-			expectedValues.add(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			CustomisedAssert.assertTrue(values.equals(expectedValues));
+			CustomisedAssert.assertFalse(values.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -286,6 +285,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 
