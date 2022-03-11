@@ -14,7 +14,6 @@ import java.util.UUID;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
@@ -42,7 +41,10 @@ public class SalesAnalysisReport extends Factory {
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#hierarchicalGrid");
 	private static final By TBL_SALES_ANALYSIS_GRID = By.cssSelector("#hierarchicalGrid > tbody");
 	public static final By TBL_EXPAND_ROW = By.xpath("//span[@title='Expand Row']");
-	// span[@title='Expand Row']
+	private static final By TBL_SALES_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
+			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table");
+	private static final By TBL_SALES_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
+			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table > tbody");
 
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
@@ -52,10 +54,6 @@ public class SalesAnalysisReport extends Factory {
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private List<String> requiredJsonData = new LinkedList<>();
-//	private Map<String, String> reportsData = new LinkedHashMap<>();
-//	private Map<String, String> intialData = new LinkedHashMap<>();
-//	private List<Integer> requiredData = new LinkedList<>();
-
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
@@ -73,17 +71,17 @@ public class SalesAnalysisReport extends Factory {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
 				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
-					Assert.fail("Failed Report because No Data Available in Report Table");
+					CustomisedAssert.fail("Failed Report because No Data Available in Report Table");
 				} else {
 					ExtFactory.getInstance().getExtent().log(Status.INFO,
 							"Report Data Available in the Table, Hence passing the Test case");
 				}
 			} else {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
-				Assert.fail("Failed Report because No Report Table Available");
+				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			CustomisedAssert.fail(exc.toString());
 		}
 	}
 
@@ -184,29 +182,6 @@ public class SalesAnalysisReport extends Factory {
 		return Double.parseDouble(value.replace("%", Constants.EMPTY_STRING).trim());
 	}
 
-//	public Map<String, String> getTblRecordsUI() {
-//		try {
-//			tableHeaders.clear();
-//			WebElement tableReportsList = getDriver().findElement(TBL_SALES_ANALYSIS_GRID);
-//			WebElement tableReports = getDriver().findElement(TBL_SALES_ANALYSIS);
-//			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
-//			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-//			for (WebElement columnHeader : columnHeaders) {
-//				tableHeaders.add(columnHeader.getText());
-//			}
-//			for (WebElement row : rows) {
-//				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-//					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-//					reportsData.put(tableHeaders.get(columnCount - 1), column.getText());
-//				}
-//			}
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//		System.out.println("reportsData :" +reportsData);
-//		return reportsData;
-//	}
-
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
 			int recordCount = 0;
@@ -225,41 +200,37 @@ public class SalesAnalysisReport extends Factory {
 					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
 				}
 				reportsData.put(recordCount, uiTblRowValues);
-
 				recordCount++;
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		System.out.println("reportsData :" + reportsData);
 		return reportsData;
 	}
 
-	public void verifyReportData() {
+	public void getUITblRecordsGroupbyLocations() {
 		try {
-			int count = intialData.size();
-			System.out.println("reportsData :" + reportsData);
-			System.out.println("intialData :" + intialData);
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+			int recordCount = 0;
+			tableHeaders.clear();
+			reportsData.clear();
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+			WebElement tableReportsList = getDriver().findElement(TBL_SALES_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS);
+			WebElement tableReports = getDriver().findElement(TBL_SALES_ANALYSIS_DETAILED_GROUPBY_LOCATIONS);
+			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
 				}
+				reportsData.put(recordCount, uiTblRowValues);
+				recordCount++;
 			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	public void removeReportDataFirstValue() {
-		try {
-			for (int iter = 0; iter < reportsData.size(); iter++) {
-//				intialData.get(iter).put(columnName, values);
-//				((List<String>) intialData.get(iter)).add(0, "");
-
-				intialData.get(iter).remove("");
-			}
-			System.out.println("intialData2 :" + intialData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -276,7 +247,6 @@ public class SalesAnalysisReport extends Factory {
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			}
-			System.out.println("intialData2 :" + intialData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -284,82 +254,50 @@ public class SalesAnalysisReport extends Factory {
 
 	public void saleCount(String columnName) {
 		try {
-			System.out.println("requiredData2 :" + reportsData);
-			System.out.println("intialData2 :" + intialData);
 			for (int iter = 0; iter < reportsData.size(); iter++) {
 				String saleCount = intialData.get(iter).get(columnName);
 				int updatedCount = Integer.parseInt(saleCount) + 1;
-				System.out.println("updatedCount :" + updatedCount);
 				intialData.get(iter).put(columnName, String.valueOf(updatedCount));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	public void getGMValueUsingCalculationForAllProducts(String columnName, String productPrice) {
 		for (int iter = 0; iter < reportsData.size(); iter++) {
 			String soldCount = intialData.get(iter).get(tableHeaders.get(7));
-
-//		String soldCount = foundation.getText(objReportColumn(columnSold, productName));
 			double totalProductPrice = Double.parseDouble(soldCount) * Double.parseDouble(productPrice);
-
 			String discountValue = intialData.get(iter).get(tableHeaders.get(11)).replace("$", Constants.EMPTY_STRING);
 			String costValue = intialData.get(iter).get(tableHeaders.get(13)).replace("$", Constants.EMPTY_STRING);
-
-//		String discountValue = foundation.getText(objReportColumn(columnDiscount, productName)).replace("$",
-//				Constants.EMPTY_STRING);
-//		String costValue = foundation.getText(objReportColumn(columnCost, productName)).replace("$",
-//				Constants.EMPTY_STRING);
-
 			double finalValue = (totalProductPrice - Double.parseDouble(discountValue.trim())
 					- Double.parseDouble(costValue.trim())) * 100
 					/ (totalProductPrice - Double.parseDouble(discountValue.trim()));
 			finalValue = Math.round(finalValue * 100.0) / 100.0;
-			String gmValue = String.valueOf(finalValue) + "%";
-			System.out.println("gmValue :" + gmValue);
-
+			String gmValue = String.valueOf(finalValue) + Constants.DELIMITER_PERCENTAGE;
 			intialData.get(iter).put(columnName, gmValue);
 		}
 	}
 
-//	public double getGMValueForAllProducts(String columnName, String productName) {
-//		String value = intialData.get(iter).get(columnName);
-//		;
-////		String value = foundation.getText(objReportColumn(columnName, productName));
-//		return Double.parseDouble(value.replace("%", Constants.EMPTY_STRING).trim());
-//	}
-
-	public void getUITblRecordsGroupbyLocations() {
+	public void verifyReportData() {
 		try {
-			int recordCount = 0;
-			tableHeaders.clear();
-			reportsData.clear();
-			By TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
-					.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table");
-			By TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
-					.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table > tbody");
-			JavascriptExecutor js = (JavascriptExecutor) getDriver();
-			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-			WebElement tableReportsList = getDriver()
-					.findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS);
-			WebElement tableReports = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS);
-			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
-			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			for (WebElement columnHeader : columnHeaders) {
-				tableHeaders.add(columnHeader.getText());
-			}
-			for (WebElement row : rows) {
-				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
-				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
-					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
-					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+			int count = intialData.size();
+			for (int counter = 0; counter < count; counter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
-				reportsData.put(recordCount, uiTblRowValues);
-				recordCount++;
 			}
-			System.out.println("reportsData :" + reportsData);
-			System.out.println("tableHeaders :" + tableHeaders);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void removeReportDataFirstValue() {
+		try {
+			for (int iter = 0; iter < reportsData.size(); iter++) {
+				intialData.get(iter).remove(Constants.DELIMITER_EMPTY);
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -368,16 +306,13 @@ public class SalesAnalysisReport extends Factory {
 	public List<String> removeHeaderFirstValue(String columnNames) {
 		List<String> columnName = new LinkedList<String>(Arrays.asList(columnNames.split(Constants.DELIMITER_HASH)));
 		columnName.remove(0);
-		System.out.println("columnName :" + columnName);
 		return columnName;
 	}
 
 	public void verifyReportHeadersForLocation(List<String> columnName, List<String> tableHeaders) {
 		try {
-			System.out.println("tableHeaders :" + tableHeaders);
-			System.out.println("columnName :" + columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

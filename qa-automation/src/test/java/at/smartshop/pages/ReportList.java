@@ -10,8 +10,6 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
@@ -192,21 +190,21 @@ public class ReportList extends Factory {
 	}
 
 	public void selectAllOptionOfFilter() {
-		try {		
+		try {
 			foundation.click(DPD_FILTER);
 			By filter = By.xpath("//ul[@id='select2-add-filter-select-results']//li");
 			List<WebElement> items = getDriver().findElements(filter);
 
-			for (int i=1; i<items.size(); i++) {
+			for (int i = 1; i < items.size(); i++) {
 				List<WebElement> items1 = getDriver().findElements(filter);
-				for (int j=1; j<2;j++) {
-				String itemText = items1.get(1).getText();
-				items1.get(1).click();
-				if (i==items.size()-1) {
-					break;
-				}			
-				foundation.click(DPD_FILTER);
-			}
+				for (int j = 1; j < 2; j++) {
+					String itemText = items1.get(1).getText();
+					items1.get(1).click();
+					if (i == items.size() - 1) {
+						break;
+					}
+					foundation.click(DPD_FILTER);
+				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -221,19 +219,19 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void selectLocationOnFilter(String locationName) {
 		try {
 			foundation.objectClick(DPD_LOCATION_ON_FILTER);
 //			By Text = By.xpath("//ul[@id='select2-location-select-results']//li[@aria-label='AutomationOrg']//li[text()='" + locationName + "']");
-			textBox.enterText(DPD_LOCATION_ON_FILTER, "All"); 
+			textBox.enterText(DPD_LOCATION_ON_FILTER, "All");
 //			foundation.scrollIntoViewElement(By.xpath("//ul[@id='select2-location-select-results']//li[@aria-label='AutomationOrg']//li[text()='" + locationName + "']"));
 			foundation.click(By.xpath("//ul[@id='select2-location-select-results']//li"));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void selectFilterOption(String filterName, String type) {
 		try {
 			dropdown.selectItem(DPD_FILTER_BY_GROUP, filterName, type);
@@ -369,14 +367,14 @@ public class ReportList extends Factory {
 			if (foundation.isDisplayed(object1)) {
 				if (foundation.isDisplayed(object2)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
-					Assert.fail("Failed Report because No Data Available in Report Table");
+					CustomisedAssert.fail("Failed Report because No Data Available in Report Table");
 				} else {
 					ExtFactory.getInstance().getExtent().log(Status.INFO,
 							"Report Data Available in the Table, Hence passing the Test case");
 				}
 			} else {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
-				Assert.fail("Failed Report because No Report Table Available");
+				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -410,26 +408,25 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders :" +tableHeaders);
-			System.out.println("columnName :" +columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData, Map<Integer, Map<String, String>> intialData) {
+	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData,
+			Map<Integer, Map<String, String>> intialData) {
 		try {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}

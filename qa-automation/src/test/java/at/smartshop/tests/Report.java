@@ -2931,16 +2931,13 @@ public class Report extends TestInfra {
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(9), expectedData.get(1));
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(12), expectedData.get(2));
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(13), expectedData.get(3));
-			salesAnalysisReport.getGMValueUsingCalculationForAllProducts(salesAnalysisReport.getTableHeaders().get(14), productPrice);
-			
+			salesAnalysisReport.getGMValueUsingCalculationForAllProducts(salesAnalysisReport.getTableHeaders().get(14), productPrice);	
 
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME), salesAnalysisReport.getTableHeaders());
 
 			// verify report data
 			salesAnalysisReport.verifyReportData();
-			
-            System.out.println("*************8by location************");
             
             // Data validation for Report Based on Groupby LOCATION
             // Run the Report and read the data based on Loaction
@@ -2951,7 +2948,6 @@ public class Report extends TestInfra {
 			foundation.click(SalesAnalysisReport.TBL_EXPAND_ROW);
 			foundation.threadWait(Constants.TWO_SECOND);
 			salesAnalysisReport.getUITblRecordsGroupbyLocations();
-			salesAnalysisReport.getIntialData().putAll(promotionAnalysis.getReportsData());
 			 
 			salesAnalysisReport.removeReportDataFirstValue();
 			
@@ -2960,8 +2956,6 @@ public class Report extends TestInfra {
 
 			// verify report data
 			salesAnalysisReport.verifyReportData();
-
-		
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
