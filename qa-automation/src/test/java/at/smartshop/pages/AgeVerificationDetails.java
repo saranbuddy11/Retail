@@ -40,14 +40,21 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
 	public static final By DPD_STATUS = By.id("filtervalues");
 	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
-	private static final By TBL_EXPIRED_GRID = By.cssSelector("#dt > tbody");
-	private static final By TBL_EXPIRED = By.id("dt");
+	public static final By TBL_EXPIRED_GRID = By.cssSelector("#dt > tbody");
+	public static final By TBL_EXPIRED = By.id("dt");
+	public static final By DPD_LENGTH = By.xpath("//select[@name='dt_length']");
+	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
+	}
+
+	public By objExpirePinConfirmationWithIndex(String location, String text, String index) {
+		return By.xpath("(//td[text()='" + location + "']//..//td/button[text()='" + text + "'])[" + index + "]");
 	}
 
 	public By objExpiredPinlist(String text) {
@@ -82,6 +89,7 @@ public class AgeVerificationDetails extends Factory {
 		textBox.enterText(CHECKOUT_DATE, currentDate);
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
 		foundation.objectClick(BTN_CREATE_PIN);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
 	}
 
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
