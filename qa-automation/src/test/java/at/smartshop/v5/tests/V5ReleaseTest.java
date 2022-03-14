@@ -294,7 +294,7 @@ public class V5ReleaseTest extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
