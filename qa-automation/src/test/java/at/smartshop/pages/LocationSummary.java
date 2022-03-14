@@ -760,7 +760,6 @@ public class LocationSummary extends Factory {
 					.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)[" + totalPaycycleRows + "]"));
 			textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);
 		}
-		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
