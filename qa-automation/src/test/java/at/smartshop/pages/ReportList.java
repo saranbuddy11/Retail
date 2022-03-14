@@ -66,6 +66,9 @@ public class ReportList extends Factory {
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
 	private static final By DPD_LOCATION_LIST_SECONDTYPE = By
 			.xpath("//span[@class='select2-results']//ul[@role='listbox']");
+	
+	public static final By TODAYS_DATE = By
+			.xpath("//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
 
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -417,7 +420,7 @@ public class ReportList extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -430,7 +433,7 @@ public class ReportList extends Factory {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}

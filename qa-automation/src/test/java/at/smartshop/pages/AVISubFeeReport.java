@@ -144,8 +144,7 @@ public class AVISubFeeReport extends Factory {
 	public void selectToday() {
 		try {
 			foundation.click(ReportList.DPD_DATE);
-			foundation.click(By.xpath(
-					"//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available']"));
+			foundation.click(ReportList.TODAYS_DATE);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
