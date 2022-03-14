@@ -122,7 +122,6 @@ public class V5Test extends TestInfra {
 	private TaxList taxList = new TaxList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
-	private CreateAccount createaccount = new CreateAccount();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstDeviceListData;
@@ -12900,17 +12899,17 @@ public class V5Test extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreateAccount.CONFIRM_BTN);
 			foundation.waitforElement(CreateAccount.EMAIL_BTN, Constants.SHORT_TIME);
-			foundation.click(createaccount.EMAIL_BTN);
+			foundation.click(CreateAccount.EMAIL_BTN);
 			foundation.waitforElement(CreateAccount.EMAIL_BTN_CREATE, Constants.ONE_SECOND);
-			foundation.click(createaccount.EMAIL_BTN_CREATE);
+			foundation.click(CreateAccount.EMAIL_BTN_CREATE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			foundation.click(createaccount.BTN_NEXT);
+			foundation.click(CreateAccount.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.waitforElement(CreateAccount.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.click(createaccount.BTN_PIN_NEXT);
+			foundation.click(CreateAccount.BTN_PIN_NEXT);
 			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreateAccount.BTN_PIN_NEXT);
@@ -12921,12 +12920,12 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(datas.get(0));
 			foundation.click(CreateAccount.TXT_LAST_NAME);
 			textBox.enterKeypadText(datas.get(1));
-			foundation.waitforElement(createaccount.NEXT_BTN, Constants.SHORT_TIME);
-			foundation.click(createaccount.NEXT_BTN);
-			foundation.waitforElement(createaccount.ADDLATER, Constants.SHORT_TIME);
-			foundation.click(createaccount.ADDLATER);
-			foundation.waitforElement(createaccount.COMPLETE_SETUP, Constants.ONE_SECOND);
-			foundation.click(createaccount.CANCEL_BTN);
+			foundation.waitforElement(CreateAccount.NEXT_BTN, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.NEXT_BTN);
+			foundation.waitforElement(CreateAccount.ADDLATER, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.ADDLATER);
+			foundation.waitforElement(CreateAccount.COMPLETE_SETUP, Constants.ONE_SECOND);
+			foundation.click(CreateAccount.CANCEL_BTN);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -12965,7 +12964,6 @@ public class V5Test extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-
 			// launch browser and select org
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -13023,8 +13021,6 @@ public class V5Test extends TestInfra {
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
 			browser.close();
-
 		}
 	}
-
 }
