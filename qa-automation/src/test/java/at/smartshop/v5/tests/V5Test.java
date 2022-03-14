@@ -5980,8 +5980,7 @@ public class V5Test extends TestInfra {
 			foundation.click(Order.LBL_MY_ACCOUNT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_LOGIN_WITH_EMAIL));
 			foundation.click(Order.BTN_LOGIN_WITH_EMAIL);
-			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
