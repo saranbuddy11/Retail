@@ -155,6 +155,7 @@ public class V5ReleaseTest extends TestInfra {
 			// Select Menu and Menu Item and add the tax category to a global product
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_PRICE, "5");
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
 
