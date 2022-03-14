@@ -128,6 +128,7 @@ public class Promotions extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -206,7 +207,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -226,6 +227,7 @@ public class Promotions extends TestInfra {
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -316,7 +318,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(menu.get(1), promotionName, gridName);
+			promotionList.expirePromotion(menu.get(1), promotionName,statusType, gridName);
 		}
 	}
 
@@ -330,6 +332,7 @@ public class Promotions extends TestInfra {
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 		String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATIONLIST_DPDN_VALUE);
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays
 				.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
@@ -344,7 +347,7 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
-			promotionList.searchPromotion(promotionName);
+			promotionList.searchPromotion(promotionName,statusType);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 
 			// Basic Information Page
@@ -401,8 +404,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 
-			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
-			foundation.click(PromotionList.BTN_SEARCH);
+			promotionList.searchPromotion(promotionName,statusType);
 			foundation.click(PromotionList.TBL_COLUMN_NAME);
 			foundation.click(PromotionList.LINK_EXPAND);
 			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
@@ -420,8 +422,7 @@ public class Promotions extends TestInfra {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
-			foundation.click(PromotionList.BTN_SEARCH);
+			promotionList.searchPromotion(promotionName,statusType);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 
 			// Basic Information Page
@@ -483,6 +484,7 @@ public class Promotions extends TestInfra {
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -550,7 +552,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Expire Promotion
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -577,6 +579,7 @@ public class Promotions extends TestInfra {
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -651,7 +654,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -674,6 +677,7 @@ public class Promotions extends TestInfra {
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -752,7 +756,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -779,6 +783,7 @@ public class Promotions extends TestInfra {
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 
 			// select admin-promotion menu
@@ -854,7 +859,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -876,6 +881,7 @@ public class Promotions extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		// String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
@@ -956,7 +962,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -973,6 +979,7 @@ public class Promotions extends TestInfra {
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1044,7 +1051,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -1057,12 +1064,13 @@ public class Promotions extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-		String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME);
+		String promotionName = rstLocationData.get(CNLocation.PROMOTION_NAME)+ strings.getRandomCharacter();
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1092,8 +1100,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
-					gridName);
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,gridName);
 		}
 	}
 
@@ -1111,6 +1118,7 @@ public class Promotions extends TestInfra {
 		String promotionName = strings.getRandomCharacter();
 		String org = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String displayName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 
 		try {
 			browser.navigateURL(
@@ -1149,7 +1157,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -1175,6 +1183,7 @@ public class Promotions extends TestInfra {
 		List<String> locationList = foundation.getTextofListElement(LocationList.LINK_LOCATION_LIST);
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		try {
 
 			browser.navigateURL(
@@ -1253,7 +1262,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(menu.get(1), promotionName, gridName);
+			promotionList.expirePromotion(menu.get(1), promotionName, statusType,gridName);
 		}
 	}
 
@@ -1276,6 +1285,7 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 			// select admin-promotion menu
 			navigationBar.selectOrganization(
@@ -1360,7 +1370,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 	}
@@ -1380,6 +1390,7 @@ public class Promotions extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menu = Arrays
@@ -1463,7 +1474,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(menu.get(1), promotionName, gridName);
+			promotionList.expirePromotion(menu.get(1), promotionName, statusType,gridName);
 		}
 	}
 
@@ -1481,6 +1492,7 @@ public class Promotions extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -1549,7 +1561,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting the data
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 					gridName);
 		}
 
@@ -1707,6 +1719,7 @@ public class Promotions extends TestInfra {
 		String newPromotionName = strings.getRandomCharacter();
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 
 		List<String> popupName = Arrays
 				.asList(rstLocationData.get(CNLocation.POPUP_NAME).split(Constants.DELIMITER_TILD));
@@ -1788,10 +1801,10 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Expire Promotion
-			promotionList.searchPromotion(newPromotionName);
+			promotionList.searchPromotion(newPromotionName,statusType);
 			editPromotion.expirePromotion(gridName, newPromotionName);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
-			promotionList.searchPromotion(promotionName);
+			promotionList.searchPromotion(promotionName,statusType);
 			editPromotion.expirePromotion(gridName, promotionName);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 		}
@@ -1816,6 +1829,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = Constants.ACCOUNT_NAME + strings.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 
 			// Select Org,Menu and Menu Item
@@ -1891,7 +1905,7 @@ public class Promotions extends TestInfra {
 		} finally {
 			// Resetting the data
 			for (int iter = 0; iter < locationName.size(); iter++) {
-				promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+				promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
 						gridName);
 			}
 		}
@@ -1945,6 +1959,7 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+			String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -1996,6 +2011,7 @@ public class Promotions extends TestInfra {
 			// category field validation
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.LBL_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			CustomisedAssert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
@@ -2039,6 +2055,7 @@ public class Promotions extends TestInfra {
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+			String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -2092,6 +2109,7 @@ public class Promotions extends TestInfra {
 			// category field validation
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			CustomisedAssert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);

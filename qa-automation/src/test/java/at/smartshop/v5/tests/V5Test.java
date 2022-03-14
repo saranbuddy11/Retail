@@ -122,7 +122,6 @@ public class V5Test extends TestInfra {
 	private TaxList taxList = new TaxList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
-	private CreateAccount createaccount =new CreateAccount();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstDeviceListData;
@@ -135,7 +134,6 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstLocationData;
-	private Map<String, String> rstCreateAccount;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
 	public void editAccountUpdateInformation() {
@@ -5982,8 +5980,7 @@ public class V5Test extends TestInfra {
 			foundation.click(Order.LBL_MY_ACCOUNT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_LOGIN_WITH_EMAIL));
 			foundation.click(Order.BTN_LOGIN_WITH_EMAIL);
-			accountLogin.login(propertyFile.readPropertyFile(Configuration.V5_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			accountLogin.login(rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
 			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
@@ -5991,7 +5988,6 @@ public class V5Test extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "142907-QAA-44-verify daily revenue on location page")
@@ -6365,6 +6361,7 @@ public class V5Test extends TestInfra {
 			// Select Menu and Menu Item and add the tax category to a global product
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
+			textBox.enterText(ProductSummary.TXT_PRICE, "5");
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
 
@@ -6995,8 +6992,8 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, editedBalCat, Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.refreshPage();
-			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
+//			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, editedBalCat);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(editedBalCat)));
 
 			// reset data
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -12792,9 +12789,7 @@ public class V5Test extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
 		try {
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -12876,95 +12871,87 @@ public class V5Test extends TestInfra {
 			// Select location and sync with device
 			locationList.syncDevice(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME));
-
 		}
 	}
 
 	@Test(description = "148841-Verify to Applying Default Group for Subsidy")
-	
-    public void verifykioskCreateAccountByEmail() {
-	final String CASE_NUM = "148841";
 
-    rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-    rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+	public void verifykioskCreateAccountByEmail() {
+		final String CASE_NUM = "148841";
 
-    List<String> datas = Arrays
-			.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-   
-	try {
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 
-		//Launch v5 device
-		 
-		 browser.launch(Constants.REMOTE, Constants.CHROME);
-		 browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-         CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-         foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
- 		 foundation.click(LandingPage.BTN_CREATE_ACCOUNT);	
- 		foundation.click(createaccount.LBL_SKIP_TO_END);
- 		foundation.objectFocus(createaccount.CHK_LABEL);
- 		foundation.click(createaccount.CHK_LABEL);
- 		foundation.threadWait(Constants.ONE_SECOND);
- 		foundation.click(createaccount.CONFIRM_BTN);
- 		foundation.waitforElement(createaccount.EMAIL_BTN, Constants.SHORT_TIME);
- 		foundation.click(createaccount.EMAIL_BTN);
- 		foundation.waitforElement(createaccount.EMAIL_BTN_CREATE, Constants.ONE_SECOND);
- 		foundation.click(createaccount.EMAIL_BTN_CREATE);
- 		foundation.threadWait(Constants.ONE_SECOND);
- 		foundation.click(AccountLogin.BTN_CAMELCASE);
- 		textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
- 		foundation.click(createaccount.BTN_NEXT);
- 		foundation.threadWait(Constants.SHORT_TIME);
- 		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
- 		foundation.waitforElement(CreateAccount.BTN_PIN_NEXT, Constants.SHORT_TIME);
- 		foundation.click(createaccount.BTN_PIN_NEXT);
- 		textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
- 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
- 		foundation.click(CreateAccount.BTN_PIN_NEXT);
- 		foundation.waitforElement(CreateAccount.TXT_FIRST_NAME, Constants.SHORT_TIME);
- 		foundation.click(CreateAccount.TXT_FIRST_NAME);
- 		foundation.threadWait(Constants.ONE_SECOND);
- 		foundation.click(AccountLogin.BTN_CAMELCASE);
- 		textBox.enterKeypadText(datas.get(0));
- 		foundation.click(CreateAccount.TXT_LAST_NAME);
- 		textBox.enterKeypadText(datas.get(1));
- 		foundation.waitforElement(createaccount.NEXT_BTN, Constants.SHORT_TIME);
- 		foundation.click(createaccount.NEXT_BTN);
- 		foundation.waitforElement(createaccount.ADDLATER, Constants.SHORT_TIME);
- 		foundation.click(createaccount.ADDLATER);
- 		foundation.waitforElement(createaccount.COMPLETE_SETUP, Constants.ONE_SECOND);
-		foundation.click(createaccount.CANCEL_BTN);
-	}
-         catch (Exception exc) {
-         TestInfra.failWithScreenShot(exc.toString());
-         }
-	finally {
-		 browser.close();
-		 browser.launch(Constants.LOCAL, Constants.CHROME);
-         browser.navigateURL(
+		List<String> datas = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Launch v5 device
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.waitforElement(LandingPage.BTN_CREATE_ACCOUNT, Constants.SHORT_TIME);
+			foundation.click(LandingPage.BTN_CREATE_ACCOUNT);
+			foundation.click(CreateAccount.LBL_SKIP_TO_END);
+			foundation.objectFocus(CreateAccount.CHK_LABEL);
+			foundation.click(CreateAccount.CHK_LABEL);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(CreateAccount.CONFIRM_BTN);
+			foundation.waitforElement(CreateAccount.EMAIL_BTN, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.EMAIL_BTN);
+			foundation.waitforElement(CreateAccount.EMAIL_BTN_CREATE, Constants.ONE_SECOND);
+			foundation.click(CreateAccount.EMAIL_BTN_CREATE);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			foundation.click(CreateAccount.BTN_NEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.waitforElement(CreateAccount.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.BTN_PIN_NEXT);
+			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.BTN_PIN_NEXT);
+			foundation.waitforElement(CreateAccount.TXT_FIRST_NAME, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.TXT_FIRST_NAME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(AccountLogin.BTN_CAMELCASE);
+			textBox.enterKeypadText(datas.get(0));
+			foundation.click(CreateAccount.TXT_LAST_NAME);
+			textBox.enterKeypadText(datas.get(1));
+			foundation.waitforElement(CreateAccount.NEXT_BTN, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.NEXT_BTN);
+			foundation.waitforElement(CreateAccount.ADDLATER, Constants.SHORT_TIME);
+			foundation.click(CreateAccount.ADDLATER);
+			foundation.waitforElement(CreateAccount.COMPLETE_SETUP, Constants.ONE_SECOND);
+			foundation.click(CreateAccount.CANCEL_BTN);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		 login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-		 CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));	
-		 navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));	
-         navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-	     CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
-		 foundation.click(ConsumerSearch.CLEAR_SEARCH);
-		 textBox.enterText(ConsumerSearch.TXT_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-		 dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
-    	 foundation.click(ConsumerSearch.BTN_GO);
-         CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-         foundation.click(consumerSearch.LNK_FIRST_ROW);
-	     foundation.threadWait(Constants.THREE_SECOND);
-		 foundation.click(consumerSummary.BTN_PAYOUT_CLOSE);
-		 foundation.alertAccept();
-		 foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
-		
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
+		}
 	}
-	}
-	
-
 
 	@Test(description = "166996 - Verify Update Prices & Full Sync Button on Location Summary page as Super")
 	public void verifyUpdatePriceAndFullSync() {
@@ -12976,7 +12963,6 @@ public class V5Test extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-
 			// launch browser and select org
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -13034,8 +13020,6 @@ public class V5Test extends TestInfra {
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 			login.logout();
 			browser.close();
-
 		}
 	}
-
 }

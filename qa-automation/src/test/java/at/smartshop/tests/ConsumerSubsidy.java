@@ -2407,7 +2407,7 @@ public class ConsumerSubsidy extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			
 			consumerSummary.balanceResettingDataInAutomationLocation1(menu.get(1),
 					rstconsumerSearchData.get(CNConsumerSearch.SEARCH),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME),

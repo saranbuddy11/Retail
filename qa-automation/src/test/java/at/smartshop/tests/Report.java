@@ -2606,6 +2606,7 @@ public class Report extends TestInfra {
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		
 		try {
 			browser.navigateURL(
@@ -2739,7 +2740,7 @@ public class Report extends TestInfra {
 			// Resetting the data
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
+			promotionList.expirePromotion(menuItems.get(0), promotionName, statusType,gridName);
 	}
 	}
 
