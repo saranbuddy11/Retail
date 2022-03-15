@@ -383,4 +383,151 @@ public class AgeVerification extends TestInfra {
 			}
 		}
 	}
+
+	@Test(description = "168298 - verify the default status on pin status filter"
+			+ "168299 - verify the options in pin status dropdown" + "168300 - verify the expired option"
+			+ "168301 - verify the active option" + "168302 - verify the all option"
+			+ "168303 - verify active option on all the pages" + "168304 - verify expired option on all the pages")
+	public void verifyDefaultPinStatusInOperatorUser() {
+		final String CASE_NUM = "168298";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> status = Arrays
+				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(14),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Verify Defaults in PIN Status filter
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_STATUS));
+			String actualStatus = dropDown.getSelectedItem(AgeVerificationDetails.DPD_STATUS);
+			CustomisedAssert.assertEquals(actualStatus, status.get(1));
+
+			// Verify the Options of PIN status filter
+			List<String> options = dropDown.getAllItems(AgeVerificationDetails.DPD_STATUS);
+			CustomisedAssert.assertEquals(options.get(0), status.get(0));
+			CustomisedAssert.assertEquals(options.get(1), status.get(1));
+			CustomisedAssert.assertEquals(options.get(2), status.get(2));
+
+			// Verify Expired PIN status
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			foundation.threadWait(Constants.TWO_SECOND);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
+			}
+			uiTableData.clear();
+
+			// Verify Active PIN Status
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
+			}
+			uiTableData.clear();
+
+			// Verify ALL options
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				String actions = requiredData.get(0) + requiredData.get(1);
+				CustomisedAssert.assertTrue(actions.contains(innerValue));
+			}
+			uiTableData.clear();
+
+			// Verify active option on all the page Records
+			dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, requiredData.get(2), Constants.TEXT);
+			int record = Integer.parseInt(dropDown.getSelectedItem(AgeVerificationDetails.DPD_LENGTH));
+			// Creating No of Active PIN record for validation
+			for (int i = 0; i < record; i++) {
+				ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+						requiredData);
+			}
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.click(AgeVerificationDetails.TXT_NEXT);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
+			}
+			foundation.refreshPage();
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			uiTableData.clear();
+
+			// Verify expired option on all the page Records
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_NEXT);
+			foundation.click(AgeVerificationDetails.TXT_NEXT);
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			foundation.threadWait(Constants.TWO_SECOND);
+			uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Actions");
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
+			}
+			foundation.refreshPage();
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			uiTableData.clear();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting No of Active PIN record After validation
+			foundation.scrollIntoViewElement(AgeVerificationDetails.DPD_LENGTH);
+			int record = Integer.parseInt(dropDown.getSelectedItem(AgeVerificationDetails.DPD_LENGTH));
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			for (int i = 0; i < record; i++) {
+				foundation.click(ageVerificationDetails.objExpirePinConfirmationWithIndex(
+						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(8), String.valueOf(1)));
+				foundation.click(AgeVerificationDetails.BTN_YES);
+				foundation.refreshPage();
+				foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			}
+		}
+	}
 }
