@@ -1974,8 +1974,7 @@ public class NationalAccount extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 		String ruleName = " ";
-		String ruleCategory = "";
-
+		String ruleCategory = " ";
 		try {
 
 			browser.navigateURL(
@@ -1991,7 +1990,7 @@ public class NationalAccount extends TestInfra {
 			String rulePrice = rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE);
 			String gridName = rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME);
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			
+
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
