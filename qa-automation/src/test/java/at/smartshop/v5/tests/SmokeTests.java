@@ -328,6 +328,7 @@ public class SmokeTests extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String promotionName = strings.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 
 		try {
 			//launching browser and selecting org
@@ -390,8 +391,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// editing category field
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
@@ -477,7 +479,7 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(2), promotionName, gridName);
+			promotionList.expirePromotion(menuItem.get(2), promotionName, statusType,gridName);
 		}
 	}
 
@@ -498,6 +500,7 @@ public class SmokeTests extends TestInfra {
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
@@ -566,8 +569,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// editing category field
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			Assert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
@@ -655,7 +659,7 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(1), promotionName, gridName);
+			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType,gridName);
 		}
 	}
 
@@ -673,6 +677,7 @@ public class SmokeTests extends TestInfra {
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String displayName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> actualData = Arrays
@@ -717,6 +722,7 @@ public class SmokeTests extends TestInfra {
 
 			// Updating the Category to Item
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
@@ -733,7 +739,7 @@ public class SmokeTests extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// Verify Item correctly updated in Promotion Screen
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
@@ -813,7 +819,7 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(1), promotionName, gridName);
+			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType,gridName);
 		}
 	}
 

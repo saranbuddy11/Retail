@@ -8,6 +8,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class SalesTimeDetailsReport {
 	
@@ -25,7 +26,7 @@ public class SalesTimeDetailsReport {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -44,7 +45,7 @@ public class SalesTimeDetailsReport {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

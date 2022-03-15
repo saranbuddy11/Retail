@@ -113,9 +113,10 @@ public class MultiTaxReport extends Factory {
 		try {
 			String initialAmount = intialData.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 					Constants.EMPTY_STRING);
-			double updatedAmount = (Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))) + Double.parseDouble(initialAmount);
+			double updatedAmount = (Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)))
+					+ Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			String UpdatedTax =  Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount);
+			String UpdatedTax = Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount);
 			intialData.put(columnName, UpdatedTax);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

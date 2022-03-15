@@ -76,7 +76,6 @@ public class ConsumerSubsidy extends TestInfra {
 	private Order order = new Order();
 
 	private Map<String, String> rstV5DeviceData;
-
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstLocationSummaryData;
@@ -239,6 +238,7 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+			foundation.threadWait(Constants.TWO_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2172,7 +2172,6 @@ public class ConsumerSubsidy extends TestInfra {
 		List<String> Balance = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
 		try {
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -2227,6 +2226,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.close();
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2254,6 +2255,7 @@ public class ConsumerSubsidy extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
+			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2275,7 +2277,6 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "165231- To Verify whether the 'Subsidy' reason code is displayed in report after completing the transaction"
@@ -2405,7 +2406,6 @@ public class ConsumerSubsidy extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
-			foundation.threadWait(Constants.SHORT_TIME);
 			consumerSummary.balanceResettingDataInAutomationLocation1(menu.get(1),
 					rstconsumerSearchData.get(CNConsumerSearch.SEARCH),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME),
@@ -2525,12 +2525,12 @@ public class ConsumerSubsidy extends TestInfra {
 			List<String> actualColumnNames = new ArrayList<String>(excelData.keySet());
 			CustomisedAssert.assertTrue(
 					actualColumnNames.get(2).equals(rstconsumerSearchData.get(CNConsumerSearch.COLUMN_NAME)));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// delete files
 			foundation.deleteFile(FilePath.EXCEL_CONSUMER);
-
 		}
 	}
 
@@ -2584,7 +2584,6 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Navigate to Admin>Consumer
-
 			navigationBar.navigateToMenuItem(menus.get(1));
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
@@ -2608,10 +2607,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_ROLL_OVER_SUBSIDY));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.CANCEL_BTN);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-
 		} finally {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);

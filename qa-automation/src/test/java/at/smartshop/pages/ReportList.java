@@ -51,7 +51,9 @@ public class ReportList extends Factory {
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.xpath("//select[@id='rpt-group-by']");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
-	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	public static final By DPD_ORG_ON_FILTER = By
+			.cssSelector("#org-container > dd > span > span.selection > span > ul > li");
+//	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOCATION_ON_FILTER = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By DPD_LOC_ON_GROUPFILTER_ = By.cssSelector("#select2-locdt-container");
 	public static final By DPD_FILTER_BY_GROUP = By.id("flt-group-by");
@@ -64,6 +66,9 @@ public class ReportList extends Factory {
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
 	private static final By DPD_LOCATION_LIST_SECONDTYPE = By
 			.xpath("//span[@class='select2-results']//ul[@role='listbox']");
+	
+	public static final By TODAYS_DATE = By
+			.xpath("//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
 
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -192,21 +197,21 @@ public class ReportList extends Factory {
 	}
 
 	public void selectAllOptionOfFilter() {
-		try {		
+		try {
 			foundation.click(DPD_FILTER);
 			By filter = By.xpath("//ul[@id='select2-add-filter-select-results']//li");
 			List<WebElement> items = getDriver().findElements(filter);
 
-			for (int i=1; i<items.size(); i++) {
+			for (int i = 1; i < items.size(); i++) {
 				List<WebElement> items1 = getDriver().findElements(filter);
-				for (int j=1; j<2;j++) {
-				String itemText = items1.get(1).getText();
-				items1.get(1).click();
-				if (i==items.size()-1) {
-					break;
-				}			
-				foundation.click(DPD_FILTER);
-			}
+				for (int j = 1; j < 2; j++) {
+					String itemText = items1.get(1).getText();
+					items1.get(1).click();
+					if (i == items.size() - 1) {
+						break;
+					}
+					foundation.click(DPD_FILTER);
+				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -216,24 +221,24 @@ public class ReportList extends Factory {
 	public void selectOrgOnFilter(String orgName) {
 		try {
 			foundation.objectClick(DPD_ORG_ON_FILTER);
-			foundation.click(By.xpath("//ul[@id='select2-org-select-results']//li[text()='" + orgName + "']"));
+			foundation.click(By.xpath("//ul[@id='select2-org-select-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void selectLocationOnFilter(String locationName) {
 		try {
 			foundation.objectClick(DPD_LOCATION_ON_FILTER);
 //			By Text = By.xpath("//ul[@id='select2-location-select-results']//li[@aria-label='AutomationOrg']//li[text()='" + locationName + "']");
-			textBox.enterText(DPD_LOCATION_ON_FILTER, "All"); 
+			textBox.enterText(DPD_LOCATION_ON_FILTER, "All");
 //			foundation.scrollIntoViewElement(By.xpath("//ul[@id='select2-location-select-results']//li[@aria-label='AutomationOrg']//li[text()='" + locationName + "']"));
 			foundation.click(By.xpath("//ul[@id='select2-location-select-results']//li"));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void selectFilterOption(String filterName, String type) {
 		try {
 			dropdown.selectItem(DPD_FILTER_BY_GROUP, filterName, type);
@@ -400,34 +405,35 @@ public class ReportList extends Factory {
 			WebElement lastMonthDate = getDriver().findElement(
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
-				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
-						+ "'][not(contains(@class , 'off'))]"));
-			} else {
 				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
 						+ "'][not(contains(@class , 'off'))]"));
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-	
-	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
-		try {
-			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			for (int iter = 0; iter < tableHeaders.size(); iter++) {
-				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			} else {
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
+						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData, Map<Integer, Map<String, String>> intialData) {
+	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void verifyReportData(List<String> tableHeaders, Map<Integer, Map<String, String>> reportsData,
+			Map<Integer, Map<String, String>> intialData) {
 		try {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
 			}

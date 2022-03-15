@@ -25,12 +25,12 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
@@ -489,7 +489,7 @@ public class Foundation extends Factory {
 			hexColor = Color.fromString(colorValue).asHex();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return hexColor;
 	}
