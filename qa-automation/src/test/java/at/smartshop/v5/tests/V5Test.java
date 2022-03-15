@@ -6312,6 +6312,8 @@ public class V5Test extends TestInfra {
 			categorySummary.updateName(editedTaxCat);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.scrollIntoViewElement(ProductSummary.DPD_TAX_CATEGORY);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
 
 			// reset data
