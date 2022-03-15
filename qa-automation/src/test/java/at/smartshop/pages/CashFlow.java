@@ -93,7 +93,7 @@ public class CashFlow extends Factory {
 		double amount = Double.parseDouble(initialAmount) + Double.parseDouble(value);
 		BigDecimal val = BigDecimal.valueOf(amount);
 		val = val.setScale(2, RoundingMode.HALF_EVEN);
-		intialData.get(0).put(columnName, String.valueOf(val));
+		intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL+String.valueOf(val));
 	}
 
 	public void verifyReportName(String reportName) {
@@ -134,6 +134,7 @@ public class CashFlow extends Factory {
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
@@ -205,6 +206,35 @@ public class CashFlow extends Factory {
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void verifyReportHeaders(String columnNames) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+//			foundation.threadWait(Constants.ONE_SECOND);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void verifyReportData() {
+		try {
+			int count = intialData.size();
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
+			for (int counter = 0; counter < count; counter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println(iter);
+				}
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

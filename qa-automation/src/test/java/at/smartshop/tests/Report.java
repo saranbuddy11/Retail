@@ -2803,10 +2803,14 @@ public class Report extends TestInfra {
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(11), cashFlow.getRequiredJsonData().get(0));
 			
 			// verify report headers
-			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),cashFlow.getTableHeaders());
+//			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),cashFlow.getTableHeaders());
 
 			// verify report data
-			reportList.verifyReportData(cashFlow.tableHeaders, cashFlow.getReportsData(), cashFlow.getIntialData());
+//			reportList.verifyReportData(cashFlow.tableHeaders, cashFlow.getReportsData(), cashFlow.getIntialData());
+			
+			cashFlow.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			
+			cashFlow.verifyReportData();
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
