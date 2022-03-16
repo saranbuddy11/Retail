@@ -36,7 +36,6 @@ public class Login extends Factory {
 			foundation.click(BTN_SIGN_IN);
 			insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
-			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
