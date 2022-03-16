@@ -270,6 +270,7 @@ public class AgeVerification extends TestInfra {
 
 			// Verifying the selection of defaults for Age Verification
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
 			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
 				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
@@ -421,6 +422,7 @@ public class AgeVerification extends TestInfra {
 
 			// Verifying the selection of defaults for Age Verification
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
 			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
 				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
