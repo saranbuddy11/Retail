@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.KeyDownAction;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -17,7 +16,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -77,12 +75,23 @@ public class ConsumerSearch extends Factory {
 		try {
 			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
 			textBox.enterText(TXT_SEARCH, search);
+			foundation.click(CLEAR_SEARCH);
 			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
+		}}
+		public void enterSearchField(String searchBy, String search, String locationName, String status) {
+			try {
+				dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
+				textBox.enterText(TXT_SEARCH, search);
+				dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+				dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
+				foundation.click(BTN_GO);
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
 
 	}
 

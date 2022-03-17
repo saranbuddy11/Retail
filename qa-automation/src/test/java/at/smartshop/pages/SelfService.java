@@ -31,7 +31,7 @@ public class SelfService extends Factory {
 	public static final By RDO_BTN_Hide = By.xpath("//input[@value='hide']");
 	public static final By LBL_ALL = By.xpath("//span[text()='All']");
 	public static final By BTN_CANCEL = By.xpath("//button[text()='Cancel']");
-	public static final By BTN_ADD_MENU = By.id("menu-addsubmenu");
+	public static final By BTN_ADD_MENU = By.xpath("//form[@id='mainform']//div[@id='menu-addsubmenu']//i");
 	public static final By TXT_MENU_BUTTON_NAME = By.id("menu-addname");
 	public static final By UPLOAD_BUTTON_IMG = By.xpath("//div[@id='upload-new-3']//..//div[@id='upload']//input");
 	public static final By BTN_ADD_IMG = By.xpath("//div[@id='submenu-add']");
