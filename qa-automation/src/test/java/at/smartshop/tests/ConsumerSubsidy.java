@@ -2547,7 +2547,6 @@ public class ConsumerSubsidy extends TestInfra {
 		List<String> datas = Arrays
 				.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-
 		try {
 			// Login to ADM
 			browser.navigateURL(
