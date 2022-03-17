@@ -48,6 +48,8 @@ public class LocationSummary extends Factory {
 	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
+	public static final By NO_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupcancel");
+	public static final By YES_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupSaveBtn");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
