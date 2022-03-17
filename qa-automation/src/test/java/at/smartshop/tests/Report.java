@@ -2606,6 +2606,7 @@ public class Report extends TestInfra {
 		String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String promotionName = strings.getRandomCharacter();
+		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 		
 		try {
 			browser.navigateURL(
@@ -2739,7 +2740,7 @@ public class Report extends TestInfra {
 			// Resetting the data
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			promotionList.expirePromotion(menuItems.get(0), promotionName, gridName);
+			promotionList.expirePromotion(menuItems.get(0), promotionName, statusType,gridName);
 	}
 	}
 
@@ -2802,10 +2803,14 @@ public class Report extends TestInfra {
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(11), cashFlow.getRequiredJsonData().get(0));
 			
 			// verify report headers
-			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),cashFlow.getTableHeaders());
+//			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),cashFlow.getTableHeaders());
 
 			// verify report data
-			reportList.verifyReportData(cashFlow.tableHeaders, cashFlow.getReportsData(), cashFlow.getIntialData());
+//			reportList.verifyReportData(cashFlow.tableHeaders, cashFlow.getReportsData(), cashFlow.getIntialData());
+			
+			cashFlow.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			
+			cashFlow.verifyReportData();
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());

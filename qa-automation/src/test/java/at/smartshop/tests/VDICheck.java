@@ -80,7 +80,8 @@ public class VDICheck extends TestInfra {
 			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
 			CustomisedAssert.assertEquals(popup_Msg, requiredData.get(2));
 			foundation.click(OrgSummary.BTN_NO);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.waitforElement(OrgSummary.CHK_VDI, Constants.SHORT_TIME);
 			foundation.waitforClikableElement(OrgSummary.BTN_VDI_DEL, Constants.LONG_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -272,7 +273,8 @@ public class VDICheck extends TestInfra {
 			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
 			CustomisedAssert.assertEquals(popup_Msg, requiredData.get(3));
 			foundation.click(LocationSummary.BTN_NO);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.waitforElement(LocationSummary.CHK_VDI, Constants.SHORT_TIME);
 			foundation.waitforClikableElement(LocationSummary.BTN_VDI_DEL, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_VDI_DEL);
@@ -284,6 +286,7 @@ public class VDICheck extends TestInfra {
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
 			// price validation
+			foundation.threadWait(Constants.TWO_SECOND);
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),
 					Constants.ATTRIBUTE_READ);
 			CustomisedAssert.assertFalse(Boolean.parseBoolean(isReadOnly));
@@ -356,7 +359,8 @@ public class VDICheck extends TestInfra {
 			String popup_Msg = foundation.getText(OrgSummary.LBL_POPUP_MSG);
 			CustomisedAssert.assertEquals(popup_Msg, requiredData.get(3));
 			foundation.click(LocationSummary.BTN_NO);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
+			CustomisedAssert
+					.assertTrue(foundation.isDisplayed(orgSummary.objVDI(rstOrgSummaryData.get(CNOrgSummary.NAME))));
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -367,6 +371,7 @@ public class VDICheck extends TestInfra {
 			locationSummary.selectTab(requiredData.get(4));
 			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(5));
 			// price validation
+			foundation.threadWait(Constants.TWO_SECOND);
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),
 					Constants.ATTRIBUTE_READ);
 			CustomisedAssert.assertTrue(Boolean.parseBoolean(isReadOnly));

@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
@@ -41,18 +40,19 @@ public class CashFlow extends Factory {
 	private PropertyFile propertyFile = new PropertyFile();
 	private WebService webService = new WebService();
 
-	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	public static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By TBL_CASH_FLOW = By.id("rptdt");
 	private static final By TBL_CASH_FLOW_GRID = By.cssSelector("#rptdt > tbody");
-	
+
 	public List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
-	
+
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
 			int recordCount = 0;
@@ -86,14 +86,14 @@ public class CashFlow extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void calculateAmount(String columnName, String value) {
 		String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double amount = Double.parseDouble(initialAmount) + Double.parseDouble(value);
 		BigDecimal val = BigDecimal.valueOf(amount);
 		val = val.setScale(2, RoundingMode.HALF_EVEN);
-		intialData.get(0).put(columnName, String.valueOf(val));
+		intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL+String.valueOf(val));
 	}
 
 	public void verifyReportName(String reportName) {
@@ -124,7 +124,7 @@ public class CashFlow extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void processAPI(String paymentType) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
@@ -134,6 +134,7 @@ public class CashFlow extends Factory {
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
@@ -153,7 +154,7 @@ public class CashFlow extends Factory {
 	}
 
 	private void generateJsonDetails() {
-		try {		
+		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
@@ -210,6 +211,35 @@ public class CashFlow extends Factory {
 		}
 	}
 	
+	public void verifyReportHeaders(String columnNames) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+//			foundation.threadWait(Constants.ONE_SECOND);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void verifyReportData() {
+		try {
+			int count = intialData.size();
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
+			for (int counter = 0; counter < count; counter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println(iter);
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public Map<String, Object> getJsonData() {
 		return jsonData;
 	}

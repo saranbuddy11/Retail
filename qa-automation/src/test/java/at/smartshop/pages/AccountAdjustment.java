@@ -33,9 +33,9 @@ public class AccountAdjustment extends Factory {
 	public static final By REP_DATE = By.xpath("//th[@aria-sort='ascending']");
 	public static final By REP_REASON = By.id("rpt-reason");
 	public static final By COLUMN_ROWDATA = By.xpath("//tbody[@role='alert']/tr");
+	public static final By REASON_CODE = By.id("rpt-reason");
 	public static final By REASON = By
 			.xpath("/html/body/div[4]/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/table/tbody/tr[4]/td[11]");
-	public static final By REASON_CODE = By.id("rpt-reason");
 
 	public By objHeaderDataColumn(String column) {
 		return By.xpath("//table[@id='rptdt']//th[text()='" + column + "']");
@@ -55,7 +55,7 @@ public class AccountAdjustment extends Factory {
 				curColumnIndex++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return uiTblRowValues;
 	}
@@ -66,7 +66,7 @@ public class AccountAdjustment extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -85,7 +85,7 @@ public class AccountAdjustment extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
