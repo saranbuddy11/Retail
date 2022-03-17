@@ -29,6 +29,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
+import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
 
 public class CrossOrgLoyaltyReport extends Factory {
@@ -74,7 +75,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				recordCount++;
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return reportsData;
 	}
@@ -93,7 +94,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				Assert.fail();
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -103,7 +104,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
 			Assert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
@@ -122,7 +123,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -130,7 +131,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 		try {
 			intialData.get(recordCount).put(columnName, values);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -140,7 +141,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			int updatedPoint = Integer.parseInt(intialPoints) + Integer.parseInt(value);
 			intialData.get(recordCount).put(columnName, String.valueOf(updatedPoint));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -151,7 +152,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			double updatedMoney = Double.parseDouble(intialMoney) + Double.parseDouble(requiredJsonData.get(0));
 			intialData.get(recordCount).put(tableHeaders.get(6), String.valueOf(updatedMoney));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -163,7 +164,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			int updatedPoint = (int) pointsPerDollor;
 			intialData.get(recordCount).put(tableHeaders.get(7), String.valueOf(updatedPoint));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -174,7 +175,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -188,7 +189,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -209,7 +210,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_MKA, FilePath.PROPERTY_CONFIG_FILE),
 					requiredJsonData.get(1), (String) jsonData.get(Reports.MKA_JSON));
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -226,7 +227,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			requiredJsonData.add(points);
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -241,7 +242,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -260,7 +261,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 				}
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -283,7 +284,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -303,7 +304,7 @@ public class CrossOrgLoyaltyReport extends Factory {
 			jsonData.put(Reports.GMA_JSON, gmaJson.toString());
 			jsonData.put(Reports.GMA_TRANS, gmaObj);
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

@@ -1,14 +1,12 @@
 package at.smartshop.tests;
 
 import java.net.InetAddress;
-import java.sql.SQLException;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 
@@ -78,7 +76,7 @@ public class TestInfra {
 				sendReport.triggerMail(ExtReport.reportFullPath);
 			}
 			ResultSets.connection.close();
-			Process process = Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
+//			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

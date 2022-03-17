@@ -7,7 +7,7 @@ import com.aventstack.extentreports.Status;
 
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
-import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class ConsumerFeedbackSurvey {
 	private Foundation foundation = new Foundation();
@@ -30,7 +30,7 @@ public class ConsumerFeedbackSurvey {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

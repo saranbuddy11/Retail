@@ -98,22 +98,23 @@ public class Menu extends TestInfra {
 			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			
 			//Verify has print group
-			foundation.click(SelfService.LBL_FORWARD_ARROW);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
-			checkBox.check(selfService.objPrintCheckbox(printGroupName));
-
-			foundation.click(SelfService.BTN_SAVE);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
-			table.selectRow(printGroupName);
-			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
-			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
-			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
-			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+//			foundation.click(SelfService.LBL_FORWARD_ARROW);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
+//			checkBox.check(selfService.objPrintCheckbox(printGroupName));
+//
+//			foundation.click(SelfService.BTN_SAVE);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
+//			table.selectRow(printGroupName);
+//			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
+//			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
+//			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
+//			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 			// deselect printgroup checkbox
+			
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(printGroupName));
 

@@ -764,6 +764,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void deletePaycyle(String location, String payCycle) {
+
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
@@ -1172,7 +1173,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
@@ -1193,7 +1194,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
