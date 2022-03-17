@@ -30,6 +30,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
+import at.smartshop.pages.OrgSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 
@@ -735,6 +736,10 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			if (foundation.isDisplayed(OrgSummary.POPUP_LBL_HEADER)) {
+				foundation.click(OrgSummary.POPUP_BTN_YES);
+				foundation.click(OrgSummary.BTN_SAVE);
+				}
 			foundation.click(LocationSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisabled(OrgList.LBL_ORG_LIST));
 
