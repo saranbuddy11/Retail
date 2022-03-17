@@ -633,8 +633,7 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			checkBox.check(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
+			foundation.click(LocationSummary.CANCEL_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 
 			// Navigate to Device to enable 115 device
@@ -644,9 +643,8 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.SECOND_DEVICE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			checkBox.check(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.CANCEL_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 
 			// Navigate to Location to verify the age verification is enabled
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -664,7 +662,8 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.SECOND_DEVICE);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(LocationSummary.CANCEL_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 
 			// Navigate to Device to enable 122 device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -673,7 +672,9 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-
+			foundation.click(LocationSummary.CANCEL_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {

@@ -90,6 +90,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
+	public static final By CANCEL_BTN=By.id("cancelBtn");
 	public static final By TXT_SEARCH = By.id("productFilterType");
 	public static final By LBL_TAX_CATEGORY = By
 			.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
