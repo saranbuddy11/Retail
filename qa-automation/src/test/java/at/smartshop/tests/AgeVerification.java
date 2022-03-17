@@ -648,29 +648,23 @@ public class AgeVerification extends TestInfra {
 			foundation.click(DeviceSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Navigate to one device to disabled the age verification
+			// Navigate to Location to verify the age verification is enabled
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			foundation.click(LocationSummary.BTN_SAVE);
 
-			// Navigate to another device to verify the check box is enable r disable &
-			// uncheck
+			// Navigate to another device to verify the checkbox is displayed or not
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.SECOND_DEVICE);
-			CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.threadWait(Constants.TWO_SECOND);
-			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Navigate to Device to enable 122 device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -678,19 +672,7 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			checkBox.check(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
-
-			// verify the another location
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(location.get(0));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.SECOND_DEVICE);
-			CustomisedAssert.assertTrue(checkBox.isChkEnabled(LocationSummary.AGE_VERIFICATION));
-			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -699,13 +681,6 @@ public class AgeVerification extends TestInfra {
 			// Remove Device from AutomationLocation1 Location and uncheck the age
 			// verification
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(location.get(0));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
-			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
 			locationList.selectLocationName(location.get(0));
 			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
