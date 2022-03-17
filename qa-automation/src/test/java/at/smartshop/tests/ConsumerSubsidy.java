@@ -2620,5 +2620,4 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
-
 }
