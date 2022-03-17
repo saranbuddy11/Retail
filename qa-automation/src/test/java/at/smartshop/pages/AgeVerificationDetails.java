@@ -32,6 +32,11 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+
+	public By automationNewLocation(String text) {
+		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
+	}
+
 	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
 	public static final By DPD_STATUS = By.id("filtervalues");
 	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
@@ -71,6 +76,8 @@ public class AgeVerificationDetails extends Factory {
 		dropDown.selectItem(DPD_LANGUAGE, datas.get(6), Constants.TEXT);
 		textBox.enterText(CHECKOUT_DATE, currentDate);
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
+		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
+
 	}
 }
