@@ -9,14 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -250,7 +247,6 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
-
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
@@ -278,6 +274,8 @@ public class LocationSummary extends Factory {
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
 	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
 	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
+	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
+	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
 	public static final By INPUT_PAYROLL_MAIL = By.id("payrolldeductemail");
 	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");

@@ -2228,7 +2228,6 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.close();
-			
 
 			// Launch V5 Device
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2407,7 +2406,6 @@ public class ConsumerSubsidy extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
-			
 			consumerSummary.balanceResettingDataInAutomationLocation1(menu.get(1),
 					rstconsumerSearchData.get(CNConsumerSearch.SEARCH),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME),
@@ -2549,7 +2547,6 @@ public class ConsumerSubsidy extends TestInfra {
 		List<String> datas = Arrays
 				.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-
 		try {
 			// Login to ADM
 			browser.navigateURL(
