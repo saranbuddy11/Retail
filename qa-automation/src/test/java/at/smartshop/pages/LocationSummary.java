@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.poi.ss.formula.functions.EOMonth;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -22,6 +26,10 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNV5Device;
+
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -37,6 +45,7 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
 	private CheckBox checkBox = new CheckBox();
+	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
@@ -207,9 +216,11 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
+
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+    public static final By AGE_VERIFICATION=By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -247,6 +258,8 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+	public static final By DEVICE_BTN=By.xpath("(//a[@style='color: #2555D9;'])[2]");
+    public static final By SECOND_DEVICE=By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
@@ -1240,4 +1253,5 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
+	
 }
