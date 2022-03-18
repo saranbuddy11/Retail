@@ -584,7 +584,7 @@ public class AgeVerification extends TestInfra {
 			tabNames = navigationBar.getSubTabs(menus.get(1));
 			CustomisedAssert
 					.assertFalse(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
