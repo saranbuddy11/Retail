@@ -248,6 +248,7 @@ public class Excel {
 			FileInputStream fis = new FileInputStream(file);
 			workBook = new XSSFWorkbook(fis);
 			XSSFSheet workSheet = workBook.getSheetAt(0);
+			XSSFRow row1 = workSheet.getRow(0);
 			Iterator<Cell> cellIterator = row1.cellIterator();
 			while (cellIterator.hasNext()) {
 				columnHeader.add(cellIterator.next().getStringCellValue());
