@@ -10,3 +10,4 @@ public class CNAdminAgeVerification {
 	public static final String REQUIRED_DATA = "RequiredData";
 	public static final String STATUS = "Status";
 }
+

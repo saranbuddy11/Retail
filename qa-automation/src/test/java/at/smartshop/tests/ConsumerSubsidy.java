@@ -2144,6 +2144,7 @@ public class ConsumerSubsidy extends TestInfra {
 		}
 
 		finally {
+
 			consumerSummary.balanceResettingData(menu.get(1), requiredData.get(0), balance.get(1),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 		}
@@ -2226,6 +2227,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			login.logout();
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.close();
 
