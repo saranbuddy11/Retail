@@ -10,8 +10,6 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
@@ -374,14 +372,14 @@ public class ReportList extends Factory {
 			if (foundation.isDisplayed(object1)) {
 				if (foundation.isDisplayed(object2)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
-					Assert.fail("Failed Report because No Data Available in Report Table");
+					CustomisedAssert.fail("Failed Report because No Data Available in Report Table");
 				} else {
 					ExtFactory.getInstance().getExtent().log(Status.INFO,
 							"Report Data Available in the Table, Hence passing the Test case");
 				}
 			} else {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
-				Assert.fail("Failed Report because No Report Table Available");
+				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
