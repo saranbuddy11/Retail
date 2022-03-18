@@ -420,10 +420,10 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168729 - verify age verification sub menu for age verification enabled org by super when it is enable"
-			+ "168731 - verify age verification sub menu for age verification enabled org by super when it is disable")
+	@Test(description = "168890 - verify age verification sub menu for age verification enabled org by super when it is enable"
+			+ "168892 - verify age verification sub menu for age verification enabled org by super when it is disable")
 	public void verifyAgeVerificationSubMenu() {
-		final String CASE_NUM = "168729";
+		final String CASE_NUM = "168890";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -510,9 +510,10 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168730 - verify age verification sub menu for age verification enabled org by operator when it is enable")
+	@Test(description = "168891 - verify age verification sub menu for age verification enabled org by operator when it is enable"
+			+ "168893 - verify age verification sub menu for age verification disabled org by operator when it is disable")
 	public void verifyAgeVerificationSubMenuWithOperatorUser() {
-		final String CASE_NUM = "168730";
+		final String CASE_NUM = "168891";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
