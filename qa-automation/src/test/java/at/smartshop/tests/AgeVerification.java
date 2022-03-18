@@ -575,8 +575,10 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.ONE_SECOND);
 			navigationBar.navigateToMenuItem(menus.get(0));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
 
