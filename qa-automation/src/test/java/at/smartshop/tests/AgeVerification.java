@@ -43,14 +43,14 @@ public class AgeVerification extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstAdminAgeVerificationData;
 
-	@Test(description = "168272 - Verify the Expire pin confirmation prompt text"
-			+ "168273 - Verify the buttons on Expire pin confirmation prompt"
-			+ "168274 - Verify the cancel button in Expire pin confirmation prompt"
-			+ "168275 - Verify the expiry of the pin" + "168276 - verify expired pins are moving to expiry pin list"
-			+ "168277 - check active pin list after cancelling the pin expiration"
-			+ "168278 - Verify close button on expire pin confirmation prompt")
+	@Test(description = "168894 - Verify the Expire pin confirmation prompt text"
+			+ "168895 - Verify the buttons on Expire pin confirmation prompt"
+			+ "168896 - Verify the cancel button in Expire pin confirmation prompt"
+			+ "168897 - Verify the expiry of the pin" + "168898 - verify expired pins are moving to expiry pin list"
+			+ "168899 - check active pin list after cancelling the pin expiration"
+			+ "168900 - Verify close button on expire pin confirmation prompt")
 	public void verifyExpirePinPrompt() {
-		final String CASE_NUM = "168272";
+		final String CASE_NUM = "168894";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -137,13 +137,13 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168279 - Verify the Expire pin confirmation prompt text"
-			+ "168280 - Verify the buttons on Expire pin confirmation prompt"
-			+ "168281 - Verify the cancel button in Expire pin confirmation prompt"
-			+ "168282 - Verify the expiry of the pin" + "168283 - verify expired pins are moving to expiry pin list"
-			+ "168284 - check active pin list after cancelling the pin expiration" + "168285 - Verify pin expiry")
+	@Test(description = "168901 - Verify the Expire pin confirmation prompt text"
+			+ "168902 - Verify the buttons on Expire pin confirmation prompt"
+			+ "168903 - Verify the cancel button in Expire pin confirmation prompt"
+			+ "168904 - Verify the expiry of the pin" + "168905 - verify expired pins are moving to expiry pin list"
+			+ "168906 - check active pin list after cancelling the pin expiration" + "168907 - Verify pin expiry")
 	public void verifyExpirePinPromptInOperatorUser() {
-		final String CASE_NUM = "168279";
+		final String CASE_NUM = "168901";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
