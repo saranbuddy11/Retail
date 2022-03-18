@@ -128,7 +128,7 @@ public class FinancialRecapReport extends Factory {
 				Assert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			Assert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -265,8 +265,6 @@ public class FinancialRecapReport extends Factory {
 	}
 
 	public void verifyReportData() {
-		System.out.println(reportsData);
-		System.out.println(intialData);
 		try {
 			int count = intialData.size();
 			for (int counter = 0; counter < count; counter++) {

@@ -81,7 +81,7 @@ public class SalesAnalysisReport extends Factory {
 				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
-			CustomisedAssert.fail(exc.toString());
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 

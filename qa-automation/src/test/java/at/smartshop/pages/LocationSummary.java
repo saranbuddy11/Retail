@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.formula.functions.EOMonth;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -25,11 +26,14 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNV5Device;
+
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.LandingPage;
 
 public class LocationSummary extends Factory {
 
@@ -40,9 +44,8 @@ public class LocationSummary extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
-	private LandingPage landingPage = new LandingPage();
-	private Map<String, String> rstV5DeviceData;
 	private CheckBox checkBox = new CheckBox();
+	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
@@ -213,9 +216,11 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
+
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
+    public static final By AGE_VERIFICATION=By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -253,7 +258,8 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
-
+	public static final By DEVICE_BTN=By.xpath("(//a[@style='color: #2555D9;'])[2]");
+    public static final By SECOND_DEVICE=By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
@@ -281,6 +287,8 @@ public class LocationSummary extends Factory {
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
 	public static final By TXT_PAYROLL = By.xpath("//dt[text()='Payroll Deduct']");
 	public static final By INPUT_PAYROLL = By.id("clientpayrolldeduct");
+	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
+	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
 	public static final By INPUT_PAYROLL_MAIL = By.id("payrolldeductemail");
 	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
@@ -326,6 +334,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
+
 	public By objectTopOffCalendarMonthAutomationNew(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
@@ -353,6 +362,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
+
 	public By objectTopOffCalendarNewDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
@@ -360,6 +370,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarDayAutoLocation2(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
+
 	public By objectTopOffCalendarDayAutomationnew(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
@@ -766,6 +777,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void deletePaycyle(String location, String payCycle) {
+
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
@@ -1019,6 +1031,7 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation2(date));
 		}
 	}
+
 	public void verifyTopOffDateAutomationNewLocation(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1173,7 +1186,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
@@ -1194,7 +1207,7 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_LOCATION_SETTINGS);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
 		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
-		if (value == requiredData) {
+		if (value.equals(requiredData)) {
 			foundation.click(BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		} else {
@@ -1240,4 +1253,5 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
+	
 }

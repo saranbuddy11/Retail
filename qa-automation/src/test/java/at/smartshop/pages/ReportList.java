@@ -49,7 +49,9 @@ public class ReportList extends Factory {
 	public static final By BTN_RUN_REPORT = By.id("run");
 	public static final By DPD_GROUP_BY = By.xpath("//select[@id='rpt-group-by']");
 	public static final By DPD_ORG = By.cssSelector("#orgdt + span > span > span > ul");
-	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
+	public static final By DPD_ORG_ON_FILTER = By
+			.cssSelector("#org-container > dd > span > span.selection > span > ul > li");
+//	public static final By DPD_ORG_ON_FILTER = By.xpath("//input[@placeholder='Select Org(s) to include']");
 	public static final By DPD_LOCATION_ON_FILTER = By.xpath("//input[@placeholder='Select Location(s) to include']");
 	public static final By DPD_LOC_ON_GROUPFILTER_ = By.cssSelector("#select2-locdt-container");
 	public static final By DPD_FILTER_BY_GROUP = By.id("flt-group-by");
@@ -62,6 +64,9 @@ public class ReportList extends Factory {
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
 	private static final By DPD_LOCATION_LIST_SECONDTYPE = By
 			.xpath("//span[@class='select2-results']//ul[@role='listbox']");
+	
+	public static final By TODAYS_DATE = By
+			.xpath("//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
 
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -214,7 +219,7 @@ public class ReportList extends Factory {
 	public void selectOrgOnFilter(String orgName) {
 		try {
 			foundation.objectClick(DPD_ORG_ON_FILTER);
-			foundation.click(By.xpath("//ul[@id='select2-org-select-results']//li[text()='" + orgName + "']"));
+			foundation.click(By.xpath("//ul[@id='select2-org-select-results']/li[text()='" + orgName + "']"));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -398,10 +403,10 @@ public class ReportList extends Factory {
 			WebElement lastMonthDate = getDriver().findElement(
 					By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(0) + "']"));
 			if (lastMonthDate.isDisplayed()) {
-				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
 						+ "'][not(contains(@class , 'off'))]"));
 			} else {
-				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(2)
+				foundation.click(By.xpath("//table[@class = 'table-condensed']/tbody/tr/td[text()='" + reqDate.get(1)
 						+ "'][not(contains(@class , 'off'))]"));
 			}
 		} catch (Exception exc) {
