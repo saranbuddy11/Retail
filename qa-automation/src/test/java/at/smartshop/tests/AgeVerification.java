@@ -480,11 +480,14 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_AGE_VERIFICATION));
 			if (checkBox.isChkEnabled(OrgSummary.CHK_AGE_VERIFICATION))
 				checkBox.unCheck(OrgSummary.CHK_AGE_VERIFICATION);
+			foundation.threadWait(Constants.TWO_SECOND);
 			if (foundation.isDisplayed(OrgSummary.POPUP_LBL_HEADER)) {
 				foundation.click(OrgSummary.POPUP_BTN_YES);
 				foundation.click(OrgSummary.BTN_SAVE);
+			} else {
+				foundation.click(OrgSummary.BTN_SAVE);
 			}
-			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 
@@ -556,10 +559,14 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.TXT_AGE_VERIFICATION));
 			if (checkBox.isChkEnabled(OrgSummary.CHK_AGE_VERIFICATION))
 				checkBox.unCheck(OrgSummary.CHK_AGE_VERIFICATION);
+			foundation.threadWait(Constants.TWO_SECOND);
 			if (foundation.isDisplayed(OrgSummary.POPUP_LBL_HEADER)) {
 				foundation.click(OrgSummary.POPUP_BTN_YES);
+				foundation.click(OrgSummary.BTN_SAVE);
+			} else {
+				foundation.click(OrgSummary.BTN_SAVE);
 			}
-			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
@@ -577,11 +584,12 @@ public class AgeVerification extends TestInfra {
 			tabNames = navigationBar.getSubTabs(menus.get(1));
 			CustomisedAssert
 					.assertFalse(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+			foundation.threadWait(Constants.ONE_SECOND);
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting Age Verification Checkbox in ORG Summary
-			login.logout();
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(2));
