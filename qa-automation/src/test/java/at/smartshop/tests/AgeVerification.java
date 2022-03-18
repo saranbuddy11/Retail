@@ -235,12 +235,12 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168291 - verify the default status on pin status filter"
-			+ "168292 - verify the options in pin status dropdown" + "168293 - verify the expired option"
-			+ "168294 - verify the active option" + "168295 - verify the all option"
-			+ "168296 - verify active option on all the pages" + "168297 - verify expired option on all the pages")
+	@Test(description = "168912 - verify the default status on pin status filter"
+			+ "168913 - verify the options in pin status dropdown" + "168914 - verify the expired option"
+			+ "168915 - verify the active option" + "168916 - verify the all option"
+			+ "168917 - verify active option on all the pages" + "168918 - verify expired option on all the pages")
 	public void verifyDefaultPinStatusInSuperUser() {
-		final String CASE_NUM = "168291";
+		final String CASE_NUM = "168912";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -387,12 +387,12 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168298 - verify the default status on pin status filter"
-			+ "168299 - verify the options in pin status dropdown" + "168300 - verify the expired option"
-			+ "168301 - verify the active option" + "168302 - verify the all option"
-			+ "168303 - verify active option on all the pages" + "168304 - verify expired option on all the pages")
+	@Test(description = "168919 - verify the default status on pin status filter"
+			+ "168920 - verify the options in pin status dropdown" + "168921 - verify the expired option"
+			+ "168922 - verify the active option" + "168923 - verify the all option"
+			+ "168924 - verify active option on all the pages" + "168925 - verify expired option on all the pages")
 	public void verifyDefaultPinStatusInOperatorUser() {
-		final String CASE_NUM = "168298";
+		final String CASE_NUM = "168919";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
