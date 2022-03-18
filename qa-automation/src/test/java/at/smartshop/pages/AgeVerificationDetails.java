@@ -32,14 +32,25 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+	public static final By LBL_AGE_VERIFICATION_SETUP_PANEL = By.id("mainform");
+	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
+	public static final By DPD_STATUS = By.id("filtervalues");
+	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
+	public static final By TXT_LOCATION = By.xpath("//dt[normalize-space(text())='Location']");
+	public static final By TXT_MAIL = By.xpath("//dt[normalize-space(text())='Email Address']");
+	public static final By TXT_FNAME = By.xpath("//dt[normalize-space(text())='First Name']");
+	public static final By TXT_LNAME = By.xpath("//dt[normalize-space(text())='Last Name']");
+	public static final By TXT_LANGUAGE = By.xpath("//dt[normalize-space(text())='Languages']");
+	public static final By TXT_CHECK_OUT = By.xpath("//dt[normalize-space(text())='Check Out']");
+	public static final By TXT_DAILY_USES = By.xpath("//dt[normalize-space(text())='Daily Uses']");
+	public static final By LBL_SEARCH = By.xpath("//label[text()='Search: ']");
+	public static final By TABLE_GRID = By.xpath("//div[@role='grid']");
+	public static final By BTN_RESEND = By.xpath("//button[text()='Resend']");
+	public static final By BTN_EXPIRE = By.xpath("//button[text()='Expire']");
 
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
 	}
-
-	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
-	public static final By DPD_STATUS = By.id("filtervalues");
-	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
@@ -79,5 +90,31 @@ public class AgeVerificationDetails extends Factory {
 		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
 
+	}
+
+	public void verifyAllFieldsOfAgeVerificationSetup() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LOCATION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LOCATION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_MAIL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_MAIL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_FNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_FNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_LNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LANGUAGE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LANGUAGE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CHECK_OUT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CHECKOUT_DATE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_DAILY_USES));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_DAILY_USES));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CREATE_PIN));
+	}
+
+	public void verifyAllFieldsOfActivePins() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_STATUS));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SEARCH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TABLE_GRID));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_RESEND));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_EXPIRE));
 	}
 }

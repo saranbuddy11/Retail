@@ -30,7 +30,6 @@ import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
-import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
@@ -428,6 +427,19 @@ public class Foundation extends Factory {
 		String textAttribute = null;
 		try {
 			textAttribute = getDriver().findElement(object).getAttribute(Constants.ATTRIBUTE_VALUE);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return textAttribute;
+	}
+
+	public String getAttribute(By object, String attribute) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(attribute);
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
 			}
