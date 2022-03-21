@@ -643,7 +643,7 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			
 
-			// Navigate to another device to verify the checkbox is displayed or not
+			// Navigate to device 115 to verify the checkbox is displayed or not
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
