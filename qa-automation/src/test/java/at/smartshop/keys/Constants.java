@@ -103,4 +103,6 @@ public class Constants {
 	public static final String TODAY = "Today";
 	public static final String ACCEPTED = "ACCEPTED";
 	public static final String REMOVE_LEADING_ZERO = "^0+(?!$)";
+	public static final String DELIMITER_PERCENTAGE = "%";
+	public static final String DELIMITER_EMPTY = "";
 }
