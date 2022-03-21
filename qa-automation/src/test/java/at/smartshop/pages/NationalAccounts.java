@@ -2,7 +2,9 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -10,7 +12,11 @@ import org.testng.Assert;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
+import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Constants;
 
 public class NationalAccounts extends Factory {
@@ -42,8 +48,18 @@ public class NationalAccounts extends Factory {
 	public static final By BTN_Cancel = By.xpath("//button[text()='CANCEL']");
 	public static final By TXT_ALERT_MSG = By.id("alertifyMessage");
 	public static final By TXT_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
+	public static final By LBL_NATIONAL_ACCOUNT_SUMMARY = By.id("National Account Summary");
+	public static final By LBL_NATIONAL_ACCOUNT_ERROR = By.id("name-error");
+	public static final By LBL_CLIENT_ERROR = By.id("nationalclient-error");
+	public static final By LBL_EXISTING_ERROR = By.xpath("//p[@id='alertifyForExisitError']");
+	public static final By BTN_POPUP_ACCOUNT_ADDED = By.id("toast");
+	public static final By BTN_ACCEPT_POPUP = By.xpath("//button[@class='ajs-button ajs-ok']");
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
+	private Dropdown dropDown = new Dropdown();
+	private TextBox textBox = new TextBox();
+	private Table table = new Table();
+	private Map<String, String> rstNationalAccountsData;
 
 	private Foundation foundation = new Foundation();
 
@@ -126,6 +142,16 @@ public class NationalAccounts extends Factory {
 			By popupMessage = By.xpath("//p[text()='" + deleteMsg + "']");
 			Boolean status1 = foundation.isDisplayed(popupMessage);
 			CustomisedAssert.assertTrue(status1);
+		} catch (Exception exc) {
+			Assert.fail();
+		}
+	}
+	public void createNewNationalAccount(String accountName, String client_Name) {
+		try {
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(NationalAccounts.BTN_CREATE);
+			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
+			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME,client_Name, Constants.TEXT);
 		} catch (Exception exc) {
 			Assert.fail();
 		}

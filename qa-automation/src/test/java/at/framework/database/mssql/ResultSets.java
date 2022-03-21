@@ -633,6 +633,8 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNNationalAccounts.RULE_PAGE_TITLE));
 				rstNationalAccounts.put(CNNationalAccounts.RULE_PRICE,
 						resultSet.getString(CNNationalAccounts.RULE_PRICE));
+				rstNationalAccounts.put(CNNationalAccounts.ERROR_MESSAGE,
+						resultSet.getString(CNNationalAccounts.ERROR_MESSAGE));
 
 			}
 		} catch (Exception exc) {
