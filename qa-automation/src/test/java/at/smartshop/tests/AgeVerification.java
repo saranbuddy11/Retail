@@ -43,14 +43,14 @@ public class AgeVerification extends TestInfra {
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstAdminAgeVerificationData;
 
-	@Test(description = "168272 - Verify the Expire pin confirmation prompt text"
-			+ "168273 - Verify the buttons on Expire pin confirmation prompt"
-			+ "168274 - Verify the cancel button in Expire pin confirmation prompt"
-			+ "168275 - Verify the expiry of the pin" + "168276 - verify expired pins are moving to expiry pin list"
-			+ "168277 - check active pin list after cancelling the pin expiration"
-			+ "168278 - Verify close button on expire pin confirmation prompt")
+	@Test(description = "168894 - Verify the Expire pin confirmation prompt text"
+			+ "168895 - Verify the buttons on Expire pin confirmation prompt"
+			+ "168896 - Verify the cancel button in Expire pin confirmation prompt"
+			+ "168897 - Verify the expiry of the pin" + "168898 - verify expired pins are moving to expiry pin list"
+			+ "168899 - check active pin list after cancelling the pin expiration"
+			+ "168900 - Verify close button on expire pin confirmation prompt")
 	public void verifyExpirePinPrompt() {
-		final String CASE_NUM = "168272";
+		final String CASE_NUM = "168894";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -64,7 +64,6 @@ public class AgeVerification extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
-
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -117,7 +116,6 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(requiredData.get(4))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(currentDate)));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -139,13 +137,13 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168279 - Verify the Expire pin confirmation prompt text"
-			+ "168280 - Verify the buttons on Expire pin confirmation prompt"
-			+ "168281 - Verify the cancel button in Expire pin confirmation prompt"
-			+ "168282 - Verify the expiry of the pin" + "168283 - verify expired pins are moving to expiry pin list"
-			+ "168284 - check active pin list after cancelling the pin expiration" + "168285 - Verify pin expiry")
+	@Test(description = "168901 - Verify the Expire pin confirmation prompt text"
+			+ "168902 - Verify the buttons on Expire pin confirmation prompt"
+			+ "168903 - Verify the cancel button in Expire pin confirmation prompt"
+			+ "168904 - Verify the expiry of the pin" + "168905 - verify expired pins are moving to expiry pin list"
+			+ "168906 - check active pin list after cancelling the pin expiration" + "168907 - Verify pin expiry")
 	public void verifyExpirePinPromptInOperatorUser() {
-		final String CASE_NUM = "168279";
+		final String CASE_NUM = "168901";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -159,7 +157,6 @@ public class AgeVerification extends TestInfra {
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
-
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAndSelectOrg(
@@ -213,7 +210,6 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(requiredData.get(4))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(currentDate)));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -235,14 +231,13 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168558- Age verification enable by operator")
+	@Test(description = "168995- Age verification enable by operator")
 	public void verifyAgeVerificationByOperator() {
-		final String CASE_NUM = "168558";
+		final String CASE_NUM = "168995";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -267,7 +262,6 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -282,14 +276,13 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168562- Age verification enable by super")
+	@Test(description = "168999- Age verification enable by super")
 	public void verifyAgeVerificationBySuper() {
-		final String CASE_NUM = "168562";
+		final String CASE_NUM = "168999";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -314,7 +307,6 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -329,9 +321,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168560-Verify the location is availble on age verification screen after it is enabled at location summary page")
+	@Test(description = "168997-Verify the location is availble on age verification screen after it is enabled at location summary page")
 	public void verifyLocationAvailableInAgeVerificationAsOperator() {
-		final String CASE_NUM = "168560";
+		final String CASE_NUM = "168997";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -339,7 +331,6 @@ public class AgeVerification extends TestInfra {
 
 		List<String> menus = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -365,7 +356,6 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails
 					.automationNewLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME))));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -377,13 +367,12 @@ public class AgeVerification extends TestInfra {
 			foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
-
 		}
 	}
 
 	@Test(description = "168564-Verify the location is availble on age verification screen after it is enabled at location summary page")
 	public void verifyLocationAvailableInAgeVerificationAsSuper() {
-		final String CASE_NUM = "168564";
+		final String CASE_NUM = "169001";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -391,7 +380,6 @@ public class AgeVerification extends TestInfra {
 
 		List<String> menus = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -418,7 +406,6 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails
 					.automationNewLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME))));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -430,14 +417,14 @@ public class AgeVerification extends TestInfra {
 			foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
-
 		}
 	}
 
-	@Test(description = "168305-Verify no on age verification prompt"
-			+ "168306-Verify yes, continue on age verification prompt")
+
+	@Test(description = "168926-Verify no on age verification prompt"
+			+ "168927-Verify yes, continue on age verification prompt")
 	public void verifyNoOnAgeVerificationPrompt() {
-		final String CASE_NUM = "168305";
+		final String CASE_NUM = "168926";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);

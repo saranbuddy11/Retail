@@ -148,17 +148,17 @@ public class Report extends TestInfra {
 
 
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 
@@ -2875,6 +2875,92 @@ public class Report extends TestInfra {
 			// verify report data
 			reportList.verifyReportDataOfFirstRow(multiTaxReport.tableHeaders, multiTaxReport.getReportsData(), multiTaxReport.getIntialData());
 
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "168454-Verify the Data Validation of Sales Analysis Report")
+	public void salesAnalysisReportDataValication() {
+		try {
+			final String CASE_NUM = "168454";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// process sales API to generate data
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			List<String> groupBy = Arrays
+					.asList(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN).split(Constants.DELIMITER_HASH));
+			
+			// Data validation for Report Based on Groupby ITEMS		
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.SHORT_TIME);
+			reportList.selectGroupByOption(groupBy.get(0), Constants.TEXT);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesAnalysisReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			salesAnalysisReport.getTblRecordsUI();
+			salesAnalysisReport.getIntialData().putAll(salesAnalysisReport.getReportsData());
+			
+			// process sales API to generate data
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
+			//rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			salesAnalysisReport.getTblRecordsUI();
+
+			// update the report date baseed on calculation
+			List<String> expectedData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			
+			salesAnalysisReport.saleCount(salesAnalysisReport.getTableHeaders().get(7));
+			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(8), expectedData.get(0));
+			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(9), expectedData.get(1));
+			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(12), expectedData.get(2));
+			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(13), expectedData.get(3));
+			salesAnalysisReport.getGMValueUsingCalculationForAllProducts(salesAnalysisReport.getTableHeaders().get(14), productPrice);	
+
+			// verify report headers
+			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME), salesAnalysisReport.getTableHeaders());
+
+			// verify report data
+			salesAnalysisReport.verifyReportData();
+            
+            // Data validation for Report Based on Groupby LOCATION
+            // Run the Report and read the data based on Loaction
+			reportList.selectGroupByOption(groupBy.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			foundation.click(SalesAnalysisReport.TBL_EXPAND_ROW);
+			foundation.threadWait(Constants.TWO_SECOND);
+			salesAnalysisReport.getUITblRecordsGroupbyLocations();
+			 
+			salesAnalysisReport.removeReportDataFirstValue();
+			
+			// verify report headers
+			salesAnalysisReport.verifyReportHeadersForLocation(salesAnalysisReport.removeHeaderFirstValue(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME)), salesAnalysisReport.getTableHeaders());
+
+			// verify report data
+			salesAnalysisReport.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
