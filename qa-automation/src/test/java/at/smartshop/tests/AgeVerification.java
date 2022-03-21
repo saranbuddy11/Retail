@@ -698,9 +698,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168318-Age verification disable by super" + "168317-Age verification enable by super ")
+	@Test(description = "168932-Age verification disable by super" + "168931-Age verification enable by super ")
 	public void verifyAgeVerificationInOrgSummaryAsSuper() {
-		final String CASE_NUM = "168318";
+		final String CASE_NUM = "168931";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
