@@ -479,6 +479,7 @@ public class AgeVerification extends TestInfra {
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 
 			// Verify the AgeVerification in location summary and device to ensure it's
