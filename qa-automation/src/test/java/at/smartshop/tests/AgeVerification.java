@@ -925,7 +925,7 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168933 - Verify all the fields in Active pin panel")
+	@Test(description = "168933 - Verify all the fields in Active pin panel" + "168934 - Verify the pagination")
 	public void verifyAllFieldsOfAgeVerificationPanel() {
 		final String CASE_NUM = "168933";
 
@@ -978,10 +978,18 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertEquals(options.get(1), status.get(1));
 			CustomisedAssert.assertEquals(options.get(2), status.get(2));
 			ageVerificationDetails.verifyAllFieldsOfActivePins();
+
+			// Verify the No of Records in a Page
+			ageVerificationDetails.verifyPagination(requiredData.get(8), status.get(2));
+			ageVerificationDetails.verifyPagination(requiredData.get(9), status.get(2));
+			ageVerificationDetails.verifyPagination(requiredData.get(10), status.get(2));
+			ageVerificationDetails.verifyPagination(requiredData.get(11), status.get(2));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Deleting Active PIN record After validation
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
 			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(2)));
 			foundation.click(AgeVerificationDetails.BTN_YES);

@@ -55,6 +55,7 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TBL_EXPIRED_GRID = By.cssSelector("#dt > tbody");
 	public static final By TBL_EXPIRED = By.id("dt");
 	public static final By DPD_LENGTH = By.xpath("//select[@name='dt_length']");
+	public static final By LABEL_RECORDS = By.xpath("//label[text()=' records per page']");
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
 
@@ -161,5 +162,17 @@ public class AgeVerificationDetails extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TABLE_GRID));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_RESEND));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_EXPIRE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LABEL_RECORDS));
+	}
+
+	public void verifyPagination(String value, String status) {
+		foundation.scrollIntoViewElement(AgeVerificationDetails.LABEL_RECORDS);
+		dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, value, Constants.TEXT);
+		foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+		dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status, Constants.TEXT);
+		foundation.threadWait(Constants.TWO_SECOND);
+		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
+		int record = uiTableData.size();
+		CustomisedAssert.assertEquals(String.valueOf(record), value);
 	}
 }
