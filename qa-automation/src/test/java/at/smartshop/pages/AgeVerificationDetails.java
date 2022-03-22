@@ -1,8 +1,12 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -11,6 +15,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class AgeVerificationDetails extends Factory {
 
@@ -47,6 +52,14 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TABLE_GRID = By.xpath("//div[@role='grid']");
 	public static final By BTN_RESEND = By.xpath("//button[text()='Resend']");
 	public static final By BTN_EXPIRE = By.xpath("//button[text()='Expire']");
+	public static final By TBL_EXPIRED_GRID = By.cssSelector("#dt > tbody");
+	public static final By TBL_EXPIRED = By.id("dt");
+	public static final By DPD_LENGTH = By.xpath("//select[@name='dt_length']");
+	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
+	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
+
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
@@ -54,6 +67,10 @@ public class AgeVerificationDetails extends Factory {
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
+	}
+
+	public By objExpirePinConfirmationWithIndex(String location, String text, String index) {
+		return By.xpath("(//td[text()='" + location + "']//..//td/button[text()='" + text + "'])[" + index + "]");
 	}
 
 	public By objExpiredPinlist(String text) {
@@ -89,7 +106,35 @@ public class AgeVerificationDetails extends Factory {
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
 		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+	}
 
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_EXPIRED_GRID);
+			WebElement table = getDriver().findElement(TBL_EXPIRED);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
 	}
 
 	public void verifyAllFieldsOfAgeVerificationSetup() {
