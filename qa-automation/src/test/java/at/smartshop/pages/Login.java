@@ -34,7 +34,10 @@ public class Login extends Factory {
 	public void login(String userName, String password) {
 		try {
 			foundation.click(BTN_SIGN_IN);
-			insertLoginFields(userName, password);
+			textBox.enterText(TXT_EMAIL, userName);
+			foundation.click(BTN_SIGN_IN);
+			textBox.enterText(TXT_PASSWORD, password);
+			//insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
