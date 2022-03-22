@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import com.aventstack.extentreports.Status;
@@ -54,6 +55,28 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 
+	}
+
+	public void enterKeypadTextWithCaseSensitive(String text) {
+		char[] charArray = text.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			if (charArray[i] == ' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+				foundation.click(By.xpath("//*[text()='abc']"));
+				foundation.threadWait(Constants.ONE_SECOND);
+			} else if (charArray[i] >= 'A' && charArray[i] <= 'Z') {
+				if (i == 0) {
+					foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+				} else {
+					foundation.objectClick(By.xpath("//*[text()='ABC']"));
+					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
+					foundation.click(By.xpath("//*[text()='abc']"));
+					foundation.threadWait(Constants.ONE_SECOND);
+				}
+			} else {
+				foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+			}
+		}
 	}
 
 	public void enterKeypadText(String text) {
@@ -130,6 +153,16 @@ public class TextBox extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
+
+//	public void scrollIntoViewElement(By object, String Text) {
+//		try {
+//			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+//			executor.executeScript("arguments[0].value='+ Text +'", getDriver().findElement(object));
+//			ExtFactory.getInstance().getExtent().log(Status.INFO,
+//					"Scroll into view object [ " + object + " ] using javascript");
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 }
