@@ -925,7 +925,8 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168933 - Verify all the fields in Active pin panel" + "168934 - Verify the pagination")
+	@Test(description = "168933 - Verify all the fields in Active pin panel" + "168934 - Verify the pagination"
+			+ "168935 - verify next page button")
 	public void verifyAllFieldsOfAgeVerificationPanel() {
 		final String CASE_NUM = "168933";
 
@@ -984,6 +985,13 @@ public class AgeVerification extends TestInfra {
 			ageVerificationDetails.verifyPagination(requiredData.get(9), status.get(2));
 			ageVerificationDetails.verifyPagination(requiredData.get(10), status.get(2));
 			ageVerificationDetails.verifyPagination(requiredData.get(11), status.get(2));
+
+			// Verify Next Button under Active PIN Panel
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_NEXT);
+			foundation.click(AgeVerificationDetails.TXT_NEXT);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			int record = uiTableData.size();
+			CustomisedAssert.assertEquals(String.valueOf(record), requiredData.get(11));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
