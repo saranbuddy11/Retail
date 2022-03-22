@@ -95,5 +95,4 @@ public class TestInfra {
 			Assert.fail("Failed due to " + exc.toString() + " could not capture the screenshot due to " + e);
 		}
 	}
-
 }
