@@ -57,6 +57,7 @@ public class AgeVerificationDetails extends Factory {
 	public static final By DPD_LENGTH = By.xpath("//select[@name='dt_length']");
 	public static final By LABEL_RECORDS = By.xpath("//label[text()=' records per page']");
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
+	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
 
 	private List<String> tableHeaders = new ArrayList<>();
