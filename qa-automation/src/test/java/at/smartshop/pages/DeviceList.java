@@ -17,6 +17,7 @@ public class DeviceList {
 	public static final By DRP_PICO_DEVICE_TYPE = By.id("picodevicetype");
 	public static final By TXT_DEVICE_LIST = By.id("Device List");
 	public static final By BTN_CREATE_NEW = By.id("newBtn");
+	public static final By SUPER_DEVICE=By.id("Super Device Dashboard");
 
 	public By objDeveiceLink(String deviceName) {
 		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='" + deviceName + "']");
