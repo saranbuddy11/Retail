@@ -429,195 +429,134 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	/*
-	 * <<<<<<< HEAD
-	 * 
-	 * @Test(description = "168926-Verify no on age verification prompt" +
-	 * "168927-Verify yes, continue on age verification prompt") public void
-	 * verifyNoOnAgeVerificationPrompt() { final String CASE_NUM = "168926"; =======
-	 * 
-	 * @Test(description = "168908 -age verification enable on device summary page"
-	 * + "168909-age verification disable on device summary page") public void
-	 * verifyAgeVerificationInDeviceAsSuper() { final String CASE_NUM = "168908";
-	 * 
-	 * // Reading test data from database rstNavigationMenuData =
-	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-	 * rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST,
-	 * CASE_NUM);
-	 * 
-	 * try { browser.navigateURL(
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
-	 * FilePath.PROPERTY_CONFIG_FILE),
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.
-	 * LBL_LOCATION_LIST)); navigationBar.selectOrganization(
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * 
-	 * // Select Menu, Menu Item and verify the age verification disabled
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION));
-	 * CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.check(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(LocationSummary.BTN_SAVE);
-	 * 
-	 * // Navigate to Device
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * foundation.click(LocationSummary.DEVICE_BTN);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.check(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(DeviceSummary.BTN_SAVE);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST
-	 * ));
-	 * 
-	 * // Navigate to Device
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * foundation.click(LocationSummary.DEVICE_BTN);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(DeviceSummary.BTN_SAVE);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST
-	 * ));
-	 * 
-	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); }
-	 * 
-	 * finally { // Navigate to location to disable the age verification
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
-	 * foundation.threadWait(Constants.ONE_SECOND);
-	 * checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(LocationSummary.BTN_SAVE);
-	 * 
-	 * } }
-	 * 
-	 * @Test(description =
-	 * "168910 -age verification enable on device summary page by operator" +
-	 * "168911-age verification disable on device summary page by operator") public
-	 * void verifyAgeVerificationInDeviceAsOperator() { final String CASE_NUM =
-	 * "168910"; >>>>>>> main
-	 * 
-	 * // Reading test data from database rstNavigationMenuData =
-	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-	 * rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST,
-	 * CASE_NUM);
-	 * 
-	 * try { browser.navigateURL(
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
-	 * FilePath.PROPERTY_CONFIG_FILE),
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.
-	 * LBL_LOCATION_LIST)); navigationBar.selectOrganization(
-	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
-	 * FilePath.PROPERTY_CONFIG_FILE));
-	 * 
-	 * // Select Menu, Menu Item and verify the age verification disabled
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION));
-	 * CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.check(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(LocationSummary.BTN_SAVE);
-	 * 
-	 * <<<<<<< HEAD // Navigate to device ======= // Navigate to Device >>>>>>> main
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * foundation.click(LocationSummary.DEVICE_BTN);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.check(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(DeviceSummary.BTN_SAVE);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST
-	 * ));
-	 * 
-	 * <<<<<<< HEAD // Navigate to Location to verify the age verification prompt in
-	 * NO
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.threadWait(Constants.SHORT_TIME);
-	 * foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION));
-	 * CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.threadWait(Constants.SHORT_TIME);
-	 * foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
-	 * foundation.click(LocationSummary.BTN_SAVE);
-	 * 
-	 * // Navigate to Location to verify the age verification prompt in YES
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.threadWait(Constants.SHORT_TIME);
-	 * foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.threadWait(Constants.SHORT_TIME);
-	 * foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
-	 * foundation.threadWait(Constants.TWO_SECOND);
-	 * foundation.click(LocationSummary.BTN_SAVE);
-	 * 
-	 * // Verify the AgeVerification in location summary and device to ensure it's
-	 * // Disbaled
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); foundation.threadWait(Constants.SHORT_TIME);
-	 * foundation.click(LocationSummary.DEVICE_BTN);
-	 * CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION));
-	 * 
-	 * ======= // Navigate to Device
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * foundation.click(LocationSummary.DEVICE_BTN);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(DeviceSummary.BTN_SAVE);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST
-	 * ));
-	 * 
-	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); }
-	 * 
-	 * finally { // Navigate to location to disable the age verification
-	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
-	 * MENU_ITEM));
-	 * locationList.selectLocationName(rstLocationListData.get(CNLocationList.
-	 * LOCATION_NAME)); foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-	 * CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.
-	 * AGE_VERIFICATION)); foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
-	 * foundation.threadWait(Constants.ONE_SECOND);
-	 * checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-	 * foundation.click(LocationSummary.BTN_SAVE); } }
-	 */
+	@Test(description = "168908 -age verification enable on device summary page"
+			+ "168909-age verification disable on device summary page")
+	public void verifyAgeVerificationInDeviceAsSuper() {
+		final String CASE_NUM = "168908";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu, Menu Item and verify the age verification disabled
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// Navigate to Device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+			// Navigate to Device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+		finally {
+			// Navigate to location to disable the age verification
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
+			foundation.threadWait(Constants.ONE_SECOND);
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+		}
+	}
+
+	@Test(description = "168910 -age verification enable on device summary page by operator"
+			+ "168911-age verification disable on device summary page by operator")
+	public void verifyAgeVerificationInDeviceAsOperator() {
+		final String CASE_NUM = "168910";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu, Menu Item and verify the age verification disabled
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// Navigate to Device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+			// Navigate to Device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+		finally {
+			// Navigate to location to disable the age verification
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			foundation.isEnabled(LocationSummary.AGE_VERIFICATION);
+			foundation.threadWait(Constants.ONE_SECOND);
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+		}
+	}
 
 	@Test(description = "168572-check the other devices on the location after age verification is enabled on one device"
 			+ "169163-check the other devices on the location after age verification is disabled on one device")
@@ -817,4 +756,80 @@ public class AgeVerification extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	@Test(description = "168926-Verify no on age verification prompt"
+			+ "168927-Verify yes, continue on age verification prompt")
+	public void verifyNoOnAgeVerificationPrompt() {
+		final String CASE_NUM = "168926";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu, Menu Item and verify the age verification disabled
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// Navigate to device
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+
+			// Navigate to Location to verify the age verification prompt in NO
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// Navigate to Location to verify the age verification prompt in YES
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// Verify the AgeVerification in location summary and device to ensure it's
+			// Disbaled
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }
