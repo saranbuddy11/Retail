@@ -2227,9 +2227,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			login.logout();
 			foundation.threadWait(Constants.SHORT_TIME);
-			browser.close();
 
 			// Launch V5 Device
 			//foundation.threadWait(Constants.SHORT_TIME);

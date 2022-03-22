@@ -229,9 +229,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168558- Age verification enable by operator")
+	@Test(description = "168995- Age verification enable by operator")
 	public void verifyAgeVerificationByOperator() {
-		final String CASE_NUM = "168558";
+		final String CASE_NUM = "168995";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -274,9 +274,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168562- Age verification enable by super")
+	@Test(description = "168999- Age verification enable by super")
 	public void verifyAgeVerificationBySuper() {
-		final String CASE_NUM = "168562";
+		final String CASE_NUM = "168999";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -319,9 +319,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168560-Verify the location is availble on age verification screen after it is enabled at location summary page")
+	@Test(description = "168997-Verify the location is availble on age verification screen after it is enabled at location summary page")
 	public void verifyLocationAvailableInAgeVerificationAsOperator() {
-		final String CASE_NUM = "168560";
+		final String CASE_NUM = "168997";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -370,7 +370,7 @@ public class AgeVerification extends TestInfra {
 
 	@Test(description = "168564-Verify the location is availble on age verification screen after it is enabled at location summary page")
 	public void verifyLocationAvailableInAgeVerificationAsSuper() {
-		final String CASE_NUM = "168564";
+		final String CASE_NUM = "169001";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
