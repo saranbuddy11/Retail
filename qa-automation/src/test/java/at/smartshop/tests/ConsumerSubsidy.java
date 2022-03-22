@@ -2567,7 +2567,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(datas.get(1))) {
+				dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, datas.get(0), Constants.TEXT);
+			}
+			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, datas.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
