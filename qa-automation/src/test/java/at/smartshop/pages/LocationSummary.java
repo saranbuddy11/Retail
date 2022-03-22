@@ -86,6 +86,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
+	public static final By CANCEL_BTN=By.id("cancelBtn");
 	public static final By TXT_SEARCH = By.id("productFilterType");
 	public static final By LBL_TAX_CATEGORY = By
 			.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
@@ -212,7 +213,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
-
+    public static final By POPUP_YES=By.id("ageverificationpopupSaveBtn");
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");

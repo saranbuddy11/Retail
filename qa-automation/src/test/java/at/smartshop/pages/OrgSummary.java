@@ -16,6 +16,8 @@ public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
+	public static final By POPUP_LBL_HEADER=By.id("reasontitle");
+	public static final By POPUP_BTN_YES=By.id("ageverificationpopupSaveBtn");
 	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
 	public static final By BTN_VDI_DEL = By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
