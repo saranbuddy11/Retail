@@ -829,7 +829,7 @@ public class NationalAccount extends TestInfra {
 
 			foundation.waitforElement(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT_RULE));
-			ruleName = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
+			ruleName = rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME);
 			nationalAccountRules.clickRulesLink(ruleName);
 
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreateNewRule.BTN_DELETE));
@@ -852,7 +852,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_CATEGORY),
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 			foundation.isDisplayed(nationalAccountRules.objRuleName(ruleName));
