@@ -130,6 +130,17 @@ public class TextBox extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
+	}
+	
+	public void clearText(By object) {
+		try {
+			foundation.objectFocus(object);
+			getDriver().findElement(object).clear();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "cleared the text ");
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
