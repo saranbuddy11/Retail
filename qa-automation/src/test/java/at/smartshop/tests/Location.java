@@ -1293,39 +1293,29 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			// Navigating to products tab
-//			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
-//			foundation.click(LocationSummary.TAB_PRODUCTS);
-//			foundation.threadWait(Constants.ONE_SECOND);
-//			textBox.enterText(LocationSummary.TXT_SEARCH, product);
-//			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
-////			textBox.getTextFromInput(locationSummary.objProductPrice(product))
-//			foundation.click(locationSummary.objProductPrice(product));
-//			textBox.enterText(locationSummary.objProductPrice(product), "6");
-//			System.out.println(textBox.getTextFromInput(locationSummary.objProductPrice(product)));
-//			
+			
+			// Navigating to products tab and Updating the product price by clicking on Update Prices.
 			locationSummary.selectingProduct(tabName, product, product, price.get(0));
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 
 			login.logout();
 			browser.close();
 
-			// Launch V5 Device
-//			foundation.threadWait(Constants.SHORT_TIME);
+			// Launch V5 Device and Searching for product
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadTextWithCaseSensitive(product);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			System.out.println("productPrice : " + productPrice);
 
 //			// verify the display of product price
 			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
-//			browser.close();
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {

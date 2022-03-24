@@ -154,15 +154,4 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
-//	public void scrollIntoViewElement(By object, String Text) {
-//		try {
-//			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-//			executor.executeScript("arguments[0].value='+ Text +'", getDriver().findElement(object));
-//			ExtFactory.getInstance().getExtent().log(Status.INFO,
-//					"Scroll into view object [ " + object + " ] using javascript");
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
 }
