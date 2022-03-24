@@ -291,6 +291,7 @@ public class FinancialRecapReport extends Factory {
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
 				getJsonSalesData();
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

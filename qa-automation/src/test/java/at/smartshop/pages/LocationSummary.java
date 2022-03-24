@@ -616,10 +616,9 @@ public class LocationSummary extends Factory {
 	}
 
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
-
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
-		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		foundation.waitforElement(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
@@ -629,13 +628,14 @@ public class LocationSummary extends Factory {
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
+		foundation.threadWait(Constants.ONE_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
 				Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
-		foundation.click(TXT_INVENTORY_FILTER);
+		foundation.objectClick(TXT_INVENTORY_FILTER);
 		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
 	}
 
