@@ -196,10 +196,23 @@ public class IntegrationPaymentReport extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.ONE_SECOND);
+			System.out.println("reportsData:"+reportsData);
+			System.out.println("intialData:"+intialData);
+			
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					if((reportsData.get(counter).get(tableHeaders.get(2))=="SPECIAL" && intialData.get(counter).get(tableHeaders.get(2))=="SPECIAL") || (reportsData.get(counter).get(tableHeaders.get(2))=="GENESIS" && intialData.get(counter).get(tableHeaders.get(2))=="GENESIS")){
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get((count-1)-counter).get(tableHeaders.get(iter))));
+							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					}else {
+						if(counter==0) {
+						CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+								.contains(intialData.get(counter+1).get(tableHeaders.get(iter))));
+						}else {
+							CustomisedAssert.assertTrue(reportsData.get(counter-1).get(tableHeaders.get(iter))
+									.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+							}
+					}
 				}
 			}
 		} catch (Exception exc) {
