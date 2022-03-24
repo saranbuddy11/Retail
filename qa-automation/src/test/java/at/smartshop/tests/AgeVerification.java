@@ -1343,7 +1343,8 @@ public class AgeVerification extends TestInfra {
 	}
 
 	@Test(description = "168937 - verify the validation message for the email without syntax"
-			+ "168938 - verify maximum field length" + "168939 - verify the special characters")
+			+ "168938 - verify maximum field length" + "168939 - verify the special characters"
+			+ "168940 - verify the numeric characters")
 	public void verifyValidationMessage() {
 		final String CASE_NUM = "168937";
 
@@ -1415,18 +1416,24 @@ public class AgeVerification extends TestInfra {
 			ageVerificationDetails.verifyEmailFieldinPinCreation(requiredData.get(8),
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
 
-			// Verifying Email field with special characters along with maximum limit length
+			// Inserting Email field with special characters along with maximum limit length
 			String mail = requiredData.get(8).replace('k', '$');
 			mail = mail.replace('r', '#');
-			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
-			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
-			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
-			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
-			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
-			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			String mailSpecialChar = mail;
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mailSpecialChar,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Inserting Email field with numeric characters along with maximum limit length
+			mail = mail.replace('$', '1');
+			mail = mail.replace('#', '5');
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
 			ageVerificationDetails.verifyEmailFieldinPinCreation(mail,
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Verifying all Email's Created are stored properly in Table or not
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			List<String> mailId = new ArrayList<String>();
@@ -1437,7 +1444,8 @@ public class AgeVerification extends TestInfra {
 				mailId.add(innerValue);
 			}
 			CustomisedAssert.assertEquals(mailId.get(0), mail);
-			CustomisedAssert.assertEquals(mailId.get(1), requiredData.get(8));
+			CustomisedAssert.assertEquals(mailId.get(1), mailSpecialChar);
+			CustomisedAssert.assertEquals(mailId.get(2), requiredData.get(8));
 			uiTableData.clear();
 
 		} catch (Exception exc) {

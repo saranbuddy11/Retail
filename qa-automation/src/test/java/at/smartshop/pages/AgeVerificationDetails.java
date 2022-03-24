@@ -112,6 +112,16 @@ public class AgeVerificationDetails extends Factory {
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
 	}
 
+	public void createAgeVerificationPinWithoutEmail(String location, List<String> datas) {
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		dropDown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		textBox.enterText(INPUT_FNAME, datas.get(4));
+		textBox.enterText(INPUT_LNAME, datas.get(5));
+		dropDown.selectItem(DPD_LANGUAGE, datas.get(6), Constants.TEXT);
+		textBox.enterText(CHECKOUT_DATE, currentDate);
+		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
+	}
+
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
 			int recordCount = 0;
