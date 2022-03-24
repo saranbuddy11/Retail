@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -1342,7 +1343,7 @@ public class AgeVerification extends TestInfra {
 	}
 
 	@Test(description = "168937 - verify the validation message for the email without syntax"
-			+ "168938 - verify maximum field length")
+			+ "168938 - verify maximum field length" + "168939 - verify the special characters")
 	public void verifyValidationMessage() {
 		final String CASE_NUM = "168937";
 
@@ -1410,22 +1411,33 @@ public class AgeVerification extends TestInfra {
 			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_EMAIL_ERROR));
 
-			// Verifying Email field with maximum limit length
-			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(8));
-			foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
-			foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
-			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0))));
+			// Inserting Email field with maximum limit length and create Active PIN
+			ageVerificationDetails.verifyEmailFieldinPinCreation(requiredData.get(8),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Verifying Email field with special characters along with maximum limit length
+			String mail = requiredData.get(8).replace('k', '$');
+			mail = mail.replace('r', '#');
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mail,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
+			List<String> mailId = new ArrayList<String>();
 			String innerValue = "";
 			for (int i = 0; i < uiTableData.size(); i++) {
 				innerMap = uiTableData.get(i);
 				innerValue = innerMap.get("Email Address");
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(8));
+				mailId.add(innerValue);
 			}
+			CustomisedAssert.assertEquals(mailId.get(0), mail);
+			CustomisedAssert.assertEquals(mailId.get(1), requiredData.get(8));
 			uiTableData.clear();
 
 		} catch (Exception exc) {
@@ -1433,11 +1445,14 @@ public class AgeVerification extends TestInfra {
 		} finally {
 			// Deleting Active PIN record After validation
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
-			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
-					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
-			foundation.click(AgeVerificationDetails.BTN_YES);
-			foundation.refreshPage();
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+				foundation.click(AgeVerificationDetails.BTN_YES);
+				foundation.refreshPage();
+				foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			}
 
 			// Resetting Age Verification Checkbox
 			navigationBar.navigateToMenuItem(menus.get(0));

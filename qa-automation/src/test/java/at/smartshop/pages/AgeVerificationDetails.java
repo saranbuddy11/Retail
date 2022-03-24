@@ -177,4 +177,13 @@ public class AgeVerificationDetails extends Factory {
 		int record = uiTableData.size();
 		CustomisedAssert.assertEquals(String.valueOf(record), value);
 	}
+
+	public void verifyEmailFieldinPinCreation(String mail, String location, String text) {
+		textBox.enterText(AgeVerificationDetails.INPUT_MAIL, mail);
+		foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
+		foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
+		foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, text)));
+	}
 }
