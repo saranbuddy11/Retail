@@ -59,6 +59,7 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
 	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
+	public static final By TXT_EMAIL_ERROR = By.id("email-error");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
