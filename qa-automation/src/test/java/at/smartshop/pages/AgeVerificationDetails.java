@@ -37,6 +37,8 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+	public static final By EXPIRE_BTN=By.xpath("//button[@class='btn btn-primary blockactive expireAgeVerification']");
+	
 
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
