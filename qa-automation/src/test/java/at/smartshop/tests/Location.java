@@ -1293,15 +1293,15 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			
+		
+			// Updating the product price and making it to Full sync.
 			locationSummary.selectingAndUpdatingProductPrice(tabName, product, price.get(0));
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-
 			login.logout();
 			browser.close();
 
-			// Launch V5 Device
+			// Launch V5 Device and Searching for product
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1309,14 +1309,13 @@ public class Location extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadTextWithCaseSensitive(product);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			System.out.println("productPrice : " + productPrice);
 
 //			// verify the display of product price
 			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
-//			browser.close();
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}finally {
