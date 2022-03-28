@@ -1268,11 +1268,11 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
-	@Test(description = "143199-QAA-95-ADM>Location Summary>Loc Link>Update Prices.")
-	public void verifyUpdatePrices() {
+	
+	@Test(description = "143200-QAA-96-ADM>Location Summary>Loc Link>Update Prices and Full Sync.")
+	public void verifyUpdatePricesAndFullSync() {
 		try {
-			final String CASE_NUM = "143199";
+			final String CASE_NUM = "143200";
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1292,9 +1292,10 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			
-			// Navigating to products tab and Updating the product price by clicking on Update Prices.
-			locationSummary.selectingProduct(tabName, product, product, price.get(0));
+		
+			// Updating the product price and making it to Full sync.
+			locationSummary.selectingAndUpdatingProductPrice(tabName, product, price.get(0));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 			login.logout();
 			browser.close();
@@ -1315,7 +1316,7 @@ public class Location extends TestInfra {
 			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {		
+		}finally {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),

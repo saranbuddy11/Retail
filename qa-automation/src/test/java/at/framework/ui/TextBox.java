@@ -56,6 +56,28 @@ public class TextBox extends Factory {
 		}
 
 	}
+	
+	public void enterKeypadTextWithCaseSensitive(String text) {
+		char[] charArray = text.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			if (charArray[i] == ' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+				foundation.click(By.xpath("//*[text()='abc']"));
+				foundation.threadWait(Constants.ONE_SECOND);
+			} else if (charArray[i] >= 'A' && charArray[i] <= 'Z') {
+				if (i == 0) {
+					foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+				} else {
+					foundation.objectClick(By.xpath("//*[text()='ABC']"));
+					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
+					foundation.click(By.xpath("//*[text()='abc']"));
+					foundation.threadWait(Constants.ONE_SECOND);
+				}
+			} else {
+				foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+			}
+		}
+	}
 
 	public void enterKeypadTextWithCaseSensitive(String text) {
 		char[] charArray = text.toCharArray();

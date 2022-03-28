@@ -931,6 +931,13 @@ public class LocationSummary extends Factory {
 		enterPrice(scanCode, productPrice);
 		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
 	}
+	
+	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
+		selectTab(tab);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		enterPrice(productName, productPrice);
+	}
 
 	public void launchingBrowserAndSelectingOrg() {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
