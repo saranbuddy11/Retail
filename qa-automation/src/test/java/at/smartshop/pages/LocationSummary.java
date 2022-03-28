@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.poi.ss.formula.functions.EOMonth;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -26,10 +26,6 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocationList;
-import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNV5Device;
-
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -294,7 +290,11 @@ public class LocationSummary extends Factory {
 	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_OFFLINE = By.xpath("//input[@name='allowofflinepd']");
-
+	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
+	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
+	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
+	
+	
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}

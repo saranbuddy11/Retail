@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import com.aventstack.extentreports.Status;
@@ -56,6 +57,28 @@ public class TextBox extends Factory {
 
 	}
 	
+	public void enterKeypadTextWithCaseSensitive(String text) {
+		char[] charArray = text.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			if (charArray[i] == ' ') {
+				foundation.click(By.xpath("//*[text()='Space']"));
+				foundation.click(By.xpath("//*[text()='abc']"));
+				foundation.threadWait(Constants.ONE_SECOND);
+			} else if (charArray[i] >= 'A' && charArray[i] <= 'Z') {
+				if (i == 0) {
+					foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+				} else {
+					foundation.objectClick(By.xpath("//*[text()='ABC']"));
+					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
+					foundation.click(By.xpath("//*[text()='abc']"));
+					foundation.threadWait(Constants.ONE_SECOND);
+				}
+			} else {
+				foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+			}
+		}
+	}
+
 	public void enterKeypadTextWithCaseSensitive(String text) {
 		char[] charArray = text.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
@@ -152,6 +175,17 @@ public class TextBox extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
+	}
+	
+	public void clearText(By object) {
+		try {
+			foundation.objectFocus(object);
+			getDriver().findElement(object).clear();
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "cleared the text ");
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
