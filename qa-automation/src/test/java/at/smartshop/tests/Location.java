@@ -1015,7 +1015,6 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			String[] uiData = (foundation.getText(LocationSummary.TXT_PRODUCTS_COUNT)).split(" ");
-			System.out.println(uiData);
 			CustomisedAssert.assertEquals(uiData[2], requiredData);
 
 		} catch (Exception exc) {
@@ -1297,7 +1296,6 @@ public class Location extends TestInfra {
 			// Navigating to products tab and Updating the product price by clicking on Update Prices.
 			locationSummary.selectingProduct(tabName, product, product, price.get(0));
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-
 			login.logout();
 			browser.close();
 
@@ -1311,9 +1309,8 @@ public class Location extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			System.out.println("productPrice : " + productPrice);
 
-//			// verify the display of product price
+			// verify the display of product price
 			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
 			browser.close();
 		} catch (Exception exc) {
