@@ -37,22 +37,35 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
-
-	public By automationNewLocation(String text) {
-		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
-	}
-
+	public static final By LBL_AGE_VERIFICATION_SETUP_PANEL = By.id("mainform");
 	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
 	public static final By DPD_STATUS = By.id("filtervalues");
 	public static final By BTN_CLOSE = By.xpath("//button[@class='ajs-close']");
+	public static final By TXT_LOCATION = By.xpath("//dt[normalize-space(text())='Location']");
+	public static final By TXT_MAIL = By.xpath("//dt[normalize-space(text())='Email Address']");
+	public static final By TXT_FNAME = By.xpath("//dt[normalize-space(text())='First Name']");
+	public static final By TXT_LNAME = By.xpath("//dt[normalize-space(text())='Last Name']");
+	public static final By TXT_LANGUAGE = By.xpath("//dt[normalize-space(text())='Languages']");
+	public static final By TXT_CHECK_OUT = By.xpath("//dt[normalize-space(text())='Check Out']");
+	public static final By TXT_DAILY_USES = By.xpath("//dt[normalize-space(text())='Daily Uses']");
+	public static final By LBL_SEARCH = By.xpath("//label[text()='Search: ']");
+	public static final By TABLE_GRID = By.xpath("//div[@role='grid']");
+	public static final By BTN_RESEND = By.xpath("//button[text()='Resend']");
+	public static final By BTN_EXPIRE = By.xpath("//button[text()='Expire']");
 	public static final By TBL_EXPIRED_GRID = By.cssSelector("#dt > tbody");
 	public static final By TBL_EXPIRED = By.id("dt");
 	public static final By DPD_LENGTH = By.xpath("//select[@name='dt_length']");
+	public static final By LABEL_RECORDS = By.xpath("//label[text()=' records per page']");
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
+	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
+
+	public By automationNewLocation(String text) {
+		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
+	}
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
@@ -124,5 +137,43 @@ public class AgeVerificationDetails extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableData;
+	}
+
+	public void verifyAllFieldsOfAgeVerificationSetup() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LOCATION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LOCATION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_MAIL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_MAIL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_FNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_FNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_LNAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_LANGUAGE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LANGUAGE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CHECK_OUT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CHECKOUT_DATE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_DAILY_USES));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_DAILY_USES));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CREATE_PIN));
+	}
+
+	public void verifyAllFieldsOfActivePins() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_STATUS));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SEARCH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TABLE_GRID));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_RESEND));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_EXPIRE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LABEL_RECORDS));
+	}
+
+	public void verifyPagination(String value, String status) {
+		foundation.scrollIntoViewElement(AgeVerificationDetails.LABEL_RECORDS);
+		dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, value, Constants.TEXT);
+		foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+		dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status, Constants.TEXT);
+		foundation.threadWait(Constants.TWO_SECOND);
+		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
+		int record = uiTableData.size();
+		CustomisedAssert.assertEquals(String.valueOf(record), value);
 	}
 }
