@@ -2000,7 +2000,8 @@ public class AgeVerification extends TestInfra {
 	}
 
 	@Test(description = "168961 - selection of date in picker calendar" + "168962 - verify the manual entry of date"
-			+ "168963 - verify the manual entry of past date")
+			+ "168963 - verify the manual entry of past date"
+			+ "168964 - Age Verification Screen > Age Verification Setup Section > Location Dropdown")
 	public void verifyDatePickerCalendar() {
 		final String CASE_NUM = "168961";
 
