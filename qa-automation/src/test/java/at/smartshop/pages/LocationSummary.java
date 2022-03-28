@@ -290,7 +290,11 @@ public class LocationSummary extends Factory {
 	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_OFFLINE = By.xpath("//input[@name='allowofflinepd']");
-
+	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
+	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
+	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
+	
+	
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -926,6 +930,13 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 		enterPrice(scanCode, productPrice);
 		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
+	}
+	
+	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
+		selectTab(tab);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		enterPrice(productName, productPrice);
 	}
 
 	public void launchingBrowserAndSelectingOrg() {
