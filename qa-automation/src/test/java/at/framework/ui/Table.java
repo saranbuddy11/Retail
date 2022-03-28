@@ -108,7 +108,18 @@ public class Table extends Factory{
 		for(int i=1;i<=totalRows;i++) {
 		foundation.getTextofListElement(By.xpath("//tr//td["+columnNumber+"]"));
 		}
-		
+	}
+	
+	public boolean isRowDisplayed(String text) {
+		boolean status = false;
+		try {
+			By rowData = By.xpath("//tr//*[text()='"+text+"']");
+			status = foundation.isDisabled(rowData);
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return status;
 	}
 
 }
