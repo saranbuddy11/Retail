@@ -130,14 +130,12 @@ public class OrgSummary extends Factory {
 		Select dpdSel = new Select(drpdwn);
 		List<WebElement> DrpDwnList = dpdSel.getOptions();
 		for (WebElement webElement : DrpDwnList) {
-
 			if (webElement.getText().contains(text)) {
 				flag = false;
 				break;
 			}
 		}
 		CustomisedAssert.assertTrue(flag);
-
 	}
 
 	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
@@ -150,6 +148,5 @@ public class OrgSummary extends Factory {
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 		}
-
 	}
 }
