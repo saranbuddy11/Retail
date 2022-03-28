@@ -1301,10 +1301,6 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			
 			// Validating the updated Location Summary Details
-			System.out.println(addressDetails);
-			System.out.println(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT));
-			System.out.println(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT));
-			System.out.println(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT));
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT),(addressDetails.get(0)));
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT),(addressDetails.get(1)));
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT),(addressDetails.get(2)));
