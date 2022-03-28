@@ -1999,7 +1999,8 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "168961 - selection of date in picker calendar")
+	@Test(description = "168961 - selection of date in picker calendar" + "168962 - verify the manual entry of date"
+			+ "168963 - verify the manual entry of past date")
 	public void verifyDatePickerCalendar() {
 		final String CASE_NUM = "168961";
 
@@ -2016,6 +2017,7 @@ public class AgeVerification extends TestInfra {
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+		String pastDate = dateAndTime.getPastDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
 
 		try {
 			// Select Menu and Location
@@ -2043,19 +2045,44 @@ public class AgeVerification extends TestInfra {
 			ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					requiredData);
 
+			// Creating Age Verification PIN with Future CheckOut Date
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, futureDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+
+			// Creating Age Verification PIN with Past CheckOut Date
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, pastDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_CHECKOUT_ERROR));
+
 			// Verify the fields of CheckOut
 			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 			foundation.threadWait(Constants.TWO_SECOND);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
+			List<String> checkoutDate = new ArrayList<String>();
 			String innerValue = "";
 			for (int i = 0; i < uiTableData.size(); i++) {
 				innerMap = uiTableData.get(i);
 				innerValue = innerMap.get("Checkout");
-				CustomisedAssert.assertEquals(innerValue, currentDate);
+				checkoutDate.add(innerValue);
 			}
-			foundation.refreshPage();
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			CustomisedAssert.assertEquals(checkoutDate.get(0), futureDate);
+			CustomisedAssert.assertEquals(checkoutDate.get(1), currentDate);
 			uiTableData.clear();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
