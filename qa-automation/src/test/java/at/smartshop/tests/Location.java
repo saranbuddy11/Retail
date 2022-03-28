@@ -1458,10 +1458,10 @@ public class Location extends TestInfra {
 		}
 	}
 
-	@Test(description = "143468-")
+	@Test(description = "143534-QAA-225-ADM>Location Summary>Tax Mapping>Add Mapping Save & Cancel.")
 	public void verifyAddMappingandCancelMappingOfTax() {
 		try {
-			final String CASE_NUM = "143468";
+			final String CASE_NUM = "143534";
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1489,6 +1489,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
 			System.out.println(table.isRowDisplayed(requiredData.get(0)));
 			CustomisedAssert.assertFalse(table.isRowDisplayed(requiredData.get(0)));
+			
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
 			foundation.click(LocationSummary.LBL_TAX_MAPPING);
