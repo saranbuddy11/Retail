@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -1563,6 +1564,441 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
+	@Test(description = "168937 - verify the validation message for the email without syntax"
+			+ "168938 - verify maximum field length" + "168939 - verify the special characters"
+			+ "168940 - verify the numeric characters" + "168941 - verify the validation message for email address")
+	public void verifyValidationMessage() {
+		final String CASE_NUM = "168937";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> locationName = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> status = Arrays
+				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Choosing Age Verification checkbox under AutoLocation3
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Unchecking Age Verification checkbox under AutoLocation4
+			locationList.selectLocationName(locationName.get(1));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(16),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Verify Age Verification Enabled Location visible under Location Dropdown
+			List<String> location = dropDown.getAllItems(AgeVerificationDetails.DPD_LOCATION);
+			CustomisedAssert.assertTrue(location.contains(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+			CustomisedAssert.assertFalse(location.contains(locationName.get(1)));
+
+			// Creating Age Verification PIN with wrong email syntax
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_EMAIL_ERROR));
+
+			// Inserting Email field with maximum limit length and create Active PIN
+			ageVerificationDetails.verifyEmailFieldinPinCreation(requiredData.get(8),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Inserting Email field with special characters along with maximum limit length
+			String mail = requiredData.get(8).replace('k', '$');
+			mail = mail.replace('r', '#');
+			String mailSpecialChar = mail;
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mailSpecialChar,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Inserting Email field with numeric characters along with maximum limit length
+			mail = mail.replace('$', '1');
+			mail = mail.replace('#', '5');
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mail,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Verifying all Email's Created are stored properly in Table or not
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			List<String> mailId = new ArrayList<String>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Email Address");
+				mailId.add(innerValue);
+			}
+			CustomisedAssert.assertEquals(mailId.get(0), mail);
+			CustomisedAssert.assertEquals(mailId.get(1), mailSpecialChar);
+			CustomisedAssert.assertEquals(mailId.get(2), requiredData.get(8));
+			uiTableData.clear();
+
+			// Verifying the validation message for email address
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_EMAIL_ERROR));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting Active PIN record After validation
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+				foundation.click(AgeVerificationDetails.BTN_YES);
+				foundation.refreshPage();
+				foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			}
+
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
+	@Test(description = "168942 - verify the validation message for the email without syntax - Operator"
+			+ "168943 - verify maximum field length - Operator" + "168944 - verify the special characters - Operator"
+			+ "168945 - verify the numeric characters - Operator"
+			+ "168946 - verify the validation message for email address - Operator")
+	public void verifyValidationMessageInOperator() {
+		final String CASE_NUM = "168942";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> locationName = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> status = Arrays
+				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Choosing Age Verification checkbox under AutoLocation3
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Unchecking Age Verification checkbox under AutoLocation4
+			locationList.selectLocationName(locationName.get(1));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(14),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Verify Age Verification Enabled Location visible under Location Dropdown
+			List<String> location = dropDown.getAllItems(AgeVerificationDetails.DPD_LOCATION);
+			CustomisedAssert.assertTrue(location.contains(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+			CustomisedAssert.assertFalse(location.contains(locationName.get(1)));
+
+			// Creating Age Verification PIN with wrong email syntax
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_EMAIL_ERROR));
+
+			// Inserting Email field with maximum limit length and create Active PIN
+			ageVerificationDetails.verifyEmailFieldinPinCreation(requiredData.get(8),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Inserting Email field with special characters along with maximum limit length
+			String mail = requiredData.get(8).replace('k', '$');
+			mail = mail.replace('r', '#');
+			String mailSpecialChar = mail;
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mailSpecialChar,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Inserting Email field with numeric characters along with maximum limit length
+			mail = mail.replace('$', '1');
+			mail = mail.replace('#', '5');
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			ageVerificationDetails.verifyEmailFieldinPinCreation(mail,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0));
+
+			// Verifying all Email's Created are stored properly in Table or not
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			List<String> mailId = new ArrayList<String>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Email Address");
+				mailId.add(innerValue);
+			}
+			CustomisedAssert.assertEquals(mailId.get(0), mail);
+			CustomisedAssert.assertEquals(mailId.get(1), mailSpecialChar);
+			CustomisedAssert.assertEquals(mailId.get(2), requiredData.get(8));
+			uiTableData.clear();
+
+			// Verifying the validation message for email address
+			ageVerificationDetails.createAgeVerificationPinWithoutEmail(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData);
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_EMAIL_ERROR));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting Active PIN record After validation
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+				foundation.click(AgeVerificationDetails.BTN_YES);
+				foundation.refreshPage();
+				foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			}
+
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
+	@Test(description = "168952 - verify first name field" + "168953 - verify last name field")
+	public void verifyNameFields() {
+		final String CASE_NUM = "168952";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(16),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Creating Age Verification PIN
+			ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData);
+
+			// Verify First Name & Last Name
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String firstName = "";
+			String lastName = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				firstName = innerMap.get("First Name");
+				lastName = innerMap.get("Last Name");
+			}
+			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
+			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
+			uiTableData.clear();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting Active PIN record After validation
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.refreshPage();
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
+	@Test(description = "168954 - verify first name field" + "168955 - verify last name field")
+	public void verifyNameFieldsWithOperator() {
+		final String CASE_NUM = "168954";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(14),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Creating Age Verification PIN
+			ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData);
+
+			// Verify First Name & Last Name
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String firstName = "";
+			String lastName = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				firstName = innerMap.get("First Name");
+				lastName = innerMap.get("Last Name");
+			}
+			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
+			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
+			uiTableData.clear();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting Active PIN record After validation
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.refreshPage();
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
 	@Test(description = "168961 - selection of date in picker calendar")
 	public void verifyDatePickerCalendar() {
 		final String CASE_NUM = "168961";
@@ -1580,6 +2016,7 @@ public class AgeVerification extends TestInfra {
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
