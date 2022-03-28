@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -41,6 +42,9 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.Order;
+import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Location extends TestInfra {
@@ -1297,6 +1301,191 @@ public class Location extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "143197-QAA-94-ADM>Location Summary>Loc Link>Loc Summary Save.")
+	public void verifyLocationSummarySaveChanges() {
+		try {
+			final String CASE_NUM = "143197";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			List<String> addressDetails = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// updating the Location Summary Details
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			textBox.enterText(LocationSummary.ADDRESS_INPUT, addressDetails.get(0));
+			textBox.enterText(LocationSummary.CONTACTNAME_INPUT, addressDetails.get(1));
+			textBox.enterText(LocationSummary.CONTACTEMAIL_INPUT, addressDetails.get(2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			
+			// Validating the updated Location Summary Details
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT),(addressDetails.get(0)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT),(addressDetails.get(1)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT),(addressDetails.get(2)));
+			
+			// Clearing the updated Location Summary Details
+			textBox.clearText(LocationSummary.ADDRESS_INPUT);
+			textBox.clearText(LocationSummary.CONTACTNAME_INPUT);
+			textBox.clearText(LocationSummary.CONTACTEMAIL_INPUT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}	
+	
+	@Test(description = "143199-QAA-95-ADM>Location Summary>Loc Link>Update Prices.")
+	public void verifyUpdatePrices() {
+		try {
+			final String CASE_NUM = "143199";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> price = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			
+			// Navigating to products tab and Updating the product price by clicking on Update Prices.
+			locationSummary.selectingProduct(tabName, product, product, price.get(0));
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and Searching for product
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+
+			// verify the display of product price
+			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {		
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reverting the price back
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> price = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			locationSummary.selectingProduct(tabName, product, product, price.get(1));
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+		}
+	}
+	
+	@Test(description = "143200-QAA-96-ADM>Location Summary>Loc Link>Update Prices and Full Sync.")
+	public void verifyUpdatePricesAndFullSync() {
+		try {
+			final String CASE_NUM = "143200";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> price = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+		
+			// Updating the product price and making it to Full sync.
+			locationSummary.selectingAndUpdatingProductPrice(tabName, product, price.get(0));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and Searching for product
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+
+			// verify the display of product price
+			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reverting the price back
+			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> price = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			locationSummary.selectingProduct(tabName, product, product, price.get(1));
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 		}
 	}
 }

@@ -115,6 +115,9 @@ public class OrgSummary extends Factory {
 	public static final By TXT_ABN = By.cssSelector("input#abn");
 	public static final By TXT_NAME = By.id("name");
 	public static final By BTN_CANCEL = By.xpath("//button[@id='cancelBtn']");
+	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
+	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
+	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
 
 	public By objVDI(String text) {
 
@@ -127,14 +130,12 @@ public class OrgSummary extends Factory {
 		Select dpdSel = new Select(drpdwn);
 		List<WebElement> DrpDwnList = dpdSel.getOptions();
 		for (WebElement webElement : DrpDwnList) {
-
 			if (webElement.getText().contains(text)) {
 				flag = false;
 				break;
 			}
 		}
 		CustomisedAssert.assertTrue(flag);
-
 	}
 
 	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
@@ -147,6 +148,5 @@ public class OrgSummary extends Factory {
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 		}
-
 	}
 }
