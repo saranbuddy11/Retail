@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -1261,6 +1262,56 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
 
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "143197-QAA-94-ADM>Location Summary>Loc Link>Loc Summary Save.")
+	public void verifyLocationSummarySaveChanges() {
+		try {
+			final String CASE_NUM = "143197";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+			List<String> addressDetails = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// updating the Location Summary Details
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			textBox.enterText(LocationSummary.ADDRESS_INPUT, addressDetails.get(0));
+			textBox.enterText(LocationSummary.CONTACTNAME_INPUT, addressDetails.get(1));
+			textBox.enterText(LocationSummary.CONTACTEMAIL_INPUT, addressDetails.get(2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			
+			locationList.selectLocationName(location);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			
+			// Validating the updated Location Summary Details
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT),(addressDetails.get(0)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT),(addressDetails.get(1)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT),(addressDetails.get(2)));
+			
+			// Clearing the updated Location Summary Details
+			textBox.clearText(LocationSummary.ADDRESS_INPUT);
+			textBox.clearText(LocationSummary.CONTACTNAME_INPUT);
+			textBox.clearText(LocationSummary.CONTACTEMAIL_INPUT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

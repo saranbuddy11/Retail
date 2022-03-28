@@ -290,7 +290,11 @@ public class LocationSummary extends Factory {
 	public static final By CHK_BOX_PAYROLL_DEDUCT = By.xpath("//input[@name='payrolldeductautocomplete']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_STREAM = By.xpath("//input[@name='payrolldeductstreamlinemode']");
 	public static final By CHK_BOX_PAYROLL_DEDUCT_OFFLINE = By.xpath("//input[@name='allowofflinepd']");
-
+	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
+	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
+	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
+	
+	
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
