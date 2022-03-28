@@ -1268,7 +1268,7 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "143197-QAA-94-ADM>Location Summary>Loc Link>Loc Summary Save.")
 	public void verifyLocationSummarySaveChanges() {
 		try {
@@ -1289,7 +1289,7 @@ public class Location extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			// updating the Location Summary Details
 			locationList.selectLocationName(location);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
@@ -1298,27 +1298,30 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.CONTACTEMAIL_INPUT, addressDetails.get(2));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-			
+
 			locationList.selectLocationName(location);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			
+
 			// Validating the updated Location Summary Details
-			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT),(addressDetails.get(0)));
-			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT),(addressDetails.get(1)));
-			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT),(addressDetails.get(2)));
-			
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.ADDRESS_INPUT),
+					(addressDetails.get(0)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTNAME_INPUT),
+					(addressDetails.get(1)));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(LocationSummary.CONTACTEMAIL_INPUT),
+					(addressDetails.get(2)));
+
 			// Clearing the updated Location Summary Details
 			textBox.clearText(LocationSummary.ADDRESS_INPUT);
 			textBox.clearText(LocationSummary.CONTACTNAME_INPUT);
 			textBox.clearText(LocationSummary.CONTACTEMAIL_INPUT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}	
-	
+	}
+
 	@Test(description = "143199-QAA-95-ADM>Location Summary>Loc Link>Update Prices.")
 	public void verifyUpdatePrices() {
 		try {
@@ -1342,8 +1345,9 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			
-			// Navigating to products tab and Updating the product price by clicking on Update Prices.
+
+			// Navigating to products tab and Updating the product price by clicking on
+			// Update Prices.
 			locationSummary.selectingProduct(tabName, product, product, price.get(0));
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 			login.logout();
@@ -1365,7 +1369,7 @@ public class Location extends TestInfra {
 			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {		
+		} finally {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1385,7 +1389,7 @@ public class Location extends TestInfra {
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 		}
 	}
-	
+
 	@Test(description = "143200-QAA-96-ADM>Location Summary>Loc Link>Update Prices and Full Sync.")
 	public void verifyUpdatePricesAndFullSync() {
 		try {
@@ -1409,7 +1413,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-		
+
 			// Updating the product price and making it to Full sync.
 			locationSummary.selectingAndUpdatingProductPrice(tabName, product, price.get(0));
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
@@ -1433,7 +1437,7 @@ public class Location extends TestInfra {
 			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}finally {
+		} finally {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1451,6 +1455,60 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(location);
 			locationSummary.selectingProduct(tabName, product, product, price.get(1));
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+		}
+	}
+
+	@Test(description = "143468-")
+	public void verifyAddMappingandCancelMappingOfTax() {
+		try {
+			final String CASE_NUM = "143468";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			locationList.selectLocationName(locationName);
+			locationSummary.selectTab(tabName);
+			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
+			System.out.println(table.isRowDisplayed(requiredData.get(0)));
+			CustomisedAssert.assertFalse(table.isRowDisplayed(requiredData.get(0)));
+			foundation.refreshPage();
+			locationSummary.selectTab(tabName);
+			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
+			System.out.println(table.isRowDisplayed(requiredData.get(0)));
+			CustomisedAssert.assertTrue(table.isRowDisplayed(requiredData.get(0)));
+			locationSummary.selectTab(tabName);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			locationSummary.selectTab(tabName);
+			table.selectRow(requiredData.get(0));
+			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 		}
 	}
 }
