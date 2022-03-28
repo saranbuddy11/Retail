@@ -1532,7 +1532,7 @@ public class AgeVerification extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
-			// Remove Device from AutomationLocation1 Location and uncheck the age
+			// Remove Device from AutomationLocation1 Location and Uncheck the age
 			// verification
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(location.get(0));
