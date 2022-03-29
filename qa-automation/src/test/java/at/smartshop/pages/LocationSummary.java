@@ -799,6 +799,7 @@ public class LocationSummary extends Factory {
 
 	public void turnOnOROffPayRollDeduct(String location, String yesORno) {
 		locationList.selectLocationName(location);
+		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
