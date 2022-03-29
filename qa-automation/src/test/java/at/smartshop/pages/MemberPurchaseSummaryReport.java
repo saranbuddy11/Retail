@@ -164,6 +164,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -175,6 +176,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			foundation.threadWait(Constants.ONE_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -198,6 +200,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_GMA, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.GMA_JSON));
 			getJsonSalesData();
+			foundation.threadWait(Constants.ONE_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

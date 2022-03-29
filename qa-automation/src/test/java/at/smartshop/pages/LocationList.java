@@ -1,12 +1,17 @@
 package at.smartshop.pages;
 
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class LocationList extends Factory {
 
@@ -90,6 +95,17 @@ public class LocationList extends Factory {
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+	}
+
+	public void verifyData(List<String> uiListHeaders, List<String> uidata, Map<String, String> expectedValues) {
+		try {
+			int count = uiListHeaders.size();
+			for (int iter = 0; iter < count; iter++) {
+				CustomisedAssert.assertTrue(uidata.get(iter).contains(expectedValues.get(uiListHeaders.get(iter))));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 }

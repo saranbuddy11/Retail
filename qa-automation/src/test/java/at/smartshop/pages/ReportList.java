@@ -417,7 +417,9 @@ public class ReportList extends Factory {
 	public void verifyReportHeaders(String columnNames, List<String> tableHeaders) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+			foundation.threadWait(Constants.ONE_SECOND);
+			int count =  tableHeaders.size();
+			for (int iter = 0; iter < count; iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {

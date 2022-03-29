@@ -163,7 +163,7 @@ public class GlobalProducts extends TestInfra {
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-		String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		//String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 		try {
 
 			browser.navigateURL(
@@ -182,27 +182,24 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
 			// selecting location
-			foundation.click(productSummary.getLocationNamePath(locationName));
-
+			foundation.waitforElement(ProductSummary.BTN_EXTEND, Constants.SHORT_TIME);
+			foundation.click(ProductSummary.BTN_EXTEND);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(ProductSummary.BTN_MODAL_SAVE);
+			
+			
 			// Remove selected location
-			foundation.waitforElement(ProductSummary.BTN_REMOVE, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(ProductSummary.LOATION_NAME);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ProductSummary.BTN_REMOVE);
-
-			// Validations
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 1);
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting test data
-			foundation.waitforElement(ProductSummary.BTN_EXTEND, Constants.SHORT_TIME);
-			foundation.click(ProductSummary.BTN_EXTEND);
-			textBox.enterText(ProductSummary.TXT_FILTER, locationName);
-			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), locationName);
-
-			foundation.click(ProductSummary.BTN_MODAL_SAVE);
-			CustomisedAssert.assertTrue(foundation.getSizeofListElement(productSummary.getLocationNamePath(locationName)) == 0);
 		}
 	}
 

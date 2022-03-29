@@ -570,10 +570,10 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Validating Start Date picker field of Top Off subsidy
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffDateAutoLocation2(currentDate);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(10));
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffFutureDateAutoLocation2(futureDate);
+			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 
 			// Validating Recurrence field of Top Off subsidy
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(7), Constants.TEXT);
@@ -888,10 +888,10 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Start Date picker of Top Off Subsidy
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffDateAutoLocation2(currentDate);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(10));
 			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
-			locationSummary.verifyTopOffFutureDateAutoLocation2(futureDate);
+			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 
 			// Verifying Recurrence field of Top Off Subsidy
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(7), Constants.TEXT);
@@ -2227,12 +2227,10 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			login.logout();
 			foundation.threadWait(Constants.SHORT_TIME);
-			browser.close();
 
 			// Launch V5 Device
-			foundation.threadWait(Constants.SHORT_TIME);
+			// foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -2357,7 +2355,6 @@ public class ConsumerSubsidy extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device,Product Search,Transaction Done
-			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -2611,7 +2608,7 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);
