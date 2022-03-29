@@ -1909,11 +1909,10 @@ public class Consumer extends TestInfra {
 
 			// search for consumer and verify the pay-cycle group display
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
-			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle.get(1)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1926,11 +1925,11 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			locationSummary.editPaycyle(location, paycycle.get(1), paycycle.get(0));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
-			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle.get(0)));
+			
 		}
 	}
 
