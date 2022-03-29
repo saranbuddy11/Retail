@@ -61,8 +61,11 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
 	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
+	public static final By DAILY_USES =By.id("Daily Uses");
+	public static final By ERROR_MSG_DAILY_USES=By.id("dailyuses-error");
 	public static final By TXT_EMAIL_ERROR = By.id("email-error");
 	public static final By TXT_CHECKOUT_ERROR = By.id("checkout-error");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -70,6 +73,10 @@ public class AgeVerificationDetails extends Factory {
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
 	}
+	public By language(String text) {
+		return By.xpath("//select[@id='language']//option[text()='" + text + "']");
+	}
+	
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
