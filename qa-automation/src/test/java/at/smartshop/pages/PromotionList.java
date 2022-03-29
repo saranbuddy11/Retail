@@ -30,8 +30,8 @@ public class PromotionList extends Factory {
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
-	public static final By LBL_START_DATE_HEADER = By.id("hierarchicalGrid_datestart");
-	public static final By LBL_START_DATE_LIST = By.xpath("//td[@aria-describedby='hierarchicalGrid_datestart']");
+	public static final By LBL_START_DATE_HEADER = By.id("hierarchicalGrid_startDate");
+	public static final By LBL_START_DATE_LIST = By.xpath("//td[@aria-describedby='hierarchicalGrid_startDate']");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
 	public static final By TXT_SEARCH_PROMONAME = By.id("search");
 	public static final By BTN_SEARCH = By.id("searchbtn");
@@ -45,10 +45,10 @@ public class PromotionList extends Factory {
 	public static final By LBL_LOCATION = By.xpath("//select[@id='loc-dropdown']//..//..//dt");
 	public static final By LBL_STATUS = By.xpath("//select[@id='status']//..//..//dt");
 	public static final By LBL_PROMOTYPE = By.xpath("//select[@id='promotype']//..//..//dt");
-	public static final By LBL_ORG_NAME = By.xpath("//td[contains(@aria-describedby,'orgs_child_orgname')]");
+	public static final By LBL_ORG_NAME = By.xpath("//td[contains(@aria-describedby,'promotionOrgLevel_child_org')]");
 	public static final By LINK_EXPAND = By.xpath("//span[@title='Expand Row']");
 	public static final By LBL_LOCATION_NAME = By
-			.xpath("//td[contains(@aria-describedby,'locations_child_locationname')]");
+			.xpath("//td[contains(@aria-describedby,'promotionLocationLevel_child_name')]");
 	public static final By DRP_STATUS = By.xpath("//select[@id='status']");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
@@ -90,4 +90,5 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
 }
