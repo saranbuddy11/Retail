@@ -37,6 +37,8 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+	public static final By EXPIRE_BTN = By
+			.xpath("//button[@class='btn btn-primary blockactive expireAgeVerification']");
 	public static final By LBL_AGE_VERIFICATION_SETUP_PANEL = By.id("mainform");
 	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
 	public static final By DPD_STATUS = By.id("filtervalues");
