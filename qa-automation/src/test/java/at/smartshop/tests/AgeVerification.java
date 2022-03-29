@@ -1998,4 +1998,114 @@ public class AgeVerification extends TestInfra {
 			browser.close();
 		}
 	}
+
+	@Test(description = "168961 - selection of date in picker calendar" + "168962 - verify the manual entry of date"
+			+ "168963 - verify the manual entry of past date"
+			+ "168964 - Age Verification Screen > Age Verification Setup Section > Location Dropdown")
+	public void verifyDatePickerCalendar() {
+		final String CASE_NUM = "168961";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> status = Arrays
+				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+		String pastDate = dateAndTime.getPastDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
+			CustomisedAssert.assertEquals(tabNames.get(16),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Creating Age Verification PIN
+			ageVerificationDetails.createAgeVerificationPin(rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					requiredData);
+
+			// Creating Age Verification PIN with Future CheckOut Date
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, futureDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+
+			// Creating Age Verification PIN with Past CheckOut Date
+			dropDown.selectItem(AgeVerificationDetails.DPD_LOCATION,
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_MAIL, requiredData.get(3));
+			textBox.enterText(AgeVerificationDetails.INPUT_FNAME, requiredData.get(4));
+			textBox.enterText(AgeVerificationDetails.INPUT_LNAME, requiredData.get(5));
+			dropDown.selectItem(AgeVerificationDetails.DPD_LANGUAGE, requiredData.get(6), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, pastDate);
+			textBox.enterText(AgeVerificationDetails.INPUT_DAILY_USES, requiredData.get(7));
+			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_CHECKOUT_ERROR));
+
+			// Verify the fields of CheckOut
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			foundation.threadWait(Constants.TWO_SECOND);
+			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			List<String> checkoutDate = new ArrayList<String>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Checkout");
+				checkoutDate.add(innerValue);
+			}
+			CustomisedAssert.assertEquals(checkoutDate.get(0), futureDate);
+			CustomisedAssert.assertEquals(checkoutDate.get(1), currentDate);
+			uiTableData.clear();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Deleting Active PIN record After validation
+			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.refreshPage();
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.TWO_SECOND);
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
 }
