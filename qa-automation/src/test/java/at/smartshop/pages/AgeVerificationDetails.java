@@ -37,6 +37,8 @@ public class AgeVerificationDetails extends Factory {
 	public static final By INPUT_DAILY_USES = By.id("dailyuses");
 	public static final By CHECKOUT_DATE = By.id("checkout");
 	public static final By BTN_CREATE_PIN = By.id("createsendpinbtn");
+	public static final By EXPIRE_BTN = By
+			.xpath("//button[@class='btn btn-primary blockactive expireAgeVerification']");
 	public static final By LBL_AGE_VERIFICATION_SETUP_PANEL = By.id("mainform");
 	public static final By TXT_STATUS = By.xpath("//dt[text()='Show Active, Expired or All']");
 	public static final By DPD_STATUS = By.id("filtervalues");
@@ -59,6 +61,11 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
 	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
+	public static final By DAILY_USES =By.id("Daily Uses");
+	public static final By ERROR_MSG_DAILY_USES=By.id("dailyuses-error");
+	public static final By TXT_EMAIL_ERROR = By.id("email-error");
+	public static final By TXT_CHECKOUT_ERROR = By.id("checkout-error");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -66,6 +73,10 @@ public class AgeVerificationDetails extends Factory {
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
 	}
+	public By language(String text) {
+		return By.xpath("//select[@id='language']//option[text()='" + text + "']");
+	}
+	
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
@@ -109,6 +120,16 @@ public class AgeVerificationDetails extends Factory {
 		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+	}
+
+	public void createAgeVerificationPinWithoutEmail(String location, List<String> datas) {
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		dropDown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		textBox.enterText(INPUT_FNAME, datas.get(4));
+		textBox.enterText(INPUT_LNAME, datas.get(5));
+		dropDown.selectItem(DPD_LANGUAGE, datas.get(6), Constants.TEXT);
+		textBox.enterText(CHECKOUT_DATE, currentDate);
+		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
 	}
 
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
@@ -175,5 +196,14 @@ public class AgeVerificationDetails extends Factory {
 		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
 		int record = uiTableData.size();
 		CustomisedAssert.assertEquals(String.valueOf(record), value);
+	}
+
+	public void verifyEmailFieldinPinCreation(String mail, String location, String text) {
+		textBox.enterText(AgeVerificationDetails.INPUT_MAIL, mail);
+		foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
+		foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
+		foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, text)));
 	}
 }
