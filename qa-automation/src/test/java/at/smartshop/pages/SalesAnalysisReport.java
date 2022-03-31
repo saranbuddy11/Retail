@@ -284,8 +284,6 @@ public class SalesAnalysisReport extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println("reportsData :"+ reportsData);
-			System.out.println("intialData :"+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
