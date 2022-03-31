@@ -25,6 +25,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.AgeVerificationDetails;
+import at.smartshop.pages.UserRoles;
 
 import at.smartshop.pages.DeviceDashboard;
 
@@ -48,6 +49,7 @@ public class AgeVerification extends TestInfra {
 	private Dropdown dropDown = new Dropdown();
 	private AgeVerificationDetails ageVerificationDetails = new AgeVerificationDetails();
 	private DateAndTime dateAndTime = new DateAndTime();
+	private UserRoles userRoles = new UserRoles();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationListData;
@@ -93,7 +95,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -189,7 +191,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -284,7 +286,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -436,7 +438,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -770,7 +772,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -864,7 +866,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -961,7 +963,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -1612,7 +1614,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -1755,7 +1757,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -1878,7 +1880,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -1954,7 +1956,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2037,7 +2039,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2146,7 +2148,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify the other language
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2231,7 +2233,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2357,7 +2359,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2379,7 +2381,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabName = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabName.get(16), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertEquals(tabName.get(15), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -2427,7 +2429,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(14),
+			CustomisedAssert.assertEquals(tabNames.get(13),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2494,7 +2496,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabNames.get(16),
+			CustomisedAssert.assertEquals(tabNames.get(15),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
@@ -2525,6 +2527,103 @@ public class AgeVerification extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(AgeVerificationDetails.BTN_YES);
 			foundation.threadWait(Constants.SHORT_TIME);
+			browser.close();
+		}
+	}
+
+	@Test(description = "169025 - ADM > Users and Roles > Permission Matrix > Super and Operator > Admin Tab > Age Verification (NEW)")
+	public void verifyUserRolesPermission() {
+		final String CASE_NUM = "169025";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin > User roles and click Manage Roles to check Super Role
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_LIST));
+			foundation.click(UserRoles.BTN_MANAGE_ROLE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_ROLES));
+
+			// Verify Super Role has Age Verification check box checked
+			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, requiredData.get(0));
+			foundation.click(userRoles.getRowByText(requiredData.get(0)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+			foundation.click(UserRoles.TAB_ADMIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(userRoles.getRowByText(requiredData.get(3))));
+			String value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(6)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(7)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(8)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(9)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+
+			// Navigate to Admin > User roles and click Manage Roles to check Operator Role
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_LIST));
+			foundation.click(UserRoles.BTN_MANAGE_ROLE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_ROLES));
+
+			// Verify Operator Role has Age Verification check box checked
+			textBox.enterText(UserRoles.TXT_SEARCH_FILTER, requiredData.get(1));
+			foundation.click(userRoles.getRowByText(requiredData.get(1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+			foundation.click(UserRoles.TAB_ADMIN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(userRoles.getRowByText(requiredData.get(3))));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(6)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(7)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(8)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(userRoles.getAgeVerificationFeature(requiredData.get(9)),
+					requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting Age Verification Checkbox
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
 			browser.close();
 		}
 	}
