@@ -37,6 +37,7 @@ import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
 import at.smartshop.pages.FinanceList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Lookup;
 import at.smartshop.pages.LookupType;
 import at.smartshop.pages.NationalAccounts;
 import at.smartshop.pages.NavigationBar;
@@ -71,6 +72,7 @@ public class SuperOthers extends TestInfra {
 	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
+	private Lookup lookup = new Lookup();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -1979,5 +1981,60 @@ public class SuperOthers extends TestInfra {
 		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount + Constants.ACCOUNT_NAME);
 		textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
 		foundation.click(NationalAccounts.BTN_SAVE);
+	}
+	
+	@Test(description = "164590-QAA-283-ADM>Super>LookUp - Validation for Create new Lookup and cancel the changes and then save, Update the existing Lookup")
+	public void LookupCreateNewValidateCancelandSave() {
+		final String CASE_NUM = "164590";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+		String lookupList_Page = validateHeading.get(0);
+		String lookup_Create_Page = validateHeading.get(1);
+		String validating_record = validateHeading.get(2);
+		String lookup_Show_Page = validateHeading.get(3);
+
+		List<String> create_Page_Data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String lookup_Type = create_Page_Data.get(0);
+		String keystr_Field = (create_Page_Data.get(1) + string.getRandomCharacter()).toUpperCase();
+		String desc_Field = create_Page_Data.get(2);
+		String update_keystr_Field = create_Page_Data.get(3) + string.getRandomCharacter();
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(Lookup.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(Lookup.TXT_LOOKUP_HEADING), lookupList_Page);
+			
+			// click on create New Btn & Cancel Btn
+			foundation.click(Lookup.BTN_CREATE_NEW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Lookup.TXT_CREATE_HEADING), lookup_Create_Page);
+			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+			foundation.click(Lookup.BTN_CANCEL);
+
+			// click on create New Btn & Save Btn
+			foundation.click(Lookup.BTN_CREATE_NEW);
+			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+			foundation.click(Lookup.BTN_SAVE);
+			foundation.waitforElementToDisappear(Lookup.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			
+			// Update the Existing Lookup
+			lookup.updateLookup(keystr_Field, validating_record, lookup_Show_Page, update_keystr_Field);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
