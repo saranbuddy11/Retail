@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -25,10 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.AgeVerificationDetails;
-import at.smartshop.pages.UserRoles;
-
 import at.smartshop.pages.DeviceDashboard;
-
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
@@ -36,6 +34,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
+import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 
@@ -2588,6 +2587,10 @@ public class AgeVerification extends TestInfra {
 			// Navigate to Admin > User roles and click Manage Roles to check Operator Role
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_LIST));
+			Point p = foundation.getCoordinates(UserRoles.BTN_MANAGE_ROLE);
+			int x = p.getX();
+			int y = p.getY();
+			System.out.println(x + " and" + y);
 			foundation.click(UserRoles.BTN_MANAGE_ROLE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_ROLES));
 
