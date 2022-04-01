@@ -24,6 +24,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Configuration;
@@ -47,6 +48,7 @@ import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
+import at.smartshop.pages.Middid;
 
 public class SuperOthers extends TestInfra {
 
@@ -71,6 +73,8 @@ public class SuperOthers extends TestInfra {
 	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
+	private Middid middid = new Middid();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -1979,5 +1983,38 @@ public class SuperOthers extends TestInfra {
 		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount + Constants.ACCOUNT_NAME);
 		textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
 		foundation.click(NationalAccounts.BTN_SAVE);
+	}
+	
+	
+	
+	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation")
+	public void MiddidPageValidation() {
+		final String CASE_NUM = "164726";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify navigation to Middid page
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Middid.TITL_MIDDID));
+
+			List<String> columnNames= Arrays
+					.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_HASH));
+			
+			// verify columns of Middid table
+			middid.getTableHeaders();
+			middid.verifyMiddidHeaders(columnNames);
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
