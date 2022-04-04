@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
 
-public class GlobalProductChange extends Factory{
+public class GlobalProductChange extends Factory {
 	public static final By TXT_LOCATION_SEARCH = By.id("loc-search");
 	public static final By TBL_LOCATION_LIST = By.id("location-list");
 	public static final By BTN_LOCATION_APPLY = By.id("loc-filter-apply");
@@ -17,25 +17,39 @@ public class GlobalProductChange extends Factory{
 	public static final By LBL_PRICE = By.xpath("//*[@id='prd-change-form']/dt[text()='Price']");
 	public static final By LBL_MIN = By.xpath("//*[@id='prd-change-form']/dt[text()='Min']");
 	public static final By LBL_MAX = By.xpath("//*[@id='prd-change-form']/dt[text()='Max']");
-    public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
-    public static final By BTN_SUBMIT = By.id("prd-update-submit");
-    public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
-    public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
-    public static final By RDO_OPERATOR_PRODUCT_CHANGE= By.xpath("//label[text()='Operator Product Catalog Change']");    
-    public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");
-    public static final By REASON_BTNOK =By.id("gpcokbtn");
-    public static final By REASONBOX_BTNOK =By.xpath("//button[@id='gpcokbtn']");
-    
+	public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
+	public static final By BTN_SUBMIT = By.id("prd-update-submit");
+	public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
+	public static final By BTN_CANCEL = By.cssSelector("button.ajs-button.ajs-cancel");
+	public static final By POP_UP_HEADER = By.cssSelector("div.ajs-header");
+	public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
+	public static final By RDO_OPERATOR_PRODUCT_CHANGE = By.xpath("//label[text()='Operator Product Catalog Change']");
+	public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");
+	public static final By REASONBOX_TITLE = By.cssSelector("h4.modal-title");
+	public static final By REASONBOX_BODY = By.cssSelector("div.modal1-body>p");
+	public static final By REASON_BTNOK = By.id("gpcokbtn");
+	public static final By REASONBOX_BTNOK = By.xpath("//button[@id='gpcokbtn']");
+	public static final By LBL_GPC = By.id("Global Product Change");
+	public static final By GPC_CHECK_BOX = By.id("global-prd");
+	public static final By LBL_FILTERED_PRODUCTS = By.id("filter-prd-title");
+	public static final By TXT_PRODUCT_SEARCH = By.xpath("//input[@placeholder='Product Name']");
+	public static final By LBL_PRODUCT_FIELD_CHANGE = By.id("product-change-title");
+	public static final By CHK_PRODUCT_PRICE = By.id("prd-price-checked");
+
 	public By objTableRow(String location) {
-			return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='"+ location +"']");
+		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
 	}
-	
+
+	public By objTableDataProduct(String product) {
+		return By.xpath("//table[@id='filtered-prd-dt']//tbody//td[text()='" + product + "']");
+	}
+
 	public By objLocation(String location) {
-		return By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']");
-}
-	
-	public By objProductName(String productName) {
-		return By.xpath("//span[text()='"+productName+"']");
+		return By.xpath("//ul[@id='location-list']//li[text()='" + location + "']");
 	}
-	
+
+	public By objProductName(String productName) {
+		return By.xpath("//span[text()='" + productName + "']");
+	}
+
 }

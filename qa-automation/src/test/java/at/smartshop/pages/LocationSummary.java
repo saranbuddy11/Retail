@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,11 +40,10 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
 	private CheckBox checkBox = new CheckBox();
-	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
-	public static final By NO_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupcancel");
-	public static final By YES_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupSaveBtn");
+	public static final By NO_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupcancel");
+	public static final By YES_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupSaveBtn");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
@@ -88,7 +86,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
-	public static final By CANCEL_BTN=By.id("cancelBtn");
+	public static final By CANCEL_BTN = By.id("cancelBtn");
 	public static final By TXT_SEARCH = By.id("productFilterType");
 	public static final By LBL_TAX_CATEGORY = By
 			.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
@@ -215,11 +213,11 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
-    public static final By POPUP_YES=By.id("ageverificationpopupSaveBtn");
+	public static final By POPUP_YES = By.id("ageverificationpopupSaveBtn");
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
-    public static final By AGE_VERIFICATION=By.id("ageverification");
+	public static final By AGE_VERIFICATION = By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -257,8 +255,8 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
-	public static final By DEVICE_BTN=By.xpath("(//a[@style='color: #2555D9;'])[2]");
-    public static final By SECOND_DEVICE=By.xpath("(//a[@style='color: #2555D9;'])[4]");
+	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
+	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
@@ -295,8 +293,7 @@ public class LocationSummary extends Factory {
 	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
-	
-	
+
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -934,7 +931,7 @@ public class LocationSummary extends Factory {
 		enterPrice(scanCode, productPrice);
 		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
 	}
-	
+
 	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -1264,5 +1261,5 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
-	
+
 }
