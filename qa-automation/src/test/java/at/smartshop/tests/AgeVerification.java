@@ -1344,6 +1344,7 @@ public class AgeVerification extends TestInfra {
 
 			// Select Menu, Menu Item and verify the age verification disabled in Org level
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
@@ -1365,6 +1366,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Location to verify the age verification is enabled
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			CustomisedAssert.assertTrue(foundation.isDisabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
