@@ -716,6 +716,7 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "167948 - Verify to view the GPC > New Modal for Successful Submission in Global Product Change for Location(s)")
+
 	public void verifyGPCForLocation() {
 		final String CASE_NUM = "167948";
 

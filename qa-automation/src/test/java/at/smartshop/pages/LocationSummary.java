@@ -293,6 +293,7 @@ public class LocationSummary extends Factory {
 	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
+	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
