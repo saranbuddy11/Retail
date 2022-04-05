@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -2638,10 +2637,6 @@ public class AgeVerification extends TestInfra {
 			// Navigate to Admin > User roles and click Manage Roles to check Operator Role
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_LIST));
-			Point p = foundation.getCoordinates(UserRoles.BTN_MANAGE_ROLE);
-			int x = p.getX();
-			int y = p.getY();
-			System.out.println(x + " and" + y);
 			foundation.click(UserRoles.BTN_MANAGE_ROLE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_USER_ROLES));
 
