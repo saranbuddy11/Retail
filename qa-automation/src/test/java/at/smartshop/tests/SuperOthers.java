@@ -1981,7 +1981,7 @@ public class SuperOthers extends TestInfra {
 		foundation.click(NationalAccounts.BTN_SAVE);
 	}
 
-	@Test(description = "164102-Update the previous details in the fields and click on Cancel button and then Save button")
+	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
 	public void CorporateListValidation() {
 
 		final String CASE_NUM = "164102";
