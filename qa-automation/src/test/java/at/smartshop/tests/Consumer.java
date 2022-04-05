@@ -1683,7 +1683,6 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
-			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSearch.DPD_PAY_CYCLE).contains(paycycle.get(1)));
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
 			String emailID = consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
@@ -1754,7 +1753,7 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and delete pay-cycle
-			
+			foundation.threadWait(Constants.ONE_SECOND);
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -1819,7 +1818,6 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
-			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle.get(0)));
 		}
 	}
 
@@ -1871,7 +1869,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
-			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle.get(0)));
+			
 		}
 	}
 
