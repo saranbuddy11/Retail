@@ -936,6 +936,7 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNSuperList.DISBURSEMENT_PAGE_RECORD));
 				rstSuperListData.put(CNSuperList.DISBURSEMENT_DATE, resultSet.getString(CNSuperList.DISBURSEMENT_DATE));
 				rstSuperListData.put(CNSuperList.ERROR_MESSAGE, resultSet.getString(CNSuperList.ERROR_MESSAGE));
+				rstSuperListData.put(CNSuperList.UPDATED_DATA, resultSet.getString(CNSuperList.UPDATED_DATA));
 
 			}
 		} catch (Exception exc) {

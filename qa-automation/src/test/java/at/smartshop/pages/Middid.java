@@ -13,12 +13,16 @@ import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class Middid {
+
+	private Foundation foundation = new Foundation();
+	
 	public static final By TITL_MIDDID = By.id("Middid");
 	public static final By TXT_SEARCH = By.xpath("//div[@id='dt_filter']//input");
 	public static final By LBL_ROW_DATA = By.xpath("//tbody//tr//td");
 	public static final By LBL_ROW_DATA_DATE_ASSIGNED = By.xpath("//tbody//tr//td[7]");
 	public static final By LBL_NO_RESULT = By.xpath("//td[text()='No matching records found']");
 	public static final By LST_COLUMN_HEADERS = By.xpath("//thead//th");
+	public static final By MIDDID_DATA_SORTING_DD = By.xpath("//select[@id='filtervalues']");
 
 	public List<String> tableHeaders = new ArrayList<>();
 
@@ -38,6 +42,15 @@ public class Middid {
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public Boolean isdateAssigned() {
+		String AssignedDate = foundation.getText(LBL_ROW_DATA_DATE_ASSIGNED);
+		if(AssignedDate.equals("")) {
+			return false;
+		}else {
+			return true;
 		}
 	}
 

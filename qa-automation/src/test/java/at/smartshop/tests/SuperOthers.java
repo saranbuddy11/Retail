@@ -74,7 +74,6 @@ public class SuperOthers extends TestInfra {
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
 	private Middid middid = new Middid();
-	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -1892,7 +1891,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(NationalAccounts.BTN_CANCEL);
 
 			// Creating new national Account and click on cancel button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
@@ -1900,9 +1899,9 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 			// Creating new national Account and click on save button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			
+
 			// Selecting Orginization and Location
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1929,7 +1928,7 @@ public class SuperOthers extends TestInfra {
 		textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 		foundation.click(NationalAccounts.ICO_DELETE);
 		foundation.click(NationalAccounts.BTN_POP_UP_YES);
-	}	
+	}
 
 	@Test(description = "168582-QAA-288 ADM > Super > National Accounts Screen >Update the national account details")
 	public void NationalAccountUpdateFields() {
@@ -1938,8 +1937,7 @@ public class SuperOthers extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-	 String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-		
+		String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 		try {
 
@@ -1953,8 +1951,8 @@ public class SuperOthers extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			//Search for existing National Account			
-			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));		
+			// Search for existing National Account
+			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount);
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
@@ -1975,25 +1973,29 @@ public class SuperOthers extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		//Resetting the data
+		// Resetting the data
 		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 		foundation.waitforElement(NationalAccounts.TXT_FILTER, Constants.SHORT_TIME);
 		textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount + Constants.ACCOUNT_NAME);
 		CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
-		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount + Constants.ACCOUNT_NAME);
+		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME),
+				nationalAccount + Constants.ACCOUNT_NAME);
 		textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
 		foundation.click(NationalAccounts.BTN_SAVE);
 	}
-	
-	
-	
+
 	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation")
 	public void MiddidPageValidation() {
 		final String CASE_NUM = "164726";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
-		
+
+		List<String> MiddidDropDownList = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+		String Assigned = MiddidDropDownList.get(0);
+		String notAssigned = MiddidDropDownList.get(1);
+
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2006,13 +2008,23 @@ public class SuperOthers extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Middid.TITL_MIDDID));
 
-			List<String> columnNames= Arrays
+			List<String> columnNames = Arrays
 					.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_HASH));
-			
+
 			// verify columns of Middid table
 			middid.getTableHeaders();
 			middid.verifyMiddidHeaders(columnNames);
-		
+
+			// verify Middid table date sorting based selection as Assigned
+			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, Assigned, Constants.TEXT);
+			CustomisedAssert.assertTrue(middid.isdateAssigned());
+			System.out.println(middid.isdateAssigned());
+
+			// verify Middid table date sorting based selection as Not Assigned
+			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, notAssigned, Constants.TEXT);
+			CustomisedAssert.assertFalse(middid.isdateAssigned());
+			System.out.println(middid.isdateAssigned());
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
