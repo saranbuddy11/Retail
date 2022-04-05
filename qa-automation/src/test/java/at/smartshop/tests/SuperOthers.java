@@ -1984,7 +1984,7 @@ public class SuperOthers extends TestInfra {
 		foundation.click(NationalAccounts.BTN_SAVE);
 	}
 
-	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation")
+	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation and Middid data sorting based on the slected option as Assigned an Not Assigned")
 	public void MiddidPageValidation() {
 		final String CASE_NUM = "164726";
 		// Reading test data from DataBase
