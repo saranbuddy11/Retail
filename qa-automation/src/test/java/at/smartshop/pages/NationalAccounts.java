@@ -107,7 +107,6 @@ public class NationalAccounts extends Factory {
 	public void verifyBackgroundColour(String location, String expctedlcolor) {
 		foundation.threadWait(Constants.SHORT_TIME);
 		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
-		foundation.threadWait(Constants.THREE_SECOND);
 		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
 		CustomisedAssert.assertEquals(actualColor, expctedlcolor);
 	}
@@ -146,12 +145,13 @@ public class NationalAccounts extends Factory {
 			Assert.fail();
 		}
 	}
+
 	public void createNewNationalAccount(String accountName, String client_Name) {
 		try {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_CREATE);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, accountName);
-			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME,client_Name, Constants.TEXT);
+			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, client_Name, Constants.TEXT);
 		} catch (Exception exc) {
 			Assert.fail();
 		}
