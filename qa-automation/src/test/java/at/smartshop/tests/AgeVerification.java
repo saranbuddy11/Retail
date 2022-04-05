@@ -1348,6 +1348,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+			foundation.threadWait(Constants.THREE_SECOND);
 			if (foundation.isDisplayed(OrgSummary.POPUP_LBL_HEADER)) {
 				foundation.click(OrgSummary.POPUP_BTN_YES);
 				foundation.click(OrgSummary.BTN_SAVE);
