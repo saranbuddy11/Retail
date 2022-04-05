@@ -14,6 +14,7 @@ import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -31,6 +32,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
@@ -51,6 +53,7 @@ public class GlobalProducts extends TestInfra {
 	private GlobalProductChange globalProductChange = new GlobalProductChange();
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
+	private CheckBox checkBox = new CheckBox();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -130,10 +133,10 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-		    foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 			// Select Menu and Global product
-		    foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.ONE_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
 			// Search and select product
@@ -142,12 +145,12 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
 					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			double updatedPrice = price + Incrementprice;
-            
+
 			Map<String, String> updatedProductsRecord = productSummary
 					.getProductDetails(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
-           
-			//CustomisedAssert.assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))), updatedPrice);
-			
+
+			// CustomisedAssert.assertEquals(Double.parseDouble(updatedProductsRecord.get(columnName.get(3))),
+			// updatedPrice);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -163,7 +166,7 @@ public class GlobalProducts extends TestInfra {
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstNationalAccountData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-		//String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
+		// String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 		try {
 
 			browser.navigateURL(
@@ -186,17 +189,16 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_EXTEND);
 			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(ProductSummary.TXT_FILTER, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRow(rstNationalAccountData.get(CNNationalAccounts.GRID_NAME),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
-			
-			
+
 			// Remove selected location
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ProductSummary.LOATION_NAME);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -504,7 +506,6 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProduct.LBL_ALERT_HEADER, Constants.SHORT_TIME);
 			actualData = foundation.getText(GlobalProduct.LBL_ALERT_HEADER);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
-			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -714,4 +715,61 @@ public class GlobalProducts extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-}
+
+	@Test(description = "168783-Verify to view the GPC remove system limit in Operator Product Catalog Change " 
+			              +"168782-Verify to view the GPC remove system limit in Global Product Change for Location(s)")
+	public void verifyLimitInGlobalProductChangeforLocation() {
+		try {
+			final String CASE_NUM = "168783";
+
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.GPC_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			if (checkBox.isChecked(GlobalProductChange.GPC_lOCATION)) {
+				foundation.click(GlobalProductChange.SELECT_ALL);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.SELECT_COUNT));
+				foundation.click(GlobalProductChange.DESELECT_ALL);
+			}
+
+			// verify the select in Operator Product Catalog Change
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			if (checkBox.isChkEnabled(GlobalProductChange.OPS_LOCATION)) {
+				checkBox.check(GlobalProductChange.OPS_LOCATION);
+				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.click(GlobalProductChange.OPS_SELECT_ALL);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.SELECT_COUNT));
+				foundation.click(GlobalProductChange.OPS_DESELECT_ALL);
+			}
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167964-Verify to view the Update Global Product Change Messaging in Global Product Change for Location(S)e ")
+			
+	public void verifyChangeMessagingInGlobalProductChangeforLocation() {
+		try {
+			final String CASE_NUM = "167964";
+
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.GPC_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}}
+

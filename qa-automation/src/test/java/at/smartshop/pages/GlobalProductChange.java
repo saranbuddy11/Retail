@@ -25,6 +25,16 @@ public class GlobalProductChange extends Factory{
     public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");
     public static final By REASON_BTNOK =By.id("gpcokbtn");
     public static final By REASONBOX_BTNOK =By.xpath("//button[@id='gpcokbtn']");
+    public static final By TXT_HEADER =By.id("Global Product Change");
+    public static final By GPC_lOCATION =By.id("global-prd");
+    public static final By SELECT_ALL =By.id("loc-select-all");
+    public static final By SELECT_COUNT =By.id("select-count");
+    public static final By OPS_LOCATION =By.id("operator-prd");
+    public static final By DESELECT_ALL =By.id("loc-deselect-all");
+    public static final By FILTER_PRODUCT =By.id("filter-prd-title");
+    public static final By OPS_SELECT_ALL =By.id("prd-select-all");
+    public static final By OPS_DESELECT_ALL =By.id("prd-deselect-all");
+    
     
 	public By objTableRow(String location) {
 			return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='"+ location +"']");
