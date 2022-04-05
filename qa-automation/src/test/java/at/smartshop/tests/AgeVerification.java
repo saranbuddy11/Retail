@@ -1352,10 +1352,10 @@ public class AgeVerification extends TestInfra {
 				foundation.click(OrgSummary.POPUP_BTN_YES);
 				foundation.click(OrgSummary.BTN_SAVE);
 				foundation.threadWait(Constants.THREE_SECOND);
-			}
-			foundation.click(LocationSummary.BTN_SAVE);
+			} else
+				foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisabled(OrgList.LBL_ORG_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
 			// Navigate to Location
 			navigationBar.navigateToMenuItem(menus.get(1));
