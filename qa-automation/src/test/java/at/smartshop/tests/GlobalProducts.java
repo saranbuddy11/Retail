@@ -763,9 +763,12 @@ public class GlobalProducts extends TestInfra {
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			
+			List<String> menus = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.navigateToMenuItem(menus.get(0));
 			
 
 		} catch (Exception exc) {
