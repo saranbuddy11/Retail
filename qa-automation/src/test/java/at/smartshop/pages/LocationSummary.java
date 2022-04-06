@@ -254,6 +254,8 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
+	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
 	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
@@ -267,7 +269,7 @@ public class LocationSummary extends Factory {
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
-			.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[3]");
+			.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
@@ -378,7 +380,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarDayLocation(String day) {
-		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+		return By.xpath("/html/body/div[7]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
 	public By objectRollOverCalendarDayLocation1(String day) {
@@ -386,7 +388,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarMonthLocation(String month) {
-		return By.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarMonthLocation1(String month) {
@@ -394,7 +396,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarNewDayLocation(String day) {
-		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+		return By.xpath("/html/body/div[7]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
 
 	public By objectRollOverCalendarNewDayLocation1(String day) {
