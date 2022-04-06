@@ -772,8 +772,10 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and reset data
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			/*
+			 * browser.navigateURL( propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+			 * FilePath.PROPERTY_CONFIG_FILE));
+			 */
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -1735,11 +1737,9 @@ public class Consumer extends TestInfra {
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		List<String> paycycle = Arrays
 				.asList(rstConsumerSummaryData.get(CNConsumerSummary.PAY_CYCLE).split(Constants.DELIMITER_TILD));
-		/*
-		 * List<String> onandoff = Arrays
-		 * .asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(
-		 * Constants.DELIMITER_TILD));
-		 */
+		List<String> onandoff = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1750,7 +1750,7 @@ public class Consumer extends TestInfra {
 
 			// add pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			locationSummary.editPaycyle(location, paycycle.get(0), paycycle.get(1));
+			locationSummary.editPaycylenew(location, paycycle.get(0), paycycle.get(1), onandoff.get(1));
 
 			// add consumer and verify the pay-cycle group display
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -1800,7 +1800,7 @@ public class Consumer extends TestInfra {
 
 			// add pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			locationSummary.editPaycylenew(location, paycycle.get(0), paycycle.get(1),onandoff.get(1));
+			locationSummary.editPaycylenew(location, paycycle.get(0), paycycle.get(1), onandoff.get(1));
 
 			// login as operator
 			login.logout();
