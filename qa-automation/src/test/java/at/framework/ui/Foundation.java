@@ -16,6 +16,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -504,5 +505,15 @@ public class Foundation extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return hexColor;
+	}
+
+	public Point getCoordinates(By object) {
+		Point point = null;
+		try {
+			point = getDriver().findElement(object).getLocation();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return point;
 	}
 }
