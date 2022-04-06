@@ -372,7 +372,7 @@ public class SmokeTests extends TestInfra {
 
 			// Basic Information Page
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, locationNames.get(5));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, locationNames.get(0));
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
@@ -424,7 +424,7 @@ public class SmokeTests extends TestInfra {
 			assertEquals(popupField.get(1), actualData.get(1));
 
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 
 			assertTrue(popupFieldArray.get(0).contains(promotionType));
 			assertTrue(popupFieldArray.get(1).contains(promotionName));
@@ -442,7 +442,7 @@ public class SmokeTests extends TestInfra {
 			promotionList.verifyPromotionName(promotionName);
 			login.logout();
 
-			//launching browser and selecting org
+			//launching test4 with super user for full sync
 			locationSummary.launchingBrowserAndSelectingOrg();
 			
 
@@ -666,7 +666,8 @@ public class SmokeTests extends TestInfra {
 	@Test(description = "167053-Verify the Promotions tab: Create/Edit/Expire Promotions for Bundle Type Promotion on Location Summary page as Operator")
 	public void VerifyCreateEditExpireBundlePromotions() {
 		final String CASE_NUM = "167053";
-
+		
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
@@ -1166,8 +1167,10 @@ public class SmokeTests extends TestInfra {
 			foundation.waitforElement(SelfService.BTN_ADD_IMG, Constants.SHORT_TIME);
 			foundation.click(SelfService.BTN_ADD_IMG);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(SelfService.BTN_SAVE);			
+			foundation.click(SelfService.BTN_SAVE);
+			
 			//Updating the Menu
+			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(SelfService.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),Constants.TEXT);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow( requiredData.get(0));
