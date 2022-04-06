@@ -67,7 +67,7 @@ public class ConsumerSummary extends Factory {
 	public static final By DPD_SUBSIDY_GROUP_NAME = By.id("pantrygroup");
 	public static final By TXT_TOP_OFF = By.xpath("//dt[text()='TOP_OFF']");
 	public static final By TXT_CONSUMER_ACCOUNT = By.xpath("//dt[text()='Consumer Account']");
-	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='Subsidy - Top Off']']");
+	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='Subsidy - Top Off']");
 	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='Subsidy - Rollover']");
 	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
 	public static final By REASON_CODE = By.id("reason");
