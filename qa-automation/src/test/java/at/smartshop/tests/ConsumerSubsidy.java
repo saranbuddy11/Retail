@@ -188,10 +188,10 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Verifying Date picker of Top Off
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(12));
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
