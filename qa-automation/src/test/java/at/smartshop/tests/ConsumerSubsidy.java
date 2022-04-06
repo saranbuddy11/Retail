@@ -504,7 +504,8 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.SHORT_TIME);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(10), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(1), Constants.TEXT);
@@ -1129,7 +1130,6 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Validating Group Names of both subsidy
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(11));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TOP_OFF_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(12));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(12));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -2187,6 +2187,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying the selection of defaults for GMA subsidy
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
 			List<String> expectedValues = new ArrayList<String>();

@@ -242,13 +242,13 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TOP_OFF_AMOUNT = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='amount']");
 	public static final By TXT_ROLL_OVER_AMOUNT = By.xpath("//*[@id='rolloversubsidyrange']//input[@name='amount']");
 	public static final By TXT_TOP_OFF_AMOUNT_VALUE = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/input");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[7]/input");
 	public static final By TXT_ROLL_OVER_AMOUNT_VALUE = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/input");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[7]/input");
 	public static final By CHK_TOP_OFF_ERROR = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[7]/p");
 	public static final By CHK_ROLL_OVER_ERROR = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[7]/p");
 	public static final By TXT_ROLL_OVER_GROUP_NAME = By
 			.xpath("//*[@id='rolloversubsidyrange']//input[@name='groupname']");
 	public static final By TXT_PICKUP_LOCATION_NAME = By
@@ -269,11 +269,11 @@ public class LocationSummary extends Factory {
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
-			.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[3]");
+			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[5]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[5]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[2]");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -294,7 +294,6 @@ public class LocationSummary extends Factory {
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
-
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -382,7 +381,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarDayLocation1(String day) {
-		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
 	public By objectRollOverCalendarMonthLocation(String month) {
@@ -390,7 +389,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarMonthLocation1(String month) {
-		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarNewDayLocation(String day) {
@@ -402,11 +401,11 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarMonth(String month) {
-		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarDay(String day) {
-		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
 	}
 
 	public void manageColumn(String columnNames) {
@@ -840,7 +839,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
-	public void editPaycylenew(String location, String payCycle, String updatedPaycycle,String yesORno) {
+	public void editPaycylenew(String location, String payCycle, String updatedPaycycle, String yesORno) {
 		locationList.selectLocationName(location);
 		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
