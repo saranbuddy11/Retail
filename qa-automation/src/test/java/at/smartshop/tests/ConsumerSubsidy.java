@@ -1751,8 +1751,10 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(4));
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(4));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
