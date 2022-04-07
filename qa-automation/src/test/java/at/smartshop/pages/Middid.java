@@ -35,8 +35,6 @@ public class Middid {
 
 	public void verifyMiddidHeaders(List<String> columnNames) {
 		try {
-			System.out.println("tableHeaders :"+ tableHeaders);
-			System.out.println("columnNames :"+ columnNames);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnNames.get(iter)));
 			}
