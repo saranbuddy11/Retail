@@ -189,7 +189,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(popupField.get(1), actualData.get(1));
 
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 
 			CustomisedAssert.assertTrue(popupFieldArray.get(0).contains(promotionType));
 			CustomisedAssert.assertTrue(popupFieldArray.get(1).contains(promotionName));
@@ -574,7 +574,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(popupField.get(0), actualData.get(0));
 			CustomisedAssert.assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			CustomisedAssert.assertTrue(popupFieldArray.get(0).contains(promotionType));
 			CustomisedAssert.assertTrue(popupFieldArray.get(1).contains(promotionName));
 			CustomisedAssert.assertTrue(popupFieldArray.get(2).contains(displayName));
@@ -676,7 +676,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(popupField.get(0), actualData.get(0));
 			CustomisedAssert.assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 			CustomisedAssert.assertTrue(popupFieldArray.get(0).contains(promotionType));
 			CustomisedAssert.assertTrue(popupFieldArray.get(1).contains(promotionName));
 			CustomisedAssert.assertTrue(popupFieldArray.get(2).contains(displayName));
@@ -890,7 +890,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(popupField.get(0), actualData.get(0));
 			CustomisedAssert.assertEquals(popupField.get(1), actualData.get(1));
 			List<String> popupFieldArray = createPromotions.getPopUpData();
-			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 
 			CustomisedAssert.assertTrue(popupFieldArray.get(0).contains(promotionType));
 			CustomisedAssert.assertTrue(popupFieldArray.get(1).contains(promotionName));
@@ -1687,10 +1687,10 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
 			CustomisedAssert.assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST,
-					Constants.ASCENDING, Constants.REGEX_DD_MM_YYYY));
+					Constants.ASCENDING, Constants.REGEX_MMDDYY));
 			foundation.click(PromotionList.LBL_START_DATE_HEADER);
 			CustomisedAssert.assertTrue(foundation.verifySortDate(PromotionList.LBL_START_DATE_LIST,
-					Constants.DESCENDING, Constants.REGEX_DD_MM_YYYY));
+					Constants.DESCENDING, Constants.REGEX_MMDDYY));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
