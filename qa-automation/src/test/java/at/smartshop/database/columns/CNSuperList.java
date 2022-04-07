@@ -11,6 +11,5 @@ public class CNSuperList {
 	public static final String ERROR_MESSAGE = "ErrorMessage";
 	public static final String UPDATED_DATA = "UpdatedData";
 	public static final String PAGE_ROW_RECORD = "RowRecord";
-	public static final String UPDATED_DATA = "UpdatedData";
 }
 
