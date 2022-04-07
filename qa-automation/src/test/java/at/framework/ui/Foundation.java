@@ -449,7 +449,7 @@ public class Foundation extends Factory {
 	public boolean isDisabled(By object) {
 		boolean isElementDisabled = true;
 		try {
-			isElementDisabled = getDriver().findElement(object).isEnabled();
+			isElementDisabled = !getDriver().findElement(object).isEnabled();
 			if (ExtFactory.getInstance().getExtent() != null) {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " is disabled");
 			}
