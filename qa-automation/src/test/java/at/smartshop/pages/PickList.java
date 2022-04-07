@@ -63,4 +63,8 @@ public class PickList extends Factory {
 		}
 		return uiTblRowValues;
 	}
+	
+	public By selectLocationFromList(String location) {
+		return By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']");
+	}
 }

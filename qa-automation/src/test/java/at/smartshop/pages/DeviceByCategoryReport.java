@@ -159,6 +159,7 @@ public class DeviceByCategoryReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			foundation.threadWait(Constants.ONE_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))

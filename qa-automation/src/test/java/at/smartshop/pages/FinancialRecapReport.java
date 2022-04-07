@@ -267,13 +267,18 @@ public class FinancialRecapReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					if (iter == 15 || iter == 16 ) {
+					if (iter == 11 || iter == 12 || iter == 13 || iter == 15) {
 						continue;
 					}
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println("reportsData :"+ reportsData.get(counter).get(tableHeaders.get(iter)));
+					System.out.println("intialData :"+ intialData.get(counter).get(tableHeaders.get(iter)));
 				}
 			}
 		} catch (Exception exc) {
@@ -291,6 +296,7 @@ public class FinancialRecapReport extends Factory {
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
 				getJsonSalesData();
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

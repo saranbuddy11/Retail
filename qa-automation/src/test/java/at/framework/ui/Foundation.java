@@ -16,6 +16,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,7 +31,6 @@ import com.aventstack.extentreports.Status;
 import com.google.common.base.Function;
 
 import at.framework.browser.Factory;
-import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
@@ -437,6 +437,19 @@ public class Foundation extends Factory {
 		return textAttribute;
 	}
 
+	public String getAttribute(By object, String attribute) {
+		String textAttribute = null;
+		try {
+			textAttribute = getDriver().findElement(object).getAttribute(attribute);
+			if (ExtFactory.getInstance().getExtent() != null) {
+				ExtFactory.getInstance().getExtent().log(Status.INFO, object + " value is " + textAttribute);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return textAttribute;
+	}
+
 	public void navigateToBackPage() {
 		try {
 			getDriver().navigate().back();
@@ -492,5 +505,15 @@ public class Foundation extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return hexColor;
+	}
+
+	public Point getCoordinates(By object) {
+		Point point = null;
+		try {
+			point = getDriver().findElement(object).getLocation();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return point;
 	}
 }

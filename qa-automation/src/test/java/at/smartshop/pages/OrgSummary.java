@@ -7,19 +7,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import at.framework.browser.Factory;
-import at.framework.ui.CheckBox;
-import at.framework.ui.Foundation;
-import at.smartshop.keys.Constants;
-import junit.framework.Assert;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class OrgSummary extends Factory {
-	private Foundation foundation=new Foundation();
-	private CheckBox checkBox=new CheckBox();
+	private Foundation foundation = new Foundation();
+	private CheckBox checkBox = new CheckBox();
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
+	public static final By POPUP_LBL_HEADER = By.id("ageverificationpopup");
+	public static final By POPUP_BTN_YES = By.id("ageverificationpopupSaveBtn");
 	public static final By CHK_VDI = By.xpath("//input[@id='vdicbx']");
 	public static final By BTN_VDI_PLUS = By.xpath("//button[@id='vdi-plus-btn']");
 	public static final By BTN_VDI_DEL = By.xpath("//button[@onclick='vdiDelBtnClick(this)']");
@@ -114,10 +112,12 @@ public class OrgSummary extends Factory {
 	public static final By DPD_HAS_CONSUMER_ENGAGEMENT = By.cssSelector("select#hasconsumerengagement");
 	public static final By DPD_HAS_SEND_SNACK = By.cssSelector("select#hassendsnack");
 	public static final By DPD_HAS_LIGHTSPEED = By.cssSelector("select#haslightspeed");
-	public static final By TXT_ABN = By.cssSelector("input#abn");	
+	public static final By TXT_ABN = By.cssSelector("input#abn");
 	public static final By TXT_NAME = By.id("name");
 	public static final By BTN_CANCEL = By.xpath("//button[@id='cancelBtn']");
-	
+	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
+	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
+	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
 
 	public By objVDI(String text) {
 
@@ -130,16 +130,14 @@ public class OrgSummary extends Factory {
 		Select dpdSel = new Select(drpdwn);
 		List<WebElement> DrpDwnList = dpdSel.getOptions();
 		for (WebElement webElement : DrpDwnList) {
-
 			if (webElement.getText().contains(text)) {
 				flag = false;
 				break;
 			}
 		}
 		CustomisedAssert.assertTrue(flag);
-
 	}
-	
+
 	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
 		if (foundation.isDisplayed(objVDI(VDIProvideName))) {
 			foundation.click(OrgSummary.BTN_VDI_DEL);
@@ -150,6 +148,5 @@ public class OrgSummary extends Factory {
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 		}
-		
 	}
 }

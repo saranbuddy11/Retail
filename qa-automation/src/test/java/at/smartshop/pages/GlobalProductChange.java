@@ -24,6 +24,7 @@ public class GlobalProductChange extends Factory{
     public static final By RDO_OPERATOR_PRODUCT_CHANGE= By.xpath("//label[text()='Operator Product Catalog Change']");    
     public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");
     public static final By REASON_BTNOK =By.id("gpcokbtn");
+    public static final By REASONBOX_BTNOK =By.xpath("//button[@id='gpcokbtn']");
     
 	public By objTableRow(String location) {
 			return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='"+ location +"']");
