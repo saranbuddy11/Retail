@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class Table extends Factory{
@@ -56,6 +57,7 @@ public class Table extends Factory{
 			WebElement row = getDriver().findElement(tableRow);
 
 			for (WebElement columnHeader : columnHeaders) {
+				foundation.threadWait(Constants.ONE_SECOND);
 				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + index + ")"));
 				uiTblRowValues.put(columnHeader.getText(), column.getText());
 				index++;

@@ -1995,12 +1995,13 @@ public class SuperOthers extends TestInfra {
 				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
 		String Assigned = MiddidDropDownList.get(0);
 		String notAssigned = MiddidDropDownList.get(1);
-
+		
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -2018,13 +2019,47 @@ public class SuperOthers extends TestInfra {
 			// verify Middid table date sorting based selection as Assigned
 			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, Assigned, Constants.TEXT);
 			CustomisedAssert.assertTrue(middid.isdateAssigned());
-			System.out.println(middid.isdateAssigned());
 
 			// verify Middid table date sorting based selection as Not Assigned
 			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, notAssigned, Constants.TEXT);
 			CustomisedAssert.assertFalse(middid.isdateAssigned());
-			System.out.println(middid.isdateAssigned());
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
+	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
+	public void CorporateListValidation() {
+
+		final String CASE_NUM = "164102";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> validations = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String corporateList = validations.get(0);
+		String corporateSummary = validations.get(1);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_LIST, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_LIST), corporateList);
+
+			foundation.click(CorporateAccountList.NAME_FIRST_RECORD);
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY), corporateSummary);
+			foundation.click(CorporateAccountList.CANCEL_BTN);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
