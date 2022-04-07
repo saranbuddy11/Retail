@@ -38,6 +38,7 @@ import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
 import at.smartshop.pages.FinanceList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Lookup;
 import at.smartshop.pages.LookupType;
 import at.smartshop.pages.NationalAccounts;
 import at.smartshop.pages.NavigationBar;
@@ -74,6 +75,7 @@ public class SuperOthers extends TestInfra {
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
 	private Middid middid = new Middid();
+	private Lookup lookup = new Lookup();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -1987,47 +1989,106 @@ public class SuperOthers extends TestInfra {
 	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation and Middid data sorting based on the slected option as Assigned an Not Assigned")
 	public void MiddidPageValidation() {
 		final String CASE_NUM = "164726";
+		
+		// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+				List<String> MiddidDropDownList = Arrays
+						.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+				String Assigned = MiddidDropDownList.get(0);
+				String notAssigned = MiddidDropDownList.get(1);
+				
+				try {
+					browser.navigateURL(
+							propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+					login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+							propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+					navigationBar.selectOrganization(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+					// verify navigation to Middid page
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(Middid.TITL_MIDDID));
+
+					List<String> columnNames = Arrays
+							.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_HASH));
+
+					// verify columns of Middid table
+					middid.getTableHeaders();
+					middid.verifyMiddidHeaders(columnNames);
+
+					// verify Middid table date sorting based selection as Assigned
+					dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, Assigned, Constants.TEXT);
+					CustomisedAssert.assertTrue(middid.isdateAssigned());
+
+					// verify Middid table date sorting based selection as Not Assigned
+					dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, notAssigned, Constants.TEXT);
+					CustomisedAssert.assertFalse(middid.isdateAssigned());
+					
+				} catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+			}
+
+	
+	@Test(description = "164590-QAA-283-ADM>Super>LookUp - Validation for Create new Lookup and cancel the changes and then save, Update the existing Lookup")
+	public void LookupCreateNewValidateCancelandSave() {
+		final String CASE_NUM = "164590";
+		
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
 
-		List<String> MiddidDropDownList = Arrays
-				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
-		String Assigned = MiddidDropDownList.get(0);
-		String notAssigned = MiddidDropDownList.get(1);
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+		String lookupList_Page = validateHeading.get(0);
+		String lookup_Create_Page = validateHeading.get(1);
+		String validating_record = validateHeading.get(2);
+		String lookup_Show_Page = validateHeading.get(3);
+
+		List<String> create_Page_Data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String lookup_Type = create_Page_Data.get(0);
+		String keystr_Field = (create_Page_Data.get(1) + string.getRandomCharacter()).toUpperCase();
+		String desc_Field = create_Page_Data.get(2);
+		String update_keystr_Field = create_Page_Data.get(3) + string.getRandomCharacter();
 		
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		// Select Menu and Menu Item
+		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// verify navigation to Middid page
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Middid.TITL_MIDDID));
+		foundation.waitforElement(Lookup.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
+		CustomisedAssert.assertEquals(foundation.getText(Lookup.TXT_LOOKUP_HEADING), lookupList_Page);
+		
+		// click on create New Btn & Cancel Btn
+		foundation.click(Lookup.BTN_CREATE_NEW);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Lookup.TXT_CREATE_HEADING), lookup_Create_Page);
+		lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+		foundation.click(Lookup.BTN_CANCEL);
 
-			List<String> columnNames = Arrays
-					.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_HASH));
+		// click on create New Btn & Save Btn
+		foundation.click(Lookup.BTN_CREATE_NEW);
+		lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+		foundation.click(Lookup.BTN_SAVE);
+		foundation.waitforElementToDisappear(Lookup.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		
+		// Update the Existing Lookup
+		lookup.updateLookup(keystr_Field, validating_record, lookup_Show_Page, update_keystr_Field);
 
-			// verify columns of Middid table
-			middid.getTableHeaders();
-			middid.verifyMiddidHeaders(columnNames);
-
-			// verify Middid table date sorting based selection as Assigned
-			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, Assigned, Constants.TEXT);
-			CustomisedAssert.assertTrue(middid.isdateAssigned());
-
-			// verify Middid table date sorting based selection as Not Assigned
-			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, notAssigned, Constants.TEXT);
-			CustomisedAssert.assertFalse(middid.isdateAssigned());
-			
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
+	} catch (Exception exc) {
+		TestInfra.failWithScreenShot(exc.toString());
 	}
+}
 
 	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
 	public void CorporateListValidation() {
@@ -2041,7 +2102,7 @@ public class SuperOthers extends TestInfra {
 				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		String corporateList = validations.get(0);
 		String corporateSummary = validations.get(1);
-
+		
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
