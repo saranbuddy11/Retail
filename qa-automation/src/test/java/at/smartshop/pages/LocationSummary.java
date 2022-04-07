@@ -583,6 +583,17 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(minLink));
 	}
 
+	public void enterMaxStock(String scancode, String min) {
+
+		By minLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
+		By minInput = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']//input");
+		foundation.click(minLink);
+		textBox.enterText(minInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(minInput, min);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(minLink));
+	}
+
 	public void addProduct(String scancode) {
 
 		foundation.click(BTN_ADD_PRODUCT);

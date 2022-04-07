@@ -14,6 +14,7 @@ public class GlobalProductChange extends Factory {
 	public static final By BTN_INCREMENT = By.xpath("//*[@id='increment-radio-btn']/..");
 	public static final By TXT_PRICE = By.id("prd-price");
 	public static final By TXT_MIN = By.id("prd-min");
+	public static final By TXT_MAX = By.id("prd-max");
 	public static final By TXT_PRODUCT_NAME = By.id("filter-name");
 	public static final By LBL_PRICE = By.xpath("//*[@id='prd-change-form']/dt[text()='Price']");
 	public static final By LBL_MIN = By.xpath("//*[@id='prd-change-form']/dt[text()='Min']");
@@ -37,6 +38,7 @@ public class GlobalProductChange extends Factory {
 	public static final By LBL_PRODUCT_FIELD_CHANGE = By.id("product-change-title");
 	public static final By CHK_PRODUCT_PRICE = By.id("prd-price-checked");
 	public static final By CHK_PRODUCT_MIN = By.id("prd-min-checked");
+	public static final By CHK_PRODUCT_MAX = By.id("prd-max-checked");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");

@@ -716,7 +716,8 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "167948 - Verify to view the GPC > New Modal for Successful Submission in Global Product Change for Location(s)"
-			+ "167950 - Verify to view the Update Min field value for a product in Global Product Change for Location(s)")
+			+ "167950 - Verify to view the Update Min field value for a product in Global Product Change for Location(s)"
+			+ "C167951 - Verify to view the Update Max field value for a product in Global Product Change for Location(s)")
 
 	public void verifyGPCForLocation() {
 		final String CASE_NUM = "167948";
@@ -754,17 +755,21 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
 
-			// Select Product and update Price, Min value
+			// Select Product and update Price, Min value, Max value
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product.get(0));
 			foundation.click(globalProductChange.objTableDataProduct(product.get(0)));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRICE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
 			textBox.enterText(GlobalProductChange.TXT_PRICE, price.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_PRICE));
 			textBox.enterText(GlobalProductChange.TXT_MIN, price.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_MIN));
+			textBox.enterText(GlobalProductChange.TXT_MAX, price.get(3));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_MAX));
+			foundation.scrollIntoViewElement(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 
 			// Verify the Popup's
@@ -790,17 +795,19 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 
-			// Navigate to Global Product to check on updated price and Min value
+			// Navigate to Global Product to check on updated price, Min value and Max value
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(1)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND);
-			String productPrice = foundation.getText(globalProduct.selectProductPrice(location.get(0)));
-			CustomisedAssert.assertEquals(productPrice, price.get(0) + ".00");
-			String productMin = foundation.getText(globalProduct.selectProductMin(location.get(0)));
-			CustomisedAssert.assertEquals(productMin, price.get(0));
+			String value = foundation.getText(globalProduct.selectProductPrice(location.get(0)));
+			CustomisedAssert.assertEquals(value, price.get(0) + ".00");
+			value = foundation.getText(globalProduct.selectProductMin(location.get(0)));
+			CustomisedAssert.assertEquals(value, price.get(0));
+			value = foundation.getText(globalProduct.selectProductMax(location.get(0)));
+			CustomisedAssert.assertEquals(value, price.get(3));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -812,6 +819,7 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH, product.get(0));
 			locationSummary.enterPrice(product.get(2), price.get(1));
 			locationSummary.enterMinStock(product.get(2), price.get(2));
+			locationSummary.enterMaxStock(product.get(2), price.get(4));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
