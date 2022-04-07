@@ -66,6 +66,11 @@ public class GlobalProduct extends Factory {
 				+ "']/parent::td/following-sibling::td[@class='edit priceandstock column-price']");
 	}
 
+	public By selectProductMin(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit minstock column-minstock']");
+	}
+
 	public By getExistingScancode(String scancode) {
 		return By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode' and text()='"
 				+ scancode + "']");
