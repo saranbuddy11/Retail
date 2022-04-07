@@ -2776,5 +2776,4 @@ public class AgeVerification extends TestInfra {
 
 		}
 	}
-
 }
