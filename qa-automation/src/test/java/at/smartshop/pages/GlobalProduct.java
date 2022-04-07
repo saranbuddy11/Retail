@@ -51,7 +51,7 @@ public class GlobalProduct extends Factory {
 	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.id("location");
-	public static final By BTN_EXTEND = By.xpath("//a[text()='Extend']");
+	public static final By BTN_EXTEND = By.id("extend");
 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -74,6 +74,11 @@ public class GlobalProduct extends Factory {
 	public By selectProductMax(String location) {
 		return By.xpath("//span[text()='" + location
 				+ "']/parent::td/following-sibling::td[@class='edit maxstock column-maxstock']");
+	}
+
+	public By selectProductPickList(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit planningcolumn column-picklist']");
 	}
 
 	public By getExistingScancode(String scancode) {
