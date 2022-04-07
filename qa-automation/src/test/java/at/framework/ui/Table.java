@@ -109,7 +109,7 @@ public class Table extends Factory{
 		int totalRows=foundation.getSizeofListElement(By.xpath("//tr"))-1;
 		for(int i=1;i<=totalRows;i++) {
 		foundation.getTextofListElement(By.xpath("//tr//td["+columnNumber+"]"));
-		}
+		}	
 	}
 	
 	public boolean isRowDisplayed(String text) {
