@@ -238,7 +238,48 @@ public class Excel {
 		}
 		return singleRowData;
 	}
-	
+
+	public Map<String, String> getExcelAsMapFromXSSFWorkbook(String fileName) throws IOException {
+		XSSFWorkbook workBook = null;
+		Map<String, String> singleRowData = new HashMap<>();
+		List<String> columnHeader = new ArrayList<String>();
+		try {
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			workBook = new XSSFWorkbook(fis);
+			XSSFSheet workSheet = workBook.getSheetAt(0);
+			XSSFRow row1 = workSheet.getRow(0);
+			Iterator<Cell> cellIterator = row1.cellIterator();
+			while (cellIterator.hasNext()) {
+				columnHeader.add(cellIterator.next().getStringCellValue());
+			}
+			int rowCount = workSheet.getLastRowNum();
+			int columnCount = row1.getLastCellNum();
+			for (int i = 1; i <= rowCount; i++) {
+
+				XSSFRow row2 = workSheet.getRow(i);
+				for (int j = 0; j < columnCount; j++) {
+					Cell cell = row2.getCell(j);
+					int cellType = cell.getCellType();
+
+					if (cellType == 0) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getNumericCellValue()));
+
+					} else if (cellType == 4) {
+						singleRowData.put(columnHeader.get(j), String.valueOf(cell.getBooleanCellValue()));
+					} else {
+
+						singleRowData.put(columnHeader.get(j), cell.getStringCellValue());
+					}
+				}
+			}
+			workBook.close();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return singleRowData;
+	}
+
 	public Map<String, String> getExcelData(String fileName, String workSheetName) throws IOException {
 		HSSFWorkbook workBook = null;
 		Map<String, String> singleRowData = new HashMap<>();

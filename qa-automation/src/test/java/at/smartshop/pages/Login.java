@@ -39,7 +39,6 @@ public class Login extends Factory {
 			textBox.enterText(TXT_PASSWORD, password);
 			//insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
-			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
