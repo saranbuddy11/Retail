@@ -1890,7 +1890,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(NationalAccounts.BTN_CANCEL);
 
 			// Creating new national Account and click on cancel button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
@@ -1898,9 +1898,9 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 			// Creating new national Account and click on save button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			
+
 			// Selecting Orginization and Location
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1927,7 +1927,7 @@ public class SuperOthers extends TestInfra {
 		textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 		foundation.click(NationalAccounts.ICO_DELETE);
 		foundation.click(NationalAccounts.BTN_POP_UP_YES);
-	}	
+	}
 
 	@Test(description = "168582-QAA-288 ADM > Super > National Accounts Screen >Update the national account details")
 	public void NationalAccountUpdateFields() {
@@ -1936,8 +1936,7 @@ public class SuperOthers extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-	 String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-		
+		String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 		try {
 
@@ -1951,8 +1950,8 @@ public class SuperOthers extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			//Search for existing National Account			
-			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));		
+			// Search for existing National Account
+			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount);
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
@@ -1973,15 +1972,17 @@ public class SuperOthers extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		//Resetting the data
+		// Resetting the data
 		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 		foundation.waitforElement(NationalAccounts.TXT_FILTER, Constants.SHORT_TIME);
 		textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount + Constants.ACCOUNT_NAME);
 		CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
-		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount + Constants.ACCOUNT_NAME);
+		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME),
+				nationalAccount + Constants.ACCOUNT_NAME);
 		textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
 		foundation.click(NationalAccounts.BTN_SAVE);
 	}
+
 	
 	@Test(description = "164590-QAA-283-ADM>Super>LookUp - Validation for Create new Lookup and cancel the changes and then save, Update the existing Lookup")
 	public void LookupCreateNewValidateCancelandSave() {
@@ -2003,37 +2004,74 @@ public class SuperOthers extends TestInfra {
 		String keystr_Field = (create_Page_Data.get(1) + string.getRandomCharacter()).toUpperCase();
 		String desc_Field = create_Page_Data.get(2);
 		String update_keystr_Field = create_Page_Data.get(3) + string.getRandomCharacter();
-
+		
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+		// Select Menu and Menu Item
+		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+		foundation.waitforElement(Lookup.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
+		CustomisedAssert.assertEquals(foundation.getText(Lookup.TXT_LOOKUP_HEADING), lookupList_Page);
+		
+		// click on create New Btn & Cancel Btn
+		foundation.click(Lookup.BTN_CREATE_NEW);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Lookup.TXT_CREATE_HEADING), lookup_Create_Page);
+		lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+		foundation.click(Lookup.BTN_CANCEL);
+
+		// click on create New Btn & Save Btn
+		foundation.click(Lookup.BTN_CREATE_NEW);
+		lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+		foundation.click(Lookup.BTN_SAVE);
+		foundation.waitforElementToDisappear(Lookup.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		
+		// Update the Existing Lookup
+		lookup.updateLookup(keystr_Field, validating_record, lookup_Show_Page, update_keystr_Field);
+
+	} catch (Exception exc) {
+		TestInfra.failWithScreenShot(exc.toString());
+	}
+}
+
+	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
+	public void CorporateListValidation() {
+
+		final String CASE_NUM = "164102";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> validations = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String corporateList = validations.get(0);
+		String corporateSummary = validations.get(1);
+		
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			foundation.waitforElement(Lookup.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
-			CustomisedAssert.assertEquals(foundation.getText(Lookup.TXT_LOOKUP_HEADING), lookupList_Page);
-			
-			// click on create New Btn & Cancel Btn
-			foundation.click(Lookup.BTN_CREATE_NEW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Lookup.TXT_CREATE_HEADING), lookup_Create_Page);
-			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
-			foundation.click(Lookup.BTN_CANCEL);
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_LIST, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_LIST), corporateList);
 
-			// click on create New Btn & Save Btn
-			foundation.click(Lookup.BTN_CREATE_NEW);
-			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
-			foundation.click(Lookup.BTN_SAVE);
-			foundation.waitforElementToDisappear(Lookup.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			
-			// Update the Existing Lookup
-			lookup.updateLookup(keystr_Field, validating_record, lookup_Show_Page, update_keystr_Field);
-
-		} catch (Throwable exc) {
+			foundation.click(CorporateAccountList.NAME_FIRST_RECORD);
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY), corporateSummary);
+			foundation.click(CorporateAccountList.CANCEL_BTN);
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
