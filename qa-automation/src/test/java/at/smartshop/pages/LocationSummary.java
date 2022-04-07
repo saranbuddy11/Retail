@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,11 +40,10 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
 	private CheckBox checkBox = new CheckBox();
-	
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
-	public static final By NO_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupcancel");
-	public static final By YES_BTN_PROMPT_AGEVERIFICATION=By.id("ageverificationpopupSaveBtn");
+	public static final By NO_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupcancel");
+	public static final By YES_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupSaveBtn");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
@@ -88,7 +86,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MULTI_TAX_REPORT = By.xpath("//b[text()='Multi Tax Report Naming']");
 	public static final By LBL_LOCATION_SUMMARY = By.cssSelector("li[id='Location Summary']");
 	public static final By TAB_PRODUCTS = By.id("loc-products");
-	public static final By CANCEL_BTN=By.id("cancelBtn");
+	public static final By CANCEL_BTN = By.id("cancelBtn");
 	public static final By TXT_SEARCH = By.id("productFilterType");
 	public static final By LBL_TAX_CATEGORY = By
 			.xpath("//td[@role='gridcell' and @aria-describedby='productDataGrid_taxcat']");
@@ -215,11 +213,11 @@ public class LocationSummary extends Factory {
 	public static final By TXT_FIND_DEVICE = By.xpath("//*[@id='choosekskdt_filter']/label/input");
 	public static final By TBL_DEVICE_LIST = By.xpath("//*[@id='choosekskdt']/tbody//td");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='deviceDataGrid_table']/tbody/tr/td/a/i");
-    public static final By POPUP_YES=By.id("ageverificationpopupSaveBtn");
+	public static final By POPUP_YES = By.id("ageverificationpopupSaveBtn");
 	public static final By BTN_CREATE_CONSUMER = By.id("createconsumer");
 	public static final By TBL_DEVICE_HEADER = By.xpath("//*[@id='choosekskdt_wrapper']//th");
 	public static final By TBL_DEVICE_NAME_COLUMN = By.xpath("//*[@id='choosekskdt']/tbody//td[1]");
-    public static final By AGE_VERIFICATION=By.id("ageverification");
+	public static final By AGE_VERIFICATION = By.id("ageverification");
 	public static final By PRODUCT_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_name']");
 	public static final By INVENTORY_NAME = By
@@ -244,21 +242,23 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TOP_OFF_AMOUNT = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='amount']");
 	public static final By TXT_ROLL_OVER_AMOUNT = By.xpath("//*[@id='rolloversubsidyrange']//input[@name='amount']");
 	public static final By TXT_TOP_OFF_AMOUNT_VALUE = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/input");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[7]/input");
 	public static final By TXT_ROLL_OVER_AMOUNT_VALUE = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/input");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[7]/input");
 	public static final By CHK_TOP_OFF_ERROR = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[7]/p");
 	public static final By CHK_ROLL_OVER_ERROR = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[7]/p");
 	public static final By TXT_ROLL_OVER_GROUP_NAME = By
 			.xpath("//*[@id='rolloversubsidyrange']//input[@name='groupname']");
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
+	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
-	public static final By DEVICE_BTN=By.xpath("(//a[@style='color: #2555D9;'])[2]");
-    public static final By SECOND_DEVICE=By.xpath("(//a[@style='color: #2555D9;'])[4]");
+	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
+	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
@@ -269,13 +269,13 @@ public class LocationSummary extends Factory {
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
-			.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[3]");
+			.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
-			.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[3]");
+			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[5]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[5]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -295,8 +295,8 @@ public class LocationSummary extends Factory {
 	public static final By ADDRESS_INPUT = By.xpath("//input[@id='address']");
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
-	
-	
+	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
+
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -379,35 +379,35 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectRollOverCalendarDayLocation(String day) {
-		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+		return By.xpath("/html/body/div[7]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
 	public By objectRollOverCalendarDayLocation1(String day) {
-		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
 
 	public By objectRollOverCalendarMonthLocation(String month) {
-		return By.xpath("/html/body/div[6]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarMonthLocation1(String month) {
-		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarNewDayLocation(String day) {
-		return By.xpath("/html/body/div[6]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+		return By.xpath("/html/body/div[7]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
 
 	public By objectRollOverCalendarNewDayLocation1(String day) {
-		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
 
 	public By objectRollOverCalendarMonth(String month) {
-		return By.xpath("/html/body/div[11]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectRollOverCalendarDay(String day) {
-		return By.xpath("/html/body/div[11]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
 	}
 
 	public void manageColumn(String columnNames) {
@@ -779,6 +779,24 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	public void addPaycylenew(String location, String payCycle, String yesORno) {
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		int totalPaycycleRows = foundation
+				.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		List<String> existingPaycycles = textBox
+				.getValueofListElement(By.xpath("//*[contains(@class,'paycycle-grpname')]"));
+		if (!existingPaycycles.contains(payCycle)) {
+			foundation.click(By
+					.xpath("(//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i)[" + totalPaycycleRows + "]"));
+			textBox.enterText(TXT_PAY_CYCLE_NAME, payCycle);
+		}
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
+
 	public void deletePaycyle(String location, String payCycle) {
 
 		locationList.selectLocationName(location);
@@ -808,6 +826,25 @@ public class LocationSummary extends Factory {
 
 	public void editPaycyle(String location, String payCycle, String updatedPaycycle) {
 		locationList.selectLocationName(location);
+		int totalPaycycleRows = foundation
+				.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
+		for (int i = 1; i <= totalPaycycleRows; i++) {
+			if (textBox.getTextFromInput(By.xpath("(//*[contains(@class,'paycycle-grpname')])[" + i + "]"))
+					.contains(payCycle)) {
+				textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])[" + i + "]"),
+						updatedPaycycle);
+				foundation.threadWait(Constants.ONE_SECOND);
+			}
+		}
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+	}
+
+	public void editPaycylenew(String location, String payCycle, String updatedPaycycle, String yesORno) {
+		locationList.selectLocationName(location);
+		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//*[@id='payRollRange']//*[@class='btn-mini pull-right']//i"));
 		for (int i = 1; i <= totalPaycycleRows; i++) {
@@ -934,7 +971,7 @@ public class LocationSummary extends Factory {
 		enterPrice(scanCode, productPrice);
 		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
 	}
-	
+
 	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -947,7 +984,7 @@ public class LocationSummary extends Factory {
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 	}
 
 	public void addEditProduct(String tab, String productName, String updatedProductName, String menuItem) {
@@ -1264,5 +1301,5 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
-	
+
 }
