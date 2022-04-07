@@ -41,8 +41,12 @@ public class CorporateAccountList extends Factory {
 	public static final By VALIDATE_MESSAGE =  By.xpath("//div[@id='checkBoxAlert']");
 	public static final By NO_RECORD =  By.xpath("//span[@id='dataGrid_pager_label']");
 	public static final By DISABLED_CHECKBOX =  By.id("cbx.crpdisbursementdays.1");
-	public static final By VALIDATE_TITLE =  By.id("//div[@id='Corporate List']");
+	public static final By VALIDATE_CORPORATE_LIST =  By.id("Corporate List");
 	public static final By DISBURSEMENT_ERROR_EMAIL = By.id("crpdisbursementemail");
+	public static final By VALIDATE_CORPORATE_SUMMARY =  By.id("Corporate Summary");
+	public static final By NAME_FIRST_RECORD = By.cssSelector("#dataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
+	
+	
 	
 	public void acceptPopup(String device) {
 		foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);

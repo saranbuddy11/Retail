@@ -134,7 +134,7 @@ public class CashFlow extends Factory {
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
-				foundation.threadWait(Constants.ONE_SECOND);
+				foundation.threadWait(Constants.TWO_SECOND);
 			}
 			getJsonSalesData();
 		} catch (Exception exc) {
