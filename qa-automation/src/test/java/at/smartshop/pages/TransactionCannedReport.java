@@ -264,6 +264,7 @@ public class TransactionCannedReport extends Factory {
 						(String) jsonData.get(Reports.JSON));
 			}
 			getJsonSalesData();
+			Thread.sleep(3000);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

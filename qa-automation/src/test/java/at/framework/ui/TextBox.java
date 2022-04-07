@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
@@ -56,7 +57,7 @@ public class TextBox extends Factory {
 		}
 
 	}
-	
+
 	public void enterKeypadTextWithCaseSensitive(String text) {
 		char[] charArray = text.toCharArray();
 		for (int i = 0; i < charArray.length; i++) {
@@ -66,7 +67,7 @@ public class TextBox extends Factory {
 				foundation.threadWait(Constants.ONE_SECOND);
 			} else if (charArray[i] >= 'A' && charArray[i] <= 'Z') {
 				if (i == 0) {
-					foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
 				} else {
 					foundation.objectClick(By.xpath("//*[text()='ABC']"));
 					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
@@ -74,7 +75,7 @@ public class TextBox extends Factory {
 					foundation.threadWait(Constants.ONE_SECOND);
 				}
 			} else {
-				foundation.click(By.xpath("//*[text()='" + charArray[i]  + "']"));
+				foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
 			}
 		}
 	}
@@ -154,7 +155,7 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void clearText(By object) {
 		try {
 			foundation.objectFocus(object);

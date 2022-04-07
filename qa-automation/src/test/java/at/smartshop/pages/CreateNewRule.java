@@ -37,22 +37,24 @@ public class CreateNewRule extends Factory {
 	public static final By BTN_YES = By.cssSelector("button.ajs-button.ajs-ok");
 	public static final By TXT_SEARCH = By.cssSelector("input[type='search']");
 	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
-	
+
 	public static final By TXT_RULE_NAME = By.id("rulename");
 	public static final By DPD_RULE_TYPE = By.id("ruletype");
 	public static final By DPD_NATIONAL_CATEGORY = By.id("upctype");
 	public static final By TXT_CLIENTRULE_NAME = By
 			.xpath("//div[normalize-space(text())='National Account - Aramark:AutomationNationalAccount']");
 
-	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,String price) {
+	public void createRule(String org, String location, String ruleType, String nationalCategory, String ruleName,
+			String price) {
 		try {
 			selectOrg(org);
 			selectLocation(location);
 			textbox.enterText(TXT_RULE_NAME, ruleName);
 			dropdown.selectItem(DPD_RULE_TYPE, ruleType, Constants.TEXT);
-			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);			
+			dropdown.selectItem(DPD_NATIONAL_CATEGORY, nationalCategory, Constants.TEXT);
 			textbox.enterText(TXT_PRICE, price);
 			foundation.click(BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -128,7 +130,7 @@ public class CreateNewRule extends Factory {
 	}
 
 	public By objClientRuleName(String ruleName) {
-		return By.xpath("//div[normalize-space(text())='" + ruleName + "']");		
+		return By.xpath("//div[normalize-space(text())='" + ruleName + "']");
 	}
 
 }

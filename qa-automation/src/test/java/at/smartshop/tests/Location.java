@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -350,7 +349,11 @@ public class Location extends TestInfra {
 			dropDown.selectItem(GlobalProductChange.DPD_LOYALITY_MULTIPLIER, "5", Constants.VALUE);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+//			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.objectFocus(GlobalProductChange.REASONBOX_BTNOK);
+			foundation.objectClick(GlobalProductChange.REASONBOX_BTNOK);
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Select Menu and Global product
 			navigationBar.selectOrganization(
@@ -447,7 +450,7 @@ public class Location extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 
@@ -502,7 +505,7 @@ public class Location extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 			// Navigating to device tab
@@ -592,8 +595,8 @@ public class Location extends TestInfra {
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
-			// textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			// CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
 					LocationSummary.TBL_DEVICE_ROW);
 			// Table Validations
@@ -626,7 +629,7 @@ public class Location extends TestInfra {
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 
@@ -642,15 +645,17 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.SHORT_TIME);
 
-			CustomisedAssert.assertTrue(locationSummary.verifySortAscending(LocationSummary.LBL_COLUMN_DATA));
-			foundation.click(LocationSummary.LBL_ROW_HEADER);
-			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.LBL_COLUMN_DATA));
+//			CustomisedAssert.assertTrue(locationSummary.verifySortAscending(LocationSummary.LBL_COLUMN_DATA));
+//			foundation.click(LocationSummary.LBL_ROW_HEADER);
+//			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.LBL_COLUMN_DATA));
 			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
+			foundation.threadWait(Constants.ONE_SECOND);
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
 					LocationSummary.TBL_DEVICE_POPUP_ROW);
 			Map<String, String> dbData = new HashMap<>();
 			dbData.put(expectedData.get(0), device);
 			dbData.put(expectedData.get(1), expectedData.get(2));
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
@@ -861,7 +866,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
@@ -870,7 +875,10 @@ public class Location extends TestInfra {
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			// Location
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(1));
+//			navigationBar.navigateToMenuItem("Super#NousDemo Org");
 			locationList.selectLocationName(locationName);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_TAX_MAPPING));
 
@@ -1054,13 +1062,14 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
-
 			foundation.click(LocationSummary.BTN_EXPORT);
-
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
-			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
+//			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+//			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
+
+			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_LOCAL_PROD);
 			// record count validation
 			CustomisedAssert.assertEquals(String.valueOf(excelCount), requiredData);
 
@@ -1072,15 +1081,42 @@ public class Location extends TestInfra {
 			uidata.remove(expectedData.get(3));
 
 			List<String> uiList = new ArrayList<String>(uidata.values());
+
 			// excel data validation
-			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_PROD, 1));
+			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
+			Map<String, String> excelData = excel.getExcelAsMapFromXSSFWorkbook(FilePath.EXCEL_LOCAL_PROD);
+
+			Map<String, String> expectedValues = new HashMap<String, String>();
+			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+				expectedValues.put(uiListHeaders.get(iter), excelData.get(uiListHeaders.get(iter)));
+			}
+
+			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+				if (uiListHeaders.get(iter).equals("Price")) {
+					uiList.set(iter, Constants.DELIMITER_COMMA
+							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+				}
+			}
+
+			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+				if (uiListHeaders.get(iter).equals("Deposit")) {
+					expectedValues.put(uiListHeaders.get(iter),
+							Constants.DOLLAR_SYMBOL + expectedValues.get(uiListHeaders.get(iter)));
+				}
+				if (uiListHeaders.get(iter).equals("Price")) {
+					expectedValues.put(uiListHeaders.get(iter), Constants.DOLLAR_SYMBOL + expectedValues
+							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+				}
+			}
+			locationList.verifyData(uiListHeaders, uiList, expectedValues);
+//			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_LOCAL_PROD, 1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// delete files
-			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
-			foundation.deleteFile(FilePath.EXCEL_PROD);
+//		} finally {
+//			// delete files
+//			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+//			foundation.deleteFile(FilePath.EXCEL_PROD);
 		}
 	}
 
@@ -1175,6 +1211,7 @@ public class Location extends TestInfra {
 			List<String> devicetabHeaders = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Menu and Menu Item
 			browser.navigateURL(
@@ -1186,7 +1223,9 @@ public class Location extends TestInfra {
 
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, location);
+
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
+//			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, location);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(deviceList.objLocationLink(location));
 
