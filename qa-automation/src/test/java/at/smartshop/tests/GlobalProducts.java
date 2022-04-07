@@ -774,5 +774,5 @@ public class GlobalProducts extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}}
-
+	}
+}

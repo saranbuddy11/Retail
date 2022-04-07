@@ -188,10 +188,10 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Verifying Date picker of Top Off
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(12));
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
@@ -504,7 +504,8 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.SHORT_TIME);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(10), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(1), Constants.TEXT);
@@ -1129,7 +1130,6 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Validating Group Names of both subsidy
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(11));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TOP_OFF_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(12));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(12));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1751,8 +1751,10 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(4));
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
 				checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(5));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -2187,6 +2189,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying the selection of defaults for GMA subsidy
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
 			List<String> expectedValues = new ArrayList<String>();
@@ -2572,7 +2575,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationNewLocation(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, datas.get(1), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, datas.get(2));
@@ -2608,7 +2611,7 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);

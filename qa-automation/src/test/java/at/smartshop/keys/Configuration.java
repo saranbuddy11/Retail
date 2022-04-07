@@ -52,6 +52,7 @@ public class Configuration {
 	public static final String ALL = "all";
 	public static final String RNOUS_ORGANIZATION = "Rnous_organization";
 	public static final String GPC_ORG = "Gpc_Org";
+	public static final String ORGANIZATION_OF_HSRLOC = "Organization_of_HsrLoc";
 	
 
 }
