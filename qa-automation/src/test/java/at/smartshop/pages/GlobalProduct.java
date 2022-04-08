@@ -52,6 +52,8 @@ public class GlobalProduct extends Factory {
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.id("location");
 	public static final By BTN_EXTEND = By.id("extend");
+	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
+	public static final By BTN_SAVE = By.id("saveBtn");
 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");

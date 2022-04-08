@@ -33,6 +33,7 @@ public class GlobalProductChange extends Factory {
 	public static final By REASONBOX_BTNOK = By.xpath("//button[@id='gpcokbtn']");
 	public static final By LBL_GPC = By.id("Global Product Change");
 	public static final By GPC_CHECK_BOX = By.id("global-prd");
+	public static final By OPC_CHECK_BOX = By.id("operator-prd");
 	public static final By LBL_FILTERED_PRODUCTS = By.id("filter-prd-title");
 	public static final By TXT_PRODUCT_SEARCH = By.xpath("//input[@placeholder='Product Name']");
 	public static final By LBL_PRODUCT_FIELD_CHANGE = By.id("product-change-title");
@@ -43,6 +44,7 @@ public class GlobalProductChange extends Factory {
 	public static final By DPD_PICK_LIST = By.id("prd-pick-list-action");
 	public static final By DPD_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier");
 	public static final By CHK_PRODUCT_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier-checked");
+	public static final By DPD_FILTER_BY = By.id("filter-by");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -50,6 +52,10 @@ public class GlobalProductChange extends Factory {
 
 	public By objTableDataProduct(String product) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//td[text()='" + product + "']");
+	}
+
+	public By objTableDataOperatorProduct(String product) {
+		return By.xpath("//table[@id='filtered-prd-dt']//tbody//td/span[text()='" + product + "']");
 	}
 
 	public By objLocation(String location) {
