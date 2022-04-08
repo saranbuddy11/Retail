@@ -717,7 +717,9 @@ public class GlobalProducts extends TestInfra {
 
 	@Test(description = "167948 - Verify to view the GPC > New Modal for Successful Submission in Global Product Change for Location(s)"
 			+ "167950 - Verify to view the Update Min field value for a product in Global Product Change for Location(s)"
-			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Location(s)")
+			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Location(s)"
+			+ "167952 - Verify to view the Update Pick list Action field value for a product in Global Product Change for Location(s)"
+			+ "167953 - Verify to view the Update Loyalty Multiplier field value for a product in Global Product Change for Location(s)")
 
 	public void verifyGPCForLocation() {
 		final String CASE_NUM = "167948";
@@ -822,7 +824,27 @@ public class GlobalProducts extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			// Resetting Product price
+			// Resetting Product data
+			navigationBar.navigateToMenuItem(menus.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.click(globalProductChange.objLocation(location.get(0)));
+			foundation.click(globalProductChange.objLocation(location.get(1)));
+			foundation.scrollIntoViewElement(GlobalProductChange.BTN_LOCATION_APPLY);
+			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product.get(0));
+			foundation.click(globalProductChange.objTableDataProduct(product.get(0)));
+			foundation.click(GlobalProductChange.BTN_NEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
+			dropDown.selectItem(GlobalProductChange.DPD_LOYALTY_MULTIPLIER, price.get(5), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_LOYALTY_MULTIPLIER));
+			foundation.scrollIntoViewElement(GlobalProductChange.BTN_SUBMIT);
+			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.click(GlobalProductChange.BTN_OK);
+			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+			foundation.click(GlobalProductChange.REASON_BTNOK);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			navigationBar.navigateToMenuItem(menus.get(2));
 			locationList.selectLocationName(location.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEPLOY_DEVICE);

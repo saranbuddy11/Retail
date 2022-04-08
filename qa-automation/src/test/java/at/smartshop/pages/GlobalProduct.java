@@ -111,7 +111,6 @@ public class GlobalProduct extends Factory {
 	}
 
 	public boolean verifyExcelData(List<String> uiList, List<String> excelList) {
-
 		try {
 
 			for (String uiCelldata : uiList) {
