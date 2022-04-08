@@ -892,7 +892,13 @@ public class GlobalProducts extends TestInfra {
           }
 			
 			// Navigate to Product Fields to Change to updating the values and verifying the content
-			
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+			textBox.enterText(GlobalProduct.TXT_FILTER,requireddata.get(0));
+			foundation.click(globalProduct
+					.getGlobalProduct(requireddata.get(0)));
+			List<String> list = foundation.getTextofListElement(ProductSummary.DATAS_PRODUCTSUMMARY);
+			System.out.println(list);
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
