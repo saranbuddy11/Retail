@@ -1019,9 +1019,11 @@ public class Report extends TestInfra {
 			// navigate to location
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
 					reason.get(0));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
@@ -1035,7 +1037,7 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName.get(0));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 //			foundation.adjustBrowerSize(actualData.get(2));
 //			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 //			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
@@ -1058,20 +1060,20 @@ public class Report extends TestInfra {
 			// verify report data
 			itemStockout.verifyReportData();
 
-			// navigate to Details
-			itemStockout.navigateToProductsEvents(columnName.get(1),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			itemStockout.getItemStockoutDetails();
-			foundation.threadWait(Constants.THREE_SECOND);
-			itemStockout.getIntialDetailsData().putAll(itemStockout.getReportsDetailsData());
-			itemStockout.updateDetailsData(stockout.toUpperCase(), requiredData.get(1), reason.get(1));
-
-			// verify report details headers
-			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
-
-			// verify report details data
-			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
+//			// navigate to Details
+//			itemStockout.navigateToProductsEvents(columnName.get(1),
+//					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+//					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+//			itemStockout.getItemStockoutDetails();
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			itemStockout.getIntialDetailsData().putAll(itemStockout.getReportsDetailsData());
+//			itemStockout.updateDetailsData(stockout.toUpperCase(), requiredData.get(1), reason.get(1));
+//
+//			// verify report details headers
+//			itemStockout.verifyReportHeaders(itemStockout.getItemStockoutDetailsHeaders(), columnName.get(2));
+//
+//			// verify report details data
+//			itemStockout.verifyReportDetailsData(stockout.toUpperCase(), reason.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2924,6 +2926,7 @@ public class Report extends TestInfra {
 			
 			//rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
 			salesAnalysisReport.getTblRecordsUI();
 
 			// update the report date baseed on calculation
@@ -2936,11 +2939,14 @@ public class Report extends TestInfra {
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(9), expectedData.get(1));
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(12), expectedData.get(2));
 			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(13), expectedData.get(3));
-			salesAnalysisReport.getGMValueUsingCalculationForAllProducts(salesAnalysisReport.getTableHeaders().get(14), productPrice);	
+			salesAnalysisReport.calculateAmount(salesAnalysisReport.getTableHeaders().get(14), expectedData.get(4));
+			salesAnalysisReport.getGMValueUsingCalculationForAllProducts(salesAnalysisReport.getTableHeaders().get(15), productPrice);	
 
 			// verify report headers
 			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME), salesAnalysisReport.getTableHeaders());
 
+//			salesAnalysisReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			
 			// verify report data
 			salesAnalysisReport.verifyReportData();
             

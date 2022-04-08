@@ -296,6 +296,7 @@ public class LocationSummary extends Factory {
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
+	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -668,8 +669,9 @@ public class LocationSummary extends Factory {
 				Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
-		foundation.objectClick(TXT_INVENTORY_FILTER);
-		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
+		
+		foundation.objectClick(CLEAR_INVENTORY_FILTER);
+		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
 
 	public By objUploadStatus(String uploadMessage) {

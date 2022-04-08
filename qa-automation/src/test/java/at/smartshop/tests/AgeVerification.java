@@ -221,6 +221,8 @@ public class AgeVerification extends TestInfra {
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
 			foundation.click(AgeVerificationDetails.BTN_YES);
 			foundation.refreshPage();
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
 			foundation.threadWait(Constants.ONE_SECOND);
