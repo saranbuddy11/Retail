@@ -9,11 +9,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.ui.Foundation;
 import at.smartshop.tests.TestInfra;
 
 public class ProductSummary extends Factory {
-
+	private Foundation foundation = new Foundation();
 	public static final By BTN_EXTEND = By.cssSelector("a#extend");
+	public static final By SEARCH_FILTER = By.xpath("//input[@aria-controls='locdt']");
 	public static final By TXT_FILTER = By.cssSelector("input[id=productFilterType]");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TXT_SEARCH = By.cssSelector("#locdt_filter > label > input");
@@ -27,8 +29,10 @@ public class ProductSummary extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By TXT_PRODUCT_NAME = By.id("name");
 	public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
+	public static final By TBL_EXPIRED_GRID = By.xpath("//tr[@class='editable odd']");
 	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
 	public static final By DPD_IS_DISABLED = By.id("isdisabled");
+	public static final By TBL_EXPIRED = By.id("locdt");
 	public static final By BTN_MODAL_SAVE = By.cssSelector("a#modalsave");
 	public static final By DPD_CATEGORY1 = By.id("category1");
 	public static final By DPD_CATEGORY2 = By.id("category2");
@@ -41,6 +45,8 @@ public class ProductSummary extends Factory {
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");
 	}
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public List<String> getProductsHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
@@ -69,5 +75,32 @@ public class ProductSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
+	}
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_EXPIRED_GRID);
+			WebElement table = getDriver().findElement(TBL_EXPIRED);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
 	}
 }

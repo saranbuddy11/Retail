@@ -2,6 +2,7 @@ package at.smartshop.tests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -766,8 +767,6 @@ public class GlobalProducts extends TestInfra {
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> requireddata = Arrays.asList(rstGlobalProductChangeData
 					.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
-			List<String> promptmsg = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE)
-					.split(Constants.DELIMITER_TILD));
 
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -782,29 +781,119 @@ public class GlobalProducts extends TestInfra {
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
 
-			// Navigate to Product Fields to Change to updating the values and verifying the content 
+			// Navigate to Product Fields to Change to updating the values and verifying the
+			// content
 			globalProductChange.productFieldChange(requireddata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_PROMPT_MSG));
 			String value = foundation.getText(GlobalProductChange.TXT_PROMPT_CONTENT);
-			CustomisedAssert.assertTrue(value.contains(rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE)));
+			CustomisedAssert
+					.assertTrue(value.contains(rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE)));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_OK));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_CANCEL));
 			foundation.click(GlobalProductChange.BTN_CANCEL);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_OK);
-			
-			//Navigate to Products>>Global products
-			navigationBar.navigateToMenuItem(menus.get(1));
-			textBox.enterText(GlobalProduct.TXT_FILTER, rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
-			foundation.refreshPage();
-			
-			
-			
-			
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(GlobalProductChange.REASON_BTNOK);
 
+			// Navigate to Products>>Global products and verify the min price
+			navigationBar.navigateToMenuItem(menus.get(1));
+			textBox.enterText(GlobalProduct.TXT_FILTER,
+					rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+			foundation.click(globalProduct
+					.getGlobalProductSearch(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
+			foundation.refreshPage();
+			textBox.enterText(ProductSummary.SEARCH_FILTER,
+					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			Map<Integer, Map<String, String>> uiTableData = productSummary.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Min Stock");
+				CustomisedAssert.assertEquals(innerValue, requireddata.get(1));
+			}
+			uiTableData.clear();
+
+			// verify the table record of max price
+			uiTableData = productSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Max Stock");
+				CustomisedAssert.assertEquals(innerValue, requireddata.get(2));
+			}
+			uiTableData.clear();
+
+			// verify the table record of Price
+			uiTableData = productSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Price");
+				CustomisedAssert.assertEquals(innerValue, requireddata.get(0));
+			}
+			uiTableData.clear();
+
+			// verify the table record of Pick list action
+			uiTableData = productSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Pick List Action");
+				CustomisedAssert.assertEquals(innerValue, requireddata.get(3));
+			}
+			uiTableData.clear();
+
+			// verify the table record of Loyalty Multiplier
+			uiTableData = productSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get("Loyalty Multiplier");
+				CustomisedAssert.assertEquals(innerValue, requireddata.get(4));
+			}
+			uiTableData.clear();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "167963-Verify to view the Update Global Product Change Messaging in Operator Product Catalog Change")
+
+	public void verifyChangeMessagingInOperatorProductCatalogChange() {
+		try {
+			final String CASE_NUM = "167963";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+			List<String> menus = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requireddata = Arrays.asList(rstGlobalProductChangeData
+					.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
+
+			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(0));
+
+			// verify the select in Operator Product Catalog Change
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			if (checkBox.isChkEnabled(GlobalProductChange.OPS_LOCATION)) {
+				checkBox.check(GlobalProductChange.OPS_LOCATION);
+				foundation.threadWait(Constants.SHORT_TIME);
+				textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+				foundation.threadWait(Constants.TWO_SECOND);
+				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.click(GlobalProductChange.BTN_NEXT);
+          }
+			
+			// Navigate to Product Fields to Change to updating the values and verifying the content
+			
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
