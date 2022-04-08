@@ -20,7 +20,6 @@ public class GlobalProductChange extends Factory {
 	public static final By LBL_MIN = By.xpath("//*[@id='prd-change-form']/dt[text()='Min']");
 	public static final By LBL_MAX = By.xpath("//*[@id='prd-change-form']/dt[text()='Max']");
 	public static final By LBL_PICK_LIST = By.xpath("//*[@id='prd-change-form']/dt[text()='Pick List Action']");
-	public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
 	public static final By BTN_SUBMIT = By.id("prd-update-submit");
 	public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
 	public static final By BTN_CANCEL = By.cssSelector("button.ajs-button.ajs-cancel");
@@ -42,6 +41,8 @@ public class GlobalProductChange extends Factory {
 	public static final By CHK_PRODUCT_MAX = By.id("prd-max-checked");
 	public static final By CHK_PRODUCT_PICK_LIST = By.id("prd-pick-list-action-checked");
 	public static final By DPD_PICK_LIST = By.id("prd-pick-list-action");
+	public static final By DPD_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier");
+	public static final By CHK_PRODUCT_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier-checked");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");

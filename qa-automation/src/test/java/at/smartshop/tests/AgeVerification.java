@@ -120,6 +120,8 @@ public class AgeVerification extends TestInfra {
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
 			foundation.click(AgeVerificationDetails.BTN_YES);
 			foundation.refreshPage();
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ageVerificationDetails.objExpirePinConfirmation(
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0))));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -128,6 +130,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_STATUS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails
 					.objExpiredPinlist(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME))));
 			CustomisedAssert
@@ -226,6 +229,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_STATUS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(2), Constants.TEXT);
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails
 					.objExpiredPinlist(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME))));
 			CustomisedAssert

@@ -774,6 +774,8 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PICK_LIST));
 			dropDown.selectItem(GlobalProductChange.DPD_PICK_LIST, pickList.get(0), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_PICK_LIST));
+			dropDown.selectItem(GlobalProductChange.DPD_LOYALTY_MULTIPLIER, price.get(0), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_LOYALTY_MULTIPLIER));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 
@@ -815,6 +817,8 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertEquals(value, price.get(3));
 			value = foundation.getText(globalProduct.selectProductPickList(location.get(0)));
 			CustomisedAssert.assertEquals(value, pickList.get(0));
+			value = foundation.getText(globalProduct.selectProductLoyaltyMultiplier(location.get(0)));
+			CustomisedAssert.assertEquals(value, price.get(0));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {

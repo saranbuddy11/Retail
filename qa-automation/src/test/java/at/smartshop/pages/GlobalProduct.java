@@ -81,6 +81,11 @@ public class GlobalProduct extends Factory {
 				+ "']/parent::td/following-sibling::td[@class='edit planningcolumn column-picklist']");
 	}
 
+	public By selectProductLoyaltyMultiplier(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit pointscolumn column-points']");
+	}
+
 	public By getExistingScancode(String scancode) {
 		return By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode' and text()='"
 				+ scancode + "']");
