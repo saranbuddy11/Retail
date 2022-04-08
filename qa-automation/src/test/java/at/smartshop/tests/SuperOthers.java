@@ -29,6 +29,7 @@ import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
 import at.smartshop.pages.CorporateAccountList;
@@ -37,16 +38,20 @@ import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
 import at.smartshop.pages.FinanceList;
 import at.smartshop.pages.LocationSummary;
+import at.smartshop.pages.Lookup;
 import at.smartshop.pages.LookupType;
+import at.smartshop.pages.Middid;
 import at.smartshop.pages.NationalAccounts;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
+import at.smartshop.pages.PageSet;
 import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
+import at.smartshop.pages.AppReferral;
 
 public class SuperOthers extends TestInfra {
 
@@ -71,6 +76,13 @@ public class SuperOthers extends TestInfra {
 	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
+	private Campus campus = new Campus();
+	private PageSet pageset = new PageSet();
+	private AppReferral appReferral = new AppReferral();
+	private Lookup lookup = new Lookup();
+	private Middid middid = new Middid();
+	
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -1602,7 +1614,9 @@ public class SuperOthers extends TestInfra {
 
 	}
 
-	@Test(description = "168124-QAA-301 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields.")
+	@Test(description = "168124-QAA-301 Validate the error message when click on save button without entering any detail in Name and Type Fields and validate the successfully entered fields."
+			+ "168141 - QAA-301 Verify the Alert message for disabling the Active checkbox on DIC Rule Page"
+			+ "168142 - QAA-301 Validate the validation of Field Type on DIC Rule Create Page")
 	public void DICRulesValidateAllFields() {
 		final String CASE_NUM = "168124";
 		// Reading test data from DataBase
@@ -1720,7 +1734,9 @@ public class SuperOthers extends TestInfra {
 				active_disabled_message);
 	}
 
-	@Test(description = "168450-QAA-284 Validate the error message for Mandatory fields when click on save button without entering any detail in Keystr and description Fields and validate the successfully entered fields.")
+	@Test(description = "168450-QAA-284 Validate the error message for Mandatory fields when click on save button without entering any detail in Keystr and description Fields and validate the successfully entered fields."
+			+ "QAA-284 Validate the error message for already created Lookup Type on Lookup Create page"
+			+ "168451 - QAA-284 Validate the error message for validation of Single and Double quotes on Lookup Type Create Page")
 	public void LookupTypeValidateMandatoryFields() {
 		final String CASE_NUM = "168450";
 		// Reading test data from DataBase
@@ -1817,7 +1833,7 @@ public class SuperOthers extends TestInfra {
 			foundation.waitforElement(LookupType.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(LookupType.TXT_LOOKUP_HEADING), lookupList_Page);
 
-			// Update the DIC Rule
+			// Update the Lookup
 			lookupType.updateLookup(existing_lookup, validating_record, lookup_Show_Page, updated_lookup);
 
 		} catch (Throwable exc) {
@@ -1827,7 +1843,10 @@ public class SuperOthers extends TestInfra {
 		lookupType.updateLookup(updated_lookup, validating_record, lookup_Show_Page, existing_lookup);
 	}
 
-	@Test(description = "168578-QAA-288 ADM > Super > National Accounts Screen > Validate error message for Mandatory Fields")
+	@Test(description = "168578-QAA-288 ADM > Super > National Accounts Screen > Validate error message for Mandatory Fields"
+			+ "168579 - QAA-288 ADM > Super > National Accounts Screen > Create National Account and add Org and Location National Account Summary Page"
+			+ "168581 - QAA-288 ADM > Super > National Accounts Screen > Check National Account button as disabled when selected invalid Org"
+			+ "168583 - QAA-288 ADM > Super > National Accounts Screen >Delete the national account from National Account list Page")
 	public void NationalAccountValidateMandatoryFields() {
 		final String CASE_NUM = "168578";
 		// Reading test data from DataBase
@@ -1888,7 +1907,7 @@ public class SuperOthers extends TestInfra {
 			foundation.click(NationalAccounts.BTN_CANCEL);
 
 			// Creating new national Account and click on cancel button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
@@ -1896,9 +1915,9 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 0);
 
 			// Creating new national Account and click on save button
-			nationalAccounts.createNewNationalAccount(accountName,client_Name);
+			nationalAccounts.createNewNationalAccount(accountName, client_Name);
 			foundation.click(NationalAccounts.BTN_SAVE);
-			
+
 			// Selecting Orginization and Location
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1920,22 +1939,24 @@ public class SuperOthers extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+		// Resetting the data
 		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 		foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 		textBox.enterText(NationalAccounts.TXT_FILTER, accountName);
 		foundation.click(NationalAccounts.ICO_DELETE);
 		foundation.click(NationalAccounts.BTN_POP_UP_YES);
-	}	
+	}
 
-	@Test(description = "168582-QAA-288 ADM > Super > National Accounts Screen >Update the national account details")
+	@Test(description = "168582-QAA-288 ADM > Super > National Accounts Screen >Update the national account details"
+			+ "168580 - QAA-288 ADM > Super > National Accounts Screen > Validate the error message for existing National Account on Account Summary Page")
+
 	public void NationalAccountUpdateFields() {
 		final String CASE_NUM = "168582";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 
-	 String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
-		
+		String nationalAccount = rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME);
 
 		try {
 
@@ -1949,8 +1970,8 @@ public class SuperOthers extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			//Search for existing National Account			
-			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));		
+			// Search for existing National Account
+			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount);
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
@@ -1970,14 +1991,546 @@ public class SuperOthers extends TestInfra {
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting the data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(NationalAccounts.TXT_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount + Constants.ACCOUNT_NAME);
+			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
+			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME),
+					nationalAccount + Constants.ACCOUNT_NAME);
+			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
+			foundation.click(NationalAccounts.BTN_SAVE);
 		}
-		//Resetting the data
-		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-		foundation.waitforElement(NationalAccounts.TXT_FILTER, Constants.SHORT_TIME);
-		textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount + Constants.ACCOUNT_NAME);
-		CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
-		table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount + Constants.ACCOUNT_NAME);
-		textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount);
-		foundation.click(NationalAccounts.BTN_SAVE);
 	}
+
+	@Test(description = "169165-QAA-287 ADM > Super > Campus > Validate error message for Mandatory Fields when Payroll Deduct is On or Off"
+			+ "169175 - QAA-287 ADM > Super > Campus > Validation of all Fields for invalid characters and data"
+			+ "169167 - QAA-287 ADM > Super > Campus > Create a new Campus with all details including Location and Orgs")
+	public void CampusValidateAllFields() {
+		final String CASE_NUM = "169165";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		String campusName = strings.getRandomCharacter();
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String campusList_Page = validateHeading.get(0);
+		String campusSave_Page = validateHeading.get(1);
+
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String mandatory_Error = errorMessage.get(0);
+		String groupName_Error = errorMessage.get(1);
+		String invalidData_Error = errorMessage.get(2);
+
+		List<String> invalidData = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertEquals(foundation.getText(Campus.LBL_CAMPUSLIST_HEADING), campusList_Page);
+			foundation.click(Campus.BTN_CREATE_NEW);
+
+			// validation for mandatory fields
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.LBL_CAMPUSSAVE_HEADING), campusSave_Page);
+			dropDown.selectItem(Campus.DRP_PAYROLL, invalidData.get(0), Constants.TEXT);
+			foundation.click(Campus.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(Campus.TXT_PAYROLL_EMAIL_ERROR), mandatory_Error);
+			CustomisedAssert.assertEquals(foundation.getText(Campus.TXT_NAME_ERROR), mandatory_Error);
+			CustomisedAssert.assertEquals(foundation.getText(Campus.TXT_GROUPNAME_ERROR), groupName_Error);
+
+			// validation for Invalid data
+			campus.enterInvalidData(invalidData.get(1), invalidData_Error);
+			foundation.click(Campus.BTN_CANCEL);
+
+			// Create New Campus
+			foundation.click(Campus.BTN_CREATE_NEW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.LBL_CAMPUSSAVE_HEADING), campusSave_Page);
+			textBox.enterText(Campus.TXTBX_NAME, campusName);
+			foundation.click(Campus.BTN_SAVE);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "169168-QAA-287 ADM > Super > Campus > Update a campus from campus list page and save the changes")
+	public void CampusUpdateFields() {
+		final String CASE_NUM = "169168";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String campusList_Page = validateHeading.get(0);
+		String campusShow_Page = validateHeading.get(1);
+
+		String limitError = rstSuperListData.get(CNSuperList.ERROR_MESSAGE);
+		List<String> updatedData = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+
+		List<String> data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertEquals(foundation.getText(Campus.LBL_CAMPUSLIST_HEADING), campusList_Page);
+
+			// Update the details
+			textBox.enterText(Campus.SEARCH_BOX, updatedData.get(0));
+			foundation.click(Campus.SELECT_GRID);
+			CustomisedAssert.assertEquals(foundation.getText(Campus.LBL_CAMPUSSHOW_HEADING), campusShow_Page);
+			dropDown.selectItem(Campus.DRP_PAYCYCLE, data.get(0), Constants.TEXT);
+			textBox.enterText(Campus.TXT_GROUP_NAME, data.get(1));
+			textBox.enterText(Campus.TXT_SPEND_LIMIT, data.get(2));
+			foundation.click(Campus.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(Campus.LBL_LIMIT_ERROR), limitError);
+			textBox.enterText(Campus.TXT_SPEND_LIMIT, data.get(3));
+			foundation.click(Campus.BTN_ADD);
+			textBox.enterText(Campus.TXTBX_NAME, updatedData.get(1));
+			foundation.click(Campus.BTN_SAVE);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Reset the details
+			textBox.enterText(Campus.SEARCH_BOX, updatedData.get(1));
+			foundation.click(Campus.SELECT_GRID);
+			textBox.enterText(Campus.TXTBX_NAME, updatedData.get(0));
+			foundation.click(Campus.BTN_SAVE);
+		}
+	}
+
+	@Test(description = "175783-QAA-295 ADM > Super > PageSet > QAA-295 ADM > Super > Pageset > Validate error message for Mandatory Fields on Pageset Create Page"
+			+ "175786 - QAA-295 ADM > Super > Pageset > Validation of all Fields for invalid characters and data"
+			+ "175784 - QAA-295 ADM > Super > Pageset > Create a new Page Set with selecting Page Def and intents and save the changes"
+			+ "176159 - QAA-295 ADM > Super > Pageset > Create a new Page Set with selecting Page Def and intents and cancel the changes"
+			+ "176161 - QAA-295 ADM > Super > Pageset > Validate error message for Existing Pageset Name")
+
+	public void PageSetValidateAllFields() {
+		final String CASE_NUM = "175783";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String pageSetList_Page = validateHeading.get(0);
+		String pageSetCreate_Page = validateHeading.get(1);
+
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		String name_Error = errorMessage.get(0);
+		String existing_Name_Error = errorMessage.get(1);
+
+		List<String> data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+		String existing_PageSet = data.get(0);
+		String pageSet_Name = data.get(0) + string.getRandomCharacter();
+		String service_Name = data.get(1);
+		String pageSet_Def = data.get(2);
+		String pageSet_Intent = data.get(3);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertEquals(foundation.getText(PageSet.LBL_PAGESET_LIST), pageSetList_Page);
+			foundation.click(PageSet.BTN_CREATE_NEW);
+
+			// validation for mandatory fields
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PageSet.LBL_PAGESET_CREATE), pageSetCreate_Page);
+			foundation.click(PageSet.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(PageSet.LBL_PAGESET_ERROR), name_Error);
+
+			// Validation for existing pageset
+			textBox.enterText(PageSet.TXTBX_PAGESET, data.get(0));
+			foundation.click(PageSet.BTN_SAVE);
+
+			String existingPageset = foundation.getText(PageSet.LBL_PAGESET_ERROR);
+			CustomisedAssert.assertTrue(existingPageset.contains(existing_Name_Error));
+
+			// filling the details and click on Cancel button
+			pageset.createPageSet(pageSet_Name, service_Name, pageSet_Def, pageSet_Intent, existing_PageSet);
+			foundation.click(PageSet.BTN_CANCEL);
+
+			// filling the details and click on Save button
+			foundation.click(PageSet.BTN_CREATE_NEW);
+			pageset.createPageSet(pageSet_Name, service_Name, pageSet_Def, pageSet_Intent, existing_PageSet);
+			foundation.click(PageSet.BTN_SAVE);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "175785 -QAA-295 ADM > Super > Pageset > Update a PageSet from PageSet list page and save the changes"
+			+ "176160 - QAA-295 ADM > Super > Pageset > Update a PageSet from PageSet list page and cancel the changes")
+	public void PagesetUpdateFields() {
+		final String CASE_NUM = "175785";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String pageSetList_Page = validateHeading.get(0);
+		String pageSet_Summary_Page = validateHeading.get(1);
+
+		List<String> updatedData = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertEquals(foundation.getText(PageSet.LBL_PAGESET_LIST), pageSetList_Page);
+
+			// Update the details
+			textBox.enterText(PageSet.TXTBX_SEARCHBOX, updatedData.get(0));
+			foundation.click(PageSet.SELECT_GRID);
+			CustomisedAssert.assertEquals(foundation.getText(PageSet.LBL_PAGESET_SUMMARY), pageSet_Summary_Page);
+			textBox.enterText(PageSet.TXTBX_PAGESET, updatedData.get(1));
+			foundation.click(PageSet.BTN_SAVE);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Reset the details
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(PageSet.TXTBX_SEARCHBOX, updatedData.get(1));
+			foundation.click(PageSet.SELECT_GRID);
+			textBox.enterText(PageSet.TXTBX_PAGESET, updatedData.get(0));
+			foundation.click(PageSet.BTN_SAVE);
+		}
+	}
+
+	@Test(description = "176221 - QAA-289 ADM > Super > App Referral > Validate error message for Mandatory Fields on App Referral Create Page"
+			+ "176222 - QAA-289 ADM > Super > App Referral > Validate error message for Referral Amount"
+			+ "176223 - QAA-289 ADM > Super > App Referral > Create a new App Referral with all Fields and cancel the changes"
+			+ "176226 - QAA-289 ADM > Super > App Referral > Create a new App Referral with all Fields and Save the changes"
+			+ "176227 - QAA-289 ADM > Super > App Referral >Validate all fields as Disabled when select previously created App Referral and cancel the change")
+
+	public void AppReferralValidation() {
+		final String CASE_NUM = "176221";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+
+		List<String> errorMessage = Arrays
+				.asList(rstSuperListData.get(CNSuperList.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+
+		List<String> textbox_data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD).split(Constants.DELIMITER_TILD));
+		String newReferral = rstSuperListData.get(CNSuperList.UPDATED_DATA);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_APP_REFERRAL), validateHeading.get(0));
+			foundation.click(AppReferral.BTN_CREATE_NEW);
+
+			// validation for mandatory fields
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AppReferral.LBL_CREATE_APP_REFERRAL),
+					validateHeading.get(1));
+			foundation.click(AppReferral.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_LOCATION_ERROR), errorMessage.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_REFERRAL_AMOUNT_ERROR),
+					errorMessage.get(1));
+
+			// Validation error Message for Referral Amount
+			textBox.enterText(AppReferral.TXTBX_REFERRAL_AMOUNT, textbox_data.get(1));
+			foundation.click(AppReferral.BTN_SAVE);
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_REFERRAL_AMOUNT_ERROR),
+					errorMessage.get(2));
+
+			// filling the details and click on Cancel button
+			appReferral.createAppReferral(textbox_data);
+			foundation.click(AppReferral.BTN_CANCEL);
+
+			// filling the details and click on Save button
+			foundation.click(AppReferral.BTN_CREATE_NEW);
+			appReferral.createAppReferral(textbox_data);
+			foundation.click(AppReferral.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(AppReferral.BTN_ACCEPT_POPUP);
+
+			// Validating disable data on App Referral Page
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(AppReferral.TXTBX_SEARCH, textbox_data.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(AppReferral.SELECT_GRID);
+			CustomisedAssert.assertTrue(foundation.isDisabled(AppReferral.DRP_ORG));
+			CustomisedAssert.assertTrue(foundation.isDisabled(AppReferral.DRP_LOCATION));
+			CustomisedAssert.assertTrue(foundation.isDisabled(AppReferral.TXTBX_REFERRAL_AMOUNT));
+			CustomisedAssert.assertTrue(foundation.isDisabled(AppReferral.DRP_DISABLE));
+			foundation.click(AppReferral.BTN_CANCEL);
+
+			// validating existing org and location error
+			textBox.enterText(AppReferral.TXTBX_SEARCH, textbox_data.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(AppReferral.SELECT_GRID);
+			foundation.click(AppReferral.BTN_COPY_REFERRAL);
+			dropDown.selectItem(AppReferral.DRP_LOCATION, textbox_data.get(0), Constants.TEXT);
+			foundation.click(AppReferral.BTN_SAVE);
+			foundation.waitforElement(AppReferral.LBL_REFERRAL_ERROR, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_REFERRAL_ERROR), errorMessage.get(3));
+			CustomisedAssert.assertEquals(foundation.getText(AppReferral.LBL_EXISTING_LOC), errorMessage.get(4));
+			foundation.click(AppReferral.BTN_ERROR_CANCEL);
+
+			// copy Referral button and create a new Referral
+			dropDown.selectItem(AppReferral.DRP_LOCATION, newReferral, Constants.TEXT);
+			foundation.click(AppReferral.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(AppReferral.BTN_ACCEPT_POPUP);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting the data
+			textBox.enterText(AppReferral.TXTBX_SEARCH, textbox_data.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(AppReferral.SELECT_GRID);
+			foundation.click(AppReferral.BTN_END_REFERRAL);
+			foundation.click(AppReferral.BTN_EXPIRE_REFERRAL);
+			foundation.threadWait(Constants.TWO_SECOND);
+			textBox.enterText(AppReferral.TXTBX_SEARCH, newReferral);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(AppReferral.SELECT_GRID);
+			foundation.click(AppReferral.BTN_END_REFERRAL);
+			foundation.click(AppReferral.BTN_EXPIRE_REFERRAL);
+		}
+
+	}
+
+	@Test(description = "176228 - QAA-289 ADM > Super > App Referral >Create new App Referral by Copy Referral button on App Referral Page")
+
+	public void CopyButtonAppReferral() {
+		final String CASE_NUM = "176228";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		String org = rstSuperListData.get(CNSuperList.DISBURSEMENT_PAGE_RECORD);
+
+		String newReferral_Org = rstSuperListData.get(CNSuperList.UPDATED_DATA);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// copy Referral button and create a new Referral
+			textBox.enterText(AppReferral.TXTBX_SEARCH, org);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(AppReferral.SELECT_GRID);
+			foundation.click(AppReferral.BTN_COPY_REFERRAL);
+			dropDown.selectItem(AppReferral.DRP_LOCATION, newReferral_Org, Constants.TEXT);
+			foundation.click(AppReferral.BTN_SAVE);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(AppReferral.BTN_ACCEPT_POPUP);
+
+		} catch (Throwable exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		// Resetting the data
+		textBox.enterText(AppReferral.TXTBX_SEARCH, newReferral_Org);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(AppReferral.SELECT_GRID);
+		foundation.click(AppReferral.BTN_END_REFERRAL);
+		foundation.click(AppReferral.BTN_EXPIRE_REFERRAL);
+	}
+
+	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
+
+	public void CorporateListValidation() {
+
+		final String CASE_NUM = "164102";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> validations = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String corporateList = validations.get(0);
+		String corporateSummary = validations.get(1);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_LIST, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_LIST),
+					corporateList);
+
+			foundation.click(CorporateAccountList.NAME_FIRST_RECORD);
+			foundation.waitforElement(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CorporateAccountList.VALIDATE_CORPORATE_SUMMARY),
+					corporateSummary);
+			foundation.click(CorporateAccountList.CANCEL_BTN);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "164726-QAA-296-ADM>Super>Middid, Middid Page and columns Validation and Middid data sorting based on the slected option as Assigned an Not Assigned")
+	public void MiddidPageValidation() {
+		final String CASE_NUM = "164726";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> MiddidDropDownList = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+		String Assigned = MiddidDropDownList.get(0);
+		String notAssigned = MiddidDropDownList.get(1);
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// verify navigation to Middid page
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Middid.TITL_MIDDID));
+
+			List<String> columnNames = Arrays
+					.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_HASH));
+
+			// verify columns of Middid table
+			middid.getTableHeaders();
+			middid.verifyMiddidHeaders(columnNames);
+
+			// verify Middid table date sorting based selection as Assigned
+			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, Assigned, Constants.TEXT);
+			CustomisedAssert.assertTrue(middid.isdateAssigned());
+
+			// verify Middid table date sorting based selection as Not Assigned
+			dropDown.selectItem(Middid.MIDDID_DATA_SORTING_DD, notAssigned, Constants.TEXT);
+			CustomisedAssert.assertFalse(middid.isdateAssigned());
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "164590-QAA-283-ADM>Super>LookUp - Validation for Create new Lookup and cancel the changes and then save, Update the existing Lookup")
+	public void LookupCreateNewValidateCancelandSave() {
+		final String CASE_NUM = "164590";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> validateHeading = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+		String lookupList_Page = validateHeading.get(0);
+		String lookup_Create_Page = validateHeading.get(1);
+		String validating_record = validateHeading.get(2);
+		String lookup_Show_Page = validateHeading.get(3);
+
+		List<String> create_Page_Data = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		String lookup_Type = create_Page_Data.get(0);
+		String keystr_Field = (create_Page_Data.get(1) + string.getRandomCharacter()).toUpperCase();
+		String desc_Field = create_Page_Data.get(2);
+		String update_keystr_Field = create_Page_Data.get(3) + string.getRandomCharacter();
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(Lookup.TXT_LOOKUP_HEADING, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(Lookup.TXT_LOOKUP_HEADING), lookupList_Page);
+
+			// click on create New Btn & Cancel Btn
+			foundation.click(Lookup.BTN_CREATE_NEW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Lookup.TXT_CREATE_HEADING), lookup_Create_Page);
+			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+			foundation.click(Lookup.BTN_CANCEL);
+
+			// click on create New Btn & Save Btn
+			foundation.click(Lookup.BTN_CREATE_NEW);
+			lookup.createLookup(lookup_Type, keystr_Field, desc_Field);
+			foundation.click(Lookup.BTN_SAVE);
+			foundation.waitforElementToDisappear(Lookup.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Update the Existing Lookup
+			lookup.updateLookup(keystr_Field, validating_record, lookup_Show_Page, update_keystr_Field);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }
