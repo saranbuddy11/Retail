@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -945,27 +946,50 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "167963-Verify to view the Update Global Product Change Messaging in Operator Product Catalog Change")
+	@Test(description = "C167960-Verify to view the GPC 'History Option")
 
 	public void verifyGPCHistoryOption() {
 		try {
-			final String CASE_NUM = "167963";
+			final String CASE_NUM = "167960";
 
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 
-			List<String> menus = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requireddata = Arrays.asList(rstGlobalProductChangeData
-					.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
+			List<String> coordinates = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> header = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE)
+					.split(Constants.DELIMITER_TILD));
 
-			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			// Select Menu Item & verify the select in Global Product Change
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menus.get(0));
-		
-		}catch (Exception exc) {
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+//			Point coordinate = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
+//			int x = coordinate.getX();
+//			int y = coordinate.getY();
+//			System.out.println(x + " " + y);
+//			CustomisedAssert.assertEquals(x, coordinates.get(0));
+//			CustomisedAssert.assertEquals(y, coordinates.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
+
+			// History button and verify the field
+			foundation.click(GlobalProductChange.HISTORY_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_GPC));
+			String text = foundation.getText(GlobalProductChange.HEADER_DATA);
+			List<String> expectedValues = new ArrayList<String>();
+			expectedValues.add(header.get(0));
+			expectedValues.add(header.get(1));
+			expectedValues.add(header.get(2));
+			expectedValues.add(header.get(3));
+			expectedValues.add(header.get(4));
+			expectedValues.add(header.get(5));
+			expectedValues.add(header.get(6));
+			CustomisedAssert.assertTrue(text.equals(expectedValues));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-}}
+	}
+}
