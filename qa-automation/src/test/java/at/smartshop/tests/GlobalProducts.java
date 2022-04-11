@@ -1062,12 +1062,14 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertEquals(value, pickList.get(0));
 			value = dropDown.getSelectedItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
 			CustomisedAssert.assertEquals(value, price.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
 			// Resetting Product data
+			foundation.scrollIntoViewElement(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
 			textBox.enterText(GlobalProduct.INPUT_MIN_STOCK, price.get(2));
 			textBox.enterText(GlobalProduct.INPUT_MAX_STOCK, price.get(2));
 			dropDown.selectItem(GlobalProduct.DPD_PICK_LIST, pickList.get(1), Constants.TEXT);
