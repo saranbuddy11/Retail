@@ -33,7 +33,7 @@ public class ProductSummary extends Factory {
 	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
 	public static final By DPD_IS_DISABLED = By.id("isdisabled");
 	public static final By TBL_EXPIRED = By.id("locdt");
-	public static final By DATAS_PRODUCTSUMMARY = By.id("//div[@class=\"span12 info-detailwrapper\"]");
+	public static final By PRICE_FIELD=By.id("price");
 	public static final By BTN_MODAL_SAVE = By.cssSelector("a#modalsave");
 	public static final By DPD_CATEGORY1 = By.id("category1");
 	public static final By DPD_CATEGORY2 = By.id("category2");
@@ -42,6 +42,14 @@ public class ProductSummary extends Factory {
 	public static final By DPD_REASON_CODE = By.xpath("//td[contains(@class,'column-reasonCode')]//select");
 	public static final By TXT_PRICE = By.xpath("//input[@id='price']");
     public static final By LOATION_NAME=By.xpath("/html/body/div[3]/div[4]/div/div[2]/table/tbody/tr/td[1]");
+    public static final By DPD_PICKLIST=By.id("picklist");
+    public static final By DPD_DISPLAY=By.id("displayNeed");
+    public static final By DPD_ROUNDING=By.id("rounding");
+    public static final By MIN_STOCK=By.id("minstock");
+    public static final By PRODUCT_NAME=By.id("name");
+    public static final By MAX_STOCK=By.id("maxstock");
+    public static final By CASE_COUNT=By.id("eoq");
+    
 	   
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");
