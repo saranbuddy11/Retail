@@ -53,6 +53,9 @@ public class GlobalProduct extends Factory {
 	public static final By SELECT_LOCATION = By.id("location");
 	public static final By BTN_EXTEND = By.id("extend");
 	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
+	public static final By DPD_PICK_LIST = By.id("picklist");
+	public static final By INPUT_MIN_STOCK = By.id("minstock");
+	public static final By INPUT_MAX_STOCK = By.id("maxstock");
 	public static final By BTN_SAVE = By.id("saveBtn");
 
 	public By getGlobalProduct(String product) {

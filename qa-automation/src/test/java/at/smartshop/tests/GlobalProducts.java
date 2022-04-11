@@ -962,7 +962,10 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "167954 - Verify to view the Update Loyalty Multiplier field value for a product in Operator Product Catalog Change")
+	@Test(description = "167954 - Verify to view the Update Loyalty Multiplier field value for a product in Operator Product Catalog Change"
+			+ "167955 - Verify to view the Update Pick list Action field value for a product in Operator Product Catalog Change"
+			+ "167956 - Verify to view the Update Min field value for a product in Operator Product Catalog Change"
+			+ "167957 - Verify to view the Update Max field value for a product in Operator Product Catalog Change")
 
 	public void verifyOperatorProductCatalogChange() {
 		final String CASE_NUM = "167954";
@@ -971,8 +974,6 @@ public class GlobalProducts extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
 
-		List<String> location = Arrays.asList(
-				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> menus = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> price = Arrays.asList(
@@ -1006,25 +1007,22 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(globalProductChange.objTableDataOperatorProduct(product.get(0)));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
+			CustomisedAssert.assertTrue(foundation.getBGColor(GlobalProductChange.LBL_UPDATE)
+					.equals(rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_OPERATOR_MIN));
+			textBox.enterText(GlobalProductChange.TXT_MIN, price.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_MIN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_OPERATOR_MAX));
+			textBox.enterText(GlobalProductChange.TXT_MAX, price.get(3));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_MAX));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_OPERATOR_PICK_LIST));
+			dropDown.selectItem(GlobalProductChange.DPD_PICK_LIST, pickList.get(0), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_PICK_LIST));
 			dropDown.selectItem(GlobalProductChange.DPD_LOYALTY_MULTIPLIER, price.get(0), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_LOYALTY_MULTIPLIER));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			/*
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * LBL_MIN)); textBox.enterText(GlobalProductChange.TXT_MIN, price.get(0));
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * CHK_PRODUCT_MIN));
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * LBL_MAX)); textBox.enterText(GlobalProductChange.TXT_MAX, price.get(3));
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * CHK_PRODUCT_MAX));
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * LBL_PICK_LIST)); dropDown.selectItem(GlobalProductChange.DPD_PICK_LIST,
-			 * pickList.get(0), Constants.TEXT);
-			 * CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.
-			 * CHK_PRODUCT_PICK_LIST));
-			 */
+
 			// Verify the Popup's
 			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_OK));
@@ -1056,25 +1054,23 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(2)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.scrollIntoViewElement(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
-			String value = dropDown.getSelectedItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
+			String value = foundation.getTextAttribute(GlobalProduct.INPUT_MIN_STOCK, "value");
+			CustomisedAssert.assertEquals(value, price.get(0));
+			value = foundation.getTextAttribute(GlobalProduct.INPUT_MAX_STOCK, "value");
+			CustomisedAssert.assertEquals(value, price.get(3));
+			value = dropDown.getSelectedItem(GlobalProduct.DPD_PICK_LIST);
+			CustomisedAssert.assertEquals(value, pickList.get(0));
+			value = dropDown.getSelectedItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
 			CustomisedAssert.assertEquals(value, price.get(0));
 
-			/*
-			 * foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND); String value =
-			 * foundation.getText(globalProduct.selectProductPrice(location.get(0)));
-			 * CustomisedAssert.assertEquals(value, price.get(0) + ".00"); value =
-			 * foundation.getText(globalProduct.selectProductMin(location.get(0)));
-			 * CustomisedAssert.assertEquals(value, price.get(0)); value =
-			 * foundation.getText(globalProduct.selectProductMax(location.get(0)));
-			 * CustomisedAssert.assertEquals(value, price.get(3)); value =
-			 * foundation.getText(globalProduct.selectProductPickList(location.get(0)));
-			 * CustomisedAssert.assertEquals(value, pickList.get(0));
-			 */
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
 			// Resetting Product data
+			textBox.enterText(GlobalProduct.INPUT_MIN_STOCK, price.get(2));
+			textBox.enterText(GlobalProduct.INPUT_MAX_STOCK, price.get(2));
+			dropDown.selectItem(GlobalProduct.DPD_PICK_LIST, pickList.get(1), Constants.TEXT);
 			dropDown.selectItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER, price.get(2), Constants.TEXT);
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
 			foundation.click(GlobalProduct.BTN_SAVE);
