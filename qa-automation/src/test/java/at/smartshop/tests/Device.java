@@ -199,8 +199,10 @@ public class Device extends TestInfra {
 			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
 			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
 
 		} catch (Exception exc) {
@@ -283,6 +285,7 @@ public class Device extends TestInfra {
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			foundation.click(DeviceList.BTN_SUBMIT);
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
 
@@ -373,6 +376,7 @@ public class Device extends TestInfra {
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+			foundation.click(DeviceList.BTN_SUBMIT);
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
@@ -590,6 +594,7 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(DeviceList.BTN_SEARCH);
 			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
 
@@ -635,6 +640,7 @@ public class Device extends TestInfra {
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
+			foundation.click(DeviceList.BTN_SUBMIT);
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
 			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
@@ -986,6 +992,7 @@ public class Device extends TestInfra {
 
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
+			foundation.click(DeviceList.BTN_SUBMIT);
 			List<String> deviceName = foundation.getTextofListElement(DeviceList.TBL_ROW);
 			CustomisedAssert.assertTrue(deviceName.contains(Constants.EMPTY_STRING));
 		} catch (Exception exc) {
