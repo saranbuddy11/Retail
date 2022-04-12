@@ -1076,7 +1076,7 @@ public class GlobalProducts extends TestInfra {
 			dropDown.selectItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER, price.get(2), Constants.TEXT);
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
 			foundation.click(GlobalProduct.BTN_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 			login.logout();
 			browser.close();
