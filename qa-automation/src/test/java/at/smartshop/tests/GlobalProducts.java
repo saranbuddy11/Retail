@@ -757,18 +757,19 @@ public class GlobalProducts extends TestInfra {
 	@Test(description = "167964-Verify to view the Update Global Product Change Messaging in Global Product Change for Location(S)e ")
 
 	public void verifyChangeMessagingInGlobalProductChangeforLocation() {
+
+		final String CASE_NUM = "167964";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requireddata = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
+
 		try {
-			final String CASE_NUM = "167964";
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-
-			List<String> menus = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requireddata = Arrays.asList(rstGlobalProductChangeData
-					.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
-
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -864,18 +865,21 @@ public class GlobalProducts extends TestInfra {
 	@Test(description = "167963-Verify to view the Update Global Product Change Messaging in Operator Product Catalog Change")
 
 	public void verifyChangeMessagingInOperatorProductCatalogChange() {
+
+		final String CASE_NUM = "167963";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requireddata = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
+		List<String> resetdata = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
+
 		try {
-			final String CASE_NUM = "167963";
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-
-			List<String> menus = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requireddata = Arrays.asList(rstGlobalProductChangeData
-					.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
-
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -915,7 +919,8 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 			textBox.enterText(GlobalProduct.TXT_FILTER, requireddata.get(0));
 			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
+			foundation.click(
+					globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
 			String action = dropDown.getSelectedItem(ProductSummary.DPD_PICKLIST);
 			CustomisedAssert.assertEquals(action, requireddata.get(5));
 			String display = dropDown.getSelectedItem(ProductSummary.DPD_DISPLAY);
@@ -945,25 +950,48 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			navigationBar.navigateToMenuItem(menus.get(0));
+
+			// verify the select in Operator Product Catalog Change
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			if (checkBox.isChkEnabled(GlobalProductChange.OPS_LOCATION)) {
+				checkBox.check(GlobalProductChange.OPS_LOCATION);
+				foundation.threadWait(Constants.SHORT_TIME);
+				textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,
+						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+				foundation.threadWait(Constants.TWO_SECOND);
+				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.click(GlobalProductChange.BTN_NEXT);
+			}
+
+			globalProductChange.productFieldChangeInopc(resetdata);
+			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(GlobalProductChange.BTN_OK);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(GlobalProductChange.REASON_BTNOK);
 		}
 	}
 
 	@Test(description = "C167960-Verify to view the GPC 'History Option")
 
 	public void verifyGPCHistoryOption() {
+
+		final String CASE_NUM = "167960";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> requireddata = Arrays
+				.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.TITLE).split(Constants.DELIMITER_TILD));
+		List<String> griddata = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE).split(Constants.DELIMITER_TILD));
+		List<String> resetdata = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "167960";
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-
-			List<String> requireddata = Arrays.asList(
-					rstGlobalProductChangeData.get(CNGlobalProductChange.TITLE).split(Constants.DELIMITER_TILD));
-
-			List<String> griddata = Arrays.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE)
-					.split(Constants.DELIMITER_TILD));
-
 			// Select Menu Item & verify the select in Global Product Change
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1034,6 +1062,23 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			checkBox.isChecked(GlobalProductChange.GPC_lOCATION);
+			foundation.click(globalProductChange
+					.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
+			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+			foundation.threadWait(Constants.TWO_SECOND);
+			table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+			foundation.click(GlobalProductChange.BTN_NEXT);
+			globalProductChange.productFieldChange(resetdata);
+			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(GlobalProductChange.BTN_OK);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(GlobalProductChange.REASON_BTNOK);
+
 		}
 	}
 }
