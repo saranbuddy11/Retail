@@ -50,6 +50,7 @@ public class DeviceByCategoryReport extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> priceData = new LinkedList<>();
 	private List<String> category1Data = new LinkedList<>();
@@ -58,6 +59,7 @@ public class DeviceByCategoryReport extends Factory {
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
+	int recordCount = 0;
 
 	public void getTblRecordsUI(String deviceId) {
 		try {
@@ -80,6 +82,20 @@ public class DeviceByCategoryReport extends Factory {
 				}
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void getRequiredRecord(String category) {
+		try {
+			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
+				if (intialData.get(rowCount).get(tableHeaders.get(4)).equals(category)) {
+					recordCount = rowCount;
+					System.out.println(rowCount);
+					break;
+				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -117,7 +133,7 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateData(String columnName, String value) {
 		try {
-			intialData.get(0).put(columnName, value);
+			intialData.get(recordCount).put(columnName, value);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -125,11 +141,11 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateTotal(String itemPrice, String columnUnitsSold, String columnTotal) {
 		try {
-			int initialTotal = Integer.parseInt(reportsData.get(0).get(columnUnitsSold));
+			int initialTotal = Integer.parseInt(reportsData.get(recordCount).get(columnUnitsSold));
 			double price = Double.parseDouble(requiredJsonData.get(0));
 			double updatedTotal = initialTotal * price;
 			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
-			intialData.get(0).put(columnTotal, String.valueOf(updatedTotal));
+			intialData.get(recordCount).put(columnTotal, String.valueOf(updatedTotal));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -137,9 +153,9 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateCount(String columnName, String count) {
 		try {
-			int initialCount = Integer.parseInt(intialData.get(0).get(columnName));
+			int initialCount = Integer.parseInt(intialData.get(recordCount).get(columnName));
 			int updatedCount = initialCount + Integer.parseInt(count);
-			intialData.get(0).put(columnName, String.valueOf(updatedCount));
+			intialData.get(recordCount).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
