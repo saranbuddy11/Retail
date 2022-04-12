@@ -1070,6 +1070,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Resetting Product data
 			foundation.scrollIntoViewElement(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
+			textBox.enterText(GlobalProduct.INPUT_PRICE, price.get(1));
 			textBox.enterText(GlobalProduct.INPUT_MIN_STOCK, price.get(2));
 			textBox.enterText(GlobalProduct.INPUT_MAX_STOCK, price.get(2));
 			dropDown.selectItem(GlobalProduct.DPD_PICK_LIST, pickList.get(1), Constants.TEXT);
