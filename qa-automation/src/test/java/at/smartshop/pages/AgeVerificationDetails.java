@@ -93,6 +93,7 @@ public class AgeVerificationDetails extends Factory {
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
 		foundation.click(objExpirePinConfirmation(location, prompt.get(0)));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_MSG));
+		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_CONTENT));
 		String value = foundation.getText(TXT_PROMPT_CONTENT);
 		String[] actuals = value.split("\\s{2,6}");

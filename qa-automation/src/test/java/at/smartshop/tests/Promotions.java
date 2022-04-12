@@ -1546,7 +1546,8 @@ public class Promotions extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			login.logout();
+			foundation.click(login.LBL_USER_NAME);
+			foundation.click(login.MUN_LOGOUT);
 
 			editPromotion.switchAlert(rstLocationData.get(CNLocation.ACTUAL_DATA));
 			// Resetting test data
