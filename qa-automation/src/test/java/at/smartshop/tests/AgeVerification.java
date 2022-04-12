@@ -1956,6 +1956,8 @@ public class AgeVerification extends TestInfra {
 					requiredData);
 
 			// Verify First Name & Last Name
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.threadWait(Constants.THREE_SECOND);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			String firstName = "";
@@ -1965,7 +1967,6 @@ public class AgeVerification extends TestInfra {
 				firstName = innerMap.get("First Name");
 				lastName = innerMap.get("Last Name");
 			}
-			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
 			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
 			uiTableData.clear();
@@ -2033,6 +2034,8 @@ public class AgeVerification extends TestInfra {
 					requiredData);
 
 			// Verify First Name & Last Name
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.threadWait(Constants.THREE_SECOND);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			String firstName = "";
@@ -2042,7 +2045,6 @@ public class AgeVerification extends TestInfra {
 				firstName = innerMap.get("First Name");
 				lastName = innerMap.get("Last Name");
 			}
-			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
 			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
 			uiTableData.clear();
@@ -2320,10 +2322,11 @@ public class AgeVerification extends TestInfra {
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT,
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+			foundation.threadWait(Constants.THREE_SECOND);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			String innerValue = "";
-			for (int i = 0; i < uiTableData.size(); i++) {
+			for (int i = 0; i <= 0; i++) {
 				innerMap = uiTableData.get(i);
 				innerValue = innerMap.get("Daily Uses");
 				CustomisedAssert.assertEquals(innerValue, dailyuses.get(0));
@@ -2581,6 +2584,13 @@ public class AgeVerification extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
+			// Delete the datas
+			foundation.click(AgeVerificationDetails.EXPIRE_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_PROMPT_MSG));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Resetting Age Verification Checkbox
 			foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
@@ -2593,15 +2603,7 @@ public class AgeVerification extends TestInfra {
 				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
-			// Delete the datas
-			navigationBar.navigateToMenuItem(menus.get(1));
-			foundation.click(AgeVerificationDetails.EXPIRE_BTN);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_PROMPT_MSG));
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(AgeVerificationDetails.BTN_YES);
-			foundation.threadWait(Constants.SHORT_TIME);
+			login.logout();
 			browser.close();
 		}
 	}
