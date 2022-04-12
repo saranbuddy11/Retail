@@ -1,7 +1,12 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
@@ -9,6 +14,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.tests.TestInfra;
 
 public class GlobalProductChange extends Factory {
 	private TextBox textBox = new TextBox();
@@ -56,30 +62,31 @@ public class GlobalProductChange extends Factory {
 	public static final By DISPLAY_CHECKBOX = By.id("prd-display-need-by");
 	public static final By ROUNDING_CHECKBOX = By.id("prd-display-need-by");
 	public static final By TXT_PROMPT_MSG = By.xpath("//div[text()='Confirm Global Product Change for Location(s)']");
-	public static final By PROMT_OPERATOR_PRODUCT=By.xpath("//div[text()='Confirm Operator Product Catalog Change']");
+	public static final By PROMT_OPERATOR_PRODUCT = By.xpath("//div[text()='Confirm Operator Product Catalog Change']");
 	public static final By TXT_PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
 	public static final By BTN_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By PRODUCT_FIELD = By.id("prd-name");
-	public static final By PRODUCT_CHECKOUT=By.id("prd-name-checked");
-	public static final By COST_FIELD=By.id("prd-cost");
-	public static final By COST_CHECKOUT=By.id("prd-cost-checked");
-	public static final By CATEGORY_ONE=By.id("prd-cate-1");
-    public static final By CATEGORYONE_CHECKBOX=By.id("prd-cate-1-checked");
-    public static final By CATEGORY_TWO=By.id("prd-cate-2");
-    public static final By CATEGORYTWO_CHECKBOX=By.id("prd-cate-2-checked");
-    public static final By CATEGORY_THREE=By.id("prd-cate-3");
-    public static final By CATEGORYTHREE_CHECKBOX=By.id("prd-cate-3-checked");
-    public static final By TAX_CATEGORY=By.id("prd-tax-cate");
-    public static final By TAX_CATEGORY_CHECKBOX=By.id("prd-tax-cate-checked");
-    public static final By DEPOSIT_CATEGORY=By.id("prd-deposit-cate");
-    public static final By CASE_COUNT=By.id("prd-case");
-    public static final By CASE_COUNT_CHECKBOX=By.id("prd-case-checked");
-    public static final By HISTORY_BTN=By.id("btngpchistory");
-    public static final By HISTORY_GPC=By.xpath("//h4[text()='Global Product Change History']");
-    public static final By HEADER_DATA=By.xpath("//tr[@role='row']");
-    
-    
-    
+	public static final By PRODUCT_CHECKOUT = By.id("prd-name-checked");
+	public static final By COST_FIELD = By.id("prd-cost");
+	public static final By COST_CHECKOUT = By.id("prd-cost-checked");
+	public static final By CATEGORY_ONE = By.id("prd-cate-1");
+	public static final By CATEGORYONE_CHECKBOX = By.id("prd-cate-1-checked");
+	public static final By CATEGORY_TWO = By.id("prd-cate-2");
+	public static final By CATEGORYTWO_CHECKBOX = By.id("prd-cate-2-checked");
+	public static final By CATEGORY_THREE = By.id("prd-cate-3");
+	public static final By CATEGORYTHREE_CHECKBOX = By.id("prd-cate-3-checked");
+	public static final By TAX_CATEGORY = By.id("prd-tax-cate");
+	public static final By TAX_CATEGORY_CHECKBOX = By.id("prd-tax-cate-checked");
+	public static final By DEPOSIT_CATEGORY = By.id("prd-deposit-cate");
+	public static final By CASE_COUNT = By.id("prd-case");
+	public static final By CASE_COUNT_CHECKBOX = By.id("prd-case-checked");
+	public static final By TABLE_GRID_HISTORY=By.xpath("//tr[@data-id='c22dcbecf28de907e38587bc84fe5e14']");
+	public static final By HISTORY_BTN = By
+			.xpath("//div[@style='display:inline-block;float: right;']//button[text()='History']");
+	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
+	public static final By HEADER_DATA = By.xpath("//tr[@role='row']");
+	public static final By GRID_HEADER=By.id("gpchistory");
+
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
 	}
@@ -91,6 +98,8 @@ public class GlobalProductChange extends Factory {
 	public By objProductName(String productName) {
 		return By.xpath("//span[text()='" + productName + "']");
 	}
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public void productFieldChange(List<String> data) {
 		textBox.enterText(TXT_PRICE, data.get(0));
@@ -139,8 +148,34 @@ public class GlobalProductChange extends Factory {
 		dropDown.selectItem(DEPOSIT_CATEGORY, data.get(13), Constants.TEXT);
 		textBox.enterText(CASE_COUNT, data.get(14));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(CASE_COUNT_CHECKBOX));
-		
-		
+
 	}
 
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TABLE_GRID_HISTORY);
+			WebElement table = getDriver().findElement(GRID_HEADER);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
+	}
 }
