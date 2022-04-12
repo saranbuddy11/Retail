@@ -237,7 +237,6 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert
 					.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(requiredData.get(4))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ageVerificationDetails.objExpiredPinlist(currentDate)));
-			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_AGE_VERIFICATION);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1964,6 +1963,7 @@ public class AgeVerification extends TestInfra {
 				firstName = innerMap.get("First Name");
 				lastName = innerMap.get("Last Name");
 			}
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
 			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
 			uiTableData.clear();
@@ -2040,6 +2040,7 @@ public class AgeVerification extends TestInfra {
 				firstName = innerMap.get("First Name");
 				lastName = innerMap.get("Last Name");
 			}
+			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			CustomisedAssert.assertEquals(firstName, requiredData.get(4));
 			CustomisedAssert.assertEquals(lastName, requiredData.get(5));
 			uiTableData.clear();
