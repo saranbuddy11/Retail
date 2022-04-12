@@ -2008,7 +2008,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2267,7 +2267,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2577,7 +2577,7 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			foundation.waitforElementToDisappear(ConsumerSummary.SPINNER, Constants.SHORT_TIME);
 			boolean isConsumerMoved = consumerSummary.moveConsumer(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(isConsumerMoved);
 
