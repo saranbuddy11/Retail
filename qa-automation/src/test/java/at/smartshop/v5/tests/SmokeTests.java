@@ -372,7 +372,7 @@ public class SmokeTests extends TestInfra {
 
 			// Basic Information Page
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, locationNames.get(0));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, locationNames.get(3));
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
@@ -686,7 +686,6 @@ public class SmokeTests extends TestInfra {
 		String promotionName = strings.getRandomCharacter();
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> language = Arrays.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
 		try {
 			browser.navigateURL(
@@ -742,6 +741,7 @@ public class SmokeTests extends TestInfra {
 			// Verify Item correctly updated in Promotion Screen
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
@@ -758,9 +758,6 @@ public class SmokeTests extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
-			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
-			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(LocationList.TXT_FILTER,
@@ -773,23 +770,29 @@ public class SmokeTests extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
 			
-			//launching browser and selecting org
+			//launching test4 with super user for full sync
 			locationSummary.launchingBrowserAndSelectingOrg();
-
-			locationSummary.kiosklanguageSetting(locationName, language.get(0), language.get(1));
-
-			foundation.threadWait(Constants.SHORT_TIME);
-			// login into Kiosk Device
+			
+			//launching v5 Device
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
+			 
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(2));
+			textBox.enterKeypadText(actualData.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
+			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
+			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
