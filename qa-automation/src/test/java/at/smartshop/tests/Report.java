@@ -660,6 +660,9 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI(deviceId);
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 
+			System.out.println(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			deviceByCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			
 			deviceByCategory.processAPI(deviceId);
 
 			// apply calculation and update data
