@@ -254,7 +254,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
-			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
@@ -669,7 +669,6 @@ public class LocationSummary extends Factory {
 				Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
-		
 		foundation.objectClick(CLEAR_INVENTORY_FILTER);
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}

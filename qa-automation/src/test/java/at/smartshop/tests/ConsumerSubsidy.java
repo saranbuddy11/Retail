@@ -1301,9 +1301,8 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, values.get(1), Constants.TEXT);
 			consumerSearch.BulkAssignSubsidyGroup(values.get(0), rstconsumerSearchData.get(CNConsumerSearch.SEARCH),
 					expectedData);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP));
-
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.BULK_ASSIGN_GRAYED));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

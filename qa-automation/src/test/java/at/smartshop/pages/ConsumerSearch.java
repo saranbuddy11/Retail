@@ -63,13 +63,13 @@ public class ConsumerSearch extends Factory {
 	public static final By BTN_ACTION = By.xpath("//ul[@style='left: -100px; right: auto;']//li");
 	public static final By ACTION_BTN = By.xpath("//a[@class='btn dropdown-toggle btn-danger']");
 	public static final By BULK_ASSIGN_SUBSIDY_GROUP = By.id("subsidyGroupSelectedBtn");
+	public static final By BULK_ASSIGN_GRAYED = By.xpath("//li[@style='pointer-events: none; opacity: 0.5;']");
 	public static final By SUBSIDY_GROUP = By.id("subsidyGroupData");
 	public static final By RSN_CANCEL = By.id("reasoncancel");
 	public static final By CLEAR_SEARCH = By.xpath("//span[@class='select2-selection__clear']");
 	public static final By LBL_BULK_ASSIGN_POPUP = By.id("reasontitle");
 	public static final By BTN_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_EXPORT = By.id("exportBtn");
-
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -81,17 +81,19 @@ public class ConsumerSearch extends Factory {
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}}
-		public void enterSearchField(String searchBy, String search, String locationName, String status) {
-			try {
-				dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
-				textBox.enterText(TXT_SEARCH, search);
-				dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-				dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
-				foundation.click(BTN_GO);
-			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
+		}
+	}
+
+	public void enterSearchField(String searchBy, String search, String locationName, String status) {
+		try {
+			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
+			textBox.enterText(TXT_SEARCH, search);
+			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
+			foundation.click(BTN_GO);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 
 	}
 
@@ -220,20 +222,19 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
 	}
 
-	
-	public void createConsumerInConsumerSearch(String location,String firstname,String lastname,String emailID,String scanID,String pin) {
-		
+	public void createConsumerInConsumerSearch(String location, String firstname, String lastname, String emailID,
+			String scanID, String pin) {
+
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
-		textBox.enterText(TXT_FIRST_NAME, firstname );
+		textBox.enterText(TXT_FIRST_NAME, firstname);
 		textBox.enterText(TXT_LAST_NAME, lastname);
 		textBox.enterText(TXT_EMAIL, emailID);
-		textBox.enterText(TXT_SCAN_ID,scanID);
+		textBox.enterText(TXT_SCAN_ID, scanID);
 		textBox.enterText(TXT_PIN, pin);
 		foundation.click(BTN_CREATE_OR_INVITE);
 		foundation.WaitForAjax(Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
-
-}
+	}
 
 }
