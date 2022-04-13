@@ -411,6 +411,10 @@ public class LocationSummary extends Factory {
 		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
 	}
 
+	public By objectProduct(String product) {
+		return By.xpath("//td[text()='" + product + "']");
+	}
+
 	public void manageColumn(String columnNames) {
 		try {
 			foundation.click(BTN_MANAGE_COLUMNS);
@@ -563,7 +567,6 @@ public class LocationSummary extends Factory {
 	}
 
 	public void enterPrice(String scancode, String price) {
-
 		By priceLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']");
 		By priceInput = By
 				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']//input");
@@ -571,6 +574,34 @@ public class LocationSummary extends Factory {
 		textBox.enterText(priceInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(priceInput, price);
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(priceLink));
+	}
+
+	public void enterMinStock(String scancode, String min) {
+		By minLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']");
+		By minInput = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']//input");
+		foundation.click(minLink);
+		textBox.enterText(minInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(minInput, min);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Min Stock is" + foundation.getText(minLink));
+	}
+
+	public void enterMaxStock(String scancode, String max) {
+		By maxLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
+		By maxInput = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']//input");
+		foundation.click(maxLink);
+		textBox.enterText(maxInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(maxInput, max);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Max Stock is" + foundation.getText(maxLink));
+	}
+
+	public void selectPickList(String scancode, String option) {
+		By pickLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_planning']");
+		foundation.click(pickLink);
+		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
 	public void addProduct(String scancode) {
