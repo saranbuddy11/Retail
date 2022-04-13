@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -25,6 +27,7 @@ import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
+import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -32,11 +35,13 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
+import at.smartshop.pages.Copy;
 import at.smartshop.pages.CorporateAccountList;
 import at.smartshop.pages.DICRules;
 import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceCreate;
 import at.smartshop.pages.FinanceList;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Lookup;
 import at.smartshop.pages.LookupType;
@@ -52,6 +57,7 @@ import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
 import at.smartshop.pages.AppReferral;
+import at.smartshop.pages.Report;
 
 public class SuperOthers extends TestInfra {
 
@@ -81,8 +87,10 @@ public class SuperOthers extends TestInfra {
 	private AppReferral appReferral = new AppReferral();
 	private Lookup lookup = new Lookup();
 	private Middid middid = new Middid();
-	
-	
+	private Copy copy = new Copy();
+	private Report report = new Report();
+	private LocationList locationList = new LocationList();
+	private LocationSummary locationSummary = new LocationSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -2532,5 +2540,292 @@ public class SuperOthers extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	@Test(description = "176458- QAA-291 ADM > Super > Copy> Verify user can copy Product from location to location, can save, cancel, checkall, uncheckall location")
 
+	public void CopyProduct() {
+
+		final String CASE_NUM = "176458";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		String validateHeading = rstSuperListData.get(CNSuperList.SUPER_NAME);
+		String tab = rstSuperListData.get(CNSuperList.UPDATED_DATA);
+
+		List<String> locations = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			foundation.waitforElement(Copy.LBL_COPY_PRODUCT, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Copy.LBL_COPY_PRODUCT),validateHeading);
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_UNCHECKALL);
+			foundation.click(Copy.BTN_CANCEL);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			String product = foundation.getText(Copy.SELECT_PRODUCT);
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_SAVE);
+			foundation.waitforElementToDisappear(Copy.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER,locations.get(1));
+			locationList.selectLocationName(locations.get(1));
+			locationSummary.selectTab(tab);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
+			foundation.threadWait(Constants.TWO_SECOND);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "176459- QAA-291 ADM > Super > Copy > Verify User can copy category from location to location, can save and cancel")
+
+	public void CopyCategory() {
+
+		final String CASE_NUM = "176459";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		String validateHeading = rstSuperListData.get(CNSuperList.SUPER_NAME);
+
+		List<String> locations = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(Copy.LBL_COPY_CATEGORY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Copy.LBL_COPY_CATEGORY),validateHeading);
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_CANCEL);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_SAVE);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "176460- QAA-291 ADM > Super > Copy> Verify User will be able to copy Home Commercial from location to location, can save and cancel, checkall, uncheckall locations below in the grid")
+
+	public void CopyHomeCommercial() {
+
+		final String CASE_NUM = "176460";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+		
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
+		String validateHeading = rstSuperListData.get(CNSuperList.SUPER_NAME);
+		String tab = rstSuperListData.get(CNSuperList.UPDATED_DATA);
+
+		List<String> locations = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			foundation.waitforElement(Copy.LBL_COPY_HOME_COMMERCIAL, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Copy.LBL_COPY_HOME_COMMERCIAL),validateHeading);
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_UNCHECKALL);
+			foundation.click(Copy.BTN_CANCEL);
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);		
+			String[] product =foundation.getText(Copy.SELECT_PRODUCTS).split(Constants.DELIMITER_SPACE);		
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_SAVE);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			textBox.enterText(LocationList.TXT_FILTER,locations.get(1));
+			locationList.selectLocationName(locations.get(1));
+			locationSummary.selectTab(tab);
+			textBox.enterText(LocationSummary.FILTER_HOME_CMMRCIAL, product[0]);
+			Assert.assertTrue(foundation.getText(LocationSummary.HOME_CMMRCIAL_NAME).equals(product[0]));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	@Test(description = "176461- QAA-291 ADM > Super > Copy> Verify User can copy cart Commercial from location to location, can check and uncheck the locations below in the grid")
+
+	public void CopyCartCommercial() {
+
+		final String CASE_NUM = "176461";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> locations = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			foundation.waitforElement(Copy.LBL_COPY_CART_COMMERCIAL, Constants.SHORT_TIME);
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_UNCHECKALL);
+			foundation.click(Copy.BTN_CANCEL);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			dropDown.selectItem(Copy.DRP_FROM, locations.get(0), Constants.TEXT);
+			dropDown.selectItem(Copy.DRP_TO, locations.get(1), Constants.TEXT);
+			foundation.click(Copy.BTN_CHECKALL);
+			foundation.click(Copy.BTN_SAVE);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "176467- QAA-293 ADM > Super > Report> Verify user can create new Report that can be saved or cancelled.")
+
+	public void CreateNewReport() {
+
+		final String CASE_NUM = "176467";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> headings = Arrays
+				.asList(rstSuperListData.get(CNSuperList.SUPER_NAME).split(Constants.DELIMITER_TILD));
+		
+		List<String> record = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+		final String action = String.valueOf(numbers.generateRandomNumber(0, 9999));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			//Validating the fields and click on cancel button
+			foundation.click(Report.BTN_CREATE_NEW);
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_CREATE_REPORT), headings.get(1));
+			textBox.enterText(Report.TXT_NAME, record.get(0) + string.getRandomCharacter());
+			textBox.enterText(Report.TXT_ACTION, action);		
+			textBox.enterText(Report.TXT_FILTER, record.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_ORG), record.get(1));
+			foundation.click(Report.CHCKBX_ORG);
+			foundation.click(Report.BTN_CANCEL);
+
+            //Validating the fields and click on Save button
+			foundation.click(Report.BTN_CREATE_NEW);
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_CREATE_REPORT), headings.get(1));
+			textBox.enterText(Report.TXT_NAME, record.get(0) + string.getRandomCharacter());
+			textBox.enterText(Report.TXT_ACTION, action);		
+			textBox.enterText(Report.TXT_FILTER, record.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_ORG), record.get(1));
+			foundation.click(Report.CHCKBX_ORG);
+			foundation.click(Report.BTN_SAVE);
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "176468- QAA-293 ADM > Super > Report> Verify user can edit/update information that can be saved or cancelled.")
+
+	public void UpdatePreviousReport() {
+
+		final String CASE_NUM = "176468";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		String validateHeading = rstSuperListData.get(CNSuperList.SUPER_NAME);
+		
+		List<String> record = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			//Search for old Report, Updating and cancel button
+			textBox.enterText(Report.TXT_FILTER_REPORT, record.get(0));
+			foundation.click(Report.SELECT_GRID);	
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_REPORT_SUMMARY), validateHeading);
+			textBox.enterText(Report.TXT_NAME, record.get(1));
+			foundation.click(Report.BTN_CANCEL);
+
+            //Search for old Report, Updating and Save button
+			textBox.enterText(Report.TXT_FILTER_REPORT, record.get(0));
+			foundation.click(Report.SELECT_GRID);	
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_REPORT_SUMMARY), validateHeading);
+			textBox.enterText(Report.TXT_NAME, record.get(1));
+			foundation.click(Report.BTN_SAVE);
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
+			//Resetting the data
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(Report.TXT_FILTER_REPORT, record.get(1));
+			foundation.click(Report.SELECT_GRID);	
+			CustomisedAssert.assertEquals(foundation.getText(Report.LBL_REPORT_SUMMARY), validateHeading);
+			textBox.enterText(Report.TXT_NAME, record.get(0));
+			foundation.click(Report.BTN_SAVE);
+		}
+	}
 }
