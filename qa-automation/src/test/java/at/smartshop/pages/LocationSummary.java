@@ -297,6 +297,8 @@ public class LocationSummary extends Factory {
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
 	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
+	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
+	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
