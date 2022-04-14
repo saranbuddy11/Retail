@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -927,6 +926,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -1071,7 +1071,7 @@ public class GlobalProducts extends TestInfra {
 		} finally {
 
 			// Resetting Product data
-			foundation.scrollIntoViewElement(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
+			foundation.scrollUp(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
 			textBox.enterText(GlobalProduct.INPUT_PRICE, price.get(1));
 			textBox.enterText(GlobalProduct.INPUT_MIN_STOCK, price.get(2));
 			textBox.enterText(GlobalProduct.INPUT_MAX_STOCK, price.get(2));
