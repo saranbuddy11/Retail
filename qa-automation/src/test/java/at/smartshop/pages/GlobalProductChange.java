@@ -84,7 +84,7 @@ public class GlobalProductChange extends Factory {
 	public static final By DEPOSIT_CATEGORY = By.id("prd-deposit-cate");
 	public static final By CASE_COUNT = By.id("prd-case");
 	public static final By CASE_COUNT_CHECKBOX = By.id("prd-case-checked");
-	public static final By TABLE_GRID_HISTORY = By.xpath("//tr[@data-id='c22dcbecf28de907e38587bc84fe5e14']");
+	public static final By TABLE_GRID_HISTORY = By.xpath("//tbody[@role='rowgroup']//tr[@tabindex='0']");
 	public static final By HISTORY_BTN = By
 			.xpath("//div[@style='display:inline-block;float: right;']//button[text()='History']");
 	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
