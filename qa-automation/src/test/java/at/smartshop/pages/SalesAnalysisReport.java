@@ -310,6 +310,19 @@ public class SalesAnalysisReport extends Factory {
 		columnName.remove(0);
 		return columnName;
 	}
+	
+	public void verifyReportHeaders(String columnNames) {
+		try {
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			foundation.threadWait(Constants.ONE_SECOND);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 
 	public void verifyReportHeadersForLocation(List<String> columnName, List<String> tableHeaders) {
 		try {

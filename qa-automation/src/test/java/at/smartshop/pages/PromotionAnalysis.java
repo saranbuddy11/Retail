@@ -145,6 +145,7 @@ public class PromotionAnalysis extends Factory {
 	public void getFirstRecordsOfGroupbyLocations() {
 		try {
 			int recordCount = 0;
+			tableHeadersForGroupbyLocation.clear();
 			WebElement tableReportsListOfGroupbyLocations = getDriver()
 					.findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_LOCATIONS);
 			WebElement tableReportsOfGroupbyLocations = getDriver()

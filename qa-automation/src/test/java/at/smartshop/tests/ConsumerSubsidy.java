@@ -178,6 +178,8 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(10));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_GMA_SUBSIDY);
+			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(11));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1299,9 +1301,8 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, values.get(1), Constants.TEXT);
 			consumerSearch.BulkAssignSubsidyGroup(values.get(0), rstconsumerSearchData.get(CNConsumerSearch.SEARCH),
 					expectedData);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP));
-
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.BULK_ASSIGN_GRAYED));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

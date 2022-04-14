@@ -254,7 +254,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
-			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
@@ -296,6 +296,9 @@ public class LocationSummary extends Factory {
 	public static final By CONTACTNAME_INPUT = By.xpath("//input[@id='contact']");
 	public static final By CONTACTEMAIL_INPUT = By.xpath("//input[@id='contactemail']");
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
+	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
+	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
+	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -408,6 +411,10 @@ public class LocationSummary extends Factory {
 
 	public By objectRollOverCalendarDay(String day) {
 		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[contains(text(),'" + day + "')]");
+	}
+
+	public By objectProduct(String product) {
+		return By.xpath("//td[text()='" + product + "']");
 	}
 
 	public void manageColumn(String columnNames) {
@@ -562,7 +569,6 @@ public class LocationSummary extends Factory {
 	}
 
 	public void enterPrice(String scancode, String price) {
-
 		By priceLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']");
 		By priceInput = By
 				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']//input");
@@ -570,6 +576,34 @@ public class LocationSummary extends Factory {
 		textBox.enterText(priceInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(priceInput, price);
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(priceLink));
+	}
+
+	public void enterMinStock(String scancode, String min) {
+		By minLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']");
+		By minInput = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']//input");
+		foundation.click(minLink);
+		textBox.enterText(minInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(minInput, min);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Min Stock is" + foundation.getText(minLink));
+	}
+
+	public void enterMaxStock(String scancode, String max) {
+		By maxLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
+		By maxInput = By
+				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']//input");
+		foundation.click(maxLink);
+		textBox.enterText(maxInput, Keys.CONTROL + "a" + Keys.BACK_SPACE);
+		textBox.enterText(maxInput, max);
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Max Stock is" + foundation.getText(maxLink));
+	}
+
+	public void selectPickList(String scancode, String option) {
+		By pickLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_planning']");
+		foundation.click(pickLink);
+		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
 	public void addProduct(String scancode) {
@@ -637,8 +671,8 @@ public class LocationSummary extends Factory {
 				Constants.TWO_SECOND);
 		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
 
-		foundation.objectClick(TXT_INVENTORY_FILTER);
-		foundation.waitforElement(TXT_INVENTORY_FILTER, Constants.ONE_SECOND);
+		foundation.objectClick(CLEAR_INVENTORY_FILTER);
+		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
 
 	public By objUploadStatus(String uploadMessage) {

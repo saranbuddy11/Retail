@@ -51,12 +51,48 @@ public class GlobalProduct extends Factory {
 	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.id("location");
+	public static final By BTN_EXTEND = By.id("extend");
+	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
+	public static final By DPD_PICK_LIST = By.id("picklist");
+	public static final By INPUT_MIN_STOCK = By.id("minstock");
+	public static final By INPUT_MAX_STOCK = By.id("maxstock");
+	public static final By INPUT_PRICE = By.id("price");
+	public static final By BTN_SAVE = By.id("saveBtn");
 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
 	public By getGlobalProductSearch(String product) {
 		return By.xpath("//tr[@data-id='40b9fbbc57f66e1b734a59c6f4c1a48a']//td[text()='" + product + "']");
+	}
+
+	public By selectGlobalProduct(String product, String category) {
+		return By.xpath("//td[text()='" + product + "']/following-sibling::td[text()='" + category + "']");
+	}
+
+	public By selectProductPrice(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit priceandstock column-price']");
+	}
+
+	public By selectProductMin(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit minstock column-minstock']");
+	}
+
+	public By selectProductMax(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit maxstock column-maxstock']");
+	}
+
+	public By selectProductPickList(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit planningcolumn column-picklist']");
+	}
+
+	public By selectProductLoyaltyMultiplier(String location) {
+		return By.xpath("//span[text()='" + location
+				+ "']/parent::td/following-sibling::td[@class='edit pointscolumn column-points']");
 	}
 
 	public By getExistingScancode(String scancode) {
@@ -84,7 +120,6 @@ public class GlobalProduct extends Factory {
 	}
 
 	public boolean verifyExcelData(List<String> uiList, List<String> excelList) {
-
 		try {
 
 			for (String uiCelldata : uiList) {

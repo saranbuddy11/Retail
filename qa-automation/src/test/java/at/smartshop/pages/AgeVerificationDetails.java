@@ -61,11 +61,11 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_NEXT = By.xpath("//a[contains(text(),'Next')]");
 	public static final By TXT_PREVIOUS = By.xpath("//a[contains(text(),'Previous')]");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='ajs-message ajs-success ajs-visible']");
-	public static final By DAILY_USES =By.id("Daily Uses");
-	public static final By ERROR_MSG_DAILY_USES=By.id("dailyuses-error");
+	public static final By DAILY_USES = By.id("Daily Uses");
+	public static final By ERROR_MSG_DAILY_USES = By.id("dailyuses-error");
 	public static final By TXT_EMAIL_ERROR = By.id("email-error");
 	public static final By TXT_CHECKOUT_ERROR = By.id("checkout-error");
-
+	public static final By INPUT_TEXT = By.xpath("//input[@aria-controls='dt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -73,10 +73,10 @@ public class AgeVerificationDetails extends Factory {
 	public By automationNewLocation(String text) {
 		return By.xpath("//select[@id='location']//option[text()='" + text + "']");
 	}
+
 	public By language(String text) {
 		return By.xpath("//select[@id='language']//option[text()='" + text + "']");
 	}
-	
 
 	public By objExpirePinConfirmation(String location, String text) {
 		return By.xpath("//td[text()='" + location + "']//..//td/button[text()='" + text + "']");
@@ -93,6 +93,7 @@ public class AgeVerificationDetails extends Factory {
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
 		foundation.click(objExpirePinConfirmation(location, prompt.get(0)));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_MSG));
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_CONTENT));
 		String value = foundation.getText(TXT_PROMPT_CONTENT);
 		String[] actuals = value.split("\\s{2,6}");
