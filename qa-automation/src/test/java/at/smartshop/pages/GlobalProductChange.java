@@ -42,7 +42,7 @@ public class GlobalProductChange extends Factory {
 
 	public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
 	public static final By BTN_SUBMIT = By.id("prd-update-submit");
-	public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
+	public static final By BTN_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
 	public static final By RDO_OPERATOR_PRODUCT_CHANGE = By.xpath("//label[text()='Operator Product Catalog Change']");
 	public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");

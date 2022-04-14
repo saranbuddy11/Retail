@@ -796,6 +796,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -1001,7 +1002,7 @@ public class GlobalProducts extends TestInfra {
 			dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY, product.get(1), Constants.TEXT);
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_PRODUCT_APPLY);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
 
 			// Select Product and update Loyalty Multiplier, PickList, Min value, Max value
@@ -1287,7 +1288,7 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 			textBox.enterText(GlobalProduct.TXT_FILTER, requireddata.get(0));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(
 					globalProduct.getGlobalProduct(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME)));
 			String action = dropDown.getSelectedItem(ProductSummary.DPD_PICKLIST);
