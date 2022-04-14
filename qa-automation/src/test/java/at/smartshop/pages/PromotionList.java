@@ -15,9 +15,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class PromotionList extends Factory {
@@ -55,7 +53,7 @@ public class PromotionList extends Factory {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 	}
 
-	public void searchPromotion(String promoName,String statusType) {
+	public void searchPromotion(String promoName, String statusType) {
 		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
@@ -76,13 +74,13 @@ public class PromotionList extends Factory {
 		}
 	}
 
-	public void expirePromotion(String menuItem, String promotionName, String statusType,String gridName) {
+	public void expirePromotion(String menuItem, String promotionName, String statusType, String gridName) {
 		try {
 			foundation.threadWait(Constants.TWO_SECOND);
 			// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
 			// FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			searchPromotion(promotionName,statusType);
+			searchPromotion(promotionName, statusType);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
@@ -90,5 +88,5 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 }

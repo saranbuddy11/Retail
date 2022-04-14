@@ -518,6 +518,19 @@ public class Foundation extends Factory {
 		return hexColor;
 	}
 
+	public String getTextColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Text color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return hexColor;
+	}
+
 	public Point getCoordinates(By object) {
 		Point point = null;
 		try {

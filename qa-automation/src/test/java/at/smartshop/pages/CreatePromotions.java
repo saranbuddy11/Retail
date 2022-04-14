@@ -20,7 +20,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
-public class CreatePromotions extends Factory  {
+public class CreatePromotions extends Factory {
 
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
@@ -31,8 +31,9 @@ public class CreatePromotions extends Factory  {
 	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
 	public static final By LBL_SELECT_CRITERIA = By.xpath("//div[@id='multiple-filters']//i");
 	public static final By LBL_DETAILS = By.xpath("//div[@id='section3']//h4");
+	public static final By LBL_BUNDLE_DETAILS = By.xpath("//div[@class='bundleDetails']//h4");
 	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
-	public static final By BTN_CANCEL = By.id("cancelBtn");	
+	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
@@ -79,17 +80,18 @@ public class CreatePromotions extends Factory  {
 	public static final By BTN_ORG_RIGHT = By.id("singleSelectLtoR");
 	public static final By DPD_LOC = By.id("location-select");
 	public static final By BTN_LOC_RIGHT = By.id("singleSelectLtoR-Loc");
-	public static final By TXT_QUANTITY=By.id("bundleItem0");
-	public static final By TXT_BUNDLE_PRICE =By.id("bundleprice");
-	public static final By LBL_TOTAL_PRICE =By.id("totalprice");
+	public static final By TXT_QUANTITY = By.id("bundleItem0");
+	public static final By TXT_BUNDLE_PRICE = By.id("bundleprice");
+	public static final By LBL_TOTAL_PRICE = By.id("totalprice");
 	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
 	public static final By TXT_ITEM1 = By.xpath("//*[@id='itemSelect']//li/input");
-	public static final By CHK_NO_END_DATE =By.id("hasnoenddate");
-	public static final By RB_BUNDLE_AMOUNT=By.id("bundleAmountCheckbox");
-	public static final By CHK_BUNDLE_OVERFLOW =By.id("hasoverflow");
-	public static final By DPD_DEVICE =By.id("device-select");
-	public static final By RB_BUNDLE_PRICE=By.id("bundlePriceCheckbox");
-	public static final By DPD_LOCATION_REMOVE=By.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	public static final By CHK_NO_END_DATE = By.id("hasnoenddate");
+	public static final By RB_BUNDLE_AMOUNT = By.id("bundleAmountCheckbox");
+	public static final By CHK_BUNDLE_OVERFLOW = By.id("hasoverflow");
+	public static final By DPD_DEVICE = By.id("device-select");
+	public static final By RB_BUNDLE_PRICE = By.id("bundlePriceCheckbox");
+	public static final By DPD_LOCATION_REMOVE = By
+			.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
 	public static final By DPD_DESELECT_ORGANIZATION = By.id("multiselectId");
 	public static final By DPD_DESELECT_LOCATION = By.id("multiselectIdLoc");
 	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
@@ -98,23 +100,31 @@ public class CreatePromotions extends Factory  {
 	public static final By SELECT_DISABLED_LOCATION = By.id("filtervalues");
 	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	public static final By TXT_SELECTED_ITEM = By.xpath("//li[text()='AutomationApple']");
-	
+	public static final By LBL_PROMO_TYPE = By.xpath("//dt[text()='Promotion Type']");
+	public static final By LBL_PROMO_NAME = By.xpath("//dt[text()='Promotion Name']");
+	public static final By LBL_DISPLAY_NAME = By.xpath("//dt[text()='Display Name']");
+	public static final By FILTER_PAGE = By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By DETAILS_PAGE = By.xpath("//div[text()='Promotion Details']");
+	public static final By LBL_BUILD_BUNDLE = By.xpath("//dt[text()='Build Bundle']");
+	public static final By BTN_ADD_GROUP = By.xpath("//i[text()='Add Group']");
+
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
 
-	public void newPromotion(String promotionType, String promotionName,String displayName,String orgName, String locationName) {
+	public void newPromotion(String promotionType, String promotionName, String displayName, String orgName,
+			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
-		textBox.enterText(TXT_DISPLAY_NAME, displayName);
+			textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
-		}
+	}
 
 	public List<String> getPopUpData() {
 
@@ -133,7 +143,7 @@ public class CreatePromotions extends Factory  {
 	public By objFieldSet(String filedSetText) {
 		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
 	}
-	
+
 	public By filterOptions(String fieldName) {
 		return By.xpath("//dt[text()='" + fieldName + "']");
 	}
@@ -144,8 +154,9 @@ public class CreatePromotions extends Factory  {
 			CustomisedAssert.assertTrue(orgData.get(iter).contains(orgs.get(iter)));
 		}
 	}
-	
-	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,String locationName) {
+
+	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,
+			String locationName) {
 		try {
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(LBL_CREATE_PROMOTION);
@@ -156,19 +167,20 @@ public class CreatePromotions extends Factory  {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}		
-			
-	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,String discountType) {
+	}
+
+	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,
+			String discountType) {
 		try {
 			String actualValue;
 			dropDown.selectItem(DPD_DISCOUNT_BY, discountBy, Constants.TEXT);
 			if (!discountBy.equalsIgnoreCase(discountType)) {
-			textBox.enterText(TXT_ITEM, item);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(TXT_ITEM, Keys.ENTER);
-			foundation.threadWait(Constants.TWO_SECOND);
-			actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
-			}else {
+				textBox.enterText(TXT_ITEM, item);
+				foundation.threadWait(Constants.ONE_SECOND);
+				textBox.enterText(TXT_ITEM, Keys.ENTER);
+				foundation.threadWait(Constants.TWO_SECOND);
+				actualValue = dropDown.getSelectedItem(DPD_ITEM_SELECT);
+			} else {
 				textBox.enterText(SEARCH_CATEGORY, item);
 				foundation.threadWait(Constants.TWO_SECOND);
 				textBox.enterText(SEARCH_CATEGORY, Keys.ENTER);
@@ -181,65 +193,68 @@ public class CreatePromotions extends Factory  {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void selectBundlePromotionPricing(String bundlePrice) {
 		try {
-			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);	
+			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	public void selectBundlePromotionTimes(String discountTime,String discountDuration) {
+
+	public void selectBundlePromotionTimes(String discountTime, String discountDuration) {
 		try {
 			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
 			if (!Constants.DELIMITER_SPACE.equals(discountDuration))
-				dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);	
+				dropDown.selectItem(DPD_DURATION, discountDuration, Constants.TEXT);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void recurringDay() {
 		try {
 			Calendar calendar = Calendar.getInstance();
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-			foundation.click(By.xpath("//div[@id='recurringInput']//input["+dayOfWeek+"]"));
+			foundation.click(By.xpath("//div[@id='recurringInput']//input[" + dayOfWeek + "]"));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	public void tenderDiscountDetails(String tenderType, String discountType,String applyDIscountTo, String discountAmount, String transactionAmount) {
+
+	public void tenderDiscountDetails(String tenderType, String discountType, String applyDIscountTo,
+			String discountAmount, String transactionAmount) {
 		try {
 			dropDown.selectItem(MULTI_SELECT_TENDER_TYPES, tenderType, Constants.TEXT);
 			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
 			dropDown.selectItem(DPD_APPLY_DISCOUNT_TO, applyDIscountTo, Constants.TEXT);
-			if(foundation.isDisplayed(TXT_AMOUNT))
-				textBox.enterText(TXT_AMOUNT,discountAmount);
+			if (foundation.isDisplayed(TXT_AMOUNT))
+				textBox.enterText(TXT_AMOUNT, discountAmount);
 			else
-				textBox.enterText(TXT_DISCOUNT_PERCENTAGE,discountAmount);
-				
+				textBox.enterText(TXT_DISCOUNT_PERCENTAGE, discountAmount);
+
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public String[] discountRange() {
 		String[] discountprice = null;
 		try {
 			List<WebElement> bundleDiscount = getDriver().findElements(LBL_BUNDLE_DISCOUNT);
-			for (int i=0;i<bundleDiscount.size();i++) {
-				discountprice[i]=foundation.getText(By.xpath("//*[@id='bundlesummary']/b/span["+i+"]"));
+			for (int i = 0; i < bundleDiscount.size(); i++) {
+				discountprice[i] = foundation.getText(By.xpath("//*[@id='bundlesummary']/b/span[" + i + "]"));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return discountprice;
 	}
-	public void newPromotionList(String promotionType, String promotionName,String orgName, String locationName) {
+
+	public void newPromotionList(String promotionType, String promotionName, String orgName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		foundation.click(BTN_NEXT);
@@ -248,5 +263,5 @@ public class CreatePromotions extends Factory  {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
-		}
+	}
 }
