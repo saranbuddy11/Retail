@@ -48,7 +48,16 @@ public class CustomisedAssert {
 		}
 		catch (AssertionError exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
+		}}
+		public static void assertEquals(int actual, String expected) {
+			try {
+				Assert.assertEquals(actual, expected);
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "AssertEqual: ["+actual+"] and ["+expected+"]");
+			}
+			catch (AssertionError exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		
 	}
 	
 	public static void assertEquals(int actual, int expected) {
