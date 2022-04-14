@@ -18,6 +18,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.Reports;
 import at.smartshop.tests.TestInfra;
 
 public class PromotionAnalysis extends Factory {
@@ -189,6 +190,33 @@ public class PromotionAnalysis extends Factory {
 	public void updateData(String columnName, String values) {
 		try {
 			intialData.get(recordCount).put(columnName, values);
+			System.out.println("updated");
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void updateDiscount(String discountAmount) {
+		try {
+			System.out.println("testttt :"+tableHeaders.get(8));
+			String initialAmount = intialData.get(recordCount).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
+//			String discountAmount = (String) jsonData.get("discount");
+			double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(discountAmount);
+			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			intialData.get(recordCount).put(tableHeaders.get(8), String.valueOf(updatedAmount));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void updateRedemptionsCount(String redemptions) {
+		try {
+			String initialRedemptions = intialData.get(recordCount).get(tableHeaders.get(7));
+//			String Redemptions = (String) jsonData.get("redeemcount");
+			int updatedRedemptions = Integer.parseInt(initialRedemptions) + (Integer.parseInt(redemptions));
+//			updatedRedemptions = Math.round(updatedAmount * 100.0) / 100.0;
+			intialData.get(recordCount).put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -229,6 +257,8 @@ public class PromotionAnalysis extends Factory {
 
 	public void verifyReportData() {
 		try {
+			System.out.println(promoActualData);
+			System.out.println(PromoExpectedData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
 						.contains(PromoExpectedData.get(tableHeaders.get(iter))));

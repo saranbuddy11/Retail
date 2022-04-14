@@ -15,4 +15,5 @@ public class CNLocation {
  	public static final String COLUMN_VALUE = "ColumnValue";
  	public static final String POPUP_NAME="PopupName";
  	public static final String TIMEZONE="Timezone";
+    public static final String TYPE = "Type";
 }
