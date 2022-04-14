@@ -7072,7 +7072,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AUTOTAXPERCENTAGE2", Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
 
 			// set language and sync machine
