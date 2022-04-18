@@ -34,6 +34,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_BUNDLE_DETAILS = By.xpath("//div[@class='bundleDetails']//h4");
 	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
 	public static final By BTN_CANCEL = By.id("cancelBtn");
+	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");

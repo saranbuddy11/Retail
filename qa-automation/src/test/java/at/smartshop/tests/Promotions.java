@@ -2188,10 +2188,14 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Cancelling the Promotion
-			foundation.click(CreatePromotions.BTN_CANCEL);
+			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
 			foundation.waitforElementToBeVisible(CreatePromotions.LBL_FILTER, 5);
-			foundation.click(CreatePromotions.BTN_CANCEL);
-			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BASIC_INFORMATION, 5);
+			foundation.scrollIntoViewElement(CreatePromotions.BTN_CANCEL_1);
+			foundation.click(CreatePromotions.BTN_CANCEL_1);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CANCEL_1);
 			foundation.alertAccept();
 			navigationBar.navigateToMenuItem(menu.get(1));
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
