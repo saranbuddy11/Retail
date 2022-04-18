@@ -108,6 +108,13 @@ public class CreatePromotions extends Factory {
 	public static final By DETAILS_PAGE = By.xpath("//div[text()='Promotion Details']");
 	public static final By LBL_BUILD_BUNDLE = By.xpath("//dt[text()='Build Bundle']");
 	public static final By BTN_ADD_GROUP = By.xpath("//i[text()='Add Group']");
+	public static final By LBL_BUNDLE_GROUP = By.id("bundleModaltemplate-title");
+	public static final By TXT_GROUP_NAME = By.id("groupname");
+	public static final By ITEM_CHECK_BOX = By.xpath(
+			"//input[@onclick='setCheckBox(\"0376bb40b521707962abd4ebde9c5d10\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
+	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
+	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

@@ -2116,7 +2116,8 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "176247 - Verify the ADM > Promotions > Bundling > Step 3 (Promotion Details) > + Add Group (new)")
+	@Test(description = "176247 - Verify the ADM > Promotions > Bundling > Step 3 (Promotion Details) > + Add Group (new)"
+			+ "176248 - Verify that items & categories are unavailable in Bundle Group drop down when group option is selected & Created")
 	public void verifyBundlePromtionsAddGroupOptionInOperator() {
 		final String CASE_NUM = "176247";
 
@@ -2186,6 +2187,21 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 			color = foundation.getTextColor(CreatePromotions.BTN_ADD_GROUP);
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Creating the Group
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP, 5);
+			textBox.enterText(CreatePromotions.TXT_GROUP_NAME, promoName.get(1) + strings.getRandomCharacter());
+			foundation.click(CreatePromotions.ITEM_CHECK_BOX);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.GROUP_MODAL_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Validating Bundle Option
+			String value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_ITEM, requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
 
 			// Cancelling the Promotion
 			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
