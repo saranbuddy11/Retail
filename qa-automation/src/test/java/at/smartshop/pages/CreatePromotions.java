@@ -99,10 +99,22 @@ public class CreatePromotions extends Factory  {
 	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	public static final By TXT_SELECTED_ITEM = By.xpath("//li[text()='AutomationApple']");
 	public static final By BUNDLE_BUILD=By.xpath("//dt[text()='Build Bundle']");
+	public static final By BTN_ADD_GROUP=By.xpath("//button[@class='btn-mini']");
+	public static final By GROUP_NAME=By.id("groupname");
+	public static final By BTN_ADD=By.id("groupmodalsave");
+	public static final By BTN_REMOVE=By.xpath("(//a[@class='fa fa-times'])[1]");
+    public static final By SELECT_CHECKBOX=By.xpath("//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
+    public static final By SELECT_ANOTHER_CHECKBOX=By.xpath("//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
 	}
+	public By dropdownBuildBundle(String dropdown) {
+		return By.xpath("//select[@id='discountBy']//option[text()='" +dropdown+ "']");
+	}
+	
+	
 
 	public void newPromotion(String promotionType, String promotionName,String displayName,String orgName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
