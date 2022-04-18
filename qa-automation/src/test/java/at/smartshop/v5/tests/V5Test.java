@@ -6503,6 +6503,7 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
