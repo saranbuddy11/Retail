@@ -98,6 +98,7 @@ public class CreatePromotions extends Factory  {
 	public static final By SELECT_DISABLED_LOCATION = By.id("filtervalues");
 	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	public static final By TXT_SELECTED_ITEM = By.xpath("//li[text()='AutomationApple']");
+	public static final By BUNDLE_BUILD=By.xpath("//dt[text()='Build Bundle']");
 	
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

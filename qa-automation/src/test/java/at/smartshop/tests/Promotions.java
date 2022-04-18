@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -2123,6 +2124,10 @@ public class Promotions extends TestInfra {
 		
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> color = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays
+				.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 
 		try {
 			// Select Menu & Menu Item 
@@ -2135,11 +2140,34 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
 			foundation.click(PromotionList.BTN_CREATE);
 			String value=foundation.getTextColor(PromotionList.BASIC_PROMOTION_TITLE);
-			CustomisedAssert.assertEquals(value, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertEquals(value, color.get(0));
 			dropdown.selectItem(PromotionList.DPD_PROMOTYPE, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(PromotionList.NAME_PROMOTION, requiredData.get(1));
 			textBox.enterText(PromotionList.DISPLAY_PROMOTION, requiredData.get(2));
 			foundation.click(PromotionList.NEXT);
+			
+			//Navigate to Choosing promotion filter and select organization
+			String textcolor=foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
+			CustomisedAssert.assertEquals(textcolor, color.get(1));
+			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
+			dropdown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			dropdown.selectItem(CreatePromotions.DPD_LOC, org.get(1), Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			
+			//Navigate to promotion Details and select build bundle
+			String details=foundation.getTextColor(PromotionList.PROMOTION_DETAILS);
+			CustomisedAssert.assertEquals(details, color.get(0)); 
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			List<String> values = dropdown.getAllItems(CreatePromotions.DPD_DISCOUNT_BY);
+			System.out.println(values);
+			
+			
+			
+			
 			
 
 		} catch (Exception exc) {

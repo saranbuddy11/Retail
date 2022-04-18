@@ -134,6 +134,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
+			System.out.println(values);
 			List<String> expectedValues = new ArrayList<String>();
 			expectedValues.add(requiredData.get(1));
 			expectedValues.add(requiredData.get(0));
