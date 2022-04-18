@@ -2163,8 +2163,10 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
 			List<String> values = dropdown.getAllItems(CreatePromotions.DPD_DISCOUNT_BY);
-			System.out.println(values);
-			
+			/*
+			 * // Arrays.asList().split(Constants.DELIMITER_COMMA)); //
+			 * System.out.println(values);
+			 */			
 			
 			
 			
