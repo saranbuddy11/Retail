@@ -60,7 +60,7 @@ public class AccountLogin {
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(BTN_PIN_NEXT);
-		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	public By objText(String text) {
