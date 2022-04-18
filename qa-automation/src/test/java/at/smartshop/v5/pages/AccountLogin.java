@@ -55,6 +55,7 @@ public class AccountLogin {
 		foundation.click(BTN_CAMELCASE);
 		textBox.enterKeypadText(emailId);
 		foundation.click(BTN_ENTER);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
