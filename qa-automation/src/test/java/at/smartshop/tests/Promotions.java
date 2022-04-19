@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -2254,6 +2255,27 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.DPD_DISCOUNT_BY);
 			CustomisedAssert.assertTrue(foundation.isDisabled(createPromotions.dropdownBuildBundle(product.get(0))));
 			CustomisedAssert.assertTrue(foundation.isDisabled(createPromotions.dropdownBuildBundle(product.get(1))));
+			foundation.click(CreatePromotions.BTN_REMOVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
+			foundation.click(CreatePromotions.BTN_YES);
+			
+			//removing the group bundle promotion
+			foundation.click(CreatePromotions.BTN_REMOVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
+			foundation.click(CreatePromotions.BTN_YES);
+			
+			//selecting a item	in build bundle
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(0), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_ITEM));
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(1), Constants.TEXT);
+			login.logout();
+			foundation.alertAccept();
+			browser.close();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
