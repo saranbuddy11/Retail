@@ -2117,7 +2117,8 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "176247 - Verify the ADM > Promotions > Bundling > Step 3 (Promotion Details) > + Add Group (new)"
-			+ "176248 - Verify that items & categories are unavailable in Bundle Group drop down when group option is selected & Created")
+			+ "176248 - Verify that items & categories are unavailable in Bundle Group drop down when group option is selected & Created"
+			+ "176249 - Verify when user deletes the created group ,then items & categories are available in Build Bundle Dropdown")
 	public void verifyBundlePromtionsAddGroupOptionInOperator() {
 		final String CASE_NUM = "176247";
 
@@ -2202,6 +2203,17 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(5));
 			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
 			CustomisedAssert.assertEquals(value, requiredData.get(5));
+
+			// Deleting the Bundle Group and validating the Bundle Option
+			foundation.click(CreatePromotions.DELETE_GROUP);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(CreatePromotions.BTN_EXPIRE);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
+			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_ITEM, requiredData.get(4));
+			CustomisedAssert.assertTrue(value == null);
+			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
+			CustomisedAssert.assertTrue(value == null);
 
 			// Cancelling the Promotion
 			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);

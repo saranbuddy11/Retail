@@ -115,6 +115,8 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
+	public static final By DELETE_GROUP = By.xpath(
+			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
