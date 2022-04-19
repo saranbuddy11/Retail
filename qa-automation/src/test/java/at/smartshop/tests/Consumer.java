@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
@@ -30,7 +29,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerMove;
-import at.smartshop.pages.ConsumerMoveHistory;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.LocationList;
@@ -54,7 +52,7 @@ public class Consumer extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private LocationSummary locationSummary = new LocationSummary();
-	private Excel excel = new Excel();
+	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -69,8 +67,8 @@ public class Consumer extends TestInfra {
 	@Test(description = "116743-Verify Balance Increment with and without Reason Code")
 	public void verifyBalanceIncrement() {
 		final String CASE_NUM = "116743";
-		String balanceTextww = "($21.96)";
-		String balancezz = balanceTextww.replaceAll("[\\(\\)\\$]", "");
+		// String balanceTextww = "($21.96)";
+		// String balancezz = balanceTextww.replaceAll("[\\(\\)\\$]", "");
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
@@ -119,7 +117,8 @@ public class Consumer extends TestInfra {
 			// String balance1 = balance.substring(1);
 			String balance = balanceText.replaceAll("[\\(\\)\\$]", "");
 			Double newBalance = Double.parseDouble(balance) + 2;
-			String expectedBalance = "$" + String.valueOf(String.format("%.2f", newBalance));
+			// String expectedBalance = "$" + String.valueOf(String.format("%.2f",
+			// newBalance));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -150,7 +149,8 @@ public class Consumer extends TestInfra {
 			// enter new balance with out reason
 			String actualBalance1 = actualBalance.substring(1);
 			Double newBalance2 = Double.parseDouble(actualBalance1) + 2;
-			String expectedBalance2 = "$" + String.valueOf(String.format("%.2f", newBalance2));
+			// String expectedBalance2 = "$" + String.valueOf(String.format("%.2f",
+			// newBalance2));
 
 			// clicking consumer id
 			foundation.click(consumerSearch.objCell(firstName));
@@ -168,9 +168,9 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.LOCATION),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
-			Map<String, String> consumerTblRecords3 = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String actualBalance2 = consumerTblRecords3.get(columnName);
+//			Map<String, String> consumerTblRecords3 = consumerSearch
+//					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			// String actualBalance2 = consumerTblRecords3.get(columnName);
 			// CustomisedAssert.assertEquals(actualBalance2, expectedBalance2);
 
 		} catch (Exception exc) {
@@ -1757,7 +1757,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
-			String emailID = consumerSearch.createConsumer(location);
+			// String emailID = consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
 
@@ -1815,7 +1815,7 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSearch.DPD_PAY_CYCLE).contains(paycycle.get(1)));
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
-			String emailID = consumerSearch.createConsumer(location);
+			// String emailID = consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
 
@@ -2047,8 +2047,8 @@ public class Consumer extends TestInfra {
 		final String CASE_NUM = "165199";
 
 		// Reading test data from DataBase
-//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 //		List<String> menuItem = Arrays
 //				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 //		try {
@@ -2625,9 +2625,9 @@ public class Consumer extends TestInfra {
 			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_OK);
 
-			Map<String, String> uiTbl = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+//			Map<String, String> uiTbl = consumerSearch
+//					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+//			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2668,9 +2668,10 @@ public class Consumer extends TestInfra {
 			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_OK);
 
-			Map<String, String> uiTbl = consumerSearch
-					.getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
-			String uiBal = uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			// Map<String, String> uiTbl = consumerSearch
+			// .getConsumerRecords(rstConsumerSearchData.get(CNConsumerSearch.LOCATION));
+			// String uiBal =
+			// uiTbl.get(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
 			// need to update validations after bug is fixed
 			// CustomisedAssert.assertEquals(uiBal, balance);
 
