@@ -1751,6 +1751,7 @@ public class Promotions extends TestInfra {
 			// editing item field
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropDown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			CustomisedAssert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
@@ -2052,7 +2053,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = Constants.ACCOUNT_NAME + strings.getRandomCharacter();
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
+		// String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
 		try {
 
 			// Select Org,Menu and Menu Item
@@ -2110,8 +2111,8 @@ public class Promotions extends TestInfra {
 		} finally {
 			// Resetting the data
 			for (int iter = 0; iter < locationName.size(); iter++) {
-				promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
-						statusType, gridName);
+				promotionList.expireMultiplePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+						promotionName, gridName);
 			}
 		}
 	}

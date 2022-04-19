@@ -1199,7 +1199,6 @@ public class AgeVerification extends TestInfra {
 
 	@Test(description = "169162-check the other devices on the location after age verification is enabled on one device"
 			+ "169163-check the other devices on the location after age verification is disabled on one device")
-
 	public void verifyOtherDeviceInAgeVerification() {
 		final String CASE_NUM = "169162";
 

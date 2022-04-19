@@ -73,31 +73,33 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//Commenting Testcase as per Epic SOS - 25963, Serial Number Column is not displaying now
-	
-	/*@Test(description = "145233-QAA-24-Verify serial number section display on Admin>Device page as super")
-	public void serialNumberDisplaySuperAdmin() {
-		try {
-			final String CASE_NUM = "145233";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	// Commenting Testcase as per Epic SOS - 25963, Serial Number Column is not
+	// displaying now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number section display
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145233-QAA-24-Verify serial number section display on Admin>Device page as super"
+	 * ) public void serialNumberDisplaySuperAdmin() { try { final String CASE_NUM =
+	 * "145233"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number section display
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.
+	 * COLUMN_SERIAL_NUMBER));
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "145234-QAA-24-Verify serial number section display on Super>Device page")
 	public void serialNumberDisplaySuper() {
@@ -151,35 +153,37 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	//Commenting testcase as per Epic SOS - 25963, Serial Number Column is not displaying now
 
-	/*@Test(description = "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator")
-	public void serialNumberSortSuperAdmin() {
-		try {
-			final String CASE_NUM = "145238";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	// Commenting testcase as per Epic SOS - 25963, Serial Number Column is not
+	// displaying now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number sort functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
-			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator"
+	 * ) public void serialNumberSortSuperAdmin() { try { final String CASE_NUM =
+	 * "145238"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number sort functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+	 * foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+	 * Constants.ASCENDING); foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+	 * foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+	 * Constants.DESCENDING);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "145239-QAA-24-Verify the sort functionality of serial number column on Super>Device page")
 	public void serialNumberSortSuper() {
@@ -210,61 +214,66 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//Commenting as per Epic SOS - 25963, Serial Number Column is not displaying now
-	
-	/*@Test(description = "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator")
-	public void serialNumberSearchOperatorAdmin() {
-		try {
-			final String CASE_NUM = "145238";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+	// Commenting as per Epic SOS - 25963, Serial Number Column is not displaying
+	// now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "145239-QAA-24-Verify the search based on serial number field on Admin>Device page as super")
-	public void serialNumberSearchSuperAdmin() {
-		try {
-			final String CASE_NUM = "145239";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.LIST_SERIAL_NUMBER), 1);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145238-QAA-24-Verify the search based on serial number field on Admin>Device page as operator"
+	 * ) public void serialNumberSearchOperatorAdmin() { try { final String CASE_NUM
+	 * = "145238"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+	 * foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.
+	 * LIST_SERIAL_NUMBER), 1);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 * 
+	 * @Test(description =
+	 * "145239-QAA-24-Verify the search based on serial number field on Admin>Device page as super"
+	 * ) public void serialNumberSearchSuperAdmin() { try { final String CASE_NUM =
+	 * "145239"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
+	 * foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getSizeofListElement(DeviceList.
+	 * LIST_SERIAL_NUMBER), 1);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "145240-QAA-24-Verify the search based on serial number field on Super>Device page")
 	public void serialNumberSearchSuper() {
@@ -294,67 +303,72 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//Commenting as per Epic SOS - 25963, Serial Number Column is not displaying now
-	
-	/*@Test(description = "145241-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as operator")
-	public void serialNumberMatchOperatorAdmin() {
-		try {
-			final String CASE_NUM = "145241";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	// Commenting as per Epic SOS - 25963, Serial Number Column is not displaying
+	// now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "145693-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as super")
-	public void serialNumberMatchSuperAdmin() {
-		try {
-			final String CASE_NUM = "145693";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145241-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as operator"
+	 * ) public void serialNumberMatchOperatorAdmin() { try { final String CASE_NUM
+	 * = "145241"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * serialNumberDeviceList); foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), serialNumberDeviceList);
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.
+	 * LBL_SERIAL_NUMBER), serialNumberDeviceList);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 * 
+	 * @Test(description =
+	 * "145693-QAA-24-Verify for any of the device serial number in device page (Admin>Device) is matching with serial number in device summary page as super"
+	 * ) public void serialNumberMatchSuperAdmin() { try { final String CASE_NUM =
+	 * "145693"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * serialNumberDeviceList); foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), serialNumberDeviceList);
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.
+	 * LBL_SERIAL_NUMBER), serialNumberDeviceList);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "145242-QAA-24-Verify for any of the device serial number in device page (Super>Device) is matching with serial number in device summary page")
 	public void serialNumberMatchSuper() {
@@ -387,67 +401,74 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//Commenting as per Epic SOS - 25963, Serial Number Column is not displaying now
-	
-	/*@Test(description = "145243-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as Operator")
-	public void serialNumberNAOperatorAdmin() {
-		try {
-			final String CASE_NUM = "145243";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	// Commenting as per Epic SOS - 25963, Serial Number Column is not displaying
+	// now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "145695-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as super")
-	public void serialNumberNASuperAdmin() {
-		try {
-			final String CASE_NUM = "145695";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145243-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as Operator"
+	 * ) public void serialNumberNAOperatorAdmin() { try { final String CASE_NUM =
+	 * "145243"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.DEVICE));
+	 * foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), " ");
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.
+	 * LBL_SERIAL_NUMBER), serialNumberDeviceList);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 * 
+	 * @Test(description =
+	 * "145695-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Admin>Device) as super"
+	 * ) public void serialNumberNASuperAdmin() { try { final String CASE_NUM =
+	 * "145695"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.DEVICE));
+	 * foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), " ");
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.
+	 * LBL_SERIAL_NUMBER), serialNumberDeviceList);
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "145244-QAA-24-Verify for any device when the serial number is not exist should display n/a in device summary page (Super>Device)")
 	public void serialNumberNASuper() {
@@ -480,98 +501,102 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//Commenting testcase as per Epic SOS - 25963, Serial Number Column is not displaying now
-	
-	/*@Test(description = "145245-QAA-24-Verify the serial number column display in device export file (Admin>Device) as Operator")
-	public void serialNumberExportOperatorAdmin() {
-		try {
-			final String CASE_NUM = "145245";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	// Commenting testcase as per Epic SOS - 25963, Serial Number Column is not
+	// displaying now
 
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
-			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-
-			// download assertion
-			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
-			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
-			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
-			// record count validation
-			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
-			List<String> uiList = new ArrayList<String>(uidata.values());
-			uiList.removeAll(Arrays.asList("", null));
-			// excel data validation
-			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// delete files
-			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
-			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
-		}
-	}
-
-	@Test(description = "145696-QAA-24-Verify the serial number column display in device export file (Admin>Device) as super")
-	public void serialNumberExportSuperAdmin() {
-		try {
-			final String CASE_NUM = "145696";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String serialNumberDeviceList = rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
-
-			// verify daily revenue
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device and verify serial number filter functionality
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, serialNumberDeviceList);
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
-			foundation.click(DeviceList.BTN_EXPORT_DEVICE);
-
-			// download assertion
-			String[] uiData = (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_DEVICE_EXPORT_SRC));
-			foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC, FilePath.EXCEL_DEVICE_EXPORT_TAR);
-			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR);
-			// record count validation
-			CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
-			Map<String, String> uidata = table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
-			List<String> uiList = new ArrayList<String>(uidata.values());
-			uiList.removeAll(Arrays.asList("", null));
-			// excel data validation
-			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// delete files
-			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
-			foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR);
-		}
-	}*/
+	/*
+	 * @Test(description =
+	 * "145245-QAA-24-Verify the serial number column display in device export file (Admin>Device) as Operator"
+	 * ) public void serialNumberExportOperatorAdmin() { try { final String CASE_NUM
+	 * = "145245"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * serialNumberDeviceList); foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), serialNumberDeviceList);
+	 * foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+	 * 
+	 * // download assertion String[] uiData =
+	 * (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
+	 * CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+	 * EXCEL_DEVICE_EXPORT_SRC));
+	 * foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC,
+	 * FilePath.EXCEL_DEVICE_EXPORT_TAR); int excelCount =
+	 * excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR); // record count
+	 * validation CustomisedAssert.assertEquals(String.valueOf(excelCount),
+	 * uiData[0]); Map<String, String> uidata =
+	 * table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
+	 * List<String> uiList = new ArrayList<String>(uidata.values());
+	 * uiList.removeAll(Arrays.asList("", null)); // excel data validation
+	 * CustomisedAssert.assertTrue(excel.verifyExcelData(uiList,
+	 * FilePath.EXCEL_DEVICE_EXPORT_TAR, 1)); } catch (Exception exc) {
+	 * TestInfra.failWithScreenShot(exc.toString()); } finally { // delete files
+	 * foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+	 * foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR); } }
+	 * 
+	 * @Test(description =
+	 * "145696-QAA-24-Verify the serial number column display in device export file (Admin>Device) as super"
+	 * ) public void serialNumberExportSuperAdmin() { try { final String CASE_NUM =
+	 * "145696"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM); String serialNumberDeviceList =
+	 * rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER);
+	 * 
+	 * // verify daily revenue browser.navigateURL(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device and verify serial number filter functionality
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * serialNumberDeviceList); foundation.threadWait(Constants.ONE_SECOND);
+	 * CustomisedAssert.assertEquals(foundation.getText(DeviceList.
+	 * LIST_SERIAL_NUMBER), serialNumberDeviceList);
+	 * foundation.click(DeviceList.BTN_EXPORT_DEVICE);
+	 * 
+	 * // download assertion String[] uiData =
+	 * (foundation.getText(DeviceList.TXT_RECORD_COUNT)).split(" ");
+	 * CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+	 * EXCEL_DEVICE_EXPORT_SRC));
+	 * foundation.copyFile(FilePath.EXCEL_DEVICE_EXPORT_SRC,
+	 * FilePath.EXCEL_DEVICE_EXPORT_TAR); int excelCount =
+	 * excel.getExcelRowCount(FilePath.EXCEL_DEVICE_EXPORT_TAR); // record count
+	 * validation CustomisedAssert.assertEquals(String.valueOf(excelCount),
+	 * uiData[0]); Map<String, String> uidata =
+	 * table.getTblSingleRowRecordUI(DeviceList.TBL_GRID, DeviceList.TBL_ROW);
+	 * List<String> uiList = new ArrayList<String>(uidata.values());
+	 * uiList.removeAll(Arrays.asList("", null)); // excel data validation
+	 * CustomisedAssert.assertTrue(excel.verifyExcelData(uiList,
+	 * FilePath.EXCEL_DEVICE_EXPORT_TAR, 1));
+	 * 
+	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); }
+	 * finally { // delete files
+	 * foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_SRC);
+	 * foundation.deleteFile(FilePath.EXCEL_DEVICE_EXPORT_TAR); } }
+	 */
 
 	@Test(description = "145697-QAA-24-Verify the serial number column display in device export file (Super>Device)")
 	public void serialNumberExportSuper() {
@@ -718,7 +743,7 @@ public class Device extends TestInfra {
 			// navigate to admin>device
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
-			foundation.click(deviceList.BTN_SUBMIT);
+			foundation.click(DeviceList.BTN_SUBMIT);
 			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
 					Constants.MEDIUM_TIME);
 
@@ -785,7 +810,7 @@ public class Device extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			// String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			List<String> dbData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
@@ -970,7 +995,7 @@ public class Device extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			final String device = rstDeviceListData.get(CNDeviceList.DEVICE) + string.getRandomCharacter();
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			// String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			List<String> dbData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));

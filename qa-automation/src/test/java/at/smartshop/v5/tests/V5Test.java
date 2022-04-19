@@ -6282,6 +6282,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -6503,6 +6504,7 @@ public class V5Test extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));

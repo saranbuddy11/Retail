@@ -42,7 +42,7 @@ public class GlobalProductChange extends Factory {
 
 	public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
 	public static final By BTN_SUBMIT = By.id("prd-update-submit");
-	public static final By BTN_OK = By.cssSelector("button.ajs-button.ajs-ok");
+	public static final By BTN_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By MSG_SUCCESS = By.xpath("//div[text()='Updated 1 product(s)!']");
 	public static final By RDO_OPERATOR_PRODUCT_CHANGE = By.xpath("//label[text()='Operator Product Catalog Change']");
 	public static final By TXT_LOCATION_PRODUCT = By.id("filter-name");
@@ -84,7 +84,7 @@ public class GlobalProductChange extends Factory {
 	public static final By DEPOSIT_CATEGORY = By.id("prd-deposit-cate");
 	public static final By CASE_COUNT = By.id("prd-case");
 	public static final By CASE_COUNT_CHECKBOX = By.id("prd-case-checked");
-	public static final By TABLE_GRID_HISTORY = By.xpath("//tr[@data-id='c22dcbecf28de907e38587bc84fe5e14']");
+	public static final By TABLE_GRID_HISTORY = By.xpath("//tbody[@role='rowgroup']//tr[@tabindex='0']");
 	public static final By HISTORY_BTN = By
 			.xpath("//div[@style='display:inline-block;float: right;']//button[text()='History']");
 	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
