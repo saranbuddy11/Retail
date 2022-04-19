@@ -282,14 +282,14 @@ public class GlobalProducts extends TestInfra {
 			if (fileExists == false) {
 				foundation.deleteFile(FilePath.EXCEL_PROD_SRC);
 			}
-			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
+//			String[] uiData = (foundation.getText(GlobalProduct.TXT_RECORD_COUNT)).split(" ");
 			foundation.click(GlobalProduct.BTN_EXPORT);
 			// download assertion
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_PROD_SRC));
 			foundation.copyFile(FilePath.EXCEL_PROD_SRC, FilePath.EXCEL_PROD_TAR);
 			// record count validation
-			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
-			//CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
+//			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD_TAR);
+			// CustomisedAssert.assertEquals(String.valueOf(excelCount), uiData[0]);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -721,7 +721,6 @@ public class GlobalProducts extends TestInfra {
 			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Location(s)"
 			+ "167952 - Verify to view the Update Pick list Action field value for a product in Global Product Change for Location(s)"
 			+ "167953 - Verify to view the Update Loyalty Multiplier field value for a product in Global Product Change for Location(s)")
-
 	public void verifyGPCForLocation() {
 		final String CASE_NUM = "167948";
 
@@ -867,7 +866,6 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "167949 - Verify to view the GPC > New Modal for Successful Submission in Operator Product Catalog Change")
-
 	public void verifyGPCForProduct() {
 		final String CASE_NUM = "167949";
 
@@ -969,7 +967,6 @@ public class GlobalProducts extends TestInfra {
 			+ "167955 - Verify to view the Update Pick list Action field value for a product in Operator Product Catalog Change"
 			+ "167956 - Verify to view the Update Min field value for a product in Operator Product Catalog Change"
 			+ "167957 - Verify to view the Update Max field value for a product in Operator Product Catalog Change")
-
 	public void verifyOperatorProductCatalogChange() {
 		final String CASE_NUM = "167954";
 
@@ -1087,7 +1084,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "168783-Verify to view the GPC remove system limit in Operator Product Catalog Change "
+	@Test(description = "168783-Verify to view the GPC remove system limit in Operator Product Catalog Change"
 			+ "168782-Verify to view the GPC remove system limit in Global Product Change for Location(s)")
 	public void verifyLimitInGlobalProductChangeforLocation() {
 		try {
@@ -1124,7 +1121,6 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "167964-Verify to view the Update Global Product Change Messaging in Global Product Change for Location(S)e ")
-
 	public void verifyChangeMessagingInGlobalProductChangeforLocation() {
 
 		final String CASE_NUM = "167964";
@@ -1233,7 +1229,6 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "167963-Verify to view the Update Global Product Change Messaging in Operator Product Catalog Change")
-
 	public void verifyChangeMessagingInOperatorProductCatalogChange() {
 
 		final String CASE_NUM = "167963";
@@ -1346,7 +1341,6 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "C167960-Verify to view the GPC 'History Option")
-
 	public void verifyGPCHistoryOption() {
 
 		final String CASE_NUM = "167960";
