@@ -90,5 +90,19 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	public void expireMultiplePromotion(String menuItem, String promotionName,String gridName) {
+		try {
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem);
+			foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+			textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.click(PromotionList.BTN_SEARCH);
+			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			editPromotion.expirePromotion(gridName, promotionName);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 	
 }

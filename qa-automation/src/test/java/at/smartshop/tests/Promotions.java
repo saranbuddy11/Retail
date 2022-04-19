@@ -1747,6 +1747,7 @@ public class Promotions extends TestInfra {
 			// editing item field
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 			CustomisedAssert.assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			promotionList.clickSelectedRow(gridName, promotionName);
@@ -2106,7 +2107,7 @@ public class Promotions extends TestInfra {
 		} finally {
 			// Resetting the data
 			for (int iter = 0; iter < locationName.size(); iter++) {
-				promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,statusType,
+				promotionList.expireMultiplePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
 						gridName);
 			}
 		}
