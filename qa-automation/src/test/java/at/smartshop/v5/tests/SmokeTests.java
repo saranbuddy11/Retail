@@ -372,7 +372,7 @@ public class SmokeTests extends TestInfra {
 
 			// Basic Information Page
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, locationNames.get(3));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 

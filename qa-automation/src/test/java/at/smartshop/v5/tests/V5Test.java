@@ -1058,9 +1058,11 @@ public class V5Test extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(1));
-			CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT));
-			textBox.deleteKeypadText(requiredData.get(1));
+			/*
+			 * textBox.enterKeypadText(requiredData.get(1));
+			 * CustomisedAssert.assertFalse(foundation.isDisplayed(ProductSearch.BTN_PRODUCT
+			 * )); textBox.deleteKeypadText(requiredData.get(1));
+			 */
 			textBox.enterKeypadText(requiredData.get(2));
 			CustomisedAssert
 					.assertTrue(foundation.getText(ProductSearch.LBL_PRODUCT_NAME).contains(requiredData.get(2)));
@@ -1108,7 +1110,7 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(9), Constants.TEXT);
@@ -1123,8 +1125,8 @@ public class V5Test extends TestInfra {
 			foundation.click(globalProduct.getGlobalProduct(requiredData.get(1)));
 			dropdown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
-			navigationBar.navigateToMenuItem(menuItem.get(2));
-			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0), language.get(1));
+//			navigationBar.navigateToMenuItem(menuItem.get(2));
+//			locationSummary.kiosklanguageSetting(requiredData.get(3), language.get(0), language.get(1));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
@@ -1159,7 +1161,7 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, requiredData.get(0));
@@ -10958,7 +10960,7 @@ public class V5Test extends TestInfra {
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, requiredData.get(0), locationName);
-			dropDown.selectItem(CreatePromotions.DPD_DEVICE, requiredData.get(9), Constants.TEXT);
+			//dropDown.selectItem(CreatePromotions.DPD_DEVICE, requiredData.get(9), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
