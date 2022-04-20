@@ -110,13 +110,15 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_ADD_GROUP = By.xpath("//i[text()='Add Group']");
 	public static final By LBL_BUNDLE_GROUP = By.id("bundleModaltemplate-title");
 	public static final By TXT_GROUP_NAME = By.id("groupname");
-	public static final By ITEM_CHECK_BOX = By.xpath(
-			"//input[@onclick='setCheckBox(\"0376bb40b521707962abd4ebde9c5d10\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By ITEM_CHECK_BOX = By
+			.xpath("//td[@aria-readonly='true' and @aria-describedby='itemdatatable_activeCheckBox']//input");
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
 	public static final By DELETE_GROUP = By.xpath(
 			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
+	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
+	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -273,5 +275,65 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
+	}
+
+	public void createPromotion(String promotionType, String promotionName, String displayName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objLocation(promotionType)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PROMO_NAME));
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_DISPLAY_NAME));
+		textBox.enterText(TXT_DISPLAY_NAME, displayName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+	}
+
+	public void selectOrgLoc(String org, String location) {
+		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		dropDown.selectItem(DPD_LOC, location, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_DETAILS, 5);
+	}
+
+	public void verifyBundleOption(List<String> requiredData) {
+		List<String> options = dropDown.getAllItems(DPD_DISCOUNT_BY);
+		CustomisedAssert.assertEquals(options.get(0), requiredData.get(0));
+		CustomisedAssert.assertEquals(options.get(1), requiredData.get(1));
+		CustomisedAssert.assertEquals(options.get(2), requiredData.get(2));
+		CustomisedAssert.assertEquals(options.get(3), requiredData.get(3));
+	}
+
+	public void creatingBundleGroup(String groupName, String product) {
+		foundation.click(BTN_ADD_GROUP);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void cancellingPromotion() {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.alertAccept();
+	}
+
+	public void deleteBundleGroup() {
+		foundation.click(DELETE_GROUP);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(BTN_EXPIRE);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 }
