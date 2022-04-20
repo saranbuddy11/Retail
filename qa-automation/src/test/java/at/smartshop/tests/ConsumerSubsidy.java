@@ -572,10 +572,10 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Validating Start Date picker field of Top Off subsidy
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(10));
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 
 			// Validating Recurrence field of Top Off subsidy
@@ -890,10 +890,10 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Verifying Start Date picker of Top Off Subsidy
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
 			String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(10));
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffFutureDateAutoLocation1(futureDate);
 
 			// Verifying Recurrence field of Top Off Subsidy
@@ -2111,7 +2111,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// verify the bulk assign subsidy group
-			CustomisedAssert.assertTrue(foundation.isDisabled(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, requiredData.get(0), Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);

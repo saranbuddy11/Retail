@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -1376,7 +1377,13 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
+
+			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
+			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
+			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
+					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
+					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			// History button and verify the field
