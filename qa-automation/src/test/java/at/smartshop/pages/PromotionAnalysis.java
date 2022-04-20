@@ -257,8 +257,8 @@ public class PromotionAnalysis extends Factory {
 
 	public void verifyReportData() {
 		try {
-			System.out.println(promoActualData);
-			System.out.println(PromoExpectedData);
+			System.out.println("promoActualData : "+promoActualData);
+			System.out.println("PromoExpectedData : "+PromoExpectedData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
 						.contains(PromoExpectedData.get(tableHeaders.get(iter))));

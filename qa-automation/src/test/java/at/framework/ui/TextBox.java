@@ -64,7 +64,7 @@ public class TextBox extends Factory {
 			if (charArray[i] == ' ') {
 				foundation.click(By.xpath("//*[text()='Space']"));
 				foundation.click(By.xpath("//*[text()='abc']"));
-				foundation.threadWait(Constants.ONE_SECOND);
+//				foundation.threadWait(Constants.ONE_SECOND);
 			} else if (charArray[i] >= 'A' && charArray[i] <= 'Z') {
 				if (i == 0) {
 					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
@@ -72,7 +72,7 @@ public class TextBox extends Factory {
 					foundation.objectClick(By.xpath("//*[text()='ABC']"));
 					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
 					foundation.click(By.xpath("//*[text()='abc']"));
-					foundation.threadWait(Constants.ONE_SECOND);
+//					foundation.threadWait(Constants.ONE_SECOND);
 				}
 			} else {
 				foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
