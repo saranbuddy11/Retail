@@ -44,6 +44,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
@@ -125,6 +126,7 @@ public class CreatePromotions extends Factory {
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
 	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
 	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
+	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

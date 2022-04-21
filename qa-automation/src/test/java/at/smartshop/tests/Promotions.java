@@ -2313,4 +2313,81 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	@Test(description = "176278 - verify the 'Confirm Delete Group' prompt")
+	public void verifyBundlePromtionsDeleteGroupOption() {
+		final String CASE_NUM = "176278";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0),
+					promoName.get(1));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Creating the Group and validating the Icons
+			createPromotions.creatingBundleGroupWithCategory(promoName.get(1) + strings.getRandomCharacter(),
+					rstLocationData.get(CNLocation.PRODUCT_NAME), rstLocationData.get(CNLocation.COLUMN_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
+
+			// Deleting the Bundle Group and validating the Prompt
+			foundation.click(CreatePromotions.DELETE_GROUP);
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.DELETE_GROUP_HEADER));
+			String content = foundation.getText(CreatePromotions.PROMPT_CONTENT);
+			CustomisedAssert.assertEquals(content, rstLocationData.get(CNLocation.POPUP_NAME));
+			content = foundation.getText(CreatePromotions.BTN_EXPIRE);
+			CustomisedAssert.assertEquals(content, requiredData.get(1));
+			content = foundation.getText(CreatePromotions.BTN_PROMPT_CANCEL);
+			CustomisedAssert.assertEquals(content, requiredData.get(2));
+			foundation.click(CreatePromotions.BTN_EXPIRE);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
+
+			// Cancelling the Promotion
+			createPromotions.cancellingPromotion();
+
+			// Navigating to Location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
