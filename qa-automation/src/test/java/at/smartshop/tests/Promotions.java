@@ -2314,7 +2314,8 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "176278 - verify the 'Confirm Delete Group' prompt")
+	@Test(description = "176278 - verify the 'Confirm Delete Group' prompt"
+			+ "176279 - verify the Confirmation of Deleting the group from the bunle criteria")
 	public void verifyBundlePromtionsDeleteGroupOption() {
 		final String CASE_NUM = "176278";
 
@@ -2381,6 +2382,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_EXPIRE);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
+
+			// Checking on Bundle Group Display
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
 
 			// Cancelling the Promotion
 			createPromotions.cancellingPromotion();
