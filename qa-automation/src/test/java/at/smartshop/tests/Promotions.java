@@ -2266,13 +2266,14 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
 			foundation.click(CreatePromotions.BTN_YES);
 			
-			//selecting a item	in build bundle
+			//selecting a item&Category in build bundle
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(0), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_ITEM));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(1), Constants.TEXT);
-			login.logout();
+			foundation.threadWait(Constants.SHORT_TIME);
+			login.logout();		
 			foundation.alertAccept();
 			browser.close();
 			
