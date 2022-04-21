@@ -2207,7 +2207,9 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "176281 - verify the view for the build bundle Groups")
+	@Test(description = "176281 - verify the view for the build bundle Groups"
+			+ "176282 - verify the Edit of the build bundle Groups"
+			+ "176283 - verify the deletion of groups from the build bundle section")
 	public void verifyBundlePromtionsAddGroupOption() {
 		final String CASE_NUM = "176281";
 
@@ -2223,6 +2225,8 @@ public class Promotions extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> productName = Arrays
 				.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> categories = Arrays
+				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 		List<String> coordinates = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		try {
@@ -2264,7 +2268,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Creating the Group and validating the Icons
-			createPromotions.creatingBundleGroup(promoName.get(1) + strings.getRandomCharacter(), productName.get(0));
+			createPromotions.creatingBundleGroupWithCategory(promoName.get(1) + strings.getRandomCharacter(),
+					productName.get(0), categories.get(0));
 			createPromotions.creatingBundleGroup(
 					promoName.get(1) + strings.getRandomCharacter() + strings.getRandomCharacter(), productName.get(1));
 			Point coordinatesAxis = foundation.getCoordinates(CreatePromotions.BTN_ADD_GROUP);
@@ -2283,8 +2288,12 @@ public class Promotions extends TestInfra {
 			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
 			CustomisedAssert.assertEquals(value, requiredData.get(5));
 
-			// Deleting the Bundle Group and validating the Bundle Option
+			// Editing Bundle Group
 			createPromotions.deleteBundleGroup();
+			createPromotions.editBundleGroup(rstLocationData.get(CNLocation.TITLE), productName.get(2),
+					categories.get(1));
+
+			// Deleting the Bundle Group and validating the Bundle Option
 			createPromotions.deleteBundleGroup();
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_ITEM, requiredData.get(4));

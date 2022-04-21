@@ -17,6 +17,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -112,6 +113,8 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_GROUP_NAME = By.id("groupname");
 	public static final By ITEM_CHECK_BOX = By
 			.xpath("//td[@aria-readonly='true' and @aria-describedby='itemdatatable_activeCheckBox']//input");
+	public static final By CATEGORY_CHECK_BOX = By
+			.xpath("//td[@aria-readonly='true' and @aria-describedby='categorydatatable_activeCheckBox']//input");
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
@@ -119,6 +122,9 @@ public class CreatePromotions extends Factory {
 			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
 	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
 	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
+	public static final By CATEGORY_FILTER = By.id("categoryfilter");
+	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
+	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -291,6 +297,7 @@ public class CreatePromotions extends Factory {
 	public void selectOrgLoc(String org, String location) {
 		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
 		foundation.click(BTN_ORG_RIGHT);
+		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(DPD_LOC, location, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
 		foundation.click(BTN_NEXT);
@@ -318,6 +325,46 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
+		foundation.click(BTN_ADD_GROUP);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CATEGORY_FILTER);
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void editBundleGroup(String groupName, String product, String category) {
+		foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+		foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP, 5);
+		foundation.click(CreatePromotions.TXT_GROUP_NAME);
+		textBox.clearText(CreatePromotions.TXT_GROUP_NAME);
+		textBox.enterText(CreatePromotions.TXT_GROUP_NAME, groupName);
+		foundation.click(CreatePromotions.INPUT_ITEM_SEARCH);
+		textBox.clearText(CreatePromotions.INPUT_ITEM_SEARCH);
+		textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, product);
+		foundation.click(CreatePromotions.ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreatePromotions.CATEGORY_FILTER);
+		foundation.click(CreatePromotions.INPUT_CATEGORY_SEARCH);
+		textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
+		textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CreatePromotions.CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreatePromotions.GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
 	public void cancellingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
@@ -333,6 +380,7 @@ public class CreatePromotions extends Factory {
 	public void deleteBundleGroup() {
 		foundation.click(DELETE_GROUP);
 		foundation.threadWait(Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_GROUP_HEADER));
 		foundation.click(BTN_EXPIRE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
