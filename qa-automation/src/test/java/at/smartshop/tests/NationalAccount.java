@@ -1081,7 +1081,6 @@ public class NationalAccount extends TestInfra {
 	}
 
 	@Test(description = "120720-Verify the Prompt screen when Master National Account user delete")
-
 	public void verifyMNADeleteScreen() {
 		try {
 			final String CASE_NUM = "120720";
