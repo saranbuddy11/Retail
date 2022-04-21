@@ -61,9 +61,9 @@ public class PickLists extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 //			textBox.enterText(PickList.SEARCH_FILTER, rstPickListData.get(CNPickList.LOCATIONS));
 //			foundation.click(PickList.LBL_SELECT_ALL);
-			
+
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
-			
+
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
 					Constants.SHORT_TIME);
@@ -87,18 +87,18 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_PREVIEW);
 			foundation.click(PickList.LBL_Add);
 			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			//Table validations
+			// Table validations
 			Map<String, String> uiData = pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID, PickList.TBL_ROW);
 			CustomisedAssert.assertEquals(dbData_Product, uiData);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	@Test(description = "143193-QAA-67-verify picklist screen product table data -finanacer")
 	public void verifyPickListColumnHeadersFinancer() {
 		try {
@@ -128,9 +128,9 @@ public class PickLists extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 //			textBox.enterText(PickList.SEARCH_FILTER, rstPickListData.get(CNPickList.LOCATIONS));
 //			foundation.click(PickList.LBL_SELECT_ALL);
-			
+
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
-			
+
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
 					Constants.SHORT_TIME);
@@ -154,18 +154,16 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_PREVIEW);
 			foundation.click(PickList.LBL_Add);
 			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			Map<String, String> uiData = pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID, PickList.TBL_ROW);
-			//CustomisedAssert.assertEquals(dbData_Product, uiData);
+			// Map<String, String> uiData =
+			// pickList.getTblSingleRowRecordUI(PickList.TBL_PRODUCT_GRID,
+			// PickList.TBL_ROW);
+			// CustomisedAssert.assertEquals(dbData_Product, uiData);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
-			
-
 		} catch (Exception exc) {
-
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
 }
