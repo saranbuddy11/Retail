@@ -2315,7 +2315,8 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "176278 - verify the 'Confirm Delete Group' prompt"
-			+ "176279 - verify the Confirmation of Deleting the group from the bunle criteria")
+			+ "176279 - verify the Confirmation of Deleting the group from the bunle criteria"
+			+ "176280 - verify the Cancellation of Deleting the group from the bunle criteria")
 	public void verifyBundlePromtionsDeleteGroupOption() {
 		final String CASE_NUM = "176278";
 
@@ -2369,7 +2370,7 @@ public class Promotions extends TestInfra {
 			String actualData = foundation.getAttributeValue(CreatePromotions.BUNDLE_GROUP_NAME);
 			CustomisedAssert.assertTrue(actualData.contains(groupName));
 
-			// Deleting the Bundle Group and validating the Prompt
+			// Validating Delete Bundle Group Prompt
 			foundation.click(CreatePromotions.DELETE_GROUP);
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.DELETE_GROUP_HEADER));
@@ -2379,11 +2380,22 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(content, requiredData.get(1));
 			content = foundation.getText(CreatePromotions.BTN_PROMPT_CANCEL);
 			CustomisedAssert.assertEquals(content, requiredData.get(2));
+
+			// Cancelling the Delete Bundle Prompt
+			foundation.click(CreatePromotions.BTN_PROMPT_CANCEL);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.DELETE_GROUP_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
+
+			// Deleting the Bundle Group and validating the Prompt
+			foundation.click(CreatePromotions.DELETE_GROUP);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_EXPIRE);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
-			// Checking on Bundle Group Display
+			// Checking on Bundle Group Display after Deleting Bundle Group
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
 
