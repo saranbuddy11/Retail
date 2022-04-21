@@ -127,6 +127,8 @@ public class CreatePromotions extends Factory {
 	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
 	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
 	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
+	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
+	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

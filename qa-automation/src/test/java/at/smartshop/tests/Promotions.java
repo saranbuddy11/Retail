@@ -2360,9 +2360,13 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
 			// Creating the Group and validating the Icons
-			createPromotions.creatingBundleGroupWithCategory(promoName.get(1) + strings.getRandomCharacter(),
-					rstLocationData.get(CNLocation.PRODUCT_NAME), rstLocationData.get(CNLocation.COLUMN_NAME));
+			String groupName = promoName.get(1) + strings.getRandomCharacter();
+			createPromotions.creatingBundleGroupWithCategory(groupName, rstLocationData.get(CNLocation.PRODUCT_NAME),
+					rstLocationData.get(CNLocation.COLUMN_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			String actualData = foundation.getAttributeValue(CreatePromotions.BUNDLE_GROUP_NAME);
+			CustomisedAssert.assertTrue(actualData.contains(groupName));
 
 			// Deleting the Bundle Group and validating the Prompt
 			foundation.click(CreatePromotions.DELETE_GROUP);
