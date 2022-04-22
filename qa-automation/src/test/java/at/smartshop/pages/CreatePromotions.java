@@ -123,12 +123,17 @@ public class CreatePromotions extends Factory {
 			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
 	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
 	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
+	public static final By PRODUCT_FILTER = By.id("prodfilter");
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
 	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
 	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
 	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
 	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
 	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
+	public static final By BUNDLE_LIST = By.xpath("//td[@aria-describedby='groupdatatable_name']");
+	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
+	public static final By CATEGORY_GRID = By
+			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -332,6 +337,7 @@ public class CreatePromotions extends Factory {
 	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
@@ -349,23 +355,23 @@ public class CreatePromotions extends Factory {
 	}
 
 	public void editBundleGroup(String groupName, String product, String category) {
-		foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
-		foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP, 5);
-		foundation.click(CreatePromotions.TXT_GROUP_NAME);
-		textBox.clearText(CreatePromotions.TXT_GROUP_NAME);
-		textBox.enterText(CreatePromotions.TXT_GROUP_NAME, groupName);
-		foundation.click(CreatePromotions.INPUT_ITEM_SEARCH);
-		textBox.clearText(CreatePromotions.INPUT_ITEM_SEARCH);
-		textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, product);
-		foundation.click(CreatePromotions.ITEM_CHECK_BOX);
+		foundation.click(LBL_BUNDLE_GROUP_EDIT);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		foundation.click(TXT_GROUP_NAME);
+		textBox.clearText(TXT_GROUP_NAME);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(CreatePromotions.CATEGORY_FILTER);
-		foundation.click(CreatePromotions.INPUT_CATEGORY_SEARCH);
-		textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
-		textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, category);
-		foundation.click(CreatePromotions.CATEGORY_CHECK_BOX);
+		foundation.click(CATEGORY_FILTER);
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(CreatePromotions.GROUP_MODAL_SAVE);
+		foundation.click(GROUP_MODAL_SAVE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
