@@ -459,10 +459,10 @@ public class SmokeTests extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(productName);
+			textBox.enterKeypadText(discountType.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);			
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), discountType.get(3));			
 			Assert.assertTrue(promotionName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
