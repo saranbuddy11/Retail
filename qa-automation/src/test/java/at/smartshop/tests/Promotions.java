@@ -1,11 +1,9 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
@@ -2693,7 +2691,8 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "176292 - verify the selection of the items in Select Group's Items and Categories overlay")
+	@Test(description = "176292 - verify the selection of the items in Select Group's Items and Categories overlay"
+			+ "176293 - verify the selection of the category in Select Group's Items and Categories overlay")
 	public void verifyBundlePromtionsOverLaySelection() {
 		final String CASE_NUM = "176292";
 
@@ -2709,6 +2708,8 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		List<String> columnName = Arrays
 				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2736,42 +2737,66 @@ public class Promotions extends TestInfra {
 
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
-			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, rstLocationData.get(CNLocation.REQUIRED_DATA),
-					Constants.TEXT);
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
-			// Creating the Group and validating the Icons
-			createPromotions.creatingBundleGroupWithCategory(promoName.get(1) + strings.getRandomCharacter(),
-					productName.get(0), rstLocationData.get(CNLocation.COLUMN_NAME));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
-
-			// Validating Product and Categories under Bundle Group Overlay
-			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			// Creating the Group and validating the Items section with one or more Items
+			// selected
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP, 5);
+			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(CreatePromotions.PRODUCT_FILTER);
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			CustomisedAssert.assertTrue(foundation.getSizeofListElement(CreatePromotions.ITEM_GRID) > 0);
 			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.UPC_GRID));
+			createPromotions.selectItem(productName.get(0));
+			createPromotions.selectItem(productName.get(1));
+			String msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(1));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			CustomisedAssert.assertTrue(foundation.getSizeofListElement(CreatePromotions.CATEGORY_GRID) > 0);
+			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(1));
 			List<String> groupData = foundation.getTextofListElement(CreatePromotions.BUNDLE_LIST);
 			CustomisedAssert.assertEquals(groupData.get(0), productName.get(0));
-			CustomisedAssert.assertEquals(groupData.get(1), rstLocationData.get(CNLocation.COLUMN_NAME));
-			foundation.click(CreatePromotions.PRODUCT_FILTER);
-			foundation.click(CreatePromotions.INPUT_ITEM_SEARCH);
-			textBox.clearText(CreatePromotions.INPUT_ITEM_SEARCH);
-			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, productName.get(1));
-			foundation.click(CreatePromotions.ITEM_CHECK_BOX);
+			CustomisedAssert.assertEquals(groupData.get(1), productName.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST_DELETE));
+			foundation.click(createPromotions.objDeleteIndex("1"));
+			foundation.click(createPromotions.objDeleteIndex("1"));
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.GROUP_MODAL_SAVE);
+			foundation.click(createPromotions.objDeleteIndex("1"));
 			foundation.threadWait(Constants.THREE_SECOND);
+			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(2));
 
-			// Deleting the Bundle Group and validating the Prompt
-			foundation.click(CreatePromotions.DELETE_GROUP);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_EXPIRE);
+			// Creating the Group and validating the Categories section with one or more
+			// Items
+			// selected
+			color = foundation.getBGColor(CreatePromotions.CATEGORY_FILTER);
+			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertTrue(foundation.getSizeofListElement(CreatePromotions.CATEGORY_GRID) > 0);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_NAME_GRID));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_UPC_GRID));
+			createPromotions.selectCategory(columnName.get(0));
+			createPromotions.selectCategory(columnName.get(1));
+			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(3));
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(3));
+			groupData = foundation.getTextofListElement(CreatePromotions.BUNDLE_LIST);
+			CustomisedAssert.assertEquals(groupData.get(0), columnName.get(0));
+			CustomisedAssert.assertEquals(groupData.get(1), columnName.get(1));
+			foundation.click(createPromotions.objDeleteIndex("1"));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(createPromotions.objDeleteIndex("1"));
+			foundation.threadWait(Constants.THREE_SECOND);
+			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
+			CustomisedAssert.assertEquals(msg, requiredData.get(2));
+			foundation.click(CreatePromotions.CANCEL_BTN);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
