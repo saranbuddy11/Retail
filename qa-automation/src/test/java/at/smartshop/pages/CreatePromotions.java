@@ -108,6 +108,7 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
 	public static final By BIRTHDAY_GRID=By.xpath("//td[text()='birthday']");
+	public static final By CAT_PROMO_GRID=By.xpath("//td[text()='CAT 6 PROMO']");
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");

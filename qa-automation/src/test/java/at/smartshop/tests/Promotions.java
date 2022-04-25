@@ -2612,8 +2612,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-		List<String> datas = Arrays
-				.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
@@ -2649,7 +2648,7 @@ public class Promotions extends TestInfra {
 
 			// Create a bundle group in Group criteria
 			createPromotions.creatingBundleGroup(requiredData.get(1), datas.get(2));
-		
+
 			// removing the group bundle promotion
 			createPromotions.deleteBundleGroup();
 
@@ -2704,8 +2703,7 @@ public class Promotions extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
-		List<String> Datas = Arrays
-				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		List<String> Datas = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
@@ -2724,29 +2722,34 @@ public class Promotions extends TestInfra {
 
 			// Select Promo Type, Promo Name, Display Name and click Next
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(requiredData.get(0),requiredData.get(1),requiredData.get(2));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
 			// Choose Org and Location
-			createPromotions.selectOrgLoc(org.get(0),org.get(1));
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
 
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
-			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, rstLocationData.get(CNLocation.NAME),
-					Constants.TEXT);
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, rstLocationData.get(CNLocation.NAME), Constants.TEXT);
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
-			
-			//Navigate to Overlay and verify the search box and select Item
+
+			// Navigate to Overlay and verify the search box and select Item
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
 			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
-			
-			//Select Category
-			
-			
-			
+
+			// Select Category and verify the product
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, Datas.get(2));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_PROMO_GRID));
+
+			// Select product and verify UPC
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
