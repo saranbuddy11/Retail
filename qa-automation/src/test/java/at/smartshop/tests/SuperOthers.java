@@ -1957,7 +1957,6 @@ public class SuperOthers extends TestInfra {
 
 	@Test(description = "168582-QAA-288 ADM > Super > National Accounts Screen >Update the national account details"
 			+ "168580 - QAA-288 ADM > Super > National Accounts Screen > Validate the error message for existing National Account on Account Summary Page")
-
 	public void NationalAccountUpdateFields() {
 		final String CASE_NUM = "168582";
 		// Reading test data from DataBase
@@ -2136,7 +2135,6 @@ public class SuperOthers extends TestInfra {
 			+ "175784 - QAA-295 ADM > Super > Pageset > Create a new Page Set with selecting Page Def and intents and save the changes"
 			+ "176159 - QAA-295 ADM > Super > Pageset > Create a new Page Set with selecting Page Def and intents and cancel the changes"
 			+ "176161 - QAA-295 ADM > Super > Pageset > Validate error message for Existing Pageset Name")
-
 	public void PageSetValidateAllFields() {
 		final String CASE_NUM = "175783";
 		// Reading test data from DataBase
@@ -2253,7 +2251,6 @@ public class SuperOthers extends TestInfra {
 			+ "176223 - QAA-289 ADM > Super > App Referral > Create a new App Referral with all Fields and cancel the changes"
 			+ "176226 - QAA-289 ADM > Super > App Referral > Create a new App Referral with all Fields and Save the changes"
 			+ "176227 - QAA-289 ADM > Super > App Referral >Validate all fields as Disabled when select previously created App Referral and cancel the change")
-
 	public void AppReferralValidation() {
 		final String CASE_NUM = "176221";
 		// Reading test data from DataBase
@@ -2357,7 +2354,6 @@ public class SuperOthers extends TestInfra {
 	}
 
 	@Test(description = "176228 - QAA-289 ADM > Super > App Referral >Create new App Referral by Copy Referral button on App Referral Page")
-
 	public void CopyButtonAppReferral() {
 		final String CASE_NUM = "176228";
 		// Reading test data from DataBase
@@ -2401,7 +2397,6 @@ public class SuperOthers extends TestInfra {
 	}
 
 	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
-
 	public void CorporateListValidation() {
 
 		final String CASE_NUM = "164102";
@@ -2542,7 +2537,6 @@ public class SuperOthers extends TestInfra {
 	}
 	
 	@Test(description = "176458- QAA-291 ADM > Super > Copy> Verify user can copy Product from location to location, can save, cancel, checkall, uncheckall location")
-
 	public void CopyProduct() {
 
 		final String CASE_NUM = "176458";
@@ -2596,7 +2590,6 @@ public class SuperOthers extends TestInfra {
 	}
 
 	@Test(description = "176459- QAA-291 ADM > Super > Copy > Verify User can copy category from location to location, can save and cancel")
-
 	public void CopyCategory() {
 
 		final String CASE_NUM = "176459";
@@ -2635,7 +2628,6 @@ public class SuperOthers extends TestInfra {
 	}
 	
 	@Test(description = "176460- QAA-291 ADM > Super > Copy> Verify User will be able to copy Home Commercial from location to location, can save and cancel, checkall, uncheckall locations below in the grid")
-
 	public void CopyHomeCommercial() {
 
 		final String CASE_NUM = "176460";
@@ -2687,7 +2679,6 @@ public class SuperOthers extends TestInfra {
 		}
 	}
 	@Test(description = "176461- QAA-291 ADM > Super > Copy> Verify User can copy cart Commercial from location to location, can check and uncheck the locations below in the grid")
-
 	public void CopyCartCommercial() {
 
 		final String CASE_NUM = "176461";
@@ -2726,7 +2717,6 @@ public class SuperOthers extends TestInfra {
 	}
 	
 	@Test(description = "176467- QAA-293 ADM > Super > Report> Verify user can create new Report that can be saved or cancelled.")
-
 	public void CreateNewReport() {
 
 		final String CASE_NUM = "176467";
@@ -2778,7 +2768,6 @@ public class SuperOthers extends TestInfra {
 	}
 	
 	@Test(description = "176468- QAA-293 ADM > Super > Report> Verify user can edit/update information that can be saved or cancelled.")
-
 	public void UpdatePreviousReport() {
 
 		final String CASE_NUM = "176468";

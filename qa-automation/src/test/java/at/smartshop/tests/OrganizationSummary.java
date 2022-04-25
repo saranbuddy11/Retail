@@ -69,7 +69,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
-			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			// CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -79,13 +79,13 @@ public class OrganizationSummary extends TestInfra {
 	@Test(description = "143244-QAA-17-Verify when VDI options are updated, it should not throw Error 500: Internal Server Error")
 	public void verifyUpdatingVDICheck() {
 		final String CASE_NUM = "143244";
-		
+
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 		List<String> requiredData = Arrays
 				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String actualData="";
+		String actualData = "";
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -109,11 +109,10 @@ public class OrganizationSummary extends TestInfra {
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			// disable vdi
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
@@ -155,7 +154,6 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData);
-		
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -197,7 +195,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
-			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			// CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -241,7 +239,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(3));
-			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			// CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -283,7 +281,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData);
-			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			// CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -321,7 +319,7 @@ public class OrganizationSummary extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData);
-			//CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
+			// CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.TXT_ERROR_MSG));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -533,7 +531,7 @@ public class OrganizationSummary extends TestInfra {
 			textBox.enterText(OrgSummary.TXT_SAGE_1, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			textBox.enterText(OrgSummary.TXT_SAGE_2, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			textBox.enterText(OrgSummary.TXT_CONTACT, string.getRandomCharacter());
-			textBox.enterText(OrgSummary.TXT_CONTACT_EMAIL,requiredData.get(12));
+			textBox.enterText(OrgSummary.TXT_CONTACT_EMAIL, requiredData.get(12));
 			textBox.enterText(OrgSummary.TXT_CONTACT_PHONE, requiredData.get(4));
 			textBox.enterText(OrgSummary.TXT_RECEIPT_HEADER, string.getRandomCharacter());
 			textBox.enterText(OrgSummary.TXT_RECEIPT_FOOTER, string.getRandomCharacter());

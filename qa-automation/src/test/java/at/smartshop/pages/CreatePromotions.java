@@ -17,6 +17,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -31,8 +32,10 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_FILTER = By.xpath("//div[@id='multiple-filters']//h4");
 	public static final By LBL_SELECT_CRITERIA = By.xpath("//div[@id='multiple-filters']//i");
 	public static final By LBL_DETAILS = By.xpath("//div[@id='section3']//h4");
+	public static final By LBL_BUNDLE_DETAILS = By.xpath("//div[@class='bundleDetails']//h4");
 	public static final By LBL_SET_PROMO_DETAILS = By.xpath("//div[@id='section3']//i");
 	public static final By BTN_CANCEL = By.id("cancelBtn");
+	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
@@ -41,6 +44,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
@@ -101,7 +105,6 @@ public class CreatePromotions extends Factory {
 	public static final By SELECT_ALL_LOCATION = By.id("selectAllLtoR-Loc");
 	public static final By TXT_SELECTED_ITEM = By.xpath("//li[text()='AutomationApple']");
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
-	public static final By BTN_ADD_GROUP = By.xpath("//button[@class='btn-mini']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
 	public static final By BTN_REMOVE = By.xpath("(//a[@class='fa fa-times'])[1]");
@@ -112,18 +115,46 @@ public class CreatePromotions extends Factory {
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By BTN_YES = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By LBL_CONFIRMGROUP = By.xpath("//div[text()='Confirm Group Delete']");
-	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");
 	public static final By CANCEL_BTN=By.id("groupmodalcancel");
-	public static final By PRODUCT_FILTER=By.id("prodfilter");
-	public static final By CATEGORY_FILTER=By.id("categoryfilter");
 	public static final By NAME_GRID=By.id("itemdatatable_name");
 	public static final By UPC_GRID=By.id("itemdatatable_upc");
 	public static final By TXT_RECORD=By.id("itemdatatable_pager_label");
 	public static final By PROD_CATE_SELECTED=By.xpath("//div[text()='2 Products, 1 Categories selected']");
 	public static final By CATEGORY_PRODUCT=By.xpath("//input[@onclick='setCheckBox(\"CAT 6 PROMO\",true,\"categorydatatable\",\"categorycheckbox\")']");
-	
+	public static final By LBL_PROMO_TYPE = By.xpath("//dt[text()='Promotion Type']");
+	public static final By LBL_PROMO_NAME = By.xpath("//dt[text()='Promotion Name']");
+	public static final By LBL_DISPLAY_NAME = By.xpath("//dt[text()='Display Name']");
+	public static final By FILTER_PAGE = By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By DETAILS_PAGE = By.xpath("//div[text()='Promotion Details']");
+	public static final By LBL_BUILD_BUNDLE = By.xpath("//dt[text()='Build Bundle']");
+	public static final By BTN_ADD_GROUP = By.xpath("//i[text()='Add Group']");
+	public static final By LBL_BUNDLE_GROUP = By.id("bundleModaltemplate-title");
+	public static final By TXT_GROUP_NAME = By.id("groupname");
+	public static final By ITEM_CHECK_BOX = By
+			.xpath("//td[@aria-readonly='true' and @aria-describedby='itemdatatable_activeCheckBox']//input");
+	public static final By CATEGORY_CHECK_BOX = By
+			.xpath("//td[@aria-readonly='true' and @aria-describedby='categorydatatable_activeCheckBox']//input");
+	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
+	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
+	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
+	public static final By DELETE_GROUP = By.xpath(
+			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
+	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
+	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
+	public static final By PRODUCT_FILTER = By.id("prodfilter");
+	public static final By CATEGORY_FILTER = By.id("categoryfilter");
+	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
+	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
+	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
+	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
+	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
+	public static final By BUNDLE_LIST = By.xpath("//td[@aria-describedby='groupdatatable_name']");
+	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
+	public static final By CATEGORY_GRID = By
+			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -133,9 +164,11 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//tr[@data-id='259ccd00a61aab13b7774cba6f677537']//td[text()='" + product +"']");
 	}
 
+
 	public By dropdownBuildBundle(String dropdown) {
 		return By.xpath("//select[@id='discountBy']//option[text()='" + dropdown + "']");
 	}
+
 
 	public void newPromotion(String promotionType, String promotionName, String displayName, String orgName,
 			String locationName) {
@@ -290,6 +323,91 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_LOC_RIGHT);
 	}
 
+
+	public void createPromotion(String promotionType, String promotionName, String displayName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(objLocation(promotionType)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PROMO_NAME));
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_DISPLAY_NAME));
+		textBox.enterText(TXT_DISPLAY_NAME, displayName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+	}
+
+	public void selectOrgLoc(String org, String location) {
+		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
+		foundation.click(BTN_ORG_RIGHT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		dropDown.selectItem(DPD_LOC, location, Constants.TEXT);
+		foundation.click(BTN_LOC_RIGHT);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_DETAILS, 5);
+	}
+
+	public void verifyBundleOption(List<String> requiredData) {
+		List<String> options = dropDown.getAllItems(DPD_DISCOUNT_BY);
+		CustomisedAssert.assertEquals(options.get(0), requiredData.get(0));
+		CustomisedAssert.assertEquals(options.get(1), requiredData.get(1));
+		CustomisedAssert.assertEquals(options.get(2), requiredData.get(2));
+		CustomisedAssert.assertEquals(options.get(3), requiredData.get(3));
+	}
+
+	public void creatingBundleGroup(String groupName, String product) {
+		foundation.click(BTN_ADD_GROUP);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
+		foundation.click(BTN_ADD_GROUP);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CATEGORY_FILTER);
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void editBundleGroup(String groupName, String product, String category) {
+		foundation.click(LBL_BUNDLE_GROUP_EDIT);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
+		foundation.click(TXT_GROUP_NAME);
+		textBox.clearText(TXT_GROUP_NAME);
+		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CATEGORY_FILTER);
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(GROUP_MODAL_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+
 	public void cancellingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
@@ -300,5 +418,14 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.alertAccept();
+	}
+
+
+	public void deleteBundleGroup() {
+		foundation.click(DELETE_GROUP);
+		foundation.threadWait(Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_GROUP_HEADER));
+		foundation.click(BTN_EXPIRE);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 }

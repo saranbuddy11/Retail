@@ -323,6 +323,17 @@ public class Foundation extends Factory {
 		}
 	}
 
+	public void scrollUp(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].scrollIntoView(false);", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Scroll up to view object [ " + object + " ] using javascript");
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public void copyFile(String from, String to) {
 
 		Path sourceDirectory = Paths.get(from);
@@ -513,6 +524,19 @@ public class Foundation extends Factory {
 			String colorValue = element.getCssValue("color");
 			hexColor = Color.fromString(colorValue).asHex();
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "Border color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return hexColor;
+	}
+
+	public String getTextColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Text color for " + object + "is " + hexColor);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

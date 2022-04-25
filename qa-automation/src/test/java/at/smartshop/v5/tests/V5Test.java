@@ -6282,6 +6282,7 @@ public class V5Test extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -6502,7 +6503,8 @@ public class V5Test extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			textBox.enterText(ProductSummary.TXT_LOCATION_SEARCH_FILTER,
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ProductSummary.LBL_REASON_CODE);
 			List<String> listReasonCode = dropDown.getAllItems(ProductSummary.DPD_REASON_CODE);
 			CustomisedAssert.assertTrue(listReasonCode.contains(editedInvReason));
@@ -7072,7 +7074,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AUTOTAXPERCENTAGE2", Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
 
 			// set language and sync machine
