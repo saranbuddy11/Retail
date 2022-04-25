@@ -552,4 +552,15 @@ public class Foundation extends Factory {
 		}
 		return point;
 	}
+	public String getFontSize(By object) {
+		String fontSize = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+		    fontSize = element.getCssValue("font-size");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Font Size of this Element " + object + "is " + fontSize);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return fontSize;
+	}
 }
