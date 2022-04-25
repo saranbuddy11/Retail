@@ -107,14 +107,14 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
-	public static final By BTN_REMOVE = By.xpath("(//a[@class='fa fa-times'])[1]");
+	
 	public static final By SELECT_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
-	public static final By BTN_YES = By.xpath("//button[@class='ajs-button ajs-ok']");
-	public static final By LBL_CONFIRMGROUP = By.xpath("//div[text()='Confirm Group Delete']");
+	
+	
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");
 	public static final By CANCEL_BTN=By.id("groupmodalcancel");

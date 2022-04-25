@@ -2542,21 +2542,14 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
 			String colour = foundation.getTextColor(PromotionList.BASIC_PROMOTION_TITLE);
 			CustomisedAssert.assertEquals(colour, color.get(0));
-			dropDown.selectItem(PromotionList.DPD_PROMOTYPE, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(PromotionList.NAME_PROMOTION, requiredData.get(1));
-			textBox.enterText(PromotionList.DISPLAY_PROMOTION, requiredData.get(2));
-			foundation.click(PromotionList.NEXT);
+			createPromotions.createPromotion(requiredData.get(0),requiredData.get(1),requiredData.get(2));
+			
 
 			// Navigate to Choosing promotion filter and select organization
 			colour = foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
-			CustomisedAssert.assertEquals(colour, color.get(1));
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropDown.selectItem(CreatePromotions.DPD_LOC, org.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
+			CustomisedAssert.assertEquals(colour, color.get(0));
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+			
 
 			// Select one r more group in bundle criteria
 			colour = foundation.getTextColor(PromotionList.PROMOTION_DETAILS);
@@ -2585,16 +2578,11 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.DPD_DISCOUNT_BY);
 			CustomisedAssert.assertTrue(foundation.isDisabled(createPromotions.dropdownBuildBundle(product.get(0))));
 			CustomisedAssert.assertTrue(foundation.isDisabled(createPromotions.dropdownBuildBundle(product.get(1))));
-			foundation.click(CreatePromotions.BTN_REMOVE);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
-			foundation.click(CreatePromotions.BTN_YES);
-
+			
 			// removing the group bundle promotion
-			foundation.click(CreatePromotions.BTN_REMOVE);
+			createPromotions.deleteBundleGroup();
 			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
-			foundation.click(CreatePromotions.BTN_YES);
+			createPromotions.deleteBundleGroup();
 
 			// selecting a item&Category in build bundle
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
@@ -2644,21 +2632,12 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
 			String colour = foundation.getTextColor(PromotionList.BASIC_PROMOTION_TITLE);
 			CustomisedAssert.assertEquals(colour, color.get(0));
-			dropDown.selectItem(PromotionList.DPD_PROMOTYPE, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(PromotionList.NAME_PROMOTION, requiredData.get(1));
-			textBox.enterText(PromotionList.DISPLAY_PROMOTION, requiredData.get(2));
-			foundation.click(PromotionList.NEXT);
-
+			createPromotions.createPromotion(requiredData.get(0),requiredData.get(1),requiredData.get(2));
+			
 			// Navigate to Choosing promotion filter and select organization
 			colour = foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
-			CustomisedAssert.assertEquals(colour, color.get(1));
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropDown.selectItem(CreatePromotions.DPD_LOC, org.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
+			CustomisedAssert.assertEquals(colour, color.get(0));
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
 
 			// Select one r more group in bundle criteria
 			colour = foundation.getTextColor(PromotionList.PROMOTION_DETAILS);
@@ -2676,11 +2655,8 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// removing the group bundle promotion
-			foundation.click(CreatePromotions.BTN_REMOVE);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CONFIRMGROUP));
-			foundation.click(CreatePromotions.BTN_YES);
-
+			createPromotions.deleteBundleGroup();
+			
 			// validate the product & category field, verify Name, UPC & record field
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
