@@ -718,6 +718,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
 				rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 				rstLocation.put(CNLocation.TITLE, resultSet.getString(CNLocation.TITLE));
+				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

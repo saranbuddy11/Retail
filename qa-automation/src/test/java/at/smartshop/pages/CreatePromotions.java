@@ -107,22 +107,15 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
-	
-	public static final By SELECT_CHECKBOX = By.xpath(
-			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
-	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
-			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By BIRTHDAY_GRID=By.xpath("//td[text()='birthday']");
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
-	
-	
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");
 	public static final By CANCEL_BTN=By.id("groupmodalcancel");
 	public static final By NAME_GRID=By.id("itemdatatable_name");
 	public static final By UPC_GRID=By.id("itemdatatable_upc");
 	public static final By TXT_RECORD=By.id("itemdatatable_pager_label");
-	public static final By PROD_CATE_SELECTED=By.xpath("//div[text()='2 Products, 1 Categories selected']");
-	public static final By CATEGORY_PRODUCT=By.xpath("//input[@onclick='setCheckBox(\"CAT 6 PROMO\",true,\"categorydatatable\",\"categorycheckbox\")']");
+	public static final By PROD_CATE_SELECTED=By.id("groupcount");
 	public static final By LBL_PROMO_TYPE = By.xpath("//dt[text()='Promotion Type']");
 	public static final By LBL_PROMO_NAME = By.xpath("//dt[text()='Promotion Name']");
 	public static final By LBL_DISPLAY_NAME = By.xpath("//dt[text()='Display Name']");
@@ -428,4 +421,18 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_EXPIRE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
+	public void groupSelectionList(String name) {
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, name);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
+	public void selectCategory(String category) {
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
 }
