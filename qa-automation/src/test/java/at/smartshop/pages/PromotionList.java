@@ -37,6 +37,9 @@ public class PromotionList extends Factory {
 	public static final By CALENDER_DATE_RANGE = By.id("daterange");
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	public static final By DPD_STATUS = By.id("status");
+	public static final By BASIC_PROMOTION_TITLE=By.xpath("//div[text()='Enter Promotion Basics']");
+	public static final By CHOOSE_PROMOTION_FILTER=By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By PROMOTION_DETAILS=By.xpath("//div[text()='Promotion Details']");
 	public static final By DPD_PROMOTYPE = By.id("promotype");
 	public static final By LBL_SEARCH = By.xpath("//input[@id='search']//..//..//dt");
 	public static final By LBL_CALENDER_DATE_RANGE = By.xpath("//input[@id='startdate']//..//..//dt");
@@ -48,6 +51,10 @@ public class PromotionList extends Factory {
 	public static final By LBL_LOCATION_NAME = By
 			.xpath("//td[contains(@aria-describedby,'promotionLocationLevel_child_name')]");
 	public static final By DRP_STATUS = By.xpath("//select[@id='status']");
+	public static final By NAME_PROMOTION=By.id("name");
+	public static final By DISPLAY_PROMOTION=By.id("displayname");
+	public static final By NEXT=By.id("submitBtn");
+	public static final By ARROY_RIGHT=By.id("singleSelectLtoR");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));

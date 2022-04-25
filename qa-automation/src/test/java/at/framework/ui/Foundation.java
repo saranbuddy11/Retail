@@ -517,7 +517,7 @@ public class Foundation extends Factory {
 		}
 		return hexColor;
 	}
-
+	
 	public String getTextColor(By object) {
 		String hexColor = null;
 		try {
