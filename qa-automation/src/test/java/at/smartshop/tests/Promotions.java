@@ -2116,73 +2116,6 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C176271-Verify the 'Build Bundle' Dropdown with new 'Group' option in step 3 (promotion details) for Bundle"
-			+ "C176272-Verify the funstionality of 'Group' option in step 3 (promotion details) for build Bundle promotion")
-	public void VerifyBuildBundleDropdownInGroup() {
-		final String CASE_NUM = "176271";
-
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
-		List<String> color = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		List<String> datas = Arrays
-				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
-		try {
-			// Select Menu & Menu Item
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Navigate to Admin-->Promotions
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			String colour = foundation.getTextColor(PromotionList.BASIC_PROMOTION_TITLE);
-			CustomisedAssert.assertEquals(colour, color.get(0));
-			dropdown.selectItem(PromotionList.DPD_PROMOTYPE, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(PromotionList.NAME_PROMOTION, requiredData.get(1));
-			textBox.enterText(PromotionList.DISPLAY_PROMOTION, requiredData.get(2));
-			foundation.click(PromotionList.NEXT);
-
-			// Navigate to Choosing promotion filter and select organization
-			colour = foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
-			CustomisedAssert.assertEquals(colour, color.get(1));
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			dropdown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropdown.selectItem(CreatePromotions.DPD_LOC, org.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-
-			// Navigate to promotion Details and select build bundle and verify the add
-			// group button
-			colour = foundation.getTextColor(PromotionList.PROMOTION_DETAILS);
-			CustomisedAssert.assertEquals(colour, color.get(0));
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
-			List<String> values = dropdown.getAllItems(CreatePromotions.DPD_DISCOUNT_BY);
-			CustomisedAssert.assertEquals(values.get(0), datas.get(0));
-			CustomisedAssert.assertEquals(values.get(1), datas.get(1));
-			CustomisedAssert.assertEquals(values.get(2), datas.get(2));
-			CustomisedAssert.assertEquals(values.get(3), datas.get(3));
-			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, datas.get(3), Constants.TEXT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
-			colour = foundation.getTextColor(CreatePromotions.BTN_ADD_GROUP);
-			CustomisedAssert.assertEquals(colour, color.get(2));
-			createPromotions.cancellingPromotion();
-			login.logout();
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
 	@Test(description = "C176284-Verify the conflict for selecting the item and categories option in 'Build bundle' Dropdown"
 			+ "C176285-Verify the conflict for selecting the Group option in 'Build bundle' Dropdown")
 	public void verifyConflictForSelectingBundlePromtions() {
@@ -2274,6 +2207,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_ITEM));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_CATEGORY));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
 			createPromotions.cancellingPromotion();

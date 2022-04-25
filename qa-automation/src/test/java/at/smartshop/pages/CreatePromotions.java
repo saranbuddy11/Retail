@@ -74,6 +74,7 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_ORGANIZATION = By.id("org-select");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By TXT_ITEM = By.xpath("//input[@placeholder='Search for an Item']");
+	public static final By TXT_CATEGORY=By.id("categorySelect");
 	public static final By DPD_LOCATION_LIST = By.xpath("//ul[@id='select2-location-select-results']//li");
 	public static final By DPD_ORG = By.id("org-select");
 	public static final By BTN_ORG_RIGHT = By.id("singleSelectLtoR");
