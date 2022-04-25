@@ -71,7 +71,9 @@ public class TextBox extends Factory {
 				} else {
 					foundation.objectClick(By.xpath("//*[text()='ABC']"));
 					foundation.click(By.xpath("//*[text()='" + charArray[i] + "']"));
-					foundation.click(By.xpath("//*[text()='abc']"));
+					if (charArray[i - 1] != ' ') {
+						foundation.click(By.xpath("//*[text()='abc']"));
+					}
 //					foundation.threadWait(Constants.ONE_SECOND);
 				}
 			} else {

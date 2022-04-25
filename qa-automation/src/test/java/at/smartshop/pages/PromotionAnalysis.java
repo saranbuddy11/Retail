@@ -74,6 +74,8 @@ public class PromotionAnalysis extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			reportsData.clear();
+			intialData.clear();
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS);
@@ -92,6 +94,7 @@ public class PromotionAnalysis extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData :"+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -102,6 +105,7 @@ public class PromotionAnalysis extends Factory {
 			int recordCount = 0;
 			tableHeaders.clear();
 			reportsData.clear();
+			intialData.clear();
 			By TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
 					.cssSelector("#promoLocationLevel > tbody > tr:nth-child("+(recordCountForGroupbyLocation+2)+") > td > div > div > div > table");
 			By TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
@@ -132,9 +136,11 @@ public class PromotionAnalysis extends Factory {
 
 	public void getRequiredRecord(String promotionName) {
 		try {
+			recordCount=0;
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
 					recordCount = rowCount;
+					System.out.println("recordCount 2222 : "+ recordCount);
 					break;
 				}
 			}
@@ -187,9 +193,18 @@ public class PromotionAnalysis extends Factory {
 		}
 	}
 
+//	public void updateData(String columnName, String values) {
+//		try {
+//			intialData.get(recordCount).put(columnName, values);
+//			System.out.println("updated");
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
+	
 	public void updateData(String columnName, String values) {
 		try {
-			intialData.get(recordCount).put(columnName, values);
+			PromoExpectedData.put(columnName, values);
 			System.out.println("updated");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -204,7 +219,7 @@ public class PromotionAnalysis extends Factory {
 //			String discountAmount = (String) jsonData.get("discount");
 			double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(discountAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(recordCount).put(tableHeaders.get(8), String.valueOf(updatedAmount));
+			PromoExpectedData.put(tableHeaders.get(8), Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -216,7 +231,7 @@ public class PromotionAnalysis extends Factory {
 //			String Redemptions = (String) jsonData.get("redeemcount");
 			int updatedRedemptions = Integer.parseInt(initialRedemptions) + (Integer.parseInt(redemptions));
 //			updatedRedemptions = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(recordCount).put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
+			PromoExpectedData.put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -238,6 +253,7 @@ public class PromotionAnalysis extends Factory {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
 			}
+			System.out.println("promoActualData 222: " + promoActualData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -249,6 +265,7 @@ public class PromotionAnalysis extends Factory {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
 			}
+			System.out.println("PromoExpectedData 222: " + PromoExpectedData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
