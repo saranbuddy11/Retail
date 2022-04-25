@@ -85,8 +85,8 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_LOC_RIGHT = By.id("singleSelectLtoR-Loc");
 	public static final By TXT_QUANTITY = By.id("bundleItem0");
 	public static final By TXT_BUNDLE_PRICE = By.id("bundleprice");
-	public static final By LBL_TOTAL_PRICE = By.id("totalprice");
-	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//*[@id='bundlesummary']/b/span");
+	public static final By LBL_TOTAL_PRICE = By.id("product-price");
+	public static final By LBL_BUNDLE_DISCOUNT = By.xpath("//div[@class='discount-price']//span[3]");
 	public static final By TXT_ITEM1 = By.xpath("//*[@id='itemSelect']//li/input");
 	public static final By CHK_NO_END_DATE = By.id("hasnoenddate");
 	public static final By RB_BUNDLE_AMOUNT = By.id("bundleAmountCheckbox");

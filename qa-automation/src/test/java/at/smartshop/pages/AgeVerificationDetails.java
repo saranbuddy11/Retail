@@ -92,6 +92,7 @@ public class AgeVerificationDetails extends Factory {
 
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
 		foundation.click(objExpirePinConfirmation(location, prompt.get(0)));
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_MSG));
 		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_CONTENT));
@@ -120,7 +121,7 @@ public class AgeVerificationDetails extends Factory {
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
 		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.THREE_SECOND);
 	}
 
 	public void createAgeVerificationPinWithoutEmail(String location, List<String> datas) {

@@ -2375,7 +2375,7 @@ public class SuperOthers extends TestInfra {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// copy Referral button and create a new Referral
+			// search a Referral
 			textBox.enterText(AppReferral.TXTBX_SEARCH, org);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(AppReferral.SELECT_GRID);
@@ -2389,6 +2389,7 @@ public class SuperOthers extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		// Resetting the data
+		foundation.waitforElement(AppReferral.TXTBX_SEARCH, 10);
 		textBox.enterText(AppReferral.TXTBX_SEARCH, newReferral_Org);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(AppReferral.SELECT_GRID);

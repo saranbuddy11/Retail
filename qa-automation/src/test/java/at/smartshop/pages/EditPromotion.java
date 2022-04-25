@@ -38,7 +38,7 @@ public class EditPromotion extends Factory {
 
 	public void expirePromotion(String dataGridname, String promoName) {
 		if(!foundation.isDisplayed(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"))){
-			dropDown.selectItem(PromotionList.DPD_STATUS, Constants.SCHEDULED, Constants.TEXT);
+			dropDown.selectItem(PromotionList.DPD_STATUS, Constants.ALL, Constants.TEXT);
 			foundation.click(PromotionList.BTN_SEARCH);
 		}
 		table.selectRow(dataGridname, promoName);
