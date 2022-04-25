@@ -417,7 +417,7 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "141831-This test validates the Category getting updated in Promotion Screen- Bundle Promotion", enabled = false)
+	@Test(description = "141831-This test validates the Category getting updated in Promotion Screen- Bundle Promotion")
 	public void verifyCategoryInPromotionScreen() {
 		final String CASE_NUM = "141831";
 
@@ -425,11 +425,6 @@ public class Promotions extends TestInfra {
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-
-		navigationBar.selectOrganization(
-				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-		foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
@@ -445,6 +440,11 @@ public class Promotions extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
 
 			// Basic Information Page
 			foundation.click(PromotionList.BTN_CREATE);
