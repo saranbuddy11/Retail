@@ -2209,7 +2209,9 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "176281 - verify the view for the build bundle Groups"
 			+ "176282 - verify the Edit of the build bundle Groups"
-			+ "176283 - verify the deletion of groups from the build bundle section")
+			+ "176283 - verify the deletion of groups from the build bundle section"
+			+ "176271 - Verify the 'Build Bundle' Dropdown with new 'Group' option in step 3 (promotion details) for Bundle"
+			+ "176272 - Verify the funstionality of 'Group' option in step 3 (promotion details) for build Bundle promotion")
 	public void verifyBundlePromtionsAddGroupOption() {
 		final String CASE_NUM = "176281";
 
