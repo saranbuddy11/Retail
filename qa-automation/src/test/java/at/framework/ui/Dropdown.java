@@ -102,5 +102,19 @@ public class Dropdown extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "item " + text +"is not present");
 		return true;
 	}
+	
+	public void selectAllItems(By object) {
+		try {
+			Select select = new Select(getDriver().findElement(object));
+			List<WebElement> items = select.getOptions();
+			for (int i = 0; i < items.size(); i++) {
+				select.selectByIndex(i);
+				ExtFactory.getInstance().getExtent().log(Status.INFO, "selected" + items.get(i) + " dropdown value");
+			}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 }

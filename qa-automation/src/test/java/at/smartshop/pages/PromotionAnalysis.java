@@ -18,6 +18,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.Reports;
 import at.smartshop.tests.TestInfra;
 
 public class PromotionAnalysis extends Factory {
@@ -73,6 +74,8 @@ public class PromotionAnalysis extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
+			reportsData.clear();
+			intialData.clear();
 			JavascriptExecutor js = (JavascriptExecutor) getDriver();
 			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 			WebElement tableReportsList = getDriver().findElement(TBL_PROMOTIONAL_ANALYSIS_GRID_GROUPBY_PROMOTIONS);
@@ -101,6 +104,7 @@ public class PromotionAnalysis extends Factory {
 			int recordCount = 0;
 			tableHeaders.clear();
 			reportsData.clear();
+			intialData.clear();
 			By TBL_PROMOTIONAL_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
 					.cssSelector("#promoLocationLevel > tbody > tr:nth-child("+(recordCountForGroupbyLocation+2)+") > td > div > div > div > table");
 			By TBL_PROMOTIONAL_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
@@ -131,6 +135,7 @@ public class PromotionAnalysis extends Factory {
 
 	public void getRequiredRecord(String promotionName) {
 		try {
+			recordCount=0;
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
 					recordCount = rowCount;
@@ -185,10 +190,35 @@ public class PromotionAnalysis extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
 	public void updateData(String columnName, String values) {
 		try {
-			intialData.get(recordCount).put(columnName, values);
+			PromoExpectedData.put(columnName, values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void updateDiscount(String discountAmount) {
+		try {
+			String initialAmount = intialData.get(recordCount).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
+//			String discountAmount = (String) jsonData.get("discount");
+			double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(discountAmount);
+			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			PromoExpectedData.put(tableHeaders.get(8), Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void updateRedemptionsCount(String redemptions) {
+		try {
+			String initialRedemptions = intialData.get(recordCount).get(tableHeaders.get(7));
+//			String Redemptions = (String) jsonData.get("redeemcount");
+			int updatedRedemptions = Integer.parseInt(initialRedemptions) + (Integer.parseInt(redemptions));
+//			updatedRedemptions = Math.round(updatedAmount * 100.0) / 100.0;
+			PromoExpectedData.put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
