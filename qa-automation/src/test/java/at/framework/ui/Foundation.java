@@ -323,6 +323,17 @@ public class Foundation extends Factory {
 		}
 	}
 
+	public void scrollUp(By object) {
+		try {
+			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+			executor.executeScript("arguments[0].scrollIntoView(false);", getDriver().findElement(object));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Scroll up to view object [ " + object + " ] using javascript");
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public void copyFile(String from, String to) {
 
 		Path sourceDirectory = Paths.get(from);
@@ -507,6 +518,19 @@ public class Foundation extends Factory {
 		return hexColor;
 	}
 
+	public String getTextColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Text color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return hexColor;
+	}
+
 	public Point getCoordinates(By object) {
 		Point point = null;
 		try {
@@ -516,15 +540,27 @@ public class Foundation extends Factory {
 		}
 		return point;
 	}
-	
+
 	public void scrollToBottom() {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 			executor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					"Scrolled to bottom of thepage using javascript");
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Scrolled to bottom of thepage using javascript");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	public String getFontSize(By object) {
+		String fontSize = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			fontSize = element.getCssValue("font-size");
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Font Size of this Element " + object + "is " + fontSize);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return fontSize;
 	}
 }

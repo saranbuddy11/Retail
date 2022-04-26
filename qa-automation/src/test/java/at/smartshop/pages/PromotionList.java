@@ -15,9 +15,7 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class PromotionList extends Factory {
@@ -39,6 +37,9 @@ public class PromotionList extends Factory {
 	public static final By CALENDER_DATE_RANGE = By.id("daterange");
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	public static final By DPD_STATUS = By.id("status");
+	public static final By BASIC_PROMOTION_TITLE=By.xpath("//div[text()='Enter Promotion Basics']");
+	public static final By CHOOSE_PROMOTION_FILTER=By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By PROMOTION_DETAILS=By.xpath("//div[text()='Promotion Details']");
 	public static final By DPD_PROMOTYPE = By.id("promotype");
 	public static final By LBL_SEARCH = By.xpath("//input[@id='search']//..//..//dt");
 	public static final By LBL_CALENDER_DATE_RANGE = By.xpath("//input[@id='startdate']//..//..//dt");
@@ -50,12 +51,16 @@ public class PromotionList extends Factory {
 	public static final By LBL_LOCATION_NAME = By
 			.xpath("//td[contains(@aria-describedby,'promotionLocationLevel_child_name')]");
 	public static final By DRP_STATUS = By.xpath("//select[@id='status']");
+	public static final By NAME_PROMOTION=By.id("name");
+	public static final By DISPLAY_PROMOTION=By.id("displayname");
+	public static final By NEXT=By.id("submitBtn");
+	public static final By ARROY_RIGHT=By.id("singleSelectLtoR");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));
 	}
 
-	public void searchPromotion(String promoName,String statusType) {
+	public void searchPromotion(String promoName, String statusType) {
 		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
 		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
 		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
@@ -82,7 +87,7 @@ public class PromotionList extends Factory {
 			// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
 			// FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
-			searchPromotion(promotionName,statusType);
+			searchPromotion(promotionName, statusType);
 			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
@@ -90,5 +95,19 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
+	public void expireMultiplePromotion(String menuItem, String promotionName, String gridName) {
+		try {
+			foundation.threadWait(Constants.TWO_SECOND);
+			navigationBar.navigateToMenuItem(menuItem);
+			foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+			textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.click(PromotionList.BTN_SEARCH);
+			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			editPromotion.expirePromotion(gridName, promotionName);
+			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

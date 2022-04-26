@@ -714,9 +714,11 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.TAB_NAME, resultSet.getString(CNLocation.TAB_NAME));
 				rstLocation.put(CNLocation.PRODUCT_NAME, resultSet.getString(CNLocation.PRODUCT_NAME));
 				rstLocation.put(CNLocation.COLUMN_VALUE, resultSet.getString(CNLocation.COLUMN_VALUE));
+				rstLocation.put(CNLocation.COLUMN_NAME, resultSet.getString(CNLocation.COLUMN_NAME));
 				rstLocation.put(CNLocation.POPUP_NAME, resultSet.getString(CNLocation.POPUP_NAME));
 				rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 				rstLocation.put(CNLocation.TYPE, resultSet.getString(CNLocation.TYPE));
+				rstLocation.put(CNLocation.TITLE, resultSet.getString(CNLocation.TITLE));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

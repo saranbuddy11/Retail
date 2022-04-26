@@ -21,6 +21,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocation;
@@ -40,7 +41,9 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
+import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.Report;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -1175,8 +1178,8 @@ public class Location extends TestInfra {
 
 			// Reading test data from DataBase
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			List<String> devicetabHeaders = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//			List<String> devicetabHeaders = Arrays.asList(
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
 			browser.navigateURL(
@@ -1208,8 +1211,8 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			List<String> devicetabHeaders = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			//List<String> devicetabHeaders = Arrays.asList(
+				//	rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 
@@ -1393,7 +1396,7 @@ public class Location extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device and Searching for product
-			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -1409,6 +1412,7 @@ public class Location extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1461,7 +1465,7 @@ public class Location extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device and Searching for product
-			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -1477,6 +1481,7 @@ public class Location extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1596,4 +1601,80 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	@Test(description = "176744-QAA-109-Verify Add button section  is displayed when clicked on Deploy device button on Location Summary Page")
+	public void verifyDeployDeviceAddSection() {
+		try {
+			final String CASE_NUM = "176744";
+
+			// Reading test data from DataBas
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			
+			// Navigating to device tab and click on Add button
+			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_DEVICE_POPUP_SEARCH, Constants.LONG_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_COLUMN_DATA));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROW_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEVICE_ADD));
+			foundation.click(LocationSummary.BTN_DEVICE_ADD);
+			foundation.refreshPage();
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
+			String resultText = foundation.getText(LocationSummary.DEVICE_RECORD);
+			CustomisedAssert.assertTrue(resultText.contains(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));		
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "177340-ADM>LocationSummary>Verify Excel should be downloaded after clicking on export button on Location Summary Page")
+	public void verifyExportButtonFunctionality() {
+		try {
+			final String CASE_NUM = "177340";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.ONE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_EXPORT));
+			foundation.click(LocationSummary.BTN_EXPORT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+			} finally {
+			// delete files
+				foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);			}
+		}
 }

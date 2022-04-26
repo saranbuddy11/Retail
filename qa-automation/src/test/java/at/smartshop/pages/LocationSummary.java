@@ -254,7 +254,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
-			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
 	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
@@ -299,6 +299,8 @@ public class LocationSummary extends Factory {
 	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
 	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
 	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
+	public static final By DEVICE_RECORD = By.xpath("//span[@id='deviceDataGrid_table_pager_label']");
+	
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");

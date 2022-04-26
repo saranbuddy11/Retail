@@ -1199,7 +1199,6 @@ public class AgeVerification extends TestInfra {
 
 	@Test(description = "169162-check the other devices on the location after age verification is enabled on one device"
 			+ "169163-check the other devices on the location after age verification is disabled on one device")
-
 	public void verifyOtherDeviceInAgeVerification() {
 		final String CASE_NUM = "169162";
 
@@ -2256,6 +2255,7 @@ public class AgeVerification extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, language.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			navigationBar.navigateToMenuItem(menus.get(1));
 			foundation.click(AgeVerificationDetails.BTN_EXPIRE);
@@ -2344,8 +2344,9 @@ public class AgeVerification extends TestInfra {
 					datas);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT,
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+			foundation.threadWait(Constants.THREE_SECOND);
 			uiTableData = ageVerificationDetails.getTblRecordsUI();
-			for (int i = 0; i < uiTableData.size(); i++) {
+			for (int i = 0; i <= 0; i++) {
 				innerMap = uiTableData.get(i);
 				innerValue = innerMap.get("Daily Uses");
 				CustomisedAssert.assertEquals(innerValue, dailyuses.get(1));

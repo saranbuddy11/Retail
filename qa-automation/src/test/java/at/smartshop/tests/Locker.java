@@ -532,8 +532,8 @@ public class Locker extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 //			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			List<String> requiredData = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//			List<String> requiredData = Arrays.asList(
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 //			dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, requiredData.get(0), Constants.TEXT);
 //			foundation.click(LocationSummary.BTN_SAVE);
 
@@ -1147,8 +1147,8 @@ public class Locker extends TestInfra {
 					.asList(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> hasLocker = Arrays
-					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
+//			List<String> hasLocker = Arrays
+//					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
 
 //			navigationBar.navigateToMenuItem(menuItems.get(0));
 //			locationList.selectLocationName(locations.get(0));
@@ -1551,7 +1551,6 @@ public class Locker extends TestInfra {
 					isPresent = true;
 					break;
 				}
-
 			}
 			CustomisedAssert.assertTrue(isPresent);
 
@@ -1569,7 +1568,6 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, Constants.SHORT_TIME);
 		}
-
 	}
 
 	@Test(description = "135737-Verify the 'Location' dropdown in Create a system screen for Locker settings disabled in Location Summary - Super")
@@ -1580,9 +1578,8 @@ public class Locker extends TestInfra {
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLockerSystemData = dataBase.getLockerSystemData(Queries.LOCKER_SYSTEM, CASE_NUM);
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+//		List<String> requiredData = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1694,8 +1691,8 @@ public class Locker extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> lockerSystemRequiredData = Arrays
 				.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		List<String> requiredData = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1768,8 +1765,8 @@ public class Locker extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> lockerSystem_Required_Data = Arrays
 				.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		List<String> requiredData = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1865,8 +1862,8 @@ public class Locker extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> lockerSystem_Required_Data = Arrays
 				.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		List<String> requiredData = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1942,8 +1939,8 @@ public class Locker extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> lockerSystem_Required_Data = Arrays
 				.asList(rstLockerSystemData.get(CNLockerSystem.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		List<String> requiredData = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2139,8 +2136,8 @@ public class Locker extends TestInfra {
 					.asList(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> hasLocker = Arrays
-					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
+//			List<String> hasLocker = Arrays
+//					.asList(rstLocationSummaryData.get(CNLocationSummary.HAS_LOCKERS).split(Constants.DELIMITER_TILD));
 
 //			navigationBar.navigateToMenuItem(menuItems.get(0));
 //			locationList.selectLocationName(locations.get(0));
@@ -2167,5 +2164,4 @@ public class Locker extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
 }

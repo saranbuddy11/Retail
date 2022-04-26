@@ -166,7 +166,6 @@ public class Report extends TestInfra {
 //	}
 
 	@Test(description = "119928-This test validates account adjustment report")
-
 	public void accountAdjustmentReport() {
 		try {
 			Map<String, String> dbData = new HashMap<>();
@@ -930,7 +929,6 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142802-This test validates Tip Summary Report Data Calculation")
-
 	public void tipSummaryReportData() {
 		try {
 

@@ -62,6 +62,9 @@ public class GlobalProduct extends Factory {
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
+	public By getGlobalProductSearch(String product) {
+		return By.xpath("//tr[@data-id='40b9fbbc57f66e1b734a59c6f4c1a48a']//td[text()='" + product + "']");
+	}
 
 	public By selectGlobalProduct(String product, String category) {
 		return By.xpath("//td[text()='" + product + "']/following-sibling::td[text()='" + category + "']");
