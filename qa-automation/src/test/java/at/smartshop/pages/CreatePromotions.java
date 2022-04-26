@@ -148,6 +148,7 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+	public static final By REMOVE=By.xpath("//a[@class='fa fa-times']");
 
 
 	public By objLocation(String value) {

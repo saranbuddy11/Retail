@@ -2737,6 +2737,11 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
+//			createPromotions.groupSelectionList(Datas.get(0)); 
+//			Point coordinates =foundation.getCoordinates(CreatePromotions.REMOVE); 
+//			int x =coordinates.getX(); 
+//			int y = coordinates.getY(); 
+//			System.out.println(x +" "+ y);
 			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
 
