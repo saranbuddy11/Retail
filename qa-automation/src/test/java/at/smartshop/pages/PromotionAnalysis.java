@@ -94,7 +94,6 @@ public class PromotionAnalysis extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData :"+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -140,7 +139,6 @@ public class PromotionAnalysis extends Factory {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
 					recordCount = rowCount;
-					System.out.println("recordCount 2222 : "+ recordCount);
 					break;
 				}
 			}
@@ -192,20 +190,10 @@ public class PromotionAnalysis extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
-//	public void updateData(String columnName, String values) {
-//		try {
-//			intialData.get(recordCount).put(columnName, values);
-//			System.out.println("updated");
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
 	
 	public void updateData(String columnName, String values) {
 		try {
 			PromoExpectedData.put(columnName, values);
-			System.out.println("updated");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -213,7 +201,6 @@ public class PromotionAnalysis extends Factory {
 	
 	public void updateDiscount(String discountAmount) {
 		try {
-			System.out.println("testttt :"+tableHeaders.get(8));
 			String initialAmount = intialData.get(recordCount).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
 					Constants.EMPTY_STRING);
 //			String discountAmount = (String) jsonData.get("discount");
@@ -253,7 +240,6 @@ public class PromotionAnalysis extends Factory {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				promoActualData.put(tableHeaders.get(iter), reportsData.get(recordCount).get(tableHeaders.get(iter)));
 			}
-			System.out.println("promoActualData 222: " + promoActualData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -265,7 +251,6 @@ public class PromotionAnalysis extends Factory {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				PromoExpectedData.put(tableHeaders.get(iter), intialData.get(recordCount).get(tableHeaders.get(iter)));
 			}
-			System.out.println("PromoExpectedData 222: " + PromoExpectedData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -274,8 +259,6 @@ public class PromotionAnalysis extends Factory {
 
 	public void verifyReportData() {
 		try {
-			System.out.println("promoActualData : "+promoActualData);
-			System.out.println("PromoExpectedData : "+PromoExpectedData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(promoActualData.get(tableHeaders.get(iter))
 						.contains(PromoExpectedData.get(tableHeaders.get(iter))));
