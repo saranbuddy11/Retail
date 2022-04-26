@@ -321,6 +321,19 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
+		}
+	
+	public void selectWeekDays(String weekDays) {
+		try {
+			List<String> weekDaysData = Arrays.asList(weekDays.split(Constants.DELIMITER_HASH));
+			System.out.println(weekDaysData);
+			for (int iter = 0; iter < weekDaysData.size(); iter++) {
+				foundation
+						.click(By.xpath("//div[@id='recurringInput']//dd/input[@id='" + weekDaysData.get(iter) + "']"));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 
