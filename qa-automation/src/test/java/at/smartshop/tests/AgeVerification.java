@@ -2609,7 +2609,7 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "169025 - ADM > Users and Roles > Permission Matrix > Super and Operator > Admin Tab > Age Verification (NEW)")
+	@Test(description = "169025 - ADM > Users and Roles > Permission Matrix > Super and Operator > Admin Tab > Age Verification NEW")
 	public void verifyUserRolesPermission() {
 		final String CASE_NUM = "169025";
 
@@ -2706,7 +2706,7 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "169024-ADM > Admin > Age Verification (when to show/hide new sub nav)(NEW)")
+	@Test(description = "169024-ADM > Admin > Age Verification when to showhide new sub nav NEW")
 	public void verifyLocationAvailableAsSuperAndoperator() {
 		final String CASE_NUM = "169024";
 
