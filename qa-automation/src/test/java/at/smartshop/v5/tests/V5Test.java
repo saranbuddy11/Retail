@@ -4009,7 +4009,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.BTN_LOGIN);
 			accountLogin.verifyAccountLoginPageLanguage(rstV5DeviceData.get(CNV5Device.LOGIN_PAGE));
 
-			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_PIN, FilePath.PROPERTY_CONFIG_FILE));
+			textBox.enterPin(propertyFile.readPropertyFile(Configuration.V5_DRIVER_PIN, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
 
 			// Verifying Account info page
@@ -10960,7 +10960,8 @@ public class V5Test extends TestInfra {
 			foundation.click(PromotionList.BTN_CREATE);
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, requiredData.get(0), locationName);
-			//dropDown.selectItem(CreatePromotions.DPD_DEVICE, requiredData.get(9), Constants.TEXT);
+			// dropDown.selectItem(CreatePromotions.DPD_DEVICE, requiredData.get(9),
+			// Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
