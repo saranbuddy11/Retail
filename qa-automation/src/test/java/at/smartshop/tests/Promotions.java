@@ -2763,17 +2763,17 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(groupData.get(0), productName.get(0));
 			CustomisedAssert.assertEquals(groupData.get(1), productName.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST_DELETE));
-			foundation.click(createPromotions.objDeleteIndex("1"));
-			foundation.click(createPromotions.objDeleteIndex("1"));
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(createPromotions.objDeleteIndex("1"));
+			createPromotions.selectItem(productName.get(0));
+			createPromotions.selectItem(productName.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
 			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(2));
 
 			// Creating the Group and validating the Categories section with one or more
-			// Items
-			// selected
+			// Items selected
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			color = foundation.getBGColor(CreatePromotions.CATEGORY_FILTER);
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			CustomisedAssert.assertTrue(foundation.getSizeofListElement(CreatePromotions.CATEGORY_GRID) > 0);
@@ -2790,9 +2790,11 @@ public class Promotions extends TestInfra {
 			groupData = foundation.getTextofListElement(CreatePromotions.BUNDLE_LIST);
 			CustomisedAssert.assertEquals(groupData.get(0), columnName.get(0));
 			CustomisedAssert.assertEquals(groupData.get(1), columnName.get(1));
-			foundation.click(createPromotions.objDeleteIndex("1"));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST_DELETE));
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(createPromotions.objDeleteIndex("1"));
+			createPromotions.selectCategory(columnName.get(0));
+			createPromotions.selectCategory(columnName.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
 			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(2));

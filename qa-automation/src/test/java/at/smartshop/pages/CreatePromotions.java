@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
@@ -154,21 +155,14 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
 	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
 	public static final By BUNDLE_LIST = By.xpath("//td[@aria-describedby='groupdatatable_name']");
-	public static final By BUNDLE_LIST_DELETE = By.xpath(
-			"//a[@style='color: #FFFFFF;cursor: pointer;background: #2555d9 !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By BUNDLE_LIST_MESSAGE = By.id("groupcount");
+	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
-	}
-
-	public By objDeleteIndex(String num) {
-		return By.xpath(
-				"(//a[@style='color: #FFFFFF;cursor: pointer;background: #2555d9 !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;'])["
-						+ num + "]");
 	}
 
 	public By Product(String product) {
@@ -330,8 +324,8 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_ORG_RIGHT);
 		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.click(BTN_LOC_RIGHT);
-		}
-	
+	}
+
 	public void selectWeekDays(String weekDays) {
 		try {
 			List<String> weekDaysData = Arrays.asList(weekDays.split(Constants.DELIMITER_HASH));
