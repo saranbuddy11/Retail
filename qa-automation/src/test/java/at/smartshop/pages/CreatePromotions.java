@@ -110,8 +110,6 @@ public class CreatePromotions extends Factory {
 	
 	public static final By SELECT_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
-	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
-			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	
 	
@@ -154,6 +152,7 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+	public static final By RECORD_PRODUCT=By.id("itemdatatable_pager_label");
 
 
 	public By objLocation(String value) {
@@ -441,4 +440,21 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_EXPIRE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
+	public void selectItem(String item) {
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, item);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
+
+
+
+		public void selectCategory(String category) {
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
 }
