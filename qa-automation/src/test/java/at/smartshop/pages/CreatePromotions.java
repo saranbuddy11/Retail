@@ -423,7 +423,7 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_EXPIRE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
-	public void groupSelectionList(String name) {
+	public void selectItem(String name) {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, name);
