@@ -2560,7 +2560,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.groupSelectionList(product.get(2));
+			createPromotions.selectItem(product.get(2));;
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2568,7 +2568,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
-			createPromotions.groupSelectionList(product.get(3));
+			createPromotions.selectItem(product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
