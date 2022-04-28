@@ -2560,7 +2560,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(product.get(2));;
+			createPromotions.selectItem(product.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2612,6 +2612,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
@@ -2646,11 +2647,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
 			// Create a bundle group in Group criteria
-			foundation.click(CreatePromotions.BTN_ADD_GROUP);
-			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_ADD);
+			createPromotions.creatingBundleGroup(requiredData.get(1), datas.get(2));
 
 			// removing the group bundle promotion
 			createPromotions.deleteBundleGroup();
@@ -2670,11 +2667,13 @@ public class Promotions extends TestInfra {
 
 			// Create a group without group name,verify the error message & verify item
 			// search box
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
-			checkBox.check(CreatePromotions.SELECT_ANOTHER_CHECKBOX);
+			createPromotions.selectItem(datas.get(2));
+			createPromotions.selectItem(datas.get(3));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			checkBox.check(CreatePromotions.CATEGORY_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PROD_CATE_SELECTED));
+			foundation.threadWait(Constants.THREE_SECOND);
+			createPromotions.selectCategory(datas.get(1));
+			String text = foundation.getText(CreatePromotions.PROD_CATE_SELECTED);
+			CustomisedAssert.assertEquals(text, datas.get(0));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
