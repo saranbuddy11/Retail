@@ -2679,7 +2679,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
-			checkBox.check(CreatePromotions.CHECKBOX_SAMEPROD);
+			createPromotions.selectItem(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ERROR_MSG));
@@ -2741,7 +2741,27 @@ public class Promotions extends TestInfra {
 
 			// Select Category
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			createPromotions.selectCategory(product.get(0));
+			checkBox.check(CreatePromotions.CATEGORY_CHECKBOX);
+			foundation.threadWait(Constants.SHORT_TIME);
+			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
+			CustomisedAssert.assertEquals(catrecord, product.get(3));
+			
+			//verify the product & category selected
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String catAndprod = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(catAndprod, product.get(4));
+			
+			//Uncheck the category and Item
+			checkBox.unCheck(CreatePromotions.CATEGORY_UNCHECK);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
+			
+			//verify the 0 category & 0 product
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+			String cateprod = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(cateprod, product.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
