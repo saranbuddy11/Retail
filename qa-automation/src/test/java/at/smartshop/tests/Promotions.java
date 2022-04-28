@@ -2679,7 +2679,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
-			checkBox.check(CreatePromotions.CHECKBOX_SAMEPROD);
+			createPromotions.selectItem(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ERROR_MSG));
