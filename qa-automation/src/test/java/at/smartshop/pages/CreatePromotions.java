@@ -108,14 +108,12 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
-
 	public static final By SELECT_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CHECKBOX_SAMEPROD = By.xpath(
 			"//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
-
 	public static final By ERROR_MSG = By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH = By.id("itemsearch");
 	public static final By CANCEL_BTN = By.id("groupmodalcancel");
@@ -151,6 +149,7 @@ public class CreatePromotions extends Factory {
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
 	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
 	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
+	public static final By CLOSE_GROUP_PROMPT = By.xpath("//div[text()='Confirm Close / Cancel']");
 	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
 	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
 	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
@@ -160,6 +159,7 @@ public class CreatePromotions extends Factory {
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By BUNDLE_LIST_MESSAGE = By.id("groupcount");
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
+	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
