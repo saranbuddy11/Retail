@@ -2319,7 +2319,7 @@ public class AgeVerification extends TestInfra {
 			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
 			foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
 			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.THREE_SECOND);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT,
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
 			foundation.threadWait(Constants.THREE_SECOND);
