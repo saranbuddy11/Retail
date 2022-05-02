@@ -80,6 +80,7 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Verifying the selection of defaults for Age Verification
@@ -181,6 +182,7 @@ public class AgeVerification extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Verifying the selection of defaults for Age Verification
@@ -1662,6 +1664,7 @@ public class AgeVerification extends TestInfra {
 				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Unchecking Age Verification checkbox under AutoLocation4
 			locationList.selectLocationName(locationName.get(1));
@@ -1807,6 +1810,7 @@ public class AgeVerification extends TestInfra {
 				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Unchecking Age Verification checkbox under AutoLocation4
 			locationList.selectLocationName(locationName.get(1));
@@ -2319,7 +2323,7 @@ public class AgeVerification extends TestInfra {
 			textBox.enterText(AgeVerificationDetails.CHECKOUT_DATE, currentDate);
 			foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
 			foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT,
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -2609,7 +2613,7 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "169025 - ADM > Users and Roles > Permission Matrix > Super and Operator > Admin Tab > Age Verification (NEW)")
+	@Test(description = "169025 - ADM > Users and Roles > Permission Matrix > Super and Operator > Admin Tab > Age Verification NEW")
 	public void verifyUserRolesPermission() {
 		final String CASE_NUM = "169025";
 
@@ -2706,7 +2710,7 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
-	@Test(description = "169024-ADM > Admin > Age Verification (when to show/hide new sub nav)(NEW)")
+	@Test(description = "169024-ADM > Admin > Age Verification when to showhide new sub nav NEW")
 	public void verifyLocationAvailableAsSuperAndoperator() {
 		final String CASE_NUM = "169024";
 

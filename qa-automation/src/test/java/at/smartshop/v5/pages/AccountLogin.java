@@ -91,6 +91,7 @@ public class AccountLogin {
 
 		// Validating Account Login PIN Page
 		foundation.waitforElement(BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_PAGE_TITLE), loginPageData.get(0));
 		CustomisedAssert.assertEquals(foundation.getText(LBL_PIN_HEADER), loginPageData.get(9));
 		CustomisedAssert.assertEquals(foundation.getText(BTN_PIN_BACK), loginPageData.get(7));
