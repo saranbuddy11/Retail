@@ -92,7 +92,6 @@ public class SalesItemDetailsReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -102,9 +101,6 @@ public class SalesItemDetailsReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders : " + tableHeaders);
-			System.out.println("columnName : " + columnName);
-//			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -116,14 +112,10 @@ public class SalesItemDetailsReport extends Factory {
 	public void verifyReportTimeData() {
 		try {
 			int count = reportsData.size();
-			System.out.println("reportsData :" + reportsData);
 			for (int counter = 0; counter < count; counter++) {
 				salesTime.add(reportsData.get(counter).get(tableHeaders.get(13)));
 			}
-			System.out.println(salesTime);
 			for (int iter = 1; iter < salesTime.size(); iter++) {
-				System.out.println(salesTime.get(0));
-				System.out.println(salesTime.get(iter));
 				if (salesTime.get(0).equals(salesTime.get(iter))) {
 					Assert.fail("Failed due to Sales Items got created for Second time after redeeming promotion");
 				}
