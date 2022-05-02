@@ -2771,7 +2771,7 @@ public class SuperOthers extends TestInfra {
 		}
 	}
 
-	@Test(description = "176468- QAA-293 ADM > Super > Report> Verify user can edit/update information that can be saved or cancelled.")
+	@Test(description = "176468- QAA-293 ADM > Super > Report> Verify user can edit Update information that can be saved or cancelled.")
 	public void UpdatePreviousReport() {
 
 		final String CASE_NUM = "176468";
@@ -2823,7 +2823,6 @@ public class SuperOthers extends TestInfra {
 	}
 
 	@Test(description = "176510-QAA-290 ADM > Super > Announcement> Verify on the Announcement message page, User will be able to change the color, font size, message and link  and click on save,  it will the Announcement on top of the page.")
-
 	public void ValidateAnnouncement() {
 
 		final String CASE_NUM = "176510";

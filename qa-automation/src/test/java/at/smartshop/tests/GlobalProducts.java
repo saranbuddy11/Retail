@@ -717,11 +717,11 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "167948 - Verify to view the GPC > New Modal for Successful Submission in Global Product Change for Location(s)"
-			+ "167950 - Verify to view the Update Min field value for a product in Global Product Change for Location(s)"
-			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Location(s)"
-			+ "167952 - Verify to view the Update Pick list Action field value for a product in Global Product Change for Location(s)"
-			+ "167953 - Verify to view the Update Loyalty Multiplier field value for a product in Global Product Change for Location(s)")
+	@Test(description = "167948 - Verify to view the GPC > New Modal for Successful Submission in Global Product Change for Locations"
+			+ "167950 - Verify to view the Update Min field value for a product in Global Product Change for Locations"
+			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Locations"
+			+ "167952 - Verify to view the Update Pick list Action field value for a product in Global Product Change for Locations"
+			+ "167953 - Verify to view the Update Loyalty Multiplier field value for a product in Global Product Change for Locations")
 	public void verifyGPCForLocation() {
 		final String CASE_NUM = "167948";
 
@@ -1086,7 +1086,7 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "168783-Verify to view the GPC remove system limit in Operator Product Catalog Change"
-			+ "168782-Verify to view the GPC remove system limit in Global Product Change for Location(s)")
+			+ "168782-Verify to view the GPC remove system limit in Global Product Change for Locations")
 	public void verifyLimitInGlobalProductChangeforLocation() {
 		try {
 			final String CASE_NUM = "168783";
@@ -1121,7 +1121,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "167964-Verify to view the Update Global Product Change Messaging in Global Product Change for Location(S)e ")
+	@Test(description = "167964-Verify to view the Update Global Product Change Messaging in Global Product Change for Location ")
 	public void verifyChangeMessagingInGlobalProductChangeforLocation() {
 
 		final String CASE_NUM = "167964";
@@ -1341,7 +1341,7 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "C167960-Verify to view the GPC 'History Option")
+	@Test(description = "C167960-Verify to view the GPC History Option")
 	public void verifyGPCHistoryOption() {
 
 		final String CASE_NUM = "167960";
