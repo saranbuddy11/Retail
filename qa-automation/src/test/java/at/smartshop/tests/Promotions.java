@@ -2692,7 +2692,8 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay")
+	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay"
+			+ "C176297-verify the selected message in Select Group's Items and Categories overlay")
 	public void verifyShowingMessageInItemAndCategory() {
 		final String CASE_NUM = "176296";
 
@@ -2745,20 +2746,20 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
 			CustomisedAssert.assertEquals(catrecord, product.get(3));
-			
-			//verify the product & category selected
+
+			// verify the product & category selected
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catAndprod = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(catAndprod, product.get(4));
-			
-			//Uncheck the category and Item
+
+			// Uncheck the category and Item
 			checkBox.unCheck(CreatePromotions.CATEGORY_UNCHECK);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
-			
-			//verify the 0 category & 0 product
+
+			// verify the 0 category & 0 product
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
 			String cateprod = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(cateprod, product.get(5));
