@@ -32,7 +32,7 @@ public class OrgSummary extends Factory {
 	public static final By LBL_VDI_PROVIDER = By.xpath("//tr[@class='vdirow']//td//input");
 	public static final By LBL_ORG_LIST = By.xpath("//div[@class='dataTables_info']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
-	public static final By DPD_COUNTRY = By.id("country");
+	public static final By DPD_COUNTRY = By.xpath("//select[@name='country']");
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
@@ -118,6 +118,7 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
 	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
+	
 
 	public By objVDI(String text) {
 
