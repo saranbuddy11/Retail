@@ -668,7 +668,6 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI(deviceId);
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 
-			System.out.println(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 			deviceByCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
 			deviceByCategory.processAPI(deviceId);
@@ -3007,9 +3006,7 @@ public class Report extends TestInfra {
 				FilePath.PROPERTY_CONFIG_FILE);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 		String weekDays = rstLocationData.get(CNLocation.TYPE);
-		System.out.println(weekDays);
 		String promotionName = strings.getRandomCharacter();
-		System.out.println("promotionName : "+ promotionName);
 
 		try {
 			browser.navigateURL(
@@ -3235,7 +3232,6 @@ public class Report extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-		System.out.println("promotionName : "+ promotionName);
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -3251,7 +3247,6 @@ public class Report extends TestInfra {
 
 			List<String> menuItems = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			System.out.println("requiredData : " + requiredData);
 
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 
