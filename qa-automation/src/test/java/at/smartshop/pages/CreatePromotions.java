@@ -154,6 +154,7 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+	public static final By PRODUCTS_DISABLE=By.xpath("//td[@aria-describedby='itemdatatable_name']");
 
 
 	public By objLocation(String value) {
@@ -434,11 +435,26 @@ public class CreatePromotions extends Factory {
 	}
 
 
-	public void deleteBundleGroup() {
+	    public void deleteBundleGroup() {
 		foundation.click(DELETE_GROUP);
 		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_GROUP_HEADER));
 		foundation.click(BTN_EXPIRE);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
+	    public void selectItem(String item) {
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, item);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
+		public void selectCategory(String category) {
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+		}
+
 }

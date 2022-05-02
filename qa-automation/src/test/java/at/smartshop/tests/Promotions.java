@@ -2732,16 +2732,23 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
-			foundation.threadWait(Constants.THREE_SECOND);
+			createPromotions.selectItem(org.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 			
 			//Create another group and verify the same product is grayed out or not
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
-			String color=foundation.getBGColor(CreatePromotions.SELECT_CHECKBOX);
-			//CustomisedAssert.assertEquals(color, org.get(3));
-			System.out.println(color);
+			foundation.click(CreatePromotions.INPUT_ITEM_SEARCH);
+			textBox.clearText(CreatePromotions.INPUT_ITEM_SEARCH);
+			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, org.get(3));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRODUCTS_DISABLE));
+			
+			//Navigate to category tab and create a group
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			createPromotions.selectCategory(org.get(4));
+			foundation.click(CreatePromotions.BTN_ADD);
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
