@@ -2736,6 +2736,12 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 			
+			//Create another group and verify the same product is grayed out or not
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			String color=foundation.getBGColor(CreatePromotions.SELECT_CHECKBOX);
+			//CustomisedAssert.assertEquals(color, org.get(3));
+			System.out.println(color);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
