@@ -2735,7 +2735,7 @@ public class Promotions extends TestInfra {
 			createPromotions.selectItem(org.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 			
-			//Create another group and verify the same product is grayed out or not
+			//verify the same product is grayed out or not
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
@@ -2748,6 +2748,16 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			createPromotions.selectCategory(org.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
+			
+			//verify the selected category is grayed out or not
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.threadWait(Constants.THREE_SECOND);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			foundation.click(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, org.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_DISABLE));
 			
 
 		} catch (Exception exc) {

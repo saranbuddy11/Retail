@@ -155,6 +155,7 @@ public class CreatePromotions extends Factory {
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By PRODUCTS_DISABLE=By.xpath("//td[@aria-describedby='itemdatatable_name']");
+	public static final By CATEGORY_DISABLE=By.xpath("//td[@aria-describedby='categorydatatable_category']");
 
 
 	public By objLocation(String value) {
