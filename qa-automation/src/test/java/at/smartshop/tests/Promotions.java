@@ -2814,7 +2814,10 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "176294 - verify the close option in Select Group's Items and Categories overlay when changes are NOT made to the form"
-			+ "176295 - verify the close option in Select Group's Items and Categories overlay when changes are made to the form")
+			+ "176295 - verify the close option in Select Group's Items and Categories overlay when changes are made to the form"
+			+ "176298 - Verify the close prompt in Select Group's Items and Categories overlay"
+			+ "176299 - Verify the 'yes' option in the 'Confirm Close / Cancel' prompt in Select Group's Items and Categories overlay"
+			+ "176300 - Verify the 'No' option in the 'Confirm Close / Cancel' prompt in Select Group's Items and Categories overlay")
 	public void verifyBundlePromtionsOverLayCloseOption() {
 		final String CASE_NUM = "176294";
 
@@ -2866,7 +2869,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
-			// Creating the Group with Items & Category selected
+			// Creating Two Group with Items & Category selected
 			createPromotions.creatingBundleGroupWithCategory(groupName.get(0), productName.get(0), columnName.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
@@ -2901,6 +2904,8 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.CATEGORY_CHECK_BOX);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BUNDLE_GROUP_CLOSE_BTN);
+
+			// Validating Prompt content details and click No button
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CLOSE_GROUP_PROMPT));
 			String content = foundation.getText(CreatePromotions.PROMPT_CONTENT);
 			CustomisedAssert.assertEquals(content, actualData.get(0));
@@ -2908,6 +2913,29 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(content, actualData.get(1));
 			content = foundation.getText(CreatePromotions.BTN_PROMPT_CANCEL);
 			CustomisedAssert.assertEquals(content, actualData.get(2));
+			foundation.click(CreatePromotions.BTN_PROMPT_CANCEL);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP));
+
+			// Validating Prompt by clicking Yes Button
+			foundation.click(CreatePromotions.BUNDLE_GROUP_CLOSE_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_EXPIRE);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			actual = foundation.getText(CreatePromotions.LBL_CREATED_GROUP);
+			CustomisedAssert.assertEquals(actual, groupName.get(0) + " (2)");
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			size = foundation.getSizeofListElement(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			CustomisedAssert.assertTrue(size == 1);
+
+			// Checking that No changes have done for existing Group
+			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP, 5);
+			List<String> list = foundation.getTextofListElement(CreatePromotions.BUNDLE_LIST);
+			CustomisedAssert.assertEquals(list.get(0), productName.get(0));
+			CustomisedAssert.assertEquals(list.get(1), columnName.get(0));
+			foundation.click(CreatePromotions.BUNDLE_GROUP_CLOSE_BTN);
 			foundation.click(CreatePromotions.BTN_EXPIRE);
 			foundation.threadWait(Constants.THREE_SECOND);
 
