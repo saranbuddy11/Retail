@@ -403,6 +403,7 @@ public class AgeVerification extends TestInfra {
 			int record = Integer.parseInt(dropDown.getSelectedItem(AgeVerificationDetails.DPD_LENGTH));
 			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			for (int i = 0; i < record + 1; i++) {
 				foundation.click(ageVerificationDetails.objExpirePinConfirmationWithIndex(
 						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(8), String.valueOf(1)));
