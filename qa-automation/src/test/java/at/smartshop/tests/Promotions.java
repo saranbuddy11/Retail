@@ -1,11 +1,9 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
