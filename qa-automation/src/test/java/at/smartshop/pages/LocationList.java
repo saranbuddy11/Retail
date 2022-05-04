@@ -34,6 +34,7 @@ public class LocationList extends Factory {
 	public void selectLocationName(String locationName) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
 		textBox.enterText(TXT_FILTER, locationName);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(By.xpath("//a[text()='" + locationName + "']"));
 	}
 

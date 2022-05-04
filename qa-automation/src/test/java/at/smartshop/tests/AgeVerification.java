@@ -143,6 +143,7 @@ public class AgeVerification extends TestInfra {
 			// Resetting Age Verification Checkbox
 			foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
@@ -246,6 +247,7 @@ public class AgeVerification extends TestInfra {
 			// Resetting Age Verification Checkbox
 			foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
@@ -1657,6 +1659,7 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Choosing Age Verification checkbox under AutoLocation3
@@ -1803,6 +1806,7 @@ public class AgeVerification extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Choosing Age Verification checkbox under AutoLocation3
