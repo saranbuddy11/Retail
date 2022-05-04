@@ -499,6 +499,7 @@ public class Sos extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
