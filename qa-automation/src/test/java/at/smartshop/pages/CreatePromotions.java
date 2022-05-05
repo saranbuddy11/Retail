@@ -139,9 +139,8 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
-	public static final By DELETE_GROUP = By.xpath(
-			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
-	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
+	public static final By DELETE_GROUP = By.cssSelector("#editgrouptable .fa-times");
+	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//table[@id='editgrouptable']//td[2]/a");
 	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
 	public static final By PRODUCT_FILTER = By.id("prodfilter");
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
