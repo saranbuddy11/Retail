@@ -2698,7 +2698,7 @@ public class Promotions extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
@@ -2723,14 +2723,14 @@ public class Promotions extends TestInfra {
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
-			// Navigate to Overlay and verify the search box and select Item
+			// Select Product and verify the product
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
 			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
 
-			// Select Category and verify the product
+			// Select Category and verify the Category
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, Datas.get(2));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_PROMO_GRID));
