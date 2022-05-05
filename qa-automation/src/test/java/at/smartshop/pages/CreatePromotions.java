@@ -109,7 +109,7 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_ADD = By.id("groupmodalsave");
 	public static final By BIRTHDAY_GRID=By.xpath("//td[text()='birthday']");
 	public static final By CAT_PROMO_GRID=By.xpath("//td[text()='CAT 6 PROMO']");
-	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By CHECKBOX_SAMEPROD=By.xpath("//tr[contains(@class,ui-ig-altrecord)]//td[text()='same11']/preceding-sibling::td//input[@type='checkbox']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");
 	public static final By CANCEL_BTN=By.id("groupmodalcancel");
@@ -133,8 +133,7 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
-	public static final By DELETE_GROUP = By.xpath(
-			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
+	public static final By DELETE_GROUP = By.cssSelector("#editgrouptable .fa-times");
 	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
 	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
 	public static final By PRODUCT_FILTER = By.id("prodfilter");
