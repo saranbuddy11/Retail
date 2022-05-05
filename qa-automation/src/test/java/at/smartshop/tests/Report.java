@@ -1339,6 +1339,8 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(productSalesCategory.SEARCH_RESULT, rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+
 			productSalesCategory.getTblRecordsUI();
 			productSalesCategory.getIntialData().putAll(productSalesCategory.getReportsData());
 
@@ -1346,17 +1348,20 @@ public class Report extends TestInfra {
 			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(productSalesCategory.SEARCH_RESULT, rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+
 			productSalesCategory.getTblRecordsUI();
 			productSalesCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
 			// apply calculation and update data
+			productSalesCategory.updatePrice();
 			productSalesCategory.updateSalesAmount();
 			productSalesCategory.updateTax();
-			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(3));
-			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(4));
+			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(6));
+			productSalesCategory.updateCount(productSalesCategory.getTableHeaders().get(7));
 
 			// verify report headers
-			productSalesCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+//			productSalesCategory.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			productSalesCategory.verifyReportData();

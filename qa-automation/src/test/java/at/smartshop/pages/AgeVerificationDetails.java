@@ -195,7 +195,7 @@ public class AgeVerificationDetails extends Factory {
 		dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, value, Constants.TEXT);
 		foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 		dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status, Constants.TEXT);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
 		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
 		int record = uiTableData.size();
 		CustomisedAssert.assertEquals(String.valueOf(record), value);
