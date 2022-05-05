@@ -2684,7 +2684,7 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay"
 			+ "C176297-verify the selected message in Select Group's Items and Categories overlay")
-	public void verifyShowingMessageInItemAndCategory() {
+	public void verifyRecordsMessageInItemAndCategory() {
 		final String CASE_NUM = "176296";
 
 		// Reading test data from database
@@ -2720,19 +2720,19 @@ public class Promotions extends TestInfra {
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
-			// click on add group to verify the records
+			// click on add group 
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
 
-			// Select Item
+			// Select Item and verify the record
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertEquals(record, product.get(2));
 
-			// Select Category
+			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			checkBox.check(CreatePromotions.CATEGORY_CHECKBOX);
+			checkBox.check(CreatePromotions.CAT_CATEGORY);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
 			CustomisedAssert.assertEquals(catrecord, product.get(3));
@@ -2749,7 +2749,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
 
-			// verify the 0 category & 0 product
+			// verify the product & category unselected in record
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
 			String cateprod = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(cateprod, product.get(5));
