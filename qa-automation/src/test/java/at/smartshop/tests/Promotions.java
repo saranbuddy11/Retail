@@ -2829,6 +2829,8 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.DEVICE_NAME).split(Constants.DELIMITER_TILD));
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> requireData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2856,8 +2858,7 @@ public class Promotions extends TestInfra {
 
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
-			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, rstLocationData.get(CNLocation.REQUIRED_DATA),
-					Constants.TEXT);
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requireData.get(0), Constants.TEXT);
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
@@ -2873,7 +2874,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BUNDLE_GROUP_CLOSE_BTN);
 			foundation.threadWait(Constants.THREE_SECOND);
 			String actual = foundation.getText(CreatePromotions.LBL_CREATED_GROUP);
-			CustomisedAssert.assertEquals(actual, groupName.get(0) + " (2)");
+			CustomisedAssert.assertEquals(actual, groupName.get(0) + requireData.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			int size = foundation.getSizeofListElement(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
 			CustomisedAssert.assertTrue(size == 1);
@@ -2916,7 +2917,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			actual = foundation.getText(CreatePromotions.LBL_CREATED_GROUP);
-			CustomisedAssert.assertEquals(actual, groupName.get(0) + " (2)");
+			CustomisedAssert.assertEquals(actual, groupName.get(0) + requireData.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			size = foundation.getSizeofListElement(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
 			CustomisedAssert.assertTrue(size == 1);
