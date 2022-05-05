@@ -108,10 +108,10 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
 	
-	public static final By SELECT_CHECKBOX = By.xpath(
+	public static final By CHOCOLATE_PRODUCT = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By PRODUCT_UNCHECK=By.xpath("//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",false,\"itemdatatable\",\"itemcheckbox\")']");
-	public static final By CATEGORY_CHECKBOX=By.xpath("//input[@onclick='setCheckBox(\"AUTOMATIONACHATPVQYB\",true,\"categorydatatable\",\"categorycheckbox\")']");
+	public static final By CAT_CATEGORY=By.xpath("//input[@onclick='setCheckBox(\"AUTOMATIONACHATPVQYB\",true,\"categorydatatable\",\"categorycheckbox\")']");
 	public static final By CATEGORY_UNCHECK=By.xpath("//input[@onclick='setCheckBox(\"AUTOMATIONACHATPVQYB\",false,\"categorydatatable\",\"categorycheckbox\")']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH=By.id("itemsearch");

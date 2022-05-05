@@ -2726,7 +2726,7 @@ public class Promotions extends TestInfra {
 
 			// Select Item
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
+			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertEquals(record, product.get(2));
 
