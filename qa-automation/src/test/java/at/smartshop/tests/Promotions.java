@@ -2521,10 +2521,11 @@ public class Promotions extends TestInfra {
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
 		try {
+
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2587,6 +2588,7 @@ public class Promotions extends TestInfra {
 			createPromotions.cancellingPromotion();
 			login.logout();
 			browser.close();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2799,6 +2801,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// Create a another group with same item in category
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
@@ -2820,6 +2823,7 @@ public class Promotions extends TestInfra {
 
 			// click on same group and change the Item to category
 			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			createPromotions.selectCategory(requiredData.get(4));
 
