@@ -2699,8 +2699,8 @@ public class Promotions extends TestInfra {
 		try {
 
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.launchBrowserAndSelectOrg(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE), 
+					                          propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));					
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
