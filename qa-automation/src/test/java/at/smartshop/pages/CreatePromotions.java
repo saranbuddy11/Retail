@@ -156,7 +156,10 @@ public class CreatePromotions extends Factory {
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By PRODUCTS_DISABLE=By.xpath("//td[@aria-describedby='itemdatatable_name']");
 	public static final By CATEGORY_DISABLE=By.xpath("//td[@aria-describedby='categorydatatable_category']");
-
+	public static final By HEADER_POPUP=By.xpath("//div[text()='Promotion Setup Alert']");
+	public static final By BTN_YES=By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_GOTIT=By.xpath("//button[text()='Got it!']");
+    public static final By CAT_POPUP_HEADER=By.xpath("//div[text()='Note for adding this Category']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
