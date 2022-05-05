@@ -242,30 +242,29 @@ public class Consumer extends TestInfra {
 
 	@Test(description = "143570-QAA-23-verify consumer account is created for all the countries available in country dropdown in org summary page.")
 	public void verifyConsumerAccount() {
+
+		final String CASE_NUM = "143570";
+
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		List<String> menuItem = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			final String CASE_NUM = "143570";
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-			rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> requiredData = Arrays
-					.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			List<String> countries = dropDown.getAllItems(OrgSummary.DPD_COUNTRY);
 			countries.remove(requiredData.get(0));
 			countries.remove(requiredData.get(1));
-
 			for (int i = 0; i < countries.size(); i++) {
 
 				navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -296,11 +295,21 @@ public class Consumer extends TestInfra {
 				foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 				String actualData = foundation.getText(ConsumerSummary.TXT_SPINNER_MSG);
 				CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.INFO_MSG));
-
 			}
+			foundation.threadWait(Constants.THREE_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.waitforElement(OrgSummary.DPD_COUNTRY, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(OrgSummary.DPD_COUNTRY);
+			foundation.threadWait(Constants.TWO_SECOND);
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, requiredData.get(4), Constants.TEXT);
+			textBox.enterText(OrgSummary.TXT_CONTACT, requiredData.get(3));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 
@@ -1757,7 +1766,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
-			// String emailID = consumerSearch.createConsumer(location);
+			consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
 
@@ -1815,7 +1824,7 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 			CustomisedAssert.assertTrue(dropDown.getAllItems(ConsumerSearch.DPD_PAY_CYCLE).contains(paycycle.get(1)));
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
-			// String emailID = consumerSearch.createConsumer(location);
+			consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
 			foundation.threadWait(Constants.ONE_SECOND);
 

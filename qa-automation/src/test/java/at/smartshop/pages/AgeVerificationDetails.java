@@ -121,7 +121,8 @@ public class AgeVerificationDetails extends Factory {
 		textBox.enterText(INPUT_DAILY_USES, datas.get(7));
 		foundation.click(BTN_CREATE_PIN);
 		foundation.objectClick(BTN_CREATE_PIN);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.THREE_SECOND);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	public void createAgeVerificationPinWithoutEmail(String location, List<String> datas) {
@@ -194,7 +195,7 @@ public class AgeVerificationDetails extends Factory {
 		dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, value, Constants.TEXT);
 		foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 		dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status, Constants.TEXT);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
 		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
 		int record = uiTableData.size();
 		CustomisedAssert.assertEquals(String.valueOf(record), value);

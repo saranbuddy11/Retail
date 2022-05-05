@@ -1,11 +1,9 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
@@ -2105,10 +2103,8 @@ public class Promotions extends TestInfra {
 				CustomisedAssert.assertEquals(popupFieldArray.get(6), actualData.get(6));
 				CustomisedAssert.assertTrue(popupFieldArray.get(7).contains(currentDate));
 				CustomisedAssert.assertTrue(popupFieldArray.get(8).contains(currentDate));
-
 				foundation.click(CreatePromotions.BTN_OK);
 			}
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -2116,7 +2112,6 @@ public class Promotions extends TestInfra {
 			for (int iter = 0; iter < locationName.size(); iter++) {
 				promotionList.expireMultiplePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
 						promotionName, gridName);
-
 			}
 		}
 	}
@@ -2124,7 +2119,7 @@ public class Promotions extends TestInfra {
 	@Test(description = "176247 - Verify the ADM > Promotions > Bundling > Step 3 (Promotion Details) > + Add Group (new)"
 			+ "176248 - Verify that items & categories are unavailable in Bundle Group drop down when group option is selected & Created"
 			+ "176249 - Verify when user deletes the created group ,then items & categories are available in Build Bundle Dropdown")
-	public void verifyBundlePromtionsAddGroupOptionInOperator() {
+	public void verifyBundlePromtionsAddGroupOptions() {
 		final String CASE_NUM = "176247";
 
 		// Reading test data from database
@@ -2137,7 +2132,6 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -2214,7 +2208,7 @@ public class Promotions extends TestInfra {
 			+ "176282 - verify the Edit of the build bundle Groups"
 			+ "176283 - verify the deletion of groups from the build bundle section"
 			+ "176271 - Verify the 'Build Bundle' Dropdown with new 'Group' option in step 3 (promotion details) for Bundle"
-			+ "176272 - Verify the funstionality of 'Group' option in step 3 (promotion details) for build Bundle promotion")
+			+ "176272 - Verify the functionality of 'Group' option in step 3 (promotion details) for build Bundle promotion")
 	public void verifyBundlePromtionsAddGroupOption() {
 		final String CASE_NUM = "176281";
 
@@ -2237,7 +2231,7 @@ public class Promotions extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
@@ -2338,7 +2332,7 @@ public class Promotions extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
@@ -2435,7 +2429,7 @@ public class Promotions extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
@@ -2527,11 +2521,10 @@ public class Promotions extends TestInfra {
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-
 		try {
-
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2594,7 +2587,6 @@ public class Promotions extends TestInfra {
 			createPromotions.cancellingPromotion();
 			login.logout();
 			browser.close();
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2616,11 +2608,10 @@ public class Promotions extends TestInfra {
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-
 		try {
-
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2686,7 +2677,6 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.CANCEL_BTN);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_EXPIRE);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
