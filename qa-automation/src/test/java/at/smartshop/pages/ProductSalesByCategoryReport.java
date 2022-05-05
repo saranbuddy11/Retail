@@ -44,6 +44,7 @@ public class ProductSalesByCategoryReport extends Factory {
 	private static final By TBL_PRODUCT_SALES_BY_CATEGORY_GRID = By.cssSelector("#productSalesByCategoryGrid > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#productSalesByCategoryGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private int recordCount;
@@ -127,7 +128,7 @@ public class ProductSalesByCategoryReport extends Factory {
 	
 	public void updateSalesAmount() {
 		try {
-			String initialSalesAmount = intialData.get(recordCount).get(tableHeaders.get(1))
+			String initialSalesAmount = intialData.get(recordCount).get(tableHeaders.get(5))
 					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
 			String price = (String) jsonData.get(Reports.PRICE);
 			String tax = (String) jsonData.get(Reports.TAX);
@@ -136,12 +137,29 @@ public class ProductSalesByCategoryReport extends Factory {
 			double updatedAmount = Double.parseDouble(initialSalesAmount) + Double.parseDouble(price)
 					+ Double.parseDouble(tax) + Double.parseDouble(deposit) - Double.parseDouble(discount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(recordCount).put(tableHeaders.get(1), String.valueOf(updatedAmount));
+			intialData.get(recordCount).put(tableHeaders.get(5), String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	public void updatePrice() {
+		try {
+			String initialSalesAmount = intialData.get(recordCount).get(tableHeaders.get(1))
+					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+			String price = (String) jsonData.get(Reports.PRICE);
+			String tax = (String) jsonData.get(Reports.TAX);
+			String deposit = (String) jsonData.get(Reports.DEPOSIT);
+			String discount = (String) jsonData.get(Reports.DISCOUNT);
+			double updatedAmount = Double.parseDouble(initialSalesAmount) + Double.parseDouble(price)
+				 + Double.parseDouble(deposit) - Double.parseDouble(discount);
+			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			intialData.get(recordCount).put(tableHeaders.get(1), String.valueOf(updatedAmount));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 	public void updateTax() {
 		try {
 			String initialTax = intialData.get(recordCount).get(tableHeaders.get(2)).replaceAll(Reports.REPLACE_DOLLOR,
