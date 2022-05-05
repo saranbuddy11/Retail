@@ -45,7 +45,7 @@ public class TextBox extends Factory {
 
 	public void enterText(By object, Keys key) {
 		try {
-			getDriver().findElement(object).clear();
+//			getDriver().findElement(object).clear();
 			getDriver().findElement(object).sendKeys(key);
 
 			if (ExtFactory.getInstance().getExtent() != null) {
