@@ -112,7 +112,7 @@ public class CreatePromotions extends Factory {
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
-	public static final By CHECKBOX_SAMEPROD=By.xpath("//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By CHECKBOX_SAMEPROD=By.xpath("//tr[contains(@class,ui-ig-altrecord)]//td[text()='same11']/preceding-sibling::td//input[@type='checkbox']");
 	
 	
 	public static final By ERROR_MSG=By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");

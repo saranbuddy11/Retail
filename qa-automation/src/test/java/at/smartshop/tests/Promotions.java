@@ -2592,7 +2592,8 @@ public class Promotions extends TestInfra {
 		}
 	}
 
-	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories")
+	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories"+
+	                     "C177864-verify the Group Name field in Select Group's Items and Categories overlay")
 	public void verifyOverlayOfGroupItemsAndCategories() {
 		final String CASE_NUM = "176286";
 
