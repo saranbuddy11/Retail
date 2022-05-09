@@ -300,6 +300,16 @@ public class LocationSummary extends Factory {
 	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
 	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
 	public static final By DEVICE_RECORD = By.xpath("//span[@id='deviceDataGrid_table_pager_label']");
+	public static final By BTN_SELECTALL = By.id("selectallprdBtn");
+	public static final By BTN_SELECTNONE = By.id("selectnoneprdBtn");
+	public static final By LBL_ADD_PRODUCT = By.id("modaltemplate-title");
+	public static final By BTN_CANCEL_PRODUCT = By.id("modalcancel");
+	public static final By VALIDATE_HIGHLIGHTED_TEXT = By.xpath("//table[@id='chooseprddt']//tbody//tr");
+	public static final By LBL_POPUP_ADD_PRODUCT_CLOSE = By
+			.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
+	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
+	public static final By PRINTGROUP_NAME = By
+			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
 	
 
 	public By objAddTopOffSubsidy(int index) {
@@ -1336,6 +1346,36 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
+	}
+	
+	public String verifyProductsHighlighted(String expected) {
+		 String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
+		 CustomisedAssert.assertEquals(expected, attr);				    
+	    return attr;
+	}
+	
+	public void verifyPopUpUIDisplayed() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
+		foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+		foundation.waitforElement(LocationSummary.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ADD_PRODUCT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_ADD_PRODUCT_SEARCH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_CANCEL_PRODUCT));
+	}
+	
+	public void verifyProductsUI() {
+		foundation.threadWait(Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PRODUCT_FILTER));
+	}
+	
+	public void selectPrintGroup(String productName, String option) {
+		By printLink = By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
+		foundation.click(printLink);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
 }
