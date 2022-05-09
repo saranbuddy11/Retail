@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
@@ -106,19 +103,19 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
-
 	public static final By SELECT_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By SELECT_ANOTHER_CHECKBOX = By.xpath(
 			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CHECKBOX_SAMEPROD = By.xpath(
 			"//input[@onclick='setCheckBox(\"259ccd00a61aab13b7774cba6f677537\",true,\"itemdatatable\",\"itemcheckbox\")']");
-
 	public static final By ERROR_MSG = By.xpath("//div[text()='Only letters, numbers and underscores allowed.']");
 	public static final By ITEM_SEARCH = By.id("itemsearch");
 	public static final By CANCEL_BTN = By.id("groupmodalcancel");
 	public static final By NAME_GRID = By.id("itemdatatable_name");
 	public static final By UPC_GRID = By.id("itemdatatable_upc");
+	public static final By CATEGORY_NAME_GRID = By.id("categorydatatable_category");
+	public static final By CATEGORY_UPC_GRID = By.id("categorydatatable_upc");
 	public static final By TXT_RECORD = By.id("itemdatatable_pager_label");
 	public static final By PROD_CATE_SELECTED = By.xpath("//div[text()='2 Products, 1 Categories selected']");
 	public static final By CATEGORY_PRODUCT = By
@@ -147,6 +144,7 @@ public class CreatePromotions extends Factory {
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
 	public static final By INPUT_CATEGORY_SEARCH = By.id("categorysearch");
 	public static final By DELETE_GROUP_HEADER = By.xpath("//div[text()='Confirm Group Delete']");
+	public static final By CLOSE_GROUP_PROMPT = By.xpath("//div[text()='Confirm Close / Cancel']");
 	public static final By PROMPT_CONTENT = By.xpath("//div[@class='ajs-content']");
 	public static final By LBL_CREATED_GROUP = By.id("criterialabel");
 	public static final By BUNDLE_GROUP_NAME = By.cssSelector("td>.bundle-item");
@@ -156,6 +154,9 @@ public class CreatePromotions extends Factory {
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By BUNDLE_CRITERIA = By.cssSelector("#bundletable .bundle-item");
 	public static final By BUNDLE_ITEM_REMOVE = By.cssSelector(".bundle-item-remove");
+	public static final By BUNDLE_LIST_MESSAGE = By.id("groupcount");
+	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
+	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -435,6 +436,22 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_GROUP_HEADER));
 		foundation.click(BTN_EXPIRE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void selectItem(String item) {
+		foundation.click(INPUT_ITEM_SEARCH);
+		textBox.clearText(INPUT_ITEM_SEARCH);
+		textBox.enterText(INPUT_ITEM_SEARCH, item);
+		foundation.click(ITEM_CHECK_BOX);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	public void selectCategory(String category) {
+		foundation.click(INPUT_CATEGORY_SEARCH);
+		textBox.clearText(INPUT_CATEGORY_SEARCH);
+		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 }
