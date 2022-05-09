@@ -30,6 +30,7 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
+import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -1211,8 +1212,8 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			//List<String> devicetabHeaders = Arrays.asList(
-				//	rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			// List<String> devicetabHeaders = Arrays.asList(
+			// rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 
@@ -1601,7 +1602,7 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "176744-QAA-109-Verify Add button section  is displayed when clicked on Deploy device button on Location Summary Page")
 	public void verifyDeployDeviceAddSection() {
 		try {
@@ -1620,7 +1621,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
-			
+
 			// Navigating to device tab and click on Add button
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
@@ -1634,13 +1635,13 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_SEARCH));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TXT_DEVICE_POPUP_SEARCH));
 			String resultText = foundation.getText(LocationSummary.DEVICE_RECORD);
-			CustomisedAssert.assertTrue(resultText.contains(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));		
+			CustomisedAssert.assertTrue(resultText.contains(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "177340-ADM>LocationSummary>Verify Excel should be downloaded after clicking on export button on Location Summary Page")
 	public void verifyExportButtonFunctionality() {
 		try {
@@ -1656,7 +1657,7 @@ public class Location extends TestInfra {
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
 			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
-		
+
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1669,12 +1670,163 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_EXPORT));
 			foundation.click(LocationSummary.BTN_EXPORT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-			} finally {
+		} finally {
 			// delete files
-				foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);			}
+			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
 		}
+	}
+
+	@Test(description = "177406-QAA-114-ADM>LocationSummary>Verify all the selected products should be highlighted"
+			+ "177616-QAA-115-ADM>Location Summary>Products>Add Product - Select None."
+			+ "177679- QAA-111- ADM>Location Summary>Products>Add Product UI and Fields.")
+	public void verifyUIWithHighlightedAndNonHighlightedProducts() {
+		try {
+			final String CASE_NUM = "177406";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+			
+			//verifying products UI fields
+			foundation.waitforElement(LocationSummary.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ADD_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_ADD_PRODUCT_SEARCH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_CANCEL_PRODUCT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_SELECTALL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_SELECTNONE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_POPUP_ADD_PRODUCT_CLOSE));
+			
+			//selecting button select all and verifying all products are highlighted
+			foundation.scrollIntoViewElement(LocationSummary.BTN_SELECTALL);
+			if (foundation.isDisplayed(LocationSummary.BTN_SELECTALL)) {
+				foundation.click(LocationSummary.BTN_SELECTALL);
+				foundation.waitforElement(LocationSummary.VALIDATE_HIGHLIGHTED_TEXT, Constants.SHORT_TIME);
+				locationSummary.verifyProductsHighlighted("true");
+			}			
+			//selecting button select none and verifying all products are not highlighted
+			foundation.click(LocationSummary.BTN_SELECTNONE);
+			locationSummary.verifyProductsHighlighted("false");			
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "177614-QAA-113-ADM>Location Summary>Products>Add Product - Close"
+			+ "177617 -QAA-112- ADM>Location Summary>Products>Add Product - 'X'."
+			+ "143219 -QAA-117-ADM>Location Summary>Products>Add Product - Add.")
+	public void verifyAddProductAndCloseButtonFunctionality() {
+		final String CASE_NUM = "177614";
+		
+		// Reading test data from DataBas
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);		
+		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+		List<String> printGroup = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		
+		try {			
+			
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+			
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			
+			//close the popup by close button
+			locationSummary.verifyPopUpUIDisplayed();
+			foundation.click(LocationSummary.BTN_CANCEL_PRODUCT);
+			try {
+				foundation.waitforElementToDisappear(LocationSummary.LBL_ADD_PRODUCT,Constants.SHORT_TIME);
+				CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_ADD_PRODUCT));
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+			locationSummary.verifyProductsUI();
+			
+			//close the popup by 'X' button
+			locationSummary.verifyPopUpUIDisplayed();
+			foundation.click(LocationSummary.LBL_POPUP_ADD_PRODUCT_CLOSE);
+			try {
+				foundation.waitforElementToDisappear(LocationSummary.LBL_ADD_PRODUCT,Constants.SHORT_TIME);
+				CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.LBL_ADD_PRODUCT));
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+			locationSummary.verifyProductsUI();
+			
+			//adding product and verifying on Product UI
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_ADD_PRODUCT_SEARCH, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ADD_PRODUCT_SEARCH, product);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.SELECT_PRODUCT);
+			foundation.click(LocationSummary.BTN_ADD);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			foundation.WaitForAjax(7000);
+			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
+			
+			//selecting print group
+			locationSummary.selectPrintGroup(product, printGroup.get(0));
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			foundation.WaitForAjax(7000);
+			Assert.assertTrue(foundation.getText(LocationSummary.PRINTGROUP_NAME).equals(printGroup.get(0)));
+			locationSummary.selectPrintGroup(product, printGroup.get(1));
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		//reset the data
+		foundation.click(LocationSummary.PRODUCT_NAME);
+		foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_REMOVE);
+	}
 }
