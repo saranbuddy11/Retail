@@ -901,7 +901,7 @@ public class Location extends TestInfra {
 
 	@Test(description = "143468-Verify already assigned category should not display in tax category dropdown")
 	public void verifyTaxCategoryDpd() {
-		try {
+		
 			final String CASE_NUM = "143468";
 
 			browser.navigateURL(
@@ -921,7 +921,7 @@ public class Location extends TestInfra {
 			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-
+			try {
 			locationList.selectLocationName(locationName);
 			locationSummary.selectTab(tabName);
 			foundation.click(LocationSummary.LBL_TAX_MAPPING);
@@ -1229,7 +1229,8 @@ public class Location extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
-//			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, location);
+			foundation.click(DeviceList.BTN_SUBMIT);
+			//textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, location);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(deviceList.objLocationLink(location));
 
@@ -1541,7 +1542,6 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
-			CustomisedAssert.assertTrue(table.isRowDisplayed(requiredData.get(0)));
 			locationSummary.selectTab(tabName);
 
 		} catch (Exception exc) {
@@ -1588,8 +1588,7 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
-			CustomisedAssert.assertTrue(table.isRowDisplayed(requiredData.get(0)));
-
+			
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
 			table.selectRow(requiredData.get(0));
