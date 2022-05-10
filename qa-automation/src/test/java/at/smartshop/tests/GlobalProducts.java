@@ -1178,7 +1178,7 @@ public class GlobalProducts extends TestInfra {
 			// Navigate to Products>>Global products and verify the min price
 			navigationBar.navigateToMenuItem(menus.get(1));
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(1)));
 			foundation.refreshPage();
 			textBox.enterText(ProductSummary.SEARCH_FILTER,
@@ -1264,7 +1264,7 @@ public class GlobalProducts extends TestInfra {
 				textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,
 						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 				foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-				foundation.threadWait(Constants.TWO_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
