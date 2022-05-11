@@ -10,7 +10,7 @@ public class DeviceList {
 	public static final By BTN_EXPORT_DEVICE = By.id("exportDevice");
 	public static final By TXT_RECORD_COUNT = By.id("deviceDataGrid_table_pager");
 	public static final By TBL_GRID = By.id("deviceDataGrid_table_headers");
-	public static final By TBL_ROW = By.xpath("//*[@id='deviceDataGrid_table']/tbody");
+	public static final By TBL_ROW = By.xpath("//*[@id='device-grid_scroll']//tbody");
 	public static final By BTN_COMMISSION = By.id("commissionBtn");
 	public static final By BTN_SEARCH = By.id("submitBtn");
 	public static final By BTN_SUBMIT = By.id("submitBtn");
