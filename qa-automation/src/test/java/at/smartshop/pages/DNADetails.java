@@ -13,4 +13,10 @@ public class DNADetails extends Factory {
 	public static final By CALORIES_TAB = By.id("calories-maintab");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TEXT_APPLY_LOCATION = By.id("applyloc");
+	public static final By GREEN_MIN_FIELD = By.id("calorimin");
+	public static final By GREEN_MAX_FIELD = By.id("calorimax");
+	public static final By YELLOW_MIN_FIELD = By.id("cyellowmin");
+	public static final By YELLOW_MAX_FIELD = By.id("cyellowmax");
+	public static final By RED_MIN_FIELD = By.id("credmin");
+	public static final By RED_MAX_FIELD = By.id("credmax");
 }

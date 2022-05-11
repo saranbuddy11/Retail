@@ -563,4 +563,11 @@ public class Foundation extends Factory {
 		}
 		return fontSize;
 	}
+
+	public String getBGColorUsingPseudoElemet(String object, String pseudo) {
+		JavascriptExecutor js = (JavascriptExecutor) getDriver();
+		String text = js.executeScript("return window.getComputedStyle(document.querySelector('" + object + "'),'::"
+				+ pseudo + "').getPropertyValue('background-color')").toString();
+		return text;
+	}
 }

@@ -46,7 +46,7 @@ public class DNA extends TestInfra {
 		try {
 			// Select Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(rstAdminDNAData.get(CNAdminDNA.ORG_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Navigate to Admin tab and verify DNA Sub Tab is present or not
@@ -60,7 +60,7 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertEquals(text, requiredData.get(3));
 			text = foundation.getText(DNADetails.LOCATION_NAME);
 			CustomisedAssert.assertEquals(text, rstAdminDNAData.get(CNAdminDNA.LOCATION_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.waitforElementToBeVisible(DNADetails.IS_DISABLED_COMBO_BOX, Constants.SHORT_TIME);
 			text = foundation.getText(DNADetails.IS_DISABLED_COMBO_BOX);
 			CustomisedAssert.assertEquals(text, requiredData.get(4));
 			List<String> options = dropDown.getAllItems(DNADetails.DD_ISDISABLED);
@@ -80,6 +80,78 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.BTN_SAVE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.TEXT_APPLY_LOCATION));
 
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "177521 - Verifying the color ranges of caloric for min and max")
+	public void verifyCaloriesFields() {
+		final String CASE_NUM = "177521";
+
+		// Reading test data from database
+		rstAdminDNAData = dataBase.getAdminDNAData(Queries.ADMIN_DNA, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstAdminDNAData.get(CNAdminDNA.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(rstAdminDNAData.get(CNAdminDNA.ORG_NAME));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin tab and verify DNA Sub Tab is present or not
+			List<String> tabNames = navigationBar.getSubTabs(menus.get(0));
+			CustomisedAssert.assertEquals(tabNames.get(16), requiredData.get(2));
+			navigationBar.navigateToMenuItem(menus.get(1));
+
+			// Validating the Is-Disabled combo box
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.HEADER_DNA));
+			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			String text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
+			CustomisedAssert.assertEquals(text, requiredData.get(1));
+
+			// Verify Calories Field and its color's
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.CALORIES_TAB));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.BTN_SAVE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.TEXT_APPLY_LOCATION));
+			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(5), requiredData.get(6));
+			CustomisedAssert.assertEquals(text, requiredData.get(7));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.GREEN_MIN_FIELD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.GREEN_MAX_FIELD));
+			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(8), requiredData.get(6));
+			CustomisedAssert.assertEquals(text, requiredData.get(9));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.YELLOW_MIN_FIELD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.YELLOW_MAX_FIELD));
+			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(10), requiredData.get(6));
+			CustomisedAssert.assertEquals(text, requiredData.get(11));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.RED_MIN_FIELD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.RED_MAX_FIELD));
+
+			// Verify Editable Fields
+			text = foundation.getBGColor(DNADetails.GREEN_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(12));
+			text = foundation.getBGColor(DNADetails.YELLOW_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(12));
+			text = foundation.getBGColor(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(12));
+			text = foundation.getBGColor(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(12));
+
+			// Verify Non-Editable Fields
+			text = foundation.getBGColor(DNADetails.GREEN_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(13));
+			text = foundation.getBGColor(DNADetails.RED_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(13));
+
+			// Verify Default Value in the fields
+			text = foundation.getAttributeValue(DNADetails.GREEN_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(14));
+			text = foundation.getAttributeValue(DNADetails.RED_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(15));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
