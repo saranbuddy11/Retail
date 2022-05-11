@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
@@ -18,7 +17,6 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -160,6 +158,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_LIST_MESSAGE = By.id("groupcount");
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
+	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

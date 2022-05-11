@@ -34,10 +34,12 @@ public class Login extends Factory {
 	public void login(String userName, String password) {
 		try {
 			foundation.click(BTN_SIGN_IN);
+			foundation.waitforElement(TXT_EMAIL, 5);
 			textBox.enterText(TXT_EMAIL, userName);
 			foundation.click(BTN_SIGN_IN);
+			foundation.waitforElement(TXT_PASSWORD, 5);
 			textBox.enterText(TXT_PASSWORD, password);
-			//insertLoginFields(userName, password);
+			// insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
