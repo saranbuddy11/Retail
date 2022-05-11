@@ -720,7 +720,9 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 				rstLocation.put(CNLocation.TYPE, resultSet.getString(CNLocation.TYPE));
 				rstLocation.put(CNLocation.TITLE, resultSet.getString(CNLocation.TITLE));
+				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
+
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
