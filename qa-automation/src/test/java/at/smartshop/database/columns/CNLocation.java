@@ -21,5 +21,4 @@ public class CNLocation {
 	public static final String TITLE = "Title";
 	public static final String NAME="Name";
 	public static final String DEVICE_NAME = "DeviceName";
-
 }
