@@ -30,6 +30,7 @@ public class GlobalProduct extends Factory {
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
 	public static final By TXT_PRODUCTNAME = By.xpath("//dd//input[@id='name']");
 	public static final By TXT_SCAN_CODE = By.xpath("//input[@name='scancode']");
+	public static final By SCANCODE=By.xpath("//dt[text()='Scancode(s)']");
 	public static final By BUTTON_ADD = By.xpath("//button[text()='Add']");
 	public static final By LBL_SCANCODE_MSG = By.xpath("//div[@class='scmsg error']");
 	public static final By TXT_PRICE = By.xpath("//input[@id='price']");
@@ -49,6 +50,7 @@ public class GlobalProduct extends Factory {
 	public static final By GBL_PRODUCT_DATA = By
 			.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_name']");
 	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
+	public static final By POPUP_HEADER=By.xpath("//h4[@style='text-align:center;']");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.id("location");
 	public static final By BTN_EXTEND = By.id("extend");
@@ -58,7 +60,10 @@ public class GlobalProduct extends Factory {
 	public static final By INPUT_MAX_STOCK = By.id("maxstock");
 	public static final By INPUT_PRICE = By.id("price");
 	public static final By BTN_SAVE = By.id("saveBtn");
-
+	public static final By SHOW_DROPDOWN=By.xpath("//div[@title='Show drop-down']");
+	public static final By SAVE_POPUP_BTN=By.id("nextyes"); 
+    public static final By CANCEL_BTN=By.id("cancelBtn");
+	 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}

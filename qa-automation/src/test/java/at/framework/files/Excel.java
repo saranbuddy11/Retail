@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -23,7 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
 import com.aventstack.extentreports.Status;
-import com.google.common.base.Verify;
 
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
@@ -197,7 +195,6 @@ public class Excel {
 		return false;
 	}
 
-
 	public Map<String, String> getExcelAsMap(String fileName, String workSheetName) throws IOException {
 		HSSFWorkbook workBook = null;
 		Map<String, String> singleRowData = new HashMap<>();
@@ -320,5 +317,5 @@ public class Excel {
 		}
 		return singleRowData;
 	}
-	
-	}
+
+}
