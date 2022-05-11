@@ -2964,6 +2964,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	@Test(description = "C176301-Verify the selection of item in Select Group's Items and Categories overlay when items are already being added"
 			+ "C176302-Verify the selection of categories in Select Group's Items and Categories overlay when categories are already")
 	public void verifyGroupItemAndCategoryOverlay() {
@@ -3251,6 +3252,78 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176790-Verify Bundle promo - pricing section when all categories are selected")
+	public void verifyBundlePromoPricingSection() {
+		final String CASE_NUM = "176790";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.ALL_CATEGORY, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SEARCH_CATEGORY));
+
+			// Check all categories checkbox and verify the price
+			checkBox.check(CreatePromotions.ALL_CATEGORY);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
+
+			// verify quantity field
+			foundation.waitforElement(CreatePromotions.QTY, Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.QTY));
+			String text = foundation.getAttributeValue(CreatePromotions.QTY);
+			CustomisedAssert.assertEquals(text, requiredData.get(4));
+			textBox.enterText(CreatePromotions.QTY, requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+			
+			//verify the created promotion 
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			promotionList.clickSelectedRow(requiredData.get(5), requiredData.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BUY_PRICE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditPromotion.PRICING));
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_END_PROMO);
+			foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_CONTINUE);
+			
+			
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
