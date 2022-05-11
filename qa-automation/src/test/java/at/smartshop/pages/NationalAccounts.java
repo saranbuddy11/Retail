@@ -2,9 +2,7 @@ package at.smartshop.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -14,9 +12,7 @@ import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Constants;
 
 public class NationalAccounts extends Factory {
@@ -36,7 +32,7 @@ public class NationalAccounts extends Factory {
 	public static final By LBL_LOCATION = By.cssSelector("td[aria-describedby=nationalAccountsSummaryGrid_location]");
 	public static final By ICO_DELETE = By.cssSelector("td[aria-describedby=dataGrid_delete] > a");
 	public static final By DPD_ORGANIZATION = By.id("org");
-	public static final By DPD_LOCATION = By.id("locs");
+	public static final By DPD_LOCATION = By.cssSelector("div.orgLocation > select");
 	public static final By BTN_ADD_NATIONAL_ACCOUNT = By.id("nationalAccountBtn");
 	public static final By TBL_HEADERS = By.xpath("//table//thead//tr//th");
 	public static final By BTN_POPUP_YES = By.xpath("//button[text()='YES']");
@@ -58,9 +54,6 @@ public class NationalAccounts extends Factory {
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private Table table = new Table();
-	private Map<String, String> rstNationalAccountsData;
-
 	private Foundation foundation = new Foundation();
 
 	public By nationalAccountDetails(String accountName) {
