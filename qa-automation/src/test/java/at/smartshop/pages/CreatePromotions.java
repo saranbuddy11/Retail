@@ -139,9 +139,8 @@ public class CreatePromotions extends Factory {
 	public static final By GROUP_MODAL_SAVE = By.id("groupmodalsave");
 	public static final By BUNDLE_OPTION_ITEM = By.xpath("//select[@name='discountby']/option[text()='Item']");
 	public static final By BUNDLE_OPTION_CATEGORY = By.xpath("//select[@name='discountby']/option[text()='Category']");
-	public static final By DELETE_GROUP = By.xpath(
-			"//a[@style='color: #FFFFFF;cursor: pointer;background: #9E9E9E !important;padding: 4px 5px;font-size: 16px;border-radius: 100%;']");
-	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//a[text()='Edit']");
+	public static final By DELETE_GROUP = By.cssSelector("#editgrouptable .fa-times");
+	public static final By LBL_BUNDLE_GROUP_EDIT = By.xpath("//table[@id='editgrouptable']//td[2]/a");
 	public static final By INPUT_ITEM_SEARCH = By.id("itemsearch");
 	public static final By PRODUCT_FILTER = By.id("prodfilter");
 	public static final By CATEGORY_FILTER = By.id("categoryfilter");
@@ -155,6 +154,14 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+
+	public static final By PRODUCTS_DISABLE = By.xpath("//td[@aria-describedby='itemdatatable_name']");
+	public static final By CATEGORY_DISABLE = By.xpath("//td[@aria-describedby='categorydatatable_category']");
+	public static final By HEADER_POPUP = By.xpath("//div[text()='Promotion Setup Alert']");
+	public static final By BTN_YES = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_GOTIT = By.xpath("//button[text()='Got it!']");
+	public static final By CAT_POPUP_HEADER = By.xpath("//div[text()='Note for adding this Category']");
+
 	public static final By BUNDLE_LIST_MESSAGE = By.id("groupcount");
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
@@ -434,6 +441,7 @@ public class CreatePromotions extends Factory {
 	}
 
 	public void deleteBundleGroup() {
+
 		foundation.click(DELETE_GROUP);
 		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_GROUP_HEADER));
@@ -442,6 +450,7 @@ public class CreatePromotions extends Factory {
 	}
 
 	public void selectItem(String item) {
+
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, item);
@@ -450,10 +459,13 @@ public class CreatePromotions extends Factory {
 	}
 
 	public void selectCategory(String category) {
+
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
-	}
+
+		}
+
 }
