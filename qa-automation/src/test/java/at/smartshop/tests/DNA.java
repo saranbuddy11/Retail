@@ -87,7 +87,10 @@ public class DNA extends TestInfra {
 		}
 	}
 
-	@Test(description = "177521 - Verifying the color ranges of caloric for min and max")
+	@Test(description = "177521 - Verifying the color ranges of caloric for min and max"
+			+ "177522 - Verifying the configuration of DNA to single location"
+			+ "177523 - Verifying the configuration of DNA to all Location"
+			+ "177524 - Verifying the auto pupulated ranges for the caloric ranges")
 	public void verifyCaloriesFields() {
 		final String CASE_NUM = "177521";
 
@@ -155,11 +158,16 @@ public class DNA extends TestInfra {
 			text = foundation.getAttributeValue(DNADetails.RED_MAX_FIELD);
 			CustomisedAssert.assertEquals(text, requiredData.get(15));
 
-			// Setting the values for the fields
+			// Setting the values for the fields and validating auto populated values in
+			// Yellow min, Red min
 			textBox.enterText(DNADetails.GREEN_MAX_FIELD, requiredData.get(16));
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
+			text = foundation.getAttributeValue(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(19));
 			textBox.enterText(DNADetails.YELLOW_MAX_FIELD, requiredData.get(17));
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
+			text = foundation.getAttributeValue(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(20));
 			foundation.click(DNADetails.BTN_SAVE);
 			foundation.waitforElementToBeVisible(DNADetails.POPUP_SUCCESS, Constants.SHORT_TIME);
 			text = foundation.getText(DNADetails.POPUP_CONTENT);
