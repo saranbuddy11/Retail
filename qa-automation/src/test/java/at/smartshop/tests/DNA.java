@@ -12,6 +12,7 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNAdminDNA;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Constants;
@@ -27,6 +28,7 @@ public class DNA extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
 	private Dropdown dropDown = new Dropdown();
+	private TextBox textBox = new TextBox();
 
 	private Map<String, String> rstAdminDNAData;
 	private Map<String, String> rstNavigationMenuData;
@@ -152,6 +154,33 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertEquals(text, requiredData.get(14));
 			text = foundation.getAttributeValue(DNADetails.RED_MAX_FIELD);
 			CustomisedAssert.assertEquals(text, requiredData.get(15));
+
+			// Setting the values for the fields
+			textBox.enterText(DNADetails.GREEN_MAX_FIELD, requiredData.get(16));
+			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
+			textBox.enterText(DNADetails.YELLOW_MAX_FIELD, requiredData.get(17));
+			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
+			foundation.click(DNADetails.BTN_SAVE);
+			foundation.waitforElementToBeVisible(DNADetails.POPUP_SUCCESS, Constants.SHORT_TIME);
+			text = foundation.getText(DNADetails.POPUP_CONTENT);
+			CustomisedAssert.assertEquals(text, requiredData.get(18));
+			foundation.click(DNADetails.BTN_OK);
+			navigationBar.navigateToMenuItem(menus.get(2));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Verifying Entered Values are reflected properly or not
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.HEADER_DNA));
+			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			text = foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(16));
+			text = foundation.getAttributeValue(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(19));
+			text = foundation.getAttributeValue(DNADetails.YELLOW_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(17));
+			text = foundation.getAttributeValue(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(20));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

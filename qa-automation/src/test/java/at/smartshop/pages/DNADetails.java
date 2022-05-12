@@ -19,4 +19,7 @@ public class DNADetails extends Factory {
 	public static final By YELLOW_MAX_FIELD = By.id("cyellowmax");
 	public static final By RED_MIN_FIELD = By.id("credmin");
 	public static final By RED_MAX_FIELD = By.id("credmax");
+	public static final By POPUP_SUCCESS = By.className("ajs-header");
+	public static final By POPUP_CONTENT = By.className("ajs-content");
+	public static final By BTN_OK = By.className("ajs-ok");
 }
