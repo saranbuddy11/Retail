@@ -90,7 +90,8 @@ public class DNA extends TestInfra {
 	@Test(description = "177521 - Verifying the color ranges of caloric for min and max"
 			+ "177522 - Verifying the configuration of DNA to single location"
 			+ "177523 - Verifying the configuration of DNA to all Location"
-			+ "177524 - Verifying the auto pupulated ranges for the caloric ranges")
+			+ "177524 - Verifying the auto pupulated ranges for the caloric ranges"
+			+ "177525 - Verifying the Access icon for the caloric ranges")
 	public void verifyCaloriesFields() {
 		final String CASE_NUM = "177521";
 
@@ -113,10 +114,15 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertEquals(tabNames.get(16), requiredData.get(2));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
-			// Validating the Is-Disabled combo box
+			// Validating the Is-Disabled combo box and Access Icon
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.HEADER_DNA));
+			foundation.click(DNADetails.ACCESS_ICON);
+			String text = foundation.getText(DNADetails.TOOL_TIP_TEXT);
+			CustomisedAssert.assertEquals(text, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(DNADetails.TOOL_TIP_TEXT));
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
-			String text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
+			text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
 			CustomisedAssert.assertEquals(text, requiredData.get(1));
 
 			// Verify Calories Field and its color's
@@ -194,9 +200,10 @@ public class DNA extends TestInfra {
 			foundation.click(DNADetails.TEXT_APPLY_LOCATION);
 			foundation.waitforElementToBeVisible(DNADetails.POPUP_SUCCESS, Constants.SHORT_TIME);
 			foundation.click(DNADetails.BTN_OK);
-			foundation.waitforElementToBeVisible(DNADetails.LOCATION_LIST, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
 
 			// Verifying the values in other location - AutoLocation3
+			foundation.scrollIntoViewElement(DNADetails.LOCATION_LIST);
 			foundation.click(DNADetails.LOCATION_LIST);
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
 			text = foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD);
