@@ -54,6 +54,9 @@ public class Configuration {
 	public static final String GPC_ORG = "Gpc_Org";
 	public static final String ORGANIZATION_OF_HSRLOC = "Organization_of_HsrLoc";
 	public static final String NOUS_DEMO_ORG= "Nous_Demo_Org";
+	public static final String SSO_USERNAME_OPERATOR="Sso_username_operator";
+	public static final String SSO_USERNAME_FINANCE="Sso_username_365Finance";
+	
 	
 
 }

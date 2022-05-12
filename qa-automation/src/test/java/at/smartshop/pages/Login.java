@@ -19,6 +19,18 @@ public class Login extends Factory {
 	private static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
 	public static final By LBL_USER_NAME = By.id("drop5");
 	public static final By MUN_LOGOUT = By.id("logout");
+	public static final By TXT_SSO_PASSWORD = By.id("i0118");
+	public static final By SSO_BTN_SIGNIN = By.id("idSIButton9");
+	public static final By TITLE_HEADER = By.xpath("//div[text()='Stay signed in?']");
+	public static final By TXT_FORGET_PWD = By.id("idA_PWD_ForgotPassword");
+	public static final By TXT_SIGNIN_ANOTHER_ACC = By.id("i1668");
+	public static final By TXT_DESCRIPTION = By.id("KmsiDescription");
+	public static final By CHECKBOX_FIELD = By.id("KmsiCheckboxField");
+	public static final By SHOW_MSG = By.xpath("//label/span");
+	public static final By BTN_NO = By.id("idBtn_Back");
+	public static final By BTN_YES = By.id("idSIButton9");
+	public static final By PICK_ACC_HEADER = By.xpath("//div[text()='Pick an account']");
+	public static final By SIGN_OUT = By.xpath("//div[@class='table-cell text-left content']");
 
 	public void insertLoginFields(String userName, String password) {
 		try {
@@ -63,6 +75,33 @@ public class Login extends Factory {
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
+			foundation.waitforElement(BTN_SIGN_IN, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void ssoLogin(String userName, String password) {
+		try {
+			foundation.click(BTN_SIGN_IN);
+			foundation.waitforElement(TXT_EMAIL, 5);
+			textBox.enterText(TXT_EMAIL, userName);
+			foundation.click(BTN_SIGN_IN);
+			foundation.waitforElement(TXT_SSO_PASSWORD, 5);
+			textBox.enterText(TXT_SSO_PASSWORD, password);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void ssoLogout() {
+		try {
+
+			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
+			foundation.click(LBL_USER_NAME);
+			foundation.click(MUN_LOGOUT);
+			foundation.waitforElement(PICK_ACC_HEADER, Constants.SHORT_TIME);
+			foundation.click(SIGN_OUT);
 			foundation.waitforElement(BTN_SIGN_IN, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
