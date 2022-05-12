@@ -22,4 +22,5 @@ public class DNADetails extends Factory {
 	public static final By POPUP_SUCCESS = By.className("ajs-header");
 	public static final By POPUP_CONTENT = By.className("ajs-content");
 	public static final By BTN_OK = By.className("ajs-ok");
+	public static final By LOCATION_LIST = By.xpath("//li[@data-path='5']");
 }

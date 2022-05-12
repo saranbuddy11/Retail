@@ -181,6 +181,25 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertEquals(text, requiredData.get(17));
 			text = foundation.getAttributeValue(DNADetails.RED_MIN_FIELD);
 			CustomisedAssert.assertEquals(text, requiredData.get(20));
+
+			// Applying DNA confirguration to all Locations
+			foundation.click(DNADetails.TEXT_APPLY_LOCATION);
+			foundation.waitforElementToBeVisible(DNADetails.POPUP_SUCCESS, Constants.SHORT_TIME);
+			foundation.click(DNADetails.BTN_OK);
+			foundation.waitforElementToBeVisible(DNADetails.LOCATION_LIST, Constants.SHORT_TIME);
+
+			// Verifying the values in other location - AutoLocation3
+			foundation.click(DNADetails.LOCATION_LIST);
+			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			text = foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(16));
+			text = foundation.getAttributeValue(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(19));
+			text = foundation.getAttributeValue(DNADetails.YELLOW_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(17));
+			text = foundation.getAttributeValue(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(20));
+			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
