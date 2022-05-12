@@ -25,4 +25,5 @@ public class DNADetails extends Factory {
 	public static final By LOCATION_LIST = By.xpath("//li[@data-path='5']");
 	public static final By ACCESS_ICON = By.className("ion-information-circled");
 	public static final By TOOL_TIP_TEXT = By.className("dna-headerinner");
+	public static final By ERROR_MESSAGE = By.className("humane humane-libnotify-error");
 }

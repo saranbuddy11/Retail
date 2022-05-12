@@ -33,7 +33,7 @@ public class DNA extends TestInfra {
 	private Map<String, String> rstAdminDNAData;
 	private Map<String, String> rstNavigationMenuData;
 
-	@Test(description = "177520 - verify the Enabling of DNA option")
+	@Test(description = "177520 - verify the Enabling of DNA option" + "177526 - verifying the saving of DNA")
 	public void verifyEnablingDNAOption() {
 		final String CASE_NUM = "177520";
 
@@ -76,6 +76,18 @@ public class DNA extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
 			CustomisedAssert.assertEquals(text, requiredData.get(1));
+
+			// Validating the error message while saving without values in the fields
+			foundation.click(DNADetails.BTN_SAVE);
+			foundation.waitforElementToDisappear(DNADetails.ERROR_MESSAGE, Constants.SHORT_TIME);
+			text = foundation.getOutLineColor(DNADetails.GREEN_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(5));
+			text = foundation.getOutLineColor(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(5));
+			text = foundation.getOutLineColor(DNADetails.YELLOW_MAX_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(5));
+			text = foundation.getOutLineColor(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(text, requiredData.get(5));
 
 			// Verify Calories Tab
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.CALORIES_TAB));
@@ -129,15 +141,16 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.CALORIES_TAB));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.BTN_SAVE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.TEXT_APPLY_LOCATION));
-			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(5), requiredData.get(6));
+			text = foundation.getStyleUsingPseudoElemet(requiredData.get(5), requiredData.get(6), requiredData.get(21));
 			CustomisedAssert.assertEquals(text, requiredData.get(7));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.GREEN_MIN_FIELD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.GREEN_MAX_FIELD));
-			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(8), requiredData.get(6));
+			text = foundation.getStyleUsingPseudoElemet(requiredData.get(8), requiredData.get(6), requiredData.get(21));
 			CustomisedAssert.assertEquals(text, requiredData.get(9));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.YELLOW_MIN_FIELD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.YELLOW_MAX_FIELD));
-			text = foundation.getBGColorUsingPseudoElemet(requiredData.get(10), requiredData.get(6));
+			text = foundation.getStyleUsingPseudoElemet(requiredData.get(10), requiredData.get(6),
+					requiredData.get(21));
 			CustomisedAssert.assertEquals(text, requiredData.get(11));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.RED_MIN_FIELD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.RED_MAX_FIELD));
@@ -204,6 +217,7 @@ public class DNA extends TestInfra {
 
 			// Verifying the values in other location - AutoLocation3
 			foundation.scrollIntoViewElement(DNADetails.LOCATION_LIST);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(DNADetails.LOCATION_LIST);
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
 			text = foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD);
