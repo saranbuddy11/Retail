@@ -12,11 +12,11 @@ public class Login extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 
-	private static final By TXT_EMAIL = By.id("username");
+	public static final By TXT_EMAIL = By.id("username");
 	// private static final By TXT_EMAIL = By.id("email");
-	private static final By TXT_SOS_EMAIL = By.id("email");
-	private static final By TXT_PASSWORD = By.id("password");
-	private static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
+	public static final By TXT_SOS_EMAIL = By.id("email");
+	public static final By TXT_PASSWORD = By.id("password");
+	public static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
 	public static final By LBL_USER_NAME = By.id("drop5");
 	public static final By MUN_LOGOUT = By.id("logout");
 	public static final By TXT_SSO_PASSWORD = By.id("i0118");
@@ -31,7 +31,11 @@ public class Login extends Factory {
 	public static final By BTN_YES = By.id("idSIButton9");
 	public static final By PICK_ACC_HEADER = By.xpath("//div[text()='Pick an account']");
 	public static final By SIGN_OUT = By.xpath("//div[@class='table-cell text-left content']");
-
+	public static final By USERNAME_ERROR=By.id("usernameError");
+    public static final By PASSWORD_ERROR=By.id("passwordError");
+    public static final By ERROR_MSG=By.xpath("//div[@class='humane humane-libnotify-error']");
+	
+	
 	public void insertLoginFields(String userName, String password) {
 		try {
 			foundation.waitforElement(TXT_EMAIL, Constants.TWO_SECOND);

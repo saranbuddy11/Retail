@@ -56,6 +56,10 @@ public class Configuration {
 	public static final String NOUS_DEMO_ORG= "Nous_Demo_Org";
 	public static final String SSO_USERNAME_OPERATOR="Sso_username_operator";
 	public static final String SSO_USERNAME_FINANCE="Sso_username_365Finance";
+	public static final String SSO_USERNAME_SUPER="Sso_username_super";
+	public static final String SSO_USERNAME_DRIVER="Sso_username_driver";
+	public static final String SSO_INCORRECT_USERNAME="Sso_incorrect_username";
+	public static final String SSO_USERNAME="Sso_username";
 	
 	
 
