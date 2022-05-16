@@ -32,8 +32,8 @@ public class SSOLogin extends TestInfra {
 	private Map<String, String> rstLoginPageData;
 
 	/**
-	 * Description: Validating Single Sign On for ADM application using Operator
-	 * User Author: Afrose Created on: 12th May 2022 Parameters: Username and
+	 * Description: Validating Single Sign On for ADM application using Operator User
+	 *  Author: Afrose Created on: 12th May 2022 Parameters: Username and
 	 * Password Comments: Username is Passed from Config file and Password stored in
 	 * DB
 	 */
@@ -58,7 +58,7 @@ public class SSOLogin extends TestInfra {
 					password.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TXT_FORGET_PWD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TXT_SIGNIN_ANOTHER_ACC));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
+			foundation.waitforElement(Login.SSO_BTN_SIGNIN, Constants.SHORT_TIME);
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// validate the content in stay signed in page
@@ -75,19 +75,19 @@ public class SSOLogin extends TestInfra {
 
 			// verify the check box in Don't show this again
 			checkBox.check(Login.CHECKBOX_FIELD);
-			foundation.waitforElement(Login.BTN_NO, 5);
+			foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.SHORT_TIME);
 			checkBox.unCheck(Login.CHECKBOX_FIELD);
 			foundation.click(Login.BTN_YES);
 
 			// Landing into home page and verify
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			login.ssoLogout();
 
 			// Login without Microsoft authenticated email id's.
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			login.logout();
 
@@ -290,9 +290,9 @@ public class SSOLogin extends TestInfra {
 
 	/**
 	 * Description: Validating Single Sign On for ADM application using Incorrect
-	 * username and password Author: Afrose Created on: 13th May 2022 Parameters:
-	 * Incorrect Username and Password Comments: Username is Passed from Config file
-	 * and Password stored in DB
+	 * username and password Author: Afrose Created on: 13th May 2022
+	 * Parameters: correct Username,Incorrect Password,and incorrect username
+	 * Comments:Username is Passed from Config file and Password stored in DB
 	 */
 	@Test(description = "C175497- ADM - Sign In page Negative Test cases")
 	public void verifyLoginPageWithIcorrectCredentials() {
@@ -311,11 +311,11 @@ public class SSOLogin extends TestInfra {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(Login.BTN_SIGN_IN);
-			foundation.waitforElement(Login.TXT_EMAIL, 5);
+			foundation.waitforElementToBeVisible(Login.TXT_EMAIL, Constants.SHORT_TIME);
 			textBox.enterText(Login.TXT_EMAIL,
 					propertyFile.readPropertyFile(Configuration.SSO_INCORRECT_USERNAME, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(Login.BTN_SIGN_IN);
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
+			foundation.waitforElementToBeVisible(Login.SSO_BTN_SIGNIN, Constants.SHORT_TIME);
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// verify the error message while enter wrong username
@@ -326,13 +326,13 @@ public class SSOLogin extends TestInfra {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(Login.BTN_SIGN_IN);
-			foundation.waitforElement(Login.TXT_EMAIL, 5);
+			foundation.waitforElementToBeVisible(Login.TXT_EMAIL, Constants.SHORT_TIME);
 			textBox.enterText(Login.TXT_EMAIL,
 					propertyFile.readPropertyFile(Configuration.SSO_USERNAME_DRIVER, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(Login.BTN_SIGN_IN);
-			foundation.waitforElement(Login.TXT_SSO_PASSWORD, 5);
+			foundation.waitforElementToBeVisible(Login.TXT_SSO_PASSWORD, Constants.SHORT_TIME);
 			textBox.enterText(Login.TXT_SSO_PASSWORD, password.get(0));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
+			foundation.waitforElementToBeVisible(Login.SSO_BTN_SIGNIN, Constants.SHORT_TIME);
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// verify the error message while enter wrong password
@@ -345,9 +345,9 @@ public class SSOLogin extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.ssoLogin(propertyFile.readPropertyFile(Configuration.SSO_USERNAME, FilePath.PROPERTY_CONFIG_FILE),
 					password.get(1));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
+			foundation.waitforElementToBeVisible(Login.SSO_BTN_SIGNIN, Constants.TWO_SECOND);
 			foundation.click(Login.SSO_BTN_SIGNIN);
-			foundation.waitforElement(Login.BTN_NO, 5);
+			foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.TWO_SECOND);
 			foundation.click(Login.BTN_YES);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.BTN_SIGN_IN));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.ERROR_MSG));
@@ -356,5 +356,5 @@ public class SSOLogin extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 }
