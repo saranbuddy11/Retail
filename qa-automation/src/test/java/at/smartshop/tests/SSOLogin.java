@@ -33,8 +33,8 @@ public class SSOLogin extends TestInfra {
 
 	/**
 	 * Description: Validating Single Sign On for ADM application using Operator User
-	 *  Author: Afrose Created on: 12th May 2022 Parameters: Username and
-	 * Password Comments: Username is Passed from Config file and Password stored in
+	 *  Author: Afrose Created on: 12th May 2022 
+	 * Parameters: Username and Password Comments: Username is Passed from Config file and Password stored in
 	 * DB
 	 */
 	@Test(description = "C175498- ADM - Sign In page to utilize Auth0 Login page using operator user")
