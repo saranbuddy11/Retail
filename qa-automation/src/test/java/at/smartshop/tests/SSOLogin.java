@@ -77,6 +77,8 @@ public class SSOLogin extends TestInfra {
 			checkBox.check(Login.CHECKBOX_FIELD);
 			foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.SHORT_TIME);
 			checkBox.unCheck(Login.CHECKBOX_FIELD);
+			String color = foundation.getBGColor(Login.BTN_YES);
+			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
 			foundation.click(Login.BTN_YES);
 
 			// Landing into home page and verify
@@ -141,6 +143,8 @@ public class SSOLogin extends TestInfra {
 			checkBox.check(Login.CHECKBOX_FIELD);
 			foundation.waitforElement(Login.BTN_NO, 5);
 			checkBox.unCheck(Login.CHECKBOX_FIELD);
+			String color = foundation.getBGColor(Login.BTN_YES);
+			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
 			foundation.click(Login.BTN_YES);
 
 			// Landing into home page and verify
@@ -205,6 +209,8 @@ public class SSOLogin extends TestInfra {
 			checkBox.check(Login.CHECKBOX_FIELD);
 			foundation.waitforElement(Login.BTN_NO, 5);
 			checkBox.unCheck(Login.CHECKBOX_FIELD);
+			String color = foundation.getBGColor(Login.BTN_YES);
+			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
 			foundation.click(Login.BTN_YES);
 
 			// Landing into home page and verify
@@ -269,6 +275,8 @@ public class SSOLogin extends TestInfra {
 			checkBox.check(Login.CHECKBOX_FIELD);
 			foundation.waitforElement(Login.BTN_NO, 5);
 			checkBox.unCheck(Login.CHECKBOX_FIELD);
+			String color = foundation.getBGColor(Login.BTN_YES);
+			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
 			foundation.click(Login.BTN_YES);
 
 			// Landing into home page and verify
