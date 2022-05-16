@@ -1833,7 +1833,7 @@ public class Location extends TestInfra {
 	}
 
 	@Test(description = "178509-QAA-122-ADM>Location Summary>Products>Update Min. Stock.")
-	public void UpdateMinimumStock() {
+	public void verifyUpdateMinimumStock() {
 		final String CASE_NUM = "178509";
 
 		// Reading test data from DataBas
@@ -1875,6 +1875,7 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
+			//reset the value
 			Assert.assertTrue(foundation.getText(LocationSummary.MIN_STOCK).equals(minStock.get(0)));
 			locationSummary.enterMinStock(product, minStock.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
@@ -1884,7 +1885,7 @@ public class Location extends TestInfra {
 		}
 	}
 
-	@Test(description = "178530-QAA-114-ADM>LocationSummary>Verify all the selected products should be highlightedQAA-179-ADM>Location Summary>Promotions>Promotions UI and Fields."
+	@Test(description = "178530-QAA-179-ADM>Location Summary>Promotions>Promotions UI and Fields."
 			+ "178577-QAA-181-ADM>Location Summary>Promotions>Manage Columns."
 			+ "178542-QAA-180-ADM>Location Summary>Promotions>Create Promotion.")
 	public void verifyUIForPromotionsTab() {
