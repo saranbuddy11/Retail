@@ -19,5 +19,6 @@ public class CNLocation {
 	public static final String TYPE = "Type";
 	public static final String COLUMN_NAME = "ColumnName";
 	public static final String TITLE = "Title";
+	public static final String NAME="Name";
 	public static final String DEVICE_NAME = "DeviceName";
 }
