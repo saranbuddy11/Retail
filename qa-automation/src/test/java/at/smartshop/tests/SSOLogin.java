@@ -32,9 +32,9 @@ public class SSOLogin extends TestInfra {
 	private Map<String, String> rstLoginPageData;
 
 	/**
-	 * Description: Validating Single Sign On for ADM application using Operator User
-	 *  Author: Afrose Created on: 12th May 2022 
-	 * Parameters: Username and Password Comments: Username is Passed from Config file and Password stored in
+	 * Description: Validating Single Sign On for ADM application using Operator
+	 * User Author: Afrose Created on: 12th May 2022 Parameters: Username and
+	 * Password Comments: Username is Passed from Config file and Password stored in
 	 * DB
 	 */
 	@Test(description = "C175498- ADM - Sign In page to utilize Auth0 Login page using operator user")
@@ -62,36 +62,14 @@ public class SSOLogin extends TestInfra {
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// validate the content in stay signed in page
-			foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
-			String text = foundation.getText(Login.TITLE_HEADER);
-			CustomisedAssert.assertEquals(text, requiredData.get(0));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
-			text = foundation.getText(Login.TXT_DESCRIPTION);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
-			foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
-			text = foundation.getText(Login.SHOW_MSG);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(2)));
+			login.ssoValidationInStaySignedinPage(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
-			// verify the check box in Don't show this again
-			checkBox.check(Login.CHECKBOX_FIELD);
-			foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.SHORT_TIME);
-			checkBox.unCheck(Login.CHECKBOX_FIELD);
-			String color = foundation.getBGColor(Login.BTN_YES);
-			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
-			foundation.click(Login.BTN_YES);
-
-			// Landing into home page and verify
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.ssoLogout();
+			// verify the check box in Don't show this again and landing into home page &
+			// logout
+			login.verifyCheckboxInShowMsg(rstLoginPageData.get(CNLoginPage.MAIL));
 
 			// Login without Microsoft authenticated email id's.
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.logout();
+			login.loginWithoutMicrosoftAccount();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -128,36 +106,14 @@ public class SSOLogin extends TestInfra {
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// validate the content in stay signed in page
-			foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
-			String text = foundation.getText(Login.TITLE_HEADER);
-			CustomisedAssert.assertEquals(text, requiredData.get(0));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
-			text = foundation.getText(Login.TXT_DESCRIPTION);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
-			foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
-			text = foundation.getText(Login.SHOW_MSG);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(2)));
+			login.ssoValidationInStaySignedinPage(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
-			// verify the check box in Don't show this again
-			checkBox.check(Login.CHECKBOX_FIELD);
-			foundation.waitforElement(Login.BTN_NO, 5);
-			checkBox.unCheck(Login.CHECKBOX_FIELD);
-			String color = foundation.getBGColor(Login.BTN_YES);
-			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
-			foundation.click(Login.BTN_YES);
-
-			// Landing into home page and verify
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.ssoLogout();
+			// verify the check box in Don't show this again and landing into home page &
+			// logout
+			login.verifyCheckboxInShowMsg(rstLoginPageData.get(CNLoginPage.MAIL));
 
 			// Login without Microsoft authenticated email id's.
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.logout();
+			login.loginWithoutMicrosoftAccount();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -194,36 +150,14 @@ public class SSOLogin extends TestInfra {
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// validate the content in stay signed in page
-			foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
-			String text = foundation.getText(Login.TITLE_HEADER);
-			CustomisedAssert.assertEquals(text, requiredData.get(0));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
-			text = foundation.getText(Login.TXT_DESCRIPTION);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
-			foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
-			text = foundation.getText(Login.SHOW_MSG);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(2)));
+			login.ssoValidationInStaySignedinPage(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
-			// verify the check box in Don't show this again
-			checkBox.check(Login.CHECKBOX_FIELD);
-			foundation.waitforElement(Login.BTN_NO, 5);
-			checkBox.unCheck(Login.CHECKBOX_FIELD);
-			String color = foundation.getBGColor(Login.BTN_YES);
-			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
-			foundation.click(Login.BTN_YES);
-
-			// Landing into home page and verify
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.ssoLogout();
+			// verify the check box in Don't show this again and landing into home page &
+			// logout
+			login.verifyCheckboxInShowMsg(rstLoginPageData.get(CNLoginPage.MAIL));
 
 			// Login without Microsoft authenticated email id's.
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.logout();
+			login.loginWithoutMicrosoftAccount();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -260,36 +194,14 @@ public class SSOLogin extends TestInfra {
 			foundation.click(Login.SSO_BTN_SIGNIN);
 
 			// validate the content in stay signed in page
-			foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
-			String text = foundation.getText(Login.TITLE_HEADER);
-			CustomisedAssert.assertEquals(text, requiredData.get(0));
-			foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
-			text = foundation.getText(Login.TXT_DESCRIPTION);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
-			foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
-			text = foundation.getText(Login.SHOW_MSG);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(2)));
+			login.ssoValidationInStaySignedinPage(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
-			// verify the check box in Don't show this again
-			checkBox.check(Login.CHECKBOX_FIELD);
-			foundation.waitforElement(Login.BTN_NO, 5);
-			checkBox.unCheck(Login.CHECKBOX_FIELD);
-			String color = foundation.getBGColor(Login.BTN_YES);
-			CustomisedAssert.assertEquals(color, rstLoginPageData.get(CNLoginPage.MAIL));
-			foundation.click(Login.BTN_YES);
-
-			// Landing into home page and verify
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.ssoLogout();
+			// verify the check box in Don't show this again and landing into home page &
+			// logout
+			login.verifyCheckboxInShowMsg(rstLoginPageData.get(CNLoginPage.MAIL));
 
 			// Login without Microsoft authenticated email id's.
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.waitforElement(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			login.logout();
+			login.loginWithoutMicrosoftAccount();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -298,9 +210,9 @@ public class SSOLogin extends TestInfra {
 
 	/**
 	 * Description: Validating Single Sign On for ADM application using Incorrect
-	 * username and password Author: Afrose Created on: 13th May 2022
-	 * Parameters: correct Username,Incorrect Password,and incorrect username
-	 * Comments:Username is Passed from Config file and Password stored in DB
+	 * username and password Author: Afrose Created on: 13th May 2022 Parameters:
+	 * correct Username,Incorrect Password,and incorrect username Comments:Username
+	 * is Passed from Config file and Password stored in DB
 	 */
 	@Test(description = "C175497- ADM - Sign In page Negative Test cases")
 	public void verifyLoginPageWithIcorrectCredentials() {

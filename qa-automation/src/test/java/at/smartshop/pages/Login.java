@@ -3,14 +3,20 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLoginPage;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class Login extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+	private CheckBox checkBox = new CheckBox();
 
 	public static final By TXT_EMAIL = By.id("username");
 	// private static final By TXT_EMAIL = By.id("email");
@@ -110,5 +116,38 @@ public class Login extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	public void ssoValidationInStaySignedinPage(String usertype,String description, String msg ) {
+		foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
+		String text = foundation.getText(Login.TITLE_HEADER);
+		CustomisedAssert.assertEquals(text,usertype );
+		foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
+		text = foundation.getText(Login.TXT_DESCRIPTION);
+		CustomisedAssert.assertTrue(text.contains(description));
+		foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
+		text = foundation.getText(Login.SHOW_MSG);
+		CustomisedAssert.assertTrue(text.contains(msg));           		
+	}
+	
+	public void verifyCheckboxInShowMsg(String colour) {
+		checkBox.check(Login.CHECKBOX_FIELD);
+		foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.SHORT_TIME);
+		checkBox.unCheck(Login.CHECKBOX_FIELD);
+		String color = foundation.getBGColor(Login.BTN_YES);
+		CustomisedAssert.assertEquals(color, colour );
+		foundation.click(Login.BTN_YES);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		ssoLogout();
+	}
+	
+	public void loginWithoutMicrosoftAccount() {
+		login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		logout();
 	}
 }
