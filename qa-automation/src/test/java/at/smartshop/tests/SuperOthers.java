@@ -1541,6 +1541,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(PrintGroupLists.TXT_NAME, wrong_Printer_Name);
 			foundation.click(PrintGroupLists.BTN_SAVE);
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(PrintGroupLists.BTN_CANCEL);
 
 			// click on create New Btn & Cancel Btn
