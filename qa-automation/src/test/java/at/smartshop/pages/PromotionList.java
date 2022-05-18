@@ -55,6 +55,7 @@ public class PromotionList extends Factory {
 	public static final By DISPLAY_PROMOTION=By.id("displayname");
 	public static final By NEXT=By.id("submitBtn");
 	public static final By ARROY_RIGHT=By.id("singleSelectLtoR");
+	public static final By BUY_PRICE=By.xpath("//div[@id='bundlesummary']/span");
 
 	public void clickSelectedRow(String dataGridname, String promoName) {
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"));

@@ -49,6 +49,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
 	public static final By DPD_DISCOUNT_TIME = By.id("timing");
 	public static final By DPD_DISCOUNT_TYPE = By.id("discounttype");
+	public static final By ALL_CATEGORY=By.id("allcategories");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
 	public static final By TXT_AMOUNT = By.id("amount");
 	public static final By TXT_START_DATE = By.id("startdate");
@@ -125,7 +126,7 @@ public class CreatePromotions extends Factory {
 			"//input[@onclick='setCheckBox(\"40b9fbbc57f66e1b734a59c6f4c1a48a\",true,\"itemdatatable\",\"itemcheckbox\")']");
 
 	public static final By CHECKBOX_SAMEPROD=By.xpath("//tr[contains(@class,ui-ig-altrecord)]//td[text()='same11']/preceding-sibling::td//input[@type='checkbox']");
-	
+	public static final By PRICING_GRID=By.xpath("//table[@id='bundletable']//tr[2]");
 	
 	
 	public static final By TXT_RECORD=By.id("itemdatatable_pager_label");
@@ -134,8 +135,9 @@ public class CreatePromotions extends Factory {
 	
 	public static final By CATEGORY_NAME_GRID = By.id("categorydatatable_category");
 	public static final By CATEGORY_UPC_GRID = By.id("categorydatatable_upc");
-	
-
+	public static final By PRICE_TAG=By.xpath("//table[@id='bundletable']//tr[2]/td[2]"); 
+	public static final By QUANTITY_FIELD=By.xpath("//table[@id='bundletable']//tr[1]/th[3]");
+    public static final By QTY=By.id("bundleItem0");
 	public static final By LBL_PROMO_TYPE = By.xpath("//dt[text()='Promotion Type']");
 	public static final By LBL_PROMO_NAME = By.xpath("//dt[text()='Promotion Name']");
 	public static final By LBL_DISPLAY_NAME = By.xpath("//dt[text()='Display Name']");
