@@ -25,6 +25,7 @@ public class ConsumerSummary extends Factory {
 	public static final By LBL_READ_BALANCE = By.id("readbalance");
 	private static final By LBL_READ_TYPE_BALANCE = By.id("readTypebalance");
 	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
+//	public static final By BTN_ADJUST = By.cssSelector("#mainform > div > dd:nth-child(3) > a");
 	public static final By STRIKE_ADJUST=By.xpath("//a[@balanceid='3b1cb67f9533314380072e373ca2ba02']");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
