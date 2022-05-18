@@ -353,11 +353,10 @@ public class Location extends TestInfra {
 			dropDown.selectItem(GlobalProductChange.DPD_LOYALTY_MULTIPLIER, "5", Constants.VALUE);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_OK);
-//			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.objectFocus(GlobalProductChange.REASONBOX_BTNOK);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.REASONBOX_BTNOK));
 			foundation.objectClick(GlobalProductChange.REASONBOX_BTNOK);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Select Menu and Global product
 			navigationBar.selectOrganization(
@@ -371,8 +370,7 @@ public class Location extends TestInfra {
 			// verify value in loyalty dropdown
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_LOYALTY_MULTIPLIER), "5");
 		} catch (Exception exc) {
-			exc.printStackTrace();
-			Assert.fail();
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -454,7 +452,7 @@ public class Location extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			locationList.selectLocationName(location);
 
@@ -870,7 +868,7 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
@@ -1212,9 +1210,7 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			// List<String> devicetabHeaders = Arrays.asList(
-			// rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Menu and Menu Item
@@ -1230,9 +1226,8 @@ public class Location extends TestInfra {
 
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
 			foundation.click(DeviceList.BTN_SUBMIT);
-			//textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, location);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(deviceList.objLocationLink(location));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(DeviceList.LOCATION_LINK);
 
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
