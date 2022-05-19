@@ -3039,7 +3039,9 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176303-Verify the selection of items in Select Group's Items and Categories overlay when items belonging to categories"
 			+ "C176304-Verify the selection of items in Select Group's Items and Categories overlay when items belonging to categories"
-			+ "C177867-Verify the 'Add' Button for existing bundle promotion in Select Group's Items and Categories Overlay")
+			+ "C177867-Verify the 'Add' Button for existing bundle promotion in Select Group's Items and Categories Overlay"
+			+ "C176274-Verify the conflict popup when duplicate items/categories are created for  existing group"
+			+ "C176273-Verify the conflict popup when duplicate items/categories are created for current group while being created")
 	public void verifyPopupMessageInGroupOverlay() {
 		final String CASE_NUM = "176303";
 
@@ -3049,6 +3051,8 @@ public class Promotions extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> contentpopup = Arrays
+				.asList(rstLocationData.get(CNLocation.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 
 		try {
@@ -3090,6 +3094,8 @@ public class Promotions extends TestInfra {
 
 			// verify the popup message and click on yes
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.HEADER_POPUP));
+			String text = foundation.getText(CreatePromotions.CONTENT_POPUP);
+			CustomisedAssert.assertTrue(text.contains(contentpopup.get(0)));
 			foundation.click(CreatePromotions.BTN_YES);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -3121,6 +3127,8 @@ public class Promotions extends TestInfra {
 
 			// verify the popup message
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_POPUP_HEADER));
+			text = foundation.getText(CreatePromotions.CONTENT_POPUP);
+			CustomisedAssert.assertTrue(text.contains(contentpopup.get(1)));
 			foundation.click(CreatePromotions.BTN_GOTIT);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -3383,15 +3391,13 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
 			createPromotions.selectItem(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
-			
-			//verify the created group name under bundle criteria & price tag
+
+			// verify the created group name under bundle criteria & price tag
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
 			String text = foundation.getText(CreatePromotions.BUNDLE_GROUP_NAME);
 			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
-
-			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

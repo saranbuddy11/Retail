@@ -188,6 +188,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
+	public static final By CONTENT_POPUP=By.xpath("//div[@class='ajs-content']");
 
 
 	public By objLocation(String value) {

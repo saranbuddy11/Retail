@@ -722,6 +722,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.TITLE, resultSet.getString(CNLocation.TITLE));
 				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
+				rstLocation.put(CNLocation.SHOW_RECORDS, resultSet.getString(CNLocation.SHOW_RECORDS));
 
 			}
 		} catch (Exception exc) {
