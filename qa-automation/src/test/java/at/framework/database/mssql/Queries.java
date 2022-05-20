@@ -23,4 +23,5 @@ public class Queries {
 	public static final String CONSUMER = "SELECT * FROM QA.dbo.Consumer where TestcaseID=";
 	public static final String SUPER = "SELECT * FROM QA.dbo.Super where TestcaseID=";
 	public static final String ADMIN_AGE_VERIFICATION = "SELECT * FROM QA.dbo.AdminAgeVerification where TestcaseID=";
+	public static final String LOGIN_PAGE= "SELECT * FROM QA.dbo.LoginPage where TestcaseID=";
 }
