@@ -1,5 +1,7 @@
 package at.framework.generic;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,8 +11,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.testng.Assert;
 
 public class DateAndTime {
@@ -18,13 +22,28 @@ public class DateAndTime {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date date = new Date();
 		try {
-			// TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
-			// formatter.setTimeZone(timeZone);
+//			 TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
+//			 formatter.setTimeZone(timeZone);
 
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
 		}
 		return (formatter.format(date));
+	}
+	
+	public String getDateAndTimeWithOneHourAhead(String format, String requiredTimeZone) {
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		Date date = new Date();
+		try {
+			 TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
+			 formatter.setTimeZone(timeZone);
+
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+
+		Date incrementedDate = DateUtils.addHours(date, 1);
+		return (formatter.format(incrementedDate));
 	}
 
 	public Collection<LocalDate> stringListToDateList(List<String> listOfText, String pattern) {
