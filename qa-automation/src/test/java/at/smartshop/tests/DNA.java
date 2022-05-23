@@ -53,7 +53,7 @@ public class DNA extends TestInfra {
 
 			// Navigate to Admin tab and verify DNA Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(0));
-			CustomisedAssert.assertEquals(tabNames.get(14), requiredData.get(2));
+			CustomisedAssert.assertEquals(tabNames.get(15), requiredData.get(2));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
 			// Validating the Is-Disabled combo box defaults
@@ -104,7 +104,7 @@ public class DNA extends TestInfra {
 			+ "177523 - Verifying the configuration of DNA to all Location"
 			+ "177524 - Verifying the auto pupulated ranges for the caloric ranges"
 			+ "177525 - Verifying the Access icon for the caloric ranges")
-	public void verifyCaloriesFields() {
+	public void verifyCaloriesFieldsDNAConfigurationAndCaloricRanges() {
 		final String CASE_NUM = "177521";
 
 		// Reading test data from database
@@ -123,7 +123,7 @@ public class DNA extends TestInfra {
 
 			// Navigate to Admin tab and verify DNA Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(0));
-			CustomisedAssert.assertEquals(tabNames.get(16), requiredData.get(2));
+			CustomisedAssert.assertEquals(tabNames.get(17), requiredData.get(2));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
 			// Validating the Is-Disabled combo box and Access Icon
