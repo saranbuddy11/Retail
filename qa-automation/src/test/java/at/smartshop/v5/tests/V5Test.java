@@ -13031,7 +13031,7 @@ public class V5Test extends TestInfra {
 	}
 
 	@Test(description = "177792 - Verifying the Promo Restriction in promotion")
-	public void verifyPromoRestrictionInPromotion() {
+	public void verifyPromoRestrictionInBundlePromotion() {
 		final String CASE_NUM = "177792";
 
 		// Reading test data from database
