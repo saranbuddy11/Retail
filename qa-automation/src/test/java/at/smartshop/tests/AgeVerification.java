@@ -2757,7 +2757,7 @@ public class AgeVerification extends TestInfra {
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			List<String> tabName = navigationBar.getSubTabs(menus.get(1));
-			CustomisedAssert.assertEquals(tabName.get(13), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertTrue(tabName.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
 			foundation.threadWait(Constants.THREE_SECOND);
