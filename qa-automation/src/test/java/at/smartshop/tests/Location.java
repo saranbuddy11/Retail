@@ -344,7 +344,7 @@ public class Location extends TestInfra {
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(globalProductChange.objProductName(product));
 			foundation.waitforClikableElement(GlobalProductChange.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_NEXT);
