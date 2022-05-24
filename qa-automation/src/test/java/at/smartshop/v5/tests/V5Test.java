@@ -13208,7 +13208,7 @@ public class V5Test extends TestInfra {
 
 			// Select Bundle Item in Details Page, check Promo Restrictions and set
 			// Transaction Limit
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_DISCOUNT_BY));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			foundation.waitforElementToBeVisible(CreatePromotions.TXT_ITEMS, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_ITEMS));
@@ -13258,13 +13258,12 @@ public class V5Test extends TestInfra {
 			textBox.enterKeypadText(rstLocationData.get(CNLocation.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			List<String> actualData = foundation.getTextofListElement(Order.LBL_PROMOTION_NAME);
+			List<String> actualData = foundation.getTextofListElement(Order.LBL_DISCOUNT_NAME);
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 
 			// Verifying the Promotion on transactions and discount amount
 			CustomisedAssert.assertEquals(actualData.get(0), promoName.get(1));
 			CustomisedAssert.assertEquals(actualData.get(1), promoName.get(1));
-			CustomisedAssert.assertEquals(actualData.get(2), rstLocationData.get(CNLocation.PRODUCT_NAME));
 			CustomisedAssert.assertTrue(discountList.get(2).contains(discountPrice));
 			CustomisedAssert.assertTrue(discountList.get(6).contains(discountPrice));
 
