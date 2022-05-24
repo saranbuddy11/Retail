@@ -196,6 +196,10 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 
 			// Enter fields in Consumer Search Page
+//			consumerSearch.enterSearchFields("Email", "NaveenAutomation@gmail.com",
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+//					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -225,9 +229,10 @@ public class Report extends TestInfra {
 
 			// converting time zone to specific time zone
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
+			System.out.println("updatedTime :"+ updatedTime);
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
