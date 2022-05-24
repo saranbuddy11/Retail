@@ -17,6 +17,7 @@ import at.framework.files.Excel;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
@@ -76,6 +77,7 @@ public class SmokeTests extends TestInfra {
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private Table table = new Table();
 	private SelfService selfService = new SelfService();
+	private CheckBox Checkbox = new CheckBox();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -916,14 +918,25 @@ public class SmokeTests extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.SELECT_LOCATION, Constants.SHORT_TIME);
-			dropDown.selectItem(GlobalProduct.SELECT_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforClikableElement(GlobalProduct.LBL_SAVE_DONE, Constants.SHORT_TIME);
+		//	textBox.enterText(GlobalProduct.SELECT_LOCATION, locationName);
+		//  foundation.threadWait(Constants.TWO_SECOND);
+
+			
+			//dropDown.selectItem(GlobalProduct.SELECT_LOCATION, locationName, Constants.TEXT);
+		//	foundation.waitforClikableElement(GlobalProduct.LBL_SAVE_DONE, Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.LBL_SAVE_DONE);
 
-			// Editing the product
+			// Editing the product 
+			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.WaitForAjax(3000);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			Assert.assertTrue(foundation.getText(GlobalProduct.GBL_PRODUCT_DATA).equals(productName));
+			table.selectRow(productName);
+			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND);
+			foundation.click(GlobalProduct.BTN_EXTEND_LOC);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, locationName);
+			table.selectRow(locationName);
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			// foundation.refreshPage();
