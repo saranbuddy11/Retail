@@ -2102,7 +2102,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(0));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
@@ -2224,7 +2224,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Balance.get(0));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
@@ -2470,7 +2470,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_READ_BALANCE));
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 
 		} catch (Exception exc) {
