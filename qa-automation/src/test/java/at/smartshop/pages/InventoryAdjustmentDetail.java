@@ -1,21 +1,39 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 
+import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
-public class InventoryAdjustmentDetail {
+public class InventoryAdjustmentDetail extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	
+	private static final By TBL_INVENTORY_ADJUSTMENT = By.id("rptdt");
+	private static final By TBL_INVENTORY_ADJUSTMENT_GRID = By.cssSelector("#rptdt > tbody");
+
+	private List<String> tableHeaders = new ArrayList<>();
+	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
+	private int recordCount;
+	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
+	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
+	private Map<Integer, Map<String, String>> reportsDetailsData = new LinkedHashMap<>();
+	private Map<Integer, Map<String, String>> intialDetailsData = new LinkedHashMap<>();
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -45,4 +63,31 @@ public class InventoryAdjustmentDetail {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	public void getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableReportsList = getDriver().findElement(TBL_INVENTORY_ADJUSTMENT_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_INVENTORY_ADJUSTMENT);
+			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				reportsData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+			System.out.println("reportsData : "+ reportsData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }

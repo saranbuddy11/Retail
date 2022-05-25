@@ -55,6 +55,7 @@ import at.smartshop.pages.HealthAheadPercentageReport;
 import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.IntegrationPaymentReport;
+import at.smartshop.pages.InventoryAdjustmentDetail;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
@@ -150,6 +151,8 @@ public class Report extends TestInfra {
 	private Order order = new Order();
 	private SalesItemDetailsReport salesItemDetailsReport = new SalesItemDetailsReport();
 	private CrossOrgRateReport crossOrgRate = new CrossOrgRateReport();
+	private InventoryAdjustmentDetail inventoryAdjustmentDetail = new InventoryAdjustmentDetail();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -160,17 +163,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -3675,6 +3678,82 @@ public class Report extends TestInfra {
 			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+		}
+	}
+	
+	@Test(description = "186633-This test validates Report Data Calculation")
+	public void inventoryAdjustmentDetailReportData() {
+		try {
+
+			final String CASE_NUM = "186633";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+//			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+//			List<String> actualData = Arrays
+//					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+//			List<String> requiredData = Arrays
+//					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//			List<String> reason = Arrays
+//					.asList(rstConsumerSummaryData.get(CNConsumerSummary.REASON).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), "7", "AAA");
+//			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
+//					reason.get(0));
+//			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
+//					reason.get(1));
+			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.adjustBrowerSize(actualData.get(2));
+//			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+//			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+//			foundation.adjustBrowerSize(actualData.get(3));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+//			foundation.adjustBrowerSize(actualData.get(2));
+//			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+//			foundation.waitforElement(ItemStockoutReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+//			foundation.adjustBrowerSize(actualData.get(3));
+			foundation.threadWait(Constants.THREE_SECOND);
+			inventoryAdjustmentDetail.verifyReportName(reportName);
+			inventoryAdjustmentDetail.getTblRecordsUI();
+//			inventoryAdjustmentDetail.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+//			inventoryAdjustmentDetail.getIntialData().putAll(itemStockout.getReportsData());
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }
