@@ -2205,7 +2205,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
@@ -2235,6 +2235,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
+			browser.close();
 
 			// Launch V5 Device
 			// foundation.threadWait(Constants.SHORT_TIME);
@@ -2329,7 +2330,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(2));
