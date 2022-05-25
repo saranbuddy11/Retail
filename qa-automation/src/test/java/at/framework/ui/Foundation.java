@@ -563,4 +563,24 @@ public class Foundation extends Factory {
 		}
 		return fontSize;
 	}
+
+	public String getStyleUsingPseudoElemet(String object, String pseudo, String style) {
+		JavascriptExecutor js = (JavascriptExecutor) getDriver();
+		String text = js.executeScript("return window.getComputedStyle(document.querySelector('" + object + "'),'::"
+				+ pseudo + "').getPropertyValue('" + style + "')").toString();
+		return text;
+	}
+
+	public String getOutLineColor(By object) {
+		String hexColor = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			String colorValue = element.getCssValue("outline-color");
+			hexColor = Color.fromString(colorValue).asHex();
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "outline-color for " + object + "is " + hexColor);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return hexColor;
+	}
 }

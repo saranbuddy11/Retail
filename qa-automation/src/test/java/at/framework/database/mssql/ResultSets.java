@@ -9,6 +9,7 @@ import java.util.Map;
 import org.testng.Assert;
 
 import at.smartshop.database.columns.CNAdminAgeVerification;
+import at.smartshop.database.columns.CNAdminDNA;
 import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -1020,5 +1021,33 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstLoginPageData;
+	}
+
+	public Map<String, String> getAdminDNAData(String query, String testcaseID) {
+		Map<String, String> rstAdminDNAData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstAdminDNAData.put(CNAdminDNA.LOCATION_NAME, resultSet.getString(CNAdminDNA.LOCATION_NAME));
+				rstAdminDNAData.put(CNAdminDNA.ORG_NAME, resultSet.getString(CNAdminDNA.ORG_NAME));
+				rstAdminDNAData.put(CNAdminDNA.REQUIRED_DATA, resultSet.getString(CNAdminDNA.REQUIRED_DATA));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstAdminDNAData;
 	}
 }
