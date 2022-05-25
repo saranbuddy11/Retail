@@ -37,11 +37,10 @@ public class Login extends Factory {
 	public static final By BTN_YES = By.id("idSIButton9");
 	public static final By PICK_ACC_HEADER = By.xpath("//div[text()='Pick an account']");
 	public static final By SIGN_OUT = By.xpath("//div[@class='table-cell text-left content']");
-	public static final By USERNAME_ERROR=By.id("usernameError");
-    public static final By PASSWORD_ERROR=By.id("passwordError");
-    public static final By ERROR_MSG=By.xpath("//div[@class='humane humane-libnotify-error']");
-	
-	
+	public static final By USERNAME_ERROR = By.id("usernameError");
+	public static final By PASSWORD_ERROR = By.id("passwordError");
+	public static final By ERROR_MSG = By.xpath("//div[@class='humane humane-libnotify-error']");
+
 	public void insertLoginFields(String userName, String password) {
 		try {
 			foundation.waitforElement(TXT_EMAIL, Constants.TWO_SECOND);
@@ -56,10 +55,10 @@ public class Login extends Factory {
 	public void login(String userName, String password) {
 		try {
 			foundation.click(BTN_SIGN_IN);
-			foundation.waitforElement(TXT_EMAIL, 5);
+			foundation.waitforElement(TXT_EMAIL, Constants.SHORT_TIME);
 			textBox.enterText(TXT_EMAIL, userName);
 			foundation.click(BTN_SIGN_IN);
-			foundation.waitforElement(TXT_PASSWORD, 5);
+			foundation.waitforElement(TXT_PASSWORD, Constants.SHORT_TIME);
 			textBox.enterText(TXT_PASSWORD, password);
 			// insertLoginFields(userName, password);
 			foundation.click(BTN_SIGN_IN);
@@ -117,32 +116,32 @@ public class Login extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	public void ssoValidationInStaySignedinPage(String usertype,String description, String msg ) {
+
+	public void ssoValidationInStaySignedinPage(String usertype, String description, String msg) {
 		foundation.waitforElement(Login.TITLE_HEADER, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(Login.TITLE_HEADER));
 		String text = foundation.getText(Login.TITLE_HEADER);
-		CustomisedAssert.assertEquals(text,usertype );
+		CustomisedAssert.assertEquals(text, usertype);
 		foundation.waitforElement(Login.SSO_BTN_SIGNIN, 5);
 		text = foundation.getText(Login.TXT_DESCRIPTION);
 		CustomisedAssert.assertTrue(text.contains(description));
 		foundation.waitforElement(Login.CHECKBOX_FIELD, 5);
 		text = foundation.getText(Login.SHOW_MSG);
-		CustomisedAssert.assertTrue(text.contains(msg));           		
+		CustomisedAssert.assertTrue(text.contains(msg));
 	}
-	
+
 	public void verifyCheckboxInShowMsg(String colour) {
 		checkBox.check(Login.CHECKBOX_FIELD);
 		foundation.waitforElementToBeVisible(Login.BTN_NO, Constants.SHORT_TIME);
 		checkBox.unCheck(Login.CHECKBOX_FIELD);
 		String color = foundation.getBGColor(Login.BTN_YES);
-		CustomisedAssert.assertEquals(color, colour );
+		CustomisedAssert.assertEquals(color, colour);
 		foundation.click(Login.BTN_YES);
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 		ssoLogout();
 	}
-	
+
 	public void loginWithoutMicrosoftAccount() {
 		login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
