@@ -77,7 +77,6 @@ public class SmokeTests extends TestInfra {
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private Table table = new Table();
 	private SelfService selfService = new SelfService();
-	private CheckBox Checkbox = new CheckBox();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstNavigationMenuData;
@@ -804,15 +803,7 @@ public class SmokeTests extends TestInfra {
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
 			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
-
-			List<String> orderPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-			List<String> paymentPageData = Arrays
-					.asList(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE).split(Constants.DELIMITER_TILD));
-			Assert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.objectFocus(order.objText(orderPageData.get(1)));
-			order.completeOrder(orderPageData.get(1), paymentPageData.get(0), paymentPageData.get(1));
-
+			
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
