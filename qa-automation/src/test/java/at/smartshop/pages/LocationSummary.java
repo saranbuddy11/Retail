@@ -254,7 +254,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_PICKUP_LOCATION_NAME = By
 			.xpath("//input[@class='validfield pickupLocation pickupLocation-name']");
 	public static final By START_DATE_PICKER_TOP_OFF = By
-			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
+			.xpath("//input[@name='topoffsubsidystartdate' and @id='date']");
 	public static final By START_DATE_PICKER_TOP_OFF_1 = By
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.xpath("(//a[@style='color: #2555D9;'])[2]");
@@ -298,7 +298,8 @@ public class LocationSummary extends Factory {
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
 	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
 	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
-	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
+	public static final By HOME_CMMRCIAL_NAME = By
+			.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
 	public static final By DEVICE_RECORD = By.xpath("//span[@id='deviceDataGrid_table_pager_label']");
 	public static final By BTN_SELECTALL = By.id("selectallprdBtn");
 	public static final By BTN_SELECTNONE = By.id("selectnoneprdBtn");
@@ -310,7 +311,6 @@ public class LocationSummary extends Factory {
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -1347,13 +1347,13 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
-	
+
 	public String verifyProductsHighlighted(String expected) {
-		 String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
-		 CustomisedAssert.assertEquals(expected, attr);				    
-	    return attr;
+		String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
+		CustomisedAssert.assertEquals(expected, attr);
+		return attr;
 	}
-	
+
 	public void verifyPopUpUIDisplayed() {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
 		foundation.click(LocationSummary.BTN_ADD_PRODUCT);
@@ -1362,15 +1362,16 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_ADD_PRODUCT_SEARCH));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_CANCEL_PRODUCT));
 	}
-	
+
 	public void verifyProductsUI() {
 		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PRODUCT_FILTER));
 	}
-	
+
 	public void selectPrintGroup(String productName, String option) {
-		By printLink = By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
+		By printLink = By
+				.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
 		foundation.click(printLink);
 		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
