@@ -30,6 +30,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
+import at.smartshop.pages.FinanceList;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
@@ -360,7 +361,7 @@ public class Promotions extends TestInfra {
 			createPromotions.newPromotion(promotionType, promotionName, displayName, orgName, locationName);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-
+			
 			// Detail page
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
@@ -818,6 +819,10 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(CreatePromotions.LBL_SET_PROMO_DETAILS),
 					requiredData.get(10));
 
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_TENDERTYPE_ERROR));
+			
 			dropDown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(11), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -1744,8 +1749,8 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.BTN_CREATE);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, requiredData.get(0), locationName);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-
 			foundation.click(CreatePromotions.BTN_NEXT);
+			
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
