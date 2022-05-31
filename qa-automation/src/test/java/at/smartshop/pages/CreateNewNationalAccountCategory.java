@@ -47,6 +47,7 @@ public class CreateNewNationalAccountCategory {
 	public void deleteNationalAccountCategory(String ruleCategory) {
 		textBox.enterText(TXT_SEARCH, Keys.CLEAR);
 		textBox.enterText(TXT_SEARCH, ruleCategory);
+		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(LNK_UPC_MAPPED);
 		foundation.waitforElement(BTN_DELETE_CATEGORY, Constants.MEDIUM_TIME);
 		foundation.click(BTN_DELETE_CATEGORY);
