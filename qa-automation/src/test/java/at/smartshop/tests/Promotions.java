@@ -3404,7 +3404,7 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "C176275-verify the summary message when groups are added in the bundle criteria")
-	public void verifySummaryMessageInBundleCriteria() {
+	public void verifySummaryMessageWhenGroupsAreAddedInBundleCriteria() {
 		final String CASE_NUM = "176275";
 
 		// Reading test data from database
@@ -3415,19 +3415,8 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		try {
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			// login, select menu and menu item
+			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select Promo Type, Promo Name, Display Name and click Next
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
@@ -3473,7 +3462,7 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "C177865-verify the selection of the category in Select Group's Items and Categories overlay")
-	public void verifyRecordsMessageForCategory() {
+	public void verifySelectionOfTheCategoryInSelectGroupAndCategoriesOverlay() {
 		final String CASE_NUM = "177865";
 
 		// Reading test data from database
@@ -3485,16 +3474,8 @@ public class Promotions extends TestInfra {
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 
 		try {
-
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Navigate to menu item and Click create promotion
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
+			// login, select menu and menu item
+			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Navigate to create promotion page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
@@ -3519,8 +3500,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			String cat_record = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(cat_record, rstLocationData.get(CNLocation.SHOW_RECORDS));
-			
-			//Navigate to product filter and verify the record
+
+			// Navigate to product filter and verify the record
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.waitforElementToBeVisible(CreatePromotions.GROUP_NAME, 5);
 			cat_record = foundation.getText(CreatePromotions.RECORD);
@@ -3529,8 +3510,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_LIST));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_BUILD_LIST));
 			foundation.click(CreatePromotions.DELETE_BUILD);
-			
-			
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.DELETE_BUILD));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

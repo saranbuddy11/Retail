@@ -1457,5 +1457,5 @@ public class GlobalProducts extends TestInfra {
 
 		}
 	}
-
+	
 }
