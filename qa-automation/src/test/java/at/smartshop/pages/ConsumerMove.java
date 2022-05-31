@@ -94,6 +94,7 @@ public class ConsumerMove extends Factory {
 		foundation.click(ConsumerMove.BTN_MOVE);
 		foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
 		foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
+		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_ORG, toOrg, Constants.TEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(ConsumerMove.DPD_MOVE_TO_LOCATION, toLocation, Constants.TEXT);
