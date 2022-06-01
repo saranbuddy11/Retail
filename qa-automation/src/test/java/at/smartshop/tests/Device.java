@@ -725,7 +725,9 @@ public class Device extends TestInfra {
 		}
 	}
 
-	@Test(description = "164079-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Operator user")
+	//commenting below two testcase as per william , operator and driver user should not have any records and no create New Button
+	
+	/* @Test(description = "164079-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Operator user")
 	public void demoOptionOperatorUser() {
 		try {
 			final String CASE_NUM = "164079";
@@ -791,7 +793,7 @@ public class Device extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}
+	} */
 
 	@Test(description = "164081-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Super user")
 	public void demoOptionCoolerDropdownSuperUser() {

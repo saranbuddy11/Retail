@@ -2012,7 +2012,7 @@ public class Locker extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.waitforElement(lockerSystem.objExpandLocationLocker(locationName), Constants.SHORT_TIME);
 			foundation.click(lockerSystem.objExpandLocationLocker(locationName));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(LockerSystem.ICO_SIBLING_COPY, Constants.EXTRA_LONG_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LockerSystem.ICO_SIBLING_COPY));
 			foundation.click(

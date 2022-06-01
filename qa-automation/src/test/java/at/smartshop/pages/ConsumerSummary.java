@@ -24,7 +24,10 @@ public class ConsumerSummary extends Factory {
 //	private static final By  = By.xpath("//dt[text()='Consumer Account']//..//dd/span");
 	public static final By LBL_READ_BALANCE = By.id("readbalance");
 	private static final By LBL_READ_TYPE_BALANCE = By.id("readTypebalance");
-	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
+//	public static final By BTN_ADJUST = By.id("adjustBalanceBtn");
+	public static final By BTN_ADJUST = By.cssSelector("#mainform > div > dd:nth-child(3) > a");
+//	public static final By BTN_ADJUST = By.xpath("(//a[@class='adjustBalanceBtn'])[2]");
+	public static final By STRIKE_ADJUST = By.xpath("//a[@balanceid='3b1cb67f9533314380072e373ca2ba02']");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
@@ -69,7 +72,7 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_CONSUMER_ACCOUNT = By.xpath("//dt[text()='Consumer Account']");
 	public static final By TXT_SUBSIDY_TOP_OFF = By.xpath("//dt[text()='Subsidy - Top Off']");
 	public static final By TXT_SUBSIDY_ROLL_OVER = By.xpath("//dt[text()='Subsidy - Rollover']");
-	public static final By BTN_TOP_OFF_ADJUST = By.id("adjustTopOffBtn");
+	public static final By BTN_TOP_OFF_ADJUST = By.className("adjustBalanceBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
 	public static final By SUBSIDY_FIELD = By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
@@ -220,7 +223,7 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-		foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+		foundation.click(ConsumerSummary.BTN_ADJUST);
 		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
 		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);

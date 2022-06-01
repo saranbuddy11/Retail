@@ -223,7 +223,7 @@ public class Consumer extends TestInfra {
 
 			// reading Balance and add to the array list
 			double initialbalance = consumerSummary.getBalance();
-			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.click(ConsumerSummary.STRIKE_ADJUST);
 
 			// converting string to double and adding the adjusted value
 			double updatedbalance = initialbalance
@@ -292,7 +292,7 @@ public class Consumer extends TestInfra {
 				textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 				textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
 				foundation.click(ConsumerSummary.BTN_CREATE);
-				foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+				foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 				String actualData = foundation.getText(ConsumerSummary.TXT_SPINNER_MSG);
 				CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.INFO_MSG));
 			}
@@ -2017,7 +2017,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2276,7 +2276,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2586,7 +2586,7 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			foundation.waitforElementToDisappear(ConsumerSummary.SPINNER, Constants.SHORT_TIME);
 			boolean isConsumerMoved = consumerSummary.moveConsumer(
-					propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(isConsumerMoved);
 

@@ -26,6 +26,7 @@ import at.smartshop.database.columns.CNConsumerSummary;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.database.columns.CNV5Device;
@@ -44,6 +45,7 @@ import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.CrossOrgLoyaltyReport;
+import at.smartshop.pages.CrossOrgRateReport;
 import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
@@ -63,6 +65,7 @@ import at.smartshop.pages.MemberPurchaseSummaryReport;
 import at.smartshop.pages.MultiTaxReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderTransactionTimeReport;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.PersonalChargeReport;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductSalesByCategoryReport;
@@ -146,8 +149,7 @@ public class Report extends TestInfra {
 	private CashFlow cashFlow = new CashFlow();
 	private Order order = new Order();
 	private SalesItemDetailsReport salesItemDetailsReport = new SalesItemDetailsReport();
-	
-	
+	private CrossOrgRateReport crossOrgRate = new CrossOrgRateReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -156,6 +158,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstConsumerSummaryData;
 	private Map<String, String> rstReportListData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstOrgSummaryData;
 
 	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
@@ -196,6 +199,10 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 
 			// Enter fields in Consumer Search Page
+//			consumerSearch.enterSearchFields("Email", "NaveenAutomation@gmail.com",
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+//					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
@@ -225,9 +232,10 @@ public class Report extends TestInfra {
 
 			// converting time zone to specific time zone
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
+			System.out.println("updatedTime :"+ updatedTime);
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
@@ -1339,7 +1347,8 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			textBox.enterText(productSalesCategory.SEARCH_RESULT, rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			textBox.enterText(productSalesCategory.SEARCH_RESULT,
+					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
 			productSalesCategory.getTblRecordsUI();
 			productSalesCategory.getIntialData().putAll(productSalesCategory.getReportsData());
@@ -1348,7 +1357,8 @@ public class Report extends TestInfra {
 			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			textBox.enterText(productSalesCategory.SEARCH_RESULT, rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			textBox.enterText(productSalesCategory.SEARCH_RESULT,
+					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
 			productSalesCategory.getTblRecordsUI();
 			productSalesCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
@@ -3237,6 +3247,8 @@ public class Report extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		
+		System.out.println(promotionName + displayName + "**************************");
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -3522,7 +3534,7 @@ public class Report extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			login.logout();
 			browser.close();
-			
+
 			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			List<String> paymentEmailDetails = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
@@ -3535,7 +3547,7 @@ public class Report extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadTextWithCaseSensitive(product);
 			foundation.click(ProductSearch.BTN_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+//			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			foundation.click(Payments.ACCOUNT_EMAIL);
 			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_lOGIN_BTN);
@@ -3574,9 +3586,10 @@ public class Report extends TestInfra {
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
+			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH,
+					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
 			salesItemDetailsReport.getTblRecordsUI();
-			
+
 			salesItemDetailsReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 			salesItemDetailsReport.verifyReportTimeData();
 		} catch (Exception exc) {
@@ -3591,4 +3604,81 @@ public class Report extends TestInfra {
 		}
 	}
 
+	@Test(description = "186509-Verifying and Validating the Cross Org Rate Report Data")
+	public void VerifyCrossOrgRateReportDataValidation() {
+		final String CASE_NUM = "186509";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		// Reading test data from DataBase
+		List<String> menuItems = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			List<String> newdata = Arrays.asList(requiredData.get(0).split(Constants.DELIMITER_HASH));
+
+			// Select Menu and Menu Item for Org Summary section
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+
+			// Updating the the Org summary data
+			textBox.enterText(OrgSummary.TXT_GMA_RATE, newdata.get(1));
+			textBox.enterText(OrgSummary.TXT_CREDIT_RATE, newdata.get(2));
+			textBox.enterText(OrgSummary.TXT_NANO_GMA_RATE, newdata.get(3));
+			textBox.enterText(OrgSummary.TXT_NANO_CREDIT_RATE, newdata.get(4));
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+
+			// Select Menu and Menu Item for Reports section
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList
+					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			crossOrgRate.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			crossOrgRate.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			crossOrgRate.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			crossOrgRate.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Select Menu and Menu Item for Org Summary section
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+
+			List<String> olddata = Arrays.asList(requiredData.get(1).split(Constants.DELIMITER_HASH));
+
+			// Resetting the old data
+			textBox.enterText(OrgSummary.TXT_GMA_RATE, olddata.get(1));
+			textBox.enterText(OrgSummary.TXT_CREDIT_RATE, olddata.get(2));
+			textBox.enterText(OrgSummary.TXT_NANO_GMA_RATE, olddata.get(3));
+			textBox.enterText(OrgSummary.TXT_NANO_CREDIT_RATE, olddata.get(4));
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			String actualData = foundation.getText(OrgSummary.TXT_SPINNER_MSG);
+			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+		}
+	}
 }
