@@ -30,7 +30,6 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
-import at.smartshop.pages.FinanceList;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
