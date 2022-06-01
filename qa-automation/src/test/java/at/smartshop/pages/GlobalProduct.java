@@ -64,6 +64,7 @@ public class GlobalProduct extends Factory {
 	public static final By SAVE_POPUP_BTN=By.id("nextyes"); 
     public static final By CANCEL_BTN=By.id("cancelBtn");
     public static final By BTN_EXTEND_LOC = By.xpath("//a[@id='extend']");
+    public static final By MATCHING_RECORD=By.id("dataGrid_pager_label");
     public static final By CLICK_LOCATION = By.xpath("//ul[@class='ui-igcombo-listitemholder']//li//div[text()='AutomationLocation1']//preceding-sibling::span");
 	 
 	public By getGlobalProduct(String product) {

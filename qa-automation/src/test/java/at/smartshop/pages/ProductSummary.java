@@ -49,7 +49,7 @@ public class ProductSummary extends Factory {
     public static final By PRODUCT_NAME=By.id("name");
     public static final By MAX_STOCK=By.id("maxstock");
     public static final By CASE_COUNT=By.id("eoq");
-    
+    public static final By LBL_PRODUCT_SUMMMARY=By.id("Product Summary");
 	   
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");
