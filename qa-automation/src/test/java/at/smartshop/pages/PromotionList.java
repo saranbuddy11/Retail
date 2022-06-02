@@ -102,6 +102,12 @@ public class PromotionList extends Factory {
 		}
 	}
 
+	/**
+	 * Expire the multiple promotion in promotion list page
+	 * @param menuItem
+	 * @param promotionName
+	 * @param gridName
+	 */
 	public void expireMultiplePromotion(String menuItem, String promotionName, String gridName) {
 		try {
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -116,8 +122,12 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
-	public void navigateMenuAndMenuItem(String menu) {
+    
+	/**
+	 * Launch browser,navigate to menu and click on create promotion in promotion page 
+	 * @param menu
+	 */
+	public void navigateMenuAndCreatePromo(String menu) {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
@@ -125,8 +135,8 @@ public class PromotionList extends Factory {
 		navigationBar.selectOrganization(
 				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.navigateToMenuItem(menu);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-		foundation.click(PromotionList.BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
+		foundation.click(BTN_CREATE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
 
 	}

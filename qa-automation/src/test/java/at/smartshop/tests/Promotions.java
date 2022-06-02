@@ -3502,7 +3502,7 @@ public class Promotions extends TestInfra {
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			// login, select menu and menu item
-			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select Promo Type, Promo Name, Display Name and click Next
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
@@ -3561,7 +3561,7 @@ public class Promotions extends TestInfra {
 
 		try {
 			// login, select menu and menu item
-			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Navigate to create promotion page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
