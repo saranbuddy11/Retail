@@ -31,6 +31,10 @@ public class LocationList extends Factory {
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By LBL_LOCATION_LIST = By.xpath("//li[text()='Location List']");
 
+	/**
+	 * Selecting the Location Name
+	 * @param locationName
+	 */
 	public void selectLocationName(String locationName) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
 		textBox.enterText(TXT_FILTER, locationName);

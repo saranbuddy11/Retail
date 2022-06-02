@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class InventoryAdjustmentDetail extends Factory {
 	
 	private static final By TBL_INVENTORY_ADJUSTMENT = By.id("rptdt");
 	private static final By TBL_INVENTORY_ADJUSTMENT_GRID = By.cssSelector("#rptdt > tbody");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
@@ -35,6 +37,10 @@ public class InventoryAdjustmentDetail extends Factory {
 	private Map<Integer, Map<String, String>> reportsDetailsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialDetailsData = new LinkedHashMap<>();
 
+	/**
+	 * This method is to Verify the Report Name
+	 * @param reportName
+	 */
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
@@ -64,6 +70,9 @@ public class InventoryAdjustmentDetail extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to get the Table Records Data from UI
+	 */
 	public void getTblRecordsUI() {
 		try {
 			int recordCount = 0;
@@ -90,4 +99,39 @@ public class InventoryAdjustmentDetail extends Factory {
 		}
 	}
 
+	/**
+     * This method is to validate the Report Table Headers
+     * @param columnNames
+     */
+	public void verifyReportHeaders(String columnNames) {
+		try {
+			
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			System.out.println("tableHeaders1 :"+ tableHeaders);
+			System.out.println("columnName1 : "+ columnName);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This method is to validate the Report Data
+	 * @param expextedData
+	 */
+	public void verifyReportData(String expectedData) {
+		try {			
+			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
+			System.out.println("reportsData1 :"+ reportsData);
+			System.out.println("expextedDataList1 : "+ expectedData);
+				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
+					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
+							.contains(expectedDataList.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
