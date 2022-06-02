@@ -12,8 +12,8 @@ import at.smartshop.keys.Constants;
 
 public class ProductSearch {
 
-	private TextBox textBox=new TextBox();
-	
+	private TextBox textBox = new TextBox();
+
 	public static final By LBL_PRODUCT_NAME = By.className("product-name");
 	public static final By BTN_PRODUCT = By.xpath("//button[@class='product search-product']");
 	public static final By LBL_PRODUCT_SEARCH_TITLE = By.xpath("//h1[@data-reactid='.0.c.0.0.0.1']");
@@ -40,12 +40,12 @@ public class ProductSearch {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(1))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
 	}
-	
+
 	public boolean searchProduct(String product) {
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
-		if(foundation.getText(Order.TXT_PRODUCT).equals(product))
+		if (foundation.getText(Order.TXT_PRODUCT).equals(product))
 			return true;
 		else
 			return false;

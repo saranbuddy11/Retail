@@ -94,6 +94,7 @@ public class PromotionAnalysis extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData1 : "+reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -128,6 +129,7 @@ public class PromotionAnalysis extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData2 : "+reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
