@@ -122,6 +122,7 @@ public class V5Test extends TestInfra {
 	private TaxList taxList = new TaxList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private PromotionList promotionList = new PromotionList();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstDeviceListData;
@@ -13316,17 +13317,9 @@ public class V5Test extends TestInfra {
 		List<String> productName = Arrays
 				.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		try {
-			// Launch Browser and Login to ADM with Operator account
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Navigate to Admin Promotions and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			// Launch Browser and Login to ADM with Operator account, Navigate to Admin
+			// Promotions and click Create Promotion
+			promotionList.navigateMenuAndCreatePromo(menu.get(0));
 
 			// Select Promo Type, Promo Name, Display Name and click Next
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
@@ -13378,6 +13371,7 @@ public class V5Test extends TestInfra {
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(productName.get(0));
 			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.waitforElementToBeVisible(Order.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			actualName = foundation.getText(Order.LBL_PROMOTION_NAME);
