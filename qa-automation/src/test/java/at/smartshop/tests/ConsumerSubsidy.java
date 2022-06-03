@@ -2644,22 +2644,66 @@ public class ConsumerSubsidy extends TestInfra {
 		List<String> datas = Arrays
 				.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM
+			// Login to ADM,Enable GMA Subsidy and turn on pde
 			locationList.navigateMenuAndMenuItem(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-            CustomisedAssert.assertEquals(value, datas.get(0));
+			CustomisedAssert.assertEquals(value, datas.get(0));
 			foundation.waitforElementToBeVisible(LocationSummary.DPD_PAYROLL, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_PAYROLL, datas.get(0), Constants.TEXT);
-			foundation.click(LocationSummary.BTN_SAVE); 
+			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
-			
-			//Navigate to Admin-->Consumer 
+
+			// Navigate to Admin-->Consumer
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+
+			// Navigate to Consumer Summary and update the balance in top off subsidy
+			consumerSummary.clickOnConsumerAndUpdateBalanceInTopOffSubsidy(datas.get(1));
+
+			// verify the updated balance in top off subsidy field
+			consumerSummary.clickOnConsumerAndVerrifyBalanceInTopOffSubsidy(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), datas.get(2));
+
+			// Turn off pde
+			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.waitforElementToBeVisible(LocationSummary.DPD_PAYROLL, Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_PAYROLL, datas.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+			// verify the updated balance in top off subsidy field
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			consumerSummary.clickOnConsumerAndVerrifyBalanceInTopOffSubsidy(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), datas.get(2));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//Resetting balance in top off subsidy
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SUBSIDY_ADJUST, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
+			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, datas.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			
 		}
 	}
 }
