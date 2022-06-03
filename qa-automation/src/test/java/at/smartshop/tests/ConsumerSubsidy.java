@@ -2598,7 +2598,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, datas.get(4), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
