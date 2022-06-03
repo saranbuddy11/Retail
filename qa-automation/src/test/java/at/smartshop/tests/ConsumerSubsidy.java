@@ -2649,8 +2649,15 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
-			if (value.equals(datas.get(0))) {
-			}
+            CustomisedAssert.assertEquals(value, datas.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.DPD_PAYROLL, Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_PAYROLL, datas.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE); 
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			
+			//Navigate to Admin-->Consumer 
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -23,7 +23,6 @@ public class LocationList extends Factory {
 	public Login login = new Login();
 	private TextBox textBox = new TextBox();
 	private NavigationBar navigationBar = new NavigationBar();
-	private LocationList locationList = new LocationList();
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
@@ -58,10 +57,10 @@ public class LocationList extends Factory {
 		navigationBar.navigateToMenuItem(menu);
 		selectLocationName(location);
 		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
 		browser.close();
 	}
@@ -80,7 +79,7 @@ public class LocationList extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
 		browser.close();
 	}
@@ -96,10 +95,10 @@ public class LocationList extends Factory {
 		foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 		foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 	}
 
 	public void verifyData(List<String> uiListHeaders, List<String> uidata, Map<String, String> expectedValues) {
@@ -114,8 +113,7 @@ public class LocationList extends Factory {
 	}
 
 	public void navigateMenuAndMenuItem(String menu, String location) {
-		browser.navigateURL(
-				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		navigationBar.selectOrganization(
@@ -123,6 +121,6 @@ public class LocationList extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.ONE_SECOND);
-		locationList.selectLocationName(location);
+		selectLocationName(location);
 	}
 }
