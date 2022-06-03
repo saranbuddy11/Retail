@@ -10,7 +10,10 @@ import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class LocationList extends Factory {
@@ -20,6 +23,7 @@ public class LocationList extends Factory {
 	public Login login = new Login();
 	private TextBox textBox = new TextBox();
 	private NavigationBar navigationBar = new NavigationBar();
+	private LocationList locationList = new LocationList();
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
@@ -109,4 +113,16 @@ public class LocationList extends Factory {
 		}
 	}
 
+	public void navigateMenuAndMenuItem(String menu, String location) {
+		browser.navigateURL(
+				propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.ONE_SECOND);
+		locationList.selectLocationName(location);
+	}
 }

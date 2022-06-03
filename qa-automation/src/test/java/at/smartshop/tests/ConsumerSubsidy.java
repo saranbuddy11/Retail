@@ -2630,4 +2630,29 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
+
+	@Test(description = "196261-Adm-consumer subsidy - Any changes made in location summary is effective top off balance in consumer summary")
+	public void verifyAnyChangesMadeInLocationSummaryIsEffectiveTopOffBalanceInConsumerSummar() {
+		final String CASE_NUM = "196261";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays
+				.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM
+			locationList.navigateMenuAndMenuItem(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(datas.get(0))) {
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
