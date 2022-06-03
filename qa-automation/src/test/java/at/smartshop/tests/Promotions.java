@@ -3156,7 +3156,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 
 		try {
-
+			// Launch Browser and Login to ADM with Operator account
 			navigationBar.launchBrowserAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));

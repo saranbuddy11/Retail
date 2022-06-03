@@ -1379,4 +1379,15 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
+	public void selectPayRollDeduct(String menu, String location, String payroll) {
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+		foundation.scrollIntoViewElement(LocationSummary.TXT_PAYROLL);
+		dropDown.selectItem(LocationSummary.DPD_PAYROLL_DEDUCT, payroll, Constants.TEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+	}
 }
