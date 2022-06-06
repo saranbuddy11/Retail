@@ -2738,7 +2738,7 @@ public class Consumer extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			// Resetting PayRoll Deduct under Location Summary page and delete consumer
+			// Resetting PayRoll Deduct under Location Summary page
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(3));
 		}
