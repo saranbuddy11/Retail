@@ -1379,6 +1379,13 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
+	/**
+	 * Selecting the Payroll Deduct values On/Off
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param payroll
+	 */
 	public void selectPayRollDeduct(String menu, String location, String payroll) {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);

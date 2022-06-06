@@ -222,6 +222,16 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
 	}
 
+	/**
+	 * Create the Consumer from Consumer Search Page
+	 * 
+	 * @param location
+	 * @param firstname
+	 * @param lastname
+	 * @param emailID
+	 * @param scanID
+	 * @param pin
+	 */
 	public void createConsumerInConsumerSearch(String location, String firstname, String lastname, String emailID,
 			String scanID, String pin) {
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);

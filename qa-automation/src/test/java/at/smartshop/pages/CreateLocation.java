@@ -23,6 +23,13 @@ public class CreateLocation {
 	public static final By DATE_PICKER_ROLL_OVER = By.xpath("//input[@name='rolloversubsidydate' and @id='date']");
 	public static final By LBL_CREATE = By.id("Location Create");
 
+	/**
+	 * Verify the Create Field in Location Creation Page
+	 * 
+	 * @param name
+	 * @param time
+	 * @param type
+	 */
 	public void verifyCreateField(String name, String time, String type) {
 		foundation.click(LocationList.BTN_CREATE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_CREATE));
