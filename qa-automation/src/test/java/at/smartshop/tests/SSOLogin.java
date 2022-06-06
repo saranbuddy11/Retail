@@ -10,23 +10,19 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.LocationList;
 import at.smartshop.pages.Login;
-import at.smartshop.pages.NavigationBar;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class SSOLogin extends TestInfra {
 
 	private ResultSets dataBase = new ResultSets();
 	private Foundation foundation = new Foundation();
-	private CheckBox checkBox = new CheckBox();
 	private TextBox textBox = new TextBox();
 
 	private Map<String, String> rstLoginPageData;

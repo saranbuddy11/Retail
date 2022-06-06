@@ -33,6 +33,7 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
+	public static final By DELETE_BUILD = By.xpath("//a[@title='Delete']");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
@@ -104,6 +105,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_BUILD = By.xpath("//dt[text()='Build Bundle']");
 	public static final By GROUP_NAME = By.id("groupname");
 	public static final By BTN_ADD = By.id("groupmodalsave");
+	public static final By LBL_BUNDLE_LIST = By.xpath("//div[text()='Bundle List']");
 	public static final By CHOCOLATE_PRODUCT = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By PRODUCT_UNCHECK = By.xpath(
@@ -128,6 +130,7 @@ public class CreatePromotions extends Factory {
 	public static final By PROD_CATE_SELECTED = By.xpath("//div[text()='2 Products, 1 Categories selected']");
 	public static final By CATEGORY_PRODUCT = By
 			.xpath("//input[@onclick='setCheckBox(\"CAT 6 PROMO\",true,\"categorydatatable\",\"categorycheckbox\")']");
+
 	public static final By CATEGORY_NAME_GRID = By.id("categorydatatable_category");
 	public static final By CATEGORY_UPC_GRID = By.id("categorydatatable_upc");
 	public static final By PRICE_TAG = By.xpath("//table[@id='bundletable']//tr[2]/td[2]");
@@ -164,9 +167,13 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
+
+	public static final By PRODUCTS_DISABLE = By.xpath("//td[@aria-describedby='itemdatatable_name']");
+	public static final By NAME_BUILD_LIST = By.id("groupdatatable_name");
+
 	public static final By BUNDLE_CRITERIA = By.cssSelector("#bundletable .bundle-item");
 	public static final By BUNDLE_ITEM_REMOVE = By.cssSelector(".bundle-item-remove");
-	public static final By PRODUCTS_DISABLE = By.xpath("//td[@aria-describedby='itemdatatable_name']");
+
 	public static final By CATEGORY_DISABLE = By.xpath("//td[@aria-describedby='categorydatatable_category']");
 	public static final By HEADER_POPUP = By.xpath("//div[text()='Promotion Setup Alert']");
 	public static final By BTN_YES = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -174,6 +181,7 @@ public class CreatePromotions extends Factory {
 	public static final By CAT_POPUP_HEADER = By.xpath("//div[text()='Note for adding this Category']");
 	public static final By BIRTHDAY_GRID = By.xpath("//td[@aria-describedby='itemdatatable_name']");
 	public static final By CAT_PROMO_GRID = By.xpath("//td[@aria-describedby='categorydatatable_category']");
+
 	public static final By RECORD_PRODUCT = By.id("itemdatatable_pager_label");
 	public static final By RECORD_CATEGORY = By.id("categorydatatable_pager_label");
 	public static final By RECORD = By.id("groupcount");
@@ -183,7 +191,13 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
 	public static final By CONTENT_POPUP = By.xpath("//div[@class='ajs-content']");
+
+	public static final By SUMMARY_GROUPNAME1 = By.xpath("//div[@id='bundlesummary']/div");
+	public static final By SUMMARY_GROUPNAME2 = By.xpath("//div[@id='bundlesummary']/div[2]");
+	public static final By BUNDLE_SUMMARY = By.id("bundlesummary");
+
 	public static final By LBL_DISCOUNT_BY = By.className("onscreenDetails");
+	public static final By LBL_TENDERTYPE_ERROR = By.id("tendertypes-error");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

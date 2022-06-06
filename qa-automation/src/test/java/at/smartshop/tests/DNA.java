@@ -53,7 +53,7 @@ public class DNA extends TestInfra {
 
 			// Navigate to Admin tab and verify DNA Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(0));
-			CustomisedAssert.assertEquals(tabNames.get(15), requiredData.get(2));
+			CustomisedAssert.assertTrue(tabNames.contains(requiredData.get(2)));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
 			// Validating the Is-Disabled combo box defaults
