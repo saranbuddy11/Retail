@@ -13,11 +13,14 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
 
@@ -162,6 +165,35 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.threadWait(Constants.ONE_SECOND);
 			login.logout();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero")
+	public void verifyResetNegativeTozeroInPickListManager() {
+		final String CASE_NUM = "196844";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//Navigate to product--> picklist
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

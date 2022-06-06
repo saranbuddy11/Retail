@@ -31,6 +31,8 @@ public class PickList extends Factory {
 	public static final By PAGE_TITLE = By.id("//li[@id='Pick List Manager']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-success']");
 	public static final By TBL_ROW = By.xpath("//*[@id='filter-prd-grid']/tbody/tr");
+	public static final By BTN_RESET_NAV_TO_ZERO=By.id("showOnLocSelect3");
+	public static final By LOCATION_FILTER=By.id("li1");
 
 	public By objPickList(String text) {
 		By element = null;
