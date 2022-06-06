@@ -2610,7 +2610,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_ROLL_OVER));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 		} catch (Exception exc) {
@@ -2632,7 +2632,7 @@ public class ConsumerSubsidy extends TestInfra {
 	}
 
 	@Test(description = "196261-Adm-consumer subsidy - Any changes made in location summary is effective top off balance in consumer summary")
-	public void verifyAnyChangesMadeInLocationSummaryIsEffectiveTopOffBalanceInConsumerSummar() {
+	public void verifyAnyChangesMadeInLocationSummaryIsEffectiveTopOffBalanceInConsumerSummary() {
 		final String CASE_NUM = "196261";
 
 		// Reading test data from database
@@ -2691,19 +2691,9 @@ public class ConsumerSubsidy extends TestInfra {
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), datas.get(2));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			//Resetting balance in top off subsidy
-			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SUBSIDY_ADJUST, Constants.SHORT_TIME);
-			foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
-			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, datas.get(4));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
-			
+		} finally {
+			// Resetting balance in top off subsidy
+			consumerSummary.setTopOffSubsidyBalance(datas.get(4));
 		}
 	}
 }

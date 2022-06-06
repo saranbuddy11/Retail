@@ -76,12 +76,12 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_TOP_OFF_ADJUST = By.className("adjustBalanceBtn");
 	public static final By REASON_CODE = By.id("reason");
 	public static final By TBL_LOCATION = By.id("balance-history");
-	public static final By SUBSIDY_FIELD = By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
+	//public static final By SUBSIDY_FIELD = By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By SUBSIDY_BALANCE = By.id("readTypebalance");
 	public static final By SUBSIDY_READ_BALANCE=By.xpath("(//span[@id='readbalance'])[2]");
 	public static final By CANCEL_BTN = By.id("cancelBtn");
-	public static final By LBL_ROLL_OVER_SUBSIDY = By
-			.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
+	//public static final By LBL_ROLL_OVER_SUBSIDY = By
+			//.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By INPUT_PAY_ROLL_ID = By.id("payrollid");
 
 	public double getBalance() {
@@ -254,7 +254,10 @@ public class ConsumerSummary extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);
 	}
-
+    /**
+     * click On Consumer In consumer search page And Update Balance In TopOffSubsidy Consumer summary
+     * @param balance
+     */
 	public void clickOnConsumerAndUpdateBalanceInTopOffSubsidy(String balance) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
@@ -267,6 +270,11 @@ public class ConsumerSummary extends Factory {
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
 	}
+	/**
+	 * click On Consumer In consumer search page And verify the Balance In TopOffSubsidy Consumer summary
+	 * @param location
+	 * @param actualbalance
+	 */
 	public void clickOnConsumerAndVerrifyBalanceInTopOffSubsidy(String location,String actualbalance) {
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
@@ -275,7 +283,21 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 		String balance = foundation.getText(SUBSIDY_READ_BALANCE);
 		CustomisedAssert.assertEquals(balance, actualbalance);
-		
-		
+	}
+	/**
+	 * Reset balance on TopOff subsidy in consumer summary page 
+	 * @param balance
+	 */
+	public void setTopOffSubsidyBalance(String balance) {
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SUBSIDY_ADJUST, Constants.SHORT_TIME);
+		foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
+		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+		foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+
 	}
 }

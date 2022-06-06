@@ -1474,34 +1474,14 @@ public class GlobalProducts extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
-			// Select Menu and zwhnji product
+			// Select Menu and search for double-quote "" product
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
-			textBox.enterText(LocationList.TXT_FILTER, productName.get(0));
-			foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
-			foundation.click(globalProduct.getGlobalProduct(productName.get(0)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
-			
-			//Navigate to product summary page and edit product name
-			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, productName.get(1));
-			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
-			foundation.click(ProductSummary.BTN_SAVE);
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(0), productName.get(0), productName.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			//reset the data
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
-			foundation.waitforElementToBeVisible(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			textBox.enterText(LocationList.TXT_FILTER, productName.get(1));
-			foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
-			foundation.click(globalProduct.getGlobalProduct(productName.get(1)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
-			
-			//Navigate to product summary page and edit product name
-			textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, productName.get(0));
-			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
-			foundation.click(ProductSummary.BTN_SAVE);
-			
+			// reset the data
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1), productName.get(1), productName.get(0));
 		}
 	}
 }
