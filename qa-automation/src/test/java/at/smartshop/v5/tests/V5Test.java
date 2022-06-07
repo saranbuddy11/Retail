@@ -122,6 +122,7 @@ public class V5Test extends TestInfra {
 	private TaxList taxList = new TaxList();
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private PromotionList promotionList = new PromotionList();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstDeviceListData;
@@ -13278,6 +13279,118 @@ public class V5Test extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+
+			// Expiring the Promotion
+			editPromotion.expirePromotion(rstLocationData.get(CNLocation.TAB_NAME), promoName.get(0));
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Selecting location
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
+	@Test(description = "196152 - Admin > Promotions - Bundle Group Not Applying As Bundle Price")
+	public void verifyBundleGroupPromotionWithBundlePrice() {
+		final String CASE_NUM = "196152";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> productName = Arrays
+				.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			// Launch Browser and Login to ADM with Operator account, Navigate to Admin
+			// Promotions and click Create Promotion
+			promotionList.navigateMenuAndCreatePromo(menu.get(0));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0),
+					promoName.get(1));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Creating the Group with Product and Category and validating it
+			createPromotions.creatingBundleGroupWithCategory(promoName.get(2), productName.get(0), productName.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			String actualName = foundation.getAttributeValue(CreatePromotions.BUNDLE_GROUP_NAME);
+			CustomisedAssert.assertTrue(actualName.contains(promoName.get(2)));
+
+			// Select Bundle Price Radio Button with Bundle Price as $1
+			checkBox.check(CreatePromotions.RB_BUNDLE_PRICE);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BUNDLE_PROMO_ALERT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_EXPIRE);
+			foundation.waitforElementToBeVisible(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+
+			// Navigate to Location - AutomationLocation1 and full sync with V5 device
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and add the Bundle Group Product to the cart
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			// Transaction on Bundle Group Item
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName.get(0));
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.waitforElementToBeVisible(Order.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+
+			actualName = foundation.getText(Order.LBL_PROMOTION_NAME);
+			String value = foundation.getText(Order.LBL_BUNDLE_ITEM);
+			String amount = foundation.getText(Order.LBL_BALANCE_DUE);
+
+			// Verifying the Promotion on transactions and discount amount
+			CustomisedAssert.assertEquals(actualName, promoName.get(1));
+			CustomisedAssert.assertEquals(value, productName.get(0));
+			CustomisedAssert.assertEquals(amount, requiredData.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// reset data
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
