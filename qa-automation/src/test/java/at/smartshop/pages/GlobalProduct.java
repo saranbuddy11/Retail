@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -64,6 +65,7 @@ public class GlobalProduct extends Factory {
 	public static final By SAVE_POPUP_BTN=By.id("nextyes"); 
     public static final By CANCEL_BTN=By.id("cancelBtn");
     public static final By BTN_EXTEND_LOC = By.xpath("//a[@id='extend']");
+    public static final By MATCHING_RECORD=By.id("dataGrid_pager_label");
     public static final By CLICK_LOCATION = By.xpath("//ul[@class='ui-igcombo-listitemholder']//li//div[text()='AutomationLocation1']//preceding-sibling::span");
 	 
 	public By getGlobalProduct(String product) {
@@ -175,5 +177,20 @@ public class GlobalProduct extends Factory {
 		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, Constants.CHOOSENOTHING, Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+	/**
+	 * search product and edit product name and save
+	 * @param product
+	 * @param editproduct
+	 */
+	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		textBox.enterText(LocationList.TXT_FILTER, product);
+		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
+		foundation.click(getGlobalProduct(product));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));		
+		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
+		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
+		foundation.click(ProductSummary.BTN_SAVE);
 	}
 }
