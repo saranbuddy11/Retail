@@ -184,11 +184,11 @@ public class GlobalProduct extends Factory {
 	 * @param clickproduct
 	 * @param editproduct
 	 */
-	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String clickproduct,String editproduct) {
+	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		textBox.enterText(LocationList.TXT_FILTER, product);
 		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
-		foundation.click(getGlobalProduct(clickproduct));
+		foundation.click(getGlobalProduct(product));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));		
 		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
