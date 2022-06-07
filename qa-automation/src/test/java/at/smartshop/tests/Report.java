@@ -2067,7 +2067,8 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			Assert.assertTrue(Factory.getDriver().findElement(aviSubFee.LBL_REPORT_NAME).isDisplayed());
-
+			
+			textBox.enterText(aviSubFee.SEARCH_RESULT,deviceId);
 			aviSubFee.getTblRecordsUI();
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
 
@@ -2075,6 +2076,8 @@ public class Report extends TestInfra {
 			aviSubFee.processAPI(deviceId);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			
+			textBox.enterText(aviSubFee.SEARCH_RESULT,deviceId);
 			aviSubFee.getTblRecordsUI();
 
 			// apply calculation and update data
