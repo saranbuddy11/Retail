@@ -84,6 +84,11 @@ public class ConsumerSummary extends Factory {
 			//.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dt[2]");
 	public static final By INPUT_PAY_ROLL_ID = By.id("payrollid");
 
+	/**
+	 * Getting the Balance
+	 * 
+	 * @return the value input as a double
+	 */
 	public double getBalance() {
 		double initBalance = 0;
 		try {
@@ -100,10 +105,21 @@ public class ConsumerSummary extends Factory {
 		return initBalance;
 	}
 
+	/**
+	 * Creating Object for Tax category
+	 * 
+	 * @param reasonCode
+	 * @return Webelement
+	 */
 	public By objTaxCategory(String reasonCode) {
 		return By.xpath("//table[@id='aadt']//*[text()='" + reasonCode + "']");
 	}
 
+	/**
+	 * Getting the Type Balance
+	 * 
+	 * @return the value input as a double
+	 */
 	public double getTypeBalance() {
 		double initTypeBalance = 0;
 		try {
@@ -116,10 +132,23 @@ public class ConsumerSummary extends Factory {
 		return initTypeBalance;
 	}
 
+	/**
+	 * Creating Object for Balance History
+	 * 
+	 * @param data
+	 * @return Weblement
+	 */
 	public By objBalanceHistoryData(String data) {
 		return By.xpath("(//tbody[@role='rowgroup']/tr)[1]/td[text()='" + data + "']");
 	}
 
+	/**
+	 * Move the consumer to a particular Location in a Org
+	 * 
+	 * @param toOrg
+	 * @param toLocation
+	 * @return Boolean
+	 */
 	public boolean moveConsumer(String toOrg, String toLocation) {
 		foundation.click(BTN_MOVE);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -132,6 +161,12 @@ public class ConsumerSummary extends Factory {
 		return foundation.getAttributeValue(LBL_LOCATION_SELECTED).equals(toLocation);
 	}
 
+	/**
+	 * Adjust the balance in Consumer Summary Page
+	 * 
+	 * @param newBalance
+	 * @param reasonCode
+	 */
 	public void adjustBalance(String newBalance, String reasonCode) {
 		foundation.click(BTN_ADJUST);
 		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
@@ -140,6 +175,14 @@ public class ConsumerSummary extends Factory {
 		foundation.click(BTN_SAVE);
 	}
 
+	/**
+	 * Increase the subsidy balance
+	 * 
+	 * @param menuitem
+	 * @param location
+	 * @param data
+	 * @param reason
+	 */
 	public void Incrementsubsidy(String menuitem, String location, String data, String reason) {
 		navigationBar.navigateToMenuItem(menuitem);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -147,26 +190,36 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		Assert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-		Assert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-		foundation.click(ConsumerSummary.BTN_ADJUST);
-		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, data);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-		foundation.click(ConsumerSummary.REF_EFT);
-
+		Assert.assertTrue(foundation.isDisplayed(LBL_CONSUMER_SUMMARY));
+		foundation.click(BTN_ADJUST);
+		foundation.waitforElement(LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_ADJUST_BALANCE, data);
+		dropdown.selectItem(DPD_REASON, reason, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
+		foundation.click(REF_EFT);
 	}
 
+	/**
+	 * Cancelling the Balance Adjustment in Subsidy
+	 * 
+	 * @param data
+	 * @param reason
+	 */
 	public void CancelButtonInSubsidyAdjustment(String data, String reason) {
 
-		foundation.click(ConsumerSummary.BTN_ADJUST);
-		foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
-		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, data);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BTN_REASON_CANCEL));
-		foundation.click(ConsumerSummary.BTN_REASON_CANCEL);
+		foundation.click(BTN_ADJUST);
+		foundation.waitforElement(TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_ADJUST_BALANCE, data);
+		dropdown.selectItem(DPD_REASON, reason, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_REASON_CANCEL));
+		foundation.click(BTN_REASON_CANCEL);
 	}
 
+	/**
+	 * Read the Header values in Balance History table
+	 * 
+	 * @return List<String> values
+	 */
 	public List<String> balanceHistoryHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
@@ -182,6 +235,11 @@ public class ConsumerSummary extends Factory {
 		return tableHeaders;
 	}
 
+	/**
+	 * Read the data from Balance History table
+	 * 
+	 * @return List<String> values
+	 */
 	public List<String> balanceHistoryDatas() {
 		List<String> tableDatas = new ArrayList<>();
 		try {
@@ -196,9 +254,14 @@ public class ConsumerSummary extends Factory {
 		return tableDatas;
 	}
 
+	/**
+	 * Verify the Balance History Headers
+	 * 
+	 * @param expected
+	 */
 	public void balanceHistory(List<String> expected) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_BALANCE_HISTORY));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BALANCE_HISTORY_GRID));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BALANCE_HISTORY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BALANCE_HISTORY_GRID));
 		List<String> tableHeaders = balanceHistoryHeaders();
 		CustomisedAssert.assertTrue(tableHeaders.get(0).equals(expected.get(8)));
 		CustomisedAssert.assertTrue(tableHeaders.get(1).equals(expected.get(9)));
@@ -208,6 +271,12 @@ public class ConsumerSummary extends Factory {
 		CustomisedAssert.assertTrue(tableHeaders.get(5).equals(expected.get(13)));
 	}
 
+	/**
+	 * Verify the Balance History Data
+	 * 
+	 * @param value
+	 * @param date
+	 */
 	public void balanceHistoryData(String value, String date) {
 		List<String> data = balanceHistoryDatas();
 		for (int i = data.size(); i < 0; i--) {
@@ -217,6 +286,14 @@ public class ConsumerSummary extends Factory {
 		// CustomisedAssert.assertTrue(data.get(4).contains(date));
 	}
 
+	/**
+	 * Resetting the Balance Data
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param balance
+	 * @param reason
+	 */
 	public void balanceResettingData(String menu, String location, String balance, String reason) {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.SHORT_TIME);
@@ -225,15 +302,24 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-		foundation.click(ConsumerSummary.BTN_ADJUST);
-		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-		foundation.click(ConsumerSummary.BTN_SAVE);
+		foundation.click(BTN_ADJUST);
+		foundation.waitforElement(LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(DPD_REASON, reason, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
+		foundation.click(BTN_REASON_SAVE);
+		foundation.click(BTN_SAVE);
 	}
 
+	/**
+	 * Resetting the balance in AutomationLocation1
+	 * 
+	 * @param menu
+	 * @param Search
+	 * @param location
+	 * @param balance
+	 * @param reason
+	 */
 	public void balanceResettingDataInAutomationLocation1(String menu, String Search, String location, String balance,
 			String reason) {
 		navigationBar.navigateToMenuItem(menu);
@@ -245,14 +331,14 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-		foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
-		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
-		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
-		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.click(BTN_TOP_OFF_ADJUST);
+		foundation.waitforElement(LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(DPD_REASON, reason, Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
+		foundation.click(BTN_REASON_SAVE);
 		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.click(ConsumerSummary.BTN_SAVE);
+		foundation.click(BTN_SAVE);
 	}
     /**
      * click On Consumer In consumer search page And Update Balance In TopOffSubsidy Consumer summary

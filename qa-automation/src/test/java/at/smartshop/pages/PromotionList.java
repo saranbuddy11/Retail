@@ -16,7 +16,6 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -67,10 +66,10 @@ public class PromotionList extends Factory {
 	}
 
 	public void searchPromotion(String promoName, String statusType) {
-		foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
-		textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promoName);
+		foundation.waitforElementToBeVisible(TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+		textbox.enterText(TXT_SEARCH_PROMONAME, promoName);
 		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
-		foundation.click(PromotionList.BTN_SEARCH);
+		foundation.click(BTN_SEARCH);
 	}
 
 	public void verifyPromotionName(String promotionName) {
@@ -94,9 +93,9 @@ public class PromotionList extends Factory {
 			// FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			searchPromotion(promotionName, statusType);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PAGE_TITLE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -104,6 +103,7 @@ public class PromotionList extends Factory {
 
 	/**
 	 * Expire the multiple promotion in promotion list page
+	 * 
 	 * @param menuItem
 	 * @param promotionName
 	 * @param gridName
@@ -112,21 +112,24 @@ public class PromotionList extends Factory {
 		try {
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem);
-			foundation.waitforElementToBeVisible(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
-			textbox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
-			foundation.click(PromotionList.BTN_SEARCH);
-			assertTrue(foundation.getText(PromotionList.TBL_COLUMN_NAME).equals(promotionName));
+			foundation.waitforElementToBeVisible(TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+			textbox.enterText(TXT_SEARCH_PROMONAME, promotionName);
+			foundation.click(BTN_SEARCH);
+			assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.SHORT_TIME);
+			foundation.waitforElement(PAGE_TITLE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-    
+
 	/**
-	 * Launch browser,navigate to menu and click on create promotion in promotion page 
+	 * Launch browser,navigate to menu and click on create promotion in promotion
+	 * page
+	 * 
 	 * @param menu
 	 */
+
 	public void navigateMenuAndCreatePromo(String menu) {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -138,6 +141,5 @@ public class PromotionList extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		foundation.click(BTN_CREATE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
 	}
 }

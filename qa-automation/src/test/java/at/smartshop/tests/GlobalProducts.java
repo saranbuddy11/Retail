@@ -1448,9 +1448,9 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.productFieldChange(resetdata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 		}
@@ -1476,12 +1476,13 @@ public class GlobalProducts extends TestInfra {
 
 			// Select Menu and search for double-quote "" product
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(0),productName.get(1));
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(0), productName.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset the data
-			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1),productName.get(0));
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1), productName.get(0));
 		}
 	}
+
 }
