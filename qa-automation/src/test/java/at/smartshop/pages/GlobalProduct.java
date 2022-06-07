@@ -181,7 +181,6 @@ public class GlobalProduct extends Factory {
 	/**
 	 * search product and edit product name and save
 	 * @param product
-	 * @param clickproduct
 	 * @param editproduct
 	 */
 	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
