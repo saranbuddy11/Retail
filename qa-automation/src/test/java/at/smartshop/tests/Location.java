@@ -1823,4 +1823,33 @@ public class Location extends TestInfra {
 		foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_REMOVE);
 	}
+
+	@Test(description = "C197140-Verify whether print group is changing to defualt when the product is updated")
+	public void verifyWhetherPrintGroupIsChangingToDefualtWhenTheProductIsUpdated() {
+		final String CASE_NUM = "197140";
+
+		// Reading test data from DataBas
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+        rstNavigationMenuData=dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		try {
+
+			// Select Menu and Menu Item
+			locationList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			
+			//Navigate to product tab and verify print group
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_LOCATION_SETTINGS));
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
+			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

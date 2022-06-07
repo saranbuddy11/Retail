@@ -94,7 +94,7 @@ public class LocationSummary extends Factory {
 	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_FULL_SYNC = By.id("fullsync");
 	public static final By TXT_PRICE_IN_GRID = By.id("fullsync");
-	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterTypes");
+	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterType");
 	public static final By BTN_ADD_PRODUCT_ADD = By.id("modalsave");
 	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
 	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
@@ -311,6 +311,8 @@ public class LocationSummary extends Factory {
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
+	public static final By BTN_PRINT_GROUP=By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[23]");
+	public static final By LBL_PRINT_GROUP=By.id("productDataGrid_printer");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
