@@ -101,6 +101,13 @@ public class PromotionList extends Factory {
 		}
 	}
 
+	/**
+	 * Expire the multiple promotion in promotion list page
+	 * 
+	 * @param menuItem
+	 * @param promotionName
+	 * @param gridName
+	 */
 	public void expireMultiplePromotion(String menuItem, String promotionName, String gridName) {
 		try {
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -115,6 +122,13 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	/**
+	 * Launch browser,navigate to menu and click on create promotion in promotion
+	 * page
+	 * 
+	 * @param menu
+	 */
 
 	public void navigateMenuAndCreatePromo(String menu) {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));

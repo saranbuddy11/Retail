@@ -89,7 +89,7 @@ public class GlobalProductChange extends Factory {
 			.xpath("//div[@style='display:inline-block;float: right;']//button[text()='History']");
 	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
 	public static final By HEADER_DATA = By.xpath("//tr[@role='row']");
-	public static final By GRID_HEADER = By.id("gpchistory");
+	public static final By GRID_HEADER = By.id("gpchistory_scroll");
 	public static final By LBL_OPERATOR_MAX = By.xpath("//dt[text()='Max']");
 	public static final By LBL_PICK_LIST = By.xpath("//*[@id='prd-change-form']/dt[text()='Pick List Action']");
 	public static final By LBL_OPERATOR_PICK_LIST = By.xpath("//dt[text()='Pick List Action']");

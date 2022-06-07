@@ -63,7 +63,6 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
-
 	private Map<String, String> rstProductData;
 	private Map<String, String> rstOrgSummaryData;
 
@@ -1456,4 +1455,34 @@ public class GlobalProducts extends TestInfra {
 
 		}
 	}
+
+	@Test(description = "C181457-ADM > Product > Global Products > Products with a double-quote in name are  editable")
+	public void verifyProductsWithDoubleQuoteInNameAreEditable() {
+
+		final String CASE_NUM = "181457";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> productName = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Menu and search for double-quote "" product
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(0), productName.get(1));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// reset the data
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1), productName.get(0));
+		}
+	}
+
 }
