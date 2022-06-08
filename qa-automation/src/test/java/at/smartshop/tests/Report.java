@@ -3684,7 +3684,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "186633-This test validates Report Data Calculation")
+	@Test(description = "186633-This test validates  inventory Adjustment Detail Report Data Calculation")
 	public void inventoryAdjustmentDetailReportData() {
 		
 		try {
