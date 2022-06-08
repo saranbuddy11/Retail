@@ -69,13 +69,13 @@ public class TransactionSearchPage extends Factory {
 	public static final By LBL_PRODUCT2 = By.id("item_1");
 	public final By SEARCH_RESULT = By.xpath("//input[@aria-controls='transdt']");
 	public final By CHECK_BOX = By.xpath("//input[@type='checkbox']");
-	
+
 	public static final String TRANSACTION_SEARCH = "transaction-search";
 	public static final String SNOWFLAKE = "Snowflake";
 	public static final String RDS = "RDS";
-	
+
 	private Map<String, Object> jsonData = new HashMap<>();
-	
+
 	public void selectDate(String optionName) {
 		try {
 			foundation.click(DPD_DATE_RANGE);
@@ -108,6 +108,14 @@ public class TransactionSearchPage extends Factory {
 		return By.xpath("//td[contains(text(),'" + transactionAmount + "')]//..//td//span");
 	}
 
+	/**
+	 * This method is to select TransactionID
+	 * 
+	 * @param optionName
+	 * @param location
+	 * @param transactionAmount
+	 * @param date
+	 */
 	public void selectTransactionID(String optionName, String location, String transactionAmount, String date) {
 		selectDate(optionName);
 		selectLocation(location);
@@ -118,6 +126,14 @@ public class TransactionSearchPage extends Factory {
 		assertTrue(foundation.isDisplayed(BTN_PRINT));
 	}
 
+	/**
+	 * This method is to verify Transaction Details
+	 * 
+	 * @param total
+	 * @param paymentType
+	 * @param product1
+	 * @param product2
+	 */
 	public void verifyTransactionDetails(String total, String paymentType, String product1, String product2) {
 		assertEquals(foundation.getText(LBL_LOCATION),
 				propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -126,21 +142,24 @@ public class TransactionSearchPage extends Factory {
 		// assertEquals(foundation.getText(LBL_SUBTOTAL),propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 		// FilePath.PROPERTY_CONFIG_FILE));\
 		System.out.println(foundation.getText(LBL_TOTAL));
-//		assertTrue(foundation.getText(LBL_TOTAL).contains(total));
+		assertTrue(foundation.getText(LBL_TOTAL).contains(total));
 		assertEquals(foundation.getText(LBL_STATUS), Constants.ACCEPTED);
 		assertEquals(foundation.getText(LBL_PAYMENT_TYPE), paymentType);
-		
+
 		System.out.println(foundation.getText(LBL_PRODUCT1));
 		System.out.println(foundation.getText(LBL_PRODUCT2));
-		if(foundation.getText(LBL_PRODUCT1).equals(product1)) {
-		assertEquals(foundation.getText(LBL_PRODUCT1), product1);
-		assertEquals(foundation.getText(LBL_PRODUCT2), product2);
-		}else {
+		if (foundation.getText(LBL_PRODUCT1).equals(product1)) {
+			assertEquals(foundation.getText(LBL_PRODUCT1), product1);
+			assertEquals(foundation.getText(LBL_PRODUCT2), product2);
+		} else {
 			assertEquals(foundation.getText(LBL_PRODUCT1), product2);
 			assertEquals(foundation.getText(LBL_PRODUCT2), product1);
 		}
 	}
-	
+
+	/**
+	 * This method is to create a sale transaction using API
+	 */
 	public void processAPI() {
 		try {
 			generateJsonDetails();
@@ -206,7 +225,7 @@ public class TransactionSearchPage extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public Map<String, Object> getJsonData() {
 		return jsonData;
 	}

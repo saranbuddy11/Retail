@@ -139,6 +139,12 @@ public class DataSourceManager extends Factory {
 		}
 	}
 	
+	/**
+	 * This method is for switching to ReportsDB like SnowFlake or RDS
+	 * @param reportsDB
+	 * @param object
+	 * @param dataObject
+	 */
 	public void switchToReportsDB(String reportsDB, By object, String dataObject) {
 		try {
 			// Select Menu and Menu Item

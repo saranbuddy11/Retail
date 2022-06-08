@@ -37,6 +37,10 @@ public class NavigationBar extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to Navigate to given Menu Item
+	 * @param optionNames
+	 */
 	public void navigateToMenuItem(String optionNames) {
 		try {
 			List<String> optionName = Arrays.asList(optionNames.split(Constants.DELIMITER_HASH));

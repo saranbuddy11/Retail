@@ -383,7 +383,7 @@ public class SmokeAdminAndV5 extends TestInfra {
 	}
 
 	@Test(description = "167027-Verify the created sales transaction under transaction search by pointng to SnowFlake DB")
-	public void transactionSearchWithSnowFlake() {
+	public void verifyTransactionSearchWithSnowFlake() {
 		final String CASE_NUM = "167027";
 
 		// Reading test data from DataBase
@@ -394,6 +394,13 @@ public class SmokeAdminAndV5 extends TestInfra {
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 
 		try {
+			// Navigating to Transaction and Searched the Transaction and validated the
+			// date.
+			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
+			
+			dataSourceManager.switchToReportsDB(TransactionSearchPage.SNOWFLAKE, transactionSearchPage.CHECK_BOX,
+					TransactionSearchPage.TRANSACTION_SEARCH);
+
 			// process sales API to generate data
 			transactionSearchPage.processAPI();
 
@@ -404,10 +411,6 @@ public class SmokeAdminAndV5 extends TestInfra {
 			List<String> productData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 
-			// Navigating to Transaction and Searched the Transaction and validated the date.
-			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
-			dataSourceManager.switchToReportsDB(TransactionSearchPage.SNOWFLAKE, transactionSearchPage.CHECK_BOX,
-					TransactionSearchPage.TRANSACTION_SEARCH);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			transactionSearchPage.selectTransactionID(Constants.TODAY, location, productData.get(2), date);
@@ -421,7 +424,7 @@ public class SmokeAdminAndV5 extends TestInfra {
 	}
 
 	@Test(description = "196280-Verify the created sales transaction under transaction search by pointng to RDS DB")
-	public void transactionSearchWithRDS() {
+	public void verifyTransactionSearchWithRDS() {
 		final String CASE_NUM = "196280";
 
 		// Reading test data from DataBase
@@ -432,6 +435,12 @@ public class SmokeAdminAndV5 extends TestInfra {
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 
 		try {
+			// Navigating to Transaction and Searched the Transaction and validated the date.
+			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
+			
+			dataSourceManager.switchToReportsDB(TransactionSearchPage.RDS, transactionSearchPage.CHECK_BOX,
+					TransactionSearchPage.TRANSACTION_SEARCH);
+			
 			// process sales API to generate data
 			transactionSearchPage.processAPI();
 
@@ -442,10 +451,6 @@ public class SmokeAdminAndV5 extends TestInfra {
 			List<String> productData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 
-			// Navigating to Transaction and Searched the Transaction and validated the date.
-			navigationBar.launchBrowserAsSuperAndSelectOrg(automationOrg);
-			dataSourceManager.switchToReportsDB(TransactionSearchPage.RDS, transactionSearchPage.CHECK_BOX,
-					TransactionSearchPage.TRANSACTION_SEARCH);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			transactionSearchPage.selectTransactionID(Constants.TODAY, location, productData.get(2), date);
