@@ -1195,6 +1195,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(datas.equals(expectedValues));
 			foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// verify the decrement in subsidy
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 			foundation.click(ConsumerSummary.BTN_ADJUST);
@@ -1205,6 +1206,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.REF_EFT);
 			foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// verifying cancel button
 			consumerSummary.CancelButtonInSubsidyAdjustment(values.get(0),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
