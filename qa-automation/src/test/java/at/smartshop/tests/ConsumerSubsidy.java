@@ -134,7 +134,6 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
-			System.out.println(values);
 			List<String> expectedValues = new ArrayList<String>();
 			expectedValues.add(requiredData.get(1));
 			expectedValues.add(requiredData.get(0));
@@ -188,6 +187,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			foundation.scrollIntoViewElement(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Verifying Date picker of Top Off
@@ -201,9 +201,9 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Date picker of Roll Over
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
