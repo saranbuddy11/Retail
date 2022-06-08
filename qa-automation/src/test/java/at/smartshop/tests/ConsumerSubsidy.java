@@ -2232,7 +2232,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Balance.get(0));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Balance.get(1));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
