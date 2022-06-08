@@ -2033,6 +2033,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
