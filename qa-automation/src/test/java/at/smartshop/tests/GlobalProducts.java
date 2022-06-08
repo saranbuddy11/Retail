@@ -1485,4 +1485,64 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
+	@Test(description = "C197140-Verify whether print group is changing to defualt when the product is updated")
+	public void verifyWhetherPrintGroupIsChangingToDefualtWhenTheProductIsUpdated() {
+		final String CASE_NUM = "197140";
+
+		// Reading test data from DataBas
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationListData.get(CNLocationList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Select Menu and Menu Item
+			locationList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Navigate to product tab and verify print group
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+
+			// verify the print group field
+			Map<Integer, Map<String, String>> uiTableData = locationSummary.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+			}
+			uiTableData.clear();
+
+			// Navigate to product summary and edit the product
+			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
+			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRODUCT_POPUP));
+			foundation.click(LocationSummary.EDIT_PRODUCT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
+			foundation.click(ProductSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+
+			// Navigate to Location and verify the print group after edit
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+
+			// verify the print group field
+			uiTableData = locationSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+			}
+			uiTableData.clear();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

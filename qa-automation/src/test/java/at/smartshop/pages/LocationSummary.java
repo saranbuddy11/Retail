@@ -305,14 +305,18 @@ public class LocationSummary extends Factory {
 	public static final By BTN_SELECTNONE = By.id("selectnoneprdBtn");
 	public static final By LBL_ADD_PRODUCT = By.id("modaltemplate-title");
 	public static final By BTN_CANCEL_PRODUCT = By.id("modalcancel");
+	public static final By TBL_DATA_GRID = By.cssSelector("#productDataGrid > tbody");
+	public static final By TBL_GRID = By.id("productDataGrid");
 	public static final By VALIDATE_HIGHLIGHTED_TEXT = By.xpath("//table[@id='chooseprddt']//tbody//tr");
 	public static final By LBL_POPUP_ADD_PRODUCT_CLOSE = By
 			.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	public static final By BTN_PRINT_GROUP=By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[23]");
-	public static final By LBL_PRINT_GROUP=By.id("productDataGrid_printer");
+	public static final By BTN_PRINT_GROUP = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[23]");
+	public static final By LBL_PRINT_GROUP = By.id("productDataGrid_printer");
+	public static final By LBL_PRODUCT_POPUP = By.id("modaltitle");
+	public static final By EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -325,6 +329,9 @@ public class LocationSummary extends Factory {
 	public By objAddRollOverSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy'])[" + index + "]");
 	}
+
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public By objDeleteRollOverSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
@@ -1398,5 +1405,53 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+	}
+
+	/**
+	 * Get table records in UI
+	 * 
+	 * @return
+	 */
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_DATA_GRID);
+			WebElement table = getDriver().findElement(TBL_GRID);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
+	}
+
+	public void clickOnProductTabAndEnableThePrintGroup(String product) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_LOCATION_SETTINGS));
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_APPLY);
+		foundation.waitforElementToBeVisible(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_GRID, Constants.SHORT_TIME);
 	}
 }

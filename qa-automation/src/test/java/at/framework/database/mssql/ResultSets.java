@@ -431,6 +431,7 @@ public class ResultSets extends Connections {
 				rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
 				rstLocationList.put(CNLocationList.SHOW_RECORDS, resultSet.getString(CNLocationList.SHOW_RECORDS));
 				rstLocationList.put(CNLocationList.PAY_CYCLE, resultSet.getString(CNLocationList.PAY_CYCLE));
+				rstLocationList.put(CNLocationList.PRODUCT_NAME, resultSet.getString(CNLocationList.PRODUCT_NAME));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
