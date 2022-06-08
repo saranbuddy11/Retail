@@ -28,6 +28,7 @@ import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProduct;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -65,6 +66,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstProductData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstProductSummaryData;
 
 	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -1492,9 +1494,12 @@ public class GlobalProducts extends TestInfra {
 		// Reading test data from DataBas
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationListData.get(CNLocationList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> price = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 
 			// Select Menu and Menu Item
@@ -1519,12 +1524,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
 			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
 			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRODUCT_POPUP));
-			foundation.click(LocationSummary.EDIT_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
-			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
-			foundation.click(ProductSummary.BTN_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(0));
 
 			// Navigate to Location and verify the print group after edit
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1543,6 +1543,12 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Navigate to product summary and edit the product
+			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
+			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
+			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(1));
 		}
 	}
 }

@@ -1440,6 +1440,12 @@ public class LocationSummary extends Factory {
 		return tableData;
 	}
 
+	/**
+	 * In location summary page navigate to product tab and enable the print group
+	 * in manage column
+	 * 
+	 * @param product
+	 */
 	public void clickOnProductTabAndEnableThePrintGroup(String product) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_LOCATION_SETTINGS));
 		foundation.click(LocationSummary.TAB_PRODUCTS);
@@ -1449,9 +1455,26 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_PRINT_GROUP);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_APPLY);
-		foundation.waitforElementToBeVisible(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(LBL_PRINT_GROUP, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_GRID, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * In location summary page click On Edit Product After Updating Price in
+	 * product summary Click On Save
+	 * 
+	 * @param price
+	 */
+	public void clickOnEditProductAfterUpdatingPriceClickOnSave(String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRODUCT_POPUP));
+		foundation.click(LocationSummary.EDIT_PRODUCT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+		textBox.enterText(ProductSummary.PRICE_FIELD, price);
+		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
+		foundation.click(ProductSummary.BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+
 	}
 }
