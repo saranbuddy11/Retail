@@ -3283,6 +3283,7 @@ public class Report extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+//			foundation.click(CreatePromotions.ALL_ITEMS);
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
@@ -3290,10 +3291,10 @@ public class Report extends TestInfra {
 
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(4));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(5));
-			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.objectClick(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.MEDIUM_TIME);
-			foundation.click(CreatePromotions.BTN_OK);
+//			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.objectClick(CreatePromotions.BTN_OK);
 			login.logout();
 			browser.close();
 			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
@@ -3524,6 +3525,8 @@ public class Report extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+//			foundation.click(CreatePromotions.ALL_ITEMS);
+			
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
@@ -3531,10 +3534,10 @@ public class Report extends TestInfra {
 
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
-			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.objectClick(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(CreatePromotions.BTN_OK);
+			foundation.objectClick(CreatePromotions.BTN_OK);
 			login.logout();
 			browser.close();
 
