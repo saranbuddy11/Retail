@@ -261,6 +261,8 @@ public class LocationSummary extends Factory {
 	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
+	public static final By START_DATE_PICKER_ROLL_OVER_1 = By
+			.xpath("//input[@name='rolloversubsidydate' and @id='date']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
@@ -275,7 +277,7 @@ public class LocationSummary extends Factory {
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[2]");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -1107,6 +1109,7 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+			foundation.click(TXT_GMA_SUBSIDY);
 		}
 	}
 
