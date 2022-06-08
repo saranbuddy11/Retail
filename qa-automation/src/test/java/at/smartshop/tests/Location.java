@@ -21,7 +21,6 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocation;
@@ -30,7 +29,6 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
-import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -42,9 +40,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
-import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.ProductSummary;
-import at.smartshop.pages.Report;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -1822,5 +1818,52 @@ public class Location extends TestInfra {
 		foundation.click(LocationSummary.PRODUCT_NAME);
 		foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_REMOVE);
+	}
+
+	@Test(description = "197172 - verify the extending of products to the location")
+	public void verifyExtendingOfProductsToLocation() {
+		final String CASE_NUM = "197172";
+
+		// Reading test data from DataBase
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		try {
+			// launch Browser, Select Menu and location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING)
+					.contains(rstLocationData.get(CNLocation.LOCATION_NAME)));
+
+			// Navigate to products tab and validate the UI
+			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			locationSummary.verifyPopUpUIDisplayed();
+
+			// Adding the new product to Location
+			locationSummary.selectProduct(rstLocationData.get(CNLocation.PRODUCT_NAME));
+
+			// Verifying the Product is added to Location or not
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
+			foundation.WaitForAjax(7000);
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME)
+					.equals(rstLocationData.get(CNLocation.PRODUCT_NAME)));
+
+			// Validating Add Product another time to check Product OverLay is
+			// Displaying Properly or not
+			locationSummary.verifyPopUpUIDisplayed();
+			foundation.click(LocationSummary.BTN_CANCEL_PRODUCT);
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting the test data
+			locationSummary.removeProductFromLocation(rstLocationData.get(CNLocation.PRODUCT_NAME),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+		}
 	}
 }

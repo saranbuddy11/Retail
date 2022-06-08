@@ -313,6 +313,7 @@ public class LocationSummary extends Factory {
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
+	public static final By BTN_PRODUCT_ADD = By.id("modalsave");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -1358,6 +1359,7 @@ public class LocationSummary extends Factory {
 	}
 
 	public void verifyPopUpUIDisplayed() {
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
 		foundation.click(BTN_ADD_PRODUCT);
 		foundation.waitforElement(LBL_ADD_PRODUCT, Constants.SHORT_TIME);
@@ -1399,5 +1401,37 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+	}
+
+	/**
+	 * Selecting the Product
+	 * 
+	 * @param product
+	 */
+	public void selectProduct(String product) {
+		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(SELECT_PRODUCT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_ADD);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.refreshPage();
+	}
+
+	/**
+	 * Removing the Product from Location
+	 * 
+	 * @param product
+	 */
+	public void removeProductFromLocation(String product, String location) {
+		foundation.scrollIntoViewElement(TAB_PRODUCTS);
+		foundation.click(TAB_PRODUCTS);
+		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		textBox.enterText(TXT_PRODUCT_FILTER, product);
+		foundation.click(PRODUCT_NAME);
+		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_REMOVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 }
