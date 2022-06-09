@@ -38,7 +38,7 @@ public class NavigationBar extends Factory {
 	}
 
 	/**
-	 * Navigating to the Menu Item
+	 * Navigate to Particular Tab / Subtab
 	 * @param optionNames
 	 */
 	public void navigateToMenuItem(String optionNames) {
@@ -61,6 +61,11 @@ public class NavigationBar extends Factory {
 		}
 	}
 
+	/**
+	 * Launching the Browser as Super and Selecting the Org
+	 * 
+	 * @param org
+	 */
 	public void launchBrowserAsSuperAndSelectOrg(String org) {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
