@@ -63,7 +63,6 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstLocationListData;
 	private Map<String, String> rstNationalAccountData;
-
 	private Map<String, String> rstProductData;
 	private Map<String, String> rstOrgSummaryData;
 
@@ -579,33 +578,33 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
-            //create a product
+
+			// create a product
 			foundation.click(GlobalProduct.BTN_CREATE);
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
 			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			foundation.click(GlobalProduct.BUTTON_SAVE);
-			foundation.waitforElement(GlobalProduct.POPUP_HEADER, Constants.SHORT_TIME);			
+			foundation.waitforElement(GlobalProduct.POPUP_HEADER, Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.SAVE_POPUP_BTN);
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			String actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_ERROR);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(0));
-			
-			//Verify Scancode required 
+
+			// Verify Scancode required
 			foundation.click(GlobalProduct.CANCEL_BTN);
 			foundation.click(GlobalProduct.BTN_CREATE);
 			textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, strings.getRandomCharacter());
 			textBox.enterText(GlobalProduct.TXT_PRICE, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			textBox.enterText(GlobalProduct.LBL_COST, String.valueOf(numbers.generateRandomNumber(0, 9)));
 			foundation.click(GlobalProduct.BUTTON_SAVE);
-			foundation.waitforElement(GlobalProduct.POPUP_HEADER, Constants.SHORT_TIME);			
+			foundation.waitforElement(GlobalProduct.POPUP_HEADER, Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.SAVE_POPUP_BTN);
 			foundation.waitforElement(GlobalProduct.LBL_SCANCODE_MSG, Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.SCANCODE);
 			actualData = foundation.getText(GlobalProduct.LBL_SCANCODE_MSG);
 			CustomisedAssert.assertEquals(actualData, expectedError.get(1));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1140,7 +1139,6 @@ public class GlobalProducts extends TestInfra {
 				rstGlobalProductChangeData.get(CNGlobalProductChange.INCREMENT_PRICE).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays.asList(
 				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-				
 
 		try {
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
@@ -1450,12 +1448,41 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.productFieldChange(resetdata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 		}
 	}
-	
+
+	@Test(description = "C181457-ADM > Product > Global Products > Products with a double-quote in name are  editable")
+	public void verifyProductsWithDoubleQuoteInNameAreEditable() {
+
+		final String CASE_NUM = "181457";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> productName = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Menu and search for double-quote "" product
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(0), productName.get(1));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// reset the data
+			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1), productName.get(0));
+		}
+	}
+
 }

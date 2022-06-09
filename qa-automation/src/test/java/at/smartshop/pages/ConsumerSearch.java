@@ -222,9 +222,18 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(expectedColumns.get(0).equals(actual));
 	}
 
+	/**
+	 * Create the Consumer from Consumer Search Page
+	 * 
+	 * @param location
+	 * @param firstname
+	 * @param lastname
+	 * @param emailID
+	 * @param scanID
+	 * @param pin
+	 */
 	public void createConsumerInConsumerSearch(String location, String firstname, String lastname, String emailID,
 			String scanID, String pin) {
-
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		textBox.enterText(TXT_FIRST_NAME, firstname);
 		textBox.enterText(TXT_LAST_NAME, lastname);
@@ -234,7 +243,5 @@ public class ConsumerSearch extends Factory {
 		foundation.click(BTN_CREATE_OR_INVITE);
 		foundation.WaitForAjax(Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
 	}
-
 }

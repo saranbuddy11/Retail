@@ -1305,7 +1305,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_SAVE);
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
 			foundation.waitforElement(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);

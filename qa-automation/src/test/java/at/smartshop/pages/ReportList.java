@@ -287,13 +287,15 @@ public class ReportList extends Factory {
 
 	public void verifyTheFileWithFullName(String reportName, String fileName) {
 		try {
+			foundation.threadWait(Constants.SHORT_TIME);
+			String excelFileName = FilePath.reportFilePath(fileName);
+			
+			boolean fileExists = foundation.isFileExists(excelFileName);
 
-			boolean fileExists = foundation.isFileExists(FilePath.reportFilePath(fileName));
-
-			excel.verifyFirstCellData(reportName, FilePath.reportFilePath(fileName), 0);
+			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
 			if (fileExists == false) {
-				foundation.deleteFile(FilePath.reportFilePath(fileName));
+				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -316,13 +318,15 @@ public class ReportList extends Factory {
 
 	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String fileName, String formate) {
 		try {
-			boolean fileExists = foundation
-					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String excelFileName = FilePath.reportFilePathWithDateWithoutSpace(fileName, formate);
+			
+			boolean fileExists = foundation.isFileExists(excelFileName);
 
-			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDateWithoutSpace(fileName, formate), 0);
+			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
 			if (fileExists == false) {
-				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
+				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
