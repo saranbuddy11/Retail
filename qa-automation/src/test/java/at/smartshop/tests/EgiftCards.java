@@ -39,7 +39,8 @@ public class EgiftCards extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 
-	@Test(description = "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
+	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
+			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
 			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure")
 	public void verifyPrintableGiftCardPDF() {
 		final String CASE_NUM = "186454";
@@ -55,10 +56,16 @@ public class EgiftCards extends TestInfra {
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
 		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
 		try {
-			// Login to ADM with Super User, Select Org, Menu, Menu Item and click Create
-			// Gift Card
+			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Admin tab and verify Consumer Engagement Sub Tab is present or
+			// not
+			List<String> tabNames = navigationBar.getSubTabs(menu.get(2));
+			CustomisedAssert.assertTrue(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+
+			// Navigate to Menu Item and click Create Gift Card
 			navigationBar.navigateToMenuItem(menu.get(0));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
