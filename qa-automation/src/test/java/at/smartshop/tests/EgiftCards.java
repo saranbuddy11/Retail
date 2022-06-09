@@ -42,7 +42,8 @@ public class EgiftCards extends TestInfra {
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
 			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure"
-			+ "186458 - Verify eGift cards Landing page is as per requirement")
+			+ "186458 - Verify eGift cards Landing page is as per requirement"
+			+ "186459 - Verify eGift cards Active tab is as per requirement")
 	public void verifyPrintableGiftCardPDF() {
 		final String CASE_NUM = "186454";
 
@@ -57,6 +58,8 @@ public class EgiftCards extends TestInfra {
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
 		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
 		List<String> status = Arrays.asList(rstLocationData.get(CNLocation.TAB_NAME).split(Constants.DELIMITER_TILD));
+		List<String> actuals = Arrays
+				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -75,11 +78,15 @@ public class EgiftCards extends TestInfra {
 			foundation.scrollIntoViewElement(ConsumerEngagement.TBL_CONSUMER_ENGAGE);
 			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
 
-			// Verify Egift Card Active Tab
+			// Verify Egift Card Active Tab and its content
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_GIFT_CARD));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_ACTIVE));
 			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTblActiveRecordsUI();
 			consumerEngagement.verifyContentofTableRecord(uiTableData, status.get(0));
+			List<String> datas = foundation.getTextofListElement(ConsumerEngagement.BTN_ISSUE);
+			for (int i = 0; i < datas.size(); i++) {
+				CustomisedAssert.assertEquals(datas.get(i), status.get(2));
+			}
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_EXPIRED));
 
 			// Verify the table to check created gift card is present or not
@@ -88,6 +95,26 @@ public class EgiftCards extends TestInfra {
 			innerMap = uiTableData.get(0);
 			innerValue = innerMap.get(CNLocation.TITLE);
 			CustomisedAssert.assertEquals(innerValue, giftTitle);
+
+			// Verify the Amount field in Active Gift Card
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(actuals.get(0));
+				CustomisedAssert.assertTrue(innerValue.contains(requiredData.get(6)));
+			}
+
+			// Verify the Expires field in Active Gift Card
+			innerMap = uiTableData.get(0);
+			innerValue = innerMap.get(actuals.get(1));
+			CustomisedAssert.assertEquals(innerValue,
+					dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1)));
+
+			// Verify the Issued field in Active Gift Card
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(actuals.get(2));
+				CustomisedAssert.assertTrue(foundation.isNumeric(innerValue));
+			}
 
 			// Click on created Gift card for print and validate its opening
 			foundation.click(ConsumerEngagement.BTN_PRINT_FIRST_ROW);
@@ -128,8 +155,8 @@ public class EgiftCards extends TestInfra {
 			// Verify Egift Card Expired Tab
 			foundation.click(ConsumerEngagement.TAB_EXPIRED);
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
-			List<String> headers = foundation.getTextofListElement(ConsumerEngagement.TBL_HEADERS_EXPIRED_GRID);
-			CustomisedAssert.assertEquals(headers.get(2), status.get(1));
+			datas = foundation.getTextofListElement(ConsumerEngagement.TBL_HEADERS_EXPIRED_GRID);
+			CustomisedAssert.assertEquals(datas.get(2), status.get(1));
 
 			// Delete the file
 			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);
