@@ -1864,7 +1864,7 @@ public class Location extends TestInfra {
 			// updating Min Stock
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.threadWait(Constants.MEDIUM_TIME);
-			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));	
 			locationSummary.enterMinStock(product, minStock.get(0));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			foundation.refreshPage();
@@ -1876,7 +1876,7 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
 			//reset the value
-			Assert.assertTrue(foundation.getText(LocationSummary.MIN_STOCK).equals(minStock.get(0)));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.MIN_STOCK).equals(minStock.get(0)));
 			locationSummary.enterMinStock(product, minStock.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 
@@ -1940,8 +1940,9 @@ public class Location extends TestInfra {
 			
 			//Validate the Manage column Popup
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_POPUP_HEADER));
+			//Bug is raised for below reset button - https://365retailmarkets.atlassian.net/browse/SOS-31011
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_RESET_BUTTON));
 			locationSummary.verifyPromotionsTableHeaders(requiredData);
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_APPLY_BUTTON));

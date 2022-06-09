@@ -1428,5 +1428,10 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public void enterMinStocks(String product, String minStock) {
+		enterMinStock(product, minStock);
+		foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+	}
 
 }
