@@ -20,9 +20,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="lib" path="C:/Users/karthikr/Documents/GitHub/V5Automation/qa-automation/src/test/resources/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karthikr/Documents/GitHub/V5Automation/qa-automation/src/test/resources/fontbox-3.0.0-alpha3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karthikr/Documents/GitHub/V5Automation/qa-automation/src/test/resources/io-3.0.0-alpha3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/karthikr/Documents/GitHub/V5Automation/qa-automation/src/test/resources/pdfbox-3.0.0-alpha3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/karthikr/Documents/GitHub/V5Automation/qa-automation/src/test/resources/commons-logging-1.2.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

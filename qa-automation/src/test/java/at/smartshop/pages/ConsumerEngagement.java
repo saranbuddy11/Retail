@@ -51,6 +51,7 @@ public class ConsumerEngagement extends Factory {
 		textBox.enterText(INPUT_EXPIRE_DATE, expiry);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**

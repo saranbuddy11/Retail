@@ -670,9 +670,72 @@ public class Foundation extends Factory {
 		String a[] = str.split("\\s");
 		int count = 0;
 		for (int i = 0; i < a.length; i++) {
-			if (word.contains(a[i]))
+			if (a[i].contains(word))
 				count++;
 		}
 		return count;
+	}
+
+	/**
+	 * Get the Number of Count/Occurences of Particular Character in String
+	 * 
+	 * @param str
+	 * @param word
+	 * @return
+	 */
+	public int countOccurrencesofChar(String str, char letter) {
+		int count = 0;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == letter)
+				count++;
+		}
+		return count;
+	}
+
+	/**
+	 * Get the Particular word by using index position from Sentence
+	 * 
+	 * @param str
+	 * @param position
+	 * @return
+	 */
+	public String getParticularWordFromSentence(String str, int position) {
+		String a[] = str.split("\\s");
+		String word = a[position];
+		return word;
+	}
+
+	/**
+	 * Get the numbers from a String
+	 * 
+	 * @param str
+	 */
+	public String getNumbersFromString(String str) {
+		char[] chars = str.toCharArray();
+		StringBuilder sb = new StringBuilder();
+		for (char c : chars) {
+			if (Character.isDigit(c)) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Checks the String contain numbers only or not
+	 * 
+	 * @param strNum
+	 * @return
+	 */
+	public boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 }

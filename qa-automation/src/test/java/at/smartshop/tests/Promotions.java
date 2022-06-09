@@ -1,7 +1,6 @@
 package at.smartshop.tests;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,6 @@ import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.ConsumerEngagement;
 import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.LocationList;
@@ -59,7 +57,6 @@ public class Promotions extends TestInfra {
 	private UserList userList = new UserList();
 	private CheckBox checkBox = new CheckBox();
 	private Table table = new Table();
-	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -3600,72 +3597,6 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.DELETE_BUILD);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.DELETE_BUILD));
 
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)")
-	public void verifyPrintableGiftCardPDF() {
-		final String CASE_NUM = "186454";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> requiredData = Arrays
-				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
-		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
-		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
-		try {
-			// Login to ADM with Super User, Select Org, Menu, Menu Item and click Create
-			// Gift Card
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menu.get(0));
-			foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
-			foundation.scrollIntoViewElement(ConsumerEngagement.TBL_CONSUMER_ENGAGE);
-			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
-
-			// Verify the table to check created gift card is present or not
-			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTblRecordsUI();
-			Map<String, String> innerMap = new HashMap<>();
-			String innerValue = " ";
-			innerMap = uiTableData.get(0);
-			innerValue = innerMap.get(CNLocation.TITLE);
-			CustomisedAssert.assertEquals(innerValue, giftTitle);
-
-			// Click on created Gift card for print and validate its opening
-			foundation.click(ConsumerEngagement.BTN_PRINT_FIRST_ROW);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.LBL_PRINT, Constants.SHORT_TIME);
-			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_PRINT);
-			innerValue = foundation.getText(ConsumerEngagement.LBL_PRINT);
-			String[] value = innerValue.split("\\s");
-			CustomisedAssert.assertEquals(value[1], giftTitle);
-			uiTableData.clear();
-
-			// Check Print Gift Card with input cards to print and validate whether
-			// downloaded or not
-			textBox.enterText(ConsumerEngagement.INPUT_CARD_PRINT, requiredData.get(2));
-			foundation.click(ConsumerEngagement.BTN_PRINT);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isFileDownloaded(rstLocationData.get(CNLocation.NAME)));
-
-			// Read the content of PDF file to validate the content and delete the file
-			innerValue = foundation.getPDFFileActualName(rstLocationData.get(CNLocation.NAME));
-			CustomisedAssert.assertEquals(foundation.getPDFFilePageCount(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue),
-					requiredData.get(1));
-			String pdfContent = foundation.readPDFFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);
-			CustomisedAssert.assertTrue(pdfContent.contains(giftTitle));
-			int count = foundation.countOccurrences(pdfContent, giftTitle);
-			CustomisedAssert.assertEquals(String.valueOf(count), requiredData.get(2));
-			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);
-			login.logout();
-			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
