@@ -50,6 +50,7 @@ public class Order {
 	public static final By LBL_DISCOUNT_NAME = By.className("discount-name");
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By TXT_TENDER_DISCOUNT = By.xpath("//div[@class='content-promotions']//div//div//div");
+	public static final By LBL_BUNDLE_ITEM = By.className("bundle-item-list");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");

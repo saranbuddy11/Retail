@@ -3159,7 +3159,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 
 		try {
-
+			// Launch Browser and Login to ADM with Operator account
 			navigationBar.launchBrowserAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -3504,7 +3504,7 @@ public class Promotions extends TestInfra {
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			// login, select menu and menu item
-			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select Promo Type, Promo Name, Display Name and click Next
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
@@ -3563,7 +3563,7 @@ public class Promotions extends TestInfra {
 
 		try {
 			// login, select menu and menu item
-			promotionList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Navigate to create promotion page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
