@@ -14,6 +14,7 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocation;
@@ -37,6 +38,7 @@ public class EgiftCards extends TestInfra {
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
+	private CheckBox checkbox = new CheckBox();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -128,16 +130,19 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
-	@Test(description = "C186594-Verify the “Search” field")
+	@Test(description = "C186594-Verify the “Search” field"
+			+ "C186596-Verify the column that are available in GMA consumer grid")
 	public void verifySearchField() {
 		final String CASE_NUM = "186594";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-		
+
 		List<String> Datas = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
 		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
 		try {
@@ -145,15 +150,62 @@ public class EgiftCards extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//Navigate to Admin->ConsuemrEngagement and create gift card
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
-			foundation.scrollIntoViewElement(ConsumerEngagement.TBL_CONSUMER_ENGAGE);
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
 			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
-			
-			
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Verify the column in GMA consumer grid
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_GRID));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+			consumerEngagement.verifyGMAConsumerEngagement(requiredData);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+
+			// Verify checkbox in GMA Consumer engagement grid
+			checkbox.check(ConsumerEngagement.CHECKBOX_SELECTALL);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			checkbox.unCheck(ConsumerEngagement.CHECKBOX_SELECTALL);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerEngagement.TXT_SEARCH, requiredData.get(0));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.CHECKBOX_GIFTCARD, Constants.SHORT_TIME);
+			checkbox.check(ConsumerEngagement.CHECKBOX_GIFTCARD);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.RECORDS_CONSUMER_GRID, Constants.SHORT_TIME);
+			checkbox.unCheck(ConsumerEngagement.CHECKBOX_GIFTCARD);
+
+			// Verify the grid data's
+			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTableRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
+			}
+			uiTableData.clear();
+
+			uiTableData = consumerEngagement.getTableRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(2));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(4));
+			}
+			uiTableData.clear();
+
+			uiTableData = consumerEngagement.getTableRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(3));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(5));
+			}
+			uiTableData.clear();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
