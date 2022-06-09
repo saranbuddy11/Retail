@@ -284,7 +284,7 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			locationSummary.selectTab(requiredData.get(4));
-			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(0));
+			textBox.enterText(LocationSummary.TXT_SEARCH, requiredData.get(5));
 			// price validation
 			foundation.threadWait(Constants.TWO_SECOND);
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),

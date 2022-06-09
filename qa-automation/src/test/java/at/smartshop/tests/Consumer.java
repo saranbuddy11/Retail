@@ -31,6 +31,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerMove;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.CreateLocation;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -54,6 +55,7 @@ public class Consumer extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
+	private CreateLocation createLocation = new CreateLocation();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -223,7 +225,7 @@ public class Consumer extends TestInfra {
 
 			// reading Balance and add to the array list
 			double initialbalance = consumerSummary.getBalance();
-			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.click(ConsumerSummary.STRIKE_ADJUST);
 
 			// converting string to double and adding the adjusted value
 			double updatedbalance = initialbalance
@@ -292,7 +294,7 @@ public class Consumer extends TestInfra {
 				textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
 				textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
 				foundation.click(ConsumerSummary.BTN_CREATE);
-				foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+				foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 				String actualData = foundation.getText(ConsumerSummary.TXT_SPINNER_MSG);
 				CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.INFO_MSG));
 			}
@@ -2017,7 +2019,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2276,7 +2278,7 @@ public class Consumer extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String fromOrg = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String fromLocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-		String toOrg = propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE);
+		String toOrg = propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE);
 		String toLocation = propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		String consumerName = rstConsumerSearchData.get(CNConsumerSearch.SEARCH);
 
@@ -2586,7 +2588,7 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(consumerSearch.getConsumerName()));
 			foundation.waitforElementToDisappear(ConsumerSummary.SPINNER, Constants.SHORT_TIME);
 			boolean isConsumerMoved = consumerSummary.moveConsumer(
-					propertyFile.readPropertyFile(Configuration.NOUS_DEMO_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(isConsumerMoved);
 
@@ -2686,6 +2688,59 @@ public class Consumer extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "196262 ADM< Unable to create new consumer with PDE")
+	public void verifyCreationOfConsumerWithPDE() {
+		final String CASE_NUM = "196262";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> inputs = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Launch Browser and Login to ADM with Super account
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to menu item and Click Org Location
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Verify Create New Location field with inputs
+			createLocation.verifyCreateField(inputs.get(0), requiredData.get(0), requiredData.get(1));
+
+			// Navigate to Location tab, enter into new Location and select Payroll Deduct
+			// ON & save
+			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(4));
+
+			// Navigate to Admin>Consumer and create new consumer
+			navigationBar.navigateToMenuItem(menu.get(2));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			consumerSearch.createConsumerInConsumerSearch(requiredData.get(2), inputs.get(0), inputs.get(1),
+					inputs.get(2), inputs.get(3), inputs.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+
+			// Delete Consumer
+			foundation.objectFocus(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+			foundation.alertAccept();
+			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting PayRoll Deduct under Location Summary page
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(3));
 		}
 	}
 }

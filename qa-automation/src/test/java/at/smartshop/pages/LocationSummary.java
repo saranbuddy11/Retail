@@ -261,6 +261,8 @@ public class LocationSummary extends Factory {
 	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
+	public static final By START_DATE_PICKER_ROLL_OVER_1 = By
+			.xpath("//input[@name='rolloversubsidydate' and @id='date']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
@@ -275,7 +277,7 @@ public class LocationSummary extends Factory {
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[2]");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -298,7 +300,8 @@ public class LocationSummary extends Factory {
 	public static final By TAB_LOCATION = By.xpath("//a[contains(text(),'Location')]");
 	public static final By CLEAR_INVENTORY_FILTER = By.xpath("//a[@onclick='clearInventoryFilter()']");
 	public static final By FILTER_HOME_CMMRCIAL = By.id("cmrHomeFilterType");
-	public static final By HOME_CMMRCIAL_NAME = By.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
+	public static final By HOME_CMMRCIAL_NAME = By
+			.xpath("//table[@id='cmrHomeGrid']/tbody/tr/td[@aria-describedby='cmrHomeGrid_name']");
 	public static final By DEVICE_RECORD = By.xpath("//span[@id='deviceDataGrid_table_pager_label']");
 	public static final By BTN_SELECTALL = By.id("selectallprdBtn");
 	public static final By BTN_SELECTNONE = By.id("selectnoneprdBtn");
@@ -328,6 +331,10 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
 
+	/**
+	 * This method is to Select the Required Tab in Location
+	 * @param tabName
+	 */
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -575,8 +582,8 @@ public class LocationSummary extends Factory {
 	}
 
 	public void updateLockerSettings(String enableORDisable) {
-		dropDown.selectItem(LocationSummary.DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
-		foundation.click(LocationSummary.BTN_SAVE);
+		dropDown.selectItem(DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
+		foundation.click(BTN_SAVE);
 		foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 	}
 
@@ -657,26 +664,33 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
-		foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
 		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
 		foundation.refreshPage();
 
 	}
 
+	/**
+	 * Updating the Inventory of the product
+	 * @param scancode
+	 * @param inventoryValue
+	 * @param reasonCode
+	 */
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
 		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.waitforElement(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
-				Constants.ONE_SECOND);
+				Constants.TWO_SECOND);
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
-		foundation.threadWait(Constants.ONE_SECOND);
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
@@ -694,11 +708,11 @@ public class LocationSummary extends Factory {
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {
 
 		locationList.selectLocationName(location);
-		foundation.waitforElement(LocationSummary.DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
-		dropDown.selectItem(LocationSummary.DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
-		dropDown.selectItem(LocationSummary.DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
-		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
+		dropDown.selectItem(DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
+		foundation.click(BTN_SYNC);
+		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
@@ -967,11 +981,11 @@ public class LocationSummary extends Factory {
 	}
 
 	public void removeDevice(String device) {
-		foundation.waitforElement(LocationSummary.TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
-		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-		foundation.click(LocationSummary.BTN_LNK_DEVICE_SUMMARY);
-		foundation.click(LocationSummary.BTN_REMOVE_DEVICE);
-		foundation.click(LocationSummary.BTN_YES_REMOVE);
+		foundation.waitforElement(TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(TXT_DEVICE_SEARCH, device);
+		foundation.click(BTN_LNK_DEVICE_SUMMARY);
+		foundation.click(BTN_REMOVE_DEVICE);
+		foundation.click(BTN_YES_REMOVE);
 		foundation.navigateToBackPage();
 	}
 
@@ -1002,26 +1016,26 @@ public class LocationSummary extends Factory {
 	public void selectingMarketCard(String locationName, String ValidateHeading, String marketCard) {
 		// Selecting location
 		locationList.selectLocationName(locationName);
-		foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(ValidateHeading));
-		foundation.waitforElement(LocationSummary.DPP_MARKET_CARD, Constants.SHORT_TIME);
-		dropDown.selectItem(LocationSummary.DPP_MARKET_CARD, marketCard, Constants.TEXT);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElement(VALIDATE_HEADING, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.getText(VALIDATE_HEADING).equals(ValidateHeading));
+		foundation.waitforElement(DPP_MARKET_CARD, Constants.SHORT_TIME);
+		dropDown.selectItem(DPP_MARKET_CARD, marketCard, Constants.TEXT);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElement(LBL_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
 	public void selectingProduct(String tab, String productName, String scanCode, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		textBox.enterText(TXT_PRODUCT_FILTER, productName);
 		enterPrice(scanCode, productPrice);
-		foundation.click(LocationSummary.BTN_UPDATE_PRICE);
+		foundation.click(BTN_UPDATE_PRICE);
 	}
 
 	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		textBox.enterText(TXT_PRODUCT_FILTER, productName);
 		enterPrice(productName, productPrice);
 	}
 
@@ -1037,16 +1051,16 @@ public class LocationSummary extends Factory {
 
 		selectTab(tab);
 		foundation.WaitForAjax(5000);
-		foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
 		foundation.threadWait(Constants.MEDIUM_TIME);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+		textBox.enterText(TXT_PRODUCT_FILTER, productName);
 		foundation.WaitForAjax(5000);
-		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
-		foundation.click(LocationSummary.PRODUCT_NAME);
-		foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
-		foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
-		textBox.enterText(LocationSummary.TXT_NAME, updatedProductName);
-		foundation.click(LocationSummary.BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
+		foundation.click(PRODUCT_NAME);
+		foundation.waitforElement(BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
+		foundation.click(BTN_EDIT_PRODUCT);
+		textBox.enterText(TXT_NAME, updatedProductName);
+		foundation.click(BTN_SAVE);
 		foundation.threadWait(Constants.TWO_SECOND);
 		navigationBar.navigateToMenuItem(menuItem);
 	}
@@ -1107,6 +1121,7 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+			foundation.click(TXT_GMA_SUBSIDY);
 		}
 	}
 
@@ -1337,7 +1352,7 @@ public class LocationSummary extends Factory {
 		navigationBar.navigateToMenuItem(menu);
 		locationList.selectLocationName(location);
 		foundation.click(BTN_LOCATION_SETTINGS);
-		String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
 		CustomisedAssert.assertEquals(value, data);
 	}
 
@@ -1347,30 +1362,31 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
 	}
-	
+
 	public String verifyProductsHighlighted(String expected) {
-		 String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
-		 CustomisedAssert.assertEquals(expected, attr);				    
-	    return attr;
+		String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
+		CustomisedAssert.assertEquals(expected, attr);
+		return attr;
 	}
-	
+
 	public void verifyPopUpUIDisplayed() {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
-		foundation.click(LocationSummary.BTN_ADD_PRODUCT);
-		foundation.waitforElement(LocationSummary.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ADD_PRODUCT));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_ADD_PRODUCT_SEARCH));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_CANCEL_PRODUCT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
+		foundation.click(BTN_ADD_PRODUCT);
+		foundation.waitforElement(LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ADD_PRODUCT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ADD_PRODUCT_SEARCH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CANCEL_PRODUCT));
 	}
-	
+
 	public void verifyProductsUI() {
 		foundation.threadWait(Constants.TWO_SECOND);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_ADD_PRODUCT));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PRODUCT_FILTER));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PRODUCT_FILTER));
 	}
-	
+
 	public void selectPrintGroup(String productName, String option) {
-		By printLink = By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
+		By printLink = By
+				.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
 		foundation.click(printLink);
 		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
@@ -1378,4 +1394,22 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
+	/**
+	 * Selecting the Payroll Deduct values On/Off
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param payroll
+	 */
+	public void selectPayRollDeduct(String menu, String location, String payroll) {
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_LOCATION_SUMMARY));
+		foundation.scrollIntoViewElement(TXT_PAYROLL);
+		dropDown.selectItem(DPD_PAYROLL_DEDUCT, payroll, Constants.TEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+	}
 }

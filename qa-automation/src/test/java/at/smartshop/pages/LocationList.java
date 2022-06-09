@@ -10,7 +10,10 @@ import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class LocationList extends Factory {
@@ -31,6 +34,10 @@ public class LocationList extends Factory {
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By LBL_LOCATION_LIST = By.xpath("//li[text()='Location List']");
 
+	/**
+	 * Selecting the Location Name
+	 * @param locationName
+	 */
 	public void selectLocationName(String locationName) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
 		textBox.enterText(TXT_FILTER, locationName);
@@ -54,10 +61,10 @@ public class LocationList extends Factory {
 		navigationBar.navigateToMenuItem(menu);
 		selectLocationName(location);
 		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
 		browser.close();
 	}
@@ -76,7 +83,7 @@ public class LocationList extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
 		browser.close();
 	}
@@ -92,10 +99,10 @@ public class LocationList extends Factory {
 		foundation.click(DeviceDashboard.BTN_YES_REMOVE);
 		foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 	}
 
 	public void verifyData(List<String> uiListHeaders, List<String> uidata, Map<String, String> expectedValues) {
@@ -109,4 +116,15 @@ public class LocationList extends Factory {
 		}
 	}
 
+	public void navigateMenuAndMenuItem(String menu, String location) {
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.ONE_SECOND);
+		selectLocationName(location);
+	}
 }

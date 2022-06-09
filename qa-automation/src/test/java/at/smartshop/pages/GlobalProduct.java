@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -38,7 +39,7 @@ public class GlobalProduct extends Factory {
 	public static final By LBL_SCANCODE_ERROR = By.xpath("//label[@id='scancode-error']");
 	public static final By LBL_COST = By.xpath("//input[@id='cost']");
 	public static final By LBL_SHORT_NAME = By.xpath("//input[@id='shortname']");
-	public static final By LBL_SAVE_DONE = By.xpath("//a[text()='Save and Done']");
+	public static final By LBL_SAVE_DONE = By.id("nextyes");
 	public static final By LBL_ALERT_HEADER = By.xpath("//div[@class='ajs-header']");
 	public static final By LBL_ALERT_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By LBL_ALERT_CONTENT = By.xpath("//div[@class='ajs-content']");
@@ -52,7 +53,7 @@ public class GlobalProduct extends Factory {
 	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
 	public static final By POPUP_HEADER=By.xpath("//h4[@style='text-align:center;']");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
-	public static final By SELECT_LOCATION = By.id("location");
+	public static final By SELECT_LOCATION = By.xpath("//input[@class='ui-igcombo-field ui-corner-all']");
 	public static final By BTN_EXTEND = By.id("extend");
 	public static final By DPD_LOYALTY_MULTIPLIER = By.id("pointslist");
 	public static final By DPD_PICK_LIST = By.id("picklist");
@@ -63,6 +64,9 @@ public class GlobalProduct extends Factory {
 	public static final By SHOW_DROPDOWN=By.xpath("//div[@title='Show drop-down']");
 	public static final By SAVE_POPUP_BTN=By.id("nextyes"); 
     public static final By CANCEL_BTN=By.id("cancelBtn");
+    public static final By BTN_EXTEND_LOC = By.xpath("//a[@id='extend']");
+    public static final By MATCHING_RECORD=By.id("dataGrid_pager_label");
+    public static final By CLICK_LOCATION = By.xpath("//ul[@class='ui-igcombo-listitemholder']//li//div[text()='AutomationLocation1']//preceding-sibling::span");
 	 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -173,5 +177,20 @@ public class GlobalProduct extends Factory {
 		dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, Constants.CHOOSENOTHING, Constants.TEXT);
 		foundation.click(ProductSummary.BTN_SAVE);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+	/**
+	 * search product and edit product name and save
+	 * @param product
+	 * @param editproduct
+	 */
+	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		textBox.enterText(LocationList.TXT_FILTER, product);
+		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
+		foundation.click(getGlobalProduct(product));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));		
+		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
+		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
+		foundation.click(ProductSummary.BTN_SAVE);
 	}
 }

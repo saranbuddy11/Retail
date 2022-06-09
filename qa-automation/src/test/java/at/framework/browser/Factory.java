@@ -76,7 +76,5 @@ public class Factory {
 
 	public static WebDriver getDriver() {
 		return webDriver.get();
-
 	}
-
 }
