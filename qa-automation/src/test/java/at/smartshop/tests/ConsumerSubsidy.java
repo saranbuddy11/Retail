@@ -134,7 +134,6 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_MULTI_TAX_REPORT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
 			List<String> values = dropDown.getAllItems(LocationSummary.DPD_GMA_SUBSIDY);
-			System.out.println(values);
 			List<String> expectedValues = new ArrayList<String>();
 			expectedValues.add(requiredData.get(1));
 			expectedValues.add(requiredData.get(0));
@@ -188,6 +187,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			foundation.scrollIntoViewElement(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 
 			// Verifying Date picker of Top Off
@@ -201,9 +201,9 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Date picker of Roll Over
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -1245,10 +1245,13 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(datas.equals(expectedValues));
 			foundation.waitforElement(ConsumerSummary.BTN_REASON_SAVE, Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
+
 			// verify the decrement in subsidy balance
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 			foundation.click(ConsumerSummary.BTN_ADJUST);
-			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, values.get(1));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
@@ -1405,8 +1408,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(subsidyName, requiredData.get(2));
 			value = String.valueOf(consumerSummary.getBalance());
 			CustomisedAssert.assertTrue(value.equals("25.0"));
-			value = String.valueOf(consumerSummary.getTypeBalance());
-			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
+//			value = String.valueOf(consumerSummary.getTypeBalance());
+//			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1513,8 +1516,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(subsidyName, requiredData.get(3));
 			value = String.valueOf(consumerSummary.getBalance());
 			CustomisedAssert.assertTrue(value.equals("25.0"));
-			value = String.valueOf(consumerSummary.getTypeBalance());
-			CustomisedAssert.assertTrue(value.equals(requiredData.get(5) + ".0"));
+//			value = String.valueOf(consumerSummary.getTypeBalance());
+//			CustomisedAssert.assertTrue(value.equals(requiredData.get(5) + ".0"));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1876,8 +1879,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			value = String.valueOf(consumerSummary.getBalance());
 			CustomisedAssert.assertTrue(value.equals("25.0"));
-			value = String.valueOf(consumerSummary.getTypeBalance());
-			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
+//			value = String.valueOf(consumerSummary.getTypeBalance());
+//			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.BTN_PAYOUT_CLOSE));
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
 			foundation.alertAccept();
@@ -2020,8 +2023,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(subsidyName, requiredData.get(7));
 			value = String.valueOf(consumerSummary.getBalance());
 			CustomisedAssert.assertTrue(value.equals("25.0"));
-			value = String.valueOf(consumerSummary.getTypeBalance());
-			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
+//			value = String.valueOf(consumerSummary.getTypeBalance());
+//			CustomisedAssert.assertTrue(value.equals(requiredData.get(4) + ".0"));
 
 			// Adjusting Top Off Balance
 			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
@@ -2030,6 +2033,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -2102,7 +2106,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(0));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
@@ -2203,7 +2207,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
@@ -2224,7 +2228,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			foundation.click(ConsumerSummary.BTN_TOP_OFF_ADJUST);
+			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Balance.get(0));
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
@@ -2233,6 +2237,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
+			browser.close();
 
 			// Launch V5 Device
 			// foundation.threadWait(Constants.SHORT_TIME);
@@ -2327,7 +2332,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(2));
@@ -2470,7 +2475,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.SUBSIDY_BALANCE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_READ_BALANCE));
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 
 		} catch (Exception exc) {
@@ -2595,7 +2600,7 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, datas.get(4), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
@@ -2607,7 +2612,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_ROLL_OVER));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 		} catch (Exception exc) {
@@ -2625,6 +2630,72 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElement(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
+	@Test(description = "196261-Adm-consumer subsidy - Any changes made in location summary is effective top off balance in consumer summary")
+	public void verifyAnyChangesMadeInLocationSummaryIsEffectiveTopOffBalanceInConsumerSummary() {
+		final String CASE_NUM = "196261";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays
+				.asList(rstLocationListData.get(CNLocationList.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM,Enable GMA Subsidy and turn on pde
+			locationList.navigateMenuAndMenuItem(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			CustomisedAssert.assertEquals(value, datas.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.DPD_PAYROLL, Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_PAYROLL, datas.get(0), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+			// Navigate to Admin-->Consumer
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+
+			// Navigate to Consumer Summary and update the balance in top off subsidy
+			consumerSummary.clickOnConsumerAndUpdateBalanceInTopOffSubsidy(datas.get(1));
+
+			// verify the updated balance in top off subsidy field
+			consumerSummary.clickOnConsumerAndVerrifyBalanceInTopOffSubsidy(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), datas.get(2));
+
+			// Turn off pde
+			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.waitforElementToBeVisible(LocationSummary.DPD_PAYROLL, Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_PAYROLL, datas.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+			// verify the updated balance in top off subsidy field
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			consumerSummary.clickOnConsumerAndVerrifyBalanceInTopOffSubsidy(
+					rstLocationListData.get(CNLocationList.LOCATION_NAME), datas.get(2));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting balance in top off subsidy
+			consumerSummary.setTopOffSubsidyBalance(datas.get(4));
 		}
 	}
 }

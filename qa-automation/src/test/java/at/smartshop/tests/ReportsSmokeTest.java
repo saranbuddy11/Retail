@@ -168,7 +168,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -176,12 +176,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Location name with the displayed name on the Front end
 			SalesTimeDetailsReport.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -191,7 +191,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -217,7 +217,7 @@ public class ReportsSmokeTest extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -249,7 +249,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166899- This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166899- This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
 	public void CustomerReportSkymiles() {
 		try {
 			final String CASE_NUM = "166899";
@@ -344,7 +345,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166901- This test validates Data existance and Excel file exportaion of Modifiers Report Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166901- This test validates Data existance and Excel file exportaion of Modifiers Report Report")
 	public void modifiersReport() {
 		try {
 			final String CASE_NUM = "166901";
@@ -392,7 +394,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166902- This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166902- This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
 	public void EFTGMADisbursement() {
 		try {
 			final String CASE_NUM = "166902";
@@ -440,7 +443,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166903- This test validates Data existance and Excel file exportaion of GMA Migration Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166903- This test validates Data existance and Excel file exportaion of GMA Migration Report")
 	public void GMAMigration() {
 		try {
 			final String CASE_NUM = "166903";
@@ -547,7 +551,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -595,7 +599,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -675,7 +679,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166908- This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166908- This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
 	public void payrollDeductSummary() {
 		try {
 			final String CASE_NUM = "166908";
@@ -738,7 +743,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -747,12 +752,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Location name with the displayed name on the Front end
 			cashFlowDetails.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -762,7 +767,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -820,7 +825,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166929- This test validates Data existance and Excel file exportaion of Hiatus Mode Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "166929- This test validates Data existance and Excel file exportaion of Hiatus Mode Report")
 	public void hiatusModeReport() {
 		try {
 			final String CASE_NUM = "166929";
@@ -868,7 +874,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166930- This test validates Data existance and Excel file exportaion of EFT Cross Org: GMA Disbursement Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "166930- This test validates Data existance and Excel file exportaion of EFT Cross Org: GMA Disbursement Report")
 	public void EFTCrossOrgGMADisbursement() {
 		try {
 			final String CASE_NUM = "166930";
@@ -918,7 +925,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166931- This test validates Data existance and Excel file exportaion of G&J Commission Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166931- This test validates Data existance and Excel file exportaion of G&J Commission Report")
 	public void GJCommission() {
 		try {
 			final String CASE_NUM = "166931";
@@ -966,8 +974,9 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166932- This test validates Data existance and Excel file exportaion of Advana Billings Report")
-	public void advanaBilling() {
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166932- This test validates Data existance and Excel file exportaion of Advana Billings Report")
+	public void advanaBilling() { 
 		try {
 			final String CASE_NUM = "166932";
 
@@ -1018,7 +1027,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166934- This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166934- This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
 	public void EFTDisbursementDetail() {
 		try {
 			final String CASE_NUM = "166934";
@@ -1034,7 +1044,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1043,7 +1053,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -1066,7 +1076,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166935- This test validates Data existance and Excel file exportaion of App Funding By Location Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166935- This test validates Data existance and Excel file exportaion of App Funding By Location Report")
 	public void appFundingByLocation() {
 		try {
 			final String CASE_NUM = "166935";
@@ -1114,7 +1125,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166954- This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "166954- This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
 	public void orderAheadTrans() {
 		try {
 			final String CASE_NUM = "166954";
@@ -1162,7 +1174,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166955- This test validates Data existance and Excel file exportaion of Referrals Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "166955- This test validates Data existance and Excel file exportaion of Referrals Report")
 	public void referrals() {
 		try {
 			final String CASE_NUM = "166955";
@@ -1211,7 +1224,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166956- This test validates Data existance and Excel file exportaion of Bulk Top Off Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "166956- This test validates Data existance and Excel file exportaion of Bulk Top Off Report")
 	public void bulkTopOff() {
 		try {
 			final String CASE_NUM = "166956";
@@ -1265,7 +1279,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1363,7 +1377,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1375,12 +1389,12 @@ public class ReportsSmokeTest extends TestInfra {
 //			String fisrtLocationFromList = reportList.firstLocationName();
 
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Location name with the displayed name on the Front end
 			salesTimeDetailsByDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -1390,7 +1404,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -1416,7 +1430,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1448,7 +1462,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166966- This test validates Data existance and Excel file exportaion of Skymiles Detail Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "166966- This test validates Data existance and Excel file exportaion of Skymiles Detail Report")
 	public void skymilesDetail() {
 		try {
 			final String CASE_NUM = "166966";
@@ -1703,7 +1718,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1712,7 +1727,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -1751,7 +1766,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1760,7 +1775,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -1847,7 +1862,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1856,12 +1871,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			productCannedReport.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -1871,7 +1886,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -1897,7 +1912,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1906,7 +1921,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -1993,7 +2008,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2137,7 +2152,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2146,7 +2161,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -2185,7 +2200,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2470,7 +2485,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2566,7 +2581,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2581,6 +2596,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the displayed name on the Front end
 			cashAudit.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
+			foundation.threadWait(Constants.TWO_SECOND);
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
@@ -2614,7 +2630,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2623,7 +2639,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -2707,7 +2723,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2851,7 +2867,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2860,7 +2876,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -2899,7 +2915,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2909,12 +2925,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Location name with the displayed name on the Front end
 			cashFlowDetailsInternational.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -2924,7 +2940,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -2950,7 +2966,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3094,7 +3110,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3190,7 +3206,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3199,7 +3215,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -3238,7 +3254,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3286,7 +3302,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3294,7 +3310,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -3303,7 +3319,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
@@ -3431,7 +3447,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3440,7 +3456,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -3722,7 +3738,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3770,7 +3786,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3779,12 +3795,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			cashFlowDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3794,7 +3810,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3820,7 +3836,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3829,12 +3845,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			cashFlowEmployee.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3844,7 +3860,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3870,7 +3886,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3879,12 +3895,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			cashFlowEmployeeDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -3894,7 +3910,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// verified file existence and deleted the file
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3920,7 +3936,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3929,12 +3945,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsByDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -3945,7 +3961,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -3971,7 +3987,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4019,7 +4035,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4067,7 +4083,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4163,23 +4179,23 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectCurrentDay();
-//			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
+//			reportList.selectCurrentDay();
+			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsByEmployeeDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -4190,7 +4206,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -4216,7 +4232,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4264,7 +4280,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4344,7 +4360,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167064- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167064- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgMiddidAssignment() {
 		try {
 			final String CASE_NUM = "167064";
@@ -4392,7 +4409,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167065- This test validates Data existance and Excel file exportaion of Intl Disbursement Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167065- This test validates Data existance and Excel file exportaion of Intl Disbursement Report")
 	public void intlDisbursementReport() {
 		try {
 			final String CASE_NUM = "167065";
@@ -4455,7 +4473,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -4487,7 +4505,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167067- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167067- This test validates Data existance and Excel file exportaion of Cross-Org: Self-Provisioned Devices")
 	public void CrossOrgSelfProvisionedDevices() {
 		try {
 			final String CASE_NUM = "167067";
@@ -4535,7 +4554,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167068- This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167068- This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
 	public void CrossOrgEFTVariance() {
 		try {
 			final String CASE_NUM = "167068";
@@ -4583,7 +4603,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167121- This test validates Data existance and Excel file exportaion of Rods Special Inventory Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167121- This test validates Data existance and Excel file exportaion of Rods Special Inventory Report")
 	public void rodsSpecialInventoryReport() {
 		try {
 			final String CASE_NUM = "167121";
@@ -4631,7 +4652,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167122- This test validates Data existance and Excel file exportaion of Advana Eligible Locations Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167122- This test validates Data existance and Excel file exportaion of Advana Eligible Locations Report")
 	public void advanaEligibleLocations() {
 		try {
 			final String CASE_NUM = "167122";
@@ -4678,7 +4700,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167123- This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167123- This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
 	public void heartlandEFTVariance() {
 		try {
 			final String CASE_NUM = "167123";
@@ -4724,7 +4747,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167124- This test validates Data existance and Excel file exportaion of CC Batch Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167124- This test validates Data existance and Excel file exportaion of CC Batch Report")
 	public void CCBatch() {
 		try {
 			final String CASE_NUM = "167124";
@@ -4772,7 +4796,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167125- This test validates Data existance and Excel file exportaion of DC Locker Orders Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167125- This test validates Data existance and Excel file exportaion of DC Locker Orders Report")
 	public void DCLockerOrders() {
 		try {
 			final String CASE_NUM = "167125";
@@ -4821,7 +4846,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167126- This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167126- This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
 	public void guestPassByDevice() {
 		try {
 			final String CASE_NUM = "167126";
@@ -4869,7 +4895,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167127- This test validates Data existance and Excel file exportaion of Order Only Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167127- This test validates Data existance and Excel file exportaion of Order Only Report")
 	public void orderOnly() {
 		try {
 			final String CASE_NUM = "167127";
@@ -4917,7 +4944,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167128- This test validates Data existance and Excel file exportaion of Send A Snack Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167128- This test validates Data existance and Excel file exportaion of Send A Snack Report")
 	public void sendASnack() {
 		try {
 			final String CASE_NUM = "167128";
@@ -4982,7 +5010,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5014,7 +5042,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167131- This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167131- This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
 	public void aramarkFinancialRecap() {
 		try {
 			final String CASE_NUM = "167131";
@@ -5050,7 +5079,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167132- This test validates Data existance and Excel file exportaion of National Account Exception Report")
+	// Disabled the Test case as the report not required as per the Product Team.
+	@Test(enabled = false, description = "167132- This test validates Data existance and Excel file exportaion of National Account Exception Report")
 	public void nationalAccountException() {
 		try {
 			final String CASE_NUM = "167132";
@@ -5090,7 +5120,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
 	public void crossOrgDeviceEvent() {
 		try {
 			final String CASE_NUM = "167133";
@@ -5138,7 +5169,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
+	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	@Test(enabled = false, description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
 	public void crossOrgPantryDisbursement() {
 		try {
 			final String CASE_NUM = "167134";
@@ -5249,7 +5281,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5258,7 +5290,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectCurrentDay();
 			reportList.selectOrg(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5297,7 +5329,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5306,7 +5338,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Downloading the Report
@@ -5342,7 +5374,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5350,7 +5382,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectOrg(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ALL_ORGS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5389,7 +5421,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5398,7 +5430,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end

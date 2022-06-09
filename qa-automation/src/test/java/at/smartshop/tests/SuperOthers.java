@@ -936,6 +936,7 @@ public class SuperOthers extends TestInfra {
 
 			// Search for Previously added Corporate Accounts, do the changes and cancel
 			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(0));
+			foundation.waitforElement(CorporateAccountList.TBL_DATA, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.TBL_DATA);
 
 			// do the changes in the fields
@@ -950,6 +951,7 @@ public class SuperOthers extends TestInfra {
 			// Search for Previously added Corporate Accounts
 			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
 			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(0));
+			foundation.waitforElement(CorporateAccountList.TBL_DATA, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.TBL_DATA);
 
 			// do the changes in the fields and save
@@ -966,6 +968,7 @@ public class SuperOthers extends TestInfra {
 			// Search for recently updated Corporate Accounts
 			foundation.waitforElement(CorporateAccountList.SEARCH_FILTER, Constants.SHORT_TIME);
 			textBox.enterText(CorporateAccountList.SEARCH_FILTER, dbData.get(1));
+			foundation.waitforElement(CorporateAccountList.TBL_DATA, Constants.SHORT_TIME);
 			foundation.click(CorporateAccountList.TBL_DATA);
 			textBox.enterText(CorporateAccountList.CORPORATE_NAME, dbData.get(0));
 			textBox.enterText(CorporateAccountList.FINANCIAL_NAME, dbData.get(0));
@@ -1536,7 +1539,10 @@ public class SuperOthers extends TestInfra {
 			foundation.click(PrintGroupLists.BTN_SAVE);
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), mandatory_Name_Error);
 			textBox.enterText(PrintGroupLists.TXT_NAME, wrong_Printer_Name);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PrintGroupLists.BTN_SAVE);			
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PrintGroupLists.BTN_CANCEL);
 
 			// click on create New Btn & Cancel Btn

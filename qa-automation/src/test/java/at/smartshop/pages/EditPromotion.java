@@ -35,6 +35,7 @@ public class EditPromotion extends Factory {
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
 	public static final By TXT_POPUP_HEADER = By.xpath("//div[@class='ajs-header']");
 	public static final By TXT_POPUP_ALERT_MSG = By.xpath("//div[@class='ajs-content']");
+	public static final By PRICING=By.xpath("//div[@id='bundlesummary']/b/span[2]");
 
 	public void expirePromotion(String dataGridname, String promoName) {
 		if(!foundation.isDisplayed(By.xpath("//td[@aria-describedby='" + dataGridname + "'][text()='" + promoName + "']"))){

@@ -367,6 +367,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
@@ -384,6 +385,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.waitforElement(CreatePromotions.BUNDLE_PROMO_ALERT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
@@ -403,9 +406,8 @@ public class Promotions extends TestInfra {
 			String itemValue = dropDown.getSelectedItem(CreatePromotions.DPD_SELECTED_ITEM);
 			CustomisedAssert.assertEquals(itemValue, actualData.get(1));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			// foundation.waitforElement(CreatePromotions.BTN_CONTINUE,
-			// Constants.SHORT_TIME);
-			// foundation.click(CreatePromotions.BTN_CONTINUE);
+			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 		} catch (Exception exc) {
@@ -434,7 +436,7 @@ public class Promotions extends TestInfra {
 		List<String> actualData = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 		String promotionName = strings.getRandomCharacter();
-		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String statusType = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -456,13 +458,16 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Filter Page
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.DPD_ORG,
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			textBox.enterText(CreatePromotions.DPD_ORG, Keys.ENTER);
-			dropDown.selectItem(CreatePromotions.DPD_LOCATION, locationName, Constants.TEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(CreatePromotions.DPD_ORG,
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(CreatePromotions.DPD_LOC, locationName, Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_DETAILS, 5);
 
 			// Detail page
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
@@ -470,6 +475,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.waitforElement(CreatePromotions.BUNDLE_PROMO_ALERT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
@@ -811,10 +818,13 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(CreatePromotions.LBL_SET_PROMO_DETAILS),
 					requiredData.get(10));
 
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_TENDERTYPE_ERROR));
+
 			dropDown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(11), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
@@ -879,10 +889,11 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(4));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TIME, requiredData.get(5), Constants.TEXT);
-
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.MEDIUM_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -904,7 +915,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(popupFieldArray.get(6), actualData.get(6));
 			CustomisedAssert.assertTrue(popupFieldArray.get(7).contains(currentDate));
 			CustomisedAssert.assertTrue(popupFieldArray.get(8).contains(currentDate));
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
@@ -1736,8 +1747,8 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.BTN_CREATE);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, requiredData.get(0), locationName);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-
 			foundation.click(CreatePromotions.BTN_NEXT);
+
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -1955,21 +1966,26 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(1));
+			List<String> actualData = Arrays
+					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
+			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE)
 					.contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 
 			promotionList.searchPromotion(promotionName, statusType);
@@ -2014,8 +2030,11 @@ public class Promotions extends TestInfra {
 			// Details page
 			List<String> actualData = Arrays
 					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(1));
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, requiredData.get(0), Constants.TEXT);
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(4), Constants.TEXT);
+			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, actualData.get(2));
@@ -2026,7 +2045,9 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE)
 					.contains(rstLocationData.get(CNLocation.POPUP_NAME)));
 			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(EditPromotion.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
@@ -2519,10 +2540,11 @@ public class Promotions extends TestInfra {
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
 		try {
+
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2551,7 +2573,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
+			createPromotions.selectItem(product.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2559,7 +2581,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
-			checkBox.check(CreatePromotions.SELECT_ANOTHER_CHECKBOX);
+			createPromotions.selectItem(product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2585,12 +2607,14 @@ public class Promotions extends TestInfra {
 			createPromotions.cancellingPromotion();
 			login.logout();
 			browser.close();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories")
+	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories"
+			+ "C177864-verify the Group Name field in Select Group's Items and Categories overlay")
 	public void verifyOverlayOfGroupItemsAndCategories() {
 		final String CASE_NUM = "176286";
 
@@ -2602,6 +2626,7 @@ public class Promotions extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays
 				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
@@ -2635,11 +2660,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
 			// Create a bundle group in Group criteria
-			foundation.click(CreatePromotions.BTN_ADD_GROUP);
-			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_ADD);
+			createPromotions.creatingBundleGroup(requiredData.get(1), datas.get(2));
 
 			// removing the group bundle promotion
 			createPromotions.deleteBundleGroup();
@@ -2659,17 +2680,19 @@ public class Promotions extends TestInfra {
 
 			// Create a group without group name,verify the error message & verify item
 			// search box
-			checkBox.check(CreatePromotions.SELECT_CHECKBOX);
-			checkBox.check(CreatePromotions.SELECT_ANOTHER_CHECKBOX);
+			createPromotions.selectItem(datas.get(2));
+			createPromotions.selectItem(datas.get(3));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			checkBox.check(CreatePromotions.CATEGORY_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PROD_CATE_SELECTED));
+			foundation.threadWait(Constants.THREE_SECOND);
+			createPromotions.selectCategory(datas.get(1));
+			String text = foundation.getText(CreatePromotions.PROD_CATE_SELECTED);
+			CustomisedAssert.assertEquals(text, datas.get(0));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
-			checkBox.check(CreatePromotions.CHECKBOX_SAMEPROD);
+			createPromotions.selectItem(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ERROR_MSG));
@@ -2944,4 +2967,639 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	@Test(description = "C176301-Verify the selection of item in Select Group's Items and Categories overlay when items are already being added"
+			+ "C176302-Verify the selection of categories in Select Group's Items and Categories overlay when categories are already")
+	public void verifyGroupItemAndCategoryOverlay() {
+		final String CASE_NUM = "176301";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+
+			// Navigate to create promotion page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Navigate to Choosing promotion filter and select organization
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select one r more group in bundle criteria
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Create a bundle group in Group criteria
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+			createPromotions.selectItem(org.get(3));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// verify the same product is grayed out or not
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.threadWait(Constants.THREE_SECOND);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			foundation.click(CreatePromotions.INPUT_ITEM_SEARCH);
+			textBox.clearText(CreatePromotions.INPUT_ITEM_SEARCH);
+			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, org.get(3));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRODUCTS_DISABLE));
+
+			// Navigate to category tab and create a group
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			createPromotions.selectCategory(org.get(4));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// verify the selected category is grayed out or not
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.threadWait(Constants.THREE_SECOND);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			foundation.click(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, org.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_DISABLE));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176303-Verify the selection of items in Select Group's Items and Categories overlay when items belonging to categories"
+			+ "C176304-Verify the selection of items in Select Group's Items and Categories overlay when items belonging to categories"
+			+ "C177867-Verify the 'Add' Button for existing bundle promotion in Select Group's Items and Categories Overlay"
+			+ "C176274-Verify the conflict popup when duplicate items/categories are created for  existing group"
+			+ "C176273-Verify the conflict popup when duplicate items/categories are created for current group while being created")
+	public void verifyPopupMessageInGroupOverlay() {
+		final String CASE_NUM = "176303";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> contentpopup = Arrays
+				.asList(rstLocationData.get(CNLocation.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+
+			// Navigate to create promotion page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Navigate to Choosing promotion filter and select organization
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select one r more group in bundle criteria
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Create a bundle group in Group criteria
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+			createPromotions.selectItem(requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// Create a another group with same item in category
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			createPromotions.selectCategory(requiredData.get(4));
+
+			// verify the popup message and click on yes
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.HEADER_POPUP));
+			String text = foundation.getText(CreatePromotions.CONTENT_POPUP);
+			CustomisedAssert.assertTrue(text.contains(contentpopup.get(0)));
+			foundation.click(CreatePromotions.BTN_YES);
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// verify the selected product after updated a product
+			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP_EDIT, 5);
+			String groupname = foundation.getText(CreatePromotions.LBL_CREATED_GROUP);
+			CustomisedAssert.assertTrue(groupname.contains(requiredData.get(2)));
+			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_FILTER));
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_PROMO_GRID));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// removing the group bundle promotion
+			createPromotions.deleteBundleGroup();
+
+			// Create a group with Product
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+			createPromotions.selectItem(requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// click on same group and change the Item to category
+			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			createPromotions.selectCategory(requiredData.get(4));
+
+			// verify the popup message
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_POPUP_HEADER));
+			text = foundation.getText(CreatePromotions.CONTENT_POPUP);
+			CustomisedAssert.assertTrue(text.contains(contentpopup.get(1)));
+			foundation.click(CreatePromotions.BTN_GOTIT);
+			foundation.click(CreatePromotions.BTN_ADD);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay"
+			+ "C176297-verify the selected message in Select Group's Items and Categories overlay")
+	public void verifyRecordsMessageInItemAndCategory() {
+		final String CASE_NUM = "176296";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> product = Arrays
+				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Launch Browser and Login to ADM with Operator account
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to menu item and Click create promotion
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+
+			// Navigate to create promotion page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Navigate to Choosing promotion filter and select organization
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select Group in bundle build Dropdown
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// click on add group
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+
+			// Select Item and verify the record
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
+			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
+			CustomisedAssert.assertEquals(record, product.get(2));
+
+			// Select Category verify the record
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			checkBox.check(CreatePromotions.CAT_CATEGORY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
+			CustomisedAssert.assertEquals(catrecord, product.get(3));
+
+			// verify the product & category selected
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String catAndprod = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(catAndprod, product.get(4));
+
+			// Uncheck the category and Item
+			checkBox.unCheck(CreatePromotions.CATEGORY_UNCHECK);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
+
+			// verify the product & category unselected in record
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+			String cateprod = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(cateprod, product.get(5));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176289-verify the search criteria by item name" + "C176291- verify the search criteria by UPC"
+			+ "C176290-verify the search criteria by Category name")
+	public void verifySearchCriteriaByItemCategoryAndUPC() {
+		final String CASE_NUM = "176289";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> Datas = Arrays.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, rstLocationData.get(CNLocation.NAME), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Select Product and verify the product
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
+			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
+
+			// Select Category and verify the Category
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, Datas.get(2));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_PROMO_GRID));
+
+			// Select product and verify UPC
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176790-Verify Bundle promo - pricing section when all categories are selected")
+	public void verifyBundlePromoPricingSection() {
+		final String CASE_NUM = "176790";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.ALL_CATEGORY, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SEARCH_CATEGORY));
+
+			// Check all categories checkbox and verify the price
+			checkBox.check(CreatePromotions.ALL_CATEGORY);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
+
+			// verify quantity field
+			foundation.waitforElement(CreatePromotions.QTY, Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.QTY));
+			String text = foundation.getAttributeValue(CreatePromotions.QTY);
+			CustomisedAssert.assertEquals(text, requiredData.get(4));
+			textBox.enterText(CreatePromotions.QTY, requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_CREATE);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_OK);
+
+			// verify the created promotion
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			promotionList.clickSelectedRow(requiredData.get(5), requiredData.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BUY_PRICE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(EditPromotion.PRICING));
+			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_END_PROMO);
+			foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
+			foundation.click(EditPromotion.BTN_CONTINUE);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C177866-Verify the 'Add' Button wheile creating new bundle promotion in Select Group's Items and Categories Overlay")
+	public void verifyGroupDetailsInBundleCriteria() {
+		final String CASE_NUM = "177866";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select one r more group in bundle criteria
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Create a bundle group in Group criteria
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+			createPromotions.selectItem(requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// verify the created group name under bundle criteria & price tag
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
+			String text = foundation.getText(CreatePromotions.BUNDLE_GROUP_NAME);
+			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "176276 - Verify the Group bundle criteria in the Pricing section"
+			+ "176277 - Verify the deletion of Group bundle criteria in the Pricing section")
+	public void verifyBundleCriteriaInPricingSection() {
+		final String CASE_NUM = "176276";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> productName = Arrays
+				.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> categoryName = Arrays
+				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String groupName = promoName.get(1) + strings.getRandomCharacter();
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0),
+					promoName.get(1));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+
+			// Select Bundle Group in Details Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Creating the Group and validating the Icons
+			createPromotions.creatingBundleGroupWithCategory(groupName, productName.get(0), categoryName.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+
+			// Validating the Bundle Item under Pricing Section
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_CRITERIA));
+			String value = foundation.getTextAttribute(CreatePromotions.BUNDLE_CRITERIA, "value");
+			CustomisedAssert.assertEquals(value, groupName + requiredData.get(1));
+			value = foundation.getText(CreatePromotions.BUNDLE_ITEM_REMOVE);
+			CustomisedAssert.assertEquals(String.valueOf(value), requiredData.get(2));
+
+			// Deleting the Bundle Group and validating the Prompt
+			createPromotions.deleteBundleGroup();
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_CRITERIA));
+			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
+
+			// Cancelling the Promotion
+			createPromotions.cancellingPromotion();
+
+			// Navigating to Location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C176275-verify the summary message when groups are added in the bundle criteria")
+	public void verifySummaryMessageWhenGroupsAreAddedInBundleCriteria() {
+		final String CASE_NUM = "176275";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			// login, select menu and menu item
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select one r more group in bundle criteria
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// Create a bundle group in Group criteria
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.SHORT_TIME);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+			createPromotions.selectItem(requiredData.get(3));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// Create another bundle group in Group with category
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			foundation.waitforElementToBeVisible(CreatePromotions.CATEGORY_FILTER, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
+			createPromotions.selectCategory(requiredData.get(4));
+			foundation.click(CreatePromotions.BTN_ADD);
+
+			// verify the summary message after created group
+			foundation.waitforElementToBeVisible(CreatePromotions.BUNDLE_SUMMARY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_SUMMARY));
+			String groupname = foundation.getText(CreatePromotions.SUMMARY_GROUPNAME1);
+			CustomisedAssert.assertEquals(groupname, requiredData.get(1));
+			groupname = foundation.getText(CreatePromotions.SUMMARY_GROUPNAME2);
+			CustomisedAssert.assertEquals(groupname, requiredData.get(2));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C177865-verify the selection of the category in Select Group's Items and Categories overlay")
+	public void verifySelectionOfTheCategoryInSelectGroupAndCategoriesOverlay() {
+		final String CASE_NUM = "177865";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// login, select menu and menu item
+			promotionList.navigateMenuAndCreatePromo(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Navigate to create promotion page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+
+			// Navigate to Choosing promotion filter and select organization
+			createPromotions.selectOrgLoc(org.get(0), org.get(1));
+
+			// Select Group in bundle build Dropdown
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
+
+			// click on add group
+			foundation.click(CreatePromotions.BTN_ADD_GROUP);
+			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
+
+			// Select Category verify the record
+			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_GRID));
+			createPromotions.selectCategory(requiredData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String cat_record = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(cat_record, rstLocationData.get(CNLocation.SHOW_RECORDS));
+
+			// Navigate to product filter and verify the record
+			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			foundation.waitforElementToBeVisible(CreatePromotions.GROUP_NAME, 5);
+			cat_record = foundation.getText(CreatePromotions.RECORD);
+			CustomisedAssert.assertEquals(cat_record, rstLocationData.get(CNLocation.SHOW_RECORDS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_BUILD_LIST));
+			foundation.click(CreatePromotions.DELETE_BUILD);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.DELETE_BUILD));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }

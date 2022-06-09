@@ -28,6 +28,7 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -42,6 +43,7 @@ public class AVISubFeeReport extends Factory {
 	private WebService webService = new WebService();
 	private Foundation foundation = new Foundation();
 	private ReportList reportList = new ReportList();
+	private TextBox textBox = new TextBox();
 
 	private static final By TBL_AVI_SUB_FEE = By.id("subFeeGrid");
 	public final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div:nth-child(1) > div");
@@ -49,6 +51,7 @@ public class AVISubFeeReport extends Factory {
 	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#subFeeGrid  > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -178,6 +181,7 @@ public class AVISubFeeReport extends Factory {
 			selectLastDate(requiredDate);
 			reportList.selectOrg(orgName);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(SEARCH_RESULT,deviceID);
 			getTblRecordsUI();
 			getRequiredRecord(locationID, deviceID.toUpperCase());
 			requiredJsonData.add(reportsData.get(recordCount).get(tableHeaders.get(6)));

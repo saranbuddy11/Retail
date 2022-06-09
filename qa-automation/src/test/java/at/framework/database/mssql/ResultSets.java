@@ -9,6 +9,7 @@ import java.util.Map;
 import org.testng.Assert;
 
 import at.smartshop.database.columns.CNAdminAgeVerification;
+import at.smartshop.database.columns.CNAdminDNA;
 import at.smartshop.database.columns.CNConsumer;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
@@ -20,6 +21,7 @@ import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLockerSystem;
+import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
@@ -719,7 +721,10 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.TIMEZONE, resultSet.getString(CNLocation.TIMEZONE));
 				rstLocation.put(CNLocation.TYPE, resultSet.getString(CNLocation.TYPE));
 				rstLocation.put(CNLocation.TITLE, resultSet.getString(CNLocation.TITLE));
+				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
+				rstLocation.put(CNLocation.SHOW_RECORDS, resultSet.getString(CNLocation.SHOW_RECORDS));
+
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -986,5 +991,63 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstAdminAgeVerificationData;
+	}
+
+	public Map<String, String> getLoginPageData(String query, String testcaseID) {
+		Map<String, String> rstLoginPageData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstLoginPageData.put(CNLoginPage.INVALID, resultSet.getString(CNLoginPage.INVALID));
+				rstLoginPageData.put(CNLoginPage.MAIL, resultSet.getString(CNLoginPage.MAIL));
+				rstLoginPageData.put(CNLoginPage.REQUIRED_DATA, resultSet.getString(CNLoginPage.REQUIRED_DATA));
+				rstLoginPageData.put(CNLoginPage.PASSWORD, resultSet.getString(CNLoginPage.PASSWORD));
+				rstLoginPageData.put(CNLoginPage.BROWSER, resultSet.getString(CNLoginPage.BROWSER));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstLoginPageData;
+	}
+
+	public Map<String, String> getAdminDNAData(String query, String testcaseID) {
+		Map<String, String> rstAdminDNAData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstAdminDNAData.put(CNAdminDNA.LOCATION_NAME, resultSet.getString(CNAdminDNA.LOCATION_NAME));
+				rstAdminDNAData.put(CNAdminDNA.ORG_NAME, resultSet.getString(CNAdminDNA.ORG_NAME));
+				rstAdminDNAData.put(CNAdminDNA.REQUIRED_DATA, resultSet.getString(CNAdminDNA.REQUIRED_DATA));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstAdminDNAData;
 	}
 }
