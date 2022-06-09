@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -1318,4 +1319,33 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	@Test(description = "SOS-30517-Verify the Duplicate device is not present on Super>Device page")
+	public void verifyDuplicateDeviceNotPresentONDeviceDashboard() {
+		try {
+			final String CASE_NUM = "145239";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+			// verify daily revenue
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to admin>device and verify serial number sort functionality
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.threadWait(Constants.ONE_SECOND);
+			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));
+			Assert.assertTrue(foundation.getText(DeviceList.TXT_TABLE_RECORD).equals(rstDeviceListData.get(CNDeviceList.DEVICE)));		
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }

@@ -1,5 +1,10 @@
 package at.smartshop.keys;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import org.testng.Assert;
 
 import at.smartshop.pages.ReportList;
@@ -62,6 +67,21 @@ public class FilePath {
 		return EXCEL_REPORT;
 	}
 	
+	public static String pickListFilePathWithDateAndDay(String filename, String formate) {
+		Calendar calendar = Calendar.getInstance();
+		Date day = calendar.getTime();
+		String date = reportList.getTodaysDate(formate);
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());	
+		System.out.println(HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls");
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls";
+		return EXCEL_REPORT;
+	}
+	public String getCurrentDay() {
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+		return currentDay;
+	}
 	
 	public void setEnvironment(String environment) {
 		if(environment.equals(Constants.PRE_PROD)) {

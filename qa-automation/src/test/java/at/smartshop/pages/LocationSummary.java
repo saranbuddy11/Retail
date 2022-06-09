@@ -310,7 +310,7 @@ public class LocationSummary extends Factory {
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
-	
+	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
