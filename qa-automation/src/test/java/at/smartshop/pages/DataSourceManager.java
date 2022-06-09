@@ -44,7 +44,10 @@ public class DataSourceManager extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By TXT_SEARCH = By.id("search-box");
+	public final By SEARCH_BOX_DATA_SOURCE_MANAGER = By.xpath("//input[@id='search-box']");
 	public static final String DATA_SOURCE_MANAGER_MANU = "Super#Data Source Manager";
+	public static final String SNOWFLAKE = "Snowflake";
+	public static final String RDS = "RDS";
 
 	public static final By PAGINATION_LIST = By
 			.xpath("//ul[@class='ui-helper-reset ui-iggrid-pagelist ui-iggrid-paging-item']//li");
@@ -116,9 +119,9 @@ public class DataSourceManager extends Factory {
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(DATA_SOURCE_MANAGER_MANU);
-			if (reportsDB.equals("Snowflake")) {
+			if (reportsDB.equals(SNOWFLAKE)) {
 				checkInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
-			} else if (reportsDB.equals("RDS")) {
+			} else if (reportsDB.equals(RDS)) {
 				unCheckInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
 			}
 		} catch (Exception exc) {
@@ -135,5 +138,36 @@ public class DataSourceManager extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * This method is for switching to ReportsDB like SnowFlake or RDS
+	 * @param reportsDB
+	 * @param object
+	 * @param dataObject
+	 */
+	public void switchToReportsDB(String reportsDB, By object, String dataObject) {
+		try {
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(DATA_SOURCE_MANAGER_MANU);
+			textBox.enterText(SEARCH_BOX_DATA_SOURCE_MANAGER, dataObject );
+			WebElement checkBoxList = getDriver().findElement(object);
+			if (reportsDB.equals(SNOWFLAKE)) {
+				foundation.objectFocusOnWebElement(checkBoxList);
+				if (!checkBoxList.isSelected()) {
+					checkBoxList.click();
+					foundation.threadWait(2);
+				}
+			} else if (reportsDB.equals(RDS)) {
+				foundation.objectFocusOnWebElement(checkBoxList);
+				if (checkBoxList.isSelected()) {
+					checkBoxList.click();
+					foundation.threadWait(2);
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 
 }

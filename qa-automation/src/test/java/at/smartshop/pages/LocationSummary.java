@@ -330,6 +330,10 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
 
+	/**
+	 * This method is to Select the Required Tab in Location
+	 * @param tabName
+	 */
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -665,20 +669,27 @@ public class LocationSummary extends Factory {
 
 	}
 
+	/**
+	 * Updating the Inventory of the product
+	 * @param scancode
+	 * @param inventoryValue
+	 * @param reasonCode
+	 */
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
 		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.waitforElement(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
-				Constants.ONE_SECOND);
+				Constants.TWO_SECOND);
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
-		foundation.threadWait(Constants.ONE_SECOND);
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
