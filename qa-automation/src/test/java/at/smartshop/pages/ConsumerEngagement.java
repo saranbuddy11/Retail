@@ -36,7 +36,13 @@ public class ConsumerEngagement extends Factory {
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
-	// Gift Card Creation with inputs of Title, Amount and Expire Date
+	/**
+	 * Gift Card Creation with inputs
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param expiry
+	 */
 	public void createGiftCard(String title, String amount, String expiry) {
 		foundation.click(BTN_ADD_GIFT_CARD);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
@@ -47,6 +53,11 @@ public class ConsumerEngagement extends Factory {
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Getting Table Records from UI
+	 * 
+	 * @return
+	 */
 	public Map<Integer, Map<String, String>> getTblRecordsUI() {
 		try {
 			int recordCount = 0;

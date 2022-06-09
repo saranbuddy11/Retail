@@ -603,6 +603,12 @@ public class Foundation extends Factory {
 		return false;
 	}
 
+	/**
+	 * Reading the PDF file Full name
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public String getPDFFileActualName(String fileName) {
 		File dir = new File(FilePath.PATH_TO_DOWNLOAD);
 		File[] dirContents = dir.listFiles();
@@ -617,6 +623,13 @@ public class Foundation extends Factory {
 		return actualName;
 	}
 
+	/**
+	 * Reading the PDF file content
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
 	public String readPDFFile(String filePath) throws IOException {
 		File file = new File(filePath);
 		FileInputStream fis = new FileInputStream(file);
@@ -628,6 +641,13 @@ public class Foundation extends Factory {
 		return content;
 	}
 
+	/**
+	 * Getting the Page Count of PDF file
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
 	public String getPDFFilePageCount(String filePath) throws IOException {
 		File file = new File(filePath);
 		FileInputStream fis = new FileInputStream(file);
@@ -639,6 +659,13 @@ public class Foundation extends Factory {
 		return count;
 	}
 
+	/**
+	 * Get the Number of Count/Occurences of Particular word in sentences
+	 * 
+	 * @param str
+	 * @param word
+	 * @return
+	 */
 	public int countOccurrences(String str, String word) {
 		String a[] = str.split("\\s");
 		int count = 0;
