@@ -1393,6 +1393,7 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 	
+	// Verifying table Headers for Promotion List Page
 	public void verifyPromotionsTableHeaders(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(0))));
@@ -1411,6 +1412,7 @@ public class LocationSummary extends Factory {
 		}
 	}
 	
+	// Validating PopUp for Promotion on Location Summary Page
 	public void verifyManageColumnPopUp(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(0))));
