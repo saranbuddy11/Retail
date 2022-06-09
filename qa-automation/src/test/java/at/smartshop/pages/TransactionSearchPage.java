@@ -140,8 +140,7 @@ public class TransactionSearchPage extends Factory {
 		// assertEquals(foundation.getText(LBL_DEVICE),propertyFile.readPropertyFile(Configuration.DEVICE_ID,
 		// FilePath.PROPERTY_CONFIG_FILE));
 		// assertEquals(foundation.getText(LBL_SUBTOTAL),propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
-		// FilePath.PROPERTY_CONFIG_FILE));\
-		System.out.println(foundation.getText(LBL_TOTAL));
+		// FilePath.PROPERTY_CONFIG_FILE));
 		assertTrue(foundation.getText(LBL_TOTAL).contains(total));
 		assertEquals(foundation.getText(LBL_STATUS), Constants.ACCEPTED);
 		assertEquals(foundation.getText(LBL_PAYMENT_TYPE), paymentType);
