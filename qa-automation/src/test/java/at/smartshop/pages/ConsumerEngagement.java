@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,17 +22,22 @@ public class ConsumerEngagement extends Factory {
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By BTN_ADD_GIFT_CARD = By.id("giftcardBtn");
+	public static final By TAB_GIFT_CARD = By.className("accordion");
 	public static final By LBL_HEADER = By.className("header-text");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
 	public static final By BTN_SAVE = By.id("addgiftsavebtn");
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
+	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
 	public static final By TBL_CONSUMER_ENGAGE = By.id("consumerengageGrid");
 	public static final By BTN_PRINT_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(2)");
 	public static final By LBL_PRINT = By.id("titletoprint");
 	public static final By INPUT_CARD_PRINT = By.id("cardstoprint");
 	public static final By BTN_PRINT = By.id("printBtn");
+	public static final By TAB_ACTIVE = By.id("activetab");
+	public static final By TAB_EXPIRED = By.id("expiredtab");
+	public static final By TXT_EXPIRED_TITLE = By.className("ui-iggrid-headertext");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -55,11 +61,11 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
-	 * Getting Table Records from UI
+	 * Getting Table Records from Active Gift card Tab
 	 * 
 	 * @return
 	 */
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public Map<Integer, Map<String, String>> getTblActiveRecordsUI() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
@@ -87,4 +93,17 @@ public class ConsumerEngagement extends Factory {
 		return tableData;
 	}
 
+	/**
+	 * Verify the content of Table Record with Particular Value
+	 * 
+	 * @param uiData
+	 * @param expectedValue
+	 */
+	public void verifyContentofTableRecord(Map<Integer, Map<String, String>> uiData, String expectedValue) {
+		Map<String, String> innerMap = new HashMap<>();
+		for (int i = 0; i < uiData.size(); i++) {
+			innerMap = uiData.get(i);
+			CustomisedAssert.assertTrue(innerMap.containsValue(expectedValue));
+		}
+	}
 }

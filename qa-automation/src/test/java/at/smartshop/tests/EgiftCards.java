@@ -41,7 +41,8 @@ public class EgiftCards extends TestInfra {
 
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
-			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure")
+			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure"
+			+ "186458 - Verify eGift cards Landing page is as per requirement")
 	public void verifyPrintableGiftCardPDF() {
 		final String CASE_NUM = "186454";
 
@@ -55,6 +56,7 @@ public class EgiftCards extends TestInfra {
 				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
 		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
+		List<String> status = Arrays.asList(rstLocationData.get(CNLocation.TAB_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -73,8 +75,14 @@ public class EgiftCards extends TestInfra {
 			foundation.scrollIntoViewElement(ConsumerEngagement.TBL_CONSUMER_ENGAGE);
 			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
 
+			// Verify Egift Card Active Tab
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_GIFT_CARD));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_ACTIVE));
+			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTblActiveRecordsUI();
+			consumerEngagement.verifyContentofTableRecord(uiTableData, status.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_EXPIRED));
+
 			// Verify the table to check created gift card is present or not
-			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			String innerValue = " ";
 			innerMap = uiTableData.get(0);
@@ -116,6 +124,12 @@ public class EgiftCards extends TestInfra {
 			s = foundation.getNumbersFromString(actual);
 			CustomisedAssert.assertTrue(foundation.isNumeric(s));
 			CustomisedAssert.assertTrue(s.contains(requiredData.get(1)));
+
+			// Verify Egift Card Expired Tab
+			foundation.click(ConsumerEngagement.TAB_EXPIRED);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
+			List<String> headers = foundation.getTextofListElement(ConsumerEngagement.TBL_HEADERS_EXPIRED_GRID);
+			CustomisedAssert.assertEquals(headers.get(2), status.get(1));
 
 			// Delete the file
 			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);
