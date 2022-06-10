@@ -249,6 +249,8 @@ public class EgiftCards extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			
+			//
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -257,7 +259,6 @@ public class EgiftCards extends TestInfra {
 
 	@Test(description = "C186592- Verify the field “Location of Recipients"
 			+ "C186591- Verify the Issue” panel should have a label of “By Location")
-
 	public void verifyLocationOfRecipientsField() {
 		final String CASE_NUM = "186592";
 
@@ -295,8 +296,7 @@ public class EgiftCards extends TestInfra {
 			foundation.click(ConsumerEngagement.DPD_LOCATION);
 			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT,
 					rstLocationData.get(CNLocation.LOCATION_NAME));
-			foundation.click(consumerEngagement.objSearchLocation(rstLocationData.get(CNLocation.LOCATION_NAME)));
-
+		    foundation.click(consumerEngagement.objSearchLocation(rstLocationData.get(CNLocation.LOCATION_NAME)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
