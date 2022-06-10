@@ -241,11 +241,55 @@ public class EgiftCards extends TestInfra {
 			// click on issue with created gift card name
 			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
 			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
-			
-			//verify the add to note field with alphanumeric characters & Special characters
+
+			// verify the add to note field with alphanumeric characters & Special
+			// characters
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C186592- Verify the field “Location of Recipients”")
+
+	public void verifyLocationOfRecipientsField() {
+		final String CASE_NUM = "186592";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+			
+			//verify dropdown in location of recipient
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
+			String loc = foundation.getText(ConsumerEngagement.DPD_LOCATION);
+			System.out.println(loc);
+
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
