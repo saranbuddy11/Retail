@@ -249,8 +249,6 @@ public class EgiftCards extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
-			
-			//
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -296,18 +294,12 @@ public class EgiftCards extends TestInfra {
 			// verify DropDown in location of recipient
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
 			foundation.click(ConsumerEngagement.DPD_LOCATION);
-			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, location.get(0));				
-		    foundation.click(consumerEngagement.objSearchLocation(location.get(0)));
-		    
-		    //verify "ALL" field in DropDown
-		    CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
-		    foundation.click(ConsumerEngagement.DPD_CLEAR);
-		    foundation.waitforElementToBeVisible(ConsumerEngagement.DPD_LOCATION, Constants.SHORT_TIME);
-		    foundation.click(ConsumerEngagement.DPD_LOCATION);		
-		    foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, Constants.THREE_SECOND);
-		    textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, location.get(1));	
-		    foundation.click(consumerEngagement.objSearchLocation(location.get(1)));
-		    
+			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, location.get(1));
+			foundation.click(consumerEngagement.objSearchLocation(location.get(1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
+			CustomisedAssert.assertEquals(loc, location.get(1));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
