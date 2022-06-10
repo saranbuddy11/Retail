@@ -3781,12 +3781,12 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
+			// navigate and login to ADM
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Reading test data from DataBase
 			String guestPassName = strings.getRandomCharacter();
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
 			List<String> requiredData = Arrays
@@ -3797,7 +3797,7 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to location and Inventory section
+			// navigate to Admin and Guest Pass section
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			textBox.enterText(RemainingGuestPassLiability.GUEST_PASS_TITLE, guestPassName);
