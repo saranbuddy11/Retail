@@ -131,7 +131,8 @@ public class EgiftCards extends TestInfra {
 	}
 
 	@Test(description = "C186594-Verify the “Search” field"
-			+ "C186596-Verify the column that are available in GMA consumer grid")
+			+ "C186596-Verify the column that are available in GMA consumer grid"
+			+ "C186595-Verify the GMA consumer grid")
 	public void verifySearchField() {
 		final String CASE_NUM = "186594";
 
@@ -242,8 +243,8 @@ public class EgiftCards extends TestInfra {
 			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
 			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
 
-			// verify the add to note field with alphanumeric characters & Special
-			// characters
+			// verify the add to note field with alphanumeric Special characters & enter up
+			// to 100 characters
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
@@ -254,7 +255,8 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
-	@Test(description = "C186592- Verify the field “Location of Recipients”")
+	@Test(description = "C186592- Verify the field “Location of Recipients"
+			+ "C186591- Verify the Issue” panel should have a label of “By Location")
 
 	public void verifyLocationOfRecipientsField() {
 		final String CASE_NUM = "186592";
@@ -284,13 +286,17 @@ public class EgiftCards extends TestInfra {
 			// click on issue with created gift card name
 			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
 			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
-			
-			//verify dropdown in location of recipient
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
-			String loc = foundation.getText(ConsumerEngagement.DPD_LOCATION);
-			System.out.println(loc);
 
-			
+			// Verify the “By Location” tabs in the Issue page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
+
+			// verify dropdown in location of recipient
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
+			foundation.click(ConsumerEngagement.DPD_LOCATION);
+			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT,
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+			foundation.click(consumerEngagement.objSearchLocation(rstLocationData.get(CNLocation.LOCATION_NAME)));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

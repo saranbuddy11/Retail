@@ -46,7 +46,12 @@ public class ConsumerEngagement extends Factory {
 	public static final By RECORDS_CONSUMER_GRID=By.id("bylocationGrid_pager_label");
 	public static final By TXT_ADD_TO_NOTE=By.id("issueaddnote");
 	public static final By LOCATION_OF_RECIPIENTS=By.xpath("//div//h5");
-	public static final By DPD_LOCATION=By.cssSelector("#comboTarget > div");
+	public static final By DPD_LOCATION=By.xpath("//div[@title='Show drop-down']");
+	public static final By TXT_LOCATION_ENGAGEMENT=By.xpath("//input[@placeholder='Name of Location']");
+	
+	public By objSearchLocation(String location) {
+		return By.xpath("//div[text()='" + location+ "']");
+	}
 	
 
 	private List<String> tableHeaders = new ArrayList<>();
