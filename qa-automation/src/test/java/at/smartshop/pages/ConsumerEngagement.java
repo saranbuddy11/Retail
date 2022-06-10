@@ -48,6 +48,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By LOCATION_OF_RECIPIENTS=By.xpath("//div//h5");
 	public static final By DPD_LOCATION=By.xpath("//div[@title='Show drop-down']");
 	public static final By TXT_LOCATION_ENGAGEMENT=By.xpath("//input[@placeholder='Name of Location']");
+	public static final By LOCATION_TAB=By.id("byloc");
 	
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location+ "']");
