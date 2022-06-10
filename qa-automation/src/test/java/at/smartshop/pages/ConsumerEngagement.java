@@ -44,6 +44,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By CHECKBOX_SELECTALL=By.id("itemcheckbox");
 	public static final By CHECKBOX_GIFTCARD=By.xpath("//input[@class='commonloction']");
 	public static final By RECORDS_CONSUMER_GRID=By.id("bylocationGrid_pager_label");
+	public static final By TXT_ADD_TO_NOTE=By.id("issueaddnote");
 	
 
 	private List<String> tableHeaders = new ArrayList<>();
