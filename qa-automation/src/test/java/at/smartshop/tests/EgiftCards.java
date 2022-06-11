@@ -257,7 +257,6 @@ public class EgiftCards extends TestInfra {
 
 	@Test(description = "C186592- Verify the field “Location of Recipients"
 			+ "C186591- Verify the Issue” panel should have a label of “By Location")
-
 	public void verifyLocationOfRecipientsField() {
 		final String CASE_NUM = "186592";
 
@@ -267,6 +266,8 @@ public class EgiftCards extends TestInfra {
 
 		List<String> Datas = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
 
@@ -290,12 +291,14 @@ public class EgiftCards extends TestInfra {
 			// Verify the “By Location” tabs in the Issue page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
 
-			// verify dropdown in location of recipient
+			// verify DropDown in location of recipient
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
 			foundation.click(ConsumerEngagement.DPD_LOCATION);
-			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT,
-					rstLocationData.get(CNLocation.LOCATION_NAME));
-			foundation.click(consumerEngagement.objSearchLocation(rstLocationData.get(CNLocation.LOCATION_NAME)));
+			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, location.get(1));
+			foundation.click(consumerEngagement.objSearchLocation(location.get(1)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
+			CustomisedAssert.assertEquals(loc, location.get(1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
