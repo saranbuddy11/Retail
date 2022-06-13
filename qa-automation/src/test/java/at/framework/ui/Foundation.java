@@ -593,7 +593,7 @@ public class Foundation extends Factory {
 	public boolean isFileDownloaded(String fileName) {
 		File dir = new File(FilePath.PATH_TO_DOWNLOAD);
 		File[] dirContents = dir.listFiles();
-		threadWait(Constants.SHORT_TIME);
+		threadWait(Constants.LONG_TIME);
 
 		for (int i = 0; i < dirContents.length; i++) {
 			if (dirContents[i].getName().contains(fileName)) {

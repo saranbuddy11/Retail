@@ -55,7 +55,7 @@ public class EgiftCards extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
-		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1));
 		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
 		List<String> status = Arrays.asList(rstLocationData.get(CNLocation.TAB_NAME).split(Constants.DELIMITER_TILD));
 		List<String> actuals = Arrays
@@ -107,7 +107,7 @@ public class EgiftCards extends TestInfra {
 			innerMap = uiTableData.get(0);
 			innerValue = innerMap.get(actuals.get(1));
 			CustomisedAssert.assertEquals(innerValue,
-					dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1)));
+					dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1)));
 
 			// Verify the Issued field in Active Gift Card
 			for (int i = 0; i < uiTableData.size(); i++) {
