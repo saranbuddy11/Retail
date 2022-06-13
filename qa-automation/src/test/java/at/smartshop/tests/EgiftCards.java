@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -17,13 +19,15 @@ import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerEngagement;
-import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.DeviceDashboard;
+import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 
@@ -39,9 +43,12 @@ public class EgiftCards extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
 	private CheckBox checkbox = new CheckBox();
+	private DeviceList devicelist = new DeviceList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstDeviceListData;
+	
 
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
@@ -301,6 +308,38 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertEquals(loc, location.get(1));
 
 		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C186590- verify the “MM Reload Method” has Gift card option in device summary page")
+			
+	public void verifyMMReloadMethods() {
+		final String CASE_NUM = "186590";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+		
+		
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+			foundation.adjustBrowerSize(".75");
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));		
+			foundation.waitforElementToBeVisible(DeviceList.HEADER_DEVICE_NAME, Constants.SHORT_TIME);
+			foundation.click(devicelist.deveiceLink(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			
+			
+			
+		}catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
