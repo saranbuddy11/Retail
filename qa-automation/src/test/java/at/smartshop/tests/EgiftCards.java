@@ -157,6 +157,14 @@ public class EgiftCards extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
 			datas = foundation.getTextofListElement(ConsumerEngagement.TBL_HEADERS_EXPIRED_GRID);
 			CustomisedAssert.assertEquals(datas.get(2), status.get(1));
+			datas = foundation.getTextofListElement(ConsumerEngagement.TBL_EXPIRED);
+			s = datas.get(0);
+			value = s.split("\\s");
+			CustomisedAssert.assertTrue(value[0].matches("[a-zA-Z]+"));
+			CustomisedAssert.assertTrue(value[1].contains(requiredData.get(6)));
+			value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
+			CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));
+			CustomisedAssert.assertTrue(value[3].matches("[0-9]+"));
 
 			// Delete the file
 			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);

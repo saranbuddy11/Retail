@@ -39,6 +39,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TAB_EXPIRED = By.id("expiredtab");
 	public static final By TXT_EXPIRED_TITLE = By.className("ui-iggrid-headertext");
 	public static final By BTN_ISSUE = By.cssSelector("td[aria-describedby='consumerengageGrid_Issue']");
+	public static final By TBL_EXPIRED = By.cssSelector("tr[data-id='undefined']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
