@@ -39,6 +39,8 @@ public class ConsumerEngagement extends Factory {
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
 	public static final By TXT_SEARCH = By.id("filterType");
 	public static final By TBL_GRID = By.id("bylocationGrid");
+	public static final By BTN_EMAIL_CARDS = By.id("issueemailbyemail");
+	public static final By HEADER_ADDTONOTE=By.id("byemailaddnote");
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID=By.cssSelector("#bylocationGrid > tbody");
 	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT=By.xpath("//table[@id='bylocationGrid']/thead");
 	public static final By CHECKBOX_SELECTALL=By.id("itemcheckbox");
@@ -51,6 +53,17 @@ public class ConsumerEngagement extends Factory {
 	public static final By LOCATION_TAB=By.id("byloc");
 	public static final By DPD_CLEAR=By.xpath("//div[@title='Clear value']");
 	public static final By DPD_ALL_LOCATION=By.xpath("//li[@data-value='All Locations']");
+	public static final By BY_EMAIL_FILTER=By.id("bymail");
+	public static final By ENTER_RECIPIENT_EMAIL=By.xpath("//dt[contains(text(),'Enter Recipient Email')]");
+	public static final By TXT_ENTER_RECIPIENT=By.id("recipientemail");
+	public static final By BTN_BROWSE=By.name("file");
+	public static final By BULK_EMAIL_CONSUMER=By.xpath("//b[text()='Bulk Email Consumers']");
+	public static final By EGIFT_CARD_TEMPLATE=By.id("exportSample");
+	public static final By TXT_DOWNLOAD_FILLOUTEMAIL=By.xpath("//li[contains(text(),'Download and fill')]");
+	public static final By IMPORTANT_LINE=By.xpath("//li[contains(text(),'completed eGift Card Template file')]");
+	public static final By ERROR_MSG=By.id("file-error");
+	
+	
 	
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");

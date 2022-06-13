@@ -24,6 +24,7 @@ public class FilePath {
 	public static String PROPERTY_CONFIG_FILE;
 	public static final String DRIVER_CHROME = PATH + "\\src\\test\\resources\\chromedriver.exe";
 	public static final String GMA_ACCOUNT_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_GMA_Account_template.xls";
+	public static final String EGIFT_CARD_TEMPLATE = PATH + "\\src\\test\\resources\\gift-cards.xls";
 	public static final String JSON_GMA_ADD_VALUE = PATH + "\\src\\test\\resources\\GMAAddValue.json";
 	public static final String JSON_MKA = PATH + "\\src\\test\\resources\\MKAAccount.json";
 	public static final String JSON_KIOSK_CASH_OUT = PATH + "\\src\\test\\resources\\KioskCashOut.json";
@@ -48,7 +49,8 @@ public class FilePath {
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH + "\\Downloads\\contact.xls";
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
-
+    public static final String GIFT_CARDS= HOME_PATH + "\\Downloads\\gift-cards.xls";
+	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";
 		return EXCEL_REPORT;

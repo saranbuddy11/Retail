@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.files.Excel;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
@@ -28,6 +30,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerEngagement;
 import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
+import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 
@@ -44,11 +47,11 @@ public class EgiftCards extends TestInfra {
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
 	private CheckBox checkbox = new CheckBox();
 	private DeviceList devicelist = new DeviceList();
+	private Excel excel = new Excel();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstDeviceListData;
-	
 
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
@@ -313,15 +316,16 @@ public class EgiftCards extends TestInfra {
 	}
 
 	@Test(description = "C186590- verify the “MM Reload Method” has Gift card option in device summary page")
-			
+
 	public void verifyMMReloadMethods() {
 		final String CASE_NUM = "186590";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-		
-		
+
+		List<String> requiredData = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -331,15 +335,99 @@ public class EgiftCards extends TestInfra {
 			// Navigate to Admin->ConsuemrEngagement and create gift card
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
-			foundation.adjustBrowerSize(".75");
+			foundation.adjustBrowerSize("0.7");
 			foundation.threadWait(Constants.SHORT_TIME);
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));		
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.waitforElementToBeVisible(DeviceList.BTN_SEARCH, Constants.SHORT_TIME);
+			foundation.objectClick(DeviceList.BTN_SEARCH);
 			foundation.waitforElementToBeVisible(DeviceList.HEADER_DEVICE_NAME, Constants.SHORT_TIME);
-			foundation.click(devicelist.deveiceLink(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-			
-			
-			
-		}catch (Exception exc) {
+			foundation.objectClick(devicelist.deveiceLink(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+
+			// Navigate to device summary page and verify e gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.MM_RELOAD_METHOD));
+			CustomisedAssert.assertTrue(checkbox.isChecked(DeviceSummary.CHECKBOX_EGIFT_CARD));
+			String datas = foundation.getText(DeviceSummary.MM_RELOAD_DATAS);
+			List<String> expectedValues = new ArrayList<String>();
+			expectedValues.add(requiredData.get(0));
+			expectedValues.add(requiredData.get(1));
+			expectedValues.add(requiredData.get(2));
+			foundation.click(DeviceSummary.BTN_SAVE);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C186583- Verify the “Enter Recipient Email (Comma separate individual addresses)” field in the “Issue” panel"
+			+ "C186585- Verify the “Download and fill out the email eGift Card Template”in “Bulk Email Consumers” section "
+			+ "C186584-Verify the “Bulk Email Consumers” field in the “Issue” panel"
+			+ "C186586- Verify the “Click the 'Browse' in “Bulk Email Consumers” section")
+
+	public void verifyEnterRecipientEmail() {
+		final String CASE_NUM = "186583";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> mail = Arrays
+				.asList(rstLocationData.get(CNLocation.CONTACT_EMAIL).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Click on email filter and verify enter recipient email
+			foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
+			textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail.get(0));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+			textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail.get(1));
+
+			// verify the 'Bulk Email Consumers'
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.HEADER_ADDTONOTE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BULK_EMAIL_CONSUMER));
+
+			// click on egift card template and download
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TXT_DOWNLOAD_FILLOUTEMAIL));
+			String color = foundation.getTextColor(ConsumerEngagement.EGIFT_CARD_TEMPLATE);
+			CustomisedAssert.assertEquals(color, mail.get(2));
+			foundation.click(ConsumerEngagement.EGIFT_CARD_TEMPLATE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
+
+			// Delete the file
+			foundation.deleteFile(FilePath.GIFT_CARDS);
+
+			// click on browser and select egift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
+			textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.IMAGE_PNG_PATH);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_MSG));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+			textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.EGIFT_CARD_TEMPLATE);
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
