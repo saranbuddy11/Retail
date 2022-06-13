@@ -43,7 +43,8 @@ public class EgiftCards extends TestInfra {
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
 			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure"
 			+ "186458 - Verify eGift cards Landing page is as per requirement"
-			+ "186459 - Verify eGift cards Active tab is as per requirement")
+			+ "186459 - Verify eGift cards Active tab is as per requirement"
+			+ "186460 - Verify eGift cards Expired tab is as per requirement")
 	public void verifyPrintableGiftCardPDF() {
 		final String CASE_NUM = "186454";
 
