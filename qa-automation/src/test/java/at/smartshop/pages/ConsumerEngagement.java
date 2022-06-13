@@ -21,13 +21,15 @@ public class ConsumerEngagement extends Factory {
 	private TextBox textBox = new TextBox();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
+	public static final By HEADER = By.cssSelector("#mainform > div > h4");
 	public static final By BTN_ADD_GIFT_CARD = By.id("giftcardBtn");
 	public static final By TAB_GIFT_CARD = By.className("accordion");
 	public static final By LBL_HEADER = By.className("header-text");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
-	public static final By BTN_SAVE = By.id("addgiftsavebtn");
+	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
+	public static final By BTN_ADD_GIFT_SAVE = By.id("addgiftsavebtn");
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
 	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
 	public static final By TBL_CONSUMER_ENGAGE = By.id("consumerengageGrid");
@@ -47,6 +49,10 @@ public class ConsumerEngagement extends Factory {
 	public static final By BTN_EMAIL_CARDS = By.id("issueemailbyemail");
 	public static final By BTN_CANCEL_EMAIL = By.id("issuebyemailCancel");
 	public static final By INPUT_EMAIL = By.id("recipientemail");
+	public static final By BTN_ADD_GIFT_CANCEL = By.id("addgiftcancelbtn");
+	public static final By TITLE_ERROR = By.id("title-error");
+	public static final By AMOUNT_ERROR = By.id("amount-error");
+	public static final By DATE_VALIDATION_ERROR = By.id("expiredDateValid");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -64,7 +70,7 @@ public class ConsumerEngagement extends Factory {
 		textBox.enterText(INPUT_TITLE, title);
 		textBox.enterText(INPUT_AMOUNT, amount);
 		textBox.enterText(INPUT_EXPIRE_DATE, expiry);
-		foundation.click(BTN_SAVE);
+		foundation.click(BTN_ADD_GIFT_SAVE);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
