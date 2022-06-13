@@ -32,7 +32,9 @@ public class ConsumerEngagement extends Factory {
 	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
 	public static final By TBL_CONSUMER_ENGAGE = By.id("consumerengageGrid");
 	public static final By BTN_PRINT_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(2)");
+	public static final By BTN_ISSUE_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(1)");
 	public static final By LBL_PRINT = By.id("titletoprint");
+	public static final By LBL_ISSUE = By.id("titletoissue");
 	public static final By INPUT_CARD_PRINT = By.id("cardstoprint");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By TAB_ACTIVE = By.id("activetab");
@@ -40,6 +42,11 @@ public class ConsumerEngagement extends Factory {
 	public static final By TXT_EXPIRED_TITLE = By.className("ui-iggrid-headertext");
 	public static final By BTN_ISSUE = By.cssSelector("td[aria-describedby='consumerengageGrid_Issue']");
 	public static final By TBL_EXPIRED = By.cssSelector("tr[data-id='undefined']");
+	public static final By LBL_BY_LOCATION = By.id("byloc");
+	public static final By LBL_BY_EMAIL = By.id("bymail");
+	public static final By BTN_EMAIL_CARDS = By.id("issueemailbyemail");
+	public static final By BTN_CANCEL_EMAIL = By.id("issuebyemailCancel");
+	public static final By INPUT_EMAIL = By.id("recipientemail");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();

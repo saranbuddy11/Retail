@@ -725,6 +725,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
 				rstLocation.put(CNLocation.SHOW_RECORDS, resultSet.getString(CNLocation.SHOW_RECORDS));
 				rstLocation.put(CNLocation.INITIAL_BALANCE, resultSet.getString(CNLocation.INITIAL_BALANCE));
+				rstLocation.put(CNLocation.ADDRESS, resultSet.getString(CNLocation.ADDRESS));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
