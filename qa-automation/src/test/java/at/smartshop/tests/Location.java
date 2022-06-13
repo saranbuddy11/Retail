@@ -1,5 +1,8 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +37,7 @@ import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
@@ -1822,5 +1826,127 @@ public class Location extends TestInfra {
 		foundation.click(LocationSummary.PRODUCT_NAME);
 		foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_REMOVE);
+	}
+
+	@Test(description = "178509-QAA-122-ADM>Location Summary>Products>Update Min. Stock.")
+	public void verifyUpdateMinimumStock() {
+		final String CASE_NUM = "178509";
+
+		// Reading test data from DataBas
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+		List<String> minStock = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+
+			// updating Min Stock
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));	
+			locationSummary.enterMinStock(product, minStock.get(0));
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+			foundation.refreshPage();
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			foundation.WaitForAjax(7000);
+			//reset the value
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.MIN_STOCK).equals(minStock.get(0)));
+			locationSummary.enterMinStock(product, minStock.get(1));
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "178530-QAA-179-ADM>Location Summary>Promotions>Promotions UI and Fields."
+			+ "178577-QAA-181-ADM>Location Summary>Promotions>Manage Columns."
+			+ "178542-QAA-180-ADM>Location Summary>Promotions>Create Promotion.")
+	public void verifyUIForPromotionsTab() {
+		try {
+			final String CASE_NUM = "178530";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to promotions tab
+			foundation.waitforElement(LocationSummary.TAB_PROMOTIONS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PROMOTIONS);
+
+			// verifying Promotions UI and fields
+			foundation.waitforElement(LocationSummary.BTN_CREATE_PROMO, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.BTN_CREATE_PROMO);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_CREATE_PROMO));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_MANAGE_COLUMNS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.PROMOTIONS_SEARCH));
+			locationSummary.verifyPromotionsTableHeaders(requiredData);
+
+			// click on create Promotion button
+			foundation.click(LocationSummary.BTN_CREATE_PROMO);
+			foundation.threadWait(Constants.TWO_SECOND);
+			
+			// validate UI of enter promotion basics page
+			assertTrue(foundation.isDisplayed(CreatePromotions.DPD_PROMO_TYPE));
+			assertTrue(foundation.isDisplayed(CreatePromotions.TXT_PROMO_NAME));
+			assertTrue(foundation.isDisplayed(CreatePromotions.BTN_NEXT));
+			assertTrue(foundation.isDisplayed(CreatePromotions.BTN_CANCEL));
+			assertEquals(foundation.getText(CreatePromotions.LBL_BASICINFO), requiredData.get(9));
+			assertEquals(foundation.getText(CreatePromotions.LBL_ENTER_BASICINFO), requiredData.get(10));
+			foundation.navigateToBackPage();
+			foundation.waitforElement(LocationSummary.TAB_PROMOTIONS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PROMOTIONS);
+			
+			//Validate the Manage column Popup
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.threadWait(Constants.THREE_SECOND);
+			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_POPUP_HEADER));
+			//Bug is raised for below reset button - https://365retailmarkets.atlassian.net/browse/SOS-31011
+			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_RESET_BUTTON));
+			locationSummary.verifyPromotionsTableHeaders(requiredData);
+			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_APPLY_BUTTON));
+			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_CANCEL_BUTTON));
+			foundation.click(LocationSummary.MANAGE_COLUMN_CANCEL_BUTTON);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }

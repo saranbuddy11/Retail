@@ -95,6 +95,10 @@ public class ReportList extends Factory {
 //		}
 //	}
 
+	/**
+	 * This method is to Select the Report
+	 * @param reportName
+	 */
 	public void selectReport(String reportName) {
 		try {
 			foundation.scrollIntoViewElement(TXT_SEARCH);
@@ -112,6 +116,10 @@ public class ReportList extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to Select the Date
+	 * @param optionName
+	 */
 	public void selectDate(String optionName) {
 		try {
 			foundation.waitforElement(DPD_DATE, 1);
@@ -131,6 +139,10 @@ public class ReportList extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to Select the Location
+	 * @param locationName
+	 */
 	public void selectLocation(String locationName) {
 		try {
 			foundation.click(DPD_LOCATIONS);
