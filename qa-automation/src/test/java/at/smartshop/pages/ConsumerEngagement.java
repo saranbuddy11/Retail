@@ -49,6 +49,8 @@ public class ConsumerEngagement extends Factory {
 	public static final By DPD_LOCATION=By.xpath("//div[@title='Show drop-down']");
 	public static final By TXT_LOCATION_ENGAGEMENT=By.xpath("//input[@placeholder='Name of Location']");
 	public static final By LOCATION_TAB=By.id("byloc");
+	public static final By DPD_CLEAR=By.xpath("//div[@title='Clear value']");
+	public static final By DPD_ALL_LOCATION=By.xpath("//li[@data-value='All Locations']");
 	
 	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
 	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
@@ -58,7 +60,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TXT_ErrorLabel_CardsToPrint = By.xpath("//label[@id='cardstoprint-error']");
 	
 	public By objSearchLocation(String location) {
-		return By.xpath("//div[text()='" + location+ "']");
+		return By.xpath("//div[text()='" + location + "']");
 	}
 	
 
