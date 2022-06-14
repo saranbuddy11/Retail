@@ -30,13 +30,8 @@ public class InventoryAdjustmentDetail extends Factory {
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
-	private List<String> itemStockoutDetailsHeaders = new ArrayList<>();
-	private int recordCount;
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> reportsDetailsData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> intialDetailsData = new LinkedHashMap<>();
-
+	
 	/**
 	 * This method is to Verify the Report Name
 	 * @param reportName
@@ -105,10 +100,7 @@ public class InventoryAdjustmentDetail extends Factory {
      */
 	public void verifyReportHeaders(String columnNames) {
 		try {
-			
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders1 :"+ tableHeaders);
-			System.out.println("columnName1 : "+ columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -124,8 +116,6 @@ public class InventoryAdjustmentDetail extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {			
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			System.out.println("reportsData1 :"+ reportsData);
-			System.out.println("expextedDataList1 : "+ expectedData);
 				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
 					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 							.contains(expectedDataList.get(iter)));
