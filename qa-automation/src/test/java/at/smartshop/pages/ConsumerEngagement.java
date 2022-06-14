@@ -217,9 +217,8 @@ public class ConsumerEngagement extends Factory {
 	 * @param values
 	 */
 	public void verifySFESectionOptions(String sectionName,List<String> values) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.MM_RELOAD_METHOD));
 		for (int i = 0; i < values.size(); i++) {
-			String groupData = foundation.getText(devicesummary.objMMReloadDatas(sectionName));
+			String groupData = foundation.getText(devicesummary.objSFEOptions(sectionName));
 			String[] value = groupData.split("\\R");
 			List<String> actual = Arrays.asList(value);
 			CustomisedAssert.assertEquals(actual, values);	
