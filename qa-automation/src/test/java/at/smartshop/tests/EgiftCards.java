@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -28,10 +29,12 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerEngagement;
+import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -48,6 +51,7 @@ public class EgiftCards extends TestInfra {
 	private CheckBox checkbox = new CheckBox();
 	private DeviceList devicelist = new DeviceList();
 	private Excel excel = new Excel();
+	private DeviceSummary devicesummary = new DeviceSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -143,7 +147,7 @@ public class EgiftCards extends TestInfra {
 	@Test(description = "C186594-Verify the “Search” field"
 			+ "C186596-Verify the column that are available in GMA consumer grid"
 			+ "C186595-Verify the GMA consumer grid")
-	public void verifySearchField() {
+	public void verifyEgiftCardsConsumerSearchAndColumnsInGMAConsumerGrid() {
 		final String CASE_NUM = "186594";
 
 		// Reading test data from database
@@ -190,32 +194,14 @@ public class EgiftCards extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerEngagement.RECORDS_CONSUMER_GRID, Constants.SHORT_TIME);
 			checkbox.unCheck(ConsumerEngagement.CHECKBOX_GIFTCARD);
 
-			// Verify the grid data's
-			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTableRecordsUI();
-			Map<String, String> innerMap = new HashMap<>();
-			String innerValue = "";
-			for (int i = 0; i < uiTableData.size(); i++) {
-				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(requiredData.get(1));
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
-			}
-			uiTableData.clear();
+			// Verify the First name header in grid data's
+			consumerEngagement.verifyGridDatas(requiredData.get(1), requiredData.get(0));
 
-			uiTableData = consumerEngagement.getTableRecordsUI();
-			for (int i = 0; i < uiTableData.size(); i++) {
-				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(requiredData.get(2));
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(4));
-			}
-			uiTableData.clear();
+			// Verify the Last name header in grid data's
+			consumerEngagement.verifyGridDatas(requiredData.get(2), requiredData.get(4));
 
-			uiTableData = consumerEngagement.getTableRecordsUI();
-			for (int i = 0; i < uiTableData.size(); i++) {
-				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(requiredData.get(3));
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(5));
-			}
-			uiTableData.clear();
+			// Verify the Email header in grid data's
+			consumerEngagement.verifyGridDatas(requiredData.get(3), requiredData.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -256,8 +242,12 @@ public class EgiftCards extends TestInfra {
 			// verify the add to note field with alphanumeric Special characters & enter up
 			// to 100 characters
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			String text = foundation.getText(ConsumerEngagement.TXT_ADD_TO_NOTE);
+			CustomisedAssert.assertEquals(text, Datas.get(2));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
+			text = foundation.getText(ConsumerEngagement.TXT_ADD_TO_NOTE);
+			CustomisedAssert.assertEquals(text, Datas.get(3));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
@@ -346,11 +336,11 @@ public class EgiftCards extends TestInfra {
 			// Navigate to device summary page and verify e gift card
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.MM_RELOAD_METHOD));
 			CustomisedAssert.assertTrue(checkbox.isChecked(DeviceSummary.CHECKBOX_EGIFT_CARD));
-			String datas = foundation.getText(DeviceSummary.MM_RELOAD_DATAS);
-			List<String> expectedValues = new ArrayList<String>();
-			expectedValues.add(requiredData.get(0));
-			expectedValues.add(requiredData.get(1));
-			expectedValues.add(requiredData.get(2));
+			String groupData = foundation.getText(devicesummary.objMMReloadDatas(requiredData.get(3)));
+			String[] value = groupData.split("\\R");
+			CustomisedAssert.assertEquals(value[0], requiredData.get(0));
+			CustomisedAssert.assertEquals(value[1], requiredData.get(1));
+			CustomisedAssert.assertEquals(value[2], requiredData.get(2));
 			foundation.click(DeviceSummary.BTN_SAVE);
 
 		} catch (Exception exc) {
@@ -363,7 +353,7 @@ public class EgiftCards extends TestInfra {
 			+ "C186584-Verify the “Bulk Email Consumers” field in the “Issue” panel"
 			+ "C186586- Verify the “Click the 'Browse' in “Bulk Email Consumers” section")
 
-	public void verifyEnterRecipientEmail() {
+	public void verifyEnteringRecipientEmailAndBulkEmailConsumersSection() {
 		final String CASE_NUM = "186583";
 
 		// Reading test data from database

@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,11 +130,11 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
-	 * Getting Table Records from UI
+	 * verify GMA Consumer Engagement Table Records 
 	 * 
 	 * @return
 	 */
-	public Map<Integer, Map<String, String>> getTableRecordsUI() {
+	public Map<Integer, Map<String, String>> verifyGMAConsumerEngagementTableRecords() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
@@ -176,5 +177,23 @@ public class ConsumerEngagement extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	/**
+	 * verifying Grid data in ui
+	 * @param header
+	 * @param tabledata
+	 */
+	public void verifyGridDatas(String header,String tabledata) {
+		Map<Integer, Map<String, String>> uiTableData = verifyGMAConsumerEngagementTableRecords();
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = "";
+		for (int i = 0; i < uiTableData.size(); i++) {
+			innerMap = uiTableData.get(i);
+			innerValue = innerMap.get(header);
+			CustomisedAssert.assertEquals(innerValue, tabledata);
+		}
+		uiTableData.clear();
+
 	}
 }

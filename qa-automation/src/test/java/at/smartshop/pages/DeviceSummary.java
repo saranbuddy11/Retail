@@ -24,7 +24,11 @@ public class DeviceSummary extends Factory {
 	public static final By DPD_COOLER_TYPE = By.id("coolertype");
 	public static final By MM_RELOAD_METHOD=By.xpath("//dt[text()='MM Reload Method']");
 	public static final By CHECKBOX_EGIFT_CARD=By.id("cbx.mmreloadmethod.gc");
-	public static final By MM_RELOAD_DATAS=By.xpath("//*[@id=\"sfelist2\"]/div/div[2]/dd[1]");
+	
+	public By objMMReloadDatas(String text) {
+		return By.xpath("//dl[@id='sfelist2']//dt[text()='" + text + "']/following-sibling::dd[1]");
+	}
+
 	
 	public void setTime(String locationName, String deviceName, String time, String menu) {
 		
