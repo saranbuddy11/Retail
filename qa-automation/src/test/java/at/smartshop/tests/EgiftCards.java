@@ -195,13 +195,13 @@ public class EgiftCards extends TestInfra {
 			checkbox.unCheck(ConsumerEngagement.CHECKBOX_GIFTCARD);
 
 			// Verify the First name header in grid data's
-			consumerEngagement.verifyGridDatas(requiredData.get(1), requiredData.get(0));
+			consumerEngagement.verifyColumnValuesInGrid(requiredData.get(1), requiredData.get(0));
 
 			// Verify the Last name header in grid data's
-			consumerEngagement.verifyGridDatas(requiredData.get(2), requiredData.get(4));
+			consumerEngagement.verifyColumnValuesInGrid(requiredData.get(2), requiredData.get(4));
 
 			// Verify the Email header in grid data's
-			consumerEngagement.verifyGridDatas(requiredData.get(3), requiredData.get(5));
+			consumerEngagement.verifyColumnValuesInGrid(requiredData.get(3), requiredData.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -241,14 +241,8 @@ public class EgiftCards extends TestInfra {
 
 			// verify the add to note field with alphanumeric Special characters & enter up
 			// to 100 characters
-			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
-			String text = foundation.getText(ConsumerEngagement.TXT_ADD_TO_NOTE);
-			CustomisedAssert.assertEquals(text, Datas.get(2));
-			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
-			text = foundation.getText(ConsumerEngagement.TXT_ADD_TO_NOTE);
-			CustomisedAssert.assertEquals(text, Datas.get(3));
-			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -316,6 +310,8 @@ public class EgiftCards extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
+		List<String> devicename = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -327,20 +323,16 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			foundation.adjustBrowerSize("0.7");
 			foundation.threadWait(Constants.SHORT_TIME);
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, devicename.get(0));
 			foundation.waitforElementToBeVisible(DeviceList.BTN_SEARCH, Constants.SHORT_TIME);
 			foundation.objectClick(DeviceList.BTN_SEARCH);
 			foundation.waitforElementToBeVisible(DeviceList.HEADER_DEVICE_NAME, Constants.SHORT_TIME);
-			foundation.objectClick(devicelist.deveiceLink(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			foundation.objectClick(devicelist.deveiceLink(devicename.get(0)));
 
 			// Navigate to device summary page and verify e gift card
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.MM_RELOAD_METHOD));
 			CustomisedAssert.assertTrue(checkbox.isChecked(DeviceSummary.CHECKBOX_EGIFT_CARD));
-			String groupData = foundation.getText(devicesummary.objMMReloadDatas(requiredData.get(3)));
-			String[] value = groupData.split("\\R");
-			CustomisedAssert.assertEquals(value[0], requiredData.get(0));
-			CustomisedAssert.assertEquals(value[1], requiredData.get(1));
-			CustomisedAssert.assertEquals(value[2], requiredData.get(2));
+			consumerEngagement.verifySFESectionOptions(devicename.get(1), requiredData);
 			foundation.click(DeviceSummary.BTN_SAVE);
 
 		} catch (Exception exc) {

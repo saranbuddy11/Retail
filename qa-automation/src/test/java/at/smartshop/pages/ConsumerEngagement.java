@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import at.smartshop.tests.TestInfra;
 public class ConsumerEngagement extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private DeviceSummary devicesummary=new DeviceSummary();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By BTN_ADD_GIFT_CARD = By.id("giftcardBtn");
@@ -184,7 +186,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param header
 	 * @param tabledata
 	 */
-	public void verifyGridDatas(String header,String tabledata) {
+	public void verifyColumnValuesInGrid(String header,String tabledata) {
 		Map<Integer, Map<String, String>> uiTableData = verifyGMAConsumerEngagementTableRecords();
 		Map<String, String> innerMap = new HashMap<>();
 		String innerValue = "";
@@ -194,6 +196,35 @@ public class ConsumerEngagement extends Factory {
 			CustomisedAssert.assertEquals(innerValue, tabledata);
 		}
 		uiTableData.clear();
-
+	}
+	
+	/**
+	 * verify User Able To Add Note Field Text
+	 * @param Object
+	 * @param value
+	 */
+	public void verifyUserAbleToAddNoteFieldText(By Object, String inputText  ) {
+		textBox.enterText(Object, inputText);
+		foundation.threadWait(Constants.SHORT_TIME);
+		String text = foundation.getTextAttribute(Object, "value");
+		CustomisedAssert.assertEquals(text, inputText);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+	}
+	
+	/**
+	 * verify SFE Section Options For MM Reload Method
+	 * @param sectionName
+	 * @param values
+	 */
+	public void verifySFESectionOptions(String sectionName,List<String> values) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.MM_RELOAD_METHOD));
+		for (int i = 0; i < values.size(); i++) {
+			String groupData = foundation.getText(devicesummary.objMMReloadDatas(sectionName));
+			String[] value = groupData.split("\\R");
+			List<String> actual = Arrays.asList(value);
+			CustomisedAssert.assertEquals(actual, values);	
+			
+		}
+		
 	}
 }

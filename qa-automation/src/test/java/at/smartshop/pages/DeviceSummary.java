@@ -26,7 +26,7 @@ public class DeviceSummary extends Factory {
 	public static final By CHECKBOX_EGIFT_CARD=By.id("cbx.mmreloadmethod.gc");
 	
 	public By objMMReloadDatas(String text) {
-		return By.xpath("//dl[@id='sfelist2']//dt[text()='" + text + "']/following-sibling::dd[1]");
+		return By.xpath("//dt[text()='"+text+"']/following-sibling::dd[1]");
 	}
 
 	
