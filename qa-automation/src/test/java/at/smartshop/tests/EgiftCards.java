@@ -84,28 +84,11 @@ public class EgiftCards extends TestInfra {
 			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
 
 			// Verify Add Gift Card Cancel field in Panel
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CANCEL));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_SAVE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.HEADER));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.INPUT_TITLE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.INPUT_AMOUNT));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.INPUT_EXPIRE_DATE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.CHECK_BOX_NO_END_DATE));
+			consumerEngagement.verifyAddGiftCardPanel();
 			String s = foundation.getText(ConsumerEngagement.HEADER);
 			CustomisedAssert.assertEquals(s, rstLocationData.get(CNLocation.INFO_NOTES));
 			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TITLE_ERROR));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.AMOUNT_ERROR));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DATE_VALIDATION_ERROR));
-			textBox.enterText(ConsumerEngagement.INPUT_TITLE, giftTitle);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TITLE_ERROR));
-			textBox.enterText(ConsumerEngagement.INPUT_AMOUNT, actuals.get(3));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.AMOUNT_ERROR));
-			textBox.enterText(ConsumerEngagement.INPUT_AMOUNT, actuals.get(4));
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CANCEL);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CANCEL));
+			consumerEngagement.verifyGiftCardCreationFields(giftTitle, actuals.get(3), actuals.get(4));
 
 			// Verify Egift Card Active Tab and its content
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_GIFT_CARD));
@@ -126,32 +109,18 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertEquals(innerValue, giftTitle);
 
 			// Verify the Amount field in Active Gift Card
-			for (int i = 0; i < uiTableData.size(); i++) {
-				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(actuals.get(0));
-				CustomisedAssert.assertTrue(innerValue.contains(requiredData.get(6)));
-			}
+			consumerEngagement.verifyAmountFieldInGiftCard(uiTableData, actuals.get(0), requiredData.get(6));
 
 			// Verify the Expires field in Active Gift Card
-			innerMap = uiTableData.get(0);
 			innerValue = innerMap.get(actuals.get(1));
 			CustomisedAssert.assertEquals(innerValue,
 					dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1)));
 
 			// Verify the Issued field in Active Gift Card
-			for (int i = 0; i < uiTableData.size(); i++) {
-				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(actuals.get(2));
-				CustomisedAssert.assertTrue(foundation.isNumeric(innerValue));
-			}
+			consumerEngagement.verifyIssueFieldInGiftCard(uiTableData, actuals.get(2));
 
 			// Click on created Gift card for print and validate its opening
-			foundation.click(ConsumerEngagement.BTN_PRINT_FIRST_ROW);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.LBL_PRINT, Constants.SHORT_TIME);
-			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_PRINT);
-			innerValue = foundation.getText(ConsumerEngagement.LBL_PRINT);
-			String[] value = innerValue.split("\\s");
-			CustomisedAssert.assertEquals(value[1], giftTitle);
+			consumerEngagement.validateCreatedGiftCard(giftTitle);
 			uiTableData.clear();
 
 			// Check Print Gift Card with input cards to print and validate whether
@@ -171,54 +140,22 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertEquals(String.valueOf(count), requiredData.get(2));
 
 			// Validating the Barcode Structure
-			String actual = foundation.getParticularWordFromSentence(pdfContent, Integer.valueOf(requiredData.get(2)));
-			CustomisedAssert.assertTrue(actual.startsWith(requiredData.get(3)));
-			s = requiredData.get(4);
-			char c = s.charAt(0);
-			count = foundation.countOccurrencesofChar(actual, c);
-			CustomisedAssert.assertEquals(String.valueOf(count), requiredData.get(5));
-			s = foundation.getNumbersFromString(actual);
-			CustomisedAssert.assertTrue(foundation.isNumeric(s));
-			CustomisedAssert.assertTrue(s.contains(requiredData.get(1)));
+			consumerEngagement.validateBarCodeStructure(pdfContent, requiredData.get(2), requiredData.get(3),
+					requiredData.get(4), requiredData.get(5), requiredData.get(1));
 
 			// Validating the PIN number generated for Egift cards
-			actual = foundation.getParticularWordFromSentence(pdfContent, Integer.valueOf(requiredData.get(0)));
+			String actual = foundation.getParticularWordFromSentence(pdfContent, Integer.valueOf(requiredData.get(0)));
 			CustomisedAssert.assertEquals(String.valueOf(actual.length()), requiredData.get(7));
 			CustomisedAssert.assertTrue(foundation.isNumeric(actual));
 
 			// Click on created Gift card for Issue and validate its opening
-			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.LBL_ISSUE, Constants.SHORT_TIME);
-			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_ISSUE);
-			innerValue = foundation.getText(ConsumerEngagement.LBL_ISSUE);
-			value = innerValue.split("\\s");
-			CustomisedAssert.assertEquals(value[1], giftTitle);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_LOCATION));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_EMAIL));
+			consumerEngagement.verifyIssuePanelOnCreatedGiftCard(giftTitle);
 
 			// Check Issue Gift Card by Email and its content fields
-			foundation.click(ConsumerEngagement.LBL_BY_EMAIL);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_EMAIL_CARDS, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_EMAIL_CARDS));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_CANCEL_EMAIL));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.INPUT_EMAIL));
-			textBox.enterText(ConsumerEngagement.INPUT_EMAIL, mailIDs.get(0));
-			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.SHORT_TIME);
+			consumerEngagement.verifyIssueGiftCardByMail(mailIDs.get(0));
 
 			// Verify Egift Card Expired Tab
-			foundation.click(ConsumerEngagement.TAB_EXPIRED);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
-			datas = foundation.getTextofListElement(ConsumerEngagement.TBL_HEADERS_EXPIRED_GRID);
-			CustomisedAssert.assertEquals(datas.get(2), status.get(1));
-			datas = foundation.getTextofListElement(ConsumerEngagement.TBL_EXPIRED);
-			s = datas.get(0);
-			value = s.split("\\s");
-			CustomisedAssert.assertTrue(value[0].matches("[a-zA-Z]+"));
-			CustomisedAssert.assertTrue(value[1].contains(requiredData.get(6)));
-			value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
-			CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));
-			CustomisedAssert.assertTrue(value[3].matches("[0-9]+"));
+			consumerEngagement.validateGiftCardExpiredTabAndContent(status.get(1), requiredData.get(6));
 
 			// Delete the file
 			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);

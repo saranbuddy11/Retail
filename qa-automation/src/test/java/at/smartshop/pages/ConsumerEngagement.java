@@ -121,4 +121,166 @@ public class ConsumerEngagement extends Factory {
 			CustomisedAssert.assertTrue(innerMap.containsValue(expectedValue));
 		}
 	}
+
+	/**
+	 * Verify the panel of Add Gift Card
+	 */
+	public void verifyAddGiftCardPanel() {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CANCEL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_SAVE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(HEADER));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_AMOUNT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EXPIRE_DATE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CHECK_BOX_NO_END_DATE));
+	}
+
+	/**
+	 * Validate the Gift Card fields
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param actual
+	 */
+	public void verifyGiftCardCreationFields(String title, String amount, String actual) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AMOUNT_ERROR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DATE_VALIDATION_ERROR));
+		textBox.enterText(INPUT_TITLE, title);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
+		textBox.enterText(INPUT_AMOUNT, amount);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AMOUNT_ERROR));
+		textBox.enterText(INPUT_AMOUNT, actual);
+		foundation.click(BTN_ADD_GIFT_CANCEL);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertFalse(foundation.isDisplayed(BTN_ADD_GIFT_CANCEL));
+	}
+
+	/**
+	 * Verify the Amount Field in Active Gift Card
+	 * 
+	 * @param uiTableData
+	 * @param actual
+	 * @param data
+	 */
+	public void verifyAmountFieldInGiftCard(Map<Integer, Map<String, String>> uiTableData, String actual, String data) {
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = " ";
+		Map<Integer, Map<String, String>> actualData = uiTableData;
+		for (int i = 0; i < actualData.size(); i++) {
+			innerMap = actualData.get(i);
+			innerValue = innerMap.get(actual);
+			CustomisedAssert.assertTrue(innerValue.contains(data));
+		}
+	}
+
+	/**
+	 * Verify the Issue Field in Active Gift Card
+	 * 
+	 * @param uiTableData
+	 * @param actual
+	 * @param data
+	 */
+	public void verifyIssueFieldInGiftCard(Map<Integer, Map<String, String>> uiTableData, String actual) {
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = " ";
+		Map<Integer, Map<String, String>> actualData = uiTableData;
+		for (int i = 0; i < actualData.size(); i++) {
+			innerMap = actualData.get(i);
+			innerValue = innerMap.get(actual);
+			CustomisedAssert.assertTrue(foundation.isNumeric(innerValue));
+		}
+	}
+
+	/**
+	 * Validate the Created Gift Card
+	 * 
+	 * @param title
+	 */
+	public void validateCreatedGiftCard(String title) {
+		foundation.click(BTN_PRINT_FIRST_ROW);
+		foundation.waitforElementToBeVisible(LBL_PRINT, Constants.SHORT_TIME);
+		foundation.scrollIntoViewElement(LBL_PRINT);
+		String innerValue = foundation.getText(LBL_PRINT);
+		String[] value = innerValue.split("\\s");
+		CustomisedAssert.assertEquals(value[1], title);
+	}
+
+	/**
+	 * Validate the Barcode Structure in Printed Gift Card
+	 * 
+	 * @param content
+	 * @param word
+	 * @param letter
+	 * @param characters
+	 * @param number
+	 * @param value
+	 */
+	public void validateBarCodeStructure(String content, String word, String letter, String characters, String number,
+			String value) {
+		String actual = foundation.getParticularWordFromSentence(content, Integer.valueOf(word));
+		CustomisedAssert.assertTrue(actual.startsWith(letter));
+		String s = characters;
+		char c = s.charAt(0);
+		int count = foundation.countOccurrencesofChar(actual, c);
+		CustomisedAssert.assertEquals(String.valueOf(count), number);
+		s = foundation.getNumbersFromString(actual);
+		CustomisedAssert.assertTrue(foundation.isNumeric(s));
+		CustomisedAssert.assertTrue(s.contains(value));
+	}
+
+	/**
+	 * Verify the Issue Panel and its fields for Created Gift Card
+	 * 
+	 * @param title
+	 */
+	public void verifyIssuePanelOnCreatedGiftCard(String title) {
+		foundation.click(BTN_ISSUE_FIRST_ROW);
+		foundation.waitforElementToBeVisible(LBL_ISSUE, Constants.SHORT_TIME);
+		foundation.scrollIntoViewElement(LBL_ISSUE);
+		String innerValue = foundation.getText(LBL_ISSUE);
+		String[] value = innerValue.split("\\s");
+		CustomisedAssert.assertEquals(value[1], title);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BY_LOCATION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BY_EMAIL));
+	}
+
+	/**
+	 * Verify Issue Gift Card By Email Field
+	 * 
+	 * @param mail
+	 */
+	public void verifyIssueGiftCardByMail(String mail) {
+		foundation.click(LBL_BY_EMAIL);
+		foundation.waitforElementToBeVisible(BTN_EMAIL_CARDS, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_EMAIL_CARDS));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CANCEL_EMAIL));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EMAIL));
+		textBox.enterText(INPUT_EMAIL, mail);
+		foundation.click(BTN_EMAIL_CARDS);
+		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Validate Gift Card Expired Tab and its content
+	 * 
+	 * @param header
+	 * @param actual
+	 */
+	public void validateGiftCardExpiredTabAndContent(String header, String actual) {
+		foundation.click(TAB_EXPIRED);
+		foundation.waitforElementToBeVisible(TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
+		List<String> datas = foundation.getTextofListElement(TBL_HEADERS_EXPIRED_GRID);
+		CustomisedAssert.assertEquals(datas.get(2), header);
+		datas = foundation.getTextofListElement(TBL_EXPIRED);
+		String s = datas.get(0);
+		String[] value = s.split("\\s");
+		CustomisedAssert.assertTrue(value[0].matches("[a-zA-Z]+"));
+		CustomisedAssert.assertTrue(value[1].contains(actual));
+		value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
+		CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));
+		CustomisedAssert.assertTrue(value[3].matches("[0-9]+"));
+
+	}
 }
