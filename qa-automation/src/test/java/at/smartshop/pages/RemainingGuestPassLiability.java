@@ -93,7 +93,6 @@ public class RemainingGuestPassLiability extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -107,8 +106,6 @@ public class RemainingGuestPassLiability extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders1 :" + tableHeaders);
-			System.out.println("columnName1 : " + columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -124,8 +121,6 @@ public class RemainingGuestPassLiability extends Factory {
 	 */
 	public void verifyReportData() {
 		try {
-			System.out.println("reportsData1 :" + reportsData);
-			System.out.println("intialData1 : " + intialData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 						.contains(intialData.get(0).get(tableHeaders.get(iter))));

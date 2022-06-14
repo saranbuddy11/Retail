@@ -55,6 +55,7 @@ import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.InventoryAdjustmentDetail;
+import at.smartshop.pages.InventoryTotals;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
@@ -152,6 +153,7 @@ public class Report extends TestInfra {
 	private SalesItemDetailsReport salesItemDetailsReport = new SalesItemDetailsReport();
 	private CrossOrgRateReport crossOrgRate = new CrossOrgRateReport();
 	private InventoryAdjustmentDetail inventoryAdjustmentDetail = new InventoryAdjustmentDetail();
+	private InventoryTotals InventoryTotals = new InventoryTotals();
 	private RemainingGuestPassLiability remainingGuestPassLiability = new RemainingGuestPassLiability();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -3720,6 +3722,14 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
+					requiredData.get(2));
+
+			foundation.threadWait(50);
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
@@ -3730,7 +3740,6 @@ public class Report extends TestInfra {
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			System.out.println("updatedTime : " + updatedTime);
 
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3752,21 +3761,92 @@ public class Report extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// navigate to location and Resetting the data back
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//		} finally {
+//			// navigate to location and Resetting the data back
+//			List<String> menu = Arrays
+//					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD)); 
+//			List<String> requiredData = Arrays
+//					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			locationList.selectLocationName(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+//			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+//			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+//					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+//			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0), requiredData.get(2));
+		}
+	}
+
+	@Test(description = "197201-This test validates inventory Total Report Data Validation")
+	public void verifyInventoryTotalReportData() {
+
+		try {
+			final String CASE_NUM = "197201";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location and Inventory section
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
+
+			foundation.threadWait(50);
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
+					requiredData.get(2));
+
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			InventoryTotals.verifyReportName(reportName);
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH,
+					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
+			InventoryTotals.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			InventoryTotals.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			InventoryTotals.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -3827,13 +3907,18 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_HASH));
 
 			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(0), guestPassName);
-			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(1), expectedData.get(0));
+			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(1),
+					expectedData.get(0));
 			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(2), expirydDate);
-			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(3), expectedData.get(1));
-			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(4), expectedData.get(2));
-			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(5), expectedData.get(3));
-			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(6), expectedData.get(4));
-			
+			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(3),
+					expectedData.get(1));
+			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(4),
+					expectedData.get(2));
+			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(5),
+					expectedData.get(3));
+			remainingGuestPassLiability.updateData(remainingGuestPassLiability.getTableHeaders().get(6),
+					expectedData.get(4));
+
 			// Validating the Headers and Report data
 			remainingGuestPassLiability.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 			remainingGuestPassLiability.verifyReportData();
