@@ -101,8 +101,8 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
 			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(0), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			//dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(1), Constants.TEXT);
+			//foundation.click(CreatePromotions.BTN_ORG_RIGHT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
@@ -1968,7 +1968,10 @@ public class Promotions extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> actualData = Arrays
 					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
+			List<String> discountType = Arrays
+					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
+			//dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
