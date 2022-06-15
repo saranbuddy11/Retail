@@ -3187,14 +3187,14 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
-			CustomisedAssert.assertEquals(record, product.get(2));
+			CustomisedAssert.assertTrue(record.contains(product.get(2)));
 
 			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			checkBox.check(CreatePromotions.CAT_CATEGORY);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
-			CustomisedAssert.assertEquals(catrecord, product.get(3));
+			CustomisedAssert.assertTrue(catrecord.contains(product.get(3)));
 
 			// verify the product & category selected
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));

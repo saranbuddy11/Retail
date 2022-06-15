@@ -20,12 +20,15 @@ public class DeviceList {
 	public static final By SUPER_DEVICE=By.id("Super Device Dashboard");
 	public static final By TXT_RECORDS_DATA=By.id("device-grid_pager_label");
 	public static final By TXT_TABLE_RECORD=By.xpath("//td[@aria-describedby='device-grid_name']//a");
-	public static final By LOCATION_LINK=By.xpath("//td[@aria-describedby='device-grid_locationName']/a");
+	public static final By LOCATION_LINK=By.xpath("//td[@aria-describedby='device-grid_locationName']");
 
 	public By objDeveiceLink(String deviceName) {
 		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='" + deviceName + "']");
 	}
 
+	public By DeveiceLink(String deviceName) {
+		return By.xpath("//td[@aria-describedby='device-grid_name']//a[text()='"+ deviceName +"']");
+	}
 	public By objLocationLink(String location) {
 		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_locationlink']//a[text()='" + location + "']");
 	}
