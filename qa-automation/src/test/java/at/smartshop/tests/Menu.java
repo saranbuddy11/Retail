@@ -160,11 +160,12 @@ public class Menu extends TestInfra {
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-
+            foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(0)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
@@ -219,7 +220,7 @@ public class Menu extends TestInfra {
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-
+            foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));

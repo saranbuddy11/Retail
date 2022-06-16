@@ -96,7 +96,10 @@ public class CrossOrgRateReport extends Factory {
      */
 	public void verifyReportHeaders(String columnNames) {
 		try {
+			
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			System.out.println("tableHeaders :"+ tableHeaders);
+			System.out.println("columnName : "+ columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -109,12 +112,14 @@ public class CrossOrgRateReport extends Factory {
 	 * This method is to validate the Report Data
 	 * @param expextedData
 	 */
-	public void verifyReportData(String expextedData) {
-		try {
-			List<String> expextedDataList = Arrays.asList(expextedData.split(Constants.DELIMITER_HASH));
+	public void verifyReportData(String expectedData) {
+		try {			
+			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("expextedDataList : "+ expectedData);
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-							.contains(expextedDataList.get(iter)));
+							.contains(expectedDataList.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

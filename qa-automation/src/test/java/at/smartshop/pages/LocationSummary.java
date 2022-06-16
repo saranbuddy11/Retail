@@ -47,6 +47,7 @@ public class LocationSummary extends Factory {
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
+	public static final By BUTTON_MANAGE_COLUMNS = By.id("managePromotionGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
@@ -261,6 +262,8 @@ public class LocationSummary extends Factory {
 	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
+	public static final By START_DATE_PICKER_ROLL_OVER_1 = By
+			.xpath("//input[@name='rolloversubsidydate' and @id='date']");
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
@@ -275,7 +278,7 @@ public class LocationSummary extends Factory {
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
-			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[1]");
+			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[2]");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -318,6 +321,18 @@ public class LocationSummary extends Factory {
 	public static final By LBL_PRODUCT_POPUP = By.id("modaltitle");
 	public static final By EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
 
+	public static final By MIN_STOCK = By
+			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
+	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
+	public static final By PROMOTIONS_SEARCH = By.id("promoFilterType");
+	public static final By MANAGE_COLUMN_POPUP_HEADER = By
+			.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@class='ui-dialog-title']");
+	public static final By MANAGE_COLUMN_RESET_BUTTON = By.xpath(
+			"//div[@id='promoGrid_hiding_modalDialog']//span[@id='promoGrid_hiding_modalDialog_reset_button_lbl']");
+	public static final By MANAGE_COLUMN_APPLY_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By MANAGE_COLUMN_CANCEL_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttoncancel_lbl");
+	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
+
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -337,6 +352,11 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
 
+	/**
+	 * This method is to Select the Required Tab in Location
+	 * 
+	 * @param tabName
+	 */
 	public void selectTab(String tabName) {
 		try {
 			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
@@ -436,6 +456,14 @@ public class LocationSummary extends Factory {
 
 	public By objectProduct(String product) {
 		return By.xpath("//td[text()='" + product + "']");
+	}
+
+	public By tableData(String column) {
+		return By.xpath("//table[@id='promoGrid']//th//span[text()='" + column + "']");
+	}
+
+	public By manageColumnPopup(String column) {
+		return By.xpath("//div[@id='promoGrid_hiding_modalDialog_content']//li//span[text()='" + column + "']");
 	}
 
 	public void manageColumn(String columnNames) {
@@ -672,20 +700,28 @@ public class LocationSummary extends Factory {
 
 	}
 
+	/**
+	 * Updating the Inventory of the product
+	 * 
+	 * @param scancode
+	 * @param inventoryValue
+	 * @param reasonCode
+	 */
 	public void updateInventory(String scancode, String inventoryValue, String reasonCode) {
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
 		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.waitforElement(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
-				Constants.ONE_SECOND);
+				Constants.TWO_SECOND);
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
 				inventoryValue);
-		foundation.threadWait(Constants.ONE_SECOND);
+//		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
 		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
@@ -1116,6 +1152,7 @@ public class LocationSummary extends Factory {
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+			foundation.click(TXT_GMA_SUBSIDY);
 		}
 	}
 
@@ -1386,6 +1423,47 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//div[@class='ui-igcombo-buttonicon ui-icon-triangle-1-s ui-icon']"));
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
+	}
+
+	// Verifying table Headers for Promotion List Page
+	public void verifyPromotionsTableHeaders(List<String> values) {
+		try {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(8))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Promotion table Headers" + values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	// Validating PopUp for Promotion on Location Summary Page
+	public void verifyManageColumnPopUp(List<String> values) {
+		try {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(8))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Promotion table Headers" + values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void enterMinStocks(String product, String minStock) {
+		enterMinStock(product, minStock);
+		foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 	}
 
 	/**

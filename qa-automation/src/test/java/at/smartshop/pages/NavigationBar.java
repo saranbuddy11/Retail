@@ -39,7 +39,6 @@ public class NavigationBar extends Factory {
 
 	/**
 	 * Navigate to Particular Tab / Subtab
-	 * 
 	 * @param optionNames
 	 */
 	public void navigateToMenuItem(String optionNames) {
