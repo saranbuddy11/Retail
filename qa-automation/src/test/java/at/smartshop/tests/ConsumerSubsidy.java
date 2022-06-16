@@ -243,7 +243,7 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROLL_OVER_WARNING_MSG));
 			foundation.threadWait(Constants.TWO_SECOND);
 
 		} catch (Exception exc) {
