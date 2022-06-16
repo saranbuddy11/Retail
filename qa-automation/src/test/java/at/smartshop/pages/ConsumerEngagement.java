@@ -13,7 +13,9 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
@@ -21,6 +23,7 @@ import at.smartshop.tests.TestInfra;
 public class ConsumerEngagement extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private Table table = new Table();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By BTN_ADD_GIFT_CARD = By.id("giftcardBtn");
@@ -45,6 +48,10 @@ public class ConsumerEngagement extends Factory {
 	public static final By CHECKBOX_GIFTCARD=By.xpath("//input[@class='commonloction']");
 	public static final By RECORDS_CONSUMER_GRID=By.id("bylocationGrid_pager_label");
 	public static final By TXT_ADD_TO_NOTE=By.id("issueaddnote");
+	public static final By TAB_BY_LOCATION = By.id("byloc");
+	public static final By TAB_BY_EMAIL = By.id("bymail");
+	public static final By ADD_TO_NOTE_BY_EMAIL=By.id("byemailaddnote");
+	public static final By TXT_ADMIN_TAB = By.xpath("//a[text()='Admin']");
 	
 
 	private List<String> tableHeaders = new ArrayList<>();
@@ -52,6 +59,10 @@ public class ConsumerEngagement extends Factory {
 	
 	public By objGMAConsumerEngagementColumn(String header) {
 		return By.xpath("//table[@id='bylocationGrid']//th/span[text()='" + header + "']");
+	}
+	
+	public By selectTabName(String tab) {
+		return By.xpath("//a[text()='" + tab + "']");
 	}
 
 	/**
@@ -154,4 +165,66 @@ public class ConsumerEngagement extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	public By getFeatureInRolePermission(String text) {
+		return By.xpath("//table[contains(@class,'table-striped')]//td[text()='"+ text +"']/following-sibling::td/input");
+	}
+	
+	/**
+	 * Verify All checkboxes status under User and Roles Page
+	 * @param text
+	 * @param expected
+	 */
+	public void verifyAllCheckboxesStatus(String text, String expected) {
+		try {
+		foundation.scrollIntoViewElement(getFeatureInRolePermission(text));		
+		List<String> list = foundation.getAttributeValueofListElement(getFeatureInRolePermission(text), "checked");
+		boolean response = false;
+		for(int i=0; i<list.size();i++) {
+			response = list.get(i).equals(expected);
+			if(!response) {
+				break;
+			}		
+		}
+		CustomisedAssert.assertTrue(response);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * Verify Role Permission not Present
+	 * @param Role
+	 */
+	public void verifyRolePermissionNotPresent(String Role) {
+		CustomisedAssert.assertFalse(foundation.isDisplayed(getFeatureInRolePermission(Role)));	
+	
+	}
+	
+	public void searchUserRolesAndNavigateToRolePermissions(String text,String tab) {
+		textBox.enterText(UserList.TXT_SEARCH_ROLE, text);		
+		table.selectRow(text);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(selectTabName(tab)));
+		foundation.click(selectTabName(tab));	
+	}
+	
+	/**
+	* verify User Able To Add Note Field Text
+	* @param Object
+	* @param value
+	*/
+	public void verifyUserAbleToAddNoteFieldText(By Object, String inputText ) {
+	textBox.enterText(Object, inputText);
+	foundation.threadWait(Constants.SHORT_TIME);
+	String text = foundation.getTextAttribute(Object, "value");
+	CustomisedAssert.assertEquals(text, inputText);
+	foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+	}
+
+
+
+	
+	
+	
+	
+	
 }

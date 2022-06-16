@@ -77,6 +77,7 @@ public class UserList {
 	public static final By SELECT_NEXT= By.xpath("//th[@class='next']");
 	public static final By SELECT_DATE= By.xpath("//td[@class='day  active']");
 	public static final By DELETE_ROLE= By.xpath("//a[@class='fa fa-trash icon']");
+	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
 
     public By objRoleName(String roleName) {
         return By.xpath("//td[text()='" + roleName + "']");
