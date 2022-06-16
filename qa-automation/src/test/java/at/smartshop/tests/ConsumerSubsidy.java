@@ -2118,7 +2118,9 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// verify the bulk assign subsidy group
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
@@ -2137,6 +2139,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Navigate to Report>Account Adjustment
 			navigationBar.navigateToMenuItem(menu.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME));
@@ -2151,13 +2154,12 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(AccountAdjustment.REP_DATE);
 			accountAdjustment.verifyHeaderData(headData);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.COLUMN_ROWDATA));
+			foundation.threadWait(Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 		finally {
-
 			consumerSummary.balanceResettingData(menu.get(1), requiredData.get(0), balance.get(1),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 		}
@@ -2240,8 +2242,9 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			browser.close();
 
 			// Launch V5 Device
