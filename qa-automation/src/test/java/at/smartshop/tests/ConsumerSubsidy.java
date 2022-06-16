@@ -1033,8 +1033,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Group names of Roll over Subsidy
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(11));
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROLL_OVER_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(12));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(12));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1051,8 +1050,8 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_ROLL_OVER_ERROR));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(16));
-			foundation.click(LocationSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_ROLL_OVER_ERROR));
+			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DELETE_ROLL_OVER));
 
@@ -1149,10 +1148,8 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(16));
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
-			foundation.scrollIntoViewElement(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
+			foundation.click(LocationSummary.BTN_SAVE);
 
 			// Verifying Add and Delete signs of Top off subsidy
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -2158,8 +2155,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
+		} finally {
 			consumerSummary.balanceResettingData(menu.get(1), requiredData.get(0), balance.get(1),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 		}
