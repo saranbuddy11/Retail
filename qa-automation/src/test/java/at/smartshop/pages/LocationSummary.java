@@ -279,6 +279,7 @@ public class LocationSummary extends Factory {
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[1]/table[2]/tbody/tr/td[6]/p[1]");
 	public static final By ROLL_OVER_WARNING_MSG = By.xpath(
 			"/html/body/div[3]/form/div[2]/div/fieldset/div/div[2]/div[1]/dl/div[6]/div/div[2]/table[2]/tbody/tr/td[6]/p[2]");
+	public static final By LBL_ROLL_OVER_WARNING_MSG = By.id("rolloverwarning-message");
 	public static final By BTN_DELETE_TOP_OFF = By
 			.xpath("//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy']");
 	public static final By BTN_DELETE_ROLL_OVER = By
@@ -1052,6 +1053,7 @@ public class LocationSummary extends Factory {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		enterPrice(scanCode, productPrice);
 		foundation.click(BTN_UPDATE_PRICE);
 	}

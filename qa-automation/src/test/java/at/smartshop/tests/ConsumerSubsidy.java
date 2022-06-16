@@ -201,9 +201,11 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Date picker of Roll Over
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -240,6 +242,7 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
 			foundation.threadWait(Constants.TWO_SECOND);
 
@@ -1033,7 +1036,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Group names of Roll over Subsidy
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(11));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_ROLL_OVER_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(12));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(12));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1050,8 +1053,8 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_ROLL_OVER_ERROR));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(16));
-			foundation.click(LocationSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_ROLL_OVER_ERROR));
+			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DELETE_ROLL_OVER));
 
@@ -1148,8 +1151,8 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(16));
-			foundation.click(LocationSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
+			foundation.click(LocationSummary.BTN_SAVE);
 
 			// Verifying Add and Delete signs of Top off subsidy
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -2115,7 +2118,9 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// verify the bulk assign subsidy group
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
@@ -2134,6 +2139,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Navigate to Report>Account Adjustment
 			navigationBar.navigateToMenuItem(menu.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME));
@@ -2148,13 +2154,11 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(AccountAdjustment.REP_DATE);
 			accountAdjustment.verifyHeaderData(headData);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AccountAdjustment.COLUMN_ROWDATA));
+			foundation.threadWait(Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-
-		finally {
-
+		} finally {
 			consumerSummary.balanceResettingData(menu.get(1), requiredData.get(0), balance.get(1),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
 		}
@@ -2237,8 +2241,9 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			browser.close();
 
 			// Launch V5 Device

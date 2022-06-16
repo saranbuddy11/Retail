@@ -977,8 +977,10 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.TBL_PRODUCTS_GRID));
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
-//			Map<String, String> uiTableData = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
-//					LocationSummary.TBL_PRODUCTS_GRID);
+
+			// Map<String, String> uiTableData =
+			// table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
+			// LocationSummary.TBL_PRODUCTS_GRID);
 			Map<String, String> dbData = new HashMap<>();
 			for (int i = 0; i < requiredData.size(); i++) {
 				dbData.put(requiredData.get(i), expectedData.get(i));
@@ -987,7 +989,6 @@ public class Location extends TestInfra {
 			 * foundation.threadWait(Constants.TWO_SECOND);
 			 * CustomisedAssert.assertEquals(uiTableData, dbData);
 			 */
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1068,8 +1069,8 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
-//			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-//			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
+			// foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+			// int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
 
 			// int excelCount = excel.getExcelRowCount(FilePath.EXCEL_LOCAL_PROD);
 			// record count validation
