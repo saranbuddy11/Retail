@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.testng.Assert;
-
 import at.smartshop.pages.ReportList;
 
 public class FilePath {
@@ -87,7 +85,6 @@ public class FilePath {
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
 		return currentDay;
 	}
-
 
 	public void setEnvironment(String environment) {
 		if (environment.equals(Constants.PRE_PROD)) {
