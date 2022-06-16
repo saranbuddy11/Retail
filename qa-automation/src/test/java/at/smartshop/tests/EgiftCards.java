@@ -14,15 +14,24 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerEngagement;
+import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.UserList;
+import at.smartshop.pages.UserSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class EgiftCards extends TestInfra {
@@ -35,9 +44,13 @@ public class EgiftCards extends TestInfra {
 	private Strings strings = new Strings();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
+	private CheckBox checkbox = new CheckBox();
+	private Table table = new Table();
+	private Dropdown dropDown = new Dropdown();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
+	private Map<String, String> rstUserRolesData;
 
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
@@ -161,6 +174,223 @@ public class EgiftCards extends TestInfra {
 			foundation.deleteFile(FilePath.PATH_TO_DOWNLOAD + "\\" + innerValue);
 			login.logout();
 			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C186594-Verify the “Search” field"
+			+ "C186596-Verify the column that are available in GMA consumer grid")
+	public void verifySearchField() {
+		final String CASE_NUM = "186594";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.SHOW_RECORDS).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Verify the column in GMA consumer grid
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_GRID));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+			consumerEngagement.verifyGMAConsumerEngagement(requiredData);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+
+			// Verify checkbox in GMA Consumer engagement grid
+			checkbox.check(ConsumerEngagement.CHECKBOX_SELECTALL);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			checkbox.unCheck(ConsumerEngagement.CHECKBOX_SELECTALL);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerEngagement.TXT_SEARCH, requiredData.get(0));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.CHECKBOX_GIFTCARD, Constants.SHORT_TIME);
+			checkbox.check(ConsumerEngagement.CHECKBOX_GIFTCARD);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.RECORDS_CONSUMER_GRID, Constants.SHORT_TIME);
+			checkbox.unCheck(ConsumerEngagement.CHECKBOX_GIFTCARD);
+
+			// Verify the grid data's
+			Map<Integer, Map<String, String>> uiTableData = consumerEngagement.getTableRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(0));
+			}
+			uiTableData.clear();
+
+			uiTableData = consumerEngagement.getTableRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(2));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(4));
+			}
+			uiTableData.clear();
+
+			uiTableData = consumerEngagement.getTableRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(3));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(5));
+			}
+			uiTableData.clear();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "C186593- Verify the field “Add Note” in By Location")
+
+	public void verifyAddNoteFieldByLocation() {
+		final String CASE_NUM = "186593";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+			
+			//verify the add to note field with alphanumeric characters & Special characters
+			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TXT_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	@Test(description = "C186581- SOS-27896: Verify the Issue” panel should have a label of “By Email”"
+			+ "C186582 - SOS-27896: Verify the 'Add Note' field in the “Issue” panel by Email")
+
+	public void verifyByEmailTabAndAddNoteOnIssuePanel() {
+		final String CASE_NUM = "186581";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));			
+
+			// click on any issue button
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			
+			//verify that By Location and By Email tab is present
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_BY_LOCATION));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_BY_EMAIL));
+			
+			//Click on By Email and verify that add to note field with alphanumeric characters & Special characters
+			foundation.click(ConsumerEngagement.TAB_BY_EMAIL);
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.ADD_TO_NOTE_BY_EMAIL, Datas.get(0));
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.ADD_TO_NOTE_BY_EMAIL, Datas.get(1));
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	@Test(description = "186587-SOS-28932: verify the permission levels for E-Gift cards for operator"
+			+"186588 - SOS-28932: verify the permission levels for E-Gift cards for super"
+			+ "186589 - SOS-28932: verify the permission levels for E-Gift cards for other than super and operator")
+	public void verifyPermissionForOperatorSuperAndOtherRolesEGiftCard() {
+		try {
+
+			final String CASE_NUM = "186587";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+			List<String> lblRowRecord = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			String Tab = rstLocationData.get(CNLocation.TAB_NAME);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			 //verify Operator Role Permissions
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			foundation.click(UserList.BTN_MANAGE_ROLES);			
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(0),Tab);
+			consumerEngagement.verifyAllCheckboxesStatus(lblRowRecord.get(1),"true");
+			
+			//navigating back to verify Super Role Permissions
+			foundation.navigateToBackPage();
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(2),Tab);
+			consumerEngagement.verifyAllCheckboxesStatus(lblRowRecord.get(1),"true");
+			
+			//navigating back to verify Other Role Permissions(Driver,Finance,Reporter and Hotel)
+			foundation.navigateToBackPage();
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(3),Tab);
+			consumerEngagement.verifyRolePermissionNotPresent(lblRowRecord.get(1));
+			
+			foundation.navigateToBackPage();
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(4),Tab);
+			consumerEngagement.verifyRolePermissionNotPresent(lblRowRecord.get(1));
+			
+			foundation.navigateToBackPage();
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(5),Tab);
+			consumerEngagement.verifyRolePermissionNotPresent(lblRowRecord.get(1));
+			
+			foundation.navigateToBackPage();
+			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(6),Tab);
+			consumerEngagement.verifyRolePermissionNotPresent(lblRowRecord.get(1));
+			login.logout();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.testng.Assert;
+
 import at.smartshop.pages.ReportList;
 
 public class FilePath {
@@ -72,6 +74,12 @@ public class FilePath {
 		Calendar calendar = Calendar.getInstance();
 		Date day = calendar.getTime();
 		String date = reportList.getTodaysDate(formate);
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());	
+		System.out.println(HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls");
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls";
+		return EXCEL_REPORT;
+	}
+
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
 		System.out.println(HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls");
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls";
@@ -84,6 +92,7 @@ public class FilePath {
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
 		return currentDay;
 	}
+
 
 	public void setEnvironment(String environment) {
 		if (environment.equals(Constants.PRE_PROD)) {
