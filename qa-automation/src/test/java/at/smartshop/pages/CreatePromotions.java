@@ -198,6 +198,7 @@ public class CreatePromotions extends Factory {
 
 	public static final By LBL_DISCOUNT_BY = By.className("onscreenDetails");
 	public static final By LBL_TENDERTYPE_ERROR = By.id("tendertypes-error");
+	public static final By ALL_ITEMS = By.xpath("//input[@id='allitems']");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

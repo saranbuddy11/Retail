@@ -101,8 +101,8 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
 			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(0), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			//dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(1), Constants.TEXT);
+			//foundation.click(CreatePromotions.BTN_ORG_RIGHT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
@@ -1968,7 +1968,10 @@ public class Promotions extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			List<String> actualData = Arrays
 					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-			dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
+			List<String> discountType = Arrays
+					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
+			//dropDown.deSelectItem(CreatePromotions.DPD_ITEM_SELECT, actualData.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
@@ -3187,14 +3190,14 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
-			CustomisedAssert.assertEquals(record, product.get(2));
+			CustomisedAssert.assertTrue(record.contains(product.get(2)));
 
 			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			checkBox.check(CreatePromotions.CAT_CATEGORY);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
-			CustomisedAssert.assertEquals(catrecord, product.get(3));
+			CustomisedAssert.assertTrue(catrecord.contains(product.get(3)));
 
 			// verify the product & category selected
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
@@ -3601,5 +3604,4 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
 }

@@ -724,6 +724,10 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
 				rstLocation.put(CNLocation.SHOW_RECORDS, resultSet.getString(CNLocation.SHOW_RECORDS));
+				rstLocation.put(CNLocation.INITIAL_BALANCE, resultSet.getString(CNLocation.INITIAL_BALANCE));
+				rstLocation.put(CNLocation.CONTACT_EMAIL, resultSet.getString(CNLocation.CONTACT_EMAIL));
+				rstLocation.put(CNLocation.ADDRESS, resultSet.getString(CNLocation.ADDRESS));
+				rstLocation.put(CNLocation.INFO_NOTES, resultSet.getString(CNLocation.INFO_NOTES));
 
 			}
 		} catch (Exception exc) {
