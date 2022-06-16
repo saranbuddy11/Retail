@@ -46,7 +46,8 @@ public class LocationSummary extends Factory {
 	public static final By YES_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupSaveBtn");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
-	public static final By BTN_MANAGE_COLUMNS = By.id("managePromotionGridColumnButton");
+	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
+	public static final By BUTTON_MANAGE_COLUMNS = By.id("managePromotionGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
