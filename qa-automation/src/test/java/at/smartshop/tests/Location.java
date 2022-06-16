@@ -24,7 +24,6 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNGlobalProductChange;
 import at.smartshop.database.columns.CNLocation;
@@ -33,7 +32,6 @@ import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
-import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -46,9 +44,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
-import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.ProductSummary;
-import at.smartshop.pages.Report;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -979,8 +975,9 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.TBL_PRODUCTS_GRID));
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
-			Map<String, String> uiTableData = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
-					LocationSummary.TBL_PRODUCTS_GRID);
+			// Map<String, String> uiTableData =
+			// table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
+			// LocationSummary.TBL_PRODUCTS_GRID);
 			Map<String, String> dbData = new HashMap<>();
 			for (int i = 0; i < requiredData.size(); i++) {
 				dbData.put(requiredData.get(i), expectedData.get(i));
@@ -989,7 +986,6 @@ public class Location extends TestInfra {
 			 * foundation.threadWait(Constants.TWO_SECOND);
 			 * CustomisedAssert.assertEquals(uiTableData, dbData);
 			 */
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1010,7 +1006,7 @@ public class Location extends TestInfra {
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
 			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			//String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 
 //			List<String> expectedData = Arrays
 //					.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
@@ -1050,7 +1046,7 @@ public class Location extends TestInfra {
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
 			String location = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
+			//String requiredData = rstLocationData.get(CNLocation.REQUIRED_DATA);
 			String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
 
 			List<String> expectedData = Arrays
@@ -1073,9 +1069,9 @@ public class Location extends TestInfra {
 //			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
 //			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
 
-			int excelCount = excel.getExcelRowCount(FilePath.EXCEL_LOCAL_PROD);
+			//int excelCount = excel.getExcelRowCount(FilePath.EXCEL_LOCAL_PROD);
 			// record count validation
-			//CustomisedAssert.assertEquals(String.valueOf(excelCount), requiredData);
+			// CustomisedAssert.assertEquals(String.valueOf(excelCount), requiredData);
 
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_GRID);
@@ -1112,7 +1108,7 @@ public class Location extends TestInfra {
 							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 				}
 			}
-			//locationList.verifyData(uiListHeaders, uiList, expectedValues);
+			// locationList.verifyData(uiListHeaders, uiList, expectedValues);
 //			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_LOCAL_PROD, 1));
 
 		} catch (Exception exc) {
@@ -1212,8 +1208,8 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
-					FilePath.PROPERTY_CONFIG_FILE);
+//			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+//					FilePath.PROPERTY_CONFIG_FILE);
 			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Menu and Menu Item
@@ -1743,7 +1739,7 @@ public class Location extends TestInfra {
 		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
 		List<String> printGroup = Arrays
-			 .asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 		try {
 
@@ -1858,7 +1854,7 @@ public class Location extends TestInfra {
 			// updating Min Stock
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.threadWait(Constants.MEDIUM_TIME);
-			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));	
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
 			locationSummary.enterMinStock(product, minStock.get(0));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			foundation.refreshPage();
@@ -1869,7 +1865,7 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
-			//reset the value
+			// reset the value
 			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.MIN_STOCK).equals(minStock.get(0)));
 			locationSummary.enterMinStock(product, minStock.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
@@ -1919,7 +1915,7 @@ public class Location extends TestInfra {
 			// click on create Promotion button
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
 			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// validate UI of enter promotion basics page
 			assertTrue(foundation.isDisplayed(CreatePromotions.DPD_PROMO_TYPE));
 			assertTrue(foundation.isDisplayed(CreatePromotions.TXT_PROMO_NAME));
@@ -1931,12 +1927,13 @@ public class Location extends TestInfra {
 			foundation.waitforElement(LocationSummary.TAB_PROMOTIONS, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.TAB_PROMOTIONS);
 			foundation.threadWait(Constants.THREE_SECOND);
-			
-			//Validate the Manage column Popup
+
+			// Validate the Manage column Popup
 			foundation.click(LocationSummary.BUTTON_MANAGE_COLUMNS);
 			foundation.threadWait(Constants.THREE_SECOND);
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_POPUP_HEADER));
-			//Bug is raised for below reset button - https://365retailmarkets.atlassian.net/browse/SOS-31011
+			// Bug is raised for below reset button -
+			// https://365retailmarkets.atlassian.net/browse/SOS-31011
 			locationSummary.verifyPromotionsTableHeaders(requiredData);
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_APPLY_BUTTON));
 			assertTrue(foundation.isDisplayed(LocationSummary.MANAGE_COLUMN_CANCEL_BUTTON));

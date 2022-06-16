@@ -202,6 +202,8 @@ public class ConsumerSubsidy extends TestInfra {
 			// Verifying Date picker of Roll Over
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
 			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
@@ -1034,6 +1036,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Verifying Group names of Roll over Subsidy
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(11));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(12));
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(12));
@@ -1150,6 +1153,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(16));
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_ERROR_MSG, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.CHK_TOP_OFF_ERROR));
 
 			// Verifying Add and Delete signs of Top off subsidy
