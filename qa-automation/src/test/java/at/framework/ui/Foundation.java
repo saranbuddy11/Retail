@@ -547,6 +547,9 @@ public class Foundation extends Factory {
 		return point;
 	}
 
+	/**
+	 * Scroll to the Bottom of Page
+	 */
 	public void scrollToBottom() {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
@@ -557,6 +560,12 @@ public class Foundation extends Factory {
 		}
 	}
 
+	/**
+	 * To get the Font Size using CSS value
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public String getFontSize(By object) {
 		String fontSize = null;
 		try {
@@ -570,6 +579,14 @@ public class Foundation extends Factory {
 		return fontSize;
 	}
 
+	/**
+	 * To get Style properties using PseudoElement
+	 * 
+	 * @param object
+	 * @param pseudo
+	 * @param style
+	 * @return
+	 */
 	public String getStyleUsingPseudoElemet(String object, String pseudo, String style) {
 		JavascriptExecutor js = (JavascriptExecutor) getDriver();
 		String text = js.executeScript("return window.getComputedStyle(document.querySelector('" + object + "'),'::"
@@ -577,6 +594,12 @@ public class Foundation extends Factory {
 		return text;
 	}
 
+	/**
+	 * To get the Outline Color
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public String getOutLineColor(By object) {
 		String hexColor = null;
 		try {
@@ -590,10 +613,16 @@ public class Foundation extends Factory {
 		return hexColor;
 	}
 
+	/**
+	 * To Check the file is Downloaded or not
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public boolean isFileDownloaded(String fileName) {
 		File dir = new File(FilePath.PATH_TO_DOWNLOAD);
 		File[] dirContents = dir.listFiles();
-		threadWait(Constants.SHORT_TIME);
+		threadWait(Constants.LONG_TIME);
 
 		for (int i = 0; i < dirContents.length; i++) {
 			if (dirContents[i].getName().contains(fileName)) {
