@@ -6,12 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import com.aventstack.extentreports.Status;
-
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
@@ -300,8 +297,7 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
-	 * 
-	 * Verify the content of Table Record with Particular Value**
+	 * Verify the content of Table Record with Particular Value
 	 * 
 	 * @param uiData
 	 * @param expectedValue
