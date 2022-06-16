@@ -203,7 +203,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
 			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
