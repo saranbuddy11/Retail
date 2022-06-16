@@ -326,6 +326,8 @@ public class LocationSummary extends Factory {
 	public static final By MANAGE_COLUMN_APPLY_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By MANAGE_COLUMN_CANCEL_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttoncancel_lbl");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
+	public static final By CHK_TOP_OFF_EXCLUDE = By.className("chcktopoffexclude");
+	public static final By CHK_ROLL_OVER_EXCLUDE = By.className("chckClass_");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -1507,5 +1509,61 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
 		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Verify Both Subsidy fields
+	 * 
+	 * @param values
+	 */
+	public void verifyBothSubsidesFields(List<String> values) {
+		try {
+			foundation.waitforElement(TXT_TOP_OFF_SUBSIDY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_TOP_OFF_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CHK_TOP_OFF_EXCLUDE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_DELETE_TOP_OFF));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_TOP_OFF));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CHK_ROLL_OVER_EXCLUDE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_DELETE_ROLL_OVER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_ROLL_OVER));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Verify GMA Subsidy UI Fields
+	 * 
+	 * @param expected
+	 */
+	public void verifyGMASubsidyUIFields(List<String> expected) {
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_MULTI_TAX_REPORT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		List<String> values = dropDown.getAllItems(DPD_GMA_SUBSIDY);
+		List<String> expectedValues = new ArrayList<String>();
+		expectedValues.add(expected.get(1));
+		expectedValues.add(expected.get(0));
+		CustomisedAssert.assertTrue(values.equals(expectedValues));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value.equals(expected.get(1))) {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, expected.get(0), Constants.TEXT);
+		}
+		value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, expected.get(0));
+		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
 }

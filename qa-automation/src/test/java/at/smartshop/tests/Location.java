@@ -19,6 +19,7 @@ import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
@@ -66,6 +67,7 @@ public class Location extends TestInfra {
 	private Strings string = new Strings();
 	private Excel excel = new Excel();
 	private DeviceList deviceList = new DeviceList();
+	private CheckBox checkBox = new CheckBox();
 
 	private Map<String, String> rstGlobalProductChangeData;
 	private Map<String, String> rstNavigationMenuData;
@@ -1987,6 +1989,55 @@ public class Location extends TestInfra {
 			// resetting the test data
 			locationSummary.removeProductFromLocation(rstLocationData.get(CNLocation.PRODUCT_NAME),
 					rstLocationData.get(CNLocation.LOCATION_NAME));
+		}
+	}
+
+	@Test(description = "197121 - To ensure that UI is displayed correctly in Location Subsidies page for both TopOff and Rollover Subsidy")
+	public void verifySubsidiesUIInLocationSummaryPage() {
+		final String CASE_NUM = "197121";
+
+		// Reading test data from DataBase
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> title = Arrays.asList(rstLocationData.get(CNLocation.TITLE).split(Constants.DELIMITER_TILD));
+		try {
+			// launch Browser, Select Menu and location by Using Operator User
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING)
+					.contains(rstLocationData.get(CNLocation.LOCATION_NAME)));
+
+			// Verifying GMA subsidy, its fields and creating Topoff subsidy
+			locationSummary.verifyGMASubsidyUIFields(requiredData);
+			locationSummary.verifyBothSubsidesFields(requiredData);
+			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationSummary.enterSubsidyGroupNames(title.get(0), title.get(1));
+
+			// Again Revisiting Location Summary page for the same location to validate the
+			// GMA Subsidy UI
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
+			locationSummary.verifyBothSubsidesFields(requiredData);
+
+			// Validating the Entered Group Names of Subsidies
+			String value = foundation.getAttributeValue(LocationSummary.TXT_TOP_OFF_GROUP_NAME);
+			CustomisedAssert.assertEquals(value, title.get(0));
+			value = foundation.getAttributeValue(LocationSummary.TXT_ROLL_OVER_GROUP_NAME);
+			CustomisedAssert.assertEquals(value, title.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting GMA Subsidy
+			locationSummary.subsidyResettingValidationOff(rstLocationData.get(CNLocation.NAME),
+					rstLocationData.get(CNLocation.LOCATION_NAME), requiredData.get(1));
 		}
 	}
 }
