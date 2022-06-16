@@ -1551,4 +1551,39 @@ public class GlobalProducts extends TestInfra {
 			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(1));
 		}
 	}
+	@Test(description = "C197162-verify searching of products for large number of locations")
+	public void verifySearchingOfProductsForLargeNoOfLocations() {
+		try {
+			final String CASE_NUM = "197162";
+
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			if (checkBox.isChecked(GlobalProductChange.GPC_lOCATION)) {
+				foundation.click(GlobalProductChange.SELECT_ALL);
+				foundation.waitforElementToBeVisible(GlobalProductChange.BTN_LOCATION_APPLY, 3);
+				foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+				foundation.threadWait(Constants.SHORT_TIME);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.FILTER_PRODUCTS_COUNT));
+			}
+			
+			//Navigate to product Tab
+			foundation.click(GlobalProductChange.TAB_PRODUCT);
+			foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRODUCT_NAME, 3);
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.FILTER_PRODUCTS_COUNT));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+}
 }
