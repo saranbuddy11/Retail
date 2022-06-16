@@ -72,11 +72,12 @@ public class FilePath {
 		Calendar calendar = Calendar.getInstance();
 		Date day = calendar.getTime();
 		String date = reportList.getTodaysDate(formate);
-		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
-		System.out.println(HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls");
-		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls";
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());	
+		System.out.println(HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls");
+		String EXCEL_REPORT = HOME_PATH+ "\\Downloads\\"+ filename + currentDay + " " + date +".xls";
 		return EXCEL_REPORT;
 	}
+
 
 	public String getCurrentDay() {
 		Calendar calendar = Calendar.getInstance();
