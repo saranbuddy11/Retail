@@ -1050,6 +1050,7 @@ public class LocationSummary extends Factory {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		enterPrice(scanCode, productPrice);
 		foundation.click(BTN_UPDATE_PRICE);
 	}

@@ -200,10 +200,12 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 
 			// Verifying Date picker of Roll Over
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
 			locationSummary.verifyRollOverDateLocation1(currentDate);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 			locationSummary.verifyRollOverFutureDateLocation1(futureDate);
 			checkBox.unCheck(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
@@ -240,6 +242,7 @@ public class ConsumerSubsidy extends TestInfra {
 			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
 			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(16));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.ROLL_OVER_WARNING_MSG));
 			foundation.threadWait(Constants.TWO_SECOND);
 
