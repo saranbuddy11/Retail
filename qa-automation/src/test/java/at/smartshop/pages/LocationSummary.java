@@ -318,11 +318,14 @@ public class LocationSummary extends Factory {
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
 	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
 	public static final By PROMOTIONS_SEARCH = By.id("promoFilterType");
-	public static final By MANAGE_COLUMN_POPUP_HEADER = By.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@class='ui-dialog-title']");	
-	public static final By MANAGE_COLUMN_RESET_BUTTON = By.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@id='promoGrid_hiding_modalDialog_reset_button_lbl']");
+	public static final By MANAGE_COLUMN_POPUP_HEADER = By
+			.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@class='ui-dialog-title']");
+	public static final By MANAGE_COLUMN_RESET_BUTTON = By.xpath(
+			"//div[@id='promoGrid_hiding_modalDialog']//span[@id='promoGrid_hiding_modalDialog_reset_button_lbl']");
 	public static final By MANAGE_COLUMN_APPLY_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By MANAGE_COLUMN_CANCEL_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttoncancel_lbl");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
+
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -341,6 +344,7 @@ public class LocationSummary extends Factory {
 
 	/**
 	 * This method is to Select the Required Tab in Location
+	 * 
 	 * @param tabName
 	 */
 	public void selectTab(String tabName) {
@@ -443,11 +447,11 @@ public class LocationSummary extends Factory {
 	public By objectProduct(String product) {
 		return By.xpath("//td[text()='" + product + "']");
 	}
-	
+
 	public By tableData(String column) {
 		return By.xpath("//table[@id='promoGrid']//th//span[text()='" + column + "']");
 	}
-	
+
 	public By manageColumnPopup(String column) {
 		return By.xpath("//div[@id='promoGrid_hiding_modalDialog_content']//li//span[text()='" + column + "']");
 	}
@@ -688,6 +692,7 @@ public class LocationSummary extends Factory {
 
 	/**
 	 * Updating the Inventory of the product
+	 * 
 	 * @param scancode
 	 * @param inventoryValue
 	 * @param reasonCode
@@ -1409,7 +1414,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
-	
+
 	// Verifying table Headers for Promotion List Page
 	public void verifyPromotionsTableHeaders(List<String> values) {
 		try {
@@ -1422,13 +1427,12 @@ public class LocationSummary extends Factory {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(6))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(7))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(8))));
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					"Validated the Promotion table Headers" + values);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Promotion table Headers" + values);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	// Validating PopUp for Promotion on Location Summary Page
 	public void verifyManageColumnPopUp(List<String> values) {
 		try {
@@ -1441,13 +1445,12 @@ public class LocationSummary extends Factory {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(6))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(7))));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(8))));
-			ExtFactory.getInstance().getExtent().log(Status.INFO,
-					"Validated the Promotion table Headers" + values);
+			ExtFactory.getInstance().getExtent().log(Status.INFO, "Validated the Promotion table Headers" + values);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void enterMinStocks(String product, String minStock) {
 		enterMinStock(product, minStock);
 		foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
