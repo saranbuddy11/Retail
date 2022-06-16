@@ -24,4 +24,7 @@ public class CNLocation {
 	public static final String SHOW_RECORDS = "ShowRecords";
 	public static final String INITIAL_BALANCE = "InitialBalance";
 	public static final String CONTACT_EMAIL = "ContactEmail";
+	public static final String ADDRESS = "Address";
+	public static final String INFO_NOTES = "InfoNotes";
+
 }
