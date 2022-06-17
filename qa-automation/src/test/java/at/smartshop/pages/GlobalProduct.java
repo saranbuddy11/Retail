@@ -208,9 +208,12 @@ public class GlobalProduct extends Factory {
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 		textBox.enterText(TXT_PRODUCTNAME, name);
+		foundation.waitforElementToBeVisible(GlobalProduct.TXT_PRICE, Constants.SHORT_TIME);
 		textBox.enterText(TXT_PRICE, price);
+		foundation.waitforElementToBeVisible(GlobalProduct.TXT_SCAN_CODE, Constants.SHORT_TIME);
 		textBox.enterText(TXT_SCAN_CODE, scancode);
+		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE_EXTEND);
-		foundation.waitforElementToBeVisible(TXT_PRODUCT_CREATE, Constants.SHORT_TIME);		
+		foundation.threadWait(Constants.SHORT_TIME);;		
 	}
 }

@@ -13427,22 +13427,24 @@ public class V5Test extends TestInfra {
 			List<String> product = Arrays.asList(
 					rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 
-			//Login to ADM Application
+			// Login to ADM Application
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//Navigate to Global products and create a new products
+
+			// Navigate to Global products and create a new products
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			globalProduct.createProducInGlobalProductPage(product.get(0), product.get(1), product.get(2));
+			login.logout();
 			browser.close();
-			
-			//Check the same product in V5 device
-			
-			
-			
-			
 
+			// Launch V5 Device and search for created product
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+//			productSearch.searchProduct(product.get(0));
+//			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

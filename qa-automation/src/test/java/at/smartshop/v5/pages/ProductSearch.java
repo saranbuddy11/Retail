@@ -41,6 +41,11 @@ public class ProductSearch {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
 	}
 
+	/**
+	 * searching a product in v5 device
+	 * @param product
+	 * @return
+	 */
 	public boolean searchProduct(String product) {
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		textBox.enterKeypadText(product);
