@@ -1551,18 +1551,18 @@ public class GlobalProducts extends TestInfra {
 			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(1));
 		}
 	}
-	@Test(description = "C197162-verify searching of products for large number of locations" + 
-	                     "C197161-verify search of a product With Apostrophe in its name")
+
+	@Test(description = "C197162-verify searching of products for large number of locations"
+			+ "C197161-verify search of a product With Apostrophe in its name")
 	public void verifySearchingOfProductsForLargeNoOfLocations() {
 		try {
 			final String CASE_NUM = "197162";
-			
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			List<String> requiredData = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-			
+
+			List<String> requiredData = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1577,16 +1577,15 @@ public class GlobalProducts extends TestInfra {
 				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.FILTER_PRODUCTS_COUNT));
 			}
-			
-			//Navigate to product Tab and search for product
+
+			// Navigate to product Tab and search for product
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(0));
-			
-			//Navigate to product Tab and search for product With Apostrophe in its name
+
+			// Navigate to product Tab and search for product With Apostrophe in its name
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(1));
-			
-		}
-		catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} 
-}
+		}
+	}	
 }

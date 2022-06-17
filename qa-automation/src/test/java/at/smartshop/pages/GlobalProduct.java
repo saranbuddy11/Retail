@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -59,6 +60,7 @@ public class GlobalProduct extends Factory {
 	public static final By DPD_PICK_LIST = By.id("picklist");
 	public static final By INPUT_MIN_STOCK = By.id("minstock");
 	public static final By INPUT_MAX_STOCK = By.id("maxstock");
+	public static final By BTN_SAVE_EXTEND=By.id("saveExtendBtn");
 	public static final By INPUT_PRICE = By.id("price");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By SHOW_DROPDOWN=By.xpath("//div[@title='Show drop-down']");
@@ -178,6 +180,7 @@ public class GlobalProduct extends Factory {
 		foundation.click(ProductSummary.BTN_SAVE);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
+	
 	/**
 	 * search product and edit product name and save
 	 * @param product
@@ -192,5 +195,22 @@ public class GlobalProduct extends Factory {
 		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
 		foundation.click(ProductSummary.BTN_SAVE);
+	}
+	
+	/**
+	 * create Product In Global Product Page
+	 * @param name
+	 * @param price
+	 * @param scancode
+	 */
+	public void createProducInGlobalProductPage(String name,String price,String scancode) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		textBox.enterText(TXT_PRODUCTNAME, name);
+		textBox.enterText(TXT_PRICE, price);
+		textBox.enterText(TXT_SCAN_CODE, scancode);
+		foundation.click(BTN_SAVE_EXTEND);
+		foundation.waitforElementToBeVisible(TXT_PRODUCT_CREATE, Constants.SHORT_TIME);		
 	}
 }
