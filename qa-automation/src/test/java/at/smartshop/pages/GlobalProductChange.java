@@ -216,5 +216,17 @@ public class GlobalProductChange extends Factory {
 		}
 		return tableData;
 	}
-
+	
+	/**
+	 * searching a Products In Products Filter And Verify The Datas in the Grid
+	 * @param product
+	 */
+     public void searchingProductsInProductsFilterAndVerifyTheDatas(String product) {
+    	 foundation.click(TAB_PRODUCT);
+			foundation.waitforElementToBeVisible(TXT_PRODUCT_NAME, 3);
+			textBox.enterText(TXT_PRODUCT_NAME, product);
+			foundation.click(BTN_PRODUCT_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_COUNT));
+     }
 }
