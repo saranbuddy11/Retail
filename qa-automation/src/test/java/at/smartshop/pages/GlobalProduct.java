@@ -214,6 +214,8 @@ public class GlobalProduct extends Factory {
 		textBox.enterText(TXT_SCAN_CODE, scancode);
 		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE_EXTEND);
-		foundation.threadWait(Constants.SHORT_TIME);;		
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(LBL_SAVE_DONE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 }
