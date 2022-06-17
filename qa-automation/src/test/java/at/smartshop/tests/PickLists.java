@@ -186,18 +186,14 @@ public class PickLists extends TestInfra {
 			//Navigate to product--> picklist and click on Negative to zero in pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
-			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.APLOCATION)));
-			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
-			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
+			pickList.selectLocationAndClickOnNavigateToZero(rstPickListData.get(CNPickList.APLOCATION), rstPickListData.get(CNPickList.LOCATIONS));
+			
+			//verify the plan pick list(s)
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
-			foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
-			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-			String content=foundation.getText(PickList.POPUP_CONTENT);
-			CustomisedAssert.assertTrue(content.contains(rstPickListData.get(CNPickList.LOCATIONS)));
-			foundation.click(PickList.BTN_OKAY);
+			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.isDisplayed(PickList.PAGE_TITLE);
+			
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

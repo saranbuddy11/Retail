@@ -8,9 +8,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Foundation;
+import at.smartshop.database.columns.CNPickList;
+import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class PickList extends Factory {
+	private Foundation foundation = new Foundation();
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
@@ -71,5 +76,27 @@ public class PickList extends Factory {
 	
 	public By selectLocationFromList(String location) {
 		return By.xpath("//ul[@id='location-list']//li[text()='"+ location +"']");
+	}
+	
+	/**
+	 * select Location And Click On Navigate To Zero
+	 * @param location
+	 * @param contain
+	 */
+	public void selectLocationAndClickOnNavigateToZero(String location, String contain) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+		foundation.click(selectLocationFromList(location));
+		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+		foundation.click(PickList.BTN_APPLY);
+		foundation.waitforElement(objPickList(location),Constants.SHORT_TIME);
+		foundation.click(objPickList(location));
+		foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
+		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+		String content=foundation.getText(PickList.POPUP_CONTENT);
+		CustomisedAssert.assertTrue(content.contains(contain));
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(PickList.BTN_OKAY);
+		foundation.isDisplayed(PickList.PAGE_TITLE);
+		
 	}
 }
