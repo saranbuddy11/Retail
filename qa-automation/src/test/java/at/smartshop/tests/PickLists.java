@@ -170,7 +170,8 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero")
+	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero" +
+	                     "197247-ADM > Pick List Manager>Plan picklist>Verify Planned pick list show products")
 	public void verifyResetNegativeTozeroInPickListManager() {
 		final String CASE_NUM = "196844";
 
