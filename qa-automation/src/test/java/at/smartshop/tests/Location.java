@@ -1946,6 +1946,10 @@ public class Location extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author karthik Ragav
+	 *
+	 */
 	@Test(description = "197172 - verify the extending of products to the location")
 	public void verifyExtendingOfProductsToLocation() {
 		final String CASE_NUM = "197172";
@@ -1993,8 +1997,13 @@ public class Location extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author karthik Ragav
+	 *
+	 */
+
 	@Test(description = "197121 - To ensure that UI is displayed correctly in Location Subsidies page for both TopOff and Rollover Subsidy")
-	public void verifySubsidiesUIInLocationSummaryPage() {
+	public void verifySubsidiesUIElementsAndDataSavingInLocationSummaryPage() {
 		final String CASE_NUM = "197121";
 
 		// Reading test data from DataBase

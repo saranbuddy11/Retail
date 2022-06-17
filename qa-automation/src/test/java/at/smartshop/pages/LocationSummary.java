@@ -460,6 +460,52 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@id='promoGrid_hiding_modalDialog_content']//li//span[text()='" + column + "']");
 	}
 
+	public By objColumnHeaders(String columnName) {
+		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
+	}
+
+	public By objDevice(String deviceName) {
+		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
+
+	}
+
+	public void selectDevice(String deviceName) {
+		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
+	}
+
+	public By deviceName(String devicename) {
+		return By.xpath("//a[text()='" + devicename + "']");
+	}
+
+	public By objTable(String homeCommercial) {
+		return By.xpath("//td[text()='" + homeCommercial + "']");
+	}
+
+	public By objUploadStatus(String uploadMessage) {
+		return By.xpath("//a[text()='" + uploadMessage + "']");
+	}
+
+	public By objVerifyTaxRate(String taxRate) {
+		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='" + taxRate + "']");
+	}
+
+	public By objProductPrice(String productName) {
+		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
+	}
+
+	public By objPrintGroup(String text) {
+		return By.xpath("//li[@data-value='" + text + "']");
+	}
+
+	public By objTaxCategory(String taxCategory) {
+		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
+	}
+
+	/**
+	 * Managing the Column Names
+	 * 
+	 * @param columnNames
+	 */
 	public void manageColumn(String columnNames) {
 		try {
 			foundation.click(BTN_MANAGE_COLUMNS);
@@ -482,6 +528,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Getting the Product Headers
+	 * 
+	 * @return
+	 */
 	public List<String> getProductsHeaders() {
 		List<String> tableHeaders = new ArrayList<>();
 		try {
@@ -497,6 +548,12 @@ public class LocationSummary extends Factory {
 		return tableHeaders;
 	}
 
+	/**
+	 * Getting the Product Record Values
+	 * 
+	 * @param recordValue
+	 * @return
+	 */
 	public Map<Integer, Map<String, String>> getProductsRecords(String recordValue) {
 		Map<Integer, Map<String, String>> productsData = new LinkedHashMap<>();
 		int recordCount = 0;
@@ -522,6 +579,9 @@ public class LocationSummary extends Factory {
 		return productsData;
 	}
 
+	/**
+	 * Showing the Tax Category and Apply the same
+	 */
 	public void showTaxCategory() {
 		try {
 			foundation.click(BTN_MANAGE_COLUMNS);
@@ -532,11 +592,11 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_APPLY);
 	}
 
-	public By objTable(String homeCommercial) {
-
-		return By.xpath("//td[text()='" + homeCommercial + "']");
-	}
-
+	/**
+	 * Verify the Has Locker Field
+	 * 
+	 * @param defaultValue
+	 */
 	public void verifyHasLockerField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
@@ -550,6 +610,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify the Has Order Ahead Field
+	 * 
+	 * @param defaultValue
+	 */
 	public void verifyHasOrderAheadField(String defaultValue) {
 		try {
 			foundation.waitforElement(LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
@@ -563,6 +628,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy UI fields
+	 * 
+	 * @param values
+	 */
 	public void verifyTopOffSubsidy(List<String> values) {
 		try {
 			foundation.waitforElement(TXT_TOP_OFF_SUBSIDY, Constants.SHORT_TIME);
@@ -579,6 +649,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify RollOver Subsidy UI fields
+	 * 
+	 * @param values
+	 */
 	public void verifyRolloverSubsidy(List<String> columns) {
 		try {
 			foundation.waitforElement(TXT_ROLL_OVER_SUBSIDY, Constants.SHORT_TIME);
@@ -594,6 +669,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Get the Product Names
+	 * 
+	 * @return
+	 */
 	public List<String> getProductsNames() {
 		List<String> productNames = new LinkedList<>();
 		WebElement tableProductsGrid = getDriver().findElement(TBL_PRODUCTS_GRID);
@@ -605,12 +685,23 @@ public class LocationSummary extends Factory {
 		return productNames;
 	}
 
+	/**
+	 * Update the Locker Settings
+	 * 
+	 * @param enableORDisable
+	 */
 	public void updateLockerSettings(String enableORDisable) {
 		dropDown.selectItem(DPD_HAS_LOCKER, enableORDisable, Constants.TEXT);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElement(LocationList.DPD_LOCATION_LIST, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Enter the Price
+	 * 
+	 * @param scancode
+	 * @param price
+	 */
 	public void enterPrice(String scancode, String price) {
 		By priceLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_price']");
 		By priceInput = By
@@ -621,6 +712,12 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(priceLink));
 	}
 
+	/**
+	 * Enter minimum Stock Value
+	 * 
+	 * @param scancode
+	 * @param min
+	 */
 	public void enterMinStock(String scancode, String min) {
 		By minLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']");
 		By minInput = By
@@ -631,6 +728,12 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Min Stock is" + foundation.getText(minLink));
 	}
 
+	/**
+	 * Enter maximum Stock Value
+	 * 
+	 * @param scancode
+	 * @param max
+	 */
 	public void enterMaxStock(String scancode, String max) {
 		By maxLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
 		By maxInput = By
@@ -641,6 +744,12 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated Max Stock is" + foundation.getText(maxLink));
 	}
 
+	/**
+	 * Select PickList
+	 * 
+	 * @param scancode
+	 * @param option
+	 */
 	public void selectPickList(String scancode, String option) {
 		By pickLink = By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_planning']");
 		foundation.click(pickLink);
@@ -649,8 +758,12 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
+	/**
+	 * Add the Product using Scancode
+	 * 
+	 * @param scancode
+	 */
 	public void addProduct(String scancode) {
-
 		foundation.click(BTN_ADD_PRODUCT);
 		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, 3);
 		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, scancode);
@@ -659,12 +772,22 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_SAVE, 3);
 	}
 
+	/**
+	 * Select Particular Device by its Name
+	 * 
+	 * @param deviceName
+	 */
 	public void selectDeviceName(String deviceName) {
 		foundation.click(By.xpath("//a[text()='" + deviceName + "']"));
 	}
 
+	/**
+	 * Add the Home Commercial
+	 * 
+	 * @param imageName
+	 * @param imagePath
+	 */
 	public void addHomeCommercial(String imageName, String imagePath) {
-
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		foundation.click(BTN_ADD_HOME_COMMERCIAL);
@@ -678,8 +801,12 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SAVE);
 	}
 
+	/**
+	 * Remove Home Commercial
+	 * 
+	 * @param imageName
+	 */
 	public void removeHomeCommercial(String imageName) {
-
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
@@ -691,7 +818,6 @@ public class LocationSummary extends Factory {
 		foundation.isDisplayed(LBL_SPINNER_MSG);
 		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
 		foundation.refreshPage();
-
 	}
 
 	/**
@@ -726,12 +852,14 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
 
-	public By objUploadStatus(String uploadMessage) {
-		return By.xpath("//a[text()='" + uploadMessage + "']");
-	}
-
+	/**
+	 * Update Kiosk Language Settings
+	 * 
+	 * @param location
+	 * @param defaultLanguage
+	 * @param altLanguage
+	 */
 	public void kiosklanguageSetting(String location, String defaultLanguage, String altLanguage) {
-
 		locationList.selectLocationName(location);
 		foundation.waitforElement(DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
@@ -741,9 +869,14 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
-
 	}
 
+	/**
+	 * Get the Product Details
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public Map<String, String> getProductDetails(String name) {
 		Map<String, String> productsRecord = new LinkedHashMap<>();
 		try {
@@ -757,9 +890,14 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return productsRecord;
-
 	}
 
+	/**
+	 * Save TaxMapping
+	 * 
+	 * @param taxCategory
+	 * @param rate
+	 */
 	public void saveTaxMapping(String taxCategory, String rate) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
@@ -774,6 +912,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Remove TaxMapping
+	 * 
+	 * @param taxCategory
+	 */
 	public void removeTaxMapping(String taxCategory) {
 		foundation.click(TAB_TAX_MAPPING);
 		textBox.enterText(TXT_SEARCH_TAX_MAPPING, taxCategory);
@@ -783,14 +926,13 @@ public class LocationSummary extends Factory {
 		foundation.click(TAB_TAX_MAPPING);
 	}
 
-	public By objVerifyTaxRate(String taxRate) {
-		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='" + taxRate + "']");
-	}
-
-	public By objProductPrice(String productName) {
-		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
-	}
-
+	/**
+	 * Get Attribute Text
+	 * 
+	 * @param object
+	 * @param attribute
+	 * @return
+	 */
 	public String getTextAttribute(By object, String attribute) {
 		String textAttribute = null;
 		try {
@@ -804,6 +946,12 @@ public class LocationSummary extends Factory {
 		return textAttribute;
 	}
 
+	/**
+	 * Verify DropDown Value
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public Boolean verifyDPDValue(String text) {
 		Boolean flag = false;
 		WebElement drpdwn = getDriver().findElement(DPD_VDI_PROVDIER);
@@ -819,10 +967,12 @@ public class LocationSummary extends Factory {
 		return flag;
 	}
 
-	public By objPrintGroup(String text) {
-		return By.xpath("//li[@data-value='" + text + "']");
-	}
-
+	/**
+	 * Manage Columns to Show/Hide
+	 * 
+	 * @param showOrHide
+	 * @param columnName
+	 */
 	public void showHideManageColumn(String showOrHide, String columnName) {
 		By xpathHideOrShow = By
 				.xpath("//div[@id='productDataGrid_hiding_modalDialog']//span[text()='" + columnName + "']//..//a");
@@ -838,16 +988,24 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Get the Data from Cell
+	 * 
+	 * @param ariaDescribedby
+	 * @return
+	 */
 	public String getCellData(String ariaDescribedby) {
 		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"),
 				Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
 	}
 
-	public By objTaxCategory(String taxCategory) {
-		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
-	}
-
+	/**
+	 * Add Pay Cycle
+	 * 
+	 * @param location
+	 * @param payCycle
+	 */
 	public void addPaycyle(String location, String payCycle) {
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
@@ -864,6 +1022,13 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Add new Pay Cycle
+	 * 
+	 * @param location
+	 * @param payCycle
+	 * @param yesORno
+	 */
 	public void addPaycylenew(String location, String payCycle, String yesORno) {
 		locationList.selectLocationName(location);
 		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
@@ -882,8 +1047,13 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Delete Pay Cycle
+	 * 
+	 * @param location
+	 * @param payCycle
+	 */
 	public void deletePaycyle(String location, String payCycle) {
-
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
 				.getSizeofListElement(By.xpath("//button[@class='btn-mini']//i[contains(@class,'delBtn ')]"));
@@ -900,6 +1070,12 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Turning Off PayRoll Deduct
+	 * 
+	 * @param location
+	 * @param yesORno
+	 */
 	public void turnOnOROffPayRollDeduct(String location, String yesORno) {
 		locationList.selectLocationName(location);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -909,6 +1085,13 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Edit the Pay Cycle
+	 * 
+	 * @param location
+	 * @param payCycle
+	 * @param updatedPaycycle
+	 */
 	public void editPaycyle(String location, String payCycle, String updatedPaycycle) {
 		locationList.selectLocationName(location);
 		int totalPaycycleRows = foundation
@@ -926,6 +1109,14 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Edit the new Pay Cycle
+	 * 
+	 * @param location
+	 * @param payCycle
+	 * @param updatedPaycycle
+	 * @param yesORno
+	 */
 	public void editPaycylenew(String location, String payCycle, String updatedPaycycle, String yesORno) {
 		locationList.selectLocationName(location);
 		dropDown.selectItem(DPD_PAYROLL_DEDUCT, yesORno, Constants.TEXT);
@@ -945,6 +1136,12 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	/**
+	 * Get the Column Values
+	 * 
+	 * @param columnData
+	 * @return
+	 */
 	public List<String> getColumnValues(By columnData) {
 		String text = null;
 		List<String> elementsText = new ArrayList<String>();
@@ -961,6 +1158,12 @@ public class LocationSummary extends Factory {
 		return elementsText;
 	}
 
+	/**
+	 * Verify Sort in Ascending
+	 * 
+	 * @param columnData
+	 * @return
+	 */
 	public Boolean verifySortAscending(By columnData) {
 		boolean ascending = false;
 		try {
@@ -975,6 +1178,12 @@ public class LocationSummary extends Factory {
 		return ascending;
 	}
 
+	/**
+	 * Verify Sort in Descending
+	 * 
+	 * @param columnData
+	 * @return
+	 */
 	public boolean verifySortDescending(By columnData) {
 		boolean descending = false;
 		try {
@@ -988,23 +1197,11 @@ public class LocationSummary extends Factory {
 		return descending;
 	}
 
-	public By objColumnHeaders(String columnName) {
-		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
-	}
-
-	public By objDevice(String deviceName) {
-		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
-
-	}
-
-	public void selectDevice(String deviceName) {
-		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
-	}
-
-	public By deviceName(String devicename) {
-		return By.xpath("//a[text()='" + devicename + "']");
-	}
-
+	/**
+	 * Remove the device from Location
+	 * 
+	 * @param device
+	 */
 	public void removeDevice(String device) {
 		foundation.waitforElement(TXT_DEVICE_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(TXT_DEVICE_SEARCH, device);
@@ -1014,20 +1211,37 @@ public class LocationSummary extends Factory {
 		foundation.navigateToBackPage();
 	}
 
+	/**
+	 * Navigate to Location Menu and add the Tax on Location
+	 * 
+	 * @param locationName
+	 * @param taxCategory
+	 */
 	public void navigateAndAddTaxMap(String locationName, String taxCategory, String taxRateName) {
 		navigationBar.navigateToMenuItem("Location");
 		locationList.selectLocationName(locationName);
 		saveTaxMapping(taxCategory, taxRateName);
 	}
 
+	/**
+	 * Navigate to Location Menu and Removing the Tax mapped on Location
+	 * 
+	 * @param locationName
+	 * @param taxCategory
+	 */
 	public void navigateAndRemoveTaxMap(String locationName, String taxCategory) {
 		navigationBar.navigateToMenuItem("Location");
 		locationList.selectLocationName(locationName);
 		removeTaxMapping(taxCategory);
 	}
 
+	/**
+	 * Resetting the Inventory value
+	 * 
+	 * @param scancode
+	 * @param inventory
+	 */
 	public void resetInventory(String scancode, String inventory) {
-
 		By inventoryLink = By
 				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
 		By inventoryValue = By.xpath(
@@ -1038,6 +1252,13 @@ public class LocationSummary extends Factory {
 		ExtFactory.getInstance().getExtent().log(Status.INFO, "updated price is" + foundation.getText(inventoryLink));
 	}
 
+	/**
+	 * Selecting the Market Card
+	 * 
+	 * @param locationName
+	 * @param ValidateHeading
+	 * @param marketCard
+	 */
 	public void selectingMarketCard(String locationName, String ValidateHeading, String marketCard) {
 		// Selecting location
 		locationList.selectLocationName(locationName);
@@ -1049,6 +1270,14 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LBL_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Selecting the Product
+	 * 
+	 * @param tab
+	 * @param productName
+	 * @param scanCode
+	 * @param productPrice
+	 */
 	public void selectingProduct(String tab, String productName, String scanCode, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -1058,6 +1287,13 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_UPDATE_PRICE);
 	}
 
+	/**
+	 * Selecting the Product Price and updating the same
+	 * 
+	 * @param tab
+	 * @param productName
+	 * @param productPrice
+	 */
 	public void selectingAndUpdatingProductPrice(String tab, String productName, String productPrice) {
 		selectTab(tab);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -1065,6 +1301,9 @@ public class LocationSummary extends Factory {
 		enterPrice(productName, productPrice);
 	}
 
+	/**
+	 * Launching the URL with Super User Credentials
+	 */
 	public void launchingBrowserAndSelectingOrg() {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1073,8 +1312,15 @@ public class LocationSummary extends Factory {
 				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 	}
 
+	/**
+	 * Add the Product and edit the same in Location Summary Page
+	 * 
+	 * @param tab
+	 * @param productName
+	 * @param updatedProductName
+	 * @param menuItem
+	 */
 	public void addEditProduct(String tab, String productName, String updatedProductName, String menuItem) {
-
 		selectTab(tab);
 		foundation.WaitForAjax(5000);
 		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
@@ -1091,6 +1337,12 @@ public class LocationSummary extends Factory {
 		navigationBar.navigateToMenuItem(menuItem);
 	}
 
+	/**
+	 * Getting the Month Name
+	 * 
+	 * @param monthIndex
+	 * @return
+	 */
 	public static String getMonthName(int monthIndex) {
 		if (monthIndex > 12) {
 			monthIndex = monthIndex - 12;
@@ -1101,6 +1353,11 @@ public class LocationSummary extends Factory {
 		return output;
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Date in AutoLocation1 Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffDateAutoLocation1(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1117,6 +1374,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Date in AutoLocation1 Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffDateAutomationLocation1(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1134,6 +1396,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Future Date in AutoLocation1 Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffFutureDateAutoLocation1(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1151,6 +1418,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Date in AutoLocation2 Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffDateAutoLocation2(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1167,6 +1439,12 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Date in AutomationNewLocation Location Summary
+	 * Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffDateAutomationNewLocation(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1183,6 +1461,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify TopOff Subsidy with Future Date in AutoLocation2 Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyTopOffFutureDateAutoLocation2(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1199,6 +1482,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Roll Over Subsidy with Date in Create Location Page
+	 * 
+	 * @param value
+	 */
 	public void verifyRollOverDateCreateLocation(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1215,6 +1503,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Roll Over Subsidy with Future Date in Create Location Page
+	 * 
+	 * @param value
+	 */
 	public void verifyRollOverFutureDateCreateLocation(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1231,6 +1524,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Roll Over Subsidy with Date in Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyRollOverDateLocation1(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1247,6 +1545,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Roll Over Subsidy with Future Date in Location Summary Page
+	 * 
+	 * @param value
+	 */
 	public void verifyRollOverFutureDateLocation1(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1263,6 +1566,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Date Picker in Roll Over Subsidy with Current Date
+	 * 
+	 * @param value
+	 */
 	public void verifyRollOverCurrentDate(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
@@ -1272,6 +1580,9 @@ public class LocationSummary extends Factory {
 		foundation.click(objectRollOverCalendarDay(date));
 	}
 
+	/**
+	 * Verify the Signs in Top Off Subsidy
+	 */
 	public void verifySignsTopOff() {
 		for (int i = 1; i <= 24; i++)
 			foundation.click(objAddTopOffSubsidy(i));
@@ -1282,6 +1593,9 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Verify the Signs in Roll Over Subsidy
+	 */
 	public void verifySignsRollOver() {
 		for (int i = 1; i <= 24; i++)
 			foundation.click(objAddRollOverSubsidy(i));
@@ -1292,6 +1606,13 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Resetting Subsidy Value
+	 * 
+	 * @param optionNames
+	 * @param location
+	 * @param requiredData
+	 */
 	public void subsidyResettingOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
 		locationList.selectLocationName(location);
@@ -1301,6 +1622,14 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Resetting the Recurrence value of Subsidy
+	 * 
+	 * @param optionNames
+	 * @param location
+	 * @param requiredData
+	 * @param recurrence
+	 */
 	public void subsidyResettingOffWithRecurrence(String optionNames, String location, String requiredData,
 			String recurrence) {
 		navigationBar.navigateToMenuItem(optionNames);
@@ -1314,6 +1643,13 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Turning Off Subsidy
+	 * 
+	 * @param optionNames
+	 * @param location
+	 * @param requiredData
+	 */
 	public void subsidyResettingValidationOff(String optionNames, String location, String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
 		textBox.enterText(LocationList.TXT_FILTER, location);
@@ -1331,6 +1667,14 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Resetting Special Type and Subsidy values
+	 * 
+	 * @param optionNames
+	 * @param location
+	 * @param specialType
+	 * @param requiredData
+	 */
 	public void resettingSpecialTypeAndSubsidy(String optionNames, String location, String specialType,
 			String requiredData) {
 		navigationBar.navigateToMenuItem(optionNames);
@@ -1352,6 +1696,13 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Enter Group Names
+	 * 
+	 * @param topOff
+	 * @param RollOver
+	 * @param pickUp
+	 */
 	public void enterGroupNames(String topOff, String RollOver, String pickUp) {
 		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
 		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
@@ -1360,6 +1711,12 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Enter the Subsidy Group Name for both Subsidies
+	 * 
+	 * @param topOff
+	 * @param RollOver
+	 */
 	public void enterSubsidyGroupNames(String topOff, String RollOver) {
 		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
 		textBox.enterText(TXT_ROLL_OVER_GROUP_NAME, RollOver);
@@ -1367,6 +1724,12 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * Enter the Subsidy Amount for both Subsidies
+	 * 
+	 * @param topOff
+	 * @param RollOver
+	 */
 	public void enterSubsidyAmount(String topOff, String RollOver) {
 		foundation.click(TXT_TOP_OFF_AMOUNT);
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, topOff);
@@ -1374,6 +1737,13 @@ public class LocationSummary extends Factory {
 		textBox.enterText(TXT_ROLL_OVER_AMOUNT, RollOver);
 	}
 
+	/**
+	 * Check Subsidy
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param data
+	 */
 	public void checkSubsidy(String menu, String location, String data) {
 		navigationBar.navigateToMenuItem(menu);
 		locationList.selectLocationName(location);
@@ -1382,6 +1752,13 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertEquals(value, data);
 	}
 
+	/**
+	 * Enter TopOff Amount
+	 * 
+	 * @param topOff
+	 * @param recurrence
+	 * @param amount
+	 */
 	public void enterTopoffAmount(String topOff, String recurrence, String amount) {
 		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, topOff);
 		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
@@ -1389,12 +1766,21 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SAVE);
 	}
 
+	/**
+	 * Verify the Products Highlighted
+	 * 
+	 * @param expected
+	 * @return
+	 */
 	public String verifyProductsHighlighted(String expected) {
 		String attr = getDriver().findElement(VALIDATE_HIGHLIGHTED_TEXT).getAttribute("aria-selected");
 		CustomisedAssert.assertEquals(expected, attr);
 		return attr;
 	}
 
+	/**
+	 * Verify the Popup UI Displayed
+	 */
 	public void verifyPopUpUIDisplayed() {
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
@@ -1405,12 +1791,21 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CANCEL_PRODUCT));
 	}
 
+	/**
+	 * Verify Products UI
+	 */
 	public void verifyProductsUI() {
 		foundation.threadWait(Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PRODUCT_FILTER));
 	}
 
+	/**
+	 * Select the Print Group
+	 * 
+	 * @param productName
+	 * @param option
+	 */
 	public void selectPrintGroup(String productName, String option) {
 		By printLink = By
 				.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_printer']");
@@ -1421,7 +1816,11 @@ public class LocationSummary extends Factory {
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
 
-	// Verifying table Headers for Promotion List Page
+	/**
+	 * Verifying table Headers for Promotion List Page
+	 * 
+	 * @param values
+	 */
 	public void verifyPromotionsTableHeaders(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(0))));
@@ -1439,7 +1838,11 @@ public class LocationSummary extends Factory {
 		}
 	}
 
-	// Validating PopUp for Promotion on Location Summary Page
+	/**
+	 * Validating PopUp for Promotion on Location Summary Page
+	 * 
+	 * @param values
+	 */
 	public void verifyManageColumnPopUp(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(0))));
@@ -1457,6 +1860,12 @@ public class LocationSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Enter the minimum Stock
+	 * 
+	 * @param product
+	 * @param minStock
+	 */
 	public void enterMinStocks(String product, String minStock) {
 		enterMinStock(product, minStock);
 		foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
