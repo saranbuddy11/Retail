@@ -13435,8 +13435,10 @@ public class V5Test extends TestInfra {
 			//Navigate to Global products and create a new products
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			globalProduct.createProducInGlobalProductPage(product.get(0), product.get(1), product.get(2));
+			browser.close();
 			
 			//Check the same product in V5 device
+			
 			
 			
 			
