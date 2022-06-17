@@ -33,6 +33,9 @@ public class PickList extends Factory {
 	public static final By TBL_ROW = By.xpath("//*[@id='filter-prd-grid']/tbody/tr");
 	public static final By BTN_RESET_NAV_TO_ZERO=By.id("showOnLocSelect3");
 	public static final By LOCATION_FILTER=By.id("li1");
+	public static final By POPUP_HEADER=By.xpath("//div[@class='ajs-header']");
+	public static final By POPUP_CONTENT=By.xpath("//div[@class='ajs-content']");
+	public static final By BTN_OKAY=By.xpath("//button[@class='ajs-button ajs-ok']");
 
 	public By objPickList(String text) {
 		By element = null;

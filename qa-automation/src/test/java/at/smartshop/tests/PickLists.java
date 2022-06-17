@@ -183,7 +183,7 @@ public class PickLists extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			
-			//Navigate to product--> picklist
+			//Navigate to product--> picklist and click on Negativetozero in pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
@@ -193,6 +193,11 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
+			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+			String content=foundation.getText(PickList.POPUP_CONTENT);
+			CustomisedAssert.assertTrue(content.contains(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_OKAY);
+			foundation.isDisplayed(PickList.PAGE_TITLE);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
