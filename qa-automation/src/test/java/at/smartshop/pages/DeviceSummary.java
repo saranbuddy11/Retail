@@ -22,6 +22,13 @@ public class DeviceSummary extends Factory {
 	public static final By DPD_SHOW_SEARCH_BTN = By.id("showprdlupdevice");
 	public static final By LBL_SERIAL_NUMBER = By.id("serialnumber");
 	public static final By DPD_COOLER_TYPE = By.id("coolertype");
+	public static final By MM_RELOAD_METHOD=By.xpath("//dt[text()='MM Reload Method']");
+	public static final By CHECKBOX_EGIFT_CARD=By.id("cbx.mmreloadmethod.gc");
+	
+	public By objSFEOptions(String text) {
+		return By.xpath("//dt[text()='"+text+"']/following-sibling::dd[1]");
+	}
+
 	
 	public void setTime(String locationName, String deviceName, String time, String menu) {
 		
