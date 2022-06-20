@@ -617,7 +617,7 @@ public class PickLists extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
-			// Navigate to product--> picklist and click on Negative to zero in pick list
+			// Navigate to product--> pickList and click on Negative to zero in pick list
 			// manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
