@@ -52,6 +52,13 @@ public class ConsumerEngagement extends Factory {
 	public static final By DPD_CLEAR=By.xpath("//div[@title='Clear value']");
 	public static final By DPD_ALL_LOCATION=By.xpath("//li[@data-value='All Locations']");
 	
+	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
+	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
+	public static final By BTN_PrintScreen_Print = By.xpath("//button[@id='printBtn']");
+	public static final By INPUT_CardToPrint = By.xpath("//input[@id='cardstoprint']");
+	public static final By INPUT_AddNote_PrintScreen = By.xpath("//input[@id='addnote']");
+	public static final By TXT_ErrorLabel_CardsToPrint = By.xpath("//label[@id='cardstoprint-error']");
+	
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
 	}
@@ -164,4 +171,5 @@ public class ConsumerEngagement extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
 }

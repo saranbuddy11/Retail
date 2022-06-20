@@ -304,4 +304,86 @@ public class EgiftCards extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	@Test(description = "C186469- Verify ADM > eGift Cards > Print Cards panel layout displayed as per Requirement"
+			+ "C186470 - Verify Functionality of buttons in Print Cards panel when an individual eGfit Card is selected for Print from existing records"
+			+ "C186471 - Verify body of Print Cards panel when an individual eGift Card is selected for Print from existing records grid")
+
+	public void verifyeGiftCardsPrintCardsPanelLayout() {
+		final String CASE_NUM = "186469";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String randomString = strings.getRandomCharacter();
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + randomString;
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		List<String> values = Arrays
+				.asList(rstLocationData.get(CNLocation.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TBL_CONSUMER_ENGAGE, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_CONSUMER_ENGAGE));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_PRINT_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LBL_PRINT, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_PRINT);
+			String innerValue = foundation.getText(ConsumerEngagement.LBL_PRINT);
+			String[] value = innerValue.split("\\s");
+			CustomisedAssert.assertEquals(value[1], giftTitle);
+			// C186469
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_PrintScreen_Cancel));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_PrintScreen_Print));
+
+			// C186470
+			foundation.click(ConsumerEngagement.BTN_PrintScreen_Cancel);
+			CustomisedAssert.assertTrue(
+					Datas.get(2).contains(foundation.getTextAttribute(ConsumerEngagement.Print_Panel, "style")));
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_PRINT_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+			// C186471
+			textBox.enterText(ConsumerEngagement.INPUT_CardToPrint, Datas.get(4));
+			foundation.click(ConsumerEngagement.ADD_TO_NOTE);
+			CustomisedAssert.assertTrue(
+					foundation.getText(ConsumerEngagement.TXT_ErrorLabel_CardsToPrint).equals(values.get(0)));
+			textBox.enterText(ConsumerEngagement.INPUT_CardToPrint, Datas.get(5));
+			CustomisedAssert.assertTrue(
+					foundation.getText(ConsumerEngagement.TXT_ErrorLabel_CardsToPrint).equals(values.get(1)));
+			textBox.enterText(ConsumerEngagement.INPUT_CardToPrint, Datas.get(6));
+			CustomisedAssert.assertTrue(
+					foundation.getText(ConsumerEngagement.TXT_ErrorLabel_CardsToPrint).equals(values.get(1)));
+			textBox.enterText(ConsumerEngagement.INPUT_CardToPrint, Datas.get(7));
+			CustomisedAssert.assertTrue(
+					foundation.getText(ConsumerEngagement.TXT_ErrorLabel_CardsToPrint).equals(values.get(2)));
+			textBox.enterText(ConsumerEngagement.INPUT_CardToPrint, Datas.get(1));
+			String randomAlphNumString = Datas.get(8);
+			textBox.enterText(ConsumerEngagement.INPUT_AddNote_PrintScreen, randomAlphNumString);
+			CustomisedAssert.assertEquals(
+					foundation.getAttribute(ConsumerEngagement.INPUT_AddNote_PrintScreen, "value").length(), 100);
+			textBox.enterText(ConsumerEngagement.INPUT_AddNote_PrintScreen, values.get(3));
+			foundation.click(ConsumerEngagement.BTN_PrintScreen_Print);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isFileDownloaded(Datas.get(3)));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+			
 }
