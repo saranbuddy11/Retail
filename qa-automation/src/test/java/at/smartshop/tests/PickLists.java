@@ -192,7 +192,7 @@ public class PickLists extends TestInfra {
 			//verify the plan pick list(s)
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
-			foundation.isDisplayed(PickList.PAGE_TITLE);
+			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
 			
 			
 
