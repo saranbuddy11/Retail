@@ -601,6 +601,7 @@ public class PickLists extends TestInfra {
 		}
 	}
 
+	//SOS-25625 & SOS-29192
 	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero"
 			+ "197247-ADM > Pick List Manager>Plan picklist>Verify Planned pick list show products")
 	public void verifyResetNegativeTozeroInPickListManager() {
