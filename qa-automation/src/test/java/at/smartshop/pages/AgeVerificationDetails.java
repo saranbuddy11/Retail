@@ -66,6 +66,9 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_EMAIL_ERROR = By.id("email-error");
 	public static final By TXT_CHECKOUT_ERROR = By.id("checkout-error");
 	public static final By INPUT_TEXT = By.xpath("//input[@aria-controls='dt']");
+	public static final By RECEIVED_EMAIL = By
+			.xpath("//div[@id='divList']//div[@id='divSubject' and contains(text(),'Pin Code')]");
+	public static final By EMAIL_BODY = By.xpath(" //div[@id='divItmPrts']//div[@id='divBdy']//tbody//b");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -88,6 +91,10 @@ public class AgeVerificationDetails extends Factory {
 
 	public By objExpiredPinlist(String text) {
 		return By.xpath("//tr[@class='odd']/td[text()='" + text + "']");
+	}
+
+	public By objAgeVerificationMailFolder(String text) {
+		return By.xpath("//span[@id='spnFldrNm' and @fldrnm='" + text + "']");
 	}
 
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {

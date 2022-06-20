@@ -2804,4 +2804,91 @@ public class AgeVerification extends TestInfra {
 			login.logout();
 		}
 	}
+
+	@Test(description = "168144 -Email Templates > Age Verification QR & Six Digit PIN Code > Standard Locations")
+	public void verifyAgeVerificationQRCodeInEmailForStandardLocations() {
+		final String CASE_NUM = "168144";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			// Navigate to Admin > Age Verification Sub Tab
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Creating Age Verification PIN
+			ageVerificationDetails.createAgeVerificationPin(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData);
+			login.logout();
+
+			// Open Outlook Server to validate the email Content
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.OUTLOOK_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.outLookLogin(
+					propertyFile.readPropertyFile(Configuration.OUTLOOK_USERNAME, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.OUTLOOK_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Verify Email and Validate the QR code
+			foundation.objectClick(ageVerificationDetails
+					.objAgeVerificationMailFolder(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+			foundation.objectClick(AgeVerificationDetails.RECEIVED_EMAIL);
+			List<String> content = foundation.getTextofListElement(AgeVerificationDetails.EMAIL_BODY);
+			System.out.println(content);
+			CustomisedAssert.assertEquals(content.get(0), requiredData.get(8));
+			login.outLookLogout();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Again Login into ADM application and Navigate to Age Verification Sub Tab
+			foundation.threadWait(Constants.SHORT_TIME);
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Verify Expire Pin Confirmation Prompt with clicking Yes
+			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
+			foundation.click(AgeVerificationDetails.BTN_YES);
+			foundation.refreshPage();
+			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
+			
+			// Resetting Age Verification Checkbox
+			foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
+			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
 }
