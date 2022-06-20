@@ -28,7 +28,7 @@ public class AccountAdjustment extends Factory {
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TABLE_AMOUNT_SORT = By.id("rpt-amount");
 	public static final By TABLE_HEAD = By.xpath("//table[@id='rptdt']/thead");
-	public static final By DATE_COLUMN = By.xpath("//*[@id=\"rptdt\"]/tbody/tr/td");
+	public static final By DATE_COLUMN = By.xpath("//*[@id='rptdt']/tbody/tr/td");
 	public static final By ACTION_COLUMN = By.xpath("//*[@id=\"rptdt\"]/tbody/tr[3]/td[7]");
 	public static final By REP_DATE = By.xpath("//th[@aria-sort='ascending']");
 	public static final By REP_REASON = By.id("rpt-reason");

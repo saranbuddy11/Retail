@@ -29,7 +29,7 @@ public class ProductSummary extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By TXT_PRODUCT_NAME = By.id("name");
 	public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
-	public static final By TBL_EXPIRED_GRID = By.xpath("//tr[@class='editable odd']");
+	public static final By TBL_EXPIRED_GRID = By.xpath("#locdt > tbody");
 	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
 	public static final By DPD_IS_DISABLED = By.id("isdisabled");
 	public static final By TBL_EXPIRED = By.id("locdt");
@@ -49,7 +49,7 @@ public class ProductSummary extends Factory {
     public static final By PRODUCT_NAME=By.id("name");
     public static final By MAX_STOCK=By.id("maxstock");
     public static final By CASE_COUNT=By.id("eoq");
-    
+    public static final By LBL_PRODUCT_SUMMMARY=By.id("Product Summary");
 	   
 	public By getLocationNamePath(String text) {
 		return By.xpath("//span[normalize-space()='" + text + "']");

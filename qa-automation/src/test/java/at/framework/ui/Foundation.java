@@ -1,6 +1,8 @@
 package at.framework.ui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,8 +14,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
@@ -34,6 +40,7 @@ import at.framework.browser.Factory;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class Foundation extends Factory {
@@ -541,6 +548,9 @@ public class Foundation extends Factory {
 		return point;
 	}
 
+	/**
+	 * Scroll to the Bottom of Page
+	 */
 	public void scrollToBottom() {
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) getDriver();
@@ -551,6 +561,12 @@ public class Foundation extends Factory {
 		}
 	}
 
+	/**
+	 * To get the Font Size using CSS value
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public String getFontSize(By object) {
 		String fontSize = null;
 		try {
@@ -564,6 +580,14 @@ public class Foundation extends Factory {
 		return fontSize;
 	}
 
+	/**
+	 * To get Style properties using PseudoElement
+	 * 
+	 * @param object
+	 * @param pseudo
+	 * @param style
+	 * @return
+	 */
 	public String getStyleUsingPseudoElemet(String object, String pseudo, String style) {
 		JavascriptExecutor js = (JavascriptExecutor) getDriver();
 		String text = js.executeScript("return window.getComputedStyle(document.querySelector('" + object + "'),'::"
@@ -571,6 +595,12 @@ public class Foundation extends Factory {
 		return text;
 	}
 
+	/**
+	 * To get the Outline Color
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public String getOutLineColor(By object) {
 		String hexColor = null;
 		try {
@@ -583,4 +613,160 @@ public class Foundation extends Factory {
 		}
 		return hexColor;
 	}
+
+	/**
+	 * To Check the file is Downloaded or not
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public boolean isFileDownloaded(String fileName) {
+		File dir = new File(FilePath.PATH_TO_DOWNLOAD);
+		File[] dirContents = dir.listFiles();
+		threadWait(Constants.LONG_TIME);
+
+		for (int i = 0; i < dirContents.length; i++) {
+			if (dirContents[i].getName().contains(fileName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Reading the PDF file Full name
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public String getPDFFileActualName(String fileName) {
+		File dir = new File(FilePath.PATH_TO_DOWNLOAD);
+		File[] dirContents = dir.listFiles();
+		threadWait(Constants.SHORT_TIME);
+		String actualName = "";
+
+		for (int i = 0; i < dirContents.length; i++) {
+			if (dirContents[i].getName().contains(fileName)) {
+				actualName = dirContents[i].getName();
+			}
+		}
+		return actualName;
+	}
+
+	/**
+	 * Reading the PDF file content
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public String readPDFFile(String filePath) throws IOException {
+		File file = new File(filePath);
+		FileInputStream fis = new FileInputStream(file);
+		PDDocument doc = Loader.loadPDF(fis);
+		String content = new PDFTextStripper().getText(doc);
+		doc.close();
+		fis.close();
+		threadWait(Constants.SHORT_TIME);
+		return content;
+	}
+
+	/**
+	 * Getting the Page Count of PDF file
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public String getPDFFilePageCount(String filePath) throws IOException {
+		File file = new File(filePath);
+		FileInputStream fis = new FileInputStream(file);
+		PDDocument doc = Loader.loadPDF(fis);
+		String count = String.valueOf(doc.getPages().getCount());
+		doc.close();
+		fis.close();
+		threadWait(Constants.SHORT_TIME);
+		return count;
+	}
+
+	/**
+	 * Get the Number of Count/Occurences of Particular word in sentences
+	 * 
+	 * @param str
+	 * @param word
+	 * @return
+	 */
+	public int countOccurrences(String str, String word) {
+		String a[] = str.split("\\s");
+		int count = 0;
+		for (int i = 0; i < a.length; i++) {
+			if (a[i].contains(word))
+				count++;
+		}
+		return count;
+	}
+
+	/**
+	 * Get the Number of Count/Occurences of Particular Character in String
+	 * 
+	 * @param str
+	 * @param word
+	 * @return
+	 */
+	public int countOccurrencesofChar(String str, char letter) {
+		int count = 0;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == letter)
+				count++;
+		}
+		return count;
+	}
+
+	/**
+	 * Get the Particular word by using index position from Sentence
+	 * 
+	 * @param str
+	 * @param position
+	 * @return
+	 */
+	public String getParticularWordFromSentence(String str, int position) {
+		String a[] = str.split("\\s");
+		String word = a[position];
+		return word;
+	}
+
+	/**
+	 * Get the numbers from a String
+	 * 
+	 * @param str
+	 */
+	public String getNumbersFromString(String str) {
+		char[] chars = str.toCharArray();
+		StringBuilder sb = new StringBuilder();
+		for (char c : chars) {
+			if (Character.isDigit(c)) {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Checks the String contain numbers only or not
+	 * 
+	 * @param strNum
+	 * @return
+	 */
+	public boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
 }
+

@@ -33,7 +33,7 @@ public class UserList {
  	public static final By LNK_ORG_REMOVE = By.xpath("//div[@id='org-select']//li/span");
 	public static final By LNK_ORG_REMOVE_ALL = By.xpath("//div[@id='org-select']//span//ul/span");
 	public static final By LNK_LOCATION_REMOVE_ALL = By.xpath("//div[@id='location-select']//span//ul/span");
-	public static final By CREATE_NEW_ROLE = By.id("newBtn");
+	public static final By CREATE_NEW_ROLE = By.xpath("//button[@class='btn btn-primary dropdown-toggle']");
 	public static final By FIRST_NAME_FIELD = By.id("firstname");
 	public static final By LAST_NAME_FIELD = By.id("lastname");
 	public static final By EMAIL_ADDRESS_FIELD = By.id("email");
@@ -77,6 +77,9 @@ public class UserList {
 	public static final By SELECT_NEXT= By.xpath("//th[@class='next']");
 	public static final By SELECT_DATE= By.xpath("//td[@class='day  active']");
 	public static final By DELETE_ROLE= By.xpath("//a[@class='fa fa-trash icon']");
+	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
+	public static final By DRP_SELECT_ROLE= By.xpath("//a[@id='standarduserBtn']");
+
 
     public By objRoleName(String roleName) {
         return By.xpath("//td[text()='" + roleName + "']");
