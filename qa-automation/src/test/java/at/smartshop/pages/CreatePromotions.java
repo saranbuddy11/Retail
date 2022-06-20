@@ -11,6 +11,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -22,6 +23,7 @@ public class CreatePromotions extends Factory {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
+	private CheckBox checkBox = new CheckBox();
 
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
@@ -193,8 +195,10 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_TENDERTYPE_ERROR = By.id("tendertypes-error");
 	public static final By ALL_ITEMS = By.xpath("//input[@id='allitems']");
 	public static final By SELECTION_CATEGORY = By.id("categorySelect");
+	public static final By SELECTION_ITEM = By.id("itemSelect");
 	public static final By ALL_CATEGORIES_SELECTION = By
 			.cssSelector("#categorySelect>dd>span>span>span>ul>li[title=' All ']");
+	public static final By ALL_ITEMS_SELECTION = By.cssSelector("#itemSelect>dd>span>span>span>ul>li[title=' All ']");
 	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
 
 	public By objLocation(String value) {
@@ -622,5 +626,55 @@ public class CreatePromotions extends Factory {
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	/**
+	 * Selecting Build Bundle as Category and choosing All Categories Check Box
+	 * 
+	 * @param discountType
+	 */
+	public void selectBuildBundleAsCategoryAndCheckBox(String discountType) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BUILD_BUNDLE));
+		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
+		foundation.waitforElementToBeVisible(SELECTION_CATEGORY, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_CATEGORY));
+		checkBox.check(ALL_CATEGORY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_CATEGORIES_SELECTION));
+	}
+
+	/**
+	 * Selecting Build Bundle as Item and choosing All Items Check Box
+	 * 
+	 * @param discountType
+	 */
+	public void selectBuildBundleAsItemAndCheckBox(String discountType) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BUILD_BUNDLE));
+		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
+		foundation.waitforElementToBeVisible(SELECTION_ITEM, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_ITEM));
+		checkBox.check(ALL_ITEMS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_ITEMS_SELECTION));
+	}
+
+	/**
+	 * Changing Promotion Type from Bundle to On Screen while Creating Promotion
+	 * 
+	 * @param promo
+	 */
+	public void changePromotionBundleToOnScreen(String promo) {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_PROMO_TYPE, promo, Constants.TEXT);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 }

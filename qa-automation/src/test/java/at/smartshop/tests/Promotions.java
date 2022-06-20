@@ -3628,8 +3628,6 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
 			foundation.click(PromotionList.BTN_CREATE);
@@ -3645,29 +3643,73 @@ public class Promotions extends TestInfra {
 					rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Category in Details Page with All Categories checkbox
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
-			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(2), Constants.TEXT);
-			foundation.waitforElementToBeVisible(CreatePromotions.SELECTION_CATEGORY, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION_CATEGORY));
-			checkBox.check(CreatePromotions.ALL_CATEGORY);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ALL_CATEGORIES_SELECTION));
+			createPromotions.selectBuildBundleAsCategoryAndCheckBox(requiredData.get(2));
 
 			// Move to Create Promotion Page, Select Promotion Type as 'On Screen' and
 			// Travel Back to Promotion Details Page
-			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
-			foundation.waitforElementToBeVisible(CreatePromotions.LBL_FILTER, 5);
-			foundation.scrollIntoViewElement(CreatePromotions.BTN_CANCEL_1);
-			foundation.click(CreatePromotions.BTN_CANCEL_1);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
-			foundation.threadWait(Constants.SHORT_TIME);
-			dropDown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promoType.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.objectClick(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.SHORT_TIME);
+			createPromotions.changePromotionBundleToOnScreen(promoType.get(1));
+
+			// Validating the Promotion Details Page for 'On Screen Promotion'
+			String title = foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
+			CustomisedAssert.assertEquals(title, promoType.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ON_SCREEN_TENDER_DETAILS));
+
+			// Cancelling the Promotion
+			createPromotions.cancellingPromotion();
+
+			// Navigating to Location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "197134 - To verify the Promotion, when Promotion Type changes from Bundle to On Screen Under Items")
+	public void verifyPromtionChangesFromBundleToOnScreenUnderItems() {
+		final String CASE_NUM = "197134";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> promoType = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_TYPE).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, Select Org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(promoType.get(0), promoName.get(0), promoName.get(1));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+
+			// Select Build Bundle as Item in Details Page with All Items checkbox
+			createPromotions.selectBuildBundleAsItemAndCheckBox(requiredData.get(1));
+
+			// Move to Create Promotion Page, Select Promotion Type as 'On Screen' and
+			// Travel Back to Promotion Details Page
+			createPromotions.changePromotionBundleToOnScreen(promoType.get(1));
 
 			// Validating the Promotion Details Page for 'On Screen Promotion'
 			String title = foundation.getText(CreatePromotions.LBL_PAGE_TITLE);
