@@ -209,6 +209,23 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//select[@id='discountBy']//option[text()='" + dropdown + "']");
 	}
 
+	public By objFieldSet(String filedSetText) {
+		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
+	}
+
+	public By filterOptions(String fieldName) {
+		return By.xpath("//dt[text()='" + fieldName + "']");
+	}
+
+	/**
+	 * Creating New Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void newPromotion(String promotionType, String promotionName, String displayName, String orgName,
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
@@ -223,8 +240,12 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_LOC_RIGHT);
 	}
 
+	/**
+	 * Getting the Popup Data
+	 * 
+	 * @return
+	 */
 	public List<String> getPopUpData() {
-
 		List<String> popupFieldValues = foundation.getTextofListElement(LBL_POPUP_VALUES);
 		List<String> popupFieldArray = new ArrayList<String>();
 		List<String> promoValues;
@@ -237,14 +258,11 @@ public class CreatePromotions extends Factory {
 		return popupFieldArray;
 	}
 
-	public By objFieldSet(String filedSetText) {
-		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
-	}
-
-	public By filterOptions(String fieldName) {
-		return By.xpath("//dt[text()='" + fieldName + "']");
-	}
-
+	/**
+	 * Verify Org field
+	 * 
+	 * @param orgs
+	 */
 	public void verifyOrgField(List<String> orgs) {
 		List<String> orgData = dropDown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 		for (int iter = 0; iter < orgData.size(); iter++) {
@@ -252,6 +270,15 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Creating Bundle Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,
 			String locationName) {
 		try {
@@ -266,6 +293,14 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Selecting Bundle Promotion Details
+	 * 
+	 * @param discountBy
+	 * @param item
+	 * @param transactionMin
+	 * @param discountType
+	 */
 	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,
 			String discountType) {
 		try {
@@ -291,6 +326,11 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Bundle Promotion Price
+	 * 
+	 * @param bundlePrice
+	 */
 	public void selectBundlePromotionPricing(String bundlePrice) {
 		try {
 			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);
@@ -299,6 +339,12 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Selecting Bundle Promotion Duration
+	 * 
+	 * @param discountTime
+	 * @param discountDuration
+	 */
 	public void selectBundlePromotionTimes(String discountTime, String discountDuration) {
 		try {
 			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
@@ -309,6 +355,9 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Recurring Day
+	 */
 	public void recurringDay() {
 		try {
 			Calendar calendar = Calendar.getInstance();
@@ -321,6 +370,15 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Tender Discount Details
+	 * 
+	 * @param tenderType
+	 * @param discountType
+	 * @param applyDIscountTo
+	 * @param discountAmount
+	 * @param transactionAmount
+	 */
 	public void tenderDiscountDetails(String tenderType, String discountType, String applyDIscountTo,
 			String discountAmount, String transactionAmount) {
 		try {
@@ -338,6 +396,11 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Discount Range
+	 * 
+	 * @return
+	 */
 	public String[] discountRange() {
 		String[] discountprice = null;
 		try {
@@ -351,6 +414,14 @@ public class CreatePromotions extends Factory {
 		return discountprice;
 	}
 
+	/**
+	 * Creating New Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void newPromotionList(String promotionType, String promotionName, String orgName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
@@ -362,6 +433,11 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_LOC_RIGHT);
 	}
 
+	/**
+	 * Selecting the WeekDays
+	 * 
+	 * @param weekDays
+	 */
 	public void selectWeekDays(String weekDays) {
 		try {
 			List<String> weekDaysData = Arrays.asList(weekDays.split(Constants.DELIMITER_HASH));
@@ -375,6 +451,13 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Create the Promotion with Type and Name
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 */
 	public void createPromotion(String promotionType, String promotionName, String displayName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objLocation(promotionType)));
@@ -386,6 +469,12 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
 	}
 
+	/**
+	 * Selecting the Org and Location
+	 * 
+	 * @param org
+	 * @param location
+	 */
 	public void selectOrgLoc(String org, String location) {
 		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
 		foundation.click(BTN_ORG_RIGHT);
@@ -396,6 +485,11 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_DETAILS, 5);
 	}
 
+	/**
+	 * Verify the Bundle Option
+	 * 
+	 * @param requiredData
+	 */
 	public void verifyBundleOption(List<String> requiredData) {
 		List<String> options = dropDown.getAllItems(DPD_DISCOUNT_BY);
 		CustomisedAssert.assertEquals(options.get(0), requiredData.get(0));
@@ -404,6 +498,12 @@ public class CreatePromotions extends Factory {
 		CustomisedAssert.assertEquals(options.get(3), requiredData.get(3));
 	}
 
+	/**
+	 * Creating Bundle Group with Product
+	 * 
+	 * @param groupName
+	 * @param product
+	 */
 	public void creatingBundleGroup(String groupName, String product) {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -417,6 +517,13 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Creating the Bundle Group with Product & Category
+	 * 
+	 * @param groupName
+	 * @param product
+	 * @param category
+	 */
 	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -437,6 +544,13 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Edit the Bundle Group in Product, Category and Group Name
+	 * 
+	 * @param groupName
+	 * @param product
+	 * @param category
+	 */
 	public void editBundleGroup(String groupName, String product, String category) {
 		foundation.click(LBL_BUNDLE_GROUP_EDIT);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -458,6 +572,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Cancelling the Created Promotion
+	 */
 	public void cancellingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
@@ -470,6 +587,9 @@ public class CreatePromotions extends Factory {
 		foundation.alertAccept();
 	}
 
+	/**
+	 * Delete Bundle Group
+	 */
 	public void deleteBundleGroup() {
 		foundation.click(DELETE_GROUP);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -478,7 +598,12 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
-	public void selectItem(String item) {
+	/**
+	 * Select Input as Item and Choose All Item CheckBox
+	 * 
+	 * @param item
+	 */
+	public void selectItemInBuildBundle(String item) {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, item);
@@ -486,7 +611,12 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
-	public void selectCategory(String category) {
+	/**
+	 * Select Input as Category and Choose All Category CheckBox
+	 * 
+	 * @param item
+	 */
+	public void selectCategoryInBuildBundle(String category) {
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);

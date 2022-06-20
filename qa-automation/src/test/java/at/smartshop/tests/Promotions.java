@@ -2576,7 +2576,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(product.get(2));
+			createPromotions.selectItemInBuildBundle(product.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2584,7 +2584,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
-			createPromotions.selectItem(product.get(3));
+			createPromotions.selectItemInBuildBundle(product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_ADD);
 
@@ -2683,11 +2683,11 @@ public class Promotions extends TestInfra {
 
 			// Create a group without group name,verify the error message & verify item
 			// search box
-			createPromotions.selectItem(datas.get(2));
-			createPromotions.selectItem(datas.get(3));
+			createPromotions.selectItemInBuildBundle(datas.get(2));
+			createPromotions.selectItemInBuildBundle(datas.get(3));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			createPromotions.selectCategory(datas.get(1));
+			createPromotions.selectCategoryInBuildBundle(datas.get(1));
 			String text = foundation.getText(CreatePromotions.PROD_CATE_SELECTED);
 			CustomisedAssert.assertEquals(text, datas.get(0));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
@@ -2695,7 +2695,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
-			createPromotions.selectItem(datas.get(4));
+			createPromotions.selectItemInBuildBundle(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ERROR_MSG));
@@ -2768,8 +2768,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.NAME_GRID));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.UPC_GRID));
-			createPromotions.selectItem(productName.get(0));
-			createPromotions.selectItem(productName.get(1));
+			createPromotions.selectItemInBuildBundle(productName.get(0));
+			createPromotions.selectItemInBuildBundle(productName.get(1));
 			String msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(1));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
@@ -2781,8 +2781,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST_DELETE));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			createPromotions.selectItem(productName.get(0));
-			createPromotions.selectItem(productName.get(1));
+			createPromotions.selectItemInBuildBundle(productName.get(0));
+			createPromotions.selectItemInBuildBundle(productName.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
 			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(2));
@@ -2796,8 +2796,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_NAME_GRID));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_UPC_GRID));
-			createPromotions.selectCategory(columnName.get(0));
-			createPromotions.selectCategory(columnName.get(1));
+			createPromotions.selectCategoryInBuildBundle(columnName.get(0));
+			createPromotions.selectCategoryInBuildBundle(columnName.get(1));
 			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(3));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
@@ -2809,8 +2809,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_LIST_DELETE));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
-			createPromotions.selectCategory(columnName.get(0));
-			createPromotions.selectCategory(columnName.get(1));
+			createPromotions.selectCategoryInBuildBundle(columnName.get(0));
+			createPromotions.selectCategoryInBuildBundle(columnName.get(1));
 			foundation.threadWait(Constants.THREE_SECOND);
 			msg = foundation.getText(CreatePromotions.BUNDLE_LIST_MESSAGE);
 			CustomisedAssert.assertEquals(msg, requiredData.get(2));
@@ -3011,7 +3011,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(org.get(3));
+			createPromotions.selectItemInBuildBundle(org.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// verify the same product is grayed out or not
@@ -3025,7 +3025,7 @@ public class Promotions extends TestInfra {
 
 			// Navigate to category tab and create a group
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			createPromotions.selectCategory(org.get(4));
+			createPromotions.selectCategoryInBuildBundle(org.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// verify the selected category is grayed out or not
@@ -3088,7 +3088,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(requiredData.get(3));
+			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// Create a another group with same item in category
@@ -3096,7 +3096,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			createPromotions.selectCategory(requiredData.get(4));
+			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 
 			// verify the popup message and click on yes
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.HEADER_POPUP));
@@ -3122,14 +3122,14 @@ public class Promotions extends TestInfra {
 			// Create a group with Product
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(requiredData.get(3));
+			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// click on same group and change the Item to category
 			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			createPromotions.selectCategory(requiredData.get(4));
+			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 
 			// verify the popup message
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_POPUP_HEADER));
@@ -3395,7 +3395,7 @@ public class Promotions extends TestInfra {
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(requiredData.get(3));
+			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// verify the created group name under bundle criteria & price tag
@@ -3523,7 +3523,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
 			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.SHORT_TIME);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
-			createPromotions.selectItem(requiredData.get(3));
+			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// Create another bundle group in Group with category
@@ -3532,7 +3532,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElementToBeVisible(CreatePromotions.CATEGORY_FILTER, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(2));
-			createPromotions.selectCategory(requiredData.get(4));
+			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 
 			// verify the summary message after created group
@@ -3584,7 +3584,7 @@ public class Promotions extends TestInfra {
 			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_GRID));
-			createPromotions.selectCategory(requiredData.get(3));
+			createPromotions.selectCategoryInBuildBundle(requiredData.get(3));
 			foundation.threadWait(Constants.SHORT_TIME);
 			String cat_record = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(cat_record, rstLocationData.get(CNLocation.SHOW_RECORDS));
@@ -3606,7 +3606,7 @@ public class Promotions extends TestInfra {
 	}
 
 	@Test(description = "197135 - To verify the Promotion, when Promotion Type changes from Bundle to On Screen Under Categories")
-	public void verifyPromtionAndItsChanges() {
+	public void verifyPromtionChangesFromBundleToOnScreenUnderCategories() {
 		final String CASE_NUM = "197135";
 
 		// Reading test data from database
