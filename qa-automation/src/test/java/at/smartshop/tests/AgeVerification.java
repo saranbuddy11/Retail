@@ -2805,6 +2805,9 @@ public class AgeVerification extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author karthikr - 22/06/2022
+	 */
 	@Test(description = "168144 -Email Templates > Age Verification QR & Six Digit PIN Code > Standard Locations")
 	public void verifyAgeVerificationQRCodeInEmailForStandardLocations() {
 		final String CASE_NUM = "168144";
@@ -2824,13 +2827,7 @@ public class AgeVerification extends TestInfra {
 			locationList.selectLocationName(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
 
 			// Verifying the selection of defaults for Age Verification
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
-			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
-				checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			ageVerificationDetails.checkingOnDefaultsOfAgeVerification();
 
 			// Navigate to Admin > Age Verification Sub Tab
 			navigationBar.navigateToMenuItem(menus.get(1));
@@ -2842,21 +2839,12 @@ public class AgeVerification extends TestInfra {
 			login.logout();
 
 			// Open Outlook Server to validate the email Content
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.OUTLOOK_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.outLookLogin(
-					propertyFile.readPropertyFile(Configuration.OUTLOOK_USERNAME, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.OUTLOOK_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.launchBrowserWithOutLookMail();
 
 			// Verify Email and Validate the QR code
-			foundation.objectClick(ageVerificationDetails
-					.objAgeVerificationMailFolder(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-			foundation.objectClick(AgeVerificationDetails.RECEIVED_EMAIL);
-			List<String> content = foundation.getTextofListElement(AgeVerificationDetails.EMAIL_BODY);
-			System.out.println(content);
-			CustomisedAssert.assertEquals(content.get(0), requiredData.get(8));
-			login.outLookLogout();
+			ageVerificationDetails.navigateToAgeVerificationFolderAndValidateMailContentThenDelete(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(8),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2869,24 +2857,12 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
 
 			// Verify Expire Pin Confirmation Prompt with clicking Yes
-			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
-					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0)));
-			foundation.click(AgeVerificationDetails.BTN_YES);
-			foundation.refreshPage();
-			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
-			
+			ageVerificationDetails.expirePinWithConfirmationPrompt(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0));
+
 			// Resetting Age Verification Checkbox
-			foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
-			navigationBar.navigateToMenuItem(menus.get(0));
-			foundation.threadWait(Constants.THREE_SECOND);
-			locationList.selectLocationName(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
-			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
-				checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			ageVerificationDetails.resettingAgeVerificationCheckBox(menus.get(0),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
 			login.logout();
 			browser.close();
 		}
