@@ -178,7 +178,7 @@ public class Promotions extends TestInfra {
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.LONG_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -204,6 +204,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(popupFieldArray.get(8).contains(currentDate));
 
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -721,7 +722,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_UPDATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1978,7 +1979,7 @@ public class Promotions extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(2));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			foundation.waitforElement(EditPromotion.LBL_PROMPT_TITLE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(EditPromotion.LBL_PROMPT_TITLE)
@@ -1988,7 +1989,7 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 
 			promotionList.searchPromotion(promotionName, statusType);
