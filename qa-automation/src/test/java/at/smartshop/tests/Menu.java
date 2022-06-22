@@ -194,7 +194,7 @@ public class Menu extends TestInfra {
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
-			// deselect printgroup checkbox
+			//Deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(requiredData.get(0)));
 
