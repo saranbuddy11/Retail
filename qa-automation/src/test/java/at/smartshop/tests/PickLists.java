@@ -601,10 +601,15 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-	//SOS-25625 & SOS-29192
+
+	/**
+	 * @author afrosean
+	 * Story SOS-25625 & SOS-29192
+	 * @date: 20-06-2022
+	 */
 	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero"
 			+ "197247-ADM > Pick List Manager>Plan picklist>Verify Planned pick list show products")
-	public void verifyResetNegativeTozeroInPickListManager() {
+	public void verifyResetNegativeToZeroAndPlannedPickList() {
 		final String CASE_NUM = "196844";
 
 		// Reading test data from database
@@ -629,6 +634,9 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
+			String data= foundation.getText(PickList.FIRST_ROW_GRID);
+			CustomisedAssert.assertTrue(data.contains(rstPickListData.get(CNPickList.APLOCATION)));
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

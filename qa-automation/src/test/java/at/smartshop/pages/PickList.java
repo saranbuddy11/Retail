@@ -41,6 +41,7 @@ public class PickList extends Factory {
 	public static final By POPUP_CONTENT=By.xpath("//div[@class='ajs-content']");
 	public static final By BTN_OKAY=By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By FILTER_GRID=By.id("filter-prd-grid");
+	public static final By FIRST_ROW_GRID=By.xpath("//tbody[@role='rowgroup']/tr");
     public static final By FILTER_LOCATION=By.id("filter-loc-title");
 	public static final By BTN_SELECT_ALL = By.id("loc-select-all");
 	public static final By DRP_LOCATION = By.id("location-select");
