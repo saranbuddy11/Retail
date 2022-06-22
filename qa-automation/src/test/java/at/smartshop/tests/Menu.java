@@ -160,7 +160,7 @@ public class Menu extends TestInfra {
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
             foundation.threadWait(Constants.SHORT_TIME);
