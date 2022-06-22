@@ -1181,6 +1181,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.refreshPage();
 			textBox.enterText(ProductSummary.SEARCH_FILTER,
 					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
 			Map<Integer, Map<String, String>> uiTableData = productSummary.getTblRecordsUI();
 			Map<String, String> innerMap = new HashMap<>();
 			String innerValue = "";
@@ -1341,6 +1342,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.threadWait(Constants.TWO_SECOND);
 		}
 	}
 
@@ -1452,6 +1454,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.threadWait(Constants.TWO_SECOND);
 
 		}
 	}
