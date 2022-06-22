@@ -2842,8 +2842,8 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserWithOutLookMail();
 
 			// Verify Email and Validate the QR code
-			ageVerificationDetails
-					.openingFolderAndClickMail(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			ageVerificationDetails.openingFolderAndClickMail(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(9));
 			String code = ageVerificationDetails.validateMailContent(requiredData.get(8),
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
 			ageVerificationDetails.deleteOutLookMailAndLogout();
@@ -2859,8 +2859,8 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserWithOutLookMail();
 
 			// Verify Email and Validate the QR code
-			ageVerificationDetails
-					.openingFolderAndClickMail(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			ageVerificationDetails.openingFolderAndClickMail(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(9));
 			String QRcode = ageVerificationDetails.validateMailContent(requiredData.get(8),
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
 			CustomisedAssert.assertTrue(code != QRcode);
