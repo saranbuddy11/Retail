@@ -52,7 +52,7 @@ public class GlobalProductChange extends Factory {
 	public static final By GPC_lOCATION = By.id("global-prd");
 	public static final By SELECT_ALL = By.id("loc-select-all");
 	public static final By SELECT_COUNT = By.id("select-count");
-	public static final By FILTER_PRODUCTS_COUNT=By.id("filter-content");
+	public static final By FILTER_PRODUCTS_CONTENT=By.id("filter-content");
 	public static final By OPS_LOCATION = By.id("operator-prd");
 	public static final By DESELECT_ALL = By.id("loc-deselect-all");
 	public static final By FILTER_PRODUCT = By.id("filter-prd-title");
@@ -227,6 +227,6 @@ public class GlobalProductChange extends Factory {
 			textBox.enterText(TXT_PRODUCT_NAME, product);
 			foundation.click(BTN_PRODUCT_APPLY);
 			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_COUNT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_CONTENT));
      }
 }

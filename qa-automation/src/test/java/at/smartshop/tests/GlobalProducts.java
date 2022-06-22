@@ -1552,6 +1552,10 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrosean
+	 * Date: 17-06-2022
+	 */
 	@Test(description = "C197162-verify searching of products for large number of locations"
 			+ "C197161-verify search of a product With Apostrophe in its name")
 	public void verifySearchingOfProductsForLargeNoOfLocations() {
