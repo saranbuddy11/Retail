@@ -2806,7 +2806,8 @@ public class AgeVerification extends TestInfra {
 	}
 
 	/**
-	 * @author karthikr - 22/06/2022
+	 * @author karthikr SOS-25748
+	 * @date - 22/06/2022
 	 */
 	@Test(description = "168144 -Email Templates > Age Verification QR & Six Digit PIN Code > Standard Locations")
 	public void verifyAgeVerificationQRCodeInEmailForStandardLocations() {
