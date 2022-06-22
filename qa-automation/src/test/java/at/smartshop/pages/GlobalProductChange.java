@@ -113,6 +113,7 @@ public class GlobalProductChange extends Factory {
 	public static final By CHK_PRODUCT_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier-checked");
 	public static final By DPD_FILTER_BY = By.id("filter-by");
 	public static final By LBL_UPDATE = By.xpath("//label[@class='checked']");
+	public static final By TBL_RECORDS=By.cssSelector("#filtered-prd-dt >tbody");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -229,4 +230,33 @@ public class GlobalProductChange extends Factory {
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_CONTENT));
      }
+     
+     
+     public Map<Integer, Map<String, String>> getTablelRecordsFromUI() {
+ 		try {
+ 			int recordCount = 0;
+ 			tableHeaders.clear();
+ 			WebElement tableList = getDriver().findElement(TBL_RECORDS);
+ 			WebElement table = getDriver().findElement(GRID_HEADER);
+ 			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+ 			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+ 			for (WebElement columnHeader : columnHeaders) {
+ 				tableHeaders.add(columnHeader.getText());
+ 			}
+ 			int col = tableHeaders.size();
+ 			for (WebElement row : rows) {
+ 				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+ 				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+ 					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+ 					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+ 					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+ 				}
+ 				tableData.put(recordCount, uiTblRowValues);
+ 				recordCount++;
+ 			}
+ 		} catch (Exception exc) {
+ 			TestInfra.failWithScreenShot(exc.toString());
+ 		}
+ 		return tableData;
+ 	}
 }
