@@ -2842,15 +2842,34 @@ public class AgeVerification extends TestInfra {
 			navigationBar.launchBrowserWithOutLookMail();
 
 			// Verify Email and Validate the QR code
-			ageVerificationDetails.navigateToAgeVerificationFolderAndValidateMailContentThenDelete(
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(8),
+			ageVerificationDetails
+					.openingFolderAndClickMail(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			String code = ageVerificationDetails.validateMailContent(requiredData.get(8),
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
+			ageVerificationDetails.deleteOutLookMailAndLogout();
+
+			// Again Login into ADM, Navigate to Age Verification Sub Tab and click Resend
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(AgeVerificationDetails.BTN_RESEND);
+			login.logout();
+
+			// Again Login to Outlook Server
+			navigationBar.launchBrowserWithOutLookMail();
+
+			// Verify Email and Validate the QR code
+			ageVerificationDetails
+					.openingFolderAndClickMail(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			String QRcode = ageVerificationDetails.validateMailContent(requiredData.get(8),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
+			CustomisedAssert.assertTrue(code != QRcode);
+			ageVerificationDetails.deleteOutLookMailAndLogout();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Again Login into ADM application and Navigate to Age Verification Sub Tab
-			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menus.get(1));

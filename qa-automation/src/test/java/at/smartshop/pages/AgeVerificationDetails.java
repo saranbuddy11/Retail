@@ -244,28 +244,42 @@ public class AgeVerificationDetails extends Factory {
 	}
 
 	/**
-	 * Navigate to Age Verification Folder in Outlook Mail and Validates the Mail
-	 * content then Delete mail
+	 * Opening the Folder and Clicking on Mail
+	 * 
+	 * @param option
+	 */
+	public void openingFolderAndClickMail(String option) {
+		foundation.objectClick(objAgeVerificationMailFolder(option));
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(RECEIVED_EMAIL);
+	}
+
+	/**
+	 * Validates the Mail content
 	 * 
 	 * @param option
 	 * @param heading
 	 * @param location
 	 * @param digitCount
 	 */
-	public void navigateToAgeVerificationFolderAndValidateMailContentThenDelete(String option, String heading,
-			String location, String digitCount) {
-		foundation.objectClick(objAgeVerificationMailFolder(option));
-		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.objectClick(RECEIVED_EMAIL);
+	public String validateMailContent(String heading, String location, String digitCount) {
 		List<String> content = foundation.getTextofListElement(EMAIL_BODY);
 		CustomisedAssert.assertEquals(content.get(0), heading);
 		CustomisedAssert.assertEquals(content.get(1), location);
 		CustomisedAssert.assertTrue(foundation.isNumeric(content.get(4)));
 		String count = String.valueOf(content.get(4).length());
 		CustomisedAssert.assertEquals(count, digitCount);
-		foundation.objectClick(AgeVerificationDetails.EMAIL_DELETE);
+		return content.get(4);
+	}
+
+	/**
+	 * Deleting the Outlook Mail and Logout
+	 */
+	public void deleteOutLookMailAndLogout() {
+		foundation.objectClick(EMAIL_DELETE);
 		foundation.threadWait(Constants.SHORT_TIME);
 		login.outLookLogout();
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
