@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -1553,8 +1554,7 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date: 17-06-2022
+	 * @author afrosean Date: 17-06-2022
 	 */
 	@Test(description = "C197162-verify searching of products for large number of locations"
 			+ "C197161-verify search of a product With Apostrophe in its name")
@@ -1574,25 +1574,26 @@ public class GlobalProducts extends TestInfra {
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
-			if (checkBox.isChecked(GlobalProductChange.GPC_lOCATION)) {
-				foundation.click(GlobalProductChange.SELECT_ALL);
-				foundation.waitforElementToBeVisible(GlobalProductChange.BTN_LOCATION_APPLY, 3);
-				foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
-				foundation.threadWait(Constants.SHORT_TIME);
-				//CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.FILTER_PRODUCTS_COUNT));
-			}
+			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(requiredData.get(2)));
+			List<String> page = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
+			
+			//Select multiple location and verify the grid data
+			globalProductChange.selectLocationAndClickOnApply(GlobalProductChange.SELECT_ALL);
+			List<String> page1 = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
+		    CustomisedAssert.assertTrue(page1.size()>page.size());
 
 			// Navigate to product Tab and search for product
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(0));
+			String data=foundation.getText(GlobalProductChange.FIRST_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
 
 			// Navigate to product Tab and search for product With Apostrophe in its name
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(1));
-			int i = 10;
-			int j = 20;
-			CustomisedAssert.assertTrue(j>i);
+		    data=foundation.getText(GlobalProductChange.FIRST_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}	
+	}
 }
