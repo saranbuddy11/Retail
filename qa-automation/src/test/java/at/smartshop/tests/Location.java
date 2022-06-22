@@ -1766,6 +1766,7 @@ public class Location extends TestInfra {
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 			locationSummary.verifyProductsUI();
 
 			// close the popup by 'X' button
@@ -1777,6 +1778,7 @@ public class Location extends TestInfra {
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 			locationSummary.verifyProductsUI();
 
 			// adding product and verifying on Product UI
