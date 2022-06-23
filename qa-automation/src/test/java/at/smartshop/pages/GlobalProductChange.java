@@ -117,7 +117,7 @@ public class GlobalProductChange extends Factory {
 	public static final By DPD_FILTER_BY = By.id("filter-by");
 	public static final By LBL_UPDATE = By.xpath("//label[@class='checked']");
 	public static final By TABLE_RECORD=By.xpath("//div[@id='prd-dt-paging']//a[contains(@id,'page')]");
-	public static final By FIRST_ROW_DATA=By.xpath("//tr[@class='odd']");
+	public static final By TBL_ROW_DATA=By.xpath("//tr[@class='odd']");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");

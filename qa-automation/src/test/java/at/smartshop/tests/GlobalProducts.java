@@ -1584,12 +1584,12 @@ public class GlobalProducts extends TestInfra {
 
 			// Navigate to product Tab and search for product
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(0));
-			String data=foundation.getText(GlobalProductChange.FIRST_ROW_DATA);
+			String data = foundation.getText(GlobalProductChange.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
 
 			// Navigate to product Tab and search for product With Apostrophe in its name
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(1));
-		    data=foundation.getText(GlobalProductChange.FIRST_ROW_DATA);
+		    data=foundation.getText(GlobalProductChange.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
 
 		} catch (Exception exc) {
