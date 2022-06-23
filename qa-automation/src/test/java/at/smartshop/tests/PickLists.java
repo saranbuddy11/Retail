@@ -634,9 +634,8 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-			String data= foundation.getText(PickList.FIRST_ROW_GRID);
-			CustomisedAssert.assertTrue(data.contains(rstPickListData.get(CNPickList.APLOCATION)));
-			
+			String data= foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(rstPickListData.get(CNPickList.APLOCATION)));			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
