@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +10,18 @@ import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class PickList extends Factory {
 	private Foundation foundation = new Foundation();
+	private Dropdown dropDown = new Dropdown();
+	private CheckBox checkBox = new CheckBox();
+	private TextBox textBox = new TextBox();
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
@@ -62,7 +69,12 @@ public class PickList extends Factory {
 	public static final By BTN_REFRESH = By.id("refreshButton");
 	public static final By BTN_CONFIRM_REFRESH = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_EXPORT = By.xpath("//button[contains(@onclick,'exportToExcel')]");
-	
+	public static final By DPD_FILTERBY=By.id("filter-by");
+	public static final By CHKBOX_EXACT_MATCH=By.id("exact-match");
+	public static final By INPUT_TEXT=By.id("single-num");
+	public static final By BTN_FILTER_APPLY=By.id("prd-filter-apply");
+	public static final By BTN_FILTER_CANCEL=By.id("prd-filter-cancel");
+	public static final By DPD_PICKLIST_ACTIONS=By.id("pick-list-action");
 
 	public By objPickList(String text) {
 		By element = null;
@@ -132,4 +144,42 @@ public class PickList extends Factory {
 		 CustomisedAssert.assertEquals(expected, attr);				    
 	    return attr;
 	}
+	
+	/**
+	 * Select location from location filter and apply 
+	 * @param location
+	 */
+	public void selectLocationInFilterAndApply(String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+		foundation.click(selectLocationFromList(location));
+		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+		foundation.click(PickList.BTN_APPLY);
+		foundation.waitforElement(objPickList(location),Constants.SHORT_TIME);
+		foundation.click(objPickList(location));
+	}
+	/**
+	 * select dropdown and Apply
+	 * @param dropdown
+	 * @param text
+	 */
+	public void selectDropdownValueAndApply(String dropdown,String text) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DPD_FILTERBY));
+		dropDown.selectItem(PickList.DPD_FILTERBY, dropdown, Constants.TEXT);
+		checkBox.check(PickList.CHKBOX_EXACT_MATCH);
+		textBox.enterText(PickList.INPUT_TEXT, text);
+		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
+		foundation.click(PickList.BTN_FILTER_APPLY);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+	/**
+	 * verify pick list actions in dropdown values
+	 * @param values
+	 */
+	public void verifyPickListActionsInDropdown(List<String> values) {
+		for (int i = 0; i < values.size(); i++) {
+			List<String> actual = dropDown.getAllItems(DPD_PICKLIST_ACTIONS);
+			CustomisedAssert.assertEquals(actual, values);
+		}
+	}
 }
+

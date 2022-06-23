@@ -16,15 +16,18 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.AgeVerificationDetails;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
@@ -41,6 +44,7 @@ public class PickLists extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private PickList pickList = new PickList();
 	private Dropdown dropDown = new Dropdown();
+	private CheckBox checkBox = new CheckBox();
 	private LocationList locationList = new LocationList();
 	private Excel excel = new Excel();
 	private Table table = new Table();
@@ -601,10 +605,8 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-
 	/**
-	 * @author afrosean
-	 * Story SOS-25625 & SOS-29192
+	 * @author afrosean Story SOS-25625 & SOS-29192
 	 * @date: 20-06-2022
 	 */
 	@Test(description = "196844-ADM > Pick List Manager>Select location>Verify Reset negative to zero"
@@ -634,11 +636,72 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-			String data= foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertTrue(data.contains(rstPickListData.get(CNPickList.APLOCATION)));			
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(rstPickListData.get(CNPickList.APLOCATION)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	/**
+	 * @author afrosean
+	 * Story SOS-27323
+	 * @date: 23-06-2022
+	 */
+	@Test(description = "C197105-ADM > Pick List Manager>Filter By Tab>Verify product 'filter by ' display only for selected option"
+			              + "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'")
+	public void verifyPickListManagerOptions() {
+		final String CASE_NUM = "197105";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+		List<String> requiredData = Arrays
+				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		List<String> dropDownData = Arrays
+				.asList(rstPickListData.get(CNPickList.RECORDS).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product--> pickList and click on Negative to zero in pick list
+			// manager
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+			pickList.selectLocationInFilterAndApply(requiredData.get(0));
+			
+			//Click on plan pick list and verify the grid
+			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+			foundation.click(pickList.objPickList(requiredData.get(0)));
+			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
+			
+			//select the UPC and verify same upc id in grid
+			pickList.selectDropdownValueAndApply(requiredData.get(1), requiredData.get(3));
+			String datas = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(datas.contains(requiredData.get(3)));
+			
+			//select the product ID and verify the same product id in grid
+			foundation.click(PickList.BTN_FILTER_CANCEL);
+			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+			foundation.click(PickList.BTN_YES);
+			pickList.selectDropdownValueAndApply(requiredData.get(2), requiredData.get(4));
+		    datas = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(datas.contains(requiredData.get(4)));
+			
+			//verify the pick list Actions dropdown
+			pickList.verifyPickListActionsInDropdown(dropDownData);
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+}
 }
