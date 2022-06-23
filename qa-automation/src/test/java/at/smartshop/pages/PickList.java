@@ -75,6 +75,8 @@ public class PickList extends Factory {
 	public static final By BTN_FILTER_APPLY=By.id("prd-filter-apply");
 	public static final By BTN_FILTER_CANCEL=By.id("prd-filter-cancel");
 	public static final By DPD_PICKLIST_ACTIONS=By.id("pick-list-action");
+	public static final By FILTER_PICKLIST=By.id("filter-prd-title");
+	public static final By DPD_CATEGORY=By.id("cate-select");
 
 	public By objPickList(String text) {
 		By element = null;

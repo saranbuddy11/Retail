@@ -650,7 +650,8 @@ public class PickLists extends TestInfra {
 	 * @date: 23-06-2022
 	 */
 	@Test(description = "C197105-ADM > Pick List Manager>Filter By Tab>Verify product 'filter by ' display only for selected option"
-			              + "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'")
+			              + "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'"
+			               + "C197138-ADM > Pick List Manager>Filter By Tab>User cancels out of the filtered selection")
 	public void verifyPickListManagerOptions() {
 		final String CASE_NUM = "197105";
 
@@ -703,5 +704,54 @@ public class PickLists extends TestInfra {
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-}
+	}
+
+	/**
+	 * @author afrosean Story SOS-27323
+	 * @date: -06-2022
+	 */
+	@Test(description = "C197141-ADM>Pick List Manager>Verify ability to sort picklist page")
+	public void verifyAbilityToSortPickListPage() {
+		final String CASE_NUM = "197141";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product--> pickList and click on Negative to zero in pick list
+			// manager
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+			pickList.selectLocationInFilterAndApply(requiredData.get(0));
+
+			// Click on plan pick list and verify the grid
+			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+			foundation.click(pickList.objPickList(requiredData.get(0)));
+			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			
+			//verify the dropDown category
+			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
+			String item = dropDown.getSelectedItem(PickList.DPD_CATEGORY);
+			CustomisedAssert.assertEquals(item, requiredData.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DPD_CATEGORY));
+			dropDown.selectItem(PickList.DPD_CATEGORY, requiredData.get(2), Constants.TEXT);
+			foundation.click(PickList.BTN_FILTER_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			String datas = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(datas.contains(requiredData.get(2)));
+			
+			
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
