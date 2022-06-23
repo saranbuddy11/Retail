@@ -200,6 +200,7 @@ public class CreatePromotions extends Factory {
 			.cssSelector("#categorySelect>dd>span>span>span>ul>li[title=' All ']");
 	public static final By ALL_ITEMS_SELECTION = By.cssSelector("#itemSelect>dd>span>span>span>ul>li[title=' All ']");
 	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
+	public static final By TENDER_DISCOUNT_DETAILS = By.cssSelector(".tenderDetails>dd>select#tendertypes");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -657,11 +658,11 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
-	 * Changing Promotion Type from Bundle to On Screen while Creating Promotion
+	 * Changing Promotion Type while Creating Promotion
 	 * 
 	 * @param promo
 	 */
-	public void changePromotionBundleToOnScreen(String promo) {
+	public void changePromotionType(String promo) {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
 		foundation.scrollIntoViewElement(BTN_CANCEL_1);
