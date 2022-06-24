@@ -645,20 +645,19 @@ public class PickLists extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Story SOS-27323
+	 * @author afrosean Story SOS-27323
 	 * @date: 23-06-2022
 	 */
 	@Test(description = "C197105-ADM > Pick List Manager>Filter By Tab>Verify product 'filter by ' display only for selected option"
-			              + "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'"
-			               + "C197138-ADM > Pick List Manager>Filter By Tab>User cancels out of the filtered selection")
+			+ "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'"
+			+ "C197138-ADM > Pick List Manager>Filter By Tab>User cancels out of the filtered selection")
 	public void verifyPickListManagerOptions() {
 		final String CASE_NUM = "197105";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-		
+
 		List<String> requiredData = Arrays
 				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
 		List<String> dropDownData = Arrays
@@ -675,33 +674,32 @@ public class PickLists extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
 			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-			
-			//Click on plan pick list and verify the grid
+
+			// Click on plan pick list and verify the grid
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(requiredData.get(0)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
 			String data = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
-			
-			//select the UPC and verify same upc id in grid
+
+			// select the UPC and verify same upc id in grid
 			pickList.selectDropdownValueAndApply(requiredData.get(1), requiredData.get(3));
 			String datas = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(3)));
-			
-			//select the product ID and verify the same product id in grid
+
+			// select the product ID and verify the same product id in grid
 			foundation.click(PickList.BTN_FILTER_CANCEL);
 			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 			foundation.click(PickList.BTN_YES);
 			pickList.selectDropdownValueAndApply(requiredData.get(2), requiredData.get(4));
-		    datas = foundation.getText(PickList.TBL_ROW_DATA);
+			datas = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(4)));
-			
-			//verify the pick list Actions dropdown
-			pickList.verifyPickListActionsInDropdown(dropDownData);
-			
-		}
-		catch (Exception exc) {
+
+			// verify the pick list Actions dropdown
+			pickList.verifyPickListActionsInDropdown(dropDownData, PickList.DPD_PICKLIST_ACTIONS);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
@@ -710,7 +708,8 @@ public class PickLists extends TestInfra {
 	 * @author afrosean Story SOS-27323
 	 * @date: -06-2022
 	 */
-	@Test(description = "C197141-ADM>Pick List Manager>Verify ability to sort picklist page")
+	@Test(description = "C197141-ADM>Pick List Manager>Verify ability to sort picklist page"
+			+ "C197106-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Category'")
 	public void verifyAbilityToSortPickListPage() {
 		final String CASE_NUM = "197141";
 
@@ -736,8 +735,8 @@ public class PickLists extends TestInfra {
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(requiredData.get(0)));
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
-			
-			//verify the dropDown category
+
+			// verify the dropDown category
 			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
 			String item = dropDown.getSelectedItem(PickList.DPD_CATEGORY);
 			CustomisedAssert.assertEquals(item, requiredData.get(1));
@@ -747,8 +746,20 @@ public class PickLists extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			String datas = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(2)));
-			
-			
+
+			// Click on cancel and verify the ascending and decending in products name
+			foundation.click(PickList.BTN_FILTER_CANCEL);
+			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+			foundation.click(PickList.BTN_YES);
+			foundation.waitforElementToBeVisible(PickList.PRODUCT_NAME_GRID, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PRODUCT_NAME_GRID));
+			foundation.click(PickList.PRODUCT_NAME_GRID);
+			datas = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(datas.contains(requiredData.get(3)));
+			foundation.waitforElementToBeVisible(PickList.PRODUCT_NAME_GRID, 5);
+			foundation.click(PickList.PRODUCT_NAME_GRID);
+			datas = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(datas.contains(requiredData.get(4)));
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

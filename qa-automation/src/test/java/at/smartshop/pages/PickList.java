@@ -77,7 +77,8 @@ public class PickList extends Factory {
 	public static final By DPD_PICKLIST_ACTIONS=By.id("pick-list-action");
 	public static final By FILTER_PICKLIST=By.id("filter-prd-title");
 	public static final By DPD_CATEGORY=By.id("cate-select");
-
+    public static final By PRODUCT_NAME_GRID=By.id("filter-prd-grid_name");
+	
 	public By objPickList(String text) {
 		By element = null;
 		try {
@@ -174,12 +175,12 @@ public class PickList extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
 	/**
-	 * verify pick list actions in dropdown values
+	 * verify dropdown values 
 	 * @param values
 	 */
-	public void verifyPickListActionsInDropdown(List<String> values) {
+	public void verifyPickListActionsInDropdown(List<String> values,By object) {
 		for (int i = 0; i < values.size(); i++) {
-			List<String> actual = dropDown.getAllItems(DPD_PICKLIST_ACTIONS);
+			List<String> actual = dropDown.getAllItems(object);
 			CustomisedAssert.assertEquals(actual, values);
 		}
 	}
