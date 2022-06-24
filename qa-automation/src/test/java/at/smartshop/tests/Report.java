@@ -50,6 +50,7 @@ import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.FinancialRecapReport;
 import at.smartshop.pages.FolioBillingReport;
+import at.smartshop.pages.GuestPassByDevice;
 import at.smartshop.pages.HealthAheadPercentageReport;
 import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ICEReport;
@@ -146,7 +147,6 @@ public class Report extends TestInfra {
 	private PromotionList promotionList = new PromotionList();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
 	private CreatePromotions createPromotions = new CreatePromotions();
-
 	private MultiTaxReport multiTaxReport = new MultiTaxReport();
 	private CashFlow cashFlow = new CashFlow();
 	private Order order = new Order();
@@ -155,6 +155,7 @@ public class Report extends TestInfra {
 	private InventoryAdjustmentDetail inventoryAdjustmentDetail = new InventoryAdjustmentDetail();
 	private InventoryTotals InventoryTotals = new InventoryTotals();
 	private RemainingGuestPassLiability remainingGuestPassLiability = new RemainingGuestPassLiability();
+	private GuestPassByDevice guestPassByDevice = new GuestPassByDevice();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -3930,4 +3931,53 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	@Test(description = "197288-This test validates Guest Pass By Device Report Data Validation")
+	public void guestPassByDeviceReportDataValidation() {
+
+		try {
+			final String CASE_NUM = "197288";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> locationData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_HASH));
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+			navigationBar.selectOrganization(locationData.get(0));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), locationData.get(2),
+					GuestPassByDevice.DATA_EXISTING_DATE, GuestPassByDevice.DATA_EXISTING_DATE);
+			reportList.selectLocation(locationData.get(1));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			guestPassByDevice.verifyReportName(reportName);
+			textBox.enterText(GuestPassByDevice.TXT_SEARCH, requiredData.get(2));
+			guestPassByDevice.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			guestPassByDevice.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			guestPassByDevice.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }
