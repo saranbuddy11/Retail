@@ -179,6 +179,7 @@ public class LocationSummary extends Factory {
 	public static final By LBL_PAGER = By.id("deviceDataGrid_table_pager");
 	private static final By BTN_SHOW = By.xpath("//span[text()='Taxcat']//..//a[text()='Show']");
 	public static final By BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
+	public static final By BTN_PRINT_GROUP = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[23]");
 	public static final By DPD_SHOW_DINING = By.id("hasdiningpreference");
 	public static final By TXT_PAY_CYCLE_NAME = By
 			.xpath("//*[contains(@id,'newrow')]//input[contains(@class,'paycycle-grpname')]");
@@ -1075,9 +1076,9 @@ public class LocationSummary extends Factory {
 		selectTab(tab);
 		foundation.WaitForAjax(5000);
 		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
-		foundation.threadWait(Constants.MEDIUM_TIME);
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
-		foundation.WaitForAjax(5000);
+		foundation.WaitForAjax(10000);
 		CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
 		foundation.click(PRODUCT_NAME);
 		foundation.waitforElement(BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);

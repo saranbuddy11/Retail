@@ -1045,11 +1045,14 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
 					reason.get(0));
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
 					reason.get(1));
 			String stockout = itemStockout.getStockoutTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -3596,7 +3599,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			salesItemDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH,
 					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));

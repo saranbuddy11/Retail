@@ -88,7 +88,7 @@ public class PromotionList extends Factory {
 
 	public void expirePromotion(String menuItem, String promotionName, String statusType, String gridName) {
 		try {
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// browser.navigateURL(propertyFile.readPropertyFile(Configuration.DASHBOARD_URL,
 			// FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
