@@ -160,10 +160,16 @@ public class Menu extends TestInfra {
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
             foundation.threadWait(Constants.SHORT_TIME);
+            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_APPLY);
+    		foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(0)));
@@ -221,6 +227,12 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
             foundation.threadWait(Constants.SHORT_TIME);
+            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_APPLY);
+    		foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));

@@ -163,18 +163,19 @@ public class FinancialRecapReport extends Factory {
 	public void adjustBalance(String adjustBalance, String reasonCode) throws Exception {
 		List<String> reason = Arrays.asList(reasonCode.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < reason.size(); iter++) {
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			String balance = String.valueOf(consumerSummary.getBalance());
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			Thread.sleep(1000);
 			foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE).isDisplayed());
+//			CustomisedAssert.assertTrue(getDriver().findElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE).isDisplayed());
 			double updatedbalance = Double.parseDouble(balance) + Double.parseDouble(adjustBalance);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			Thread.sleep(1000);
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, reason.get(iter), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
+			Thread.sleep(1000);
 		}
 	}
 

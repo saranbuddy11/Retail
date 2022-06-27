@@ -1228,9 +1228,9 @@ public class Location extends TestInfra {
 
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
 			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.adjustBrowerSize("0.7");
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(deviceList.DeveiceLink(Configuration.DEVICE_ID));
+			foundation.adjustBrowerSize("0.8");
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(deviceList.deveiceLink(Configuration.DEVICE_ID));
 
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
@@ -1769,6 +1769,7 @@ public class Location extends TestInfra {
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 			locationSummary.verifyProductsUI();
 
 			// close the popup by 'X' button
@@ -1780,6 +1781,7 @@ public class Location extends TestInfra {
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
+			foundation.click(LocationSummary.TAB_PRODUCTS);
 			locationSummary.verifyProductsUI();
 
 			// adding product and verifying on Product UI

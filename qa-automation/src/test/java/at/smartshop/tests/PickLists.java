@@ -548,7 +548,7 @@ public class PickLists extends TestInfra {
 				String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
 				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 				foundation.click(PickList.BTN_APPLY);
-				foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
+				foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.MEDIUM_TIME);
 				foundation.click(PickList.LBL_SELECT_ALL);
 				foundation.waitforElement(PickList.VALIDATE_HIGHLIGHTED_PRODUCTS, Constants.SHORT_TIME);
 				pickList.verifyProductsHighlighted("true");
