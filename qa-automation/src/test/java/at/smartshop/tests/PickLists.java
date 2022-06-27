@@ -801,7 +801,7 @@ public class PickLists extends TestInfra {
 			//Enter all the datas in route driver and date
 			pickList.enterRouteDriverAndServiceDay(requiredData.get(0), requiredData.get(1));
 			foundation.click(PickList.BTN_SAVE);
-			foundation.threadWait(5);	
+			foundation.waitforElementToBeVisible(PickList.SUCCESS_MSG, 5);	
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
