@@ -3599,7 +3599,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			salesItemDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH,
 					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
