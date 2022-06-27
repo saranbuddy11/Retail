@@ -706,7 +706,7 @@ public class PickLists extends TestInfra {
 
 	/**
 	 * @author afrosean Story SOS-27323
-	 * @date: -06-2022
+	 * @date: 27-06-2022
 	 */
 	@Test(description = "C197141-ADM>Pick List Manager>Verify ability to sort picklist page"
 			+ "C197106-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Category'")
@@ -760,9 +760,64 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.PRODUCT_NAME_GRID);
 			datas = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(4)));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	/**
+	 * @author afrosean Story SOS-27323
+	 * @date: -06-2022
+	 */
+	@Test(description = "C195612-ADM>Pick List Manager>Schedule>Select Location>Set Plan schedule for selected location")
+	public void verifyScheduleLocationPlanForSelectedLocation() {
+		final String CASE_NUM = "195612";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product--> pickList and click on scheduling
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+			foundation.click(PickList.BTN_SCHEDULING);
+			
+			//Navigate to route scheduling page and select location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
+			
+			//Enter all the datas in route driver and date
+			pickList.enterRouteDriverAndServiceDay(requiredData.get(0), requiredData.get(1));
+			foundation.click(PickList.BTN_SAVE);
+			foundation.threadWait(5);	
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//resetting the data in route scheduling
+			foundation.refreshPage();
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
+			pickList.resettingDatasInRouteScheduling(requiredData.get(2));
+			foundation.click(PickList.BTN_SAVE);
+			foundation.waitforElement(PickList.SUCCESS_MSG, 5);		
+			
+		}
+}
 }

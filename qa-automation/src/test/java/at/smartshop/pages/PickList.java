@@ -78,7 +78,33 @@ public class PickList extends Factory {
 	public static final By FILTER_PICKLIST=By.id("filter-prd-title");
 	public static final By DPD_CATEGORY=By.id("cate-select");
     public static final By PRODUCT_NAME_GRID=By.id("filter-prd-grid_name");
+	public static final By BTN_SCHEDULING=By.xpath("//button[@onclick='toScheduling()']");
+	public static final By TXT_ROUTE_SCHEDULING=By.id("Route Scheduling");
+	public static final By SUCCESS_MSG=By.xpath("//li[text()='Schedule saved']");
+	public static final By ROUTE_COLUMN=By.id("dataGrid_route");
+	public static final By DATA_GRID_ROUTE=By.xpath("//td[@aria-describedby='dataGrid_route']");
+	public static final By DRIVER_COLUMN=By.id("dataGrid_driver");
+	public static final By DATA_GRID_DRIVER=By.xpath("//td[@aria-describedby='dataGrid_driver']");
+	public static final By CHECKBOX_MONDAY=By.xpath("//td[@aria-describedby='dataGrid_m']");
+	public static final By CHECKBOX_TUESDAY=By.xpath("//td[@aria-describedby='dataGrid_tu']");
+	public static final By CHECKBOX_WEDNESDAY=By.xpath("//td[@aria-describedby='dataGrid_w']");
+	public static final By CHECKBOX_THURSDAY=By.xpath("//td[@aria-describedby='dataGrid_th']");
+	public static final By CHECKBOX_FRIDAY=By.xpath("//td[@aria-describedby='dataGrid_f']");
+	public static final By CHECKBOX_SATURDAY=By.xpath("//td[@aria-describedby='dataGrid_sa']");
+	public static final By CHECKBOX_SUNDAY=By.xpath("//td[@aria-describedby='dataGrid_su']");
+	public static final By DPD_ROUTE=By.xpath("//input[contains(@class,'ui-igcombo-field')]");
+	public static final By DPD_DRIVER=By.xpath("//input[contains(@class,'ui-igcombo-field')]");
+	public static final By BTN_SAVE=By.id("schedule-save");
 	
+	
+	public By objRouteText(String keyword) {
+		return By.xpath("//li[text()='" + keyword + "']");
+	}
+	
+	public By objDriverText(String driver) {
+		return By.xpath("(//li[text()='" + driver + "'])[2]");
+	}
+
 	public By objPickList(String text) {
 		By element = null;
 		try {
@@ -183,6 +209,60 @@ public class PickList extends Factory {
 			List<String> actual = dropDown.getAllItems(object);
 			CustomisedAssert.assertEquals(actual, values);
 		}
+	}
+	
+	/**
+	 * Enter all datas in Route Driver And Service Day and save
+	 * @param route
+	 * @param driver
+	 */
+	public void enterRouteDriverAndServiceDay(String route,String driver) {
+		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
+		foundation.click(DATA_GRID_ROUTE);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(route));
+		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
+		foundation.click(DATA_GRID_DRIVER);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(driver));
+		foundation.waitforElementToBeVisible(CHECKBOX_MONDAY, 5);
+		checkBox.check(CHECKBOX_MONDAY);
+		checkBox.check(CHECKBOX_TUESDAY);
+		foundation.waitforElementToBeVisible(CHECKBOX_WEDNESDAY, 5);
+		checkBox.check(CHECKBOX_WEDNESDAY);
+		checkBox.check(CHECKBOX_THURSDAY);
+		foundation.waitforElementToBeVisible(CHECKBOX_FRIDAY, 5);
+		checkBox.check(CHECKBOX_FRIDAY);
+		checkBox.check(CHECKBOX_SATURDAY);
+		checkBox.check(CHECKBOX_SUNDAY);
+		foundation.waitforElementToBeVisible(BTN_SAVE, 5);		
+	}
+	
+	/**
+	 * resetting  all datas in Route Driver And Service Day and save
+	 * @param route
+	 * @param driver
+	 */
+	public void resettingDatasInRouteScheduling(String route) {
+		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
+		foundation.click(DATA_GRID_ROUTE);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(route));
+		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
+		foundation.click(DATA_GRID_DRIVER);
+		foundation.click(DPD_DRIVER);
+		foundation.click(objDriverText(route));
+		foundation.waitforElementToBeVisible(CHECKBOX_MONDAY, 5);
+		checkBox.unCheck(CHECKBOX_MONDAY);
+		checkBox.unCheck(CHECKBOX_TUESDAY);
+		foundation.waitforElementToBeVisible(CHECKBOX_WEDNESDAY, 5);
+		checkBox.unCheck(CHECKBOX_WEDNESDAY);
+		checkBox.unCheck(CHECKBOX_THURSDAY);
+		foundation.waitforElementToBeVisible(CHECKBOX_FRIDAY, 5);
+		checkBox.unCheck(CHECKBOX_FRIDAY);
+		checkBox.unCheck(CHECKBOX_SATURDAY);
+		checkBox.unCheck(CHECKBOX_SUNDAY);
+		foundation.waitforElementToBeVisible(BTN_SAVE, 5);		
 	}
 }
 
