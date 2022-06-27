@@ -51,7 +51,7 @@ public class V5TestLocation extends TestInfra {
 	private CategoryList categoryList = new CategoryList();
 	private CategorySummary categorySummary = new CategorySummary();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
-	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	// private ConsumerSummary consumerSummary = new ConsumerSummary();
 	private Numbers numbers = new Numbers();
 
 	private Map<String, String> rstV5DeviceData;
@@ -169,7 +169,6 @@ public class V5TestLocation extends TestInfra {
 			// foundation.waitforElement(locationSummary.objUploadStatus(actualData),
 			// Constants.SHORT_TIME);
 			String expectedData = foundation.getAlertMessage();
-			;
 			CustomisedAssert.assertEquals(expectedData, actualData);
 
 		} catch (Exception exc) {
@@ -206,15 +205,13 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_SIZE_MORE);
-
-			foundation.waitforElement(locationSummary.objUploadStatus(actualData), Constants.SHORT_TIME);
-			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
-			// CustomisedAssert.assertEquals(expectedData, actualData);
 			String expectedData = foundation.getAlertMessage();
 			// foundation.waitforElement(locationSummary.objUploadStatus(actualData),
 			// Constants.SHORT_TIME);
 			// String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
+			// CustomisedAssert.assertEquals(expectedData, actualData);
 			CustomisedAssert.assertEquals(expectedData, actualData);
+			foundation.alertAccept();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -438,7 +435,7 @@ public class V5TestLocation extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)));
-			CustomisedAssert.assertNotEquals(dailyRevenue, requiredData.get(1));
+			CustomisedAssert.assertEquals(dailyRevenue, requiredData.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -483,6 +480,7 @@ public class V5TestLocation extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -537,6 +535,7 @@ public class V5TestLocation extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 
 		} catch (Exception exc) {
@@ -1139,8 +1138,8 @@ public class V5TestLocation extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, requiredData.get(1), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.refreshPage();
-			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
+//			textBox.enterText(ConsumerSummary.TXT_SEARCH_ACCOUNT_ADJUSTMENT, requiredData.get(1));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(consumerSummary.objTaxCategory(requiredData.get(1))));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1233,12 +1232,9 @@ public class V5TestLocation extends TestInfra {
 // Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
-			rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
 			List<String> balance = Arrays
 					.asList(rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-			String location = rstConsumerData.get(CNConsumerSearch.LOCATION);
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> status = Arrays
@@ -1246,6 +1242,12 @@ public class V5TestLocation extends TestInfra {
 			List<String> searchBy = Arrays
 					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
 			String eMail = string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
+			String FName = Constants.AUTOMATION + string.getRandomCharacter();
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -1253,7 +1255,7 @@ public class V5TestLocation extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.click(ConsumerSearch.BTN_CREATE);
 			dropDown.selectItem(ConsumerSummary.DPD_LOCATION, rstConsumerData.get(CNConsumer.LOCATION), Constants.TEXT);
-			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, Constants.AUTOMATION + string.getRandomCharacter());
+			textBox.enterText(ConsumerSummary.TXT_FIRSTNAME, FName);
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + string.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_EMAIL, eMail);
 			textBox.enterText(ConsumerSummary.TXT_SCANID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
@@ -1264,9 +1266,9 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Enter fields in Consumer Search Page
-
 			foundation.threadWait(Constants.ONE_SECOND);
-			consumerSearch.enterSearchFields(searchBy.get(0), eMail, location, status.get(0));
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
 			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			foundation.click(ConsumerSearch.BTN_ACTIONS);
 			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
@@ -1277,18 +1279,19 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_OK);
 			foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			// Negative Balance
-			consumerSearch.enterSearchFields(searchBy.get(0), eMail, location, status.get(0));
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
 			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			foundation.click(ConsumerSearch.BTN_ACTIONS);
 			foundation.click(ConsumerSearch.LBL_BULK_REMOVE_FUNDS);
 			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(2));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_OK);
 
-			consumerSearch.enterSearchFields(searchBy.get(1), rstConsumerData.get(CNConsumerSearch.CONSUMER_ID),
-					location, status.get(1));
+			consumerSearch.enterSearchFields(searchBy.get(1), FName, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
 			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			foundation.click(ConsumerSearch.BTN_ACTIONS);
 			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
@@ -1297,7 +1300,7 @@ public class V5TestLocation extends TestInfra {
 			Map<String, String> uiTbl = consumerSearch
 					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
-			CustomisedAssert.assertEquals(uiBal, balance.get(2));
+			CustomisedAssert.assertEquals(uiBal, balance.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
