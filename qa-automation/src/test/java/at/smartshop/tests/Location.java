@@ -36,7 +36,9 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
+import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.KioskCreate;
@@ -1222,20 +1224,17 @@ public class Location extends TestInfra {
 
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+			foundation.adjustBrowerSize("0.7");
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
-			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.adjustBrowerSize("0.8");
+			foundation.objectClick(DeviceList.BTN_SUBMIT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(deviceList.deveiceLink(Configuration.DEVICE_ID));
+			foundation.objectClick(deviceList.deveiceLink(deviceName));
 
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
