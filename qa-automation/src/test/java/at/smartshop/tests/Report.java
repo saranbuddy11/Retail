@@ -3820,6 +3820,8 @@ public class Report extends TestInfra {
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+			
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
@@ -3827,7 +3829,7 @@ public class Report extends TestInfra {
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
 
-			foundation.threadWait(50);
+			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
