@@ -14,7 +14,7 @@ public class ProductCannedReport {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.first-child > label");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#Hsr-Loc > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#Automation-365 > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	public void verifyReportName(String reportName) {
