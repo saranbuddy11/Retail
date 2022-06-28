@@ -1800,6 +1800,14 @@ public class Location extends TestInfra {
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
 
 			// selecting print group
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 			locationSummary.selectPrintGroup(product, printGroup.get(0));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			foundation.refreshPage();
@@ -1810,6 +1818,14 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 			Assert.assertTrue(foundation.getText(LocationSummary.PRINTGROUP_NAME).equals(printGroup.get(0)));
 			locationSummary.selectPrintGroup(product, printGroup.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);

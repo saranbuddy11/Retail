@@ -172,7 +172,7 @@ public class Menu extends TestInfra {
     		foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(locationSummary.objPrintGroup(requiredData.get(0)));
+			foundation.objectClick(locationSummary.objPrintGroup(requiredData.get(0)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(2));
