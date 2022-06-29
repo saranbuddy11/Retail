@@ -3663,7 +3663,7 @@ public class Promotions extends TestInfra {
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {
@@ -3729,7 +3729,7 @@ public class Promotions extends TestInfra {
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {
@@ -3795,7 +3795,7 @@ public class Promotions extends TestInfra {
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {
@@ -3861,7 +3861,74 @@ public class Promotions extends TestInfra {
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author karthikr SOS-30671
+	 * @date - 29/06/2022
+	 */
+	@Test(description = "197136 - To Verify whether 'Group' is disabled in bundle Promotion, when 'Items or Categories' is Selected")
+	public void verifyWhetherGroupIsDisabledInBundlePromtionWhenItemOrCategorySelected() {
+		final String CASE_NUM = "197136";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, Select Org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org,Menu and Menu Item and click Create Promotion
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+			foundation.click(PromotionList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+			// Select Promo Type, Promo Name, Display Name and click Next
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+			createPromotions.createPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0),
+					promoName.get(1));
+
+			// Choose Org and Location
+			createPromotions.selectOrgLoc(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+					rstLocationData.get(CNLocation.LOCATION_NAME));
+
+			// Select Build Bundle as Item in Details Page with All Item checkbox
+			createPromotions.selectBuildBundleAsItemAndCheckBox(requiredData.get(1));
+
+			// Verify Group under Build Bundle is disabled or not
+			String value = createPromotions.verifyGroupIsDisabledOrNot();
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+
+			// Select Build Bundle as Category in Details Page with All Categories checkbox
+			createPromotions.selectBuildBundleAsCategoryAndCheckBox(requiredData.get(2));
+
+			// Verify Group under Build Bundle is disabled or not
+			value = createPromotions.verifyGroupIsDisabledOrNot();
+			CustomisedAssert.assertEquals(value, requiredData.get(5));
+
+			// Cancelling the Promotion
+			createPromotions.cancellingPromotion();
+
+			// Navigating to Location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {

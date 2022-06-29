@@ -678,4 +678,21 @@ public class CreatePromotions extends Factory {
 		foundation.objectClick(BTN_NEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
+
+	/**
+	 * Verifying Group option under Build Bundle is Disabled or not
+	 */
+	public String verifyGroupIsDisabledOrNot() {
+		WebElement selectDropDown = getDriver().findElement(DPD_DISCOUNT_BY);
+		List<WebElement> options = selectDropDown.findElements(By.tagName("option"));
+		String value = "";
+		for (int i = 0; i < options.size(); i++) {
+			try {
+				value = options.get(i).getAttribute("disabled");
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+		return value;
+	}
 }
