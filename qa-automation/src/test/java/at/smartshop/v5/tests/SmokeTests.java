@@ -592,7 +592,7 @@ public class SmokeTests extends TestInfra {
 			dropdown.deSelectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(7), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(8), Constants.TEXT);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.LONG_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -894,7 +894,7 @@ public class SmokeTests extends TestInfra {
 
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		final String productName = rstLocationData.get(CNLocation.PRODUCT_NAME) + strings.getRandomCharacter();
-		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA) + strings.getRandomCharacter();
+		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA) + strings.getRandomCharacter().toLowerCase();
 
 		try {
 			//launching browser and selecting org
@@ -926,6 +926,7 @@ public class SmokeTests extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.WaitForAjax(3000);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			Assert.assertTrue(foundation.getText(GlobalProduct.GBL_PRODUCT_DATA).equals(productName));
 			table.selectRow(productName);
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND);
@@ -970,7 +971,7 @@ public class SmokeTests extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(addProduct);
+			textBox.enterKeypadText(scanCode);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
@@ -1213,7 +1214,7 @@ public class SmokeTests extends TestInfra {
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			assertEquals(foundation.getText(SelfService.TXT_ITEM), requiredData.get(4));
 			assertEquals(foundation.getText(SelfService.TXT_MENU), requiredData.get(1));
 
