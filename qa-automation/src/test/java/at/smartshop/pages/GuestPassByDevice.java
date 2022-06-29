@@ -30,8 +30,6 @@ public class GuestPassByDevice extends Factory {
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(6)");
 	
-	
-	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 

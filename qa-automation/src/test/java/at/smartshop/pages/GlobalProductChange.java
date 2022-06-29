@@ -84,12 +84,12 @@ public class GlobalProductChange extends Factory {
 	public static final By DEPOSIT_CATEGORY = By.id("prd-deposit-cate");
 	public static final By CASE_COUNT = By.id("prd-case");
 	public static final By CASE_COUNT_CHECKBOX = By.id("prd-case-checked");
-	public static final By TABLE_GRID_HISTORY = By.xpath("//tbody[@role='rowgroup']//tr[@tabindex='0']");
+	public static final By TABLE_GRID_HISTORY = By.cssSelector("#gpchistory > tbody >tr");
 	public static final By HISTORY_BTN = By
 			.xpath("//div[@style='display:inline-block;float: right;']//button[text()='History']");
 	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
 	public static final By HEADER_DATA = By.xpath("//tr[@role='row']");
-	public static final By GRID_HEADER = By.id("gpchistory_scroll");
+	public static final By GRID_HEADER = By.id("gpchistory");
 	public static final By LBL_OPERATOR_MAX = By.xpath("//dt[text()='Max']");
 	public static final By LBL_PICK_LIST = By.xpath("//*[@id='prd-change-form']/dt[text()='Pick List Action']");
 	public static final By LBL_OPERATOR_PICK_LIST = By.xpath("//dt[text()='Pick List Action']");

@@ -63,6 +63,7 @@ public class UserRoles extends TestInfra {
 					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
 			table.selectRow(lblRowRecord.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
 			List<String> clientdropDownList = Arrays
