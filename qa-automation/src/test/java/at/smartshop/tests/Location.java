@@ -1392,7 +1392,7 @@ public class Location extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device and Searching for product
-//			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
