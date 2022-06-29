@@ -253,15 +253,15 @@ public class PickList extends Factory {
 		foundation.click(DPD_DRIVER);
 		foundation.click(objDriverText(route));
 		foundation.waitforElementToBeVisible(CHECKBOX_MONDAY, 5);
-		checkBox.unCheck(CHECKBOX_MONDAY);
-		checkBox.unCheck(CHECKBOX_TUESDAY);
+		foundation.click(CHECKBOX_MONDAY);
+		foundation.click(CHECKBOX_TUESDAY);
 		foundation.waitforElementToBeVisible(CHECKBOX_WEDNESDAY, 5);
-		checkBox.unCheck(CHECKBOX_WEDNESDAY);
-		checkBox.unCheck(CHECKBOX_THURSDAY);
+		foundation.click(CHECKBOX_WEDNESDAY);
+		foundation.click(CHECKBOX_THURSDAY);
 		foundation.waitforElementToBeVisible(CHECKBOX_FRIDAY, 5);
-		checkBox.unCheck(CHECKBOX_FRIDAY);
-		checkBox.unCheck(CHECKBOX_SATURDAY);
-		checkBox.unCheck(CHECKBOX_SUNDAY);
+		foundation.click(CHECKBOX_FRIDAY);
+		foundation.click(CHECKBOX_SATURDAY);
+		foundation.click(CHECKBOX_SUNDAY);
 		foundation.waitforElementToBeVisible(BTN_SAVE, 5);		
 	}
 }
