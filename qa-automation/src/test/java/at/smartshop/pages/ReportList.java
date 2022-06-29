@@ -503,10 +503,9 @@ public class ReportList extends Factory {
 	public void selectDateRangeDate(String optionName, String MonthAndYear, By firstDate, By lastDate) {
 		try {
 			List<String> dateDDOptions = Arrays.asList(optionName.split(Constants.DELIMITER_HASH));
-			System.out.println(dateDDOptions);
 			selectDateRangeDD(dateDDOptions.get(0));
 			selectDateRangeDD(dateDDOptions.get(1));
-			for (int count = 0; count < 30; count++) {
+			for (int count = 0; count < 60; count++) {
 				if (foundation.getText(DATE_RANGE_NEXT_MONTH).equals(MonthAndYear)) {
 					continue;
 				}

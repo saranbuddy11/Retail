@@ -36,7 +36,9 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
+import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.KioskCreate;
@@ -1222,20 +1224,17 @@ public class Location extends TestInfra {
 
 			// navigate to admin>device and verify serial number filter functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+			foundation.adjustBrowerSize("0.7");
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
-			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.adjustBrowerSize("0.8");
+			foundation.objectClick(DeviceList.BTN_SUBMIT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(deviceList.deveiceLink(Configuration.DEVICE_ID));
+			foundation.objectClick(deviceList.deveiceLink(deviceName));
 
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SHOW_RECORDS));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PAGER));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TBL_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1393,7 +1392,7 @@ public class Location extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device and Searching for product
-//			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -1801,6 +1800,14 @@ public class Location extends TestInfra {
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product));
 
 			// selecting print group
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 			locationSummary.selectPrintGroup(product, printGroup.get(0));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			foundation.refreshPage();
@@ -1811,6 +1818,14 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 			Assert.assertTrue(foundation.getText(LocationSummary.PRINTGROUP_NAME).equals(printGroup.get(0)));
 			locationSummary.selectPrintGroup(product, printGroup.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);

@@ -10456,7 +10456,6 @@ public class V5Test extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(

@@ -435,7 +435,9 @@ public class V5TestLocation extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			String dailyRevenue = foundation.getText(locationList.objDailyRevenue(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)));
-			CustomisedAssert.assertEquals(dailyRevenue, requiredData.get(1));
+			CustomisedAssert.assertTrue(dailyRevenue.contains(requiredData.get(1)));
+			dailyRevenue = foundation.getNumbersFromString(dailyRevenue);
+			CustomisedAssert.assertTrue(foundation.isNumeric(dailyRevenue));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -486,6 +488,7 @@ public class V5TestLocation extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(6), Constants.TEXT);
@@ -535,9 +538,9 @@ public class V5TestLocation extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
-
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1300,8 +1303,9 @@ public class V5TestLocation extends TestInfra {
 			Map<String, String> uiTbl = consumerSearch
 					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
 			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
-			CustomisedAssert.assertEquals(uiBal, balance.get(3));
-
+			CustomisedAssert.assertTrue(uiBal.contains(balance.get(4)));
+			uiBal = foundation.getNumbersFromString(uiBal);
+			CustomisedAssert.assertTrue(foundation.isNumeric(uiBal));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
