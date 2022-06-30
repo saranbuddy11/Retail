@@ -68,6 +68,8 @@ public class ReportList extends Factory {
 			"//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
 	private static final By DATE_RANGE_NEXT_MONTH = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
+	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_2 = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
 	private static final By APPLY_DATE_RANGE_BUTTON  = By.xpath("//button[normalize-space()='Apply']");
 	
 	/*
@@ -505,6 +507,8 @@ public class ReportList extends Factory {
 			List<String> dateDDOptions = Arrays.asList(optionName.split(Constants.DELIMITER_HASH));
 			selectDateRangeDD(dateDDOptions.get(0));
 			selectDateRangeDD(dateDDOptions.get(1));
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.click(DPD_DATE);
 			for (int count = 0; count < 60; count++) {
 				if (foundation.getText(DATE_RANGE_NEXT_MONTH).equals(MonthAndYear)) {
 					continue;
@@ -514,6 +518,31 @@ public class ReportList extends Factory {
 			foundation.click(firstDate);
 			foundation.click(lastDate);
 			foundation.click(APPLY_DATE_RANGE_BUTTON);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This method is to select Date Range Dates for second type of Date Range drop down
+	 * @param optionName
+	 * @param MonthAndYear
+	 * @param object
+	 */
+	public void selectDateRangeDateofType2(String optionName, String MonthAndYear, By firstDate, By lastDate) {
+		try {
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.objectClick(DPD_DATE);
+			for (int count = 0; count < 60; count++) {
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear)) {
+					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
+			}
+			foundation.click(firstDate);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(lastDate);
+			foundation.objectClick(APPLY_DATE_RANGE_BUTTON);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

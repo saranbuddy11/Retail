@@ -57,6 +57,7 @@ import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.InventoryAdjustmentDetail;
 import at.smartshop.pages.InventoryTotals;
+import at.smartshop.pages.InventoryVariance;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
 import at.smartshop.pages.LocationList;
@@ -156,6 +157,7 @@ public class Report extends TestInfra {
 	private InventoryTotals InventoryTotals = new InventoryTotals();
 	private RemainingGuestPassLiability remainingGuestPassLiability = new RemainingGuestPassLiability();
 	private GuestPassByDevice guestPassByDevice = new GuestPassByDevice();
+	private InventoryVariance inventoryVariance = new InventoryVariance();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -3535,7 +3537,6 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 //			foundation.click(CreatePromotions.ALL_ITEMS);
-			
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
@@ -3820,7 +3821,7 @@ public class Report extends TestInfra {
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			
+
 			foundation.threadWait(Constants.ONE_SECOND);
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
@@ -3985,4 +3986,54 @@ public class Report extends TestInfra {
 		}
 	}
 
+	@Test(description = "197618-This test validates Inventory Variance Report Data Validation")
+	public void inventoryVarianceReportDataValidation() {
+
+		try {
+			final String CASE_NUM = "197618";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> locationData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_HASH));
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectLocationForSecondTypeDropdown(locationData.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			reportList.selectDateRangeDateofType2(rstReportListData.get(CNReportList.DATE_RANGE), locationData.get(1),
+					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
+			
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryVariance.verifyReportName(reportName);
+			textBox.enterText(InventoryVariance.TXT_SEARCH, requiredData.get(2));
+			inventoryVariance.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			inventoryVariance.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			inventoryVariance.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
