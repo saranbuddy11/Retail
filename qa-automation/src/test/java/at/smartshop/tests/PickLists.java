@@ -798,7 +798,7 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
 			
 			//Enter all the datas in route driver and date
-			pickList.enterRouteDriverAndServiceDay(requiredData.get(0), requiredData.get(1));
+			pickList.selectServiceDay(requiredData.get(0), requiredData.get(1), "check");
 			foundation.click(PickList.BTN_SAVE);
 			foundation.waitforElementToBeVisible(PickList.SUCCESS_MSG, 5);	
 		}
@@ -813,7 +813,7 @@ public class PickLists extends TestInfra {
 			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
-			pickList.resettingDatasInRouteScheduling(requiredData.get(2));
+			pickList.resetselectServiceDay(requiredData.get(2), requiredData.get(2), "uncheck");
 			foundation.click(PickList.BTN_SAVE);
 			foundation.waitforElement(PickList.SUCCESS_MSG, 5);		
 			}
@@ -829,7 +829,6 @@ public class PickLists extends TestInfra {
 
 			// Reading test data from database
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 
 			try {
 				// Login to ADM
@@ -841,6 +840,17 @@ public class PickLists extends TestInfra {
 				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 				foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
 				
+				//Select All Location And Click on apply
+				foundation.click(PickList.BTN_SELECT_ALL);
+				foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+				foundation.click(PickList.BTN_APPLY);
+				foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
+				
+				//verify highlight the all selected location
+				foundation.click(PickList.SELECT_ALL);
+				String color = foundation.getBGColor(PickList.SELECTED_LOCATION);
+				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));			
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
