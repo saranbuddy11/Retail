@@ -651,7 +651,7 @@ public class PickLists extends TestInfra {
 	@Test(description = "C197105-ADM > Pick List Manager>Filter By Tab>Verify product 'filter by ' display only for selected option"
 			+ "C197137-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Pick List Action'"
 			+ "C197138-ADM > Pick List Manager>Filter By Tab>User cancels out of the filtered selection")
-	public void verifyPickListManagerOptions() {
+	public void verifyFilterByAndPickListActionInPickListManagerOptions() {
 		final String CASE_NUM = "197105";
 
 		// Reading test data from database
@@ -669,8 +669,7 @@ public class PickLists extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
-			// Navigate to product--> pickList and click on Negative to zero in pick list
-			// manager
+			// Navigate to product--> pickList and click on pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
 			pickList.selectLocationInFilterAndApply(requiredData.get(0));
@@ -710,7 +709,7 @@ public class PickLists extends TestInfra {
 	 */
 	@Test(description = "C197141-ADM>Pick List Manager>Verify ability to sort picklist page"
 			+ "C197106-ADM > Pick List Manager>Filter By Tab>User select to filter by 'Category'")
-	public void verifyAbilityToSortPickListPage() {
+	public void verifyTableSortingAndCategoryFilterOptionsInPickListPage() {
 		final String CASE_NUM = "197141";
 
 		// Reading test data from database
@@ -768,7 +767,7 @@ public class PickLists extends TestInfra {
 
 	/**
 	 * @author afrosean Story SOS-27323
-	 * @date: -06-2022
+	 * @date: 29-06-2022
 	 */
 	@Test(description = "C195612-ADM>Pick List Manager>Schedule>Select Location>Set Plan schedule for selected location")
 	public void verifyScheduleLocationPlanForSelectedLocation() {
