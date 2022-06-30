@@ -201,6 +201,7 @@ public class CreatePromotions extends Factory {
 	public static final By ALL_ITEMS_SELECTION = By.cssSelector("#itemSelect>dd>span>span>span>ul>li[title=' All ']");
 	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
 	public static final By TENDER_DISCOUNT_DETAILS = By.cssSelector(".tenderDetails>dd>select#tendertypes");
+	public static final By RECURRING_DAY_CHECKBOX = By.cssSelector("#recurringInput >dd >input");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

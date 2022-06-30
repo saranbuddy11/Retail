@@ -2,7 +2,6 @@ package at.smartshop.database.columns;
 
 public class CNLocation {
 	private CNLocation() {
-
 	}
 
 	public static final String PROMOTION_NAME = "PromotionName";
@@ -26,5 +25,4 @@ public class CNLocation {
 	public static final String CONTACT_EMAIL = "ContactEmail";
 	public static final String ADDRESS = "Address";
 	public static final String INFO_NOTES = "InfoNotes";
-
 }
