@@ -541,7 +541,7 @@ public class PickLists extends TestInfra {
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			navigationBar.navigateToMenuItem(menuItem);
 
-			// selecting select all location on Picklist Manager and verifying all products
+			// selecting select all location on PickList Manager and verifying all products
 			// are highlighted
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -816,7 +816,34 @@ public class PickLists extends TestInfra {
 			pickList.resettingDatasInRouteScheduling(requiredData.get(2));
 			foundation.click(PickList.BTN_SAVE);
 			foundation.waitforElement(PickList.SUCCESS_MSG, 5);		
-			
-		}
-}
+			}
+	}	
+		
+		/**
+		 * @author afrosean Story SOS-22340
+		 * @date: 30-06-2022
+		 */
+		@Test(description = "C195606-ADM>Pick List Manager>Select  Location>In picklist grid Select All location")
+		public void verifyPicklistGridSelectAllLocation() {
+			final String CASE_NUM = "195606";
+
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+			try {
+				// Login to ADM
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+				// Navigate to product--> pickList and click on scheduling
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+				foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+				
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+    }
 }
