@@ -592,7 +592,7 @@ public class SmokeTests extends TestInfra {
 			dropdown.deSelectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(7), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(8), Constants.TEXT);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.LONG_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.EXTRA_LONG_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -924,7 +924,7 @@ public class SmokeTests extends TestInfra {
 
 			// Editing the product 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.WaitForAjax(3000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			Assert.assertTrue(foundation.getText(GlobalProduct.GBL_PRODUCT_DATA).equals(productName));
@@ -994,9 +994,10 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));		
 			locationSummary.selectTab(requiredData.get(0));
 			foundation.WaitForAjax(5000);
-			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.threadWait(Constants.LONG_TIME);
 			foundation.WaitForAjax(10000);
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
@@ -1236,6 +1237,7 @@ public class SmokeTests extends TestInfra {
 		    foundation.alertAccept();
 		    foundation.refreshPage();
 		    textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
+		    foundation.threadWait(Constants.SHORT_TIME);
 		    assertEquals(foundation.getText(SelfService.TXT_NO_MATCH), requiredData.get(5));
 		}
 	}
