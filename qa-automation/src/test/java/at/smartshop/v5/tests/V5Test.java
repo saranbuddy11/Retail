@@ -12243,7 +12243,7 @@ public class V5Test extends TestInfra {
 
 			// Verifying the Promotion on transactions and discount amount
 			CustomisedAssert.assertEquals(value, productName.get(0));
-			CustomisedAssert.assertEquals(amount, requiredData.get(1));
+			CustomisedAssert.assertEquals(amount, requiredData.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
