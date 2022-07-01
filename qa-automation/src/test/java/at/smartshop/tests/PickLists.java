@@ -21,14 +21,11 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.AgeVerificationDetails;
-import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -36,23 +33,22 @@ import at.smartshop.pages.PickList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
-	private static final String formate = null;
-	private static final String filename = null;
+	
 	private NavigationBar navigationBar = new NavigationBar();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private ResultSets dataBase = new ResultSets();
 	private PickList pickList = new PickList();
 	private Dropdown dropDown = new Dropdown();
-	private CheckBox checkBox = new CheckBox();
+	
 	private LocationList locationList = new LocationList();
 	private Excel excel = new Excel();
 	private Table table = new Table();
 	private LocationSummary locationSummary = new LocationSummary();
-	private GlobalProductChange globalProductChange = new GlobalProductChange();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstPickListData;
+	
 
 	@Test(description = "143192-QAA-67-verify picklist screen product table data -Super")
 	public void verifyPickListColumnHeadersSuper() {
@@ -753,11 +749,11 @@ public class PickLists extends TestInfra {
 			foundation.waitforElementToBeVisible(PickList.PRODUCT_NAME_GRID, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PRODUCT_NAME_GRID));
 			foundation.click(PickList.PRODUCT_NAME_GRID);
-			datas = foundation.getText(PickList.TBL_ROW_DATA);
+			datas = foundation.getText(PickList.PRODUCT_DATAS);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(3)));
 			foundation.waitforElementToBeVisible(PickList.PRODUCT_NAME_GRID, 5);
 			foundation.click(PickList.PRODUCT_NAME_GRID);
-			datas = foundation.getText(PickList.TBL_ROW_DATA);
+			datas = foundation.getText(PickList.PRODUCT_DATAS);
 			CustomisedAssert.assertTrue(datas.contains(requiredData.get(4)));
 
 		} catch (Exception exc) {
@@ -779,6 +775,7 @@ public class PickLists extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+	
 		try {
 			// Login to ADM
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -798,7 +795,7 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
 			
 			//Enter all the datas in route driver and date
-			pickList.selectServiceDay(requiredData.get(0), requiredData.get(1), "check");
+			pickList.checkboxsServiceDay(requiredData.get(0), requiredData.get(1),"true");
 			foundation.click(PickList.BTN_SAVE);
 			foundation.waitforElementToBeVisible(PickList.SUCCESS_MSG, 5);	
 		}
@@ -813,7 +810,7 @@ public class PickLists extends TestInfra {
 			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),Constants.SHORT_TIME);
-			pickList.resetselectServiceDay(requiredData.get(2), requiredData.get(2), "uncheck");
+			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(2),"false");
 			foundation.click(PickList.BTN_SAVE);
 			foundation.waitforElement(PickList.SUCCESS_MSG, 5);		
 			}
@@ -850,7 +847,7 @@ public class PickLists extends TestInfra {
 				//verify highlight the all selected location
 				foundation.click(PickList.SELECT_ALL);
 				String color = foundation.getBGColor(PickList.SELECTED_LOCATION);
-				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));			
+				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));	
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());

@@ -54,6 +54,7 @@ public class PickList extends Factory {
 	public static final By BTN_OKAY = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By FILTER_GRID = By.id("filter-prd-grid");
 	public static final By TBL_ROW_DATA = By.xpath("//tbody[@role='rowgroup']/tr");
+	public static final By PRODUCT_DATAS=By.xpath("//th[contains(@id,'grid_name')]/../../following-sibling::tbody//td[contains(@aria-describedby,'grid_name')]");
 	public static final By FILTER_LOCATION = By.id("filter-loc-title");
 	public static final By BTN_SELECT_ALL = By.id("loc-select-all");
 	public static final By SELECTED_LOCATION = By.xpath("//tbody[@role='rowgroup']");
@@ -93,13 +94,6 @@ public class PickList extends Factory {
 	public static final By DATA_GRID_ROUTE = By.xpath("//td[@aria-describedby='dataGrid_route']");
 	public static final By DRIVER_COLUMN = By.id("dataGrid_driver");
 	public static final By DATA_GRID_DRIVER = By.xpath("//td[@aria-describedby='dataGrid_driver']");
-	public static final By CHECKBOX_MONDAY = By.xpath("//td[@aria-describedby='dataGrid_m']");
-	public static final By CHECKBOX_TUESDAY = By.xpath("//td[@aria-describedby='dataGrid_tu']");
-	public static final By CHECKBOX_WEDNESDAY = By.xpath("//td[@aria-describedby='dataGrid_w']");
-	public static final By CHECKBOX_THURSDAY = By.xpath("//td[@aria-describedby='dataGrid_th']");
-	public static final By CHECKBOX_FRIDAY = By.xpath("//td[@aria-describedby='dataGrid_f']");
-	public static final By CHECKBOX_SATURDAY = By.xpath("//td[@aria-describedby='dataGrid_sa']");
-	public static final By CHECKBOX_SUNDAY = By.xpath("//td[@aria-describedby='dataGrid_su']");
 	public static final By DPD_ROUTE = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
@@ -110,11 +104,15 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
-		return By.xpath("(//li[text()='" + driver + "'])[2]");
+		return By.xpath("//div[contains(@style,'top: 353.635px;')]//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
+	}
+
+	public By objDayCheckbox(String day) {
+		return By.xpath("(//span[contains(@class,'ui-igcheckbox-small')])[" + day + "]");
 	}
 	
 	public By objDay(String day) {
-		return By.xpath("(//span[contains(@class,'ui-igcheckbox-small')])[" + day + "]");
+		return By.xpath("(//span[contains(@class,'ui-igcheckbox-container')])[" + day + "]");
 	}
 
 	public By objPickList(String text) {
@@ -227,14 +225,12 @@ public class PickList extends Factory {
 	}
 
 	/**
-	 * Enter all datas in Route Driver And Service Day and save
-	 * 
-	 * @param route
-	 * @param driver
-	 * @return
+	 * Enter driver , route and select service day 
+	 * @param option1
+	 * @param option2
+	 * @param checkboxSelection
 	 */
-
-	public void selectServiceDay(String option1, String option2, String checkboxSelection) {
+	public void checkboxsServiceDay(String option1, String option2, String checkboxSelection) {
 		List<WebElement> list = getDriver().findElements(CHECKBOX);
 		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
 		foundation.click(DATA_GRID_ROUTE);
@@ -243,47 +239,19 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.click(DPD_DRIVER);
-		foundation.click(objRouteText(option2));
+		foundation.click(objDriverText(option2));
 		for (int i = 0; i <= list.size() - 1; i++) {
-			if (checkboxSelection.equals("check")) {
-				if (!checkBox.isChecked(objDay(String.valueOf(i+1)))) { 
-					foundation.click(objDay(String.valueOf(i+1)));
-					foundation.threadWait(Constants.THREE_SECOND);
-					//CustomisedAssert.assertTrue(getDriver().findElement(objDay(String.valueOf(i+1))).isSelected());
+			if (checkboxSelection.equals("true")) {
+				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+					foundation.threadWait(Constants.SHORT_TIME);	
 				}
+				String value= getDriver().findElement(objDay(String.valueOf(i+1))).getAttribute("aria-checked");
+				CustomisedAssert.assertEquals(value, checkboxSelection);
 			} else {
-				if (checkBox.isChecked(objDay(String.valueOf(i+1)))) {
-					foundation.click(objDay(String.valueOf(i+1)));
-				}
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+				
 			}
 		}
-	}
-
-	/**
-	 * resetting all datas in Route Driver And Service Day and save
-	 * 
-	 * @param route
-	 * @param driver
-	 */
-	public void resettingDatasInRouteScheduling(String route) {
-		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
-		foundation.click(DATA_GRID_ROUTE);
-		foundation.click(DPD_ROUTE);
-		foundation.click(objRouteText(route));
-		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
-		foundation.click(DATA_GRID_DRIVER);
-		foundation.click(DPD_DRIVER);
-		foundation.click(objDriverText(route));
-		foundation.waitforElementToBeVisible(CHECKBOX_MONDAY, 5);
-		foundation.click(CHECKBOX_MONDAY);
-		foundation.click(CHECKBOX_TUESDAY);
-		foundation.waitforElementToBeVisible(CHECKBOX_WEDNESDAY, 5);
-		foundation.click(CHECKBOX_WEDNESDAY);
-		foundation.click(CHECKBOX_THURSDAY);
-		foundation.waitforElementToBeVisible(CHECKBOX_FRIDAY, 5);
-		foundation.click(CHECKBOX_FRIDAY);
-		foundation.click(CHECKBOX_SATURDAY);
-		foundation.click(CHECKBOX_SUNDAY);
-		foundation.waitforElementToBeVisible(BTN_SAVE, 5);
-	}
+	} 
 }
