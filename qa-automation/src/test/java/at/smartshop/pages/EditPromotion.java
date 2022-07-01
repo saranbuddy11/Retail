@@ -18,8 +18,8 @@ public class EditPromotion extends Factory {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private NavigationBar navigationBar = new NavigationBar();
-	private PromotionList promotionList = new PromotionList();
 	private CreatePromotions createPromotions = new CreatePromotions();
+	private PromotionList promotionList = new PromotionList();
 
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By BTN_NEXT = By.xpath("//button[text()='Next']");
