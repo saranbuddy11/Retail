@@ -447,7 +447,6 @@ public class CreatePromotions extends Factory {
 	public void selectWeekDays(String weekDays) {
 		try {
 			List<String> weekDaysData = Arrays.asList(weekDays.split(Constants.DELIMITER_HASH));
-			System.out.println(weekDaysData);
 			for (int iter = 0; iter < weekDaysData.size(); iter++) {
 				foundation
 						.click(By.xpath("//div[@id='recurringInput']//dd/input[@id='" + weekDaysData.get(iter) + "']"));

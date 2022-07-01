@@ -145,21 +145,6 @@ public class PromotionList extends Factory {
 	}
 
 	/**
-	 * Searching Active Promotion with name, status and Promo Type
-	 * 
-	 * @param promoName
-	 * @param statusType
-	 * @param PromoType
-	 */
-	public void searchPromotionWithType(String promoName, String statusType, String promoType) {
-		foundation.waitforElementToBeVisible(TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
-		textbox.enterText(TXT_SEARCH_PROMONAME, promoName);
-		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
-		dropdown.selectItem(DPD_PROMOTYPE, promoType, Constants.TEXT);
-		foundation.click(BTN_SEARCH);
-	}
-
-	/**
 	 * Navigate to Location and Do full Sync
 	 * 
 	 * @param menu

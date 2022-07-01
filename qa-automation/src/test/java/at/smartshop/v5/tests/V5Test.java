@@ -12258,7 +12258,8 @@ public class V5Test extends TestInfra {
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 
 			// Expiring the Promotion
-			editPromotion.expirePromotion(rstLocationData.get(CNLocation.TAB_NAME), promoName.get(0));
+			editPromotion.searchPromotionWithType(promoName.get(0), requiredData.get(7), requiredData.get(8));
+			editPromotion.expirePromotion(rstLocationData.get(CNLocation.COLUMN_VALUE), promoName.get(0));
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 

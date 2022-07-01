@@ -9,6 +9,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
+import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
@@ -17,9 +18,9 @@ public class EditPromotion extends Factory {
 	private Table table = new Table();
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
+	private TextBox textbox = new TextBox();
 	private NavigationBar navigationBar = new NavigationBar();
 	private CreatePromotions createPromotions = new CreatePromotions();
-	private PromotionList promotionList = new PromotionList();
 
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By BTN_NEXT = By.xpath("//button[text()='Next']");
@@ -41,6 +42,10 @@ public class EditPromotion extends Factory {
 	public static final By TXT_POPUP_HEADER = By.xpath("//div[@class='ajs-header']");
 	public static final By TXT_POPUP_ALERT_MSG = By.xpath("//div[@class='ajs-content']");
 	public static final By PRICING = By.xpath("//div[@id='bundlesummary']/b/span[2]");
+	public static final By TXT_SEARCH_PROMONAME = By.id("search");
+	public static final By DPD_PROMOTYPE = By.id("promotype");
+	public static final By BTN_SEARCH = By.id("searchbtn");
+	public static final By DRP_STATUS = By.xpath("//select[@id='status']");
 
 	public void expirePromotion(String dataGridname, String promoName) {
 		if (!foundation
@@ -71,6 +76,21 @@ public class EditPromotion extends Factory {
 	}
 
 	/**
+	 * Searching Active Promotion with name, status and Promo Type
+	 * 
+	 * @param promoName
+	 * @param statusType
+	 * @param PromoType
+	 */
+	public void searchPromotionWithType(String promoName, String statusType, String promoType) {
+		foundation.waitforElementToBeVisible(TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+		textbox.enterText(TXT_SEARCH_PROMONAME, promoName);
+		dropDown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
+		dropDown.selectItem(DPD_PROMOTYPE, promoType, Constants.TEXT);
+		foundation.click(BTN_SEARCH);
+	}
+
+	/**
 	 * Editing the existing Bundle Promotion to change Build Bundle from Category to
 	 * Item
 	 * 
@@ -84,7 +104,7 @@ public class EditPromotion extends Factory {
 			String promoType, String value, String bundleType) {
 		navigationBar.navigateToMenuItem(menu);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-		promotionList.searchPromotionWithType(promoName, statusType, promoType);
+		searchPromotionWithType(promoName, statusType, promoType);
 		table.selectRow(value, promoName);
 		foundation.doubleClick(By.xpath("//td[@aria-describedby='" + value + "'][text()='" + promoName + "']"));
 		foundation.waitforElementToBeVisible(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
