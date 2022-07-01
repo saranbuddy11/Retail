@@ -12238,11 +12238,9 @@ public class V5Test extends TestInfra {
 			productSearch.searchProduct(productName.get(1));
 			foundation.waitforElementToBeVisible(Order.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			String value = foundation.getText(Order.LBL_BUNDLE_ITEM);
 			String amount = foundation.getText(Order.LBL_BALANCE_DUE);
 
 			// Verifying the Promotion on transactions and discount amount
-			CustomisedAssert.assertEquals(value, productName.get(0));
 			CustomisedAssert.assertEquals(amount, requiredData.get(5));
 
 		} catch (Exception exc) {
