@@ -3986,6 +3986,12 @@ public class Report extends TestInfra {
 		}
 	}
 
+	
+	/**
+	 * This Method is for Inventory Variance Report Data Validation
+	 * @author ravindhara
+	 * Date: 01-07-2022
+	 */
 	@Test(description = "197618-This test validates Inventory Variance Report Data Validation")
 	public void inventoryVarianceReportDataValidation() {
 
@@ -4019,9 +4025,8 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName);
 			reportList.selectLocationForSecondTypeDropdown(locationData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
-			reportList.selectDateRangeDateofType2(rstReportListData.get(CNReportList.DATE_RANGE), locationData.get(1),
+			reportList.selectDateRangeDateofType2(locationData.get(1),
 					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
-			
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			inventoryVariance.verifyReportName(reportName);

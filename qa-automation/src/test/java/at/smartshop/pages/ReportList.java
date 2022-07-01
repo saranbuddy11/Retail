@@ -529,7 +529,7 @@ public class ReportList extends Factory {
 	 * @param MonthAndYear
 	 * @param object
 	 */
-	public void selectDateRangeDateofType2(String optionName, String MonthAndYear, By firstDate, By lastDate) {
+	public void selectDateRangeDateofType2(String MonthAndYear, By firstDate, By lastDate) {
 		try {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.objectClick(DPD_DATE);
