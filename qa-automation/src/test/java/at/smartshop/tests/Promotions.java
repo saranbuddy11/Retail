@@ -3626,25 +3626,9 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
-			// Select Promo Type, Promo Name, Display Name and click Next
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(promoType.get(0), promoName.get(0), promoName.get(1));
-
-			// Choose Org and Location
-			createPromotions.selectOrgLoc(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstLocationData.get(CNLocation.LOCATION_NAME));
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(menu.get(0), promoType.get(0),
+					promoName.get(0), promoName.get(1), rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Category in Details Page with All Categories checkbox
 			createPromotions.selectBuildBundleAsCategoryAndCheckBox(requiredData.get(2));
@@ -3692,25 +3676,9 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
-			// Select Promo Type, Promo Name, Display Name and click Next
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(promoType.get(0), promoName.get(0), promoName.get(1));
-
-			// Choose Org and Location
-			createPromotions.selectOrgLoc(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstLocationData.get(CNLocation.LOCATION_NAME));
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(menu.get(0), promoType.get(0),
+					promoName.get(0), promoName.get(1), rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Item in Details Page with All Items checkbox
 			createPromotions.selectBuildBundleAsItemAndCheckBox(requiredData.get(1));
@@ -3758,25 +3726,9 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
-			// Select Promo Type, Promo Name, Display Name and click Next
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(promoType.get(0), promoName.get(0), promoName.get(1));
-
-			// Choose Org and Location
-			createPromotions.selectOrgLoc(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstLocationData.get(CNLocation.LOCATION_NAME));
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(menu.get(0), promoType.get(0),
+					promoName.get(0), promoName.get(1), rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Category in Details Page with All Categories checkbox
 			createPromotions.selectBuildBundleAsCategoryAndCheckBox(requiredData.get(2));
@@ -3824,25 +3776,9 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
-			// Select Promo Type, Promo Name, Display Name and click Next
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(promoType.get(0), promoName.get(0), promoName.get(1));
-
-			// Choose Org and Location
-			createPromotions.selectOrgLoc(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstLocationData.get(CNLocation.LOCATION_NAME));
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(menu.get(0), promoType.get(0),
+					promoName.get(0), promoName.get(1), rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Item in Details Page with All Item checkbox
 			createPromotions.selectBuildBundleAsItemAndCheckBox(requiredData.get(1));
@@ -3888,25 +3824,9 @@ public class Promotions extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Select Org,Menu and Menu Item and click Create Promotion
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
-			foundation.click(PromotionList.BTN_CREATE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
-
-			// Select Promo Type, Promo Name, Display Name and click Next
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
-			createPromotions.createPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0),
-					promoName.get(1));
-
-			// Choose Org and Location
-			createPromotions.selectOrgLoc(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(menu.get(0),
+					rstLocationData.get(CNLocation.PROMOTION_TYPE), promoName.get(0), promoName.get(1),
 					rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			// Select Build Bundle as Item in Details Page with All Item checkbox

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
@@ -15,7 +18,9 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class CreatePromotions extends Factory {
@@ -24,6 +29,7 @@ public class CreatePromotions extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private CheckBox checkBox = new CheckBox();
+	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
@@ -694,5 +700,35 @@ public class CreatePromotions extends Factory {
 			}
 		}
 		return value;
+	}
+
+	/**
+	 * Launching Browser and Creating Promotion on Bundle upto Location Selection
+	 * 
+	 * @param menu
+	 * @param promoType
+	 * @param promoName
+	 * @param displayName
+	 * @param location
+	 */
+	public void launchBrowserAndCreateBundlePromoWithLocationDetails(String menu, String promoType, String promoName,
+			String displayName, String location) {
+		// Login to ADM with Super User, Select Org
+		navigationBar.launchBrowserAsSuperAndSelectOrg(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+		// Select Org,Menu and Menu Item and click Create Promotion
+		navigationBar.navigateToMenuItem(menu);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+		foundation.click(PromotionList.BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+		// Select Promo Type, Promo Name, Display Name and click Next
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+		createPromotion(promoType, promoName, displayName);
+
+		// Choose Org and Location
+		selectOrgLoc(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), location);
 	}
 }
