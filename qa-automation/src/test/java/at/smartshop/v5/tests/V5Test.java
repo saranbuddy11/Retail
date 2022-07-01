@@ -12172,7 +12172,7 @@ public class V5Test extends TestInfra {
 	 * @Date - 30/06/2022
 	 */
 	@Test(description = "177813 - Edit Change Bundle Build With All Selected")
-	public void verifyChangeInDeviceForEditBuildBundleWWithAllSelected() {
+	public void verifyChangeInDeviceForEditBuildBundleWithAllSelected() {
 		final String CASE_NUM = "177813";
 
 		// Reading test data from database
