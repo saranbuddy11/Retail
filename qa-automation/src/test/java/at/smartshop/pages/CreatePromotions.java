@@ -202,9 +202,7 @@ public class CreatePromotions extends Factory {
 	public static final By ALL_ITEMS = By.xpath("//input[@id='allitems']");
 	public static final By SELECTION_CATEGORY = By.id("categorySelect");
 	public static final By SELECTION_ITEM = By.id("itemSelect");
-	public static final By ALL_CATEGORIES_SELECTION = By
-			.cssSelector("#categorySelect>dd>span>span>span>ul>li[title=' All ']");
-	public static final By ALL_ITEMS_SELECTION = By.cssSelector("#itemSelect>dd>span>span>span>ul>li[title=' All ']");
+	public static final By ALL_SELECTION = By.xpath("//li[@title=' All ']");
 	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
 	public static final By TENDER_DISCOUNT_DETAILS = By.cssSelector(".tenderDetails>dd>select#tendertypes");
 	public static final By RECURRING_DAY_CHECKBOX = By.cssSelector("#recurringInput >dd >input");
@@ -646,7 +644,7 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(SELECTION_CATEGORY, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_CATEGORY));
 		checkBox.check(ALL_CATEGORY);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_CATEGORIES_SELECTION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
 	}
 
 	/**
@@ -660,7 +658,7 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(SELECTION_ITEM, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_ITEM));
 		checkBox.check(ALL_ITEMS);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_ITEMS_SELECTION));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
 	}
 
 	/**
