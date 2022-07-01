@@ -110,6 +110,8 @@ public class EditPromotion extends Factory {
 		foundation.waitforElementToBeVisible(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(CreatePromotions.BTN_NEXT);
 		foundation.waitforElementToBeVisible(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+		foundation.scrollIntoViewElement(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CreatePromotions.BTN_NEXT);
 		createPromotions.selectBuildBundleAsItemAndCheckBox(bundleType);
 		foundation.click(CreatePromotions.BTN_NEXT);
