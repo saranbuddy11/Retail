@@ -35,6 +35,7 @@ public class PickList extends Factory {
 	public static final By LBL_ADD_PRODUCT_PICKLIST = By.xpath("//h4[text()='Add Product(s) to Pick List']");
 	public static final By LBL_TITLE_HEADER = By.xpath("//h4[@class='modal-title']");
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
+	public static final By TXT_PRODUCT_NAME=By.id("filter-name");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
 	public static final By TBL_NEED = By
@@ -82,6 +83,7 @@ public class PickList extends Factory {
 	public static final By SELECT_ALL = By.id("gridloc-select-all");
 	public static final By INPUT_TEXT = By.id("single-num");
 	public static final By BTN_FILTER_APPLY = By.id("prd-filter-apply");
+	public static final By PRODUCT_CANCEL=By.id("prd-filter-clear-icon");
 	public static final By BTN_FILTER_CANCEL = By.id("prd-filter-cancel");
 	public static final By DPD_PICKLIST_ACTIONS = By.id("pick-list-action");
 	public static final By FILTER_PICKLIST = By.id("filter-prd-title");
