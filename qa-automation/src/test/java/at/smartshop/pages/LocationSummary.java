@@ -1478,4 +1478,53 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 	}
+
+	/**
+	 * Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+	 * TopOff Subsidy
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param date
+	 * @param requiredData
+	 */
+	public void navigateToLocationAndSelectGMASubsidyToVerifyTopOff(String menu, String location, String date,
+			List<String> requiredData) {
+		// Login to ADM as Super
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+		// Select Menu, Menu Item and Location
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+
+		// Verify GMA Subsidy
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value.equals(requiredData.get(1))) {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+		}
+		value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, requiredData.get(0));
+		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
+		verifyTopOffSubsidy(requiredData);
+		verifyRolloverSubsidy(requiredData);
+		checkBox.check(CHK_TOP_OFF_SUBSIDY);
+
+		// Setting start date & recurrence in TopOff Subsidy as per Test Data
+		foundation.click(START_DATE_PICKER_TOP_OFF);
+		verifyTopOffDateAutoLocation1(date);
+		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
+		textBox.enterText(TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
+		foundation.click(TXT_TOP_OFF_AMOUNT);
+		textBox.enterText(TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+	}
 }

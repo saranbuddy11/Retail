@@ -2705,4 +2705,47 @@ public class ConsumerSubsidy extends TestInfra {
 			consumerSummary.setTopOffSubsidyBalance(datas.get(4));
 		}
 	}
+
+	/**
+	 * @author karthikr SOS-32030
+	 * @date - 04/07/2022
+	 */
+	@Test(description = "197692 - verify the consumer subsidy balance funding when the start date is set as current date and recurrence set to 'Daily'")
+	public void verifyConsumerSubsidyBalanceWhenSetToCurrentDateWithRecurrenceDaily() {
+		final String CASE_NUM = "197692";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		try {
+			// Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+			// TopOff Subsidy
+			locationSummary.navigateToLocationAndSelectGMASubsidyToVerifyTopOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), currentDate, requiredData);
+
+			// Navigate to Admin-->Consumer to validate Subsidy Balance for the consumer
+			// associated to AutoLocation1 Location
+			String balance = consumerSearch
+					.searchConsumerWithMailAndNavigateToConsumerSummaryPageToValidateSubsidyBalance(menus.get(1),
+							rstLocationSummaryData.get(CNLocationSummary.TAB_NAME),
+							rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL),
+							rstLocationSummaryData.get(CNLocationSummary.NAME));
+			CustomisedAssert.assertEquals(balance, rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting GMA subsidy
+			locationSummary.subsidyResettingValidationOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData.get(1));
+			login.logout();
+			browser.close();
+		}
+	}
 }
