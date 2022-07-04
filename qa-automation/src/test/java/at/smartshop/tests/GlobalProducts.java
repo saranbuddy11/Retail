@@ -28,6 +28,7 @@ import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProduct;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -65,6 +66,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstProductData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstProductSummaryData;
 
 	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -1487,5 +1489,5 @@ public class GlobalProducts extends TestInfra {
 			globalProduct.searchProductAndUpdateProductNameInGlobalProducts(productName.get(1), productName.get(0));
 		}
 	}
-
+	
 }
