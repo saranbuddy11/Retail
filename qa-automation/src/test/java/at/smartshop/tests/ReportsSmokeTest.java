@@ -140,21 +140,22 @@ public class ReportsSmokeTest extends TestInfra {
 	private CrossOrgGoLive crossOrgGoLive = new CrossOrgGoLive();
 	private ProductSalesByCategoryReport productSalesByCategoryReport = new ProductSalesByCategoryReport();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
+	private InventoryList inventoryList = new InventoryList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "166893- This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {
@@ -5531,6 +5532,60 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying, whether the Report data available or not
 			promotionAnalysis.checkForDataAvailabilyInResultTable();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This Method is for Somke Test of Inventory List Report.
+	 * @author ravindhara
+	 * Date: 05-07-2022
+	 */
+	@Test(description = "197703- This test validates Data existance and Excel file exportaion of Inventory List Report")
+	public void inventoryList() {
+		try {
+			final String CASE_NUM = "197703";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDateRangeOfSinglrDateofType3(rstReportListData.get(CNReportList.DATE_RANGE),
+					InventoryList.DATA_EXISTING_DATE);
+			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryList.verifyReportName(reportName);
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Verifying, whether the Report data available or not
+			inventoryList.checkForDataAvailabilyInResultTable();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

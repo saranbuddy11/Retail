@@ -69,6 +69,7 @@ public class ReportList extends Factory {
 	private static final By DATE_RANGE_NEXT_MONTH = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
 	private static final By APPLY_DATE_RANGE_BUTTON  = By.xpath("//button[normalize-space()='Apply']");
+	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_3 = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
 	
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -311,7 +312,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == false) {
+			if (fileExists == true) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -325,7 +326,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
-			if (fileExists == false) {
+			if (fileExists == true) {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
 			}
 		} catch (Exception exc) {
@@ -333,6 +334,20 @@ public class ReportList extends Factory {
 		}
 	}
 
+	public void verifyTheFileContainsNameWithDate(String firstCellData, String fileName, String formate) {
+		try {
+			boolean fileExists = foundation.isFileExists(FilePath.reportFilePathWithDate(fileName, formate));
+
+			excel.verifyFirstCellData(firstCellData, FilePath.reportFilePathWithDate(fileName, formate), 0);
+
+			if (fileExists == true) {
+				foundation.deleteFile(FilePath.reportFilePathWithDate(fileName, formate));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 	public void verifyTheFileContainsNameWithDateWithoutSpace(String reportName, String fileName, String formate) {
 		try {
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -342,7 +357,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == false) {
+			if (fileExists == true) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -354,8 +369,9 @@ public class ReportList extends Factory {
 		try {
 			boolean fileExists = foundation
 					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
-
-			if (fileExists == false) {
+			System.out.println(fileExists);
+			
+			if (fileExists == true) {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
@@ -369,7 +385,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
 
-			if (fileExists == false) {
+			if (fileExists == true) {
 				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 			}
 		} catch (Exception exc) {
@@ -514,6 +530,30 @@ public class ReportList extends Factory {
 			foundation.click(firstDate);
 			foundation.click(lastDate);
 			foundation.click(APPLY_DATE_RANGE_BUTTON);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This method is to select Date Range Dates for Third type of single Date  drop down
+	 * @param optionName
+	 * @param MonthAndYear
+	 * @param object
+	 */
+	public void selectDateRangeOfSinglrDateofType3(String MonthAndYear, By date) {
+		try {
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.objectClick(DPD_DATE);
+			for (int count = 0; count < 60; count++) {
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_3).equals(MonthAndYear)) {
+					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
+			}
+			foundation.click(date);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.objectClick(APPLY_DATE_RANGE_BUTTON);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

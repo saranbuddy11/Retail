@@ -56,6 +56,7 @@ import at.smartshop.pages.HealthAheadReport;
 import at.smartshop.pages.ICEReport;
 import at.smartshop.pages.IntegrationPaymentReport;
 import at.smartshop.pages.InventoryAdjustmentDetail;
+import at.smartshop.pages.InventoryList;
 import at.smartshop.pages.InventoryTotals;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
@@ -156,6 +157,7 @@ public class Report extends TestInfra {
 	private InventoryTotals InventoryTotals = new InventoryTotals();
 	private RemainingGuestPassLiability remainingGuestPassLiability = new RemainingGuestPassLiability();
 	private GuestPassByDevice guestPassByDevice = new GuestPassByDevice();
+	private InventoryList inventoryList = new InventoryList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -3985,4 +3987,57 @@ public class Report extends TestInfra {
 		}
 	}
 
+	/**
+	 * This Method is for Inventory Variance Report Data Validation
+	 * @author ravindhara
+	 * Date: 01-07-2022
+	 */
+	@Test(description = "197657-This test validates Inventory List Report Data Validation")
+	public void inventoryListReportDataValidation() {
+
+		try {
+			final String CASE_NUM = "197657";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String locationData = rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA);
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDateRangeOfSinglrDateofType3(rstReportListData.get(CNReportList.DATE_RANGE),
+					InventoryList.DATA_EXISTING_DATE);
+//			foundation.threadWait(Constants.ONE_SECOND);
+			reportList.selectLocation(locationData);
+			
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryList.verifyReportName(reportName);
+			inventoryList.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			inventoryList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			inventoryList.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
