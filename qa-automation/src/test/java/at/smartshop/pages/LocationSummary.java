@@ -347,6 +347,18 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
 	}
 
+	public By objSubsidyStartDatePickerHead(int index) {
+		return By.xpath("(//th[@class='switch'])[" + index + "]");
+	}
+
+	public By objTopOffSubsidyStartDatePickerMonthSelection(String month) {
+		return By.xpath("(//div[@class='datepicker-months']//span[contains(text(),'" + month + "')])[2]");
+	}
+
+	public By objTopOffSubsidyStartDatePickerYearSelection(int year) {
+		return By.xpath("(//span[contains(text()," + year + ")])[2]");
+	}
+
 	/**
 	 * This method is to Select the Required Tab in Location
 	 * 
@@ -1452,6 +1464,30 @@ public class LocationSummary extends Factory {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
+	}
+
+	/**
+	 * Setting Topoff Start Date as Future date for AutoLocation1
+	 * 
+	 * @param value
+	 */
+	public void verifyTopOffDateAsFutureDateForAutoLocation1(String value, int index, int index1) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int year = Integer.parseInt(dateArray[2]);
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		String abbrevation = monthName.substring(0, 2);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objSubsidyStartDatePickerHead(index));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objSubsidyStartDatePickerHead(index1));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objTopOffSubsidyStartDatePickerYearSelection(year));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objTopOffSubsidyStartDatePickerMonthSelection(abbrevation));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 	}
 
 	/**
