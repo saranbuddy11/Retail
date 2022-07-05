@@ -192,5 +192,6 @@ public class GlobalProduct extends Factory {
 		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
 		foundation.click(ProductSummary.BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
 	}
 }

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -26,13 +25,11 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
-import at.smartshop.pages.PrintGroupLists;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
