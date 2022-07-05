@@ -908,7 +908,7 @@ public class PickLists extends TestInfra {
 				foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 				foundation.click(PickList.BTN_YES);
 				
-				//select UPC in dropdown
+				//select UPC in dropDown
 				dropDown.selectItem(PickList.DPD_FILTERBY, requiredData.get(2), Constants.TEXT);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.CHKBOX_EXACT_MATCH));
 				foundation.click(PickList.CHKBOX_EXACT_MATCH);
