@@ -465,6 +465,7 @@ public class Report extends TestInfra {
 
 			// read updated data
 			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.getTblRecordsUI();
 
@@ -490,7 +491,7 @@ public class Report extends TestInfra {
 			transactionCanned.updatePercent(transactionCanned.getTableHeaders().get(8),
 					transactionCanned.getTableHeaders().get(3), transactionCanned.getTableHeaders().get(9));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(10),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(11),
 					transactionCanned.getRequiredJsonData().get(0));
 			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(11),
@@ -502,7 +503,7 @@ public class Report extends TestInfra {
 			transactionCanned.updatePercent(transactionCanned.getTableHeaders().get(14),
 					transactionCanned.getTableHeaders().get(3), transactionCanned.getTableHeaders().get(15));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(16),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
 			transactionCanned.updateColumnData(transactionCanned.getTableHeaders().get(17),
 					transactionCanned.getRequiredJsonData().get(0));
 			transactionCanned.updateUnitsPerTransactions(transactionCanned.getTableHeaders().get(17),
@@ -2752,6 +2753,7 @@ public class Report extends TestInfra {
 
 			// Report data validation based on Groupby Locations
 			// reading the report data
+			foundation.threadWait(Constants.ONE_SECOND);
 			dropdown.selectItemByIndex(promotionAnalysis.REPORT_GROUPBY_DPD, 1);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.waitforElement(promotionAnalysis.TBL_PROMOTIONAL_ANALYSIS_GROUPBY_LOCATIONS,
@@ -3735,7 +3737,7 @@ public class Report extends TestInfra {
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
 
-			foundation.threadWait(50);
+			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
@@ -3905,6 +3907,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(reportName);
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			remainingGuestPassLiability.verifyReportName(reportName);
