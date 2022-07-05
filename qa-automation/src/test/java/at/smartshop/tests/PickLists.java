@@ -501,7 +501,7 @@ public class PickLists extends TestInfra {
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 				List<String> dbData = Arrays
-						.asList(rstPickListData.get(CNPickList.ROW_VALUES).split(Constants.DELIMITER_TILD));
+						.asList(rstPickListData.get(CNPickList.COLUMN_HEADERS).split(Constants.DELIMITER_TILD));
 				
 				// Select Menu and Menu Item
 				navigationBar.selectOrganization(
@@ -546,6 +546,7 @@ public class PickLists extends TestInfra {
 				foundation.click(PickList.BTN_SELECT_ALL);
 				foundation.threadWait(Constants.TWO_SECOND);
 				String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
+				foundation.threadWait(Constants.TWO_SECOND);
 				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 				foundation.click(PickList.BTN_APPLY);
 				foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.MEDIUM_TIME);

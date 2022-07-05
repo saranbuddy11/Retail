@@ -34,6 +34,7 @@ public class UserList {
 	public static final By LNK_ORG_REMOVE_ALL = By.xpath("//div[@id='org-select']//span//ul/span");
 	public static final By LNK_LOCATION_REMOVE_ALL = By.xpath("//div[@id='location-select']//span//ul/span");
 	public static final By CREATE_NEW_ROLE = By.xpath("//div[@class='dropdown standarduserBtn']//button");
+	public static final By CREATE_NEW = By.xpath("//button[@id='newBtn']");
 	public static final By FIRST_NAME_FIELD = By.id("firstname");
 	public static final By LAST_NAME_FIELD = By.id("lastname");
 	public static final By EMAIL_ADDRESS_FIELD = By.id("email");
