@@ -105,7 +105,7 @@ public class Consumer extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(5);
 			foundation.waitforElement(ConsumerSearch.DPD_SEARCH_BY, Constants.SHORT_TIME);
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -134,7 +134,7 @@ public class Consumer extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, 5);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(5);
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
