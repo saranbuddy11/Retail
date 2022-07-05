@@ -182,7 +182,7 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Selecting the Product
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -196,9 +196,11 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Remove selected location
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(ProductSummary.TXT_SEARCH, 5);
+			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.LOATION_NAME);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -1175,6 +1177,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Navigate to Products>>Global products and verify the min price
 			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(1)));
@@ -1287,6 +1290,7 @@ public class GlobalProducts extends TestInfra {
 			// verifying the values in Products >> Global products
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(GlobalProduct.TXT_FILTER, requireddata.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(

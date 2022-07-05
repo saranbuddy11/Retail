@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -26,13 +25,11 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
-import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
-import at.smartshop.pages.PrintGroupLists;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
@@ -501,7 +498,7 @@ public class PickLists extends TestInfra {
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 				List<String> dbData = Arrays
-						.asList(rstPickListData.get(CNPickList.ROW_VALUES).split(Constants.DELIMITER_TILD));
+						.asList(rstPickListData.get(CNPickList.COLUMN_HEADERS).split(Constants.DELIMITER_TILD));
 				
 				// Select Menu and Menu Item
 				navigationBar.selectOrganization(
@@ -546,6 +543,7 @@ public class PickLists extends TestInfra {
 				foundation.click(PickList.BTN_SELECT_ALL);
 				foundation.threadWait(Constants.TWO_SECOND);
 				String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
+				foundation.threadWait(Constants.TWO_SECOND);
 				CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 				foundation.click(PickList.BTN_APPLY);
 				foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.MEDIUM_TIME);

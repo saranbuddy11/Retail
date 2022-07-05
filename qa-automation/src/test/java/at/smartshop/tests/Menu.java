@@ -186,8 +186,6 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.LBL_BTN_ADD);
 			foundation.click(SelfService.BTN_SUBMENU_ADD);
 			foundation.threadWait(Constants.THREE_SECOND);
-			String actualData = foundation.getText(SelfService.LBL_INHERIT_PRINT);
-			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.check(selfService.objPrintCheckbox(requiredData.get(0)));
 
@@ -197,8 +195,7 @@ public class Menu extends TestInfra {
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
-			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
-			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+			
 
 			// deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
@@ -210,8 +207,7 @@ public class Menu extends TestInfra {
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_INHERIT_PRINT, Constants.SHORT_TIME);
-			actualData = foundation.getText(SelfService.LBL_INHERIT_PRINT);
-			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			
 
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
