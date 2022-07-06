@@ -809,6 +809,7 @@ public class ResultSets extends Connections {
 				rstPickList.put(CNPickList.RECORDS, resultSet.getString(CNPickList.RECORDS));
 				rstPickList.put(CNPickList.ROW_VALUES, resultSet.getString(CNPickList.ROW_VALUES));
 				rstPickList.put(CNPickList.COLUMN_HEADERS, resultSet.getString(CNPickList.COLUMN_HEADERS));
+				rstPickList.put(CNPickList.APLOCATION, resultSet.getString(CNPickList.APLOCATION));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
