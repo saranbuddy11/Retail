@@ -914,6 +914,8 @@ public class PickLists extends TestInfra {
 				foundation.click(PickList.CHKBOX_EXACT_MATCH);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.INPUT_TEXT));
 				
+				
+				
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
