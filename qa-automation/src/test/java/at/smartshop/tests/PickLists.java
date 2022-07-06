@@ -838,7 +838,7 @@ public class PickLists extends TestInfra {
 				//validating Picklist Manager Page
 				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
 				
-				//selecting required location on Picklist Manager Page
+				//selecting required location on PickList Manager Page
 				foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 				foundation.click(PickList.BTN_APPLY);
 				foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
