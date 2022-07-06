@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -29,10 +30,10 @@ public class InventoryList extends Factory {
 	private static final By TBL_INVENTORY_LIST_GRID = By.cssSelector("#hierarchicalGrid > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(5)");
+	private static final By TBL_INVENTORY_LIST_EXPANDED = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table");
+	private static final By TBL_INVENTORY_LIST_GRID_EXPANDED = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table > tbody");
+	public static final By TBL_EXPAND_BTN =  By.xpath("//span[@title='Expand Row']");
 	
-	
-	//body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.in-range.available
-
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 
@@ -94,6 +95,38 @@ public class InventoryList extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to get the Expanded Table Records Data from UI
+	 */
+	public void getExpandedTblRecordsOfUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			reportsData.clear();
+			WebElement tableReportsList = getDriver().findElement(TBL_INVENTORY_LIST_GRID_EXPANDED);
+			WebElement tableReports = getDriver().findElement(TBL_INVENTORY_LIST_EXPANDED);
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				reportsData.put(recordCount, uiTblRowValues);
+				System.out.println("*********************************"+reportsData);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 	/**
      * This method is to validate the Report Table Headers
      * @param columnNames
