@@ -297,7 +297,6 @@ public class ConsumerSummary extends Factory {
 	 */
 	public void balanceResettingData(String menu, String location, String balance, String reason) {
 		navigationBar.navigateToMenuItem(menu);
-		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
@@ -309,7 +308,9 @@ public class ConsumerSummary extends Factory {
 		dropdown.selectItem(DPD_REASON, reason, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
 		foundation.click(BTN_REASON_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**

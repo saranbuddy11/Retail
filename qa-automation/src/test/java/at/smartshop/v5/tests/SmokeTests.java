@@ -276,6 +276,7 @@ public class SmokeTests extends TestInfra {
     		foundation.click(LandingPage.IMG_SEARCH_ICON);
     		textBox.enterKeypadText(scanCode);
     		foundation.click(ProductSearch.BTN_PRODUCT);
+    		foundation.threadWait(Constants.THREE_SECOND);
     		assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
     		assertEquals(foundation.getText(Order.TXT_PRODUCT), updatedProductName);
     		assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), productPrice);
@@ -298,8 +299,12 @@ public class SmokeTests extends TestInfra {
 			 locationList.selectLocationName(
 						propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(tab);
+			foundation.WaitForAjax(5000);
 			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, scanCode);
+			foundation.WaitForAjax(10000);
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
@@ -566,7 +571,7 @@ public class SmokeTests extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.MEDIUM_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
 
 			// editing category field
@@ -587,7 +592,7 @@ public class SmokeTests extends TestInfra {
 			dropdown.deSelectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(7), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(8), Constants.TEXT);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.EXTRA_LONG_TIME);
 
 			List<String> popupFieldType = foundation.getTextofListElement(CreatePromotions.POP_UP_MESSAGES);
 			List<String> popupField = null;
@@ -889,7 +894,7 @@ public class SmokeTests extends TestInfra {
 
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		final String productName = rstLocationData.get(CNLocation.PRODUCT_NAME) + strings.getRandomCharacter();
-		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA) + strings.getRandomCharacter();
+		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA) + strings.getRandomCharacter().toLowerCase();
 
 		try {
 			//launching browser and selecting org
@@ -919,14 +924,20 @@ public class SmokeTests extends TestInfra {
 
 			// Editing the product 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			foundation.WaitForAjax(3000);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			Assert.assertTrue(foundation.getText(GlobalProduct.GBL_PRODUCT_DATA).equals(productName));
 			table.selectRow(productName);
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.waitforElement(GlobalProduct.BTN_EXTEND_LOC, Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.BTN_EXTEND_LOC);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, locationName);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			table.selectRow(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -935,8 +946,9 @@ public class SmokeTests extends TestInfra {
 			locationSummary.selectTab(requiredData.get(0));
 			foundation.WaitForAjax(5000);
 			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.threadWait(Constants.LONG_TIME);
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.SHORT_TIME);
@@ -959,8 +971,9 @@ public class SmokeTests extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(addProduct);
+			textBox.enterKeypadText(scanCode);
 			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 
@@ -978,10 +991,14 @@ public class SmokeTests extends TestInfra {
 			textBox.enterText(LocationList.TXT_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));		
 			locationSummary.selectTab(requiredData.get(0));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.threadWait(Constants.LONG_TIME);
+			foundation.WaitForAjax(10000);
 			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
@@ -1197,7 +1214,8 @@ public class SmokeTests extends TestInfra {
 
 			// launch v5 application
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));		
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			assertEquals(foundation.getText(SelfService.TXT_ITEM), requiredData.get(4));
 			assertEquals(foundation.getText(SelfService.TXT_MENU), requiredData.get(1));
 
@@ -1219,6 +1237,7 @@ public class SmokeTests extends TestInfra {
 		    foundation.alertAccept();
 		    foundation.refreshPage();
 		    textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
+		    foundation.threadWait(Constants.SHORT_TIME);
 		    assertEquals(foundation.getText(SelfService.TXT_NO_MATCH), requiredData.get(5));
 		}
 	}
