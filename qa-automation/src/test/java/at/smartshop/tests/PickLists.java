@@ -36,8 +36,6 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
 import at.smartshop.pages.UserList;
 
-@Listeners(at.framework.reportsetup.Listeners.class)
-public class PickLists extends TestInfra {
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
@@ -311,7 +309,8 @@ public class PickLists extends TestInfra {
 				login.logout();
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
-
+			}
+		}
 // SOS - 22442
 	@Test(description = "186631-SOS-22442-ADM>Verify Driver Dropdown details under Admin >Routes and Drivers under Picklist Manger Page")
 	public void verifyDriverDropdownDetailsInAdminRoutesAndPickListManagerPage() {
@@ -350,6 +349,7 @@ public class PickLists extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 		
 		//SOS- 14363
 		@Test(description = "195609-SOS-14363-ADM>Verify' Cancel PickList Order' button is present on Picklist Manger Page"
@@ -460,7 +460,7 @@ public class PickLists extends TestInfra {
 		} finally {
 			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
 		}
-
+	}
 	// SOS - 1669
 	@Test(description = "196138-SOS-1669-ADM > Location Summary > Products Tab > Verify Picklist Action Column dropdown option after save")
 	public void verifyPickListActionDropDownValueIsGettingSaved() {
@@ -509,6 +509,7 @@ public class PickLists extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 		
 		/**
 		 * @author prabhanigam
@@ -1044,4 +1045,5 @@ public class PickLists extends TestInfra {
 			}
 		
 		}
+  
 }
