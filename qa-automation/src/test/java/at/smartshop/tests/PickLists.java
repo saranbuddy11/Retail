@@ -689,6 +689,7 @@ public class PickLists extends TestInfra {
 				foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
 			}
 		}
+
 		//SOS - 1669
 		@Test(description = "196138-SOS-1669-ADM > Location Summary > Products Tab > Verify Picklist Action Column dropdown option after save")
 		public void verifyPickListActionDropDownValueIsGettingSaved() {

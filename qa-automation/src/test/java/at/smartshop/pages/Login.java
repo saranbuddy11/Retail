@@ -7,7 +7,6 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -23,6 +22,7 @@ public class Login extends Factory {
 	public static final By TXT_SOS_EMAIL = By.id("email");
 	public static final By TXT_PASSWORD = By.id("password");
 	public static final By BTN_SIGN_IN = By.xpath("//button[@type='submit']");
+	public static final By BTN_OUTLOOK_SIGN_IN = By.xpath("//input[@type='submit']");
 	public static final By LBL_USER_NAME = By.id("drop5");
 	public static final By MUN_LOGOUT = By.id("logout");
 	public static final By TXT_SSO_PASSWORD = By.id("i0118");
@@ -40,6 +40,7 @@ public class Login extends Factory {
 	public static final By USERNAME_ERROR = By.id("usernameError");
 	public static final By PASSWORD_ERROR = By.id("passwordError");
 	public static final By ERROR_MSG = By.xpath("//div[@class='humane humane-libnotify-error']");
+	public static final By OUTLOOK_LOGOUT = By.id("aLogOff");
 
 	public void insertLoginFields(String userName, String password) {
 		try {
@@ -80,7 +81,6 @@ public class Login extends Factory {
 
 	public void logout() {
 		try {
-
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
@@ -105,7 +105,6 @@ public class Login extends Factory {
 
 	public void ssoLogout() {
 		try {
-
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);
@@ -148,5 +147,35 @@ public class Login extends Factory {
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 		logout();
+	}
+
+	/**
+	 * Outlook Signin with Credentials
+	 * 
+	 * @param userName
+	 * @param password
+	 */
+	public void outLookLogin(String userName, String password) {
+		try {
+			foundation.waitforElement(TXT_EMAIL, Constants.SHORT_TIME);
+			textBox.enterText(TXT_EMAIL, userName);
+			foundation.waitforElement(TXT_PASSWORD, Constants.SHORT_TIME);
+			textBox.enterText(TXT_PASSWORD, password);
+			foundation.click(BTN_OUTLOOK_SIGN_IN);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Outlook Logout
+	 */
+	public void outLookLogout() {
+		try {
+			foundation.click(OUTLOOK_LOGOUT);
+			foundation.waitforElement(BTN_OUTLOOK_SIGN_IN, Constants.SHORT_TIME);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }

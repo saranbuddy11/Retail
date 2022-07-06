@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -23,6 +24,10 @@ public class AgeVerificationDetails extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private DateAndTime dateAndTime = new DateAndTime();
+	private CheckBox checkBox = new CheckBox();
+	private Login login = new Login();
+	private NavigationBar navigationBar = new NavigationBar();
+	private LocationList locationList = new LocationList();
 
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//li[text()='Age Verification']");
 	public static final By TXT_PROMPT_MSG = By.xpath("//div[text()='Confirm PIN Expiration']");
@@ -66,6 +71,8 @@ public class AgeVerificationDetails extends Factory {
 	public static final By TXT_EMAIL_ERROR = By.id("email-error");
 	public static final By TXT_CHECKOUT_ERROR = By.id("checkout-error");
 	public static final By INPUT_TEXT = By.xpath("//input[@aria-controls='dt']");
+	public static final By EMAIL_BODY = By.xpath(" //div[@id='divItmPrts']//div[@id='divBdy']//tbody//b");
+	public static final By EMAIL_DELETE = By.xpath("(//div[@id='divMsgItemTB'])[2]//a[@id='delete']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -88,6 +95,14 @@ public class AgeVerificationDetails extends Factory {
 
 	public By objExpiredPinlist(String text) {
 		return By.xpath("//tr[@class='odd']/td[text()='" + text + "']");
+	}
+
+	public By objMailFolder(String text) {
+		return By.xpath("//span[@id='spnFldrNm' and @fldrnm='" + text + "']");
+	}
+
+	public By objEmailList(String text) {
+		return By.xpath("//div[@id='divList']//div[@id='divSubject' and contains(text(),'" + text + "')]");
 	}
 
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
@@ -201,6 +216,13 @@ public class AgeVerificationDetails extends Factory {
 		CustomisedAssert.assertEquals(String.valueOf(record), value);
 	}
 
+	/**
+	 * Verifying Email Field in PIN Creation under Age Verification Page
+	 * 
+	 * @param mail
+	 * @param location
+	 * @param text
+	 */
 	public void verifyEmailFieldinPinCreation(String mail, String location, String text) {
 		textBox.enterText(AgeVerificationDetails.INPUT_MAIL, mail);
 		foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
@@ -208,5 +230,90 @@ public class AgeVerificationDetails extends Factory {
 		foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, text)));
+	}
+
+	/**
+	 * Checking the Defaults of Age Verification under Location Summary Page
+	 */
+	public void checkingOnDefaultsOfAgeVerification() {
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+		if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+			checkBox.check(LocationSummary.CHK_AGE_VERIFICATION);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Opening the Folder and Clicking on Mail
+	 * 
+	 * @param option
+	 */
+	public void openingFolderAndClickMail(String option, String keyword) {
+		foundation.objectClick(objMailFolder(option));
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(objEmailList(keyword));
+	}
+
+	/**
+	 * Validates the Mail content
+	 * 
+	 * @param option
+	 * @param heading
+	 * @param location
+	 * @param digitCount
+	 */
+	public String validateMailContent(String heading, String location, String digitCount) {
+		List<String> content = foundation.getTextofListElement(EMAIL_BODY);
+		CustomisedAssert.assertEquals(content.get(0), heading);
+		CustomisedAssert.assertEquals(content.get(1), location);
+		CustomisedAssert.assertTrue(foundation.isNumeric(content.get(4)));
+		String count = String.valueOf(content.get(4).length());
+		CustomisedAssert.assertEquals(count, digitCount);
+		return content.get(4);
+	}
+
+	/**
+	 * Deleting the Outlook Mail and Logout
+	 */
+	public void deleteOutLookMailAndLogout() {
+		foundation.objectClick(EMAIL_DELETE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		login.outLookLogout();
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Expire PIN at Age Verification Page
+	 * 
+	 * @param location
+	 * @param keyword
+	 */
+	public void expirePinWithConfirmationPrompt(String location, String keyword) {
+		foundation.click(objExpirePinConfirmation(location, keyword));
+		foundation.click(BTN_YES);
+		foundation.refreshPage();
+		foundation.scrollIntoViewElement(TXT_STATUS);
+	}
+
+	/**
+	 * Resetting Age Verification Check Box in Location Summary Page
+	 * 
+	 * @param menu
+	 * @param location
+	 */
+	public void resettingAgeVerificationCheckBox(String menu, String location) {
+		foundation.scrollIntoViewElement(LocationSummary.TAB_LOCATION);
+		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.THREE_SECOND);
+		locationList.selectLocationName(location);
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
+		if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
+			checkBox.unCheck(LocationSummary.CHK_AGE_VERIFICATION);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 }

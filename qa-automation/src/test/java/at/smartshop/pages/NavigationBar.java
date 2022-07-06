@@ -39,6 +39,7 @@ public class NavigationBar extends Factory {
 
 	/**
 	 * Navigate to Particular Tab / Subtab
+	 * 
 	 * @param optionNames
 	 */
 	public void navigateToMenuItem(String optionNames) {
@@ -96,5 +97,16 @@ public class NavigationBar extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return subTabs;
+	}
+
+	/**
+	 * Launch Browser with Outlook Mail
+	 */
+	public void launchBrowserWithOutLookMail() {
+		foundation.threadWait(Constants.SHORT_TIME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.OUTLOOK_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.outLookLogin(propertyFile.readPropertyFile(Configuration.OUTLOOK_USERNAME, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.OUTLOOK_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.threadWait(Constants.LONG_TIME);
 	}
 }
