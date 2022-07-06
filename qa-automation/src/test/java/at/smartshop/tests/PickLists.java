@@ -909,10 +909,10 @@ public class PickLists extends TestInfra {
 				foundation.click(PickList.BTN_YES);
 				
 				//select UPC in dropDown
-				pickList.selectDropdown(requiredData.get(2));
+				pickList.selectDropdownInFilterBy(requiredData.get(2));
 				
 				//Select Product ID in dropDown
-				pickList.selectDropdown(requiredData.get(3));
+				pickList.selectDropdownInFilterBy(requiredData.get(3));
 				
 				
 				
