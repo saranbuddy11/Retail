@@ -242,8 +242,7 @@ public class Report extends TestInfra {
 			String updatedTime = String.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-
-			System.out.println("updatedTime :" + updatedTime);
+			
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
@@ -3262,8 +3261,6 @@ public class Report extends TestInfra {
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
 
-		System.out.println(promotionName + displayName + "**************************");
-
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
@@ -3898,7 +3895,6 @@ public class Report extends TestInfra {
 
 			String expirydDate = String.valueOf(
 					dateAndTime.getFutureDate(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), "1"));
-			System.out.println("updatedTime : " + expirydDate);
 
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));

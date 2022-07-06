@@ -100,8 +100,6 @@ public class InventoryVariance extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders1 :"+ tableHeaders);
-			System.out.println("columnName1 : "+ columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -117,8 +115,6 @@ public class InventoryVariance extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {			
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			System.out.println("reportsData1 :"+ reportsData);
-			System.out.println("expextedDataList1 : "+ expectedDataList);
 				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
 					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 							.contains(expectedDataList.get(iter)));
