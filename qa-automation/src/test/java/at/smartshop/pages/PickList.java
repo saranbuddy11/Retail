@@ -255,5 +255,19 @@ public class PickList extends Factory {
 				
 			}
 		}
-	} 
+	}
+	
+	/**
+	 * select dropDown  
+	 * @param dropdown
+	 */
+	public void selectDropdownInFilterBy(String dropdown) {
+		dropDown.selectItem(PickList.DPD_FILTERBY,dropdown , Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.CHKBOX_EXACT_MATCH));
+		foundation.click(PickList.CHKBOX_EXACT_MATCH);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.INPUT_TEXT));
+		foundation.click(PickList.BTN_FILTER_CANCEL);
+		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+		foundation.click(PickList.BTN_YES);
+	}
 }

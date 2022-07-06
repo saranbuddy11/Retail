@@ -859,7 +859,7 @@ public class PickLists extends TestInfra {
 		
 		/**
 		 * @author afrosean Story SOS-26625
-		 * @date: -07-2022
+		 * @date: 04-07-2022
 		 */
 		@Test(description = "C196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"+
 		                        "C196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC")
@@ -909,10 +909,10 @@ public class PickLists extends TestInfra {
 				foundation.click(PickList.BTN_YES);
 				
 				//select UPC in dropDown
-				dropDown.selectItem(PickList.DPD_FILTERBY, requiredData.get(2), Constants.TEXT);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.CHKBOX_EXACT_MATCH));
-				foundation.click(PickList.CHKBOX_EXACT_MATCH);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.INPUT_TEXT));
+				pickList.selectDropdown(requiredData.get(2));
+				
+				//Select Product ID in dropDown
+				pickList.selectDropdown(requiredData.get(3));
 				
 				
 				
