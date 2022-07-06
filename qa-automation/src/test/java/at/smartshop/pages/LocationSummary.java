@@ -319,6 +319,7 @@ public class LocationSummary extends Factory {
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
+	public static final By BTN_PRODUCT_ADD = By.id("modalsave");
 	public static final By MIN_STOCK = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
 	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
@@ -330,6 +331,8 @@ public class LocationSummary extends Factory {
 	public static final By MANAGE_COLUMN_APPLY_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By MANAGE_COLUMN_CANCEL_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttoncancel_lbl");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
+	public static final By CHK_TOP_OFF_EXCLUDE = By.className("chcktopoffexclude");
+	public static final By CHK_ROLL_OVER_EXCLUDE = By.className("chckClass_");
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -474,7 +477,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Manage Columns
+	 * Managing the column
 	 * 
 	 * @param columnNames
 	 */
@@ -501,7 +504,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get the Product Headers
+	 * Getting the Product Headers
 	 * 
 	 * @return
 	 */
@@ -521,7 +524,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get the Product Records
+	 * Getting the Product Record
 	 * 
 	 * @param recordValue
 	 * @return
@@ -552,7 +555,8 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Show Tax category
+	 * Showing the Tax Category and Apply the
+	 *
 	 */
 	public void showTaxCategory() {
 		try {
@@ -575,7 +579,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Has Locker Field
+	 * Verify the Has Locker Field
 	 * 
 	 * @param defaultValue
 	 */
@@ -611,9 +615,9 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Top Off Subsidy and its fields
+	 * Verify TopOff Subsidy UI fields
 	 * 
-	 * @param columns
+	 * @param values
 	 */
 	public void verifyTopOffSubsidy(List<String> values) {
 		try {
@@ -632,7 +636,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Roll Over Subsidy and its fields
+	 * Verify RollOver Subsidy UI fields
 	 * 
 	 * @param columns
 	 */
@@ -695,7 +699,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter Min Stock
+	 * Enter minimum Stock Value
 	 * 
 	 * @param scancode
 	 * @param min
@@ -711,7 +715,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter Max stock
+	 * Enter maximum Stock Value
 	 * 
 	 * @param scancode
 	 * @param max
@@ -727,7 +731,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Select Pick List
+	 * Select PickList
 	 * 
 	 * @param scancode
 	 * @param option
@@ -741,7 +745,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Add the Product
+	 * Add the Product using Scancode
 	 * 
 	 * @param scancode
 	 */
@@ -755,7 +759,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Click on Device Name
+	 * Select Particular Device by its Name
 	 * 
 	 * @param deviceName
 	 */
@@ -885,7 +889,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Save Tax mapping
+	 * Save TaxMapping
 	 * 
 	 * @param taxCategory
 	 * @param rate
@@ -905,7 +909,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Remove Tax Mapping
+	 * Remove TaxMapping
 	 * 
 	 * @param taxCategory
 	 */
@@ -1011,7 +1015,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get the Cell Data
+	 * Get the Data from Cell
 	 * 
 	 * @param ariaDescribedby
 	 * @return
@@ -1118,7 +1122,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Edit Pay Cycle
+	 * Edit the Pay Cycle
 	 * 
 	 * @param location
 	 * @param payCycle
@@ -1169,7 +1173,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get Column Values
+	 * Get the Column Values
 	 * 
 	 * @param columnData
 	 * @return
@@ -1191,7 +1195,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Sort Ascending
+	 * Verify Sort in Ascending
 	 * 
 	 * @param columnData
 	 * @return
@@ -1210,7 +1214,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Sort Descending
+	 * Verify Sort in Descending
 	 * 
 	 * @param columnData
 	 * @return
@@ -1268,7 +1272,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Remove device from Location
+	 * Remove the device from Location
 	 * 
 	 * @param device
 	 */
@@ -1295,7 +1299,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Navigate to Location and remove Tax Mapped
+	 * Navigate to Location Menu and Removing the Tax mapped on Location
 	 * 
 	 * @param locationName
 	 * @param taxCategory
@@ -1307,7 +1311,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Reset the Inventory
+	 * Resetting the Inventory value
 	 * 
 	 * @param scancode
 	 * @param inventory
@@ -1324,7 +1328,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Selecte the Market Card
+	 * Selecting the Market Card
 	 * 
 	 * @param locationName
 	 * @param ValidateHeading
@@ -1342,7 +1346,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Select the Product
+	 * Selecting the Product
 	 * 
 	 * @param tab
 	 * @param productName
@@ -1359,7 +1363,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Select the Product and update the Price
+	 * Selecting the Product Price and updating the same
 	 * 
 	 * @param tab
 	 * @param productName
@@ -1373,7 +1377,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Launch Browser and select Org
+	 * Launching the URL with Super User Credentials
 	 */
 	public void launchingBrowserAndSelectingOrg() {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -1384,7 +1388,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Edit the Product
+	 * Add the Product and edit the same in Location Summary Page
 	 * 
 	 * @param tab
 	 * @param productName
@@ -1827,7 +1831,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter the Subsidy Group Names
+	 * Enter the Subsidy Group Name for both Subsidies
 	 * 
 	 * @param topOff
 	 * @param RollOver
@@ -1840,7 +1844,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter the Subsidy Amount
+	 * Enter the Subsidy Amount for both Subsidies
 	 * 
 	 * @param topOff
 	 * @param RollOver
@@ -1897,6 +1901,7 @@ public class LocationSummary extends Factory {
 	 * Verify the PopUp Displayed and its UI
 	 */
 	public void verifyPopUpUIDisplayed() {
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
 		foundation.click(BTN_ADD_PRODUCT);
 		foundation.waitforElement(LBL_ADD_PRODUCT, Constants.SHORT_TIME);
@@ -1915,7 +1920,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Select Print Group
+	 * Select the Print Group
 	 * 
 	 * @param productName
 	 * @param option
@@ -1975,7 +1980,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter Minimum Stocks
+	 * Enter the minimum Stock
 	 * 
 	 * @param product
 	 * @param minStock
@@ -2040,5 +2045,93 @@ public class LocationSummary extends Factory {
 		verifyRolloverSubsidy(requiredData);
 		checkBox.check(CHK_TOP_OFF_SUBSIDY);
 		foundation.click(START_DATE_PICKER_TOP_OFF);
+	}
+
+	/**
+	 * Selecting the Product
+	 * 
+	 * @param product
+	 */
+	public void selectProduct(String product) {
+		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(SELECT_PRODUCT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_ADD);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.refreshPage();
+	}
+
+	/**
+	 * Removing the Product from Location
+	 * 
+	 * @param product
+	 */
+	public void removeProductFromLocation(String product, String location) {
+		foundation.scrollIntoViewElement(TAB_PRODUCTS);
+		foundation.click(TAB_PRODUCTS);
+		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		textBox.enterText(TXT_PRODUCT_FILTER, product);
+		foundation.click(PRODUCT_NAME);
+		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_REMOVE);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Verify Both Subsidy fields
+	 * 
+	 * @param values
+	 */
+	public void verifyBothSubsidesFields(List<String> values) {
+		try {
+			foundation.waitforElement(TXT_TOP_OFF_SUBSIDY, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_TOP_OFF_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objTopOffSubsidyColumn(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CHK_TOP_OFF_EXCLUDE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_DELETE_TOP_OFF));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_TOP_OFF));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ROLL_OVER_SUBSIDY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(5))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(6))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRollOverSubsidyColumn(values.get(7))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CHK_ROLL_OVER_EXCLUDE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_DELETE_ROLL_OVER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_ROLL_OVER));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Verify GMA Subsidy UI Fields
+	 * 
+	 * @param expected
+	 */
+	public void verifyGMASubsidyUIFields(List<String> expected) {
+		foundation.click(BTN_LOCATION_SETTINGS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_MULTI_TAX_REPORT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		List<String> values = dropDown.getAllItems(DPD_GMA_SUBSIDY);
+		List<String> expectedValues = new ArrayList<String>();
+		expectedValues.add(expected.get(1));
+		expectedValues.add(expected.get(0));
+		CustomisedAssert.assertTrue(values.equals(expectedValues));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value.equals(expected.get(1))) {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, expected.get(0), Constants.TEXT);
+		}
+		value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, expected.get(0));
+		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
 }

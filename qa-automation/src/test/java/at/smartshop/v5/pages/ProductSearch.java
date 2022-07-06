@@ -33,9 +33,7 @@ public class ProductSearch {
 	}
 
 	public void verifyProductSearhPageLanguage(String productSearch) {
-
 		List<String> productSearchPage = Arrays.asList(productSearch.split(Constants.DELIMITER_TILD));
-
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(0))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(1))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
@@ -50,5 +48,4 @@ public class ProductSearch {
 		else
 			return false;
 	}
-
 }
