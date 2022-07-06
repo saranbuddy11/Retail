@@ -8,10 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
+import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.Dropdown;
+import at.framework.ui.Foundation;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -37,6 +44,8 @@ public class PickList extends Factory {
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
+	public static final By TBL_NEED = By.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
+	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");
 	public static final By TBL_NEED = By
 			.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
@@ -77,6 +86,42 @@ public class PickList extends Factory {
 	public static final By BTN_REFRESH = By.id("refreshButton");
 	public static final By BTN_CONFIRM_REFRESH = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_EXPORT = By.xpath("//button[contains(@onclick,'exportToExcel')]");
+	public static final By BTN_SCHEDULING = By.xpath("//button[text()='Scheduling']");
+	public static final By TXT_SCHEDULING_LOCATION = By.xpath("//td[@aria-describedby='dataGrid_location']");
+	public static final By TXT_SERVICE_SCHEDULE = By.xpath("//div[@id='filter-route-title']");
+	public static final By TXT_SEND_PICKLIST = By.xpath("//div[@class='ajs-header']");
+	public static final By TXT_CONFIRM_SENDING = By.xpath("//div[@class='ajs-content']/p[contains(text(),'You are about to')]");
+	public static final By TXT_CONTINUE = By.xpath("//div[@class='ajs-content']//following-sibling::p");
+	public static final By BTN_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
+	public static final By LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']");
+	public static final By TXT_LOCATION_LIST = By.xpath("//li[@class='active']");
+	public static final By TXT_SELECT_ALL = By.xpath("//a[@id='loc-select-all']");
+	public static final By TXT_DESELECT_ALL = By.id("loc-deselect-all");
+	public static final By BTN_CLEAR = By.xpath("//button[@id='loc-search-cancel']");
+	public static final By LIST_LOCATION = By.xpath("//ul[@id='location-list']");
+	public static final By VALIDATE_DESELECTED_LOCATION = By.xpath("//li[@class='list-group-item unchecked']");
+	public static final By DRP_PLANNING = By.id("planningDay");
+	public static final By DRP_SERVICING = By.id("servicingDay");
+	public static final By DRP_ROUTE = By.id("route");
+	public static final By DRP_DRIVER = By.id("driver");  
+	public static final By LAST_PICKLIST_DATE = By.id("lastpicklistdaterange");
+	public static final By LAST_INVENTORIED_DATE = By.id("inventorieddaterange");
+	public static final By BTN_APPLY_FILTERBY = By.id("filter-by-apply");
+	public static final By TBL_SELECT_LOC_HEADERS = By.xpath("//table[@id='dataGridPickListManager']//thead");
+	public static final By DRP_FILTERBY = By.id("//div[@class='filter-by-group']//select");
+	public static final By TAB_DATE_RANGE = By.xpath("//div[@id='daterange']"); 
+	public static final By TAB_START_DATE = By.xpath("//input[@name='daterangepicker_start']");
+	public static final By TAB_END_DATE = By.xpath("//input[@name='daterangepicker_end']");
+	public static final By BTN_SEARCH_HISTORY = By.id("searchbtn");
+	public static final By TXT_FILTERED_LOCATION = By.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
+	public static final By TXT_DATE_RANGE_VALUES = By.xpath("//div[@class='ranges']//ul//li");
+	public static final By TXT_HISTORY_RECORD = By.id("picklisthistory_pager_label");
+	public static final By LNK_REMOVE_ORG = By.xpath("//span[@class='select2-selection select2-selection--multiple']//ul/span");
+	public static final By DRP_SELECT_LOC = By.cssSelector("select#loc-dropdown");
+	public static final By TXT_DEFAULT_LOC = By.xpath("//ul[@class='select2-selection__rendered']//li[@class='select2-selection__choice']");
+	public static final By BTN_PUSH_TO_INVENTORY = By.xpath("//button[text()='Push To Inventory']");
+	public static final By DRP_HAS_LIGHTSPEED = By.id("haslightspeed");
+	public static final By BTN_SAVE = By.xpath("//button[@id='saveBtn']");
 	public static final By DPD_FILTERBY = By.id("filter-by");
 	public static final By CHKBOX_EXACT_MATCH = By.id("exact-match");
 	public static final By SELECT_ALL = By.id("gridloc-select-all");
@@ -211,19 +256,66 @@ public class PickList extends Factory {
 		foundation.click(PickList.BTN_FILTER_APPLY);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
-
 	/**
-	 * verify dropdown values
+	* verify pick list actions in dropdown values
+	* @param values
+	*/
+	public void verifyPickListActionsInDropdown(List<String> values,By object) {
+	for (int i = 0; i < values.size(); i++) {
+	List<String> actual = dropDown.getAllItems(object);
+	//CustomisedAssert.assertEquals(actual, values);
+	}
+	}
+	/**
 	 * 
-	 * @param values
+	 * @param Select Location Table Headers
+	 * @return
 	 */
-	public void verifyPickListActionsInDropdown(List<String> values, By object) {
-		for (int i = 0; i < values.size(); i++) {
-			List<String> actual = dropDown.getAllItems(object);
-			CustomisedAssert.assertEquals(actual, values);
-		}
+	public List<String> tableHeaders = new ArrayList<>();
+
+	public void getTableHeaders() {
+		List<WebElement> columnHeaders = Foundation.getDriver().findElements(TBL_SELECT_LOC_HEADERS);
+		for (WebElement columnHeader : columnHeaders) {
+			tableHeaders.add(columnHeader.getText());
+         }
 	}
 
+		public void verifyLocationHeaders(List<String> columnNames) {
+			try {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnNames.get(iter)));
+				}
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+	
+		/**
+		 * 
+		 * @param Verify DropDown Values on Filter By Tab
+		 * @return
+		 */	
+		public List<String> verifyDropDownValues(List<String> values,List<String> dbData) {
+			String selectedPlanning = dropDown.getSelectedItem(PickList.DRP_PLANNING);
+			CustomisedAssert.assertEquals(selectedPlanning,values.get(0));
+			String selectedServicing = dropDown.getSelectedItem(PickList.DRP_SERVICING);
+			CustomisedAssert.assertEquals(selectedServicing,dbData.get(0));
+			String selectedDriver = dropDown.getSelectedItem(PickList.DRP_DRIVER);
+			CustomisedAssert.assertEquals(selectedDriver,dbData.get(1));
+			String selectedRouter = dropDown.getSelectedItem(PickList.DRP_ROUTE);
+			CustomisedAssert.assertEquals(selectedRouter,dbData.get(2));
+			return dbData;
+		}
+		
+		public void verifyDateRangeText(List<String> dbValues) {
+			List<String> dateRangeValue = foundation.getTextofListElement(PickList.TXT_DATE_RANGE_VALUES);
+			for (int i = 0; i < dateRangeValue.size(); i++)
+			{	
+				CustomisedAssert.assertTrue(dateRangeValue.get(i).equals(dbValues.get(i)));
+			   // System.out.println(dateRangeValue.get(i).getText());
+			    
+			}
+		}
 	/**
 	 * Enter driver , route and select service day 
 	 * @param option1
@@ -254,4 +346,15 @@ public class PickList extends Factory {
 			}
 		}
 	} 
+  	public By selectDateRange(String text) {
+		By element = null;
+		try {
+			element = By.xpath("//div[@class='ranges']//li[text()='" + text + "']");
+			foundation.click(element);
+			
+		} catch (Exception exc) {
+
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return element;
 }
