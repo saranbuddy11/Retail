@@ -18,24 +18,24 @@ import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
-public class InventoryAdjustmentDetail extends Factory {
+public class InventoryVariance extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	
-	private static final By TBL_INVENTORY_ADJUSTMENT = By.id("rptdt");
-	private static final By TBL_INVENTORY_ADJUSTMENT_GRID = By.cssSelector("#rptdt > tbody");
+	private static final By TBL_INVENTORY_TOTAL = By.id("rptdt");
+	private static final By TBL_INVENTORY_TOTAL_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
+	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.in-range.available");
+	
+	
+	//body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.in-range.available
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
-	
-	/**
-	 * This method is to Verify the Report Name
-	 * @param reportName
-	 */
+
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
@@ -64,7 +64,7 @@ public class InventoryAdjustmentDetail extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
 	/**
 	 * This method is to get the Table Records Data from UI
 	 */
@@ -72,8 +72,8 @@ public class InventoryAdjustmentDetail extends Factory {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
-			WebElement tableReportsList = getDriver().findElement(TBL_INVENTORY_ADJUSTMENT_GRID);
-			WebElement tableReports = getDriver().findElement(TBL_INVENTORY_ADJUSTMENT);
+			WebElement tableReportsList = getDriver().findElement(TBL_INVENTORY_TOTAL_GRID);
+			WebElement tableReports = getDriver().findElement(TBL_INVENTORY_TOTAL);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
@@ -88,7 +88,6 @@ public class InventoryAdjustmentDetail extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

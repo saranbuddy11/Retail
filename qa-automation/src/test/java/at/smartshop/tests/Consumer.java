@@ -131,7 +131,8 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, 5);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -161,7 +162,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, String.valueOf(newBalance2));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Enter fields in Consumer Search Page
@@ -185,7 +186,7 @@ public class Consumer extends TestInfra {
 			// enter new balance with reason
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, dbBalance);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}

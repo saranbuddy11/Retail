@@ -63,6 +63,7 @@ public class UserRoles extends TestInfra {
 					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
 			table.selectRow(lblRowRecord.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
 			List<String> clientdropDownList = Arrays
@@ -122,6 +123,7 @@ public class UserRoles extends TestInfra {
 
 			// Create New
 			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
@@ -140,10 +142,12 @@ public class UserRoles extends TestInfra {
 			// Click on cancel Button
 			foundation.click(UserList.CANCEL_USER);
 			foundation.click(UserList.CONFIRM_CANCEL);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
 
 			// Create New
 			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device+ rowData);
@@ -387,6 +391,7 @@ public class UserRoles extends TestInfra {
 
 			// Create New User button
 			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
 			foundation.click(UserList.SAVE_USER);
 
 			// Validate the error message
@@ -396,10 +401,12 @@ public class UserRoles extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),error_Status);
 			CustomisedAssert.assertEquals(foundation.getText(UserList.LOCATION_ERROR),error_Status);	
 			foundation.click(UserList.CANCEL_USER);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
 
 			// Create New
 			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, rowData);
 			foundation.click(UserList.SAVE_USER);
 			foundation.waitforElement(UserList.EMAIL_ERROR, Constants.SHORT_TIME);

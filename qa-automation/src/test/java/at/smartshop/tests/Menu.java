@@ -160,12 +160,19 @@ public class Menu extends TestInfra {
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-
+            foundation.threadWait(Constants.SHORT_TIME);
+            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_APPLY);
+    		foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(locationSummary.objPrintGroup(requiredData.get(0)));
+			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			foundation.objectClick(locationSummary.objPrintGroup(requiredData.get(0)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(2));
@@ -193,7 +200,7 @@ public class Menu extends TestInfra {
 			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
-			// deselect printgroup checkbox
+			//Deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(requiredData.get(0)));
 
@@ -219,7 +226,13 @@ public class Menu extends TestInfra {
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-
+            foundation.threadWait(Constants.SHORT_TIME);
+            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+    		foundation.click(LocationSummary.BTN_APPLY);
+    		foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));

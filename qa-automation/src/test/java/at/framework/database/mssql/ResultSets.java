@@ -431,6 +431,7 @@ public class ResultSets extends Connections {
 				rstLocationList.put(CNLocationList.INFO_MESSAGE, resultSet.getString(CNLocationList.INFO_MESSAGE));
 				rstLocationList.put(CNLocationList.SHOW_RECORDS, resultSet.getString(CNLocationList.SHOW_RECORDS));
 				rstLocationList.put(CNLocationList.PAY_CYCLE, resultSet.getString(CNLocationList.PAY_CYCLE));
+				rstLocationList.put(CNLocationList.PRODUCT_NAME, resultSet.getString(CNLocationList.PRODUCT_NAME));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
@@ -724,6 +725,10 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.NAME, resultSet.getString(CNLocation.NAME));
 				rstLocation.put(CNLocation.DEVICE_NAME, resultSet.getString(CNLocation.DEVICE_NAME));
 				rstLocation.put(CNLocation.SHOW_RECORDS, resultSet.getString(CNLocation.SHOW_RECORDS));
+				rstLocation.put(CNLocation.INITIAL_BALANCE, resultSet.getString(CNLocation.INITIAL_BALANCE));
+				rstLocation.put(CNLocation.CONTACT_EMAIL, resultSet.getString(CNLocation.CONTACT_EMAIL));
+				rstLocation.put(CNLocation.ADDRESS, resultSet.getString(CNLocation.ADDRESS));
+				rstLocation.put(CNLocation.INFO_NOTES, resultSet.getString(CNLocation.INFO_NOTES));
 
 			}
 		} catch (Exception exc) {
@@ -804,6 +809,7 @@ public class ResultSets extends Connections {
 				rstPickList.put(CNPickList.RECORDS, resultSet.getString(CNPickList.RECORDS));
 				rstPickList.put(CNPickList.ROW_VALUES, resultSet.getString(CNPickList.ROW_VALUES));
 				rstPickList.put(CNPickList.COLUMN_HEADERS, resultSet.getString(CNPickList.COLUMN_HEADERS));
+				rstPickList.put(CNPickList.APLOCATION, resultSet.getString(CNPickList.APLOCATION));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

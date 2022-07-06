@@ -57,6 +57,7 @@ public class Constants {
 	public static final int MEDIUM_TIME = 15;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
+	public static final int FIFTY_FIVE_SECONDS = 55;
 	public static final String ATTRIBUTE_VALUE = "value";
 	public static final int FIFTEEN_SECOND = 15;
 	public static final String PRE_PROD = "PreProd";

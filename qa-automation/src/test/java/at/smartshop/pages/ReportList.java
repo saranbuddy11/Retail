@@ -64,10 +64,14 @@ public class ReportList extends Factory {
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
 	private static final By DPD_LOCATION_LIST_SECONDTYPE = By
 			.xpath("//span[@class='select2-results']//ul[@role='listbox']");
+	public static final By TODAYS_DATE = By.xpath(
+			"//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
+	private static final By DATE_RANGE_NEXT_MONTH = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
+	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_2 = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
+	private static final By APPLY_DATE_RANGE_BUTTON  = By.xpath("//button[normalize-space()='Apply']");
 	
-	public static final By TODAYS_DATE = By
-			.xpath("//table[@class='table-condensed']/tbody/tr/td[@class = 'today active start-date active end-date available'] | //table[@class='table-condensed']/tbody/tr/td[@class = 'today weekend active start-date active end-date available']");
-
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -97,6 +101,7 @@ public class ReportList extends Factory {
 
 	/**
 	 * This method is to Select the Report
+	 * 
 	 * @param reportName
 	 */
 	public void selectReport(String reportName) {
@@ -118,6 +123,7 @@ public class ReportList extends Factory {
 
 	/**
 	 * This method is to Select the Date
+	 * 
 	 * @param optionName
 	 */
 	public void selectDate(String optionName) {
@@ -141,6 +147,7 @@ public class ReportList extends Factory {
 
 	/**
 	 * This method is to Select the Location
+	 * 
 	 * @param locationName
 	 */
 	public void selectLocation(String locationName) {
@@ -301,7 +308,7 @@ public class ReportList extends Factory {
 		try {
 			foundation.threadWait(Constants.SHORT_TIME);
 			String excelFileName = FilePath.reportFilePath(fileName);
-			
+
 			boolean fileExists = foundation.isFileExists(excelFileName);
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
@@ -332,7 +339,7 @@ public class ReportList extends Factory {
 		try {
 			foundation.threadWait(Constants.SHORT_TIME);
 			String excelFileName = FilePath.reportFilePathWithDateWithoutSpace(fileName, formate);
-			
+
 			boolean fileExists = foundation.isFileExists(excelFileName);
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
@@ -434,7 +441,7 @@ public class ReportList extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			foundation.threadWait(Constants.ONE_SECOND);
-			int count =  tableHeaders.size();
+			int count = tableHeaders.size();
 			for (int iter = 0; iter < count; iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -465,6 +472,77 @@ public class ReportList extends Factory {
 				CustomisedAssert.assertTrue(
 						reportsData.get(tableHeaders.get(iter)).contains(intialData.get(tableHeaders.get(iter))));
 			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 *  This method is to selecting Date Range Drop Down
+	 * @param optionType
+	 */
+	public void selectDateRangeDD(String optionType) {
+		foundation.waitforElement(DPD_DATE, 1);
+		foundation.click(DPD_DATE);
+		WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
+		foundation.waitforElement(DPD_DATE_OPTIONS, Constants.EXTRA_LONG_TIME);
+		List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);
+		for (WebElement dateOption : dateOptions) {
+			if (dateOption.getText().equals(optionType)) {
+				foundation.waitforElement(GRID_SCHEDULED_REPORT, Constants.EXTRA_LONG_TIME);
+				dateOption.click();
+				break;
+			}
+		}
+	}
+
+	/**
+	 * This method is to select Date Range Dates
+	 * @param optionName
+	 * @param MonthAndYear
+	 * @param object
+	 */
+	public void selectDateRangeDate(String optionName, String MonthAndYear, By firstDate, By lastDate) {
+		try {
+			List<String> dateDDOptions = Arrays.asList(optionName.split(Constants.DELIMITER_HASH));
+			selectDateRangeDD(dateDDOptions.get(0));
+			selectDateRangeDD(dateDDOptions.get(1));
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.click(DPD_DATE);
+			for (int count = 0; count < 60; count++) {
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH).equals(MonthAndYear)) {
+					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
+			}
+			foundation.click(firstDate);
+			foundation.click(lastDate);
+			foundation.click(APPLY_DATE_RANGE_BUTTON);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This method is to select Date Range Dates for second type of Date Range drop down
+	 * @param optionName
+	 * @param MonthAndYear
+	 * @param object
+	 */
+	public void selectDateRangeDateofType2(String MonthAndYear, By firstDate, By lastDate) {
+		try {
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.objectClick(DPD_DATE);
+			for (int count = 0; count < 60; count++) {
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear)) {
+					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
+			}
+			foundation.click(firstDate);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(lastDate);
+			foundation.objectClick(APPLY_DATE_RANGE_BUTTON);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

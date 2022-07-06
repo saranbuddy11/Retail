@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -12,6 +14,7 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -137,6 +140,7 @@ public class ReportsSmokeTest extends TestInfra {
 	private CrossOrgGoLive crossOrgGoLive = new CrossOrgGoLive();
 	private ProductSalesByCategoryReport productSalesByCategoryReport = new ProductSalesByCategoryReport();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
+	private InventoryVariance inventoryVariance = new InventoryVariance();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
@@ -249,7 +253,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166899- This test validates Data existance and Excel file exportaion of Customer Report (Skymiles)")
 	public void CustomerReportSkymiles() {
 		try {
@@ -345,7 +350,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166901- This test validates Data existance and Excel file exportaion of Modifiers Report Report")
 	public void modifiersReport() {
 		try {
@@ -394,7 +400,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166902- This test validates Data existance and Excel file exportaion of EFT GMA Disbursement Report")
 	public void EFTGMADisbursement() {
 		try {
@@ -443,7 +450,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166903- This test validates Data existance and Excel file exportaion of GMA Migration Report")
 	public void GMAMigration() {
 		try {
@@ -679,7 +687,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166908- This test validates Data existance and Excel file exportaion of Payroll Deduct Summary Report")
 	public void payrollDeductSummary() {
 		try {
@@ -914,7 +923,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+			reportList.verifyTheFileContainsNameAsOrgDateAndGMA(
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -925,7 +935,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166931- This test validates Data existance and Excel file exportaion of G&J Commission Report")
 	public void GJCommission() {
 		try {
@@ -974,9 +985,10 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166932- This test validates Data existance and Excel file exportaion of Advana Billings Report")
-	public void advanaBilling() { 
+	public void advanaBilling() {
 		try {
 			final String CASE_NUM = "166932";
 
@@ -1027,7 +1039,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166934- This test validates Data existance and Excel file exportaion of EFT Disbursement Detail Report")
 	public void EFTDisbursementDetail() {
 		try {
@@ -1076,7 +1089,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166935- This test validates Data existance and Excel file exportaion of App Funding By Location Report")
 	public void appFundingByLocation() {
 		try {
@@ -1125,7 +1139,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "166954- This test validates Data existance and Excel file exportaion of Order Ahead Trans Report")
 	public void orderAheadTrans() {
 		try {
@@ -1414,7 +1429,9 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "166965- This test validates Data existance and Excel file exportaion of Redeemed Guest Pass Value Report")
+	// Disabled the Test case as the report not in use, and the report got replaced
+	// with Guest Pass by device report
+	@Test(enabled = false, description = "166965- This test validates Data existance and Excel file exportaion of Redeemed Guest Pass Value Report")
 	public void redeemedGuestPassValue() {
 		try {
 			final String CASE_NUM = "166965";
@@ -1430,7 +1447,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2015,9 +2032,13 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+					rstReportListData.get(CNReportList.END_MONTH), CashoutLog.DATA_EXISTING_START_DATE,
+					CashoutLog.DATA_EXISTING_END_DATE);
+
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -2297,7 +2318,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2588,7 +2609,11 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
+					CashAudit.DATA_EXISTING_DATE);
+
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -4186,8 +4211,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-//			reportList.selectCurrentDay();
-			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectCurrentDay();
+//			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -4360,7 +4385,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167064- This test validates Data existance and Excel file exportaion of Cross-Org: Middid Assignment")
 	public void CrossOrgMiddidAssignment() {
 		try {
@@ -4409,7 +4435,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167065- This test validates Data existance and Excel file exportaion of Intl Disbursement Report")
 	public void intlDisbursementReport() {
 		try {
@@ -4505,7 +4532,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167067- This test validates Data existance and Excel file exportaion of Cross-Org: Self-Provisioned Devices")
 	public void CrossOrgSelfProvisionedDevices() {
 		try {
@@ -4554,7 +4582,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167068- This test validates Data existance and Excel file exportaion of Cross Org: EFT Variance Report")
 	public void CrossOrgEFTVariance() {
 		try {
@@ -4700,7 +4729,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167123- This test validates Data existance and Excel file exportaion of Heartland EFT Variance Report")
 	public void heartlandEFTVariance() {
 		try {
@@ -4846,8 +4876,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report not required as per the Product Team.
-	@Test(enabled = false, description = "167126- This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
+	@Test(description = "167126- This test validates Data existance and Excel file exportaion of Guest Pass By Device Report")
 	public void guestPassByDevice() {
 		try {
 			final String CASE_NUM = "167126";
@@ -4861,22 +4890,26 @@ public class ReportsSmokeTest extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+			List<String> reportRequiredData = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+
 			// Select Organization
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(reportRequiredData.get(1));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectReport(reportRequiredData.get(0));
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), reportRequiredData.get(3),
+					GuestPassByDevice.DATA_EXISTING_DATE, GuestPassByDevice.DATA_EXISTING_DATE);
+			reportList.selectLocation(reportRequiredData.get(2));
+
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			guestPassByDevice.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			guestPassByDevice.verifyReportName(reportRequiredData.get(0));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -4885,7 +4918,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+			reportList.verifyTheFileWithFullName(reportRequiredData.get(0),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
@@ -4895,7 +4928,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167127- This test validates Data existance and Excel file exportaion of Order Only Report")
 	public void orderOnly() {
 		try {
@@ -5042,7 +5076,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167131- This test validates Data existance and Excel file exportaion of Aramark Financial Recap Report")
 	public void aramarkFinancialRecap() {
 		try {
@@ -5120,7 +5155,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167133- This test validates Data existance and Excel file exportaion of Cross-Org: Device Event Report")
 	public void crossOrgDeviceEvent() {
 		try {
@@ -5169,7 +5205,8 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	// Disabled the Test case as the report data can't be generated and Product Team has confirmed.
+	// Disabled the Test case as the report data can't be generated and Product Team
+	// has confirmed.
 	@Test(enabled = false, description = "167134- This test validates Data existance and Excel file exportaion of Cross-Org: Pantry Disbursement")
 	public void crossOrgPantryDisbursement() {
 		try {
@@ -5289,8 +5326,8 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectCurrentDay();
-			reportList.selectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			reportList
+					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5338,7 +5375,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Downloading the Report
@@ -5381,8 +5418,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectOrg(
-					propertyFile.readPropertyFile(Configuration.ALL_ORGS, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.ALL_ORGS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5498,6 +5534,62 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying, whether the Report data available or not
 			promotionAnalysis.checkForDataAvailabilyInResultTable();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Somke Test of Inventory Variance Report.
+	 * @author ravindhara
+	 * Date: 01-07-2022
+	 */
+	@Test(description = "197656- This test validates Data existance and Excel file exportaion of Inventory Variance Report")
+	public void inventoryVariance() {
+		try {
+			final String CASE_NUM = "197656";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			
+			reportList.selectLocationForSecondTypeDropdown(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.ONE_SECOND);
+			reportList.selectDateRangeDateofType2(rstReportListData.get(CNReportList.DATE_RANGE),
+					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
+
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryVariance.verifyReportName(reportName);
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			String fileName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)+rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME);
+
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(reportName, fileName);
+
+			// Verifying, whether the Report data available or not
+			inventoryVariance.checkForDataAvailabilyInResultTable();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

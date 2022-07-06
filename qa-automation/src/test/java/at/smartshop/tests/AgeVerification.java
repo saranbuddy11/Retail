@@ -2804,4 +2804,87 @@ public class AgeVerification extends TestInfra {
 			login.logout();
 		}
 	}
+
+	/**
+	 * @author karthikr SOS-25748
+	 * @date - 22/06/2022
+	 */
+	@Test(description = "168144 -Email Templates > Age Verification QR & Six Digit PIN Code > Standard Locations")
+	public void verifyAgeVerificationQRCodeInEmailForStandardLocations() {
+		final String CASE_NUM = "168144";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstAdminAgeVerificationData = dataBase.getAdminAgeVerificationData(Queries.ADMIN_AGE_VERIFICATION, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays.asList(
+				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Select Menu and Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationList.selectLocationName(rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+
+			// Verifying the selection of defaults for Age Verification
+			ageVerificationDetails.checkingOnDefaultsOfAgeVerification();
+
+			// Navigate to Admin > Age Verification Sub Tab
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Creating Age Verification PIN
+			ageVerificationDetails.createAgeVerificationPin(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData);
+			login.logout();
+
+			// Open Outlook Server to validate the email Content
+			navigationBar.launchBrowserWithOutLookMail();
+
+			// Verify Email and Validate the QR code
+			ageVerificationDetails.openingFolderAndClickMail(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(9));
+			String code = ageVerificationDetails.validateMailContent(requiredData.get(8),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
+			ageVerificationDetails.deleteOutLookMailAndLogout();
+
+			// Again Login into ADM, Navigate to Age Verification Sub Tab and click Resend
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.click(AgeVerificationDetails.BTN_RESEND);
+			login.logout();
+
+			// Again Login to Outlook Server
+			navigationBar.launchBrowserWithOutLookMail();
+
+			// Verify Email and Validate the QR code
+			ageVerificationDetails.openingFolderAndClickMail(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(9));
+			String QRcode = ageVerificationDetails.validateMailContent(requiredData.get(8),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
+			CustomisedAssert.assertTrue(code != QRcode);
+			ageVerificationDetails.deleteOutLookMailAndLogout();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Again Login into ADM application and Navigate to Age Verification Sub Tab
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
+
+			// Verify Expire Pin Confirmation Prompt with clicking Yes
+			ageVerificationDetails.expirePinWithConfirmationPrompt(
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(0));
+
+			// Resetting Age Verification Checkbox
+			ageVerificationDetails.resettingAgeVerificationCheckBox(menus.get(0),
+					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME));
+			login.logout();
+			browser.close();
+		}
+	}
 }

@@ -2,7 +2,6 @@ package at.smartshop.database.columns;
 
 public class CNLocation {
 	private CNLocation() {
-
 	}
 
 	public static final String PROMOTION_NAME = "PromotionName";
@@ -19,7 +18,11 @@ public class CNLocation {
 	public static final String TYPE = "Type";
 	public static final String COLUMN_NAME = "ColumnName";
 	public static final String TITLE = "Title";
-	public static final String NAME="Name";
+	public static final String NAME = "Name";
 	public static final String DEVICE_NAME = "DeviceName";
-	public static final String SHOW_RECORDS= "ShowRecords";
+	public static final String SHOW_RECORDS = "ShowRecords";
+	public static final String INITIAL_BALANCE = "InitialBalance";
+	public static final String CONTACT_EMAIL = "ContactEmail";
+	public static final String ADDRESS = "Address";
+	public static final String INFO_NOTES = "InfoNotes";
 }

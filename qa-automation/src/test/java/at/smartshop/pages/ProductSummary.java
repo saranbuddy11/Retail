@@ -29,7 +29,7 @@ public class ProductSummary extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By TXT_PRODUCT_NAME = By.id("name");
 	public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
-	public static final By TBL_EXPIRED_GRID = By.xpath("//tr[@class='editable odd']");
+	public static final By TBL_EXPIRED_GRID = By.cssSelector("#locdt > tbody");
 	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
 	public static final By DPD_IS_DISABLED = By.id("isdisabled");
 	public static final By TBL_EXPIRED = By.id("locdt");
@@ -91,7 +91,7 @@ public class ProductSummary extends Factory {
 			tableHeaders.clear();
 			WebElement tableList = getDriver().findElement(TBL_EXPIRED_GRID);
 			WebElement table = getDriver().findElement(TBL_EXPIRED);
-			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr[role='row'] > th"));
 			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
