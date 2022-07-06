@@ -45,6 +45,7 @@ import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.EditPromotion;
 import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
@@ -122,6 +123,7 @@ public class V5Test extends TestInfra {
 	private EditPromotion editPromotion = new EditPromotion();
 	private CreatePromotions createPromotions = new CreatePromotions();
 	private PromotionList promotionList = new PromotionList();
+	private GlobalProductChange globalProductsChange = new GlobalProductChange();
 
 	private Map<String, String> rstV5DeviceData;
 	private Map<String, String> rstDeviceListData;
@@ -133,6 +135,7 @@ public class V5Test extends TestInfra {
 	private Map<String, String> rstConsumerData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstGlobalProductChangeData;
+	private Map<String, String> rstGlobalProductData;
 	private Map<String, String> rstLocationData;
 
 	@Test(description = "141874-Kiosk Manage Account > Edit Account > Update Information")
@@ -12167,6 +12170,41 @@ public class V5Test extends TestInfra {
 		}
 	}
 
+
+	@Test(description = "C197173-verify the sos db and device by creating a new product")
+	public void verifySosDbAndDeviceByCreatingaNewProduct() {
+		try {
+			final String CASE_NUM = "197173";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+			List<String> product = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM Application
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Global products and create a new products
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			globalProduct.createProducInGlobalProductPage(product.get(0), product.get(1), product.get(2));
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and search for created product
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+//			productSearch.searchProduct(product.get(0));
+//			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 	/**
 	 * @author karthikr SOS-30671
 	 * @Date - 30/06/2022

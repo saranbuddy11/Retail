@@ -95,7 +95,7 @@ public class LocationSummary extends Factory {
 	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_FULL_SYNC = By.id("fullsync");
 	public static final By TXT_PRICE_IN_GRID = By.id("fullsync");
-	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterTypes");
+	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterType");
 	public static final By BTN_ADD_PRODUCT_ADD = By.id("modalsave");
 	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
 	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
@@ -313,12 +313,16 @@ public class LocationSummary extends Factory {
 	public static final By BTN_SELECTNONE = By.id("selectnoneprdBtn");
 	public static final By LBL_ADD_PRODUCT = By.id("modaltemplate-title");
 	public static final By BTN_CANCEL_PRODUCT = By.id("modalcancel");
+	public static final By TBL_DATA_GRID = By.cssSelector("#productDataGrid > tbody");
+	public static final By TBL_GRID = By.id("productDataGrid");
 	public static final By VALIDATE_HIGHLIGHTED_TEXT = By.xpath("//table[@id='chooseprddt']//tbody//tr");
 	public static final By LBL_POPUP_ADD_PRODUCT_CLOSE = By
 			.xpath("//div[@id='modaltemplate']//div[@class='modal-header']//a[@class='close']");
 	public static final By SELECT_PRODUCT = By.xpath("//td[@aria-describedby='chooseprddt_name']");
 	public static final By PRINTGROUP_NAME = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
+	public static final By LBL_PRODUCT_POPUP = By.id("modaltitle");
+	public static final By EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
 	public static final By BTN_PRODUCT_ADD = By.id("modalsave");
 	public static final By MIN_STOCK = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
@@ -333,6 +337,9 @@ public class LocationSummary extends Factory {
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
 	public static final By CHK_TOP_OFF_EXCLUDE = By.className("chcktopoffexclude");
 	public static final By CHK_ROLL_OVER_EXCLUDE = By.className("chckClass_");
+
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
@@ -1940,6 +1947,7 @@ public class LocationSummary extends Factory {
 	 * 
 	 * @param values
 	 */
+
 	public void verifyPromotionsTableHeaders(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(tableData(values.get(0))));
@@ -1962,6 +1970,7 @@ public class LocationSummary extends Factory {
 	 * 
 	 * @param values
 	 */
+
 	public void verifyManageColumnPopUp(List<String> values) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(manageColumnPopup(values.get(0))));
@@ -1985,6 +1994,7 @@ public class LocationSummary extends Factory {
 	 * @param product
 	 * @param minStock
 	 */
+
 	public void enterMinStocks(String product, String minStock) {
 		enterMinStock(product, minStock);
 		foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
@@ -2010,8 +2020,8 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
-	 * TopOff Subsidy
+	 * <<<<<<< HEAD Login to ADM as Super, Navigate to Location and select GMA
+	 * subsidy to Verify TopOff Subsidy
 	 * 
 	 * @param menu
 	 * @param location
@@ -2048,7 +2058,78 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Selecting the Product
+	 * Selecting the Product ======= Get table records in UI
+	 * 
+	 * @return
+	 */
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_DATA_GRID);
+			WebElement table = getDriver().findElement(TBL_GRID);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
+	}
+
+	/**
+	 * In location summary page navigate to product tab and enable the print group
+	 * in manage column
+	 * 
+	 * @param product
+	 */
+	public void clickOnProductTabAndEnableThePrintGroup(String product) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_LOCATION_SETTINGS));
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_PRINT_GROUP);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_APPLY);
+		foundation.waitforElementToBeVisible(LBL_PRINT_GROUP, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_GRID, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * In location summary page click On Edit Product After Updating Price in
+	 * product summary Click On Save
+	 * 
+	 * @param price
+	 */
+	public void clickOnEditProductAfterUpdatingPriceClickOnSave(String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRODUCT_POPUP));
+		foundation.click(LocationSummary.EDIT_PRODUCT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+		textBox.enterText(ProductSummary.PRICE_FIELD, price);
+		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
+		foundation.click(ProductSummary.BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+
+	}
+
+	/**
+	 * Selecting the Product >>>>>>> main
 	 * 
 	 * @param product
 	 */
