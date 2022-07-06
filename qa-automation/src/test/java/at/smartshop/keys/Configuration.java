@@ -53,14 +53,14 @@ public class Configuration {
 	public static final String RNOUS_ORGANIZATION = "Rnous_organization";
 	public static final String GPC_ORG = "Gpc_Org";
 	public static final String ORGANIZATION_OF_HSRLOC = "Organization_of_HsrLoc";
-	public static final String NOUS_DEMO_ORG= "Nous_Demo_Org";
-	public static final String SSO_USERNAME_OPERATOR="Sso_username_operator";
-	public static final String SSO_USERNAME_FINANCE="Sso_username_365Finance";
-	public static final String SSO_USERNAME_SUPER="Sso_username_super";
-	public static final String SSO_USERNAME_DRIVER="Sso_username_driver";
-	public static final String SSO_INCORRECT_USERNAME="Sso_incorrect_username";
-	public static final String SSO_USERNAME="Sso_username";
-	
-	
-
+	public static final String NOUS_DEMO_ORG = "Nous_Demo_Org";
+	public static final String SSO_USERNAME_OPERATOR = "Sso_username_operator";
+	public static final String SSO_USERNAME_FINANCE = "Sso_username_365Finance";
+	public static final String SSO_USERNAME_SUPER = "Sso_username_super";
+	public static final String SSO_USERNAME_DRIVER = "Sso_username_driver";
+	public static final String SSO_INCORRECT_USERNAME = "Sso_incorrect_username";
+	public static final String SSO_USERNAME = "Sso_username";
+	public static final String OUTLOOK_URL = "outlook_url";
+	public static final String OUTLOOK_USERNAME = "outlook_username";
+	public static final String OUTLOOK_PASSWORD = "outlook_password";
 }

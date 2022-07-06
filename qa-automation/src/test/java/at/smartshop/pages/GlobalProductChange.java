@@ -4,12 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -21,6 +23,7 @@ public class GlobalProductChange extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropDown = new Dropdown();
 	private Foundation foundation = new Foundation();
+	private CheckBox checkBox =new CheckBox();
 
 	public static final By TXT_LOCATION_SEARCH = By.id("loc-search");
 	public static final By TBL_LOCATION_LIST = By.id("location-list");
@@ -52,6 +55,7 @@ public class GlobalProductChange extends Factory {
 	public static final By GPC_lOCATION = By.id("global-prd");
 	public static final By SELECT_ALL = By.id("loc-select-all");
 	public static final By SELECT_COUNT = By.id("select-count");
+	public static final By FILTER_PRODUCTS_CONTENT = By.id("filter-content");
 	public static final By OPS_LOCATION = By.id("operator-prd");
 	public static final By DESELECT_ALL = By.id("loc-deselect-all");
 	public static final By FILTER_PRODUCT = By.id("filter-prd-title");
@@ -112,6 +116,8 @@ public class GlobalProductChange extends Factory {
 	public static final By CHK_PRODUCT_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier-checked");
 	public static final By DPD_FILTER_BY = By.id("filter-by");
 	public static final By LBL_UPDATE = By.xpath("//label[@class='checked']");
+	public static final By TABLE_RECORD=By.xpath("//div[@id='prd-dt-paging']//a[contains(@id,'page')]");
+	public static final By TBL_ROW_DATA=By.xpath("//tr[@class='odd']");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -216,4 +222,29 @@ public class GlobalProductChange extends Factory {
 		return tableData;
 	}
 
+	/**
+	 * searching a Products In Products Filter And Verify The Datas in the Grid
+	 * 
+	 * @param product
+	 */
+	public void searchingProductsInProductsFilterAndVerifyTheDatas(String product) {
+		foundation.click(TAB_PRODUCT);
+		foundation.waitforElementToBeVisible(TXT_PRODUCT_NAME, 3);
+		textBox.enterText(TXT_PRODUCT_NAME, product);
+		foundation.click(BTN_PRODUCT_APPLY);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_CONTENT));
+	}
+    
+	/**
+	 * select location and click on apply 
+	 * @param Location
+	 */
+	public void selectLocationAndClickOnApply(By Location) {
+		checkBox.isChecked(GlobalProductChange.GPC_lOCATION);
+		foundation.click(Location);
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_LOCATION_APPLY, 3);
+		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
 }

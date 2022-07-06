@@ -29,6 +29,7 @@ public class PromotionList extends Factory {
 	public Browser browser = new Browser();
 	public Login login = new Login();
 	private Dropdown dropdown = new Dropdown();
+	private LocationList locationList = new LocationList();
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By PAGE_TITLE = By.xpath("//li[text()='Promotion List']");
@@ -141,5 +142,21 @@ public class PromotionList extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		foundation.click(BTN_CREATE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+	}
+
+	/**
+	 * Navigate to Location and Do full Sync
+	 * 
+	 * @param menu
+	 * @param location
+	 */
+	public void navigateToLocationAndFullSync(String menu, String location) {
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(LocationSummary.BTN_FULL_SYNC);
+		foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 	}
 }

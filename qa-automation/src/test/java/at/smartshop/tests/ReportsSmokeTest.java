@@ -141,6 +141,7 @@ public class ReportsSmokeTest extends TestInfra {
 	private ProductSalesByCategoryReport productSalesByCategoryReport = new ProductSalesByCategoryReport();
 	private PromotionAnalysis promotionAnalysis = new PromotionAnalysis();
 	private InventoryList inventoryList = new InventoryList();
+	private InventoryVariance inventoryVariance = new InventoryVariance();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
@@ -2032,10 +2033,11 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
-			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNReportList.END_MONTH),
-					CashoutLog.DATA_EXISTING_START_DATE, CashoutLog.DATA_EXISTING_END_DATE);
-			
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+					rstReportListData.get(CNReportList.END_MONTH), CashoutLog.DATA_EXISTING_START_DATE,
+					CashoutLog.DATA_EXISTING_END_DATE);
+
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -2608,10 +2610,11 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
-			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNReportList.END_MONTH),
-					CashAudit.DATA_EXISTING_DATE, CashAudit.DATA_EXISTING_DATE);
-			
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
+					CashAudit.DATA_EXISTING_DATE);
+
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -5373,7 +5376,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Downloading the Report
@@ -5536,5 +5539,60 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
+	/**
+	 * This Method is for Somke Test of Inventory Variance Report.
+	 * @author ravindhara
+	 * Date: 01-07-2022
+	 */
+	@Test(description = "197656- This test validates Data existance and Excel file exportaion of Inventory Variance Report")
+	public void inventoryVariance() {
+		try {
+			final String CASE_NUM = "197656";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			
+			reportList.selectLocationForSecondTypeDropdown(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.ONE_SECOND);
+			reportList.selectDateRangeDateofType2(rstReportListData.get(CNReportList.DATE_RANGE),
+					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
+
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryVariance.verifyReportName(reportName);
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			String fileName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)+rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME);
+
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(reportName, fileName);
+
+			// Verifying, whether the Report data available or not
+			inventoryVariance.checkForDataAvailabilyInResultTable();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
