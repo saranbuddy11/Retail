@@ -1,5 +1,6 @@
 package at.framework.generic;
 
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -32,6 +33,16 @@ public class CustomisedAssert {
 	}
 
 	public static void assertEquals(Map<?, ?> actual, Map<?, ?> expected) {
+		try {
+			Assert.assertEquals(actual, expected);
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"AssertEqual: [" + actual + "] and [" + expected + "]");
+		} catch (AssertionError exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public static void assertEquals(List<String> actual, List<String> expected) {
 		try {
 			Assert.assertEquals(actual, expected);
 			ExtFactory.getInstance().getExtent().log(Status.INFO,
