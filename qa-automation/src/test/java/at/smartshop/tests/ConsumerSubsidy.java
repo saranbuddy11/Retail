@@ -2889,8 +2889,61 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.navigateToLocationAndSelectGMASubsidyToVerifyTopOff(menus.get(0),
 					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData);
 
-			// Setting start date as Current date & recurrence as 'Daily' in TopOff Subsidy
+			// Setting start date as Current date & recurrence as 'Weekly' in TopOff Subsidy
 			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
+			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+			// Navigate to Admin-->Consumer to validate Subsidy Balance for the consumer
+			// associated to AutoLocation1 Location
+			String balance = consumerSearch
+					.searchConsumerWithMailAndNavigateToConsumerSummaryPageToValidateSubsidyBalance(menus.get(1),
+							rstLocationSummaryData.get(CNLocationSummary.TAB_NAME),
+							rstLocationSummaryData.get(CNLocationSummary.CONTACT_EMAIL),
+							rstLocationSummaryData.get(CNLocationSummary.NAME));
+			CustomisedAssert.assertEquals(balance, rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting GMA subsidy
+			locationSummary.subsidyResettingValidationOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData.get(1));
+			login.logout();
+			browser.close();
+		}
+	}
+
+	/**
+	 * @author karthikr SOS-32030
+	 * @date - 06/07/2022
+	 */
+	@Test(description = "197696 - verify the consumer subsidy balance funding when the start date is set as past date and recurrence set to 'Weekly'")
+	public void verifyConsumerSubsidyBalanceWhenSetToPastDateWithRecurrenceWeekly() {
+		final String CASE_NUM = "197696";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String pastDate = dateAndTime.getPastDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(10));
+		try {
+			// Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+			// TopOff Subsidy
+			locationSummary.navigateToLocationAndSelectGMASubsidyToVerifyTopOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData);
+
+			// Setting start date as Past date & recurrence as 'Weekly' in TopOff Subsidy
+			locationSummary.verifyTopOffDateAsPastDateForAutoLocation1(pastDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
