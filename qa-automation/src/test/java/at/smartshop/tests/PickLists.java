@@ -913,10 +913,7 @@ public class PickLists extends TestInfra {
 				pickList.selectDropdownInFilterBy(requiredData.get(2));
 				
 				//Select Product ID in dropDown
-				pickList.selectDropdownInFilterBy(requiredData.get(3));
-				
-				
-				
+				pickList.selectDropdownInFilterBy(requiredData.get(3));			
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
