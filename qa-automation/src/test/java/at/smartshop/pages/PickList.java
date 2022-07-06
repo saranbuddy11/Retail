@@ -44,8 +44,6 @@ public class PickList extends Factory {
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
-	public static final By TBL_NEED = By.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
-	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");
 	public static final By TBL_NEED = By
 			.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
@@ -86,7 +84,6 @@ public class PickList extends Factory {
 	public static final By BTN_REFRESH = By.id("refreshButton");
 	public static final By BTN_CONFIRM_REFRESH = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_EXPORT = By.xpath("//button[contains(@onclick,'exportToExcel')]");
-	public static final By BTN_SCHEDULING = By.xpath("//button[text()='Scheduling']");
 	public static final By TXT_SCHEDULING_LOCATION = By.xpath("//td[@aria-describedby='dataGrid_location']");
 	public static final By TXT_SERVICE_SCHEDULE = By.xpath("//div[@id='filter-route-title']");
 	public static final By TXT_SEND_PICKLIST = By.xpath("//div[@class='ajs-header']");
@@ -121,7 +118,6 @@ public class PickList extends Factory {
 	public static final By TXT_DEFAULT_LOC = By.xpath("//ul[@class='select2-selection__rendered']//li[@class='select2-selection__choice']");
 	public static final By BTN_PUSH_TO_INVENTORY = By.xpath("//button[text()='Push To Inventory']");
 	public static final By DRP_HAS_LIGHTSPEED = By.id("haslightspeed");
-	public static final By BTN_SAVE = By.xpath("//button[@id='saveBtn']");
 	public static final By DPD_FILTERBY = By.id("filter-by");
 	public static final By CHKBOX_EXACT_MATCH = By.id("exact-match");
 	public static final By SELECT_ALL = By.id("gridloc-select-all");
@@ -357,4 +353,5 @@ public class PickList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return element;
+}
 }
