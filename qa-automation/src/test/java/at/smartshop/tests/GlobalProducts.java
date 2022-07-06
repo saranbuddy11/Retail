@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProduct;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -65,6 +67,7 @@ public class GlobalProducts extends TestInfra {
 	private Map<String, String> rstNationalAccountData;
 	private Map<String, String> rstProductData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstProductSummaryData;
 
 	@Test(description = "110985-This test to Increment Price value for a product in Global Product Change for Location(s)")
 	public void IncrementPriceForProductInGPCLocation() {
@@ -1488,4 +1491,112 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
+	@Test(description = "C197140-Verify whether print group is changing to defualt when the product is updated")
+	public void verifyWhetherPrintGroupIsChangingToDefualtWhenTheProductIsUpdated() {
+		final String CASE_NUM = "197140";
+
+		// Reading test data from DataBas
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationListData.get(CNLocationList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> price = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Select Menu and Menu Item
+			locationList.navigateMenuAndMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstLocationListData.get(CNLocationList.LOCATION_NAME));
+
+			// Navigate to product tab and verify print group
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+
+			// verify the print group field
+			Map<Integer, Map<String, String>> uiTableData = locationSummary.getTblRecordsUI();
+			Map<String, String> innerMap = new HashMap<>();
+			String innerValue = "";
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+			}
+			uiTableData.clear();
+
+			// Navigate to product summary and edit the product
+			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
+			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
+			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(0));
+
+			// Navigate to Location and verify the print group after edit
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.ONE_SECOND);
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+
+			// verify the print group field
+			uiTableData = locationSummary.getTblRecordsUI();
+			for (int i = 0; i < uiTableData.size(); i++) {
+				innerMap = uiTableData.get(i);
+				innerValue = innerMap.get(requiredData.get(1));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+			}
+			uiTableData.clear();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Navigate to product summary and edit the product
+			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
+			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
+			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(1));
+		}
+	}
+
+	/**
+	 * @author afrosean Date: 17-06-2022
+	 */
+	@Test(description = "C197162-verify searching of products for large number of locations"
+			+ "C197161-verify search of a product With Apostrophe in its name")
+	public void verifySearchingOfProductsForLargeNoOfLocations() {
+		try {
+			final String CASE_NUM = "197162";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+			List<String> requiredData = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu Item & verify the select in Global Product Change for Location(s)
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(requiredData.get(2)));
+			List<String> page = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
+			
+			//Select multiple location and verify the grid data
+			globalProductChange.selectLocationAndClickOnApply(GlobalProductChange.SELECT_ALL);
+			List<String> page1 = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
+		    CustomisedAssert.assertTrue(page1.size()>page.size());
+
+			// Navigate to product Tab and search for product
+			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(0));
+			String data = foundation.getText(GlobalProductChange.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
+
+			// Navigate to product Tab and search for product With Apostrophe in its name
+			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(1));
+		    data=foundation.getText(GlobalProductChange.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
