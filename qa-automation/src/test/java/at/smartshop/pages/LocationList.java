@@ -10,7 +10,6 @@ import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -36,6 +35,7 @@ public class LocationList extends Factory {
 
 	/**
 	 * Selecting the Location Name
+	 * 
 	 * @param locationName
 	 */
 	public void selectLocationName(String locationName) {
@@ -92,6 +92,7 @@ public class LocationList extends Factory {
 		navigationBar.navigateToMenuItem(menu);
 		selectLocationName(location);
 		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 		foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 		foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);

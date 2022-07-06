@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class CreatePromotions extends Factory {
@@ -22,6 +28,8 @@ public class CreatePromotions extends Factory {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
+	private CheckBox checkBox = new CheckBox();
+	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
 	public static final By LBL_ENTER_BASICINFO = By.xpath("//div[@id='section1']//i");
@@ -130,7 +138,6 @@ public class CreatePromotions extends Factory {
 	public static final By PROD_CATE_SELECTED = By.xpath("//div[text()='2 Products, 1 Categories selected']");
 	public static final By CATEGORY_PRODUCT = By
 			.xpath("//input[@onclick='setCheckBox(\"CAT 6 PROMO\",true,\"categorydatatable\",\"categorycheckbox\")']");
-
 	public static final By CATEGORY_NAME_GRID = By.id("categorydatatable_category");
 	public static final By CATEGORY_UPC_GRID = By.id("categorydatatable_upc");
 	public static final By PRICE_TAG = By.xpath("//table[@id='bundletable']//tr[2]/td[2]");
@@ -167,13 +174,10 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_GRID = By.xpath("//div[@id='itemdatatable_scroll']//tbody[@role='rowgroup']/tr");
 	public static final By CATEGORY_GRID = By
 			.xpath("//div[@id='categorydatatable_scroll']//tbody[@role='rowgroup']/tr");
-
 	public static final By PRODUCTS_DISABLE = By.xpath("//td[@aria-describedby='itemdatatable_name']");
 	public static final By NAME_BUILD_LIST = By.id("groupdatatable_name");
-
 	public static final By BUNDLE_CRITERIA = By.cssSelector("#bundletable .bundle-item");
 	public static final By BUNDLE_ITEM_REMOVE = By.cssSelector(".bundle-item-remove");
-
 	public static final By CATEGORY_DISABLE = By.xpath("//td[@aria-describedby='categorydatatable_category']");
 	public static final By HEADER_POPUP = By.xpath("//div[text()='Promotion Setup Alert']");
 	public static final By BTN_YES = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -181,7 +185,6 @@ public class CreatePromotions extends Factory {
 	public static final By CAT_POPUP_HEADER = By.xpath("//div[text()='Note for adding this Category']");
 	public static final By BIRTHDAY_GRID = By.xpath("//td[@aria-describedby='itemdatatable_name']");
 	public static final By CAT_PROMO_GRID = By.xpath("//td[@aria-describedby='categorydatatable_category']");
-
 	public static final By RECORD_PRODUCT = By.id("itemdatatable_pager_label");
 	public static final By RECORD_CATEGORY = By.id("categorydatatable_pager_label");
 	public static final By RECORD = By.id("groupcount");
@@ -191,14 +194,18 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
 	public static final By CONTENT_POPUP = By.xpath("//div[@class='ajs-content']");
-
 	public static final By SUMMARY_GROUPNAME1 = By.xpath("//div[@id='bundlesummary']/div");
 	public static final By SUMMARY_GROUPNAME2 = By.xpath("//div[@id='bundlesummary']/div[2]");
 	public static final By BUNDLE_SUMMARY = By.id("bundlesummary");
-
 	public static final By LBL_DISCOUNT_BY = By.className("onscreenDetails");
 	public static final By LBL_TENDERTYPE_ERROR = By.id("tendertypes-error");
 	public static final By ALL_ITEMS = By.xpath("//input[@id='allitems']");
+	public static final By SELECTION_CATEGORY = By.id("categorySelect");
+	public static final By SELECTION_ITEM = By.id("itemSelect");
+	public static final By ALL_SELECTION = By.xpath("//li[@title=' All ']");
+	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
+	public static final By TENDER_DISCOUNT_DETAILS = By.cssSelector(".tenderDetails>dd>select#tendertypes");
+	public static final By RECURRING_DAY_CHECKBOX = By.cssSelector("#recurringInput >dd >input");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -212,6 +219,23 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//select[@id='discountBy']//option[text()='" + dropdown + "']");
 	}
 
+	public By objFieldSet(String filedSetText) {
+		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
+	}
+
+	public By filterOptions(String fieldName) {
+		return By.xpath("//dt[text()='" + fieldName + "']");
+	}
+
+	/**
+	 * Creating New Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void newPromotion(String promotionType, String promotionName, String displayName, String orgName,
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
@@ -226,8 +250,12 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_LOC_RIGHT);
 	}
 
+	/**
+	 * Getting the Popup Data
+	 * 
+	 * @return
+	 */
 	public List<String> getPopUpData() {
-
 		List<String> popupFieldValues = foundation.getTextofListElement(LBL_POPUP_VALUES);
 		List<String> popupFieldArray = new ArrayList<String>();
 		List<String> promoValues;
@@ -240,14 +268,11 @@ public class CreatePromotions extends Factory {
 		return popupFieldArray;
 	}
 
-	public By objFieldSet(String filedSetText) {
-		return By.xpath("//fieldset[@id='fieldset']//*[text()='" + filedSetText + "']");
-	}
-
-	public By filterOptions(String fieldName) {
-		return By.xpath("//dt[text()='" + fieldName + "']");
-	}
-
+	/**
+	 * Verify Org field
+	 * 
+	 * @param orgs
+	 */
 	public void verifyOrgField(List<String> orgs) {
 		List<String> orgData = dropDown.getAllItems(CreatePromotions.DPD_ORGANIZATION);
 		for (int iter = 0; iter < orgData.size(); iter++) {
@@ -255,6 +280,15 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Creating Bundle Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void BundlePromotion(String promotionType, String promotionName, String displayName, String orgName,
 			String locationName) {
 		try {
@@ -269,6 +303,14 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Selecting Bundle Promotion Details
+	 * 
+	 * @param discountBy
+	 * @param item
+	 * @param transactionMin
+	 * @param discountType
+	 */
 	public void selectBundlePromotionDetails(String discountBy, String item, String transactionMin,
 			String discountType) {
 		try {
@@ -294,6 +336,11 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Bundle Promotion Price
+	 * 
+	 * @param bundlePrice
+	 */
 	public void selectBundlePromotionPricing(String bundlePrice) {
 		try {
 			textBox.enterText(TXT_BUNDLE_PRICE, bundlePrice);
@@ -302,6 +349,12 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Selecting Bundle Promotion Duration
+	 * 
+	 * @param discountTime
+	 * @param discountDuration
+	 */
 	public void selectBundlePromotionTimes(String discountTime, String discountDuration) {
 		try {
 			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
@@ -312,6 +365,9 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Recurring Day
+	 */
 	public void recurringDay() {
 		try {
 			Calendar calendar = Calendar.getInstance();
@@ -324,6 +380,15 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Tender Discount Details
+	 * 
+	 * @param tenderType
+	 * @param discountType
+	 * @param applyDIscountTo
+	 * @param discountAmount
+	 * @param transactionAmount
+	 */
 	public void tenderDiscountDetails(String tenderType, String discountType, String applyDIscountTo,
 			String discountAmount, String transactionAmount) {
 		try {
@@ -341,6 +406,11 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Setting Discount Range
+	 * 
+	 * @return
+	 */
 	public String[] discountRange() {
 		String[] discountprice = null;
 		try {
@@ -354,6 +424,14 @@ public class CreatePromotions extends Factory {
 		return discountprice;
 	}
 
+	/**
+	 * Creating New Promotion
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param orgName
+	 * @param locationName
+	 */
 	public void newPromotionList(String promotionType, String promotionName, String orgName, String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
@@ -365,10 +443,14 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_LOC_RIGHT);
 	}
 
+	/**
+	 * Selecting the WeekDays
+	 * 
+	 * @param weekDays
+	 */
 	public void selectWeekDays(String weekDays) {
 		try {
 			List<String> weekDaysData = Arrays.asList(weekDays.split(Constants.DELIMITER_HASH));
-			System.out.println(weekDaysData);
 			for (int iter = 0; iter < weekDaysData.size(); iter++) {
 				foundation
 						.click(By.xpath("//div[@id='recurringInput']//dd/input[@id='" + weekDaysData.get(iter) + "']"));
@@ -378,6 +460,13 @@ public class CreatePromotions extends Factory {
 		}
 	}
 
+	/**
+	 * Create the Promotion with Type and Name
+	 * 
+	 * @param promotionType
+	 * @param promotionName
+	 * @param displayName
+	 */
 	public void createPromotion(String promotionType, String promotionName, String displayName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objLocation(promotionType)));
@@ -389,6 +478,12 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
 	}
 
+	/**
+	 * Selecting the Org and Location
+	 * 
+	 * @param org
+	 * @param location
+	 */
 	public void selectOrgLoc(String org, String location) {
 		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
 		foundation.click(BTN_ORG_RIGHT);
@@ -399,6 +494,11 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_DETAILS, 5);
 	}
 
+	/**
+	 * Verify the Bundle Option
+	 * 
+	 * @param requiredData
+	 */
 	public void verifyBundleOption(List<String> requiredData) {
 		List<String> options = dropDown.getAllItems(DPD_DISCOUNT_BY);
 		CustomisedAssert.assertEquals(options.get(0), requiredData.get(0));
@@ -407,6 +507,12 @@ public class CreatePromotions extends Factory {
 		CustomisedAssert.assertEquals(options.get(3), requiredData.get(3));
 	}
 
+	/**
+	 * Creating Bundle Group with Product
+	 * 
+	 * @param groupName
+	 * @param product
+	 */
 	public void creatingBundleGroup(String groupName, String product) {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -420,6 +526,13 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Creating the Bundle Group with Product & Category
+	 * 
+	 * @param groupName
+	 * @param product
+	 * @param category
+	 */
 	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -440,6 +553,13 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Edit the Bundle Group in Product, Category and Group Name
+	 * 
+	 * @param groupName
+	 * @param product
+	 * @param category
+	 */
 	public void editBundleGroup(String groupName, String product, String category) {
 		foundation.click(LBL_BUNDLE_GROUP_EDIT);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
@@ -461,6 +581,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
+	/**
+	 * Cancelling the Created Promotion
+	 */
 	public void cancellingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
@@ -473,6 +596,9 @@ public class CreatePromotions extends Factory {
 		foundation.alertAccept();
 	}
 
+	/**
+	 * Delete Bundle Group
+	 */
 	public void deleteBundleGroup() {
 		foundation.click(DELETE_GROUP);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -481,7 +607,12 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
-	public void selectItem(String item) {
+	/**
+	 * Select Input as Item and Choose All Item CheckBox
+	 * 
+	 * @param item
+	 */
+	public void selectItemInBuildBundle(String item) {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, item);
@@ -489,13 +620,113 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
-	public void selectCategory(String category) {
+	/**
+	 * Select Input as Category and Choose All Category CheckBox
+	 * 
+	 * @param item
+	 */
+	public void selectCategoryInBuildBundle(String category) {
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
-
 	}
 
+	/**
+	 * Selecting Build Bundle as Category and choosing All Categories Check Box
+	 * 
+	 * @param discountType
+	 */
+	public void selectBuildBundleAsCategoryAndCheckBox(String discountType) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BUILD_BUNDLE));
+		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
+		foundation.waitforElementToBeVisible(SELECTION_CATEGORY, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_CATEGORY));
+		checkBox.check(ALL_CATEGORY);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
+	}
+
+	/**
+	 * Selecting Build Bundle as Item and choosing All Items Check Box
+	 * 
+	 * @param discountType
+	 */
+	public void selectBuildBundleAsItemAndCheckBox(String discountType) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_BUILD_BUNDLE));
+		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
+		foundation.waitforElementToBeVisible(SELECTION_ITEM, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_ITEM));
+		checkBox.check(ALL_ITEMS);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
+	}
+
+	/**
+	 * Changing Promotion Type while Creating Promotion
+	 * 
+	 * @param promo
+	 */
+	public void changePromotionType(String promo) {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		dropDown.selectItem(DPD_PROMO_TYPE, promo, Constants.TEXT);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Verifying Group option under Build Bundle is Disabled or not
+	 */
+	public String verifyGroupIsDisabledOrNot() {
+		WebElement selectDropDown = getDriver().findElement(DPD_DISCOUNT_BY);
+		List<WebElement> options = selectDropDown.findElements(By.tagName("option"));
+		String value = "";
+		for (int i = 0; i < options.size(); i++) {
+			try {
+				value = options.get(i).getAttribute("disabled");
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * Launching Browser and Creating Promotion on Bundle upto Location Selection
+	 * 
+	 * @param menu
+	 * @param promoType
+	 * @param promoName
+	 * @param displayName
+	 * @param location
+	 */
+	public void launchBrowserAndCreateBundlePromoWithLocationDetails(String menu, String promoType, String promoName,
+			String displayName, String location) {
+		// Login to ADM with Super User, Select Org
+		navigationBar.launchBrowserAsSuperAndSelectOrg(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+		// Select Org,Menu and Menu Item and click Create Promotion
+		navigationBar.navigateToMenuItem(menu);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
+		foundation.click(PromotionList.BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION));
+
+		// Select Promo Type, Promo Name, Display Name and click Next
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_PROMO_TYPE));
+		createPromotion(promoType, promoName, displayName);
+
+		// Choose Org and Location
+		selectOrgLoc(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), location);
+	}
 }

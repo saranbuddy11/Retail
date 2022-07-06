@@ -852,5 +852,8 @@ public class PickLists extends TestInfra {
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
-    }
+			finally {
+				foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+			}
+		}
 }

@@ -33,14 +33,17 @@ public class ProductSearch {
 	}
 
 	public void verifyProductSearhPageLanguage(String productSearch) {
-
 		List<String> productSearchPage = Arrays.asList(productSearch.split(Constants.DELIMITER_TILD));
-
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(0))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(1))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(productSearchPage.get(2))));
 	}
 
+	/**
+	 * searching a product in v5 device
+	 * @param product
+	 * @return
+	 */
 	public boolean searchProduct(String product) {
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		textBox.enterKeypadText(product);
@@ -50,5 +53,4 @@ public class ProductSearch {
 		else
 			return false;
 	}
-
 }
