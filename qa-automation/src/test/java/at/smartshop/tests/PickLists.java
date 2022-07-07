@@ -31,6 +31,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
+import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
@@ -46,6 +47,7 @@ public class PickLists extends TestInfra {
 	private Excel excel = new Excel();
 	private Table table = new Table();
 	private LocationSummary locationSummary = new LocationSummary();
+	private UserRoles userRoles = new UserRoles();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstPickListData;
@@ -499,15 +501,7 @@ public class PickLists extends TestInfra {
 			// Navigate to product--> pickList and click on pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-
-			// Click on plan pick list and verify the grid
-			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-			foundation.click(pickList.objPickList(requiredData.get(0)));
-			foundation.click(PickList.BTN_PICKLIST_PLAN);
-			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-			String data = foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
 
 			// select the UPC and verify same upc id in grid
 			pickList.selectDropdownValueAndApply(requiredData.get(1), requiredData.get(3));
@@ -555,12 +549,7 @@ public class PickLists extends TestInfra {
 			// manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-
-			// Click on plan pick list and verify the grid
-			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-			foundation.click(pickList.objPickList(requiredData.get(0)));
-			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
 
 			// verify the dropDown category
 			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
@@ -860,7 +849,10 @@ public class PickLists extends TestInfra {
 	 * @date: 04-07-2022
 	 */
 	@Test(description = "C196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"
-			+ "C196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC")
+			+ "C196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC"
+			 +"C196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
+			+"C196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
+			 +"C196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
 	public void verifyUserCanEnterProductNameToBeAppliedToTheFilter() {
 		final String CASE_NUM = "196144";
 
@@ -881,21 +873,13 @@ public class PickLists extends TestInfra {
 			// Navigate to product--> pickList and click on pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-
-			// Click on plan pick list and verify the grid
-			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-			foundation.click(pickList.objPickList(requiredData.get(0)));
-			foundation.click(PickList.BTN_PICKLIST_PLAN);
-			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-			String data = foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
 
 			// Enter a product name in product name box and verify
 			textBox.enterText(PickList.TXT_PRODUCT_NAME, requiredData.get(1));
 			foundation.click(PickList.BTN_FILTER_APPLY);
 			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 5);
-			data = foundation.getText(PickList.TBL_ROW_DATA);
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
 
 			// Press the "x" in the "Product Name" field
@@ -950,7 +934,22 @@ public class PickLists extends TestInfra {
 			pickList.verifyRouteHeaders(header);
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
 			
+			//Navigate to Admin-->User and Roles to verify the driver name
+			navigationBar.navigateToMenuItem(menu.get(2));
+			userRoles.searchDriver(requiredData.get(3));
 			
+			//Navigate to product-->pickList and verify route
+			navigationBar.navigateToMenuItem(menu.get(1));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(1));
+			
+			//verify the router column
+			String data=foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertFalse(data.contains(requiredData.get(2)));
+			
+			//Add product and verify disabled route
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(pickList.LBL_TITLE_HEADER));
+			textBox.enterText(PickList.LBL_FILTER_TYPE, requiredData.get(4));
 			
 		
 		}catch (Exception exc) {

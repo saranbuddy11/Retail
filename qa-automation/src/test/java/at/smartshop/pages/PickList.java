@@ -199,17 +199,23 @@ public class PickList extends Factory {
 	}
 
 	/**
-	 * Select location from location filter and apply
+	 * Select location from location filter,apply and click on plan picklist
 	 * 
 	 * @param location
 	 */
-	public void selectLocationInFilterAndApply(String location) {
+	public void selectLocationInFilterApplyAndClickOnPlanPick(String location) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
 		foundation.click(selectLocationFromList(location));
 		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 		foundation.click(PickList.BTN_APPLY);
 		foundation.waitforElement(objPickList(location), Constants.SHORT_TIME);
 		foundation.click(objPickList(location));
+		foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+		foundation.click(objPickList(location));
+		foundation.click(PickList.BTN_PICKLIST_PLAN);
+		foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
+		String data = foundation.getText(PickList.TBL_ROW_DATA);
+		CustomisedAssert.assertTrue(data.contains(location));
 	}
 
 	/**
