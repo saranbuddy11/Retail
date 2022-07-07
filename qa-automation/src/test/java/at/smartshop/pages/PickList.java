@@ -1,17 +1,16 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -36,7 +35,10 @@ public class PickList extends Factory {
 	public static final By LBL_TITLE_HEADER = By.xpath("//h4[@class='modal-title']");
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
 	public static final By TXT_PRODUCT_NAME=By.id("filter-name");
+	public static final By TXT_INPUT=By.xpath("//input[@type='text']");
+	public static final By LBL_ROUTES=By.id("Routes");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
+	public static final By BUTTON_SAVE=By.id("saveBtn");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
 	public static final By TBL_NEED = By
 			.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
@@ -100,17 +102,29 @@ public class PickList extends Factory {
 	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
+	public static final By START_DATE_DROPDOWN=By.id("start-num");
+	public static final By END_DATE_DROPDOWN=By.id("end-num");
+	public static final By GRID_ROUTE=By.xpath("//tbody[@role='alert']");
+	public static final By HEADER_ROUTE=By.xpath("//tr[@role='row']");
+	public static final By CHECKBOX_ACTIVE=By.id("active");
 
 	public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
 	}
-
+	public By objRouteColumn(String column) {
+		return By.xpath("//table[@id='dt']//tr/th[text()='"+ column+"']");
+	}
+	
 	public By objDriverText(String driver) {
 		return By.xpath("//div[contains(@style,'top: 353.635px;')]//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
 	}
 
 	public By objDayCheckbox(String day) {
 		return By.xpath("(//span[contains(@class,'ui-igcheckbox-small')])[" + day + "]");
+	}
+	
+	public By selectRoutes(String description, String driver) {
+		return By.xpath("//td[text()='" + description + "']/following-sibling::td[text()='" + driver + "']");
 	}
 	
 	public By objDay(String day) {
@@ -255,10 +269,9 @@ public class PickList extends Factory {
 				
 			}
 		}
-	}
-	
+	}	
 	/**
-	 * select dropDown  
+	 * select dropDown and verify the exact match checkBox and cancel th filter
 	 * @param dropdown
 	 */
 	public void selectDropdownInFilterBy(String dropdown) {
@@ -269,5 +282,54 @@ public class PickList extends Factory {
 		foundation.click(PickList.BTN_FILTER_CANCEL);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 		foundation.click(PickList.BTN_YES);
+	}
+	/**
+	 * Select dropDown and verify start,end date and cancel the filter
+	 * @param dropdown
+	 */
+	public void selectDropdownInFilterByAndVerify(String dropdown) {
+		dropDown.selectItem(PickList.DPD_FILTERBY,dropdown , Constants.TEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.START_DATE_DROPDOWN));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.END_DATE_DROPDOWN));
+		foundation.click(PickList.BTN_FILTER_CANCEL);
+		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+		foundation.click(PickList.BTN_YES);
+	}
+	/**
+	 * search Route And Click On Active Checkbox
+	 * @param text
+	 * @param driver
+	 * @param description
+	 */
+	public void searchRouteAndClickOnActiveCheckbox(String text,String description,String driver) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ROUTES));
+		textBox.enterText(PickList.TXT_INPUT, text);
+		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);
+		foundation.click(selectRoutes(description, driver));
+		foundation.waitforElementToBeVisible(LBL_ROUTES, 3);
+		foundation.click(CHECKBOX_ACTIVE);
+		foundation.waitforElementToBeVisible(BUTTON_SAVE, 2);
+		foundation.click(BUTTON_SAVE);
+		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);
+	}
+	/**
+	 * verify route headers UI Field
+	 * @param values
+	 */
+	public void verifyRouteHeaders(List<String> values) {
+		try {
+			foundation.waitforElement(HEADER_ROUTE, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(HEADER_ROUTE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(0))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(1))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(2))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(3))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(4))));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objRouteColumn(values.get(5))));
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Validated the Route header default Value" + values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
