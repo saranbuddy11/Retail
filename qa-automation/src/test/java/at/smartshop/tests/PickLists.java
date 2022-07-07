@@ -593,7 +593,7 @@ public class PickLists extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean Story SOS-27323
+	 * @author afrosean Story SOS-22355
 	 * @date: 29-06-2022
 	 */
 	@Test(description = "C195612-ADM>Pick List Manager>Schedule>Select Location>Set Plan schedule for selected location")
