@@ -4041,7 +4041,7 @@ public class Report extends TestInfra {
 	}
 	
 	/**
-	 * This Method is for Inventory Variance Report Data Validation
+	 * This Method is for Inventory List Report Data Validation
 	 * @author ravindhara
 	 * Date: 01-07-2022
 	 */
@@ -4063,10 +4063,10 @@ public class Report extends TestInfra {
 
 			// Reading test data from DataBase
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			String locationData = rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
 			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> columnData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -4077,7 +4077,7 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName);
 			reportList.selectDateRangeOfSinglrDateofType3(rstReportListData.get(CNReportList.DATE_RANGE),
 					InventoryList.DATA_EXISTING_DATE);
-			reportList.selectLocation(locationData);
+			reportList.selectLocation(locationName);
 			
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -4085,7 +4085,7 @@ public class Report extends TestInfra {
 			inventoryList.getTblRecordsUI();
 
 			// Validating the Headers and Report data
-			inventoryList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			inventoryList.verifyReportHeaders(columnData.get(0));
 			inventoryList.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			
 			
@@ -4093,8 +4093,9 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			inventoryList.getExpandedTblRecordsOfUI();
 			
-			inventoryList.verifyReportHeaders("Product Name#Scancode#Quantity");
-//			inventoryList.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			inventoryList.verifyReportHeaders(columnData.get(1));
+			inventoryList.verifyReportDataForExpanded(Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

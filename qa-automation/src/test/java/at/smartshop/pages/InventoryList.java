@@ -25,15 +25,18 @@ public class InventoryList extends Factory {
 	public static final By LBL_REPORT_NAME = By.xpath("//div[@id='Inventory List']");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-	
+
 	private static final By TBL_INVENTORY_LIST = By.id("hierarchicalGrid");
 	private static final By TBL_INVENTORY_LIST_GRID = By.cssSelector("#hierarchicalGrid > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
-	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(5)");
-	private static final By TBL_INVENTORY_LIST_EXPANDED = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table");
-	private static final By TBL_INVENTORY_LIST_GRID_EXPANDED = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table > tbody");
-	public static final By TBL_EXPAND_BTN =  By.xpath("//span[@title='Expand Row']");
-	
+	public static final By DATA_EXISTING_DATE = By.cssSelector(
+			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(5)");
+	private static final By TBL_INVENTORY_LIST_EXPANDED = By
+			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table");
+	private static final By TBL_INVENTORY_LIST_GRID_EXPANDED = By
+			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table > tbody");
+	public static final By TBL_EXPAND_BTN = By.xpath("//span[@title='Expand Row']");
+
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 
@@ -65,7 +68,7 @@ public class InventoryList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This method is to get the Table Records Data from UI
 	 */
@@ -87,7 +90,6 @@ public class InventoryList extends Factory {
 					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
 				}
 				reportsData.put(recordCount, uiTblRowValues);
-				System.out.println(reportsData);
 				recordCount++;
 			}
 		} catch (Exception exc) {
@@ -119,23 +121,21 @@ public class InventoryList extends Factory {
 					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
 				}
 				reportsData.put(recordCount, uiTblRowValues);
-				System.out.println("*********************************"+reportsData);
 				recordCount++;
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-     * This method is to validate the Report Table Headers
-     * @param columnNames
-     */
+	 * This method is to validate the Report Table Headers
+	 * 
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders1 :"+ tableHeaders);
-			System.out.println("columnName1 : "+ columnName);
 			for (int iter = 1; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -146,16 +146,34 @@ public class InventoryList extends Factory {
 
 	/**
 	 * This method is to validate the Report Data
+	 * 
 	 * @param expextedData
 	 */
 	public void verifyReportData(String expectedData) {
-		try {			
+		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			System.out.println("reportsData1 :"+ reportsData);
-			System.out.println("expextedDataList1 : "+ expectedDataList);
-				for (int iter = 1; iter < tableHeaders.size()-1; iter++) {
-					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-							.contains(expectedDataList.get(iter)));
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This method is to validate the Report Data
+	 * 
+	 * @param expextedData
+	 */
+	public void verifyReportDataForExpanded(List<String> expectedData) {
+		try {
+			for (int counter = 0; counter < 2; counter++) {
+				List<String> expectedDataList = Arrays
+						.asList(expectedData.get(counter).split(Constants.DELIMITER_HASH));
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					Assert.assertTrue(
+							reportsData.get(counter).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
+				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
