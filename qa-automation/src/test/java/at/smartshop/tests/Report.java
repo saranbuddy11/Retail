@@ -40,6 +40,7 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
+import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
@@ -160,6 +161,7 @@ public class Report extends TestInfra {
 	private GuestPassByDevice guestPassByDevice = new GuestPassByDevice();
 	private InventoryList inventoryList = new InventoryList();
 	private InventoryVariance inventoryVariance = new InventoryVariance();
+	private ConsumerFeedbackSurvey consumerFeedbackSurvey = new ConsumerFeedbackSurvey();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -244,7 +246,7 @@ public class Report extends TestInfra {
 			String updatedTime = String.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
+
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
@@ -3984,11 +3986,10 @@ public class Report extends TestInfra {
 		}
 	}
 
-	
 	/**
 	 * This Method is for Inventory Variance Report Data Validation
-	 * @author ravindhara
-	 * Date: 01-07-2022
+	 * 
+	 * @author ravindhara Date: 01-07-2022
 	 */
 	@Test(description = "197618-This test validates Inventory Variance Report Data Validation")
 	public void inventoryVarianceReportDataValidation() {
@@ -4023,8 +4024,8 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName);
 			reportList.selectLocationForSecondTypeDropdown(locationData.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
-			reportList.selectDateRangeDateofType2(locationData.get(1),
-					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
+			reportList.selectDateRangeDateofType2(locationData.get(1), InventoryVariance.DATA_EXISTING_DATE,
+					InventoryVariance.DATA_EXISTING_DATE);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			inventoryVariance.verifyReportName(reportName);
@@ -4039,7 +4040,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This Method is for Inventory List Report Data Validation
 	 * @author ravindhara
@@ -4101,4 +4102,219 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	@Test(description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
+	public void consumerFeedbackSurveyReportDataValidation() {
+		final String CASE_NUM = "197794";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		// Reading test data from DataBase
+		List<String> menuItems = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item for Location and to Enable Consumer Feedback Survey
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+			foundation.threadWait(Constants.ONE_SECOND);
+			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(0),
+					Constants.TEXT);
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+
+			login.logout();
+			browser.close();
+
+			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			List<String> paymentEmailDetails = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
+
+			// Launch V5 Device and Searching for product
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(Payments.ACCOUNT_EMAIL);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterPin(paymentEmailDetails.get(1));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			foundation.click(ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN);
+			CustomisedAssert.assertTrue(
+					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+			browser.close();
+
+			// Navigate to Reports
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
+			System.out.println(consumerFeedbackSurvey.getReportsData());
+			System.out.println(consumerFeedbackSurvey.getIntialData());
+
+			// apply calculation and update data
+			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
+			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
+			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
+			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(6));
+
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and Searching for product
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(Payments.ACCOUNT_EMAIL);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterPin(paymentEmailDetails.get(1));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			foundation.click(ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN);
+			CustomisedAssert.assertTrue(
+					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(Payments.ACCOUNT_EMAIL);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterPin(paymentEmailDetails.get(1));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			foundation.click(ConsumerFeedbackSurvey.SAD_EMOJI_BTN);
+			CustomisedAssert.assertTrue(
+					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadTextWithCaseSensitive(product);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.click(Payments.ACCOUNT_EMAIL);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
+			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterPin(paymentEmailDetails.get(1));
+			foundation.click(AccountLogin.BTN_PIN_NEXT);
+			foundation.click(ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN);
+			CustomisedAssert.assertTrue(
+					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+
+			browser.close();
+
+			// Navigate to Reports
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+			System.out.println("222222222222222222222: " + consumerFeedbackSurvey.getReportsData());
+			System.out.println("222222222222222222222: " + consumerFeedbackSurvey.getIntialData());
+
+			// verify report headers
+			consumerFeedbackSurvey.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			consumerFeedbackSurvey.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// navigate to location and disabling of Consumer Feedback Survey
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+			foundation.threadWait(Constants.ONE_SECOND);
+			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
+					Constants.TEXT);
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		}
+	}
+
 }
