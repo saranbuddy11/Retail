@@ -1468,7 +1468,7 @@ public class LocationSummary extends Factory {
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
 		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
-			foundation.click(objectTopOffCalendarDayAutoLocation1(date));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_PREV_LOCATION1);
 			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
@@ -1777,6 +1777,7 @@ public class LocationSummary extends Factory {
 	 * @param requiredData
 	 */
 	public void subsidyResettingValidationOff(String optionNames, String location, String requiredData) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		navigationBar.navigateToMenuItem(optionNames);
 		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
