@@ -946,12 +946,13 @@ public class PickLists extends TestInfra {
 			String data=foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertFalse(data.contains(requiredData.get(2)));
 			
-			//Add product and verify disabled route
+			//Add product and verify disabled route 
 			foundation.click(PickList.LBL_ADD_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(pickList.LBL_TITLE_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_TITLE_HEADER));
 			textBox.enterText(PickList.LBL_FILTER_TYPE, requiredData.get(4));
-			
-		
+			foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);
+			textBox.enterText(PickList.TXT_NEED_PICKLIST, requiredData.get(5));
+			foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);	
 		}catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}

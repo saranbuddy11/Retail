@@ -40,6 +40,7 @@ public class PickList extends Factory {
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By BUTTON_SAVE=By.id("saveBtn");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
+	public static final By TXT_NEED_PICKLIST=By.id("1657277901591EditingInput");
 	public static final By TBL_NEED = By
 			.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
