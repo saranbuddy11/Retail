@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -4043,8 +4045,8 @@ public class Report extends TestInfra {
 
 	/**
 	 * This Method is for Inventory List Report Data Validation
-	 * @author ravindhara
-	 * Date: 01-07-2022
+	 * 
+	 * @author ravindhara Date: 01-07-2022
 	 */
 	@Test(description = "197657-This test validates Inventory List Report Data Validation")
 	public void inventoryListReportDataValidation() {
@@ -4064,7 +4066,8 @@ public class Report extends TestInfra {
 
 			// Reading test data from DataBase
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			List<String> columnData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
@@ -4079,7 +4082,7 @@ public class Report extends TestInfra {
 			reportList.selectDateRangeOfSinglrDateofType3(rstReportListData.get(CNReportList.DATE_RANGE),
 					InventoryList.DATA_EXISTING_DATE);
 			reportList.selectLocation(locationName);
-			
+
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			inventoryList.verifyReportName(reportName);
@@ -4088,12 +4091,11 @@ public class Report extends TestInfra {
 			// Validating the Headers and Report data
 			inventoryList.verifyReportHeaders(columnData.get(0));
 			inventoryList.verifyReportData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
-			
-			
+
 			foundation.click(InventoryList.TBL_EXPAND_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			inventoryList.getExpandedTblRecordsOfUI();
-			
+
 			inventoryList.verifyReportHeaders(columnData.get(1));
 			inventoryList.verifyReportDataForExpanded(Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD)));
@@ -4103,6 +4105,11 @@ public class Report extends TestInfra {
 		}
 	}
 
+	/**
+	 * This Method is for Consumer Feedback Survey Report Data Validation
+	 * 
+	 * @author ravindhara Date: 11-07-2022
+	 */
 	@Test(description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
 	public void consumerFeedbackSurveyReportDataValidation() {
 		final String CASE_NUM = "197794";
@@ -4135,9 +4142,13 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(0),
 					Constants.TEXT);
+			textBox.enterText(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_QUESTION, requiredData.get(2));
 			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
 			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
 			login.logout();
 			browser.close();
 
@@ -4145,27 +4156,13 @@ public class Report extends TestInfra {
 			List<String> paymentEmailDetails = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
 
-			// Launch V5 Device and Searching for product
+			// Launch V5 Device and  purchasing a product with Happy Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadTextWithCaseSensitive(product);
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterPin(paymentEmailDetails.get(1));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			foundation.click(ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN);
-			CustomisedAssert.assertTrue(
-					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
 
 			// Navigate to Reports
@@ -4193,8 +4190,6 @@ public class Report extends TestInfra {
 
 			consumerFeedbackSurvey.getTblRecordsUI();
 			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
-			System.out.println(consumerFeedbackSurvey.getReportsData());
-			System.out.println(consumerFeedbackSurvey.getIntialData());
 
 			// apply calculation and update data
 			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
@@ -4206,67 +4201,32 @@ public class Report extends TestInfra {
 
 			login.logout();
 			browser.close();
-
-			// Launch V5 Device and Searching for product
+			
+			// Launch V5 Device and purchasing a product with Happy Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadTextWithCaseSensitive(product);
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterPin(paymentEmailDetails.get(1));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			foundation.click(ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN);
-			CustomisedAssert.assertTrue(
-					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
 
-			foundation.threadWait(Constants.TWO_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadTextWithCaseSensitive(product);
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterPin(paymentEmailDetails.get(1));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			foundation.click(ConsumerFeedbackSurvey.SAD_EMOJI_BTN);
-			CustomisedAssert.assertTrue(
-					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
-
-			foundation.threadWait(Constants.TWO_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadTextWithCaseSensitive(product);
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterPin(paymentEmailDetails.get(1));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			foundation.click(ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN);
-			CustomisedAssert.assertTrue(
-					foundation.isDisplayed(order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION))));
-
+			// Launch V5 Device and purchasing a product with Sad Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
+			
+			// Launch V5 Device and purchasing a product with Nutral Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
 
 			// Navigate to Reports
@@ -4293,8 +4253,6 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 
 			consumerFeedbackSurvey.getTblRecordsUI();
-			System.out.println("222222222222222222222: " + consumerFeedbackSurvey.getReportsData());
-			System.out.println("222222222222222222222: " + consumerFeedbackSurvey.getIntialData());
 
 			// verify report headers
 			consumerFeedbackSurvey.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
