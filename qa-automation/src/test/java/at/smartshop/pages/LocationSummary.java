@@ -269,6 +269,8 @@ public class LocationSummary extends Factory {
 	public static final By DATE_PICKER_PAY_ROLL = By.xpath("//input[@name='payrolldeductstartdate' and @id='date1']");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]");
+	public static final By TOP_OFF_DATE_PICKER_PREV_LOCATION1 = By
+			.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[1]");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1 = By
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_DATE_PICKER_NEXT_LOCATION2 = By
@@ -321,9 +323,7 @@ public class LocationSummary extends Factory {
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_printer']");
 	public static final By LBL_PRODUCT_POPUP = By.id("modaltitle");
 	public static final By EDIT_PRODUCT = By.xpath("//a[@class='btn btn-small btn-primary']");
-
 	public static final By BTN_PRODUCT_ADD = By.id("modalsave");
-
 	public static final By MIN_STOCK = By
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
 	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
@@ -338,6 +338,9 @@ public class LocationSummary extends Factory {
 	public static final By CHK_TOP_OFF_EXCLUDE = By.className("chcktopoffexclude");
 	public static final By CHK_ROLL_OVER_EXCLUDE = By.className("chckClass_");
 
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
+
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
@@ -350,11 +353,20 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy'])[" + index + "]");
 	}
 
-	private List<String> tableHeaders = new ArrayList<>();
-	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
-
 	public By objDeleteRollOverSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnrolloverSubsidy'])[" + index + "]");
+	}
+
+	public By objSubsidyStartDatePickerHead(int index) {
+		return By.xpath("(//th[@class='switch'])[" + index + "]");
+	}
+
+	public By objTopOffSubsidyStartDatePickerMonthSelection(String month) {
+		return By.xpath("(//div[@class='datepicker-months']//span[contains(text(),'" + month + "')])[2]");
+	}
+
+	public By objTopOffSubsidyStartDatePickerYearSelection(int year) {
+		return By.xpath("(//span[contains(text()," + year + ")])[2]");
 	}
 
 	/**
@@ -471,49 +483,8 @@ public class LocationSummary extends Factory {
 		return By.xpath("//div[@id='promoGrid_hiding_modalDialog_content']//li//span[text()='" + column + "']");
 	}
 
-	public By objColumnHeaders(String columnName) {
-		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
-	}
-
-	public By objDevice(String deviceName) {
-		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
-
-	}
-
-	public void selectDevice(String deviceName) {
-		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
-	}
-
-	public By deviceName(String devicename) {
-		return By.xpath("//a[text()='" + devicename + "']");
-	}
-
-	public By objTable(String homeCommercial) {
-		return By.xpath("//td[text()='" + homeCommercial + "']");
-	}
-
-	public By objUploadStatus(String uploadMessage) {
-		return By.xpath("//a[text()='" + uploadMessage + "']");
-	}
-
-	public By objVerifyTaxRate(String taxRate) {
-		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='" + taxRate + "']");
-	}
-
-	public By objProductPrice(String productName) {
-		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
-	}
-
-	public By objPrintGroup(String text) {
-		return By.xpath("//li[@data-value='" + text + "']");
-	}
-
-	public By objTaxCategory(String taxCategory) {
-		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
-	}
-
 	/**
-	 * Managing the Column Names
+	 * Managing the column
 	 * 
 	 * @param columnNames
 	 */
@@ -560,7 +531,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Getting the Product Record Values
+	 * Getting the Product Record
 	 * 
 	 * @param recordValue
 	 * @return
@@ -591,7 +562,8 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Showing the Tax Category and Apply the same
+	 * Showing the Tax Category and Apply the
+	 *
 	 */
 	public void showTaxCategory() {
 		try {
@@ -601,6 +573,16 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		foundation.click(BTN_APPLY);
+	}
+
+	/**
+	 * Return By Object for Table
+	 * 
+	 * @param homeCommercial
+	 * @return
+	 */
+	public By objTable(String homeCommercial) {
+		return By.xpath("//td[text()='" + homeCommercial + "']");
 	}
 
 	/**
@@ -622,7 +604,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify the Has Order Ahead Field
+	 * Verify Has Order ahead field in Location Summary Page
 	 * 
 	 * @param defaultValue
 	 */
@@ -663,7 +645,7 @@ public class LocationSummary extends Factory {
 	/**
 	 * Verify RollOver Subsidy UI fields
 	 * 
-	 * @param values
+	 * @param columns
 	 */
 	public void verifyRolloverSubsidy(List<String> columns) {
 		try {
@@ -793,7 +775,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Add the Home Commercial
+	 * Add Home Commercial in Location Summary Page
 	 * 
 	 * @param imageName
 	 * @param imagePath
@@ -813,7 +795,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Remove Home Commercial
+	 * Remove Home Commercial in Location Summary Page
 	 * 
 	 * @param imageName
 	 */
@@ -864,7 +846,17 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Update Kiosk Language Settings
+	 * Return By Object for Upload Status
+	 * 
+	 * @param uploadMessage
+	 * @return
+	 */
+	public By objUploadStatus(String uploadMessage) {
+		return By.xpath("//a[text()='" + uploadMessage + "']");
+	}
+
+	/**
+	 * Setting up Kiosk Language in Location Summary Page and do Full Sync
 	 * 
 	 * @param location
 	 * @param defaultLanguage
@@ -938,7 +930,27 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get Attribute Text
+	 * Return By Object for Tax Rate
+	 * 
+	 * @param taxRate
+	 * @return
+	 */
+	public By objVerifyTaxRate(String taxRate) {
+		return By.xpath("//table[@id='taxmapdt']//tr/td[text()='" + taxRate + "']");
+	}
+
+	/**
+	 * Return By Object for Product Price
+	 * 
+	 * @param productName
+	 * @return
+	 */
+	public By objProductPrice(String productName) {
+		return By.xpath("//td[text()='" + productName + "']//..//td[@aria-describedby='productDataGrid_price']");
+	}
+
+	/**
+	 * Getting Text Attribute value
 	 * 
 	 * @param object
 	 * @param attribute
@@ -979,7 +991,17 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Manage Columns to Show/Hide
+	 * Return By Object Print Group
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public By objPrintGroup(String text) {
+		return By.xpath("//li[@data-value='" + text + "']");
+	}
+
+	/**
+	 * Show or Hide in Manage Column
 	 * 
 	 * @param showOrHide
 	 * @param columnName
@@ -1009,6 +1031,16 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"),
 				Constants.EXTRA_LONG_TIME);
 		return foundation.getText(By.xpath("//tr[@role='row']//td[@aria-describedby='" + ariaDescribedby + "']"));
+	}
+
+	/**
+	 * Return Object Tax category
+	 * 
+	 * @param taxCategory
+	 * @return
+	 */
+	public By objTaxCategory(String taxCategory) {
+		return By.xpath("//table[@id='taxmapdt']//*[text()='" + taxCategory + "']");
 	}
 
 	/**
@@ -1082,7 +1114,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Turning Off PayRoll Deduct
+	 * Turning On or Off PayRoll Deduct
 	 * 
 	 * @param location
 	 * @param yesORno
@@ -1182,7 +1214,6 @@ public class LocationSummary extends Factory {
 
 			ascending = listRuleNameAscending.stream().sorted(Comparator.naturalOrder())
 					.sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList()).equals(listRuleNameAscending);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1209,6 +1240,45 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
+	 * Return By Object for Column Headers
+	 * 
+	 * @param columnName
+	 * @return
+	 */
+	public By objColumnHeaders(String columnName) {
+		return By.xpath("//table[@id='productDataGrid']//span[text()='" + columnName + "']");
+	}
+
+	/**
+	 * Return By Object of Device selected
+	 * 
+	 * @param deviceName
+	 * @return
+	 */
+	public By objDevice(String deviceName) {
+		return By.xpath("//div[@class='ig-tree-text' and text()='" + deviceName + "']");
+	}
+
+	/**
+	 * Select the Device
+	 * 
+	 * @param deviceName
+	 */
+	public void selectDevice(String deviceName) {
+		foundation.click(By.xpath("//*[@id='choosekskdt']/tbody//div[text()='" + deviceName + "']"));
+	}
+
+	/**
+	 * Return By Object for Device Name
+	 * 
+	 * @param devicename
+	 * @return
+	 */
+	public By deviceName(String devicename) {
+		return By.xpath("//a[text()='" + devicename + "']");
+	}
+
+	/**
 	 * Remove the device from Location
 	 * 
 	 * @param device
@@ -1223,10 +1293,11 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Navigate to Location Menu and add the Tax on Location
+	 * Navigate to Location and Add Tax Map
 	 * 
 	 * @param locationName
 	 * @param taxCategory
+	 * @param taxRateName
 	 */
 	public void navigateAndAddTaxMap(String locationName, String taxCategory, String taxRateName) {
 		navigationBar.navigateToMenuItem("Location");
@@ -1349,7 +1420,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Getting the Month Name
+	 * Get Month name of value given
 	 * 
 	 * @param monthIndex
 	 * @return
@@ -1365,7 +1436,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Date in AutoLocation1 Location Summary Page
+	 * Setting Topoff Start Date for AutoLocation1
 	 * 
 	 * @param value
 	 */
@@ -1386,7 +1457,52 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Date in AutoLocation1 Location Summary Page
+	 * Setting Topoff Start Date as Past date for AutoLocation1
+	 * 
+	 * @param value
+	 */
+	public void verifyTopOffDateAsPastDateForAutoLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.ONE_SECOND);
+		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+		} else {
+			foundation.click(TOP_OFF_DATE_PICKER_PREV_LOCATION1);
+			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
+			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+		}
+	}
+
+	/**
+	 * Setting Topoff Start Date as Future date for AutoLocation1
+	 * 
+	 * @param value
+	 */
+	public void verifyTopOffDateAsFutureDateForAutoLocation1(String value, int index, int index1) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int year = Integer.parseInt(dateArray[2]);
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		String abbrevation = monthName.substring(0, 2);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objSubsidyStartDatePickerHead(index));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objSubsidyStartDatePickerHead(index1));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objTopOffSubsidyStartDatePickerYearSelection(year));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objTopOffSubsidyStartDatePickerMonthSelection(abbrevation));
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+	}
+
+	/**
+	 * Setting Topoff Start Date for AutomationLocation1
 	 * 
 	 * @param value
 	 */
@@ -1408,7 +1524,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Future Date in AutoLocation1 Location Summary Page
+	 * Setting Topoff Start Date as future date for AutoLocation1
 	 * 
 	 * @param value
 	 */
@@ -1430,7 +1546,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Date in AutoLocation2 Location Summary Page
+	 * Setting Topoff Start Date for AutoLocation2
 	 * 
 	 * @param value
 	 */
@@ -1451,8 +1567,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Date in AutomationNewLocation Location Summary
-	 * Page
+	 * Setting Topoff Start Date for AutomationNewLocation
 	 * 
 	 * @param value
 	 */
@@ -1473,7 +1588,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify TopOff Subsidy with Future Date in AutoLocation2 Location Summary Page
+	 * Setting Topoff Start Date as Future Date for AutoLocation2
 	 * 
 	 * @param value
 	 */
@@ -1494,7 +1609,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Roll Over Subsidy with Date in Create Location Page
+	 * Setting Rollover Start Date for Create location
 	 * 
 	 * @param value
 	 */
@@ -1515,7 +1630,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Roll Over Subsidy with Future Date in Create Location Page
+	 * Setting Rollover Start Date as Future Date for Create location
 	 * 
 	 * @param value
 	 */
@@ -1536,7 +1651,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Roll Over Subsidy with Date in Location Summary Page
+	 * Setting Rollover Start Date for location1
 	 * 
 	 * @param value
 	 */
@@ -1557,7 +1672,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Roll Over Subsidy with Future Date in Location Summary Page
+	 * Setting Rollover Start Date as Future Date for location1
 	 * 
 	 * @param value
 	 */
@@ -1578,7 +1693,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Date Picker in Roll Over Subsidy with Current Date
+	 * Verifying Rollover Current Date
 	 * 
 	 * @param value
 	 */
@@ -1592,7 +1707,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify the Signs in Top Off Subsidy
+	 * Verify the Signs in TopOff
 	 */
 	public void verifySignsTopOff() {
 		for (int i = 1; i <= 24; i++)
@@ -1605,7 +1720,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify the Signs in Roll Over Subsidy
+	 * Verify the Signs in RollOver
 	 */
 	public void verifySignsRollOver() {
 		for (int i = 1; i <= 24; i++)
@@ -1618,7 +1733,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Resetting Subsidy Value
+	 * Resetting the Subsidy value in Location Summary Page
 	 * 
 	 * @param optionNames
 	 * @param location
@@ -1634,7 +1749,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Resetting the Recurrence value of Subsidy
+	 * Setting Off for Subsidy value with Recurrence
 	 * 
 	 * @param optionNames
 	 * @param location
@@ -1655,13 +1770,14 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Turning Off Subsidy
+	 * Resetting Subsidy value as Off
 	 * 
 	 * @param optionNames
 	 * @param location
 	 * @param requiredData
 	 */
 	public void subsidyResettingValidationOff(String optionNames, String location, String requiredData) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		navigationBar.navigateToMenuItem(optionNames);
 		textBox.enterText(LocationList.TXT_FILTER, location);
 		locationList.selectLocationName(location);
@@ -1679,7 +1795,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Resetting Special Type and Subsidy values
+	 * Resetting Special Type and Subsidy value
 	 * 
 	 * @param optionNames
 	 * @param location
@@ -1708,7 +1824,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter Group Names
+	 * Enter the Group Names
 	 * 
 	 * @param topOff
 	 * @param RollOver
@@ -1749,7 +1865,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Check Subsidy
+	 * Check the Subsidy Selected Value
 	 * 
 	 * @param menu
 	 * @param location
@@ -1764,7 +1880,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Enter TopOff Amount
+	 * Enter the TopOff Amount with Recurrence value
 	 * 
 	 * @param topOff
 	 * @param recurrence
@@ -1778,7 +1894,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify the Products Highlighted
+	 * Verify the Highlighted Products
 	 * 
 	 * @param expected
 	 * @return
@@ -1790,7 +1906,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify the Popup UI Displayed
+	 * Verify the PopUp Displayed and its UI
 	 */
 	public void verifyPopUpUIDisplayed() {
 		foundation.threadWait(Constants.SHORT_TIME);
@@ -1803,7 +1919,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Verify Products UI
+	 * Verify the Products and its UI
 	 */
 	public void verifyProductsUI() {
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -1826,9 +1942,6 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(By.xpath("//li[text()='" + option + "']"));
 	}
-
-
-
 
 	/**
 	 * Verifying table Headers for Promotion List Page
@@ -1853,7 +1966,6 @@ public class LocationSummary extends Factory {
 		}
 	}
 
-
 	/**
 	 * Validating PopUp for Promotion on Location Summary Page
 	 * 
@@ -1876,7 +1988,6 @@ public class LocationSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
 
 	/**
 	 * Enter the minimum Stock
@@ -1910,7 +2021,45 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Get table records in UI
+	 * <<<<<<< HEAD Login to ADM as Super, Navigate to Location and select GMA
+	 * subsidy to Verify TopOff Subsidy
+	 * 
+	 * @param menu
+	 * @param location
+	 * @param requiredData
+	 */
+	public void navigateToLocationAndSelectGMASubsidyToVerifyTopOff(String menu, String location,
+			List<String> requiredData) {
+		// Login to ADM as Super
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+		// Select Menu, Menu Item and Location
+		navigationBar.selectOrganization(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.navigateToMenuItem(menu);
+		locationList.selectLocationName(location);
+		foundation.click(BTN_LOCATION_SETTINGS);
+
+		// Verify GMA Subsidy
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GMA_SUBSIDY));
+		String value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		if (value.equals(requiredData.get(1))) {
+			dropDown.selectItem(DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
+		}
+		value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
+		CustomisedAssert.assertEquals(value, requiredData.get(0));
+		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
+		verifyTopOffSubsidy(requiredData);
+		verifyRolloverSubsidy(requiredData);
+		checkBox.check(CHK_TOP_OFF_SUBSIDY);
+		foundation.click(START_DATE_PICKER_TOP_OFF);
+	}
+
+	/**
+	 * Selecting the Product ======= Get table records in UI
 	 * 
 	 * @return
 	 */
@@ -1980,7 +2129,8 @@ public class LocationSummary extends Factory {
 
 	}
 
-     /** Selecting the Product
+	/**
+	 * Selecting the Product >>>>>>> main
 	 * 
 	 * @param product
 	 */
@@ -2067,4 +2217,3 @@ public class LocationSummary extends Factory {
 		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
 }
-

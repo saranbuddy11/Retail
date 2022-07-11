@@ -281,6 +281,7 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNLocationSummary.HAS_LOCKERS));
 				rstLocationSummary.put(CNLocationSummary.PAYROLL_DEDUCT,
 						resultSet.getString(CNLocationSummary.PAYROLL_DEDUCT));
+				rstLocationSummary.put(CNLocationSummary.START_DATE, resultSet.getString(CNLocationSummary.START_DATE));
 			}
 		} catch (
 
