@@ -1753,7 +1753,7 @@ public class Promotions extends TestInfra {
 
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(2));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(3));
