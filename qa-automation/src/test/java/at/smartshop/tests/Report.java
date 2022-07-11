@@ -4223,7 +4223,7 @@ public class Report extends TestInfra {
 					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
 			
-			// Launch V5 Device and purchasing a product with Nutral Feedback
+			// Launch V5 Device and purchasing a product with Neutral Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
