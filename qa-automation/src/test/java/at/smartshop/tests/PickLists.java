@@ -850,9 +850,9 @@ public class PickLists extends TestInfra {
 	 */
 	@Test(description = "C196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"
 			+ "C196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC"
-			 +"C196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
-			+"C196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
-			 +"C196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
+			+ "C196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
+			+ "C196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
+			+ "C196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
 	public void verifyUserCanEnterProductNameToBeAppliedToTheFilter() {
 		final String CASE_NUM = "196144";
 
@@ -907,21 +907,21 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-	@Test(description = "C197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product")
+	@Test(description = "C197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
+			+"C197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
 	public void verifyDisableDriverAndRoute() {
 		final String CASE_NUM = "197507";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-  
+
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> header = Arrays
-				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		List<String> header = Arrays.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-		
+
 		try {
 			// Login to ADM
 			navigationBar.launchBrowserAndSelectOrg(
@@ -933,30 +933,38 @@ public class PickLists extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			pickList.verifyRouteHeaders(header);
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
-			
-			//Navigate to Admin-->User and Roles to verify the driver name
+
+			// Navigate to Admin-->User and Roles to verify the driver name
 			navigationBar.navigateToMenuItem(menu.get(2));
 			userRoles.searchDriver(requiredData.get(3));
-			
-			//Navigate to product-->pickList and verify route
+
+			// Navigate to product-->pickList and verify route
 			navigationBar.navigateToMenuItem(menu.get(1));
 			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(1));
-			
-			//verify the router column
-			String data=foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertFalse(data.contains(requiredData.get(2)));
-			
-			//Add product and verify disabled route 
-			foundation.click(PickList.LBL_ADD_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_TITLE_HEADER));
-			textBox.enterText(PickList.LBL_FILTER_TYPE, requiredData.get(4));
-			foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);
-			textBox.enterText(PickList.TXT_NEED_PICKLIST, requiredData.get(5));
-			foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);	
-		}catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
-		
+
+			// verify the router column
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertFalse(data.contains(requiredData.get(0)));
+
+			// Add product and verify disabled route
+			pickList.searchProductAndAddProduct(requiredData.get(4), requiredData.get(5));
+			textBox.enterText(PickList.TXT_PRODUCT_NAME, requiredData.get(4));
+			foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
+			foundation.click(PickList.BTN_FILTER_APPLY);
+			data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertFalse(data.contains(requiredData.get(0)));
+
+			// Delete the product
+			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
+			foundation.click(PickList.DELETE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Navigate to Admin-->Routes to enable the routes
+			navigationBar.navigateToMenuItem(menu.get(0));
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
+		}
 
 	}
 }

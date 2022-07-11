@@ -9,13 +9,16 @@ import org.openqa.selenium.WebElement;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class PickList extends Factory {
@@ -23,6 +26,7 @@ public class PickList extends Factory {
 	private Dropdown dropDown = new Dropdown();
 	private CheckBox checkBox = new CheckBox();
 	private TextBox textBox = new TextBox();
+	private Excel excel = new Excel();
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
@@ -36,11 +40,14 @@ public class PickList extends Factory {
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
 	public static final By TXT_PRODUCT_NAME=By.id("filter-name");
 	public static final By TXT_INPUT=By.xpath("//input[@type='text']");
+	public static final By EXPORT_BTN=By.id("excel-dwnld");
 	public static final By LBL_ROUTES=By.id("Routes");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By BUTTON_SAVE=By.id("saveBtn");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
+	public static final By DELETE_BTN=By.xpath("//a[@class='delete-button']");
 	public static final By TXT_NEED_PICKLIST=By.id("1657277901591EditingInput");
+	public static final By NEED_BTN=By.xpath("//*[@id='new-prd-grid']/tbody/tr/td[7]");
 	public static final By TBL_NEED = By
 			.xpath("//*[@id='new-prd-grid']/tbody/tr/td[@class='editable-style left-align']");
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
@@ -130,6 +137,10 @@ public class PickList extends Factory {
 	
 	public By objDay(String day) {
 		return By.xpath("(//span[contains(@class,'ui-igcheckbox-container')])[" + day + "]");
+	}
+	
+	public By selectProduct(String product) {
+		return By.xpath("//td[@aria-describedby='new-prd-grid_name'][text()='"+ product+"']");
 	}
 
 	public By objPickList(String text) {
@@ -303,7 +314,7 @@ public class PickList extends Factory {
 		foundation.click(PickList.BTN_YES);
 	}
 	/**
-	 * search Route And Click On Active Checkbox
+	 * search Route And Click On Active CheckBox
 	 * @param text
 	 * @param driver
 	 * @param description
@@ -338,5 +349,44 @@ public class PickList extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	/**
+	 * search Product and add products
+	 * @param product
+	 * @param needvalue
+	 */
+	public void searchProductAndAddProduct(String product,String needvalue) {
+		foundation.click(PickList.LBL_ADD_PRODUCT);
+		foundation.waitforElementToBeVisible(PickList.LBL_TITLE_HEADER, 5);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_TITLE_HEADER));
+		textBox.enterText(PickList.LBL_FILTER_TYPE, product);
+		foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);
+		foundation.click(PickList.TBL_NEED);
+		foundation.objectFocus(PickList.TXT_NEED);
+		foundation.click(PickList.TXT_NEED);
+		foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME);
+		textBox.enterText(TXT_NEED, needvalue);
+		foundation.click(objPickList(product));
+		foundation.click(PickList.LBL_PREVIEW);
+		foundation.click(PickList.LBL_Add);
+		foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+	/**
+	 * 
+	 * @param product
+	 * @param location
+	 */
+	public void exportAndVerifyRoute(String product,String location) {
+		textBox.enterText(PickList.TXT_PRODUCT_NAME, product);
+		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
+		foundation.click(PickList.BTN_FILTER_APPLY);
+		foundation.waitforElementToBeVisible(TBL_ROW_DATA, 3);
+		foundation.click(selectRoutes(location, product));
+		foundation.waitforElementToBeVisible(EXPORT_BTN, 2);
+		foundation.click(EXPORT_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
+		foundation.deleteFile(FilePath.GIFT_CARDS);
 	}
 }
