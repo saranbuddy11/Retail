@@ -1,24 +1,15 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-
-import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
-import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.Dropdown;
-import at.framework.ui.Foundation;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -34,7 +25,8 @@ public class PickList extends Factory {
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
-	public static final By LBL_SELECT_ALL = By.id("gridloc-select-all");
+	//public static final By LBL_SELECT_ALL = By.id("gridloc-select-all");
+	public static final By LBL_SELECT_ALL = By.id("prd-select-all");
 	public static final By BTN_APPLY = By.xpath("//button[@id='loc-filter-apply']");
 	public static final By BTN_PICKLIST_PLAN = By.xpath("//button[contains(@onclick,'toPlanPickList')]");
 	public static final By LBL_REMOVE = By.xpath("//a[text()='Remove ']");
@@ -204,6 +196,7 @@ public class PickList extends Factory {
 		foundation.click(PickList.BTN_APPLY);
 		foundation.waitforElement(objPickList(location), Constants.SHORT_TIME);
 		foundation.click(objPickList(location));
+		foundation.waitforElementToBeVisible(BTN_RESET_NAV_TO_ZERO, 5);
 		foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 		String content = foundation.getText(PickList.POPUP_CONTENT);

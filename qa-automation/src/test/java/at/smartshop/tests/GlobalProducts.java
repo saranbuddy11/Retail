@@ -1391,6 +1391,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
+			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
