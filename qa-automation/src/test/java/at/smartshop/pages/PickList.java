@@ -1,24 +1,15 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-
-import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
-import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.Dropdown;
-import at.framework.ui.Foundation;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;

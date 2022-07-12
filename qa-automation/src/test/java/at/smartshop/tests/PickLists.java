@@ -887,6 +887,10 @@ public class PickLists extends TestInfra {
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		List<String> colours = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
 
 		try {
 			// Login to ADM
@@ -905,8 +909,7 @@ public class PickLists extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
 			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println(color);
-			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertEquals(color, colours.get(0));
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
@@ -914,7 +917,7 @@ public class PickLists extends TestInfra {
 			// verify highlight the all selected location
 			foundation.click(PickList.SELECT_ALL);
 			color = foundation.getBGColor(PickList.SELECTED_LOCATION);
-			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertEquals(color, colours.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
