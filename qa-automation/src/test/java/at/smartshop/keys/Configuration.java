@@ -63,4 +63,5 @@ public class Configuration {
 	public static final String OUTLOOK_URL = "outlook_url";
 	public static final String OUTLOOK_USERNAME = "outlook_username";
 	public static final String OUTLOOK_PASSWORD = "outlook_password";
+	public static final String AUTOFUND_LOC = "AutoFund_Location";
 }

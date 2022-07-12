@@ -315,7 +315,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -329,7 +329,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
 			}
 		} catch (Exception exc) {
@@ -343,7 +343,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(firstCellData, FilePath.reportFilePathWithDate(fileName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(fileName, formate));
 			}
 		} catch (Exception exc) {
@@ -360,7 +360,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -374,7 +374,7 @@ public class ReportList extends Factory {
 					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			System.out.println(fileExists);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
@@ -388,7 +388,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 			}
 		} catch (Exception exc) {
@@ -526,8 +526,8 @@ public class ReportList extends Factory {
 			List<String> dateDDOptions = Arrays.asList(optionName.split(Constants.DELIMITER_HASH));
 			selectDateRangeDD(dateDDOptions.get(0));
 			selectDateRangeDD(dateDDOptions.get(1));
-			foundation.waitforElement(DPD_DATE, 1);
-			foundation.click(DPD_DATE);
+//			foundation.waitforElement(DPD_DATE, 1);
+//			foundation.click(DPD_DATE);
 			for (int count = 0; count < 60; count++) {
 				if (foundation.getText(DATE_RANGE_NEXT_MONTH).equals(MonthAndYear)) {
 					continue;

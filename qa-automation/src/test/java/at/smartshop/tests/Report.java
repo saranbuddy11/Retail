@@ -241,10 +241,18 @@ public class Report extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
-			String updatedTime = String.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(
+			/*
+			 * String updatedTime =
+			 * String.valueOf(dateAndTime.getDateAndTimeWithOneHourAhead(
+			 * rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+			 * rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			 */
+			
+			String updatedTime = String.valueOf(dateAndTime.getDateAndTime(
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
+			foundation.threadWait(Constants.ONE_SECOND);		
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
@@ -893,6 +901,7 @@ public class Report extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(ICEReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			iceReport.getTblRecordsUI();
 			iceReport.getIntialData().putAll(iceReport.getReportsData());
 
@@ -935,6 +944,8 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			textBox.enterText(ICEReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			iceReport.getTblRecordsUI();
 
 			// verify report headers
