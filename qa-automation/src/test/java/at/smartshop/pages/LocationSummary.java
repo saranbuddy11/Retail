@@ -95,7 +95,7 @@ public class LocationSummary extends Factory {
 	public static final By LBL_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By BTN_FULL_SYNC = By.id("fullsync");
 	public static final By TXT_PRICE_IN_GRID = By.id("fullsync");
-	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterType");
+	public static final By TXT_ADD_PRODUCT_SEARCH = By.id("productFilterTypes");
 	public static final By BTN_ADD_PRODUCT_ADD = By.id("modalsave");
 	public static final By BTN_DEPLOY_DEVICE = By.id("deployKiosk");
 	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
@@ -2155,6 +2155,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
 		foundation.threadWait(Constants.MEDIUM_TIME);
 		textBox.enterText(TXT_PRODUCT_FILTER, product);
+		foundation.threadWait(5);
 		foundation.click(PRODUCT_NAME);
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);

@@ -1987,6 +1987,7 @@ public class Location extends TestInfra {
 			locationSummary.verifyPopUpUIDisplayed();
 
 			// Adding the new product to Location
+			foundation.threadWait(3);
 			locationSummary.selectProduct(rstLocationData.get(CNLocation.PRODUCT_NAME));
 
 			// Verifying the Product is added to Location or not
