@@ -209,7 +209,6 @@ public class ICEReport extends Factory {
 		try {
 			int rowCount = getRequiredRecord(value);
 			productsData = locationSummary.getProductsRecords(value);
-			System.out.println("productsData :" + productsData);
 			int recordCount = 0;
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
@@ -250,8 +249,6 @@ public class ICEReport extends Factory {
 					break;
 				}
 			}
-			System.out.println(reportsData.get(recordCount));
-			System.out.println(intialData.get(recordCount));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));

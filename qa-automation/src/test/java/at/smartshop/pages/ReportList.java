@@ -372,7 +372,6 @@ public class ReportList extends Factory {
 		try {
 			boolean fileExists = foundation
 					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
-			System.out.println(fileExists);
 
 			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
