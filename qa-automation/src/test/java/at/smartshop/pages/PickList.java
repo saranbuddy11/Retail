@@ -16,6 +16,7 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -372,21 +373,26 @@ public class PickList extends Factory {
 		foundation.click(PickList.LBL_Add);
 		foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
+	
 	/**
-	 * 
-	 * @param product
+	 * search Product and export the file
+	 * @param productname
+	 * @param validate
 	 * @param location
+	 * @param record
+	 * @param dateformat
 	 */
-	public void exportAndVerifyRoute(String product,String location) {
-		textBox.enterText(PickList.TXT_PRODUCT_NAME, product);
+	public void searchProductAndExport(String productname, String validate,String location,String record,String dateformat) {
+		textBox.enterText(PickList.TXT_PRODUCT_NAME, productname);
 		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
 		foundation.click(PickList.BTN_FILTER_APPLY);
-		foundation.waitforElementToBeVisible(TBL_ROW_DATA, 3);
-		foundation.click(selectRoutes(location, product));
-		foundation.waitforElementToBeVisible(EXPORT_BTN, 2);
-		foundation.click(EXPORT_BTN);
-		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
-		foundation.deleteFile(FilePath.GIFT_CARDS);
+		String data = foundation.getText(PickList.TBL_ROW_DATA);
+		CustomisedAssert.assertFalse(data.contains(validate));
+		foundation.waitforElementToBeVisible(TBL_ROW_DATA, 5);
+		foundation.click(selectRoutes(location, productname));
+		foundation.waitforElementToBeVisible(PickList.EXPORT_BTN, 5);
+		foundation.click(PickList.EXPORT_BTN);
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(record, dateformat)));
+			
 	}
 }

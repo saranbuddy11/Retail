@@ -908,7 +908,7 @@ public class PickLists extends TestInfra {
 	}
 
 	@Test(description = "C197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
-			+"C197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
+			+ "C197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
 	public void verifyDisableDriverAndRoute() {
 		final String CASE_NUM = "197507";
 
@@ -948,11 +948,10 @@ public class PickLists extends TestInfra {
 
 			// Add product and verify disabled route
 			pickList.searchProductAndAddProduct(requiredData.get(4), requiredData.get(5));
-			textBox.enterText(PickList.TXT_PRODUCT_NAME, requiredData.get(4));
-			foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
-			foundation.click(PickList.BTN_FILTER_APPLY);
-			data = foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertFalse(data.contains(requiredData.get(0)));
+
+			// search product and export
+			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
+					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Delete the product
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
@@ -964,6 +963,10 @@ public class PickLists extends TestInfra {
 			// Navigate to Admin-->Routes to enable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
+
+			// delete downloaded file
+			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 
 	}
