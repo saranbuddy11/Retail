@@ -827,9 +827,10 @@ public class Promotions extends TestInfra {
 			dropDown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(11), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.LONG_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {

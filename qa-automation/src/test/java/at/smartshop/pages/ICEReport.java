@@ -46,6 +46,7 @@ public class ICEReport extends Factory {
 	private static final By TBL_ICE_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> admData = new ArrayList<>();
@@ -217,7 +218,7 @@ public class ICEReport extends Factory {
 			}
 			intialData.get(rowCount).put(tableHeaders.get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(5)));
+//			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(5)));
 			intialData.get(rowCount).put(tableHeaders.get(2), productsData.get(recordCount).get(columnName.get(1)));
 			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(0)));
 			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(3)));

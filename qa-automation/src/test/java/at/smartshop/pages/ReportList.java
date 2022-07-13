@@ -315,7 +315,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -329,7 +329,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithDate(reportName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(reportName, formate));
 			}
 		} catch (Exception exc) {
@@ -343,7 +343,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(firstCellData, FilePath.reportFilePathWithDate(fileName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDate(fileName, formate));
 			}
 		} catch (Exception exc) {
@@ -360,7 +360,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, excelFileName, 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(excelFileName);
 			}
 		} catch (Exception exc) {
@@ -372,9 +372,8 @@ public class ReportList extends Factory {
 		try {
 			boolean fileExists = foundation
 					.isFileExists(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
-			System.out.println(fileExists);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithDateWithoutSpace(fileName, formate));
 			}
 		} catch (Exception exc) {
@@ -388,7 +387,7 @@ public class ReportList extends Factory {
 
 			excel.verifyFirstCellData(reportName, FilePath.reportFilePathWithOrgAndGMA(orgName, formate), 0);
 
-			if (fileExists == true) {
+			if (fileExists == false) {
 				foundation.deleteFile(FilePath.reportFilePathWithOrgAndGMA(orgName, formate));
 			}
 		} catch (Exception exc) {
