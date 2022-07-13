@@ -2093,4 +2093,38 @@ public class NationalAccount extends TestInfra {
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
 		}
 	}
+
+	/**
+	 * @author karthikr
+	 * @Date 13/07/2022
+	 */
+	@Test(description = "142154 - SOS-16874 ADM > Super > National Accounts Screen > Create New Button"
+			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown")
+	public void verifyCreateNewButtonUnderNatioanlAccountPage() {
+		final String CASE_NUM = "142154";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			nationalAccounts.launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Verify Create Account button and validate the Fields
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.NATIONAL_ACC_TITLE, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_ACC_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
+			List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
+			CustomisedAssert.assertTrue(values.equals(requiredOptions));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

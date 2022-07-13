@@ -13,7 +13,7 @@ import at.framework.ui.Foundation;
 import at.smartshop.tests.TestInfra;
 
 public class AdminNationalAccounts extends Factory {
-	
+
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
 	public static final By TBL_NATIONAL_ACCOUNT_LIST = By.cssSelector("table#national-account-grid > tbody");
 	public static final By LNK_MANAGE_RULES = By.linkText("Manage Rules");
@@ -46,14 +46,12 @@ public class AdminNationalAccounts extends Factory {
 	public final static String COLUMN_ORG = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_org";
 	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_location";
 	public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
-	
 	public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
 	public static final By TXT_FLITER_INPUT = By.xpath("//input[@placeholder='Contains...']");
 	public static final By TXT_PAGE_TITLE = By.xpath("//div[contains(@id,'National Account')]");
 	public static final By BTN_NO = By.xpath("//button[text()='NO']");
 	public static final By BTN_NATIONAL_ACCOUNT_CATEGORY = By.id("mng-category");
 	public static final By LBL_LOCATION_TITLE = By.id("corporatetitle");
-
 	public static final By DPD_ORG_MODAL = By.id("org");
 	public static final By DPD_LOCATION_MODAL = By.id("loc");
 	public static final By CHK_AUTOADD = By.id("autoadd-act");
@@ -66,12 +64,16 @@ public class AdminNationalAccounts extends Factory {
 	public static final By LNK_RULE_NAME = By.xpath("//td[@aria-describedby='dataGrid_name']//a");
 	public static final By BTN_YES_DELETE_RULE = By.xpath("//button[text()='YES']");
 	public static final By BTN_CANCEL_RULE = By.id("cancelBtn");
-	
+	public static final By PAGE_TITLE = By.id("National Accounts");
+	public static final By NATIONAL_ACC_TITLE = By.cssSelector(".nationalTitle");
+	public static final By NATIONAL_CLIENT_LBL = By.cssSelector("dt[class='span2 nationalLabel']");
+	public static final By DPD_CLIENT = By.id("nationalclient");
+
 	private Foundation foundation = new Foundation();
-	
 
 	public void clickManageRule(String nationalAccountName, String gridName) {
-		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
+		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName
+				+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
 	}
 
 	public List<String> getColumnValues(String gridName) {
@@ -120,13 +122,20 @@ public class AdminNationalAccounts extends Factory {
 		List<String> locationValues = new ArrayList<>();
 		try {
 			locationValues.clear();
-			getDriver().findElement(By.xpath("//td[text()='" + nationalAccountName + "']/..//td[@class='ui-iggrid-expandcolumn']//span//span")).click();
+			getDriver().findElement(By.xpath(
+					"//td[text()='" + nationalAccountName + "']/..//td[@class='ui-iggrid-expandcolumn']//span//span"))
+					.click();
 			foundation.waitforElement(NATIONAL_ACCOUNT_DETAILS, 3);
 			WebElement locations = getDriver().findElement(NATIONAL_ACCOUNT_DETAILS);
 			List<WebElement> rows = locations.findElements(By.tagName("tr"));
 			for (int iter = 0; iter < rows.size(); iter++) {
-				if (rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))	.getText().equals(orgName)) {
-					locationValues.add(rows.get(iter).findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]")).getText());
+				if (rows.get(iter)
+						.findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))
+						.getText().equals(orgName)) {
+					locationValues.add(rows.get(iter)
+							.findElement(By.cssSelector(
+									"table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]"))
+							.getText());
 				}
 			}
 		} catch (Exception exc) {
@@ -143,7 +152,5 @@ public class AdminNationalAccounts extends Factory {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='dataGrid_name']//a[text()='" + ruleName
 				+ "']//..//..//td[@aria-describedby='dataGrid_delete']//a")).click();
 		foundation.click(BTN_YES_DELETE_RULE);
-		
 	}
-
 }

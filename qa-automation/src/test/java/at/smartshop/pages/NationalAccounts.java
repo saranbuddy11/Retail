@@ -8,14 +8,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class NationalAccounts extends Factory {
+
+	public Browser browser = new Browser();
+	public Login login = new Login();
+	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By TXT_ACCOUNT_NAME = By.id("name");
@@ -110,7 +117,6 @@ public class NationalAccounts extends Factory {
 			select.selectByVisibleText(text);
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
@@ -148,5 +154,24 @@ public class NationalAccounts extends Factory {
 		} catch (Exception exc) {
 			Assert.fail();
 		}
+	}
+
+	/**
+	 * Launch Browser and Navigate to National Accounts page
+	 * 
+	 * @param org
+	 * @param location
+	 */
+	public void launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(String org, String location) {
+		// Login ADM
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+		// Select Menu and Menu Item
+		navigationBar.selectOrganization(org);
+		navigationBar.navigateToMenuItem(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
+		foundation.threadWait(Constants.TWO_SECOND);
 	}
 }
