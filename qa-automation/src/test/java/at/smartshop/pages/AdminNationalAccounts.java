@@ -68,6 +68,7 @@ public class AdminNationalAccounts extends Factory {
 	public static final By NATIONAL_ACC_TITLE = By.cssSelector(".nationalTitle");
 	public static final By NATIONAL_CLIENT_LBL = By.cssSelector("dt[class='span2 nationalLabel']");
 	public static final By DPD_CLIENT = By.id("nationalclient");
+	public static final By NATIONAL_ACCOUNT_INPUT = By.id("name");
 
 	private Foundation foundation = new Foundation();
 

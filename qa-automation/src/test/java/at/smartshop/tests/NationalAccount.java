@@ -2099,7 +2099,8 @@ public class NationalAccount extends TestInfra {
 	 * @Date 13/07/2022
 	 */
 	@Test(description = "142154 - SOS-16874 ADM > Super > National Accounts Screen > Create New Button"
-			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown")
+			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown"
+			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt")
 	public void verifyCreateNewButtonUnderNatioanlAccountPage() {
 		final String CASE_NUM = "142154";
 
@@ -2123,6 +2124,10 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
 			List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
 			CustomisedAssert.assertTrue(values.equals(requiredOptions));
+			
+			// Creating New Rule on National Account Page
+			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, );
+			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, client, Constants.TEXT);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
