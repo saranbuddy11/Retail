@@ -2126,8 +2126,8 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(values.equals(requiredOptions));
 			
 			// Creating New Rule on National Account Page
-			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, );
-			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, client, Constants.TEXT);
+//			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, );
+//			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, client, Constants.TEXT);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
