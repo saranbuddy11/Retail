@@ -622,9 +622,6 @@ public class ReportsSmokeTest extends TestInfra {
 					IntlWebAppFunding.DATA_EXISTING_DATE, IntlWebAppFunding.DATA_EXISTING_DATE);
 			reportList.selectLocation(reportRequiredData.get(2));
 			
-			
-			
-			
 //			// Select Organization
 //			navigationBar.selectOrganization(
 //					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
