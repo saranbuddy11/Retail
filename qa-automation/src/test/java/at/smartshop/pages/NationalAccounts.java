@@ -57,6 +57,12 @@ public class NationalAccounts extends Factory {
 	public static final By LBL_EXISTING_ERROR = By.xpath("//p[@id='alertifyForExisitError']");
 	public static final By BTN_POPUP_ACCOUNT_ADDED = By.id("toast");
 	public static final By BTN_ACCEPT_POPUP = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By DELETE_CONFIRM_POPUP_HEADER = By.cssSelector(".ajs-header");
+	public static final By DELETE_CONFIRM_POPUP_CONTENT = By.cssSelector(".ajs-content>p");
+	public static final By CANCEL_BTN = By.cssSelector(".ajs-cancel");
+	public static final By YES_BTN = By.cssSelector(".ajs-ok");
+	public static final By NA_ACCOUNT_GRID = By.cssSelector("tbody.ui-iggrid-tablebody>tr");
+	public static final By NA_ACCOUNT_GRID_HEADER = By.cssSelector("th.ui-iggrid-header>span.ui-iggrid-headertext");
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	private Dropdown dropDown = new Dropdown();
@@ -173,5 +179,41 @@ public class NationalAccounts extends Factory {
 		navigationBar.navigateToMenuItem(location);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
 		foundation.threadWait(Constants.TWO_SECOND);
+	}
+
+	/**
+	 * Verify Trash Icon on created National Account and its popup with content
+	 * validation
+	 * 
+	 * @param nationalAcct
+	 * @param expectedConfirmStatus
+	 */
+	public void verifyTrashIconOfCreatedNationalAccount(String nationalAcct, List<String> expectedConfirmStatus) {
+		textBox.enterText(TXT_FILTER, nationalAcct);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ICO_DELETE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_CONFIRM_POPUP_HEADER));
+		List<WebElement> element = getDriver().findElements(DELETE_CONFIRM_POPUP_CONTENT);
+		for (int i = 0; i < element.size(); i++) {
+			String status = element.get(i).getText();
+			CustomisedAssert.assertEquals(status, expectedConfirmStatus.get(i));
+		}
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CANCEL_BTN));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(YES_BTN));
+		foundation.click(YES_BTN);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Verify the Headers of National Account Grid in National Account Page
+	 * 
+	 * @param expectedHeaders
+	 */
+	public void verifyHeadersOfNationalAccountGrid(List<String> expectedHeaders) {
+		List<WebElement> element = getDriver().findElements(NA_ACCOUNT_GRID_HEADER);
+		for (int i = 0; i < element.size() - 1; i++) {
+			String status = element.get(i).getText();
+			CustomisedAssert.assertEquals(status, expectedHeaders.get(i));
+		}
 	}
 }

@@ -2100,7 +2100,8 @@ public class NationalAccount extends TestInfra {
 	 */
 	@Test(description = "142154 - SOS-16874 ADM > Super > National Accounts Screen > Create New Button"
 			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown"
-			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt")
+			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt"
+			+ "142158 - SOS-16872 ADM > Super > National Accounts Screen > Ignite Grid")
 	public void verifyCreateNewButtonUnderNatioanlAccountPage() {
 		final String CASE_NUM = "142154";
 
@@ -2109,12 +2110,19 @@ public class NationalAccount extends TestInfra {
 
 		List<String> requiredOptions = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> confirmStatus = Arrays
+				.asList(rstNationalAccountsData.get(CNNationalAccounts.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		List<String> headers = Arrays
+				.asList(rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
 			// Super>National Accounts
 			nationalAccounts.launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(
 					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
 					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Verify the Headers of National Account Grid in National Account Page
+			nationalAccounts.verifyHeadersOfNationalAccountGrid(headers);
 
 			// Verify Create Account button and validate the Fields
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
@@ -2124,12 +2132,42 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
 			List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
 			CustomisedAssert.assertTrue(values.equals(requiredOptions));
-			
-			// Creating New Rule on National Account Page
-//			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, );
-//			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, client, Constants.TEXT);
+
+			// Creating New National Account on National Account Page by selecting Org, Loc
+			// to add National Account
+			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT,
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, requiredOptions.get(1), Constants.TEXT);
+			foundation.click(AdminNationalAccounts.BTN_SAVE);
+			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
+			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL,
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), Constants.TEXT);
+			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL,
+					rstNationalAccountsData.get(CNNationalAccounts.LOCATION), Constants.TEXT);
+			foundation.click(AdminNationalAccounts.ADD_NA_BTN);
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_GRID));
+			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+
+			// Verify Trash Icon on created National Account and its popup
+			nationalAccounts.verifyTrashIconOfCreatedNationalAccount(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), confirmStatus);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Check the created National Account is deleted or not
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			textBox.enterText(NationalAccounts.TXT_FILTER,
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
+			if (foundation.isDisplayed(NationalAccounts.NA_ACCOUNT_GRID)) {
+				foundation.click(NationalAccounts.ICO_DELETE);
+				foundation.click(NationalAccounts.YES_BTN);
+				foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+			}
+			login.logout();
+			browser.close();
 		}
 	}
 }

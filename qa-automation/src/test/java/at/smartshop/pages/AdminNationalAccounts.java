@@ -53,7 +53,7 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_NATIONAL_ACCOUNT_CATEGORY = By.id("mng-category");
 	public static final By LBL_LOCATION_TITLE = By.id("corporatetitle");
 	public static final By DPD_ORG_MODAL = By.id("org");
-	public static final By DPD_LOCATION_MODAL = By.id("loc");
+	public static final By DPD_LOCATION_MODAL = By.id("locs");
 	public static final By CHK_AUTOADD = By.id("autoadd-act");
 	public static final By BTN_SAVE_MODAL = By.id("btn-save");
 	public static final By BTN_ORG_CLEAR = By.xpath("//select[@id='org']/..//*[@class='select2-selection__clear']");
@@ -69,6 +69,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By NATIONAL_CLIENT_LBL = By.cssSelector("dt[class='span2 nationalLabel']");
 	public static final By DPD_CLIENT = By.id("nationalclient");
 	public static final By NATIONAL_ACCOUNT_INPUT = By.id("name");
+	public static final By ADD_NA_BTN = By.id("nationalAccountBtn");
+	public static final By NA_SUMMARY_GRID = By.cssSelector(".ui-iggrid-tablebody>tr");
 
 	private Foundation foundation = new Foundation();
 
