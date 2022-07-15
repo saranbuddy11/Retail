@@ -930,7 +930,7 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Navigate to Admin-->Routes to disable the routes
-			navigationBar.navigateToMenuItem(menu.get(0));
+			navigationBar.navigateToMenuItem(menu.get(0));	
 			pickList.verifyRouteHeaders(header);
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
 
@@ -946,12 +946,12 @@ public class PickLists extends TestInfra {
 			String data = foundation.getText(PickList.TBL_ROW_DATA);
 			CustomisedAssert.assertFalse(data.contains(requiredData.get(0)));
 
-			// Add product and verify disabled route
+			// Add product and verify route
 			pickList.searchProductAndAddProduct(requiredData.get(4), requiredData.get(5));
 
 			// search product and export
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
-					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));			
 
 			// Delete the product
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
@@ -965,7 +965,7 @@ public class PickLists extends TestInfra {
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
 
 			// delete downloaded file
-			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
+			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 

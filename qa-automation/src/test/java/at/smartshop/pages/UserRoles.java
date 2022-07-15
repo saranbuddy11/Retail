@@ -35,6 +35,7 @@ public class UserRoles extends Factory {
 	 */
 	public void searchDriver(String driver) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_USER_LIST));
+		foundation.waitforElementToBeVisible(TXT_SEARCH_FILTER, 5);
 		textBox.enterText(TXT_SEARCH_FILTER, driver);
 		foundation.waitforElementToBeVisible(TBL_ROW, 5);
 		String text = foundation.getText(TBL_ROW);
