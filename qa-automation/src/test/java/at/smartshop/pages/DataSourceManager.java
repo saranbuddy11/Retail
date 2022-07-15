@@ -30,6 +30,7 @@ public class DataSourceManager extends Factory {
 	public static final By CSS_CANCEL_BTN = By.id("cancelBtn");
 	public static final By VALIDATE_CREATE_HEADING = By.id("CSS Create");
 	public static final By VALIDATE_UPDATE_HEADING = By.id("CSS Show");
+	public static final By CHECKBOX_SNOWFLAKE=By.xpath("//input[@type='checkbox']");
 	public static final By CSS_GRID = By.xpath("//td[@class=' sorting_1']");
 	public static final By CSS_PATH_ERROR = By.id("path-error");
 	public static final By CSS_NAME_ERROR = By.id("name-error");
@@ -167,6 +168,18 @@ public class DataSourceManager extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	/**
+	 * search consumer and verify snow flake is checked
+	 * @param consumer
+	 */
+	public void searchConsumerAndVerifySnowFlakeIsChecked(String consumer) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
+		foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
+		textBox.enterText(DSM_SEARCH_BOX, consumer);
+		foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
+		CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
 	}
 	
 
