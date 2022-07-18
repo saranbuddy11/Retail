@@ -848,11 +848,11 @@ public class PickLists extends TestInfra {
 	 * @author afrosean Story SOS-26625
 	 * @date: 04-07-2022
 	 */
-	@Test(description = "C196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"
-			+ "C196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC"
-			+ "C196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
-			+ "C196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
-			+ "C196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
+	@Test(description = "196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"
+			+ "196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC"
+			+ "196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
+			+ "196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
+			+ "196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
 	public void verifyUserCanEnterProductNameToBeAppliedToTheFilterWithOperator() {
 		final String CASE_NUM = "196144";
 
@@ -912,7 +912,9 @@ public class PickLists extends TestInfra {
 	 * Date: 15-07-2022
 	 */
 	@Test(description = "197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
-			+ "197506-ADM > Pick List Manager>Plan picklist>Verify Export file")
+			+ "197506-ADM > Pick List Manager>Plan picklist>Verify Export file"
+			+ "197706- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while Adding Product"
+			+ "197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
 	public void verifyDisableDriverAndRoute() {
 		final String CASE_NUM = "197507";
 
