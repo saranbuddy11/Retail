@@ -13,9 +13,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.Robot;
-import java.awt.AWTException;
-import java.awt.event.KeyEvent;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;

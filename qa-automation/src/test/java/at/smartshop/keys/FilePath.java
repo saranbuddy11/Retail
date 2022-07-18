@@ -46,6 +46,9 @@ public class FilePath {
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
 	public static final String GIFT_CARDS = HOME_PATH + "\\Downloads\\gift-cards.xls";
+	public static final String NATIONAL_CAT_TEMPLATE = HOME_PATH + "\\Downloads\\national_category_import_template.xls";
+	public static final String NATIONAL_CAT_TEMPLATE_EXISTING = PATH
+			+ "\\src\\test\\resources\\national_category_import_template.xls";
 
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";

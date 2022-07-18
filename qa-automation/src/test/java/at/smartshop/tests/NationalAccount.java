@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
@@ -60,6 +61,7 @@ public class NationalAccount extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private CreateNewNationalAccountCategory createNewNationalAccountsCategory = new CreateNewNationalAccountCategory();
+	private Excel excel = new Excel();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationSummaryData;
@@ -2102,7 +2104,7 @@ public class NationalAccount extends TestInfra {
 			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown"
 			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt"
 			+ "142158 - SOS-16872 ADM > Super > National Accounts Screen > Ignite Grid")
-	public void verifyCreateNewButtonUnderNatioanlAccountPage() {
+	public void verifyNatioanlAccountPage() {
 		final String CASE_NUM = "142154";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2166,6 +2168,80 @@ public class NationalAccount extends TestInfra {
 				foundation.click(NationalAccounts.YES_BTN);
 				foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 			}
+			login.logout();
+			browser.close();
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @Date 18/07/2022
+	 */
+	@Test(description = "142165 - ADM > Admin > National Accounts:Client Category Import Template Screen > Import Button")
+	public void verifyMasterNatioanlAccountPage() {
+		final String CASE_NUM = "142165";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		List<String> requiredOptions = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_HASH));
+		try {
+			// Login to ADM with Master National Account User, select ORG as AutomationOrg
+			// and Navigate to
+			// Admin>National Accounts
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			// Bulk import category mapping
+			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			foundation.click(AdminNationalAccounts.BULK_IMPORT_CAT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_CAT_IMPORT_TITLE));
+
+			// Download, edit and upload Template to add new Product to category
+			foundation.click(AdminNationalAccounts.NA_CAT_IMPORT_TEMPLATE);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.NATIONAL_CAT_TEMPLATE));
+			foundation.threadWait(Constants.SHORT_TIME);
+			excel.writeToExcel(FilePath.NATIONAL_CAT_TEMPLATE_EXISTING,
+					rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(AdminNationalAccounts.BROWSER_BTN, FilePath.NATIONAL_CAT_TEMPLATE_EXISTING);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.NA_CAT_DROPDOWN, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(AdminNationalAccounts.NA_CAT_DROPDOWN);
+			foundation.click(AdminNationalAccounts.NA_CAT_DROPDOWN);
+			adminNationalAccounts.clickCategory(rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME));
+			foundation.click(AdminNationalAccounts.IMPORT_BTN);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.SUCCESS_MSG, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.SUCCESS_MSG));
+			foundation.click(AdminNationalAccounts.CANCEL_BTN);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+			textBox.enterText(AdminNationalAccounts.CATEGORY_SEARCH,
+					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME));
+			foundation.click(AdminNationalAccounts.NA_CAT_GRID);
+			List<String> values = foundation.getTextofListElement(AdminNationalAccounts.CATEGORY_CHOICE);
+			CustomisedAssert.assertTrue(values.get(1).contains(requiredOptions.get(0)));
+			adminNationalAccounts
+					.deleteCategory(Integer.parseInt(rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE)));
+			foundation.click(AdminNationalAccounts.UPDATE_CATEGORY);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Delete the National Account Category Template
+			foundation.deleteFile(FilePath.NATIONAL_CAT_TEMPLATE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		}

@@ -71,12 +71,37 @@ public class AdminNationalAccounts extends Factory {
 	public static final By NATIONAL_ACCOUNT_INPUT = By.id("name");
 	public static final By ADD_NA_BTN = By.id("nationalAccountBtn");
 	public static final By NA_SUMMARY_GRID = By.cssSelector(".ui-iggrid-tablebody>tr");
+	public static final By BULK_IMPORT_CAT = By.id("cat-blk-imprt");
+	public static final By NA_CAT_IMPORT_TITLE = By.cssSelector("li.active");
+	public static final By NA_CAT_IMPORT_TEMPLATE = By.cssSelector("a[href*='CategoryTemplate']");
+	public static final By BROWSER_BTN = By.name("file");
+	public static final By NA_CAT_DROPDOWN = By.id("select2-category-container");
+	public static final By IMPORT_BTN = By.id("import-ok");
+	public static final By CANCEL_BTN = By.id("import-cancel");
+	public static final By SUCCESS_MSG = By.id("success-msg");
+	public static final By CATEGORY_SEARCH = By.id("search-box");
+	public static final By NA_CAT_GRID = By.cssSelector("td[aria-describedby*='national-category-grid_category']>a");
+	public static final By CATEGORY_CHOICE = By.cssSelector("li.select2-selection__choice");
+	public static final By CATEGORY_CHOICE_DELETE = By.cssSelector("li.select2-selection__choice>span");
+	public static final By UPDATE_CATEGORY = By.id("update-category");
 
 	private Foundation foundation = new Foundation();
 
 	public void clickManageRule(String nationalAccountName, String gridName) {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName
 				+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
+	}
+
+	public void clickCategory(String category) {
+		getDriver().findElement(By.xpath("//li[contains(text(),'" + category + "')]")).click();
+	}
+
+	public void deleteCategory(int index) {
+		List<WebElement> element = getDriver().findElements(CATEGORY_CHOICE_DELETE);
+		for (int i = 0; i < element.size(); i++) {
+			if (i == index)
+				element.get(index).click();
+		}
 	}
 
 	public List<String> getColumnValues(String gridName) {
