@@ -119,7 +119,8 @@ public class PickList extends Factory {
 	public static final By END_DATE_DROPDOWN = By.id("end-num");
 	public static final By GRID_ROUTE = By.xpath("//tbody[@role='alert']");
 	public static final By HEADER_ROUTE = By.xpath("//tr[@role='row']");
-	public static final By CHECKBOX_ACTIVE = By.id("active");
+//	public static final By CHECKBOX_ACTIVE = By.id("active");
+	public static final By CHECKBOX_ACTIVE=By.xpath("//form//input[@id='active']");
 	public static final By TBL_PRODUCTS=By.id("filter-prd-grid");
 	public static final By TBL_PRODUCTS_HEADER=By.cssSelector("#filter-prd-grid > thead");
 
@@ -300,7 +301,7 @@ public class PickList extends Factory {
 	}
 
 	/**
-	 * select dropDown and verify the exact match checkBox and cancel th filter
+	 * select dropDown and verify the exact match checkBox and cancel the filter
 	 * 
 	 * @param dropdown
 	 */
@@ -335,13 +336,13 @@ public class PickList extends Factory {
 	 * @param driver
 	 * @param description
 	 */
-	public void searchRouteAndClickOnActiveCheckbox(String text, String description, String driver) {
+	public void searchRouteAndClickOnActiveCheckbox(String text, String description, String driver, String checkbox) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ROUTES));
 		textBox.enterText(PickList.TXT_INPUT, text);
 		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);
 		foundation.click(selectRoutes(description, driver));
-		foundation.waitforElementToBeVisible(LBL_ROUTES, 3);
-		foundation.click(CHECKBOX_ACTIVE);
+		foundation.waitforElementToBeVisible(LBL_ROUTES, 5);
+		checkBox.checkboxSelection(getDriver().findElement(CHECKBOX_ACTIVE), checkbox);
 		foundation.waitforElementToBeVisible(BUTTON_SAVE, 2);
 		foundation.click(BUTTON_SAVE);
 		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);

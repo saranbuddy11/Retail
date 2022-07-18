@@ -853,7 +853,7 @@ public class PickLists extends TestInfra {
 			+ "C196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
 			+ "C196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
 			+ "C196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
-	public void verifyUserCanEnterProductNameToBeAppliedToTheFilter() {
+	public void verifyUserCanEnterProductNameToBeAppliedToTheFilterWithOperator() {
 		final String CASE_NUM = "196144";
 
 		// Reading test data from database
@@ -907,8 +907,12 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-	@Test(description = "C197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
-			+ "C197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
+	/**
+	 * @author afrosean
+	 * Date: 15-07-2022
+	 */
+	@Test(description = "197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
+			+ "197506-ADM > Pick List Manager>Plan picklist>Verify Export file")
 	public void verifyDisableDriverAndRoute() {
 		final String CASE_NUM = "197507";
 
@@ -932,7 +936,7 @@ public class PickLists extends TestInfra {
 			// Navigate to Admin-->Routes to disable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));	
 			pickList.verifyRouteHeaders(header);
-			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3), "uncheck" );
 
 			// Navigate to Admin-->User and Roles to verify the driver name
 			navigationBar.navigateToMenuItem(menu.get(2));
@@ -962,7 +966,7 @@ public class PickLists extends TestInfra {
 		} finally {
 			// Navigate to Admin-->Routes to enable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));
-			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3));
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3), "check");
 
 			// delete downloaded file
 			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),

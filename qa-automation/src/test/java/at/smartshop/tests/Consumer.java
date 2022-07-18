@@ -2746,7 +2746,12 @@ public class Consumer extends TestInfra {
 			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(3));
 		}
 	}
-	@Test(description = "C197854-Verify consumer search on SF mode")
+	
+	/**
+	 * @author afrosean
+	 * Date:15-07-2022
+	 */
+	@Test(description = "197854-Verify consumer search on SF mode")
 	public void verifyConsumerSearchOnSFMode() {
 		final String CASE_NUM = "197854";
 
@@ -2771,10 +2776,6 @@ public class Consumer extends TestInfra {
 			//Navigate to Admin ->consumer search and verify consumer 
 			navigationBar.navigateToMenuItem(menu.get(1));
 			consumerSearch.searchConsumerAndVerifyInGrid(location.get(1));
-			
-			
-			
-			
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

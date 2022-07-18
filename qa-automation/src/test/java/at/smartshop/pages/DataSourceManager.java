@@ -175,12 +175,16 @@ public class DataSourceManager extends Factory {
 	 * @param consumer
 	 */
 	public void searchConsumerAndVerifySnowFlakeIsChecked(String consumer) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
-		foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
-		textBox.enterText(DSM_SEARCH_BOX, consumer);
-		foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
-		CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
+			foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
+			textBox.enterText(DSM_SEARCH_BOX, consumer);
+			foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
+			CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
+		
+
+		}
+		
 	}
 	
 
-}
+
