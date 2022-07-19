@@ -98,6 +98,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// clicking consumer id
+			foundation.threadWait(3);
 			foundation.click(consumerSearch.objCell(firstName));
 			foundation.threadWait(3);
 			foundation.click(ConsumerSearch.BTN_ADJUST);
