@@ -252,7 +252,7 @@ public class AgeVerificationDetails extends Factory {
 	 */
 	public void openingFolderAndClickMail(String option, String keyword) {
 		foundation.objectClick(objMailFolder(option));
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.objectClick(objEmailList(keyword));
 	}
 

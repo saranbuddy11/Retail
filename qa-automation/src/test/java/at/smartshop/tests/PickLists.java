@@ -211,7 +211,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
-			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.click(PickList.BTN_SELECTALL);
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
@@ -691,6 +691,7 @@ public class PickLists extends TestInfra {
 			// verify the plan pick list(s)
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
 			String data = foundation.getText(PickList.TBL_ROW_DATA);
@@ -1008,8 +1009,6 @@ public class PickLists extends TestInfra {
 			// validating selectAll, DeselectAll, Clear and Apply button
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
-			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
-			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			foundation.click(PickList.TXT_DESELECT_ALL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
