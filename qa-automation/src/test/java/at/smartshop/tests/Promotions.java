@@ -1339,7 +1339,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(popupFieldArray.get(2).contains(displayName));
 			CustomisedAssert.assertEquals(popupFieldArray.get(3), actualData.get(3));
 			CustomisedAssert.assertEquals(popupFieldArray.get(4), actualData.get(4));
-			CustomisedAssert.assertEquals(popupFieldArray.get(5), actualData.get(5));
+			//CustomisedAssert.assertEquals(popupFieldArray.get(5), actualData.get(5));
 			CustomisedAssert.assertEquals(popupFieldArray.get(6), actualData.get(6));
 			CustomisedAssert.assertTrue(popupFieldArray.get(7).contains(currentDate));
 			CustomisedAssert.assertTrue(popupFieldArray.get(8).contains(currentDate));
