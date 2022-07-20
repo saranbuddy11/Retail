@@ -2246,4 +2246,42 @@ public class NationalAccount extends TestInfra {
 			browser.close();
 		}
 	}
+
+	/**
+	 * @author karthikr
+	 * @Date 20/07/2022
+	 */
+	@Test(description = "142162 - ADM > Admin > National Accounts:Client Rules List Screen > Rule Name (edit rule)")
+	public void verifyNatioanlAccountManageRule() {
+		final String CASE_NUM = "142162";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		try {
+			// Login to ADM with National Account User, select ORG as AutomationOrg
+			// and Navigate to Admin>National Accounts
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(
+					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			// Click manage Rule on AutoamtionNationalAccount
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
+
+			// Verifying search functionality and select rule
+			textBox.enterText(AdminNationalAccounts.TXT_FILTER,
+					rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
+			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			adminNationalAccounts.verifyRulePageDetails();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

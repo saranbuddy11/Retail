@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.smartshop.tests.TestInfra;
 
@@ -84,6 +85,10 @@ public class AdminNationalAccounts extends Factory {
 	public static final By CATEGORY_CHOICE = By.cssSelector("li.select2-selection__choice");
 	public static final By CATEGORY_CHOICE_DELETE = By.cssSelector("li.select2-selection__choice>span");
 	public static final By UPDATE_CATEGORY = By.id("update-category");
+	public static final By RULE_DETAILS_PAGE_TITLE = By.id("National Account - Aramark:AutomationNationalAccount");
+	public static final By DELETE_BTN = By.id("deleteBtn");
+	public static final By RULE_PAGE_CANCEL_BTN = By.id("cancelBtn");
+	public static final By RULE_NAME_TEXT_FIELD = By.id("rulename");
 
 	private Foundation foundation = new Foundation();
 
@@ -180,5 +185,21 @@ public class AdminNationalAccounts extends Factory {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='dataGrid_name']//a[text()='" + ruleName
 				+ "']//..//..//td[@aria-describedby='dataGrid_delete']//a")).click();
 		foundation.click(BTN_YES_DELETE_RULE);
+	}
+
+	/**
+	 * Verifying the Fields in Rule Page
+	 */
+	public void verifyRulePageDetails() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(RULE_DETAILS_PAGE_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_RULE_TYPE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_NA_CATEGORY));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_SAVE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_RULE_PRICE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CHK_RULE_STATUS));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_BTN));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(RULE_PAGE_CANCEL_BTN));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(RULE_NAME_TEXT_FIELD));
+		CustomisedAssert.assertTrue(foundation.isEnabled(RULE_NAME_TEXT_FIELD));
 	}
 }
