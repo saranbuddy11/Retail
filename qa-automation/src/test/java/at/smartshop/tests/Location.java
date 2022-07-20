@@ -291,7 +291,8 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
+			foundation.threadWait(5);
 			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 			foundation.click(LocationSummary.BTN_ADD);

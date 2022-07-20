@@ -2619,7 +2619,6 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_ROLL_OVER));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 		} catch (Exception exc) {
@@ -2629,6 +2628,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);
+			foundation.threadWait(5);
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);

@@ -904,7 +904,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.MEDIUM_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(ICEReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			iceReport.getTblRecordsUI();
@@ -2670,7 +2670,7 @@ public class Report extends TestInfra {
 		try {
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			navigationBar.selectOrganization(
@@ -2717,6 +2717,7 @@ public class Report extends TestInfra {
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
+			foundation.threadWait(Constants.TWO_SECOND);
 			// Selecting the Date range and Location for running report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));

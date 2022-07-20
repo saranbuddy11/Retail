@@ -114,6 +114,7 @@ public class NationalAccounts extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
 		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertEquals(actualColor, expctedlcolor);
 	}
 

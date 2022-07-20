@@ -25,11 +25,11 @@ public class PickList extends Factory {
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
-	//public static final By LBL_SELECT_ALL = By.id("gridloc-select-all");
+	public static final By BTN_SELECTALL = By.id("gridloc-select-all");
 	public static final By LBL_SELECT_ALL = By.id("prd-select-all");
 	public static final By BTN_APPLY = By.xpath("//button[@id='loc-filter-apply']");
 	public static final By BTN_PICKLIST_PLAN = By.xpath("//button[contains(@onclick,'toPlanPickList')]");
-	public static final By LBL_REMOVE = By.xpath("//a[text()='Remove ']");
+	public static final By LBL_REMOVE = By.id("prd-delete-selected");
 	public static final By LBL_ADD_PRODUCT = By.xpath("//input[@value='Add Product']");
 	public static final By LBL_ADD_PRODUCT_PICKLIST = By.xpath("//h4[text()='Add Product(s) to Pick List']");
 	public static final By LBL_TITLE_HEADER = By.xpath("//h4[@class='modal-title']");
