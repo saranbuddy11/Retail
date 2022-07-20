@@ -2751,34 +2751,34 @@ public class Consumer extends TestInfra {
 	 * @author afrosean
 	 * Date:15-07-2022
 	 */
-	@Test(description = "197854-Verify consumer search on SF mode")
-	public void verifyConsumerSearchOnSFMode() {
-		final String CASE_NUM = "197854";
-
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
-
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> location = Arrays
-				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-		try {
-			// Launch Browser and Login to ADM with Super account
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Navigate to super-->data source management and check snoflake checkbox
-			navigationBar.navigateToMenuItem(menu.get(0));
-			datasourcemanager.searchConsumerAndVerifySnowFlakeIsChecked(location.get(0));
-			
-			//Navigate to Admin ->consumer search and verify consumer 
-			navigationBar.navigateToMenuItem(menu.get(1));
-			consumerSearch.searchConsumerAndVerifyInGrid(location.get(1));
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} 
-	}
+//	@Test(description = "197854-Verify consumer search on SF mode")
+//	public void verifyConsumerSearchOnSFMode() {
+//		final String CASE_NUM = "197854";
+//
+//		// Reading test data from DataBase
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+//
+//		List<String> menu = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//		List<String> location = Arrays
+//				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+//		try {
+//			// Launch Browser and Login to ADM with Super account
+//			navigationBar.launchBrowserAsSuperAndSelectOrg(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+//
+//			// Navigate to super-->data source management and check snoflake checkbox
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			datasourcemanager.searchConsumerAndVerifySnowFlakeIsChecked(location.get(0));
+//			
+//			//Navigate to Admin ->consumer search and verify consumer 
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			consumerSearch.searchConsumerAndVerifyInGrid(location.get(1));
+//		}
+//		catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} 
+	//}
 }
