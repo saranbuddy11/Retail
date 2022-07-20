@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -18,8 +19,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
@@ -512,5 +511,24 @@ public class PickList extends Factory {
 		foundation.click(PickList.EXPORT_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePath(record, dateformat)));	
+	}
+	
+	/**
+	 * select location and apply navigate to filer by tab
+	 * @param location
+	 */
+	public void selectLocationAndClickOnFilterBy(String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+		foundation.click(selectLocationFromList(location));
+		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+		foundation.click(PickList.BTN_APPLY);
+		foundation.waitforElement(objPickList(location), Constants.SHORT_TIME);
+		foundation.click(TXT_FILTERBY);
+		foundation.waitforElement(objPickList(location), Constants.SHORT_TIME);
+		foundation.click(objPickList(location));
+		foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+		foundation.click(objPickList(location));
+		foundation.click(PickList.BTN_PICKLIST_PLAN);
+		foundation.waitforElementToBeVisible(FILTER_PICKLIST, 5);
 	}
 }

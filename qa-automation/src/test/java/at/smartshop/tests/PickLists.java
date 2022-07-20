@@ -1029,8 +1029,7 @@ public class PickLists extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date: 15-07-2022
+	 * @author afrosean Date: 15-07-2022
 	 */
 	@Test(description = "197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
 			+ "197506-ADM > Pick List Manager>Plan picklist>Verify Export file"
@@ -1057,9 +1056,10 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
 			// Navigate to Admin-->Routes to disable the routes
-			navigationBar.navigateToMenuItem(menu.get(0));	
+			navigationBar.navigateToMenuItem(menu.get(0));
 			pickList.verifyRouteHeaders(header);
-			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3), "uncheck" );
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
+					"uncheck");
 
 			// Navigate to Admin-->User and Roles to verify the driver name
 			navigationBar.navigateToMenuItem(menu.get(2));
@@ -1078,7 +1078,7 @@ public class PickLists extends TestInfra {
 
 			// search product and export
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
-					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));			
+					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Delete the product
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
@@ -1089,11 +1089,51 @@ public class PickLists extends TestInfra {
 		} finally {
 			// Navigate to Admin-->Routes to enable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));
-			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3), "check");
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
+					"check");
 
 			// delete downloaded file
 			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
+	}
+
+	@Test(description = "198393- ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Plan Pick List(s)' Button"
+			          + "198397-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>click'Add Product'button>verify Add product displayed on pick list")
+	public void verifyFilterByPlanPickList() {
+		final String CASE_NUM = "198393";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product-->pickList 
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
+			//verify close and preview button in Add product
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+			foundation.waitforElementToBeVisible(PickList.LBL_TITLE_HEADER, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_TITLE_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CLOSE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PREVIEW));
+			
+			//verify cancel button
+			foundation.waitforElementToBeVisible(PickList.BTN_CLOSE, 5);
+			foundation.click(PickList.BTN_CLOSE);
+			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
+			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
 	}
 }
