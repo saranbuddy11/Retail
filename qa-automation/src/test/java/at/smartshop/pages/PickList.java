@@ -324,6 +324,7 @@ public class PickList extends Factory {
 		dropDown.selectItem(PickList.DPD_FILTERBY, dropdown, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.START_DATE_DROPDOWN));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.END_DATE_DROPDOWN));
+		foundation.threadWait(5);
 		foundation.click(PickList.BTN_FILTER_CANCEL);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 		foundation.click(PickList.BTN_YES);
@@ -337,7 +338,7 @@ public class PickList extends Factory {
 	 * @param description
 	 */
 	public void searchRouteAndClickOnActiveCheckbox(String text, String description, String driver, String checkbox) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ROUTES));
+		foundation.threadWait(5);
 		textBox.enterText(PickList.TXT_INPUT, text);
 		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);
 		foundation.click(selectRoutes(description, driver));
