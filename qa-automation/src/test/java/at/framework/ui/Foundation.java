@@ -770,4 +770,10 @@ public class Foundation extends Factory {
 		}
 		return true;
 	}
+
+	public void clickSpaceBar() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_SPACE);
+		r.keyRelease(KeyEvent.VK_SPACE);
+	}
 }
