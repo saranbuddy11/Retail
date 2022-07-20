@@ -1339,7 +1339,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(popupFieldArray.get(2).contains(displayName));
 			CustomisedAssert.assertEquals(popupFieldArray.get(3), actualData.get(3));
 			CustomisedAssert.assertEquals(popupFieldArray.get(4), actualData.get(4));
-			//CustomisedAssert.assertEquals(popupFieldArray.get(5), actualData.get(5));
+			// CustomisedAssert.assertEquals(popupFieldArray.get(5), actualData.get(5));
 			CustomisedAssert.assertEquals(popupFieldArray.get(6), actualData.get(6));
 			CustomisedAssert.assertTrue(popupFieldArray.get(7).contains(currentDate));
 			CustomisedAssert.assertTrue(popupFieldArray.get(8).contains(currentDate));
@@ -3190,12 +3190,14 @@ public class Promotions extends TestInfra {
 
 			// Select Item and verify the record
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
 			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertTrue(record.contains(product.get(2)));
 
 			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, product.get(6));
 			checkBox.check(CreatePromotions.CAT_CATEGORY);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
