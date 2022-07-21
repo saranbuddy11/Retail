@@ -24,6 +24,7 @@ import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -34,6 +35,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.PickList;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
@@ -1953,11 +1955,9 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(locExistValue, location.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			dropDown.selectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_LEFT);
+			foundation.click(CreatePromotions.BTN_SELECT_ORG);
 			foundation.threadWait(Constants.TWO_SECOND);
-			dropDown.deSelectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
-			foundation.threadWait(Constants.ONE_SECOND);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(1), Constants.TEXT);
+			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
 			dropDown.selectItem(CreatePromotions.DPD_LOC, location.get(1), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
@@ -3855,4 +3855,67 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	@Test(description = "197842-SOS-30207 ADM>Able to create the promotions for the products that are not available in locations")
+	public void createOnScreenPromotionWithAgainSelectingLocation() {
+		final String CASE_NUM = "197842";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+		String promotionName = strings.getRandomCharacter();
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+			List<String> currentData = Arrays
+					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			
+			List<String> newData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+	
+			// Basic Information Page
+			foundation.click(PromotionList.BTN_CREATE);
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, currentData.get(0), currentData.get(1));
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+
+			// Promotion Details Page
+			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, currentData.get(2), Constants.TEXT);
+			textBox.enterText(CreatePromotions.TXT_ITEM, currentData.get(3));
+			foundation.threadWait(Constants.ONE_SECOND);
+			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+			foundation.click(CreatePromotions.BTN_BACK);
+			foundation.click(CreatePromotions.BTN_ALLORG_LEFT);
+			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_SELECT_ORG);
+			dropDown.deSelectItem(CreatePromotions.DPD_ORG, newData.get(2), Constants.TEXT);
+			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			foundation.waitforElement(CreatePromotions.DPD_LOC, Constants.SHORT_TIME);
+			dropDown.selectItem(CreatePromotions.DPD_LOC, newData.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+			
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			
+			//click on create button and validate the err
+			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
+			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.TXT_PROMO_ERROR)
+					.equals(rstLocationData.get(CNLocation.SHOW_RECORDS)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+	}
+
 }
