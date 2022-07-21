@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -19,7 +17,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -31,11 +28,13 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.CreateLocker;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
 import at.smartshop.pages.UserList;
+import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class PickLists extends TestInfra {
@@ -51,6 +50,7 @@ public class PickLists extends TestInfra {
 	private Excel excel = new Excel();
 	private Table table = new Table();
 	private LocationSummary locationSummary = new LocationSummary();
+	private UserRoles userRoles = new UserRoles();
 	private DateAndTime dateAndTime = new DateAndTime();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -218,7 +218,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
-			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.click(PickList.BTN_SELECTALL);
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
@@ -738,15 +738,7 @@ public class PickLists extends TestInfra {
 			// Navigate to product--> pickList and click on pick list manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-
-			// Click on plan pick list and verify the grid
-			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-			foundation.click(pickList.objPickList(requiredData.get(0)));
-			foundation.click(PickList.BTN_PICKLIST_PLAN);
-			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-			String data = foundation.getText(PickList.TBL_ROW_DATA);
-			CustomisedAssert.assertTrue(data.contains(requiredData.get(0)));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
 
 			// select the UPC and verify same upc id in grid
 			pickList.selectDropdownValueAndApply(requiredData.get(1), requiredData.get(3));
@@ -794,12 +786,7 @@ public class PickLists extends TestInfra {
 			// manager
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-			pickList.selectLocationInFilterAndApply(requiredData.get(0));
-
-			// Click on plan pick list and verify the grid
-			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-			foundation.click(pickList.objPickList(requiredData.get(0)));
-			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
 
 			// verify the dropDown category
 			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
@@ -832,7 +819,7 @@ public class PickLists extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean Story SOS-27323
+	 * @author afrosean Story SOS-22355
 	 * @date: 29-06-2022
 	 */
 	@Test(description = "C195612-ADM>Pick List Manager>Schedule>Select Location>Set Plan schedule for selected location")
@@ -1127,8 +1114,164 @@ public class PickLists extends TestInfra {
 				pickList.selectingLightSpeed(hasLightspeed.get(0));	
 			}
 		}
-		
-		/**
+    
+	/**
+	 * @author afrosean Story SOS-22340
+	 * @date: 30-06-2022
+	 */
+	@Test(description = "C195606-ADM>Pick List Manager>Select  Location>In picklist grid Select All location")
+	public void verifyPicklistGridSelectAllLocation() {
+		final String CASE_NUM = "195606";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product--> pickList and click on scheduling
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+
+			// Select All Location And Click on apply
+			foundation.click(PickList.BTN_SELECT_ALL);
+			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
+
+			// verify highlight the all selected location
+			foundation.click(PickList.SELECT_ALL);
+			String color = foundation.getBGColor(PickList.SELECTED_LOCATION);
+			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+		}
+	}
+
+	/**
+	 * @author afrosean Date: 15-07-2022
+	 */
+	@Test(description = "197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
+			+ "197506-ADM > Pick List Manager>Plan picklist>Verify Export file"
+			+ "197706- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while Adding Product"
+			+ "197505-ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed in Pick List screen")
+	public void verifyDisableDriverAndRoute() {
+		final String CASE_NUM = "197507";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> header = Arrays.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin-->Routes to disable the routes
+			navigationBar.navigateToMenuItem(menu.get(0));
+			pickList.verifyRouteHeaders(header);
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
+					"uncheck");
+
+			// Navigate to Admin-->User and Roles to verify the driver name
+			navigationBar.navigateToMenuItem(menu.get(2));
+			userRoles.searchDriver(requiredData.get(3));
+
+			// Navigate to product-->pickList and verify route
+			navigationBar.navigateToMenuItem(menu.get(1));
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(1));
+
+			// verify the router column
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertFalse(data.contains(requiredData.get(0)));
+
+			// Add product and verify route
+			pickList.searchProductAndAddProduct(requiredData.get(4), requiredData.get(5));
+
+			// search product and export
+			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
+					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Delete the product
+			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
+			foundation.click(PickList.DELETE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Navigate to Admin-->Routes to enable the routes
+			navigationBar.navigateToMenuItem(menu.get(0));
+			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
+					"check");
+
+			// delete downloaded file
+			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+		}
+	}
+
+	/**
+	 * @author prabhanigam
+	 * @Date -30/06/2022
+	 */
+	@Test(description = "197158-SOS-13250-ADM > Product Tab > Pick Lists >verify Locations are available"
+			+ "197171 - SOS-13365-ADM > Product Tab > Pick Lists >verify Pick List Manager displays all buttons even without location selection")
+	public void verifyButtonsInPickListManagerAndLocationsOnServiceSchedulePage() {
+		try {
+			final String CASE_NUM = "197158";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			// validating Picklist Manager Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+
+			// verifying History, Refresh and Scheduling buttons are present
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_REFRESH));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_HISTORY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_SCHEDULING));
+
+			// selecting required location on Picklist Manager Page
+			foundation.click(PickList.BTN_SCHEDULING);
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_APPLY);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_SERVICE_SCHEDULE));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SCHEDULING_LOCATION),
+					rstPickListData.get(CNPickList.LOCATIONS));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
+
+/**
 		 * @author prabhanigam
 		 * @Date -07/07/2022
 		 */	
@@ -1186,5 +1329,68 @@ public class PickLists extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}	
 		
+	}
+
+	/**
+	 * @author afrosean Story SOS-26625
+	 * @date: 04-07-2022
+	 */
+	@Test(description = "196144- ADM > Pick List Manager> Filter By Tab >Verify user can enters a product name to be applied to the filter"
+			+ "196146-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC"
+			+ "196149-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by Product ID Range"
+			+ "196145-ADM > Pick List Manager> Filter By Tab > User selects to filter locations and products by UPC Range"
+			+ "196147-ADM > Pick List Manager> Filter By Tab >User selects to filter locations and products by Product ID")
+	public void verifyUserCanEnterProductNameToBeAppliedToTheFilterWithOperator() {
+		final String CASE_NUM = "196144";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product--> pickList and click on pick list manager
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
+			pickList.selectLocationInFilterApplyAndClickOnPlanPick(requiredData.get(0));
+
+			// Enter a product name in product name box and verify
+			textBox.enterText(PickList.TXT_PRODUCT_NAME, requiredData.get(1));
+			foundation.click(PickList.BTN_FILTER_APPLY);
+			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 5);
+			String data = foundation.getText(PickList.TBL_ROW_DATA);
+			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
+
+			// Press the "x" in the "Product Name" field
+			foundation.waitforElementToBeVisible(PickList.PRODUCT_CANCEL, 5);
+			foundation.click(PickList.PRODUCT_CANCEL);
+			CustomisedAssert
+					.assertTrue(foundation.getTextAttribute(PickList.TXT_PRODUCT_NAME, Constants.VALUE).isEmpty());
+			foundation.click(PickList.BTN_FILTER_CANCEL);
+			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+			foundation.click(PickList.BTN_YES);
+
+			// select UPC in dropDown
+			pickList.selectDropdownInFilterBy(requiredData.get(2));
+
+			// Select Product ID in dropDown
+			pickList.selectDropdownInFilterBy(requiredData.get(3));
+
+			// select UPC Range in dropDown
+			pickList.selectDropdownInFilterByAndVerify(requiredData.get(4));
+
+			// select Product ID Range in dropDown
+			pickList.selectDropdownInFilterByAndVerify(requiredData.get(5));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }

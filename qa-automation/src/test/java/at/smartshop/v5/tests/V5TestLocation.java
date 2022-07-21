@@ -481,6 +481,7 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
@@ -538,7 +539,10 @@ public class V5TestLocation extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.MEDIUM_TIME);
+			foundation.clickSpaceBar();
+			foundation.threadWait(Constants.SHORT_TIME);
+			// foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName),
+			// Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
@@ -1238,12 +1242,12 @@ public class V5TestLocation extends TestInfra {
 
 			List<String> balance = Arrays
 					.asList(rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			List<String> status = Arrays
 					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
 			List<String> searchBy = Arrays
 					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			String eMail = string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
 			String FName = Constants.AUTOMATION + string.getRandomCharacter();
 
@@ -1280,8 +1284,7 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_OK);
-			foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
-			// Negative Balance
+			foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK, Constants.SHORT_TIME); // Negative Balance
 			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
 					status.get(0));
 			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));

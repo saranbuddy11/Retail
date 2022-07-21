@@ -185,7 +185,7 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Selecting the Product
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(LocationList.TXT_FILTER, rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME));
 			foundation.click(locationList.objGlobalProduct(rstLocationSummaryData.get(CNLocationSummary.PRODUCT_NAME)));
 
@@ -199,9 +199,11 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Remove selected location
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(ProductSummary.TXT_SEARCH, 5);
+			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.LOATION_NAME);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
 			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
@@ -802,7 +804,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -1153,6 +1155,8 @@ public class GlobalProducts extends TestInfra {
 						.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 				foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 				foundation.threadWait(Constants.TWO_SECOND);
+				textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+				foundation.threadWait(2);
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
@@ -1178,6 +1182,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Navigate to Products>>Global products and verify the min price
 			navigationBar.navigateToMenuItem(menus.get(1));
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(1)));
@@ -1271,6 +1276,7 @@ public class GlobalProducts extends TestInfra {
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
 			// Entering the datas in updated fields
+			foundation.threadWait(5);
 			globalProductChange.productFieldChangeInopc(requireddata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -1290,6 +1296,7 @@ public class GlobalProducts extends TestInfra {
 			// verifying the values in Products >> Global products
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, requireddata.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(
@@ -1343,7 +1350,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 			foundation.threadWait(Constants.TWO_SECOND);
 		}
@@ -1387,6 +1394,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
+			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));

@@ -123,13 +123,14 @@ public class DNA extends TestInfra {
 
 			// Navigate to Admin tab and verify DNA Sub Tab is present or not
 			List<String> tabNames = navigationBar.getSubTabs(menus.get(0));
-			CustomisedAssert.assertEquals(tabNames.get(17), requiredData.get(2));
+			CustomisedAssert.assertTrue(tabNames.contains(requiredData.get(2)));
 			navigationBar.navigateToMenuItem(menus.get(1));
 
 			// Validating the Is-Disabled combo box and Access Icon
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.HEADER_DNA));
 			foundation.click(DNADetails.ACCESS_ICON);
 			String text = foundation.getText(DNADetails.TOOL_TIP_TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(text, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(DNADetails.TOOL_TIP_TEXT));

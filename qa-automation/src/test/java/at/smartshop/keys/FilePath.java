@@ -38,14 +38,15 @@ public class FilePath {
 	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH + "\\Downloads\\device.xlsx";
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH + "\\src\\test\\resources\\device.xlsx";
 	public static final String EXCEL_DISBURSEMENT_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\Disbursement Report 02/05/2021.xls";
+			+ "\\Downloads\\Disbursement Report 02-05-2021.xls";
 	public static final String EXCEL_VARIANCE_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\EFT Variance Report 02/05/2021.xls";
-	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 02/05/2021.csv";
+			+ "\\Downloads\\EFT Variance Report 02-05-2021.xls";
+	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 02-05-2021.csv";
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH + "\\Downloads\\contact.xls";
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
 	public static final String GIFT_CARDS = HOME_PATH + "\\Downloads\\gift-cards.xls";
+	public static final String PICK_LIST = HOME_PATH + "\\Downloads\\Pick List";
 
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";
@@ -70,6 +71,16 @@ public class FilePath {
 		return EXCEL_REPORT;
 	}
 
+	public static String pickListFilePath(String filename, String formate) {
+		Calendar calendar = Calendar.getInstance();
+		Date day = calendar.getTime();
+		String date = reportList.getTodaysDate(formate);
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
+		System.out.println(HOME_PATH + "\\Downloads\\" + filename +" "+ currentDay + " " + date + ".xls");
+		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename +" "+ currentDay + " " + date + ".xls";
+		return EXCEL_REPORT;
+	}
+	
 	public static String pickListFilePathWithDateAndDay(String filename, String formate) {
 		Calendar calendar = Calendar.getInstance();
 		Date day = calendar.getTime();

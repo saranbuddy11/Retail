@@ -46,26 +46,26 @@ public class ConsumerEngagement extends Factory {
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
 	public static final By TXT_SEARCH = By.id("filterType");
 	public static final By TBL_GRID = By.id("bylocationGrid");
-	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID=By.cssSelector("#bylocationGrid > tbody");
-	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT=By.xpath("//table[@id='bylocationGrid']/thead");
-	public static final By CHECKBOX_SELECTALL=By.id("itemcheckbox");
-	public static final By CHECKBOX_GIFTCARD=By.xpath("//input[@class='commonloction']");
-	public static final By RECORDS_CONSUMER_GRID=By.id("bylocationGrid_pager_label");
-	public static final By TXT_ADD_TO_NOTE=By.id("issueaddnote");
-	public static final By LOCATION_OF_RECIPIENTS=By.xpath("//div//h5");
-	public static final By DPD_LOCATION=By.xpath("//div[@title='Show drop-down']");
-	public static final By TXT_LOCATION_ENGAGEMENT=By.xpath("//input[@placeholder='Name of Location']");
-	public static final By LOCATION_TAB=By.id("byloc");
-	public static final By DPD_CLEAR=By.xpath("//div[@title='Clear value']");
-	public static final By DPD_ALL_LOCATION=By.xpath("//li[@data-value='All Locations']");
-	
+	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
+	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT = By.xpath("//table[@id='bylocationGrid']/thead");
+	public static final By CHECKBOX_SELECTALL = By.cssSelector("thead>tr>th>span>span.ui-igcheckbox-normal-off");
+	public static final By CHECKBOX_GIFTCARD = By.xpath("//input[@class='commonloction']");
+	public static final By RECORDS_CONSUMER_GRID = By.id("bylocationGrid_pager_label");
+	public static final By TXT_ADD_TO_NOTE = By.id("issueaddnote");
+	public static final By LOCATION_OF_RECIPIENTS = By.xpath("//div//h5");
+	public static final By DPD_LOCATION = By.xpath("//div[@title='Show drop-down']");
+	public static final By TXT_LOCATION_ENGAGEMENT = By.xpath("//input[@placeholder='Name of Location']");
+	public static final By LOCATION_TAB = By.id("byloc");
+	public static final By DPD_CLEAR = By.xpath("//div[@title='Clear value']");
+	public static final By DPD_ALL_LOCATION = By.xpath("//li[@data-value='All Locations']");
+
 	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
 	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
 	public static final By BTN_PrintScreen_Print = By.xpath("//button[@id='printBtn']");
 	public static final By INPUT_CardToPrint = By.xpath("//input[@id='cardstoprint']");
 	public static final By INPUT_AddNote_PrintScreen = By.xpath("//input[@id='addnote']");
 	public static final By TXT_ErrorLabel_CardsToPrint = By.xpath("//label[@id='cardstoprint-error']");
-	
+
 	public static final By BTN_EMAIL_CARDS = By.id("issueemailbyemail");
 	public static final By HEADER_ADDTONOTE = By.id("byemailaddnote");
 	public static final By BY_EMAIL_FILTER = By.id("bymail");
@@ -94,6 +94,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TITLE_ERROR = By.id("title-error");
 	public static final By AMOUNT_ERROR = By.id("amount-error");
 	public static final By DATE_VALIDATION_ERROR = By.id("expiredDateValid");
+	public static final By BTN_OK = By.cssSelector(".ajs-ok");
 
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
@@ -125,7 +126,7 @@ public class ConsumerEngagement extends Factory {
 		textBox.enterText(INPUT_EXPIRE_DATE, expiry);
 		foundation.click(BTN_ADD_GIFT_SAVE);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -455,6 +456,8 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EMAIL));
 		textBox.enterText(INPUT_EMAIL, mail);
 		foundation.click(BTN_EMAIL_CARDS);
+		foundation.waitforElementToBeVisible(BTN_OK, Constants.SHORT_TIME);
+		foundation.click(BTN_OK);
 		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
 	}
 

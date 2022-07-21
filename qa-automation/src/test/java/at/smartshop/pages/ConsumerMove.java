@@ -108,6 +108,7 @@ public class ConsumerMove extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		dropDown.selectItem(ConsumerMove.DPD_LOCATION, fromLocation, Constants.TEXT);
 		foundation.click(ConsumerMove.BTN_GO);
+		foundation.threadWait(5);
 		textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, consumer);
 		return foundation.isDisplayed(By.xpath("//tr//*[text()='" + consumer + "']"));
 	}
