@@ -2284,4 +2284,47 @@ public class NationalAccount extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+	/**
+	 * @author karthikr
+	 * @Date 21/07/2022
+	 */
+	@Test(description = "151061 - Verify the UI if the resoultion is larger than 1920 x 1080")
+	public void verifyNatioanlAccountPageUIResolution() {
+		final String CASE_NUM = "151061";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			nationalAccounts.launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Navigate to National Account Summary page by selection
+			// AutomationNationalAccount
+			adminNationalAccounts.clickNationalAccountName(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+			nationalAccounts.verifyShowRecord(requiredOptions);
+
+			// Changing the Resolution of Page by Zoom out / Zoom in
+			foundation.pageZoomOut();
+			nationalAccounts.verifyShowRecord(requiredOptions);
+			foundation.pageZoomOut();
+			nationalAccounts.verifyShowRecord(requiredOptions);
+			foundation.pageZoomIn();
+			nationalAccounts.verifyShowRecord(requiredOptions);
+			foundation.pageZoomIn();
+			nationalAccounts.verifyShowRecord(requiredOptions);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

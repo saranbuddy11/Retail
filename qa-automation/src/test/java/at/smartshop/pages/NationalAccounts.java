@@ -63,6 +63,9 @@ public class NationalAccounts extends Factory {
 	public static final By YES_BTN = By.cssSelector(".ajs-ok");
 	public static final By NA_ACCOUNT_GRID = By.cssSelector("tbody.ui-iggrid-tablebody>tr");
 	public static final By NA_ACCOUNT_GRID_HEADER = By.cssSelector("th.ui-iggrid-header>span.ui-iggrid-headertext");
+	public static final By SHOW_RECORD = By.cssSelector("span.ui-iggrid-pagesizelabel");
+	public static final By GRID_EDITOR = By.id("nationalAccountsSummaryGrid_editorEditingInput");
+	public static final By GRID_EDITOR_DPD = By.id("nationalAccountsSummaryGrid_editor_dropDownButton");
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	private Dropdown dropDown = new Dropdown();
@@ -215,6 +218,22 @@ public class NationalAccounts extends Factory {
 		for (int i = 0; i < element.size() - 1; i++) {
 			String status = element.get(i).getText();
 			CustomisedAssert.assertEquals(status, expectedHeaders.get(i));
+		}
+	}
+
+	/**
+	 * Verify show records under National Account Summary Page in Different
+	 * Resolution
+	 * 
+	 * @param options
+	 */
+	public void verifyShowRecord(List<String> options) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GRID_EDITOR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GRID_EDITOR_DPD));
+		List<WebElement> element = getDriver().findElements(SHOW_RECORD);
+		for (int i = 0; i < element.size(); i++) {
+			String text = element.get(i).getText();
+			CustomisedAssert.assertEquals(text, options.get(i));
 		}
 	}
 }

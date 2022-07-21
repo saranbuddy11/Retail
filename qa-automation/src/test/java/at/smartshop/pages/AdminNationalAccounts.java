@@ -11,9 +11,12 @@ import org.openqa.selenium.WebElement;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
 
 public class AdminNationalAccounts extends Factory {
+	private TextBox textBox = new TextBox();
 
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
 	public static final By TBL_NATIONAL_ACCOUNT_LIST = By.cssSelector("table#national-account-grid > tbody");
@@ -89,6 +92,7 @@ public class AdminNationalAccounts extends Factory {
 	public static final By DELETE_BTN = By.id("deleteBtn");
 	public static final By RULE_PAGE_CANCEL_BTN = By.id("cancelBtn");
 	public static final By RULE_NAME_TEXT_FIELD = By.id("rulename");
+	public static final By NA_SUMMARY_PAGE_TITLE = By.id("National Account Summary");
 
 	private Foundation foundation = new Foundation();
 
@@ -201,5 +205,15 @@ public class AdminNationalAccounts extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(RULE_PAGE_CANCEL_BTN));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(RULE_NAME_TEXT_FIELD));
 		CustomisedAssert.assertTrue(foundation.isEnabled(RULE_NAME_TEXT_FIELD));
+	}
+
+	public void clickNationalAccountName(String nationalAccountName, String gridName) {
+		textBox.enterText(TXT_FILTER, nationalAccountName);
+		getDriver()
+				.findElement(
+						By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName + "']"))
+				.click();
+		foundation.waitforElementToBeVisible(NA_SUMMARY_PAGE_TITLE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(NA_SUMMARY_PAGE_TITLE));
 	}
 }
