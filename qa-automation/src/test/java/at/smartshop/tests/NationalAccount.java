@@ -1313,7 +1313,7 @@ public class NationalAccount extends TestInfra {
 			// Location field validation
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
 			nationalAccounts.verifyBackgroundColour(location, expectedColour);
 

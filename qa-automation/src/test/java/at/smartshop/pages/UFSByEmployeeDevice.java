@@ -14,7 +14,7 @@ public class UFSByEmployeeDevice {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div:nth-child(3) > div.first-child > label");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#salestime-Totals > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#cashflow-Automation-365-Non-Employee--VSH601263- > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//*[@id='salestime-Totals']//tbody//tr//td[@class='dataTables_empty']");
 
 

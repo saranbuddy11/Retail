@@ -34,6 +34,7 @@ public class Constants {
 	public static final String REGEX_DDMMYY = "dd/MM/YY";
 	public static final String REGEX_MM_DD_YYYY = "MM/dd/YYYY";
 	public static final String REGEX_DD_MM_YYYY = "dd/MM/YYYY";
+	public static final String REGEX_YYYY_MM_DD = "YYYY-MM-dd";
 	public static final String REGEX_DD = "dd";
 	public static final String TIME_ZERO = "00:00";
 	public static final String REGEX_HHMMSS = "HHmmss";

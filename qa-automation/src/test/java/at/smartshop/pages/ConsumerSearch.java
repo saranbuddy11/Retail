@@ -245,6 +245,7 @@ public class ConsumerSearch extends Factory {
 		foundation.WaitForAjax(Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
+
 	
 	/**
 	 * search consumer and verify in grid
@@ -260,5 +261,36 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToBeVisible(ACTION_BTN, 3);
 		String data = foundation.getText(TBL_ROW_GRID);
 		CustomisedAssert.assertTrue(data.contains(locationName));
+	}
+
+
+	/**
+	 * Search for Particular consumer on basis of Email in AutoLocation1 and
+	 * navigate to Consumer Summary Page to validate Subsidy Balance
+	 * 
+	 * @param menu
+	 * @param searchBy
+	 * @param mail
+	 * @param location
+	 */
+	public String searchConsumerWithMailAndNavigateToConsumerSummaryPageToValidateSubsidyBalance(String menu,
+			String searchBy, String mail, String location) {
+		navigationBar.navigateToMenuItem(menu);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CONSUMER_SEARCH));
+		dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
+		textBox.enterText(TXT_SEARCH, mail);
+		foundation.click(CLEAR_SEARCH);
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(BTN_GO);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TBL_CONSUMERS));
+		foundation.click(LNK_FIRST_ROW);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+		foundation.scrollIntoViewElement(ConsumerSummary.TXT_SUBSIDY_TOP_OFF);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
+		String balance = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
+		return balance;
+
 	}
 }

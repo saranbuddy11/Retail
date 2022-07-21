@@ -211,7 +211,7 @@ public class UserRoles extends TestInfra {
 
 			// Search for already created User
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW));
 			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
@@ -223,7 +223,6 @@ public class UserRoles extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-
 			// resetting test data
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
