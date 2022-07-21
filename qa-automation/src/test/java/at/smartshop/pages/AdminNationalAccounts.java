@@ -8,15 +8,25 @@ import java.util.stream.Collectors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class AdminNationalAccounts extends Factory {
 	private TextBox textBox = new TextBox();
+	private Browser browser = new Browser();
+	private Excel excel = new Excel();
+	private Login login = new Login();
+	private NavigationBar navigationBar = new NavigationBar();
+	private Table table = new Table();
 
 	public static final By LBL_NATIONAL_ACCOUNT = By.id("page-title");
 	public static final By TBL_NATIONAL_ACCOUNT_LIST = By.cssSelector("table#national-account-grid > tbody");
@@ -207,6 +217,12 @@ public class AdminNationalAccounts extends Factory {
 		CustomisedAssert.assertTrue(foundation.isEnabled(RULE_NAME_TEXT_FIELD));
 	}
 
+	/**
+	 * Click on Particular National Account Name
+	 * 
+	 * @param nationalAccountName
+	 * @param gridName
+	 */
 	public void clickNationalAccountName(String nationalAccountName, String gridName) {
 		textBox.enterText(TXT_FILTER, nationalAccountName);
 		getDriver()
@@ -215,5 +231,91 @@ public class AdminNationalAccounts extends Factory {
 				.click();
 		foundation.waitforElementToBeVisible(NA_SUMMARY_PAGE_TITLE, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(NA_SUMMARY_PAGE_TITLE));
+	}
+
+	/**
+	 * Launch ADM application with User Credentials and Navigate to Menu
+	 * 
+	 * @param userName
+	 * @param org
+	 * @param menu
+	 */
+	public void launchApplicationWithUserAndNavigateToMenu(String userName, String org, String menu) {
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(userName,
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		navigationBar.selectOrganization(org);
+		navigationBar.navigateToMenuItem(menu);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_NATIONAL_ACCOUNT));
+	}
+
+	/**
+	 * Clicking on Bulk Import Category and Download the Template of Nationa Account
+	 * Category
+	 */
+	public void clickOnBulkImportCategoryAndDownloadTemplate() {
+		foundation.click(BTN_NATIONAL_ACCOUNT_CATEGORY);
+		foundation.waitforElementToBeVisible(LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_NATIONAL_ACCOUNT));
+		foundation.click(BULK_IMPORT_CAT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(NA_CAT_IMPORT_TITLE));
+		foundation.click(NA_CAT_IMPORT_TEMPLATE);
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.NATIONAL_CAT_TEMPLATE));
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Edit Template and upload the same to add new Product to Category
+	 * 
+	 * @param fileName
+	 * @param workSheetName
+	 * @param iterator
+	 * @param cellValue
+	 * @param category
+	 */
+	public void editAndUploadTemplateToAddNewProductToCategory(String fileName, String workSheetName, String iterator,
+			String cellValue, String category) {
+		excel.writeToExcel(fileName, workSheetName, iterator, cellValue);
+		foundation.threadWait(Constants.SHORT_TIME);
+		textBox.enterText(BROWSER_BTN, fileName);
+		foundation.waitforElementToBeVisible(NA_CAT_DROPDOWN, Constants.SHORT_TIME);
+		foundation.scrollIntoViewElement(NA_CAT_DROPDOWN);
+		foundation.click(NA_CAT_DROPDOWN);
+		clickCategory(category);
+		foundation.click(IMPORT_BTN);
+		foundation.waitforElementToBeVisible(SUCCESS_MSG, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(SUCCESS_MSG));
+		foundation.click(CANCEL_BTN);
+		foundation.waitforElementToBeVisible(LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_NATIONAL_ACCOUNT));
+	}
+
+	/**
+	 * Verify uploaded Product is displayed in Category and Delete the same
+	 * 
+	 * @param category
+	 * @param choice
+	 * @param index
+	 */
+	public void verifyUploadedProductInCategoryAndDelete(String category, String choice, String index) {
+		textBox.enterText(CATEGORY_SEARCH, category);
+		foundation.click(NA_CAT_GRID);
+		List<String> values = foundation.getTextofListElement(CATEGORY_CHOICE);
+		CustomisedAssert.assertTrue(values.get(1).contains(choice));
+		deleteCategory(Integer.parseInt(index));
+		foundation.click(UPDATE_CATEGORY);
+		foundation.waitforElementToBeVisible(LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_NATIONAL_ACCOUNT));
+	}
+
+	/**
+	 * verify the Search Functionality
+	 * 
+	 * @param ruleName
+	 */
+	public void verifySearchFunctionality(String ruleName) {
+		textBox.enterText(TXT_FILTER, ruleName);
+		CustomisedAssert.assertTrue(table.getTblRowCount(TBL_DATA_ROW) == 1);
+		table.selectRow(ruleName);
 	}
 }

@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
-import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
@@ -61,7 +60,6 @@ public class NationalAccount extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private CreateNewNationalAccountCategory createNewNationalAccountsCategory = new CreateNewNationalAccountCategory();
-	private Excel excel = new Excel();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationSummaryData;
@@ -2127,30 +2125,14 @@ public class NationalAccount extends TestInfra {
 			nationalAccounts.verifyHeadersOfNationalAccountGrid(headers);
 
 			// Verify Create Account button and validate the Fields
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.NATIONAL_ACC_TITLE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_ACC_TITLE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
-			List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
-			CustomisedAssert.assertTrue(values.equals(requiredOptions));
+			nationalAccounts.verifyCreateAccountFields(requiredOptions,
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
 
 			// Creating New National Account on National Account Page by selecting Org, Loc
 			// to add National Account
-			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT,
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
-			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, requiredOptions.get(1), Constants.TEXT);
-			foundation.click(AdminNationalAccounts.BTN_SAVE);
-			foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
-			dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL,
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), Constants.TEXT);
-			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL,
-					rstNationalAccountsData.get(CNNationalAccounts.LOCATION), Constants.TEXT);
-			foundation.click(AdminNationalAccounts.ADD_NA_BTN);
-			foundation.threadWait(Constants.TWO_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_GRID));
-			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+			nationalAccounts.createNewNationalAccountWithLocation(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
 
 			// Verify Trash Icon on created National Account and its popup
 			nationalAccounts.verifyTrashIconOfCreatedNationalAccount(
@@ -2160,14 +2142,8 @@ public class NationalAccount extends TestInfra {
 		} finally {
 			// Check the created National Account is deleted or not
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(NationalAccounts.TXT_FILTER,
+			nationalAccounts.verifyCreatedNationalAccountDeletedOrNot(
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
-			foundation.threadWait(Constants.SHORT_TIME);
-			if (foundation.isDisplayed(NationalAccounts.NA_ACCOUNT_GRID)) {
-				foundation.click(NationalAccounts.ICO_DELETE);
-				foundation.click(NationalAccounts.YES_BTN);
-				foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
-			}
 			login.logout();
 			browser.close();
 		}
@@ -2187,59 +2163,32 @@ public class NationalAccount extends TestInfra {
 				rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_HASH));
 		try {
 			// Login to ADM with Master National Account User, select ORG as AutomationOrg
-			// and Navigate to
-			// Admin>National Accounts
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
+			// and Navigate to Admin>National Accounts
+			adminNationalAccounts.launchApplicationWithUserAndNavigateToMenu(
 					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
 							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Bulk import category mapping
-			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-			foundation.click(AdminNationalAccounts.BULK_IMPORT_CAT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_CAT_IMPORT_TITLE));
+			adminNationalAccounts.clickOnBulkImportCategoryAndDownloadTemplate();
 
 			// Download, edit and upload Template to add new Product to category
-			foundation.click(AdminNationalAccounts.NA_CAT_IMPORT_TEMPLATE);
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.NATIONAL_CAT_TEMPLATE));
-			foundation.threadWait(Constants.SHORT_TIME);
-			excel.writeToExcel(FilePath.NATIONAL_CAT_TEMPLATE_EXISTING,
+			adminNationalAccounts.editAndUploadTemplateToAddNewProductToCategory(
+					FilePath.NATIONAL_CAT_TEMPLATE_EXISTING,
 					rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
-			foundation.threadWait(Constants.SHORT_TIME);
-			textBox.enterText(AdminNationalAccounts.BROWSER_BTN, FilePath.NATIONAL_CAT_TEMPLATE_EXISTING);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.NA_CAT_DROPDOWN, Constants.SHORT_TIME);
-			foundation.scrollIntoViewElement(AdminNationalAccounts.NA_CAT_DROPDOWN);
-			foundation.click(AdminNationalAccounts.NA_CAT_DROPDOWN);
-			adminNationalAccounts.clickCategory(rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME));
-			foundation.click(AdminNationalAccounts.IMPORT_BTN);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.SUCCESS_MSG, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.SUCCESS_MSG));
-			foundation.click(AdminNationalAccounts.CANCEL_BTN);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
-			textBox.enterText(AdminNationalAccounts.CATEGORY_SEARCH,
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME));
-			foundation.click(AdminNationalAccounts.NA_CAT_GRID);
-			List<String> values = foundation.getTextofListElement(AdminNationalAccounts.CATEGORY_CHOICE);
-			CustomisedAssert.assertTrue(values.get(1).contains(requiredOptions.get(0)));
-			adminNationalAccounts
-					.deleteCategory(Integer.parseInt(rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE)));
-			foundation.click(AdminNationalAccounts.UPDATE_CATEGORY);
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+
+			// Verify category is displayed or not and delete the same
+			adminNationalAccounts.verifyUploadedProductInCategoryAndDelete(
+					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME), requiredOptions.get(0),
+					rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			// Delete the National Account Category Template
+			// Delete the National Account Category Template file
 			foundation.deleteFile(FilePath.NATIONAL_CAT_TEMPLATE);
 			foundation.threadWait(Constants.SHORT_TIME);
 			login.logout();
@@ -2260,14 +2209,10 @@ public class NationalAccount extends TestInfra {
 		try {
 			// Login to ADM with National Account User, select ORG as AutomationOrg
 			// and Navigate to Admin>National Accounts
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(
+			adminNationalAccounts.launchApplicationWithUserAndNavigateToMenu(
 					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNT));
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Click manage Rule on AutoamtionNationalAccount
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
@@ -2275,10 +2220,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
 
 			// Verifying search functionality and select rule
-			textBox.enterText(AdminNationalAccounts.TXT_FILTER,
-					rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
-			CustomisedAssert.assertTrue(table.getTblRowCount(AdminNationalAccounts.TBL_DATA_ROW) == 1);
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			adminNationalAccounts.verifySearchFunctionality(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			adminNationalAccounts.verifyRulePageDetails();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2310,17 +2252,9 @@ public class NationalAccount extends TestInfra {
 			adminNationalAccounts.clickNationalAccountName(
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
-			nationalAccounts.verifyShowRecord(requiredOptions);
 
 			// Changing the Resolution of Page by Zoom out / Zoom in
-			foundation.pageZoomOut();
-			nationalAccounts.verifyShowRecord(requiredOptions);
-			foundation.pageZoomOut();
-			nationalAccounts.verifyShowRecord(requiredOptions);
-			foundation.pageZoomIn();
-			nationalAccounts.verifyShowRecord(requiredOptions);
-			foundation.pageZoomIn();
-			nationalAccounts.verifyShowRecord(requiredOptions);
+			nationalAccounts.verifyUIResolution(requiredOptions);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {

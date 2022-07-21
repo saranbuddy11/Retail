@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,6 +235,74 @@ public class NationalAccounts extends Factory {
 		for (int i = 0; i < element.size(); i++) {
 			String text = element.get(i).getText();
 			CustomisedAssert.assertEquals(text, options.get(i));
+		}
+	}
+
+	/**
+	 * Verify Show record field in Different Resolution
+	 * 
+	 * @param options
+	 * @throws AWTException
+	 */
+	public void verifyUIResolution(List<String> options) throws AWTException {
+		verifyShowRecord(options);
+		foundation.pageZoomOut();
+		verifyShowRecord(options);
+		foundation.pageZoomOut();
+		verifyShowRecord(options);
+		foundation.pageZoomIn();
+		verifyShowRecord(options);
+		foundation.pageZoomIn();
+		verifyShowRecord(options);
+	}
+
+	/**
+	 * Verify the fields of Create New Account in National Account Page
+	 * 
+	 * @param options
+	 */
+	public void verifyCreateAccountFields(List<String> options, String nationalAccountName) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+		foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.NATIONAL_ACC_TITLE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_ACC_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
+		List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
+		CustomisedAssert.assertTrue(values.equals(options));
+		textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, nationalAccountName);
+		dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, options.get(1), Constants.TEXT);
+		foundation.click(AdminNationalAccounts.BTN_SAVE);
+	}
+
+	/**
+	 * Creating new National Account with Org and Location
+	 * 
+	 * @param org
+	 * @param loc
+	 */
+	public void createNewNationalAccountWithLocation(String org, String loc) {
+		foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
+		dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
+		dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, loc, Constants.TEXT);
+		foundation.click(AdminNationalAccounts.ADD_NA_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_GRID));
+		foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Checking on Created National Acccount is deleted or not
+	 * 
+	 * @param nationalAccountName
+	 */
+	public void verifyCreatedNationalAccountDeletedOrNot(String nationalAccountName) {
+		textBox.enterText(TXT_FILTER, nationalAccountName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		if (foundation.isDisplayed(NA_ACCOUNT_GRID)) {
+			foundation.click(ICO_DELETE);
+			foundation.click(YES_BTN);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 		}
 	}
 }
