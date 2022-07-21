@@ -974,7 +974,6 @@ public class PickLists extends TestInfra {
 			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
-
 	}
 
 	/**
