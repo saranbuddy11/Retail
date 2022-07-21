@@ -1099,13 +1099,19 @@ public class PickLists extends TestInfra {
 	}
 
 	@Test(description = "198393- ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Plan Pick List(s)' Button"
-			          + "198397-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>click'Add Product'button>verify Add product displayed on pick list")
+			          + "198397-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>click'Add Product'button>verify Add product displayed on pick list"
+			          + "198395-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'Refresh' button on plan picklist"
+			          + "198396-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'Add Product' button pop up"
+			          + "198394-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'manage Columns' pop up")
 	public void verifyFilterByPlanPickList() {
 		final String CASE_NUM = "198393";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+		List<String> requiredOption = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
 		try {
 			// Login to ADM
@@ -1116,7 +1122,7 @@ public class PickLists extends TestInfra {
 
 			// Navigate to product-->pickList 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			pickList.selectLocationInFilterApplyAndClickOnPlanPick(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			pickList.selectLocationInFilterApplyAndClickOnFilterByTab(requiredOption.get(0));
 			
 			//verify close and preview button in Add product
 			foundation.click(PickList.LBL_ADD_PRODUCT);
@@ -1130,7 +1136,12 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_CLOSE);
 			foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 5);
 			
-
+			//Search product and click on refresh
+			pickList.searchProductAndClickOnRefresh(requiredOption.get(1), requiredOption.get(0));
+			
+			//Click on manage column and verify cancel and apply button
+			pickList.clickOnManageColumnAndVerifyApplyAndCancel();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
