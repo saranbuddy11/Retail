@@ -2102,7 +2102,7 @@ public class NationalAccount extends TestInfra {
 			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown"
 			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt"
 			+ "142158 - SOS-16872 ADM > Super > National Accounts Screen > Ignite Grid")
-	public void verifyNatioanlAccountPage() {
+	public void verifyNationalAccountPage() {
 		final String CASE_NUM = "142154";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2154,7 +2154,7 @@ public class NationalAccount extends TestInfra {
 	 * @Date 18/07/2022
 	 */
 	@Test(description = "142165 - ADM > Admin > National Accounts:Client Category Import Template Screen > Import Button")
-	public void verifyMasterNatioanlAccountPage() {
+	public void verifyMasterNationalAccountPageByMasterNationalAccountUser() {
 		final String CASE_NUM = "142165";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2201,7 +2201,7 @@ public class NationalAccount extends TestInfra {
 	 * @Date 20/07/2022
 	 */
 	@Test(description = "142162 - ADM > Admin > National Accounts:Client Rules List Screen > Rule Name (edit rule)")
-	public void verifyNatioanlAccountManageRule() {
+	public void verifyNationalAccountManageRuleByNationalAccountUser() {
 		final String CASE_NUM = "142162";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2232,7 +2232,7 @@ public class NationalAccount extends TestInfra {
 	 * @Date 21/07/2022
 	 */
 	@Test(description = "151061 - Verify the UI if the resoultion is larger than 1920 x 1080")
-	public void verifyNatioanlAccountPageUIResolution() {
+	public void verifyNationalAccountPageUIResolution() {
 		final String CASE_NUM = "151061";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
