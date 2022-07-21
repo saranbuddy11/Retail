@@ -1116,45 +1116,6 @@ public class PickLists extends TestInfra {
 		}
     
 	/**
-	 * @author afrosean Story SOS-22340
-	 * @date: 30-06-2022
-	 */
-	@Test(description = "C195606-ADM>Pick List Manager>Select  Location>In picklist grid Select All location")
-	public void verifyPicklistGridSelectAllLocation() {
-		final String CASE_NUM = "195606";
-
-		// Reading test data from database
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-		try {
-			// Login to ADM
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			// Navigate to product--> pickList and click on scheduling
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			foundation.waitforElementToBeVisible(PickList.PAGE_TITLE, 5);
-
-			// Select All Location And Click on apply
-			foundation.click(PickList.BTN_SELECT_ALL);
-			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
-			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
-
-			// verify highlight the all selected location
-			foundation.click(PickList.SELECT_ALL);
-			String color = foundation.getBGColor(PickList.SELECTED_LOCATION);
-			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
-		}
-	}
-
-	/**
 	 * @author afrosean Date: 15-07-2022
 	 */
 	@Test(description = "197507- ADM > Pick List Manager>Plan picklist>Verify Disabled Driver and Route are still displayed while adding product"
@@ -1224,52 +1185,6 @@ public class PickLists extends TestInfra {
 		}
 	}
 
-	/**
-	 * @author prabhanigam
-	 * @Date -30/06/2022
-	 */
-	@Test(description = "197158-SOS-13250-ADM > Product Tab > Pick Lists >verify Locations are available"
-			+ "197171 - SOS-13365-ADM > Product Tab > Pick Lists >verify Pick List Manager displays all buttons even without location selection")
-	public void verifyButtonsInPickListManagerAndLocationsOnServiceSchedulePage() {
-		try {
-			final String CASE_NUM = "197158";
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			navigationBar.navigateToMenuItem(menuItem);
-
-			// validating Picklist Manager Page
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-
-			// verifying History, Refresh and Scheduling buttons are present
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_REFRESH));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_HISTORY));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_SCHEDULING));
-
-			// selecting required location on Picklist Manager Page
-			foundation.click(PickList.BTN_SCHEDULING);
-			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
-			foundation.click(PickList.BTN_APPLY);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_SERVICE_SCHEDULE));
-			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SCHEDULING_LOCATION),
-					rstPickListData.get(CNPickList.LOCATIONS));
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-
-	}
 
 /**
 		 * @author prabhanigam
