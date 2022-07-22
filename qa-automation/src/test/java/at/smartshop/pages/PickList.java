@@ -150,6 +150,14 @@ public class PickList extends Factory {
 	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
+	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
+	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
+	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead//tr");
+	public static final By TXT_COLUMN_CHOOSER = By.xpath("//span[@class='ui-dialog-title']");
+	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	public static final By BTN_APPLY_COLUMN = By.xpath("//span[@id='filter-prd-grid_hiding_modalDialog_footer_buttonok_lbl']");
+	public static final By BTN_CANCEL_COLUMN = By.xpath("//div[@class='ui-dialog-buttonset']//button[@id='filter-prd-grid_hiding_modalDialog_footer_buttoncancel']");
+	public static final By BTN_REMOVE_PRODUCT = By.xpath("//a[@class='delete-button']");
 	public static final By START_DATE_DROPDOWN = By.id("start-num");
 	public static final By END_DATE_DROPDOWN = By.id("end-num");
 	public static final By GRID_ROUTE = By.xpath("//tbody[@role='alert']");
@@ -312,6 +320,7 @@ public class PickList extends Factory {
 		List<WebElement> columnHeaders = Foundation.getDriver().findElements(TBL_SELECT_LOC_HEADERS);
 		for (WebElement columnHeader : columnHeaders) {
 			tableHeaders.add(columnHeader.getText());
+			System.out.println(tableHeaders);
          }
 	}
 
@@ -512,4 +521,36 @@ public class PickList extends Factory {
 		}
 		return element;
 }
+	public List<String> getTableHeadersForFilteredLocations() {
+		List<WebElement> columnHeaders = Foundation.getDriver().findElements(FILTERED_PICKLIST_TBL_ROW);
+		for (WebElement columnHeader : columnHeaders) {
+			tableHeaders.add(columnHeader.getText());
+			System.out.println(tableHeaders);
+         }
+		return tableHeaders;
+	}
+	
+	public void deleteColumn(List<String> columnNames) {
+		try {
+			for (int iter = 0; iter < columnNames.size(); iter++) {
+				if(columnNames.get(iter).equals("Location")){
+					columnNames.remove("Location");
+				}			
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	public void selectingLightSpeed(String selectingOption) {
+        if(!dropDown.getSelectedItem(PickList.DRP_HAS_LIGHTSPEED).equals(selectingOption)) {
+            if(selectingOption.toLowerCase().equals("no")) {
+                dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "No", Constants.TEXT);
+            }else {
+                dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "Yes", Constants.TEXT);
+            }
+            foundation.click(PickList.BTN_SAVE_LIGHTSPEED);
+            foundation.threadWait(Constants.SHORT_TIME);
+        }
+    }
+	
 }
