@@ -49,5 +49,6 @@ public class CNProductSummary {
 	public static final String RECORDS_PER_PAGE_LIST = "RecordsPerPageList";
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String DEVICE_ID = "DeviceID";
+	public static final String TAX = "Tax";
 
 }
