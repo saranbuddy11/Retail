@@ -68,12 +68,12 @@ public class TestInfra {
 		}
 	}
 
-	@Parameters({ "SendEmail" })
+	@Parameters({ "SendEmail", "environment" })
 	@AfterSuite
-	public void afterSuit(String sendEmail) {
+	public void afterSuit(String sendEmail,String environment) {
 		try {
 			if (sendEmail.equals(Constants.YES)) {
-				sendReport.triggerMail(ExtReport.reportFullPath);
+				sendReport.triggerMail(ExtReport.reportFullPath,environment);
 			}
 			ResultSets.connection.close();
 //			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
