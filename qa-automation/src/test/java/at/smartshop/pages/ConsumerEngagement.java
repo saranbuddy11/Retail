@@ -530,6 +530,14 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertEquals(s, msg);
 	}
 
+	/**
+	 * validate Creation of Gift card without Expiration data and No End date check
+	 * box checked
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param size
+	 */
 	public void validateCreationOfGiftCardWithoutExpirationDateAndNoEndDateChecked(String title, String amount,
 			String size) {
 		foundation.click(BTN_ADD_GIFT_CARD);
