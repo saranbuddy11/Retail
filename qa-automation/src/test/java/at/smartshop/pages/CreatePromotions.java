@@ -206,6 +206,12 @@ public class CreatePromotions extends Factory {
 	public static final By ON_SCREEN_TENDER_DETAILS = By.cssSelector(".onscreenDetails>dd>select#discountBy");
 	public static final By TENDER_DISCOUNT_DETAILS = By.cssSelector(".tenderDetails>dd>select#tendertypes");
 	public static final By RECURRING_DAY_CHECKBOX = By.cssSelector("#recurringInput >dd >input");
+	public static final By BTN_BACK = By.id("cancelBtn");
+	public static final By BTN_ALLORG_LEFT = By.id("selectAllRtoL");
+	public static final By BTN_CREATE_PROMOTION = By.id("submitBtn");
+	public static final By TXT_PROMO_ERROR = By.xpath("//label[@id='hasdiscountby-error']");
+	public static final By BTN_SELECT_ORG = By.xpath("//select[@id='org-select']//option[text()='AutomationOrg']");
+	
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");

@@ -46,6 +46,10 @@ public class FilePath {
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
 	public static final String GIFT_CARDS = HOME_PATH + "\\Downloads\\gift-cards.xls";
+	public static final String NATIONAL_CAT_TEMPLATE = HOME_PATH + "\\Downloads\\national_category_import_template.xls";
+	public static final String NATIONAL_CAT_TEMPLATE_EXISTING = PATH
+			+ "\\src\\test\\resources\\national_category_import_template.xls";
+	public static final String PICK_LIST = HOME_PATH + "\\Downloads\\Pick List";
 
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";
@@ -67,6 +71,16 @@ public class FilePath {
 	public static String reportFilePathWithOrgAndGMA(String orgname, String formate) {
 		String date = "_" + reportList.getTodaysDate(formate);
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + orgname + date + "-GMA.xlsx";
+		return EXCEL_REPORT;
+	}
+
+	public static String pickListFilePath(String filename, String formate) {
+		Calendar calendar = Calendar.getInstance();
+		Date day = calendar.getTime();
+		String date = reportList.getTodaysDate(formate);
+		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
+		System.out.println(HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls");
+		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls";
 		return EXCEL_REPORT;
 	}
 
