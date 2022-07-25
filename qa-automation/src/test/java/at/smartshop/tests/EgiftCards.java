@@ -662,7 +662,7 @@ public class EgiftCards extends TestInfra {
 	@Test(description = "198467 - Verify arrow icon toggle should change directions when expanding/collapsing."
 			+ "198468 - Verify expiry date error messaging"
 			+ "198469 - Verify expiry date error messaging when has No End date Check box is checked")
-	public void verifyArrowIconAndItsFunctionality() {
+	public void verifyExpandCollapseFunctionalityAndExpDateValidationMessage() {
 		final String CASE_NUM = "198467";
 
 		// Reading test data from database
@@ -672,6 +672,8 @@ public class EgiftCards extends TestInfra {
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		String title = strings.getRandomCharacter();
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super User, Select Org,
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -679,7 +681,7 @@ public class EgiftCards extends TestInfra {
 
 			// Navigate to Menu Item and verifying Arrow Icon
 			navigationBar.navigateToMenuItem(menu.get(0));
-			consumerEngagement.verifyArrowIcon();
+			consumerEngagement.verifyExpandAndCollapseGiftCardPanel(requiredData);
 
 			// Verify Create Gift Card and its Date Field
 			consumerEngagement.verifyErrorMsgOfCreateAddGiftCard(title, rstLocationData.get(CNLocation.ACTUAL_DATA),

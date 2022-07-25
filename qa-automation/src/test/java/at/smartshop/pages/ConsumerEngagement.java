@@ -497,14 +497,18 @@ public class ConsumerEngagement extends Factory {
 	/**
 	 * Verify Arrow Icon in Consumer Engagement Page
 	 */
-	public void verifyArrowIcon() {
+	public void verifyExpandAndCollapseGiftCardPanel(List<String> expectedValue) {
 		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ARROW_ICON));
 		foundation.click(ARROW_ICON);
+		String value = foundation.getAttribute(ARROW_ICON, expectedValue.get(0));
+		CustomisedAssert.assertEquals(value, expectedValue.get(1));
 		CustomisedAssert.assertFalse(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
 		foundation.click(ARROW_ICON);
+		value = foundation.getAttribute(ARROW_ICON, expectedValue.get(0));
+		CustomisedAssert.assertEquals(value, expectedValue.get(2));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
 	}
 
