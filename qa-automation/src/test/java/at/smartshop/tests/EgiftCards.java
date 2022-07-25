@@ -679,40 +679,17 @@ public class EgiftCards extends TestInfra {
 
 			// Navigate to Menu Item and verifying Arrow Icon
 			navigationBar.navigateToMenuItem(menu.get(0));
-			foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ARROW_ICON));
-			foundation.click(ConsumerEngagement.ARROW_ICON);
-			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
-			foundation.click(ConsumerEngagement.ARROW_ICON);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.verifyArrowIcon();
 
 			// Verify Create Gift Card and its Date Field
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_HEADER));
-			textBox.enterText(ConsumerEngagement.INPUT_TITLE, title);
-			textBox.enterText(ConsumerEngagement.INPUT_AMOUNT, rstLocationData.get(CNLocation.ACTUAL_DATA));
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_SAVE);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.EXPIRE_DATE_ERROR_MSG, Constants.SHORT_TIME);
-			String s = foundation.getText(ConsumerEngagement.EXPIRE_DATE_ERROR_MSG);
-			CustomisedAssert.assertEquals(s, rstLocationData.get(CNLocation.INFO_MSG));
+			consumerEngagement.verifyErrorMsgOfCreateAddGiftCard(title, rstLocationData.get(CNLocation.ACTUAL_DATA),
+					rstLocationData.get(CNLocation.INFO_MSG));
 
 			// Create Egift Card without Expiration date and checked has no end date check
 			// box
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_HEADER));
-			textBox.enterText(ConsumerEngagement.INPUT_TITLE, title);
-			textBox.enterText(ConsumerEngagement.INPUT_AMOUNT, rstLocationData.get(CNLocation.ACTUAL_DATA));
-			checkbox.check(ConsumerEngagement.CHECK_BOX_NO_END_DATE);
-			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_SAVE);
-			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
-			textBox.enterText(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, title);
-			foundation.threadWait(Constants.SHORT_TIME);
-			int count = consumerEngagement.consumerEngagementGridElement().size();
-			CustomisedAssert.assertEquals(count,
-					Integer.parseInt(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+			consumerEngagement.validateCreationOfGiftCardWithoutExpirationDateAndNoEndDateChecked(title,
+					rstLocationData.get(CNLocation.ACTUAL_DATA),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {

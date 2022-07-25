@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -23,6 +27,7 @@ public class ConsumerEngagement extends Factory {
 	private TextBox textBox = new TextBox();
 	private DeviceSummary devicesummary = new DeviceSummary();
 	private Table table = new Table();
+	private CheckBox checkbox = new CheckBox();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By HEADER = By.cssSelector("#mainform > div > h4");
@@ -487,5 +492,53 @@ public class ConsumerEngagement extends Factory {
 		value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
 		CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));
 		CustomisedAssert.assertTrue(value[3].matches("[0-9]+"));
+	}
+
+	/**
+	 * Verify Arrow Icon in Consumer Engagement Page
+	 */
+	public void verifyArrowIcon() {
+		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ARROW_ICON));
+		foundation.click(ARROW_ICON);
+		CustomisedAssert.assertFalse(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+		foundation.click(ARROW_ICON);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+	}
+
+	/**
+	 * Verify Error Message on Creation of Gift card without expiration date
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param msg
+	 */
+	public void verifyErrorMsgOfCreateAddGiftCard(String title, String amount, String msg) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		textBox.enterText(INPUT_AMOUNT, amount);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToBeVisible(EXPIRE_DATE_ERROR_MSG, Constants.SHORT_TIME);
+		String s = foundation.getText(EXPIRE_DATE_ERROR_MSG);
+		CustomisedAssert.assertEquals(s, msg);
+	}
+
+	public void validateCreationOfGiftCardWithoutExpirationDateAndNoEndDateChecked(String title, String amount,
+			String size) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		textBox.enterText(INPUT_AMOUNT, amount);
+		checkbox.check(CHECK_BOX_NO_END_DATE);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
+		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, title);
+		foundation.threadWait(Constants.SHORT_TIME);
+		int count = consumerEngagementGridElement().size();
+		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
 	}
 }
