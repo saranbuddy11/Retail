@@ -1,7 +1,5 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -251,12 +249,12 @@ public class Report extends TestInfra {
 			 * rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 			 * rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			 */
-			
-			String updatedTime = String.valueOf(dateAndTime.getDateAndTime(
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
-			foundation.threadWait(Constants.ONE_SECOND);		
+
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -3273,7 +3271,7 @@ public class Report extends TestInfra {
 		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
-		String weekDays = rstLocationData.get(CNLocation.TYPE);
+		// String weekDays = rstLocationData.get(CNLocation.TYPE);
 
 		String promotionName = strings.getRandomCharacter();
 		String displayName = strings.getRandomCharacter();
@@ -4172,7 +4170,7 @@ public class Report extends TestInfra {
 			List<String> paymentEmailDetails = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
 
-			// Launch V5 Device and  purchasing a product with Happy Feedback
+			// Launch V5 Device and purchasing a product with Happy Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -4217,7 +4215,7 @@ public class Report extends TestInfra {
 
 			login.logout();
 			browser.close();
-			
+
 			// Launch V5 Device and purchasing a product with Happy Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -4235,7 +4233,7 @@ public class Report extends TestInfra {
 					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
 					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
-			
+
 			// Launch V5 Device and purchasing a product with Neutral Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);

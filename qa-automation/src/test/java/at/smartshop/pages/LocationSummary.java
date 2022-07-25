@@ -2021,8 +2021,8 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * <<<<<<< HEAD Login to ADM as Super, Navigate to Location and select GMA
-	 * subsidy to Verify TopOff Subsidy
+	 * Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+	 * TopOff Subsidy
 	 * 
 	 * @param menu
 	 * @param location
