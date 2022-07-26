@@ -858,8 +858,9 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			navigationBar.navigateToMenuItem(menus.get(2));
+			foundation.threadWait(5);
 			locationList.selectLocationName(location.get(0));
-			foundation.scrollIntoViewElement(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS, 5);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product.get(0));
 			foundation.scrollIntoViewElement(locationSummary.objectProduct(product.get(0)));
