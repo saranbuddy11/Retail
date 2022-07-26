@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
 import com.aventstack.extentreports.Status;
+
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
@@ -23,16 +27,20 @@ public class ConsumerEngagement extends Factory {
 	private TextBox textBox = new TextBox();
 	private DeviceSummary devicesummary = new DeviceSummary();
 	private Table table = new Table();
+	private CheckBox checkbox = new CheckBox();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By HEADER = By.cssSelector("#mainform > div > h4");
 	public static final By BTN_ADD_GIFT_CARD = By.id("giftcardBtn");
 	public static final By TAB_GIFT_CARD = By.className("accordion");
-	public static final By LBL_HEADER = By.className("header-text");
+	public static final By ARROW_ICON = By.cssSelector("button.accordion>i");
+	public static final By LBL_HEADER = By.id("mainform");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
+	public static final By EXPIRE_DATE_ERROR_MSG = By.id("expiredDateValid");
 	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
+	public static final By CONSUMER_ENGAGE_GRID_FILTER = By.id("consumerengageGridFilter");
 	public static final By BTN_ADD_GIFT_SAVE = By.id("addgiftsavebtn");
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
 	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
@@ -58,14 +66,12 @@ public class ConsumerEngagement extends Factory {
 	public static final By LOCATION_TAB = By.id("byloc");
 	public static final By DPD_CLEAR = By.xpath("//div[@title='Clear value']");
 	public static final By DPD_ALL_LOCATION = By.xpath("//li[@data-value='All Locations']");
-
 	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
 	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
 	public static final By BTN_PrintScreen_Print = By.xpath("//button[@id='printBtn']");
 	public static final By INPUT_CardToPrint = By.xpath("//input[@id='cardstoprint']");
 	public static final By INPUT_AddNote_PrintScreen = By.xpath("//input[@id='addnote']");
 	public static final By TXT_ErrorLabel_CardsToPrint = By.xpath("//label[@id='cardstoprint-error']");
-
 	public static final By BTN_EMAIL_CARDS = By.id("issueemailbyemail");
 	public static final By HEADER_ADDTONOTE = By.id("byemailaddnote");
 	public static final By BY_EMAIL_FILTER = By.id("bymail");
@@ -95,6 +101,8 @@ public class ConsumerEngagement extends Factory {
 	public static final By AMOUNT_ERROR = By.id("amount-error");
 	public static final By DATE_VALIDATION_ERROR = By.id("expiredDateValid");
 	public static final By BTN_OK = By.cssSelector(".ajs-ok");
+	public static final By CONSUMER_ENGAGEMENT_GRID = By.cssSelector("table#consumerengageGrid>tbody.ui-ig-record>tr");
+	public static final By SUCCESS_MSG = By.cssSelector("div.alertify-notifier>div");
 
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
@@ -109,6 +117,10 @@ public class ConsumerEngagement extends Factory {
 
 	public By selectTabName(String tab) {
 		return By.xpath("//a[text()='" + tab + "']");
+	}
+
+	public List<WebElement> consumerEngagementGridElement() {
+		return getDriver().findElements(CONSUMER_ENGAGEMENT_GRID);
 	}
 
 	/**
@@ -480,5 +492,65 @@ public class ConsumerEngagement extends Factory {
 		value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
 		CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));
 		CustomisedAssert.assertTrue(value[3].matches("[0-9]+"));
+	}
+
+	/**
+	 * Verify Arrow Icon in Consumer Engagement Page
+	 */
+	public void verifyExpandAndCollapseGiftCardPanel(List<String> expectedValue) {
+		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ARROW_ICON));
+		foundation.click(ARROW_ICON);
+		String value = foundation.getAttribute(ARROW_ICON, expectedValue.get(0));
+		CustomisedAssert.assertEquals(value, expectedValue.get(1));
+		CustomisedAssert.assertFalse(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+		foundation.click(ARROW_ICON);
+		value = foundation.getAttribute(ARROW_ICON, expectedValue.get(0));
+		CustomisedAssert.assertEquals(value, expectedValue.get(2));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_GIFT_CARD));
+	}
+
+	/**
+	 * Verify Error Message on Creation of Gift card without expiration date
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param msg
+	 */
+	public void verifyErrorMsgOfCreateAddGiftCard(String title, String amount, String msg) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		textBox.enterText(INPUT_AMOUNT, amount);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToBeVisible(EXPIRE_DATE_ERROR_MSG, Constants.SHORT_TIME);
+		String s = foundation.getText(EXPIRE_DATE_ERROR_MSG);
+		CustomisedAssert.assertEquals(s, msg);
+	}
+
+	/**
+	 * validate Creation of Gift card without Expiration data and No End date check
+	 * box checked
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param size
+	 */
+	public void validateCreationOfGiftCardWithoutExpirationDateAndNoEndDateChecked(String title, String amount,
+			String size) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		textBox.enterText(INPUT_AMOUNT, amount);
+		checkbox.check(CHECK_BOX_NO_END_DATE);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
+		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, title);
+		foundation.threadWait(Constants.SHORT_TIME);
+		int count = consumerEngagementGridElement().size();
+		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
 	}
 }
