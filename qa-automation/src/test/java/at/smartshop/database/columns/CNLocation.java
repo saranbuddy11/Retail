@@ -25,4 +25,5 @@ public class CNLocation {
 	public static final String CONTACT_EMAIL = "ContactEmail";
 	public static final String ADDRESS = "Address";
 	public static final String INFO_NOTES = "InfoNotes";
+	public static final String INFO_MSG = "InfoMsg";
 }
