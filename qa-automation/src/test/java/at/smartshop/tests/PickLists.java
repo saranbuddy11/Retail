@@ -1103,7 +1103,7 @@ public class PickLists extends TestInfra {
 			          + "198395-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'Refresh' button on plan picklist"
 			          + "198396-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'Add Product' button pop up"
 			          + "198394-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'manage Columns' pop up")
-	public void verifyFilterByPlanPickList() {
+	public void verifyFilterByPlanPickListUIElementsAndPopUp() {
 		final String CASE_NUM = "198393";
 
 		// Reading test data from database
