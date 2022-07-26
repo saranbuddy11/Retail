@@ -322,7 +322,13 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BTN_NEXT);
 	}
 
-	public void updateDepositePriceAndVerify(String deposit,String tax1,String tax2) {
+	/**
+	 * update deposite and tax field 
+	 * @param deposit
+	 * @param tax1
+	 * @param tax2
+	 */
+	public void updateDepositeAndTaxField(String deposit,String tax1,String tax2) {
 		foundation.waitforElementToBeVisible(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE, 5);
 		textBox.enterText(GlobalProductChange.DEPOSIT_CAT, deposit);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DEPOSITE_CHECKED));

@@ -1098,6 +1098,10 @@ public class PickLists extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrosean
+	 * Date-22-07-2022
+	 */
 	@Test(description = "198393- ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Plan Pick List(s)' Button"
 			          + "198397-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>click'Add Product'button>verify Add product displayed on pick list"
 			          + "198395-ADM>Pick List Manager >Select location>Click 'Filter By'>Click ' Plan Pick List(s)' Button>verify 'Refresh' button on plan picklist"

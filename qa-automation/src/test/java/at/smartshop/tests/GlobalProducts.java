@@ -1611,7 +1611,12 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-	@Test(description = "198580-ADM > Global Product Change > Unable to Update Deposit field")
+	/**
+	 * @author afrosean
+	 * Date: 26-07-2022
+	 */
+	@Test(description = "SOS-30208-198580-ADM > Global Product Change > Unable to Update Deposit field"
+			+ "SOS-29690-198581-ADM > Global Product Change > Unable to Update Tax1 or Tax2 Columns")
 	public void verifyDepositeFieldAfterTaxMethodSetToItemLevelTax() {
 
 		final String CASE_NUM = "198580";
@@ -1640,13 +1645,14 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.selectLocationAndProductClickOnNext(dropdown.get(2), dropdown.get(3));
 
 			// update Deposit price in product field to change
-			globalProductChange.updateDepositePriceAndVerify(dropdown.get(6), dropdown.get(4), dropdown.get(5));
+			globalProductChange.updateDepositeAndTaxField(dropdown.get(6), dropdown.get(4), dropdown.get(5));
 
 			// verify the deposit
 			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(dropdown.get(2)));
 			table.selectRow(dropdown.get(3));
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
-			
+			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
+			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1654,7 +1660,7 @@ public class GlobalProducts extends TestInfra {
 			// resetting the data
 			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 5);
 			foundation.click(GlobalProductChange.BTN_NEXT);
-			globalProductChange.updateDepositePriceAndVerify(dropdown.get(7), dropdown.get(8), dropdown.get(9));
+			globalProductChange.updateDepositeAndTaxField(dropdown.get(7), dropdown.get(8), dropdown.get(9));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD, dropdown.get(1));
 		}
