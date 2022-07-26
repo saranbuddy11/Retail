@@ -730,7 +730,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.CONTACT_EMAIL, resultSet.getString(CNLocation.CONTACT_EMAIL));
 				rstLocation.put(CNLocation.ADDRESS, resultSet.getString(CNLocation.ADDRESS));
 				rstLocation.put(CNLocation.INFO_NOTES, resultSet.getString(CNLocation.INFO_NOTES));
-
+				rstLocation.put(CNLocation.INFO_MSG, resultSet.getString(CNLocation.INFO_MSG));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());

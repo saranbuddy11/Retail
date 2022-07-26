@@ -51,6 +51,9 @@ public class EgiftCards extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstDeviceListData;
 
+	/**
+	 * @author karthikr
+	 */
 	@Test(description = "186472 - Validate the eGift Cards >Consumer Engagement Field"
 			+ "186454 - Verify ADM > Promotions > Printable Gift Card PDF (layout)"
 			+ "186455 - Verify ADM > Promotions > Gift Cards > Barcode Generated Structure"
@@ -178,6 +181,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrose
+	 */
 	@Test(description = "C186594-Verify the “Search” field"
 			+ "C186596-Verify the column that are available in GMA consumer grid"
 			+ "C186595-Verify the GMA consumer grid")
@@ -243,6 +249,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrose
+	 */
 	@Test(description = "C186593- Verify the field “Add Note” in By Location")
 
 	public void verifyAddNoteFieldByLocation() {
@@ -284,6 +293,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrose
+	 */
 	@Test(description = "C186592- Verify the field “Location of Recipients"
 			+ "C186591- Verify the Issue” panel should have a label of “By Location")
 	public void verifyLocationOfRecipientsField() {
@@ -334,6 +346,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrose
+	 */
 	@Test(description = "C186590- verify the “MM Reload Method” has Gift card option in device summary page")
 
 	public void verifyMMReloadMethods() {
@@ -375,6 +390,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrose
+	 */
 	@Test(description = "C186583- Verify the “Enter Recipient Email (Comma separate individual addresses)” field in the “Issue” panel"
 			+ "C186585- Verify the “Download and fill out the email eGift Card Template”in “Bulk Email Consumers” section "
 			+ "C186584-Verify the “Bulk Email Consumers” field in the “Issue” panel"
@@ -449,6 +467,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author prabha
+	 */
 	@Test(description = "C186581- SOS-27896: Verify the Issue” panel should have a label of “By Email”"
 			+ "C186582 - SOS-27896: Verify the 'Add Note' field in the “Issue” panel by Email")
 
@@ -489,6 +510,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author prabha
+	 */
 	@Test(description = "186587-SOS-28932: verify the permission levels for E-Gift cards for operator"
 			+ "186588 - SOS-28932: verify the permission levels for E-Gift cards for super"
 			+ "186589 - SOS-28932: verify the permission levels for E-Gift cards for other than super and operator")
@@ -547,6 +571,9 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author santosh
+	 */
 	@Test(description = "C186469- Verify ADM > eGift Cards > Print Cards panel layout displayed as per Requirement"
 			+ "C186470 - Verify Functionality of buttons in Print Cards panel when an individual eGfit Card is selected for Print from existing records"
 			+ "C186471 - Verify body of Print Cards panel when an individual eGift Card is selected for Print from existing records grid")
@@ -623,6 +650,50 @@ public class EgiftCards extends TestInfra {
 			foundation.click(ConsumerEngagement.BTN_PrintScreen_Print);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isFileDownloaded(Datas.get(3)));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @date 22-07-2022
+	 */
+	@Test(description = "198467 - Verify arrow icon toggle should change directions when expanding/collapsing."
+			+ "198468 - Verify expiry date error messaging"
+			+ "198469 - Verify expiry date error messaging when has No End date Check box is checked")
+	public void verifyExpandCollapseFunctionalityAndExpDateValidationMessage() {
+		final String CASE_NUM = "198467";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String title = strings.getRandomCharacter();
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item and verifying Arrow Icon
+			navigationBar.navigateToMenuItem(menu.get(0));
+			consumerEngagement.verifyExpandAndCollapseGiftCardPanel(requiredData);
+
+			// Verify Create Gift Card and its Date Field
+			consumerEngagement.verifyErrorMsgOfCreateAddGiftCard(title, rstLocationData.get(CNLocation.ACTUAL_DATA),
+					rstLocationData.get(CNLocation.INFO_MSG));
+
+			// Create Egift Card without Expiration date and checked has no end date check
+			// box
+			consumerEngagement.validateCreationOfGiftCardWithoutExpirationDateAndNoEndDateChecked(title,
+					rstLocationData.get(CNLocation.ACTUAL_DATA),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			login.logout();
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
