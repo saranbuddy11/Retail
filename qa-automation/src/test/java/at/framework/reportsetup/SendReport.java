@@ -9,33 +9,44 @@ import org.apache.commons.mail.HtmlEmail;
 import org.testng.Assert;
 
 import at.framework.files.PropertyFile;
+import at.framework.generic.DateAndTime;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
 public class SendReport {
 	private PropertyFile propertyFile = new PropertyFile();
+	private DateAndTime dateAndTime = new DateAndTime();
 	
-	public void triggerMail(String path) {
+
+	public void triggerMail(String path,String environment) {
 		try {
-			List<String> toEmailIDs = Arrays.asList(propertyFile.readPropertyFile(Configuration.EMAIL_TO, FilePath.PROPERTY_CONFIG_FILE).split(Constants.DELIMITER_TILD));
+			List<String> toEmailIDs = Arrays.asList(propertyFile.readPropertyFile(Configuration.EMAIL_To, FilePath.PROPERTY_CONFIG_FILE).split(Constants.DELIMITER_TILD));
+			List<String> ccEmailIDs = Arrays.asList(propertyFile.readPropertyFile(Configuration.EMAIL_Cc, FilePath.PROPERTY_CONFIG_FILE).split(Constants.DELIMITER_TILD));
+			String fromEmailIDs = propertyFile.readPropertyFile(Configuration.EMAIL_From, FilePath.PROPERTY_CONFIG_FILE);
+			
 			int totalCount=Listeners.passedCount+Listeners.failedCount+Listeners.skippedCount;
 			EmailAttachment attachment = new EmailAttachment();
 			attachment.setPath(path);
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);
-			attachment.setName(Constants.EMAIL_NAME);
+			
+			String emailName = Constants.EMAIL_NAME.replace("envValue", environment);
+			String emailName_final = emailName.replace("Date", dateAndTime.getDateAndTime(Constants.REGEX_YYYY_MM_DD, Constants.TIME_ZONE_INDIA));
+			attachment.setName(emailName_final);
 
 			HtmlEmail email = new HtmlEmail();
 			email.setHostName(propertyFile.readPropertyFile(Configuration.EMAIL_HOST_NAME, FilePath.PROPERTY_CONFIG_FILE));
 			email.setSmtpPort(25);
 			email.setSSLOnConnect(false);
-			email.setFrom(toEmailIDs.get(0));
-			email.setSubject(Constants.EMAIL_SUBJECT);
+			email.setFrom(fromEmailIDs);
+			String emailSubject = Constants.EMAIL_SUBJECT.replace("envValue", environment);
+			String emailSubject_final = emailSubject.replace("Date", dateAndTime.getDateAndTime(Constants.REGEX_YYYY_MM_DD, Constants.TIME_ZONE_INDIA));
+			email.setSubject(emailSubject_final);
 			
 			String result="<html><body>\r\n"
 					+ "   <table cellpadding=\"2\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
 					+ "   <tbody>\r\n"
-					+ "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
+					+ "      <tr style=\"background-color:#c4c4c4;\" bold=\"\">\r\n"
 					+ "         <td align=\"center\"><b>Total</b></td>\r\n"
 					+ "         <td align=\"center\"><b>Pass</b></td>\r\n"
 					+ "         <td align=\"center\"><b>Fail</b></td>\r\n"
@@ -59,9 +70,13 @@ public class SendReport {
 			}
 			
 			String moduleResult=Constants.EMAIL_RESULT_BODY+rows+Constants.EMAIL_RESULT_TAIL;
-			email.setHtmlMsg(Constants.EMAIL_MESSAGE1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br>"+result+"<br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br>"+moduleResult+"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
+			String emailMessage1 = Constants.EMAIL_MESSAGE1.replace("envValue", environment);
+			email.setHtmlMsg(emailMessage1+"<br><br>"+Constants.EMAIL_OVERALL_RESULT+"<br><br>"+result+"<br><br><br><br>"+Constants.EMAIL_MODULE_RESULT+"<br><br>"+moduleResult+"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"+Constants.EMAIL_MESSAGE2);
 			for (String toEmailID : toEmailIDs) {
 				email.addTo(toEmailID);
+			}
+			for (String ccEmailID : ccEmailIDs) {
+				email.addCc(ccEmailID);
 			}
 			email.attach(attachment);
 			email.send();

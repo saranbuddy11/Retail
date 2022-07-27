@@ -1,7 +1,5 @@
 package at.smartshop.tests;
 
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -3277,7 +3275,7 @@ public class Report extends TestInfra {
 		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
-		String weekDays = rstLocationData.get(CNLocation.TYPE);
+		// String weekDays = rstLocationData.get(CNLocation.TYPE);
 
 		String promotionName = strings.getRandomCharacter();
 		String displayName = strings.getRandomCharacter();

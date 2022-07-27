@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.Robot;
 import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
 import org.apache.pdfbox.Loader;
@@ -771,9 +771,40 @@ public class Foundation extends Factory {
 		return true;
 	}
 
+	/**
+	 * Clicking Space Bar using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
 	public void clickSpaceBar() throws AWTException {
 		Robot r = new Robot();
 		r.keyPress(KeyEvent.VK_SPACE);
 		r.keyRelease(KeyEvent.VK_SPACE);
+	}
+
+	/**
+	 * Zoom out of Page using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void pageZoomOut() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_SUBTRACT);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_SUBTRACT);
+	}
+
+	/**
+	 * Zoom in of Page using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void pageZoomIn() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_ADD);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_ADD);
 	}
 }
