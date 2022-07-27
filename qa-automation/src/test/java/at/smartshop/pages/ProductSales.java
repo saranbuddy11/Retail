@@ -228,8 +228,6 @@ public class ProductSales extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
-			System.out.println("intialData" +intialData);
-			System.out.println("reportsData" +reportsData);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
@@ -245,8 +243,6 @@ public class ProductSales extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders" +tableHeaders);
-			System.out.println("columnName" +columnName);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));

@@ -4295,6 +4295,11 @@ public class Report extends TestInfra {
 		}
 	}
 
+	/**
+	 * This Method is for Product Sales Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-07-2022
+	 */
 	@Test(description = "198531-Verify the Data Validation of Product Sales Report")
 	public void ProductSalesReportDataValication() {
 		try {
@@ -4313,9 +4318,9 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Data validation for Report Based on Groupby ITEMS
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -4338,7 +4343,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			productSales.getTblRecordsUI();
 
-			// update the report date baseed on calculation
+			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
@@ -4350,11 +4355,6 @@ public class Report extends TestInfra {
 			productSales.updateData(productSales.getTableHeaders().get(2), userKey);
 			productSales.saleCount(productSales.getTableHeaders().get(6));
 			productSales.calculateAmount(productSales.getTableHeaders().get(7), productPrice, tax);
-
-
-			// verify report headers
-			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
-					productSales.getTableHeaders());
 
 			productSales.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
