@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Rectangle;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -699,26 +700,37 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
-	@Test(description = "")
-	public void verify() {
-		final String CASE_NUM = "";
+	/**
+	 * @author afrosean
+	 * Data: 27-07-2022
+	 */
+	@Test(description = "198470- verify the button size of issue and print button")
+	public void verifyButtonSizeOfIssueAndPrintButon() {
+		final String CASE_NUM = "198470";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+	
+		List<String> heigwid = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		String title = strings.getRandomCharacter();
-		List<String> requiredData = Arrays
-				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super User, Select Org,
+			// Login to ADM with Super User, Select Org
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
-			// Navigate to Menu Item and verifying Arrow Icon
-			navigationBar.navigateToMenuItem(menu.get(0));
+			//Navigate to Menu Item 
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID));
+			
+			//verify the dimension of issue button
+			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_ISSUE_FIRST_ROW, heigwid.get(0), heigwid.get(1));
+			
+			//verify the dimension of print button
+			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_PRINT_FIRST_ROW, heigwid.get(0), heigwid.get(1));
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

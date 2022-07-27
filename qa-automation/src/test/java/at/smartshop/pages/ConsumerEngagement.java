@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 
 import com.aventstack.extentreports.Status;
@@ -552,5 +553,19 @@ public class ConsumerEngagement extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		int count = consumerEngagementGridElement().size();
 		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
+	}
+
+	/**
+	 * verify height and width 
+	 * @param obj
+	 * @param heig
+	 * @param wid
+	 */
+	public void verifyDimentions(By obj,String heig,String wid) {
+		Rectangle dimention = foundation.getDimention(obj);
+		int height = dimention.height;
+		CustomisedAssert.assertEquals(height, Integer.parseInt(heig));
+		int width = dimention.width;
+		CustomisedAssert.assertEquals(width, Integer.parseInt(wid));
 	}
 }
