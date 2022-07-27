@@ -73,6 +73,7 @@ import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.PersonalChargeReport;
 import at.smartshop.pages.ProductPricingReport;
+import at.smartshop.pages.ProductSales;
 import at.smartshop.pages.ProductSalesByCategoryReport;
 import at.smartshop.pages.ProductTaxReport;
 import at.smartshop.pages.PromotionAnalysis;
@@ -162,6 +163,7 @@ public class Report extends TestInfra {
 	private InventoryList inventoryList = new InventoryList();
 	private InventoryVariance inventoryVariance = new InventoryVariance();
 	private ConsumerFeedbackSurvey consumerFeedbackSurvey = new ConsumerFeedbackSurvey();
+	private ProductSales productSales = new ProductSales();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -4290,13 +4292,14 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * @author karthikr
-	 * @Date 25/07/2022
+	 * This Method is for Product Sales Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-07-2022
 	 */
-	@Test(description = "153374 - Sales Item Details Report data validation")
-	public void SalesItemDetailsReportDataValidation() {
+	@Test(description = "198531-Verify the Data Validation of Product Sales Report")
+	public void ProductSalesReportDataValication() {
 		try {
-			final String CASE_NUM = "153374";
+			final String CASE_NUM = "198531";
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4310,10 +4313,10 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			/**productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Data validation for Report Based on Groupby ITEMS
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -4336,7 +4339,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			productSales.getTblRecordsUI();
 
-			// update the report date baseed on calculation
+			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
@@ -4349,14 +4352,10 @@ public class Report extends TestInfra {
 			productSales.saleCount(productSales.getTableHeaders().get(6));
 			productSales.calculateAmount(productSales.getTableHeaders().get(7), productPrice, tax);
 
-			// verify report headers
-			reportList.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME),
-					productSales.getTableHeaders());
-
 			productSales.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productSales.verifyReportData();**/
+			productSales.verifyReportData();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -1880,7 +1880,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, requiredData.get(4));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(EditPromotion.BTN_UPDATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -1955,8 +1955,9 @@ public class Promotions extends TestInfra {
 			String locExistValue = dropDown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION);
 			CustomisedAssert.assertEquals(locExistValue, location.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
+			dropDown.deSelectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
 			dropDown.selectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_SELECT_ORG);
+			foundation.click(CreatePromotions.BTN_ORG_LEFT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
@@ -3903,9 +3904,9 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_SELECT_ORG);
 			dropDown.deSelectItem(CreatePromotions.DPD_ORG, newData.get(2), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			foundation.waitforElement(CreatePromotions.DPD_LOC, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(CreatePromotions.DPD_LOC, newData.get(1), Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 			
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
@@ -3913,6 +3914,7 @@ public class Promotions extends TestInfra {
 			
 			//click on create button and validate the err
 			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.TXT_PROMO_ERROR)
 					.equals(rstLocationData.get(CNLocation.SHOW_RECORDS)));
 

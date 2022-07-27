@@ -147,7 +147,7 @@ public class PickList extends Factory {
 	public static final By DRIVER_COLUMN = By.id("dataGrid_driver");
 	public static final By DATA_GRID_DRIVER = By.xpath("//td[@aria-describedby='dataGrid_driver']");
 	public static final By DPD_ROUTE = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
-	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
+	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'all ui-unselectable')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
 	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
