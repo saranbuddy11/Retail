@@ -568,4 +568,19 @@ public class ConsumerEngagement extends Factory {
 		int width = dimention.width;
 		CustomisedAssert.assertEquals(width, Integer.parseInt(wid));
 	}
+	
+	/**
+	 * verifying error message in title 
+	 * @param title
+	 */
+	public void verifyErrorMessageInTitle(String title,String error) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToBeVisible(TITLE_ERROR, 5);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
+		String text = foundation.getText(TITLE_ERROR);
+		CustomisedAssert.assertEquals(text, error);
+	}
 }
