@@ -130,7 +130,9 @@ public class PickList extends Factory {
 	public static final By DPD_ROUTE = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
-	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
+	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");  
+	public static final By TAB_HIGHLIGHTED_LOCATION = By.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
+	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 
 	public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
@@ -347,4 +349,16 @@ public class PickList extends Factory {
 		}
 		return element;
 }
+  	public void selectingLightSpeed(String selectingOption) {
+        if(!dropDown.getSelectedItem(PickList.DRP_HAS_LIGHTSPEED).equals(selectingOption)) {
+            if(selectingOption.toLowerCase().equals("no")) {
+                dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "No", Constants.TEXT);
+            }else {
+                dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "Yes", Constants.TEXT);
+            }
+            foundation.click(PickList.BTN_SAVE_LIGHTSPEED);
+            foundation.threadWait(Constants.SHORT_TIME);
+        }
+    }
+	
 }

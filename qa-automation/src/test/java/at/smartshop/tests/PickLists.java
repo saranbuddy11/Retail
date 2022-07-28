@@ -1048,5 +1048,171 @@ public class PickLists extends TestInfra {
 		}
 
 	}
+	/**
+	 * @author prabhanigam
+	 * @Date -20/07/2022
+	 */
+	@Test(description = "198386-SOS-26654 ADM>Pick List Manager>Select All location>Verify Filter By display selected location"
+			+"198388-SOS-26654 ADM>Pick List Manager>Select All location>Filter By>Verify 'Refresh' button"
+			+"198389-SOS-26654 ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Reset Negatives to Zero' Button"
+			+"198390-SOS-26654 ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Send To LightSpeed' Button"
+			+"198387-SOS-26654 ADM>Pick List Manager>Select All location>Filter By> 'Export' button>Verify Excel sheet displaying the selected filter details")
+	public void verifyFilterByTabUIElementsOnPickListManager() {
+		try {
+			final String CASE_NUM = "198386";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+			List<String> sendToLightSpeedPopup = Arrays
+					.asList(rstPickListData.get(CNPickList.ROW_VALUES).split(Constants.DELIMITER_TILD));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
+
+			// selecting required location on Picklist Manager
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
+					Constants.SHORT_TIME);
+
+			// Validating Fields on Filter By Tab
+			foundation.click(PickList.TXT_FILTERBY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+			String color = foundation.getBGColor(PickList.TAB_HIGHLIGHTED_LOCATION);
+			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
+			//verifying Refresh button
+			foundation.click(PickList.BTN_REFRESH);
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CONFIRM_REFRESH));
+			foundation.click(PickList.BTN_CONFIRM_REFRESH);
+			
+			// Navigate to product--> pickList and click on Negative to zero in pick list manager
+			foundation.threadWait(Constants.SHORT_TIME);
+			pickList.selectLocationAndClickOnNavigateToZero(rstPickListData.get(CNPickList.LOCATIONS),sendToLightSpeedPopup.get(0));
+			
+			// Validating Send To LightSpeed on Filter By Tab
+			foundation.click(PickList.TXT_FILTERBY);
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
+
+			// Verifying the details on confirm Popup for sending to Lightspeed
+			foundation.threadWait(Constants.TWO_SECOND);
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SEND_PICKLIST), sendToLightSpeedPopup.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_CONFIRM_SENDING),
+					sendToLightSpeedPopup.get(2));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_CONTINUE), sendToLightSpeedPopup.get(3));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.BTN_CANCEL), sendToLightSpeedPopup.get(4));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.BTN_YES), sendToLightSpeedPopup.get(5));
+
+			// Select yes and send to Lightspeed
+			foundation.click(PickList.BTN_YES);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PickList.BTN_APPLY);
+			foundation.click(PickList.TXT_FILTERBY);
+			foundation.threadWait(5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
+			foundation.threadWait(5);
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
+			foundation.click(PickList.BTN_CANCEL_ORDER);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PickList.SELECT_ORDER_TAB);
+			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
+		}
+
+	}
+	
+	/**
+	 * @author prabhanigam
+	 * @Date -25/07/2022
+	 */
+	@Test(description = "198391-SOS-26654 ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Push to inventory' Button"
+			+ "198392-SOS-26654 ADM>Pick List Manager >Select location>Click 'Filter By'> Verify ' Push to inventory' cancel Prompt")
+	public void verifyPushToInventoryButtonAndPopUpOnFilterByPickListManager() {
+		// Reading test data from DataBase
+		final String CASE_NUM = "198391";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		List<String> pushToInventoryPopup = Arrays
+				.asList(rstPickListData.get(CNPickList.ROW_VALUES).split(Constants.DELIMITER_TILD));
+		List<String> hasLightspeed =  Arrays
+				.asList(rstPickListData.get(CNPickList.RECORDS).split(Constants.DELIMITER_TILD));
+		List<String> menuItem =  Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));	
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));		
+			
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			
+			//Changing the dropdown value of Has Lightspeed to 'No' on Org Summary Page
+			pickList.selectingLightSpeed(hasLightspeed.get(1));			
+		
+			//Navigating to Products>Picklist
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			
+			//validating Picklist Manager Page
+			foundation.waitforElement(PickList.PAGE_TITLE,Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+			
+			//selecting required location on Picklist Manager Page
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_APPLY);
+			foundation.click(PickList.TXT_FILTERBY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
+					Constants.SHORT_TIME);
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+			
+			//Click on Push To Inventory button 
+			foundation.click(PickList.BTN_PUSH_TO_INVENTORY);
+			
+			//Verifying the details on confirm Popup for sending to Lightspeed
+			foundation.waitforElement(PickList.BTN_YES,Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SEND_PICKLIST), pushToInventoryPopup.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_CONFIRM_SENDING),pushToInventoryPopup.get(1));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_CONTINUE),pushToInventoryPopup.get(2));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.BTN_CANCEL),pushToInventoryPopup.get(3));
+			CustomisedAssert.assertEquals(foundation.getText(PickList.BTN_YES),pushToInventoryPopup.get(4));
+			
+			//Select yes and push to Inventory			
+			foundation.click(PickList.BTN_YES);
+			foundation.threadWait(Constants.MEDIUM_TIME);		
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		//Resetting the data 
+		finally {
+			//Changing the dropdown value of Has Lightspeed to 'Yes' on Org Summary Page
+			
+			//Navigating to Super >Org Summary
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+			pickList.selectingLightSpeed(hasLightspeed.get(0));	
+		}
+	}
+
 
 }
