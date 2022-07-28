@@ -717,7 +717,7 @@ public class EgiftCards extends TestInfra {
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(2));
-		String giftTitle = requiredData.get(0) + strings.getRandomCharacter();
+		String giftTitle =  rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
 	
 
 		try {
