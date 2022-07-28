@@ -149,6 +149,9 @@ public class PickList extends Factory {
 	public static final By DPD_ROUTE = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
 	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'all ui-unselectable')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
+	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");  
+	public static final By TAB_HIGHLIGHTED_LOCATION = By.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
+	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
 	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
@@ -521,15 +524,6 @@ public class PickList extends Factory {
 		}
 		return element;
 }
-	public List<String> getTableHeadersForFilteredLocations() {
-		List<WebElement> columnHeaders = Foundation.getDriver().findElements(FILTERED_PICKLIST_TBL_ROW);
-		for (WebElement columnHeader : columnHeaders) {
-			tableHeaders.add(columnHeader.getText());
-			System.out.println(tableHeaders);
-         }
-		return tableHeaders;
-	}
-	
 	public void deleteColumn(List<String> columnNames) {
 		try {
 			for (int iter = 0; iter < columnNames.size(); iter++) {
@@ -541,6 +535,9 @@ public class PickList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+  /**
+ * Selecting LightSpeed
+ */
 	public void selectingLightSpeed(String selectingOption) {
         if(!dropDown.getSelectedItem(PickList.DRP_HAS_LIGHTSPEED).equals(selectingOption)) {
             if(selectingOption.toLowerCase().equals("no")) {
