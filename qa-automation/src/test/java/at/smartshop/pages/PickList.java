@@ -349,6 +349,9 @@ public class PickList extends Factory {
 		}
 		return element;
 }
+/**
+ * Selecting LightSpeed
+ */
   	public void selectingLightSpeed(String selectingOption) {
         if(!dropDown.getSelectedItem(PickList.DRP_HAS_LIGHTSPEED).equals(selectingOption)) {
             if(selectingOption.toLowerCase().equals("no")) {
