@@ -152,8 +152,6 @@ public class PickList extends Factory {
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");  
 	public static final By TAB_HIGHLIGHTED_LOCATION = By.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
 	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
-	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
-	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
 	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead//tr");
 	public static final By TXT_COLUMN_CHOOSER = By.xpath("//span[@class='ui-dialog-title']");
@@ -549,5 +547,14 @@ public class PickList extends Factory {
             foundation.threadWait(Constants.SHORT_TIME);
         }
     }
+	
+	public List<String> getTableHeadersForFilteredLocations() {
+		List<WebElement> columnHeaders = Foundation.getDriver().findElements(FILTERED_PICKLIST_TBL_ROW);
+		for (WebElement columnHeader : columnHeaders) {
+			tableHeaders.add(columnHeader.getText());
+			System.out.println(tableHeaders);
+         }
+		return tableHeaders;
+	}
 	
 }
