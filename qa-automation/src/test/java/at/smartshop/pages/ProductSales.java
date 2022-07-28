@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -33,7 +32,6 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.utilities.WebService;
-import lombok.val;
 
 public class ProductSales extends Factory {
 	private Foundation foundation = new Foundation();
@@ -41,13 +39,14 @@ public class ProductSales extends Factory {
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
 
-	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	public static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_ANALYSIS_GRID = By.cssSelector("#rptdt > tbody");
-	
+
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -82,7 +81,7 @@ public class ProductSales extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void processAPI(String value) {
 		try {
 			generateJsonDetails(value);
@@ -191,8 +190,8 @@ public class ProductSales extends Factory {
 				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 						Constants.EMPTY_STRING);
 				double updatedAmount = Double
-						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))+Double
-						.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+						+ Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 						+ Double.parseDouble(initialAmount);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
@@ -213,7 +212,7 @@ public class ProductSales extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateData(String columnName, String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));

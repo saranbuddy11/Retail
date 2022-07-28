@@ -83,6 +83,7 @@ import at.smartshop.pages.RemainingGuestPassLiability;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
 import at.smartshop.pages.SalesItemDetailsReport;
+import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -164,6 +165,7 @@ public class Report extends TestInfra {
 	private InventoryVariance inventoryVariance = new InventoryVariance();
 	private ConsumerFeedbackSurvey consumerFeedbackSurvey = new ConsumerFeedbackSurvey();
 	private ProductSales productSales = new ProductSales();
+	private SoldDetails soldDetails = new SoldDetails();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -4356,6 +4358,80 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSales.verifyReportData();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Sold Details Report Data Validation
+	 * 
+	 * @author KarthikR
+	 * @date: 28-07-2022
+	 */
+	@Test(description = "198561 - Sold Details Report data validation")
+	public void soldDetailsReportDataValication() {
+		final String CASE_NUM = "198561";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Navigate to Report Tab
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			soldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			soldDetails.getTblRecordsUI();
+			soldDetails.getIntialData().putAll(soldDetails.getReportsData());
+
+			// process sales API to generate data
+			soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			soldDetails.getTblRecordsUI();
+
+			// update the report date based on calculation
+//			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+//			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+//			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+//			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+//			String userKey = rstProductSummaryData.get(CNProductSummary.USER_KEY);
+//
+//			soldDetails.updateData(soldDetails.getTableHeaders().get(0), productName);
+//			soldDetails.updateData(soldDetails.getTableHeaders().get(1), scanCode);
+//			soldDetails.updateData(soldDetails.getTableHeaders().get(2), userKey);
+//			soldDetails.saleCount(soldDetails.getTableHeaders().get(6));
+//			soldDetails.calculateAmount(soldDetails.getTableHeaders().get(7), productPrice, tax);
+
+			soldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			soldDetails.verifyReportData();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

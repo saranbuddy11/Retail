@@ -41,7 +41,7 @@ public class SalesItemDetailsReport extends Factory {
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> salesTime = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
+	// private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -121,7 +121,7 @@ public class SalesItemDetailsReport extends Factory {
 				}
 			}
 			for (int iter = 1; iter < salesTime.size(); iter++) {
-				if (salesTime.get(iter-1).equals(salesTime.get(iter))) {
+				if (salesTime.get(iter - 1).equals(salesTime.get(iter))) {
 					Assert.fail("Failed due to Sales Items got created for Second time after redeeming promotion");
 				}
 			}
