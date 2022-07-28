@@ -860,8 +860,9 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			navigationBar.navigateToMenuItem(menus.get(2));
+			foundation.threadWait(5);
 			locationList.selectLocationName(location.get(0));
-			foundation.scrollIntoViewElement(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS, 5);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product.get(0));
 			foundation.scrollIntoViewElement(locationSummary.objectProduct(product.get(0)));
@@ -1273,6 +1274,7 @@ public class GlobalProducts extends TestInfra {
 				foundation.threadWait(Constants.SHORT_TIME);
 				textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,
 						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.waitforElementToBeVisible(GlobalProductChange.BTN_PRODUCT_APPLY, 5);
 				foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 				foundation.threadWait(Constants.SHORT_TIME);
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
@@ -1293,7 +1295,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 			// verifying the values in Products >> Global products

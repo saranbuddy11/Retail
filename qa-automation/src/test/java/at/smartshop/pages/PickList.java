@@ -38,10 +38,10 @@ public class PickList extends Factory {
 	public static final By LBL_REMOVE = By.id("prd-delete-selected");
 	public static final By LBL_ADD_PRODUCT = By.xpath("//input[@value='Add Product']");
 	public static final By LBL_ADD_PRODUCT_PICKLIST = By.xpath("//h4[text()='Add Product(s) to Pick List']");
-	public static final By BTN_MANAGE_CANCEL=By.xpath("//span[contains(@id,'footer_buttoncancel_lbl')]");
+	public static final By BTN_MANAGE_CANCEL = By.xpath("//span[contains(@id,'footer_buttoncancel_lbl')]");
 	public static final By LBL_TITLE_HEADER = By.xpath("//h4[@class='modal-title']");
 	public static final By LBL_FILTER_TYPE = By.xpath("//input[@id='filterType']");
-	public static final By MANAGE_COLUMN=By.id("mng-grid");
+	public static final By MANAGE_COLUMN = By.id("mng-grid");
 	public static final By TXT_PRODUCT_NAME = By.id("filter-name");
 	public static final By TXT_INPUT = By.xpath("//input[@type='text']");
 	public static final By EXPORT_BTN = By.id("excel-dwnld");
@@ -60,7 +60,7 @@ public class PickList extends Factory {
 	public static final By TXT_NEED1 = By.xpath("//span//input[@type='text' and @class='ui-igedit-input']");
 	public static final By REFRESH_BTN = By.id("refresh-picklist");
 	public static final By TBL_PRODUCT_GRID = By.id("filter-prd-grid");
-	public static final By BTN_MANAGE_APPLY=By.xpath("//span[text()='Apply']");
+	public static final By BTN_MANAGE_APPLY = By.xpath("//span[text()='Apply']");
 	public static final By PAGE_TITLE = By.xpath("//li[@id='Pick List Manager']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-success']");
 	public static final By TBL_ROW = By.xpath("//*[@id='filter-prd-grid']/tbody/tr");
@@ -152,9 +152,21 @@ public class PickList extends Factory {
 	public static final By DRIVER_COLUMN = By.id("dataGrid_driver");
 	public static final By DATA_GRID_DRIVER = By.xpath("//td[@aria-describedby='dataGrid_driver']");
 	public static final By DPD_ROUTE = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
-	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'ui-igcombo-field')]");
+	public static final By DPD_DRIVER = By.xpath("//input[contains(@class,'all ui-unselectable')]");
 	public static final By BTN_SAVE = By.id("schedule-save");
 	public static final By CHECKBOX = By.xpath("//span[contains(@class,'ui-igcheckbox-small')]");
+	public static final By TAB_HIGHLIGHTED_LOCATION = By
+			.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
+	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
+	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
+	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead//tr");
+	public static final By TXT_COLUMN_CHOOSER = By.xpath("//span[@class='ui-dialog-title']");
+	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	public static final By BTN_APPLY_COLUMN = By
+			.xpath("//span[@id='filter-prd-grid_hiding_modalDialog_footer_buttonok_lbl']");
+	public static final By BTN_CANCEL_COLUMN = By.xpath(
+			"//div[@class='ui-dialog-buttonset']//button[@id='filter-prd-grid_hiding_modalDialog_footer_buttoncancel']");
+	public static final By BTN_REMOVE_PRODUCT = By.xpath("//a[@class='delete-button']");
 	public static final By START_DATE_DROPDOWN = By.id("start-num");
 	public static final By END_DATE_DROPDOWN = By.id("end-num");
 	public static final By GRID_ROUTE = By.xpath("//tbody[@role='alert']");
@@ -320,6 +332,7 @@ public class PickList extends Factory {
 		List<WebElement> columnHeaders = Foundation.getDriver().findElements(TBL_SELECT_LOC_HEADERS);
 		for (WebElement columnHeader : columnHeaders) {
 			tableHeaders.add(columnHeader.getText());
+			System.out.println(tableHeaders);
 		}
 	}
 
@@ -429,6 +442,7 @@ public class PickList extends Factory {
 		dropDown.selectItem(PickList.DPD_FILTERBY, dropdown, Constants.TEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.START_DATE_DROPDOWN));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.END_DATE_DROPDOWN));
+		foundation.threadWait(5);
 		foundation.click(PickList.BTN_FILTER_CANCEL);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 		foundation.click(PickList.BTN_YES);
@@ -442,7 +456,7 @@ public class PickList extends Factory {
 	 * @param description
 	 */
 	public void searchRouteAndClickOnActiveCheckbox(String text, String description, String driver, String checkbox) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ROUTES));
+		foundation.threadWait(5);
 		textBox.enterText(PickList.TXT_INPUT, text);
 		foundation.waitforElementToBeVisible(GRID_ROUTE, 5);
 		foundation.click(selectRoutes(description, driver));
@@ -543,6 +557,7 @@ public class PickList extends Factory {
 
 	/**
 	 * search product and click on refresh verify the grid content
+	 * 
 	 * @param productname
 	 * @param loc
 	 */
@@ -564,9 +579,7 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(PickList.GRID_CONTENT, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.GRID_CONTENT));
 	}
-	
-	
-	
+
 	/**
 	 * Select location from location filter,apply and click on plan picklist
 	 * 
@@ -588,7 +601,7 @@ public class PickList extends Factory {
 		String data = foundation.getText(PickList.TBL_ROW_DATA);
 		CustomisedAssert.assertTrue(data.contains(location));
 	}
-	
+
 	/**
 	 * click on manage column and verify apply and cancel button
 	 */
@@ -601,4 +614,41 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(BTN_MANAGE_CANCEL, 3);
 
 	}
+
+	public void deleteColumn(List<String> columnNames) {
+		try {
+			for (int iter = 0; iter < columnNames.size(); iter++) {
+				if (columnNames.get(iter).equals("Location")) {
+					columnNames.remove("Location");
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Selecting LightSpeed
+	 */
+	public void selectingLightSpeed(String selectingOption) {
+		if (!dropDown.getSelectedItem(PickList.DRP_HAS_LIGHTSPEED).equals(selectingOption)) {
+			if (selectingOption.toLowerCase().equals("no")) {
+				dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "No", Constants.TEXT);
+			} else {
+				dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "Yes", Constants.TEXT);
+			}
+			foundation.click(PickList.BTN_SAVE_LIGHTSPEED);
+			foundation.threadWait(Constants.SHORT_TIME);
+		}
+	}
+
+	public List<String> getTableHeadersForFilteredLocations() {
+		List<WebElement> columnHeaders = Foundation.getDriver().findElements(FILTERED_PICKLIST_TBL_ROW);
+		for (WebElement columnHeader : columnHeaders) {
+			tableHeaders.add(columnHeader.getText());
+			System.out.println(tableHeaders);
+		}
+		return tableHeaders;
+	}
+
 }

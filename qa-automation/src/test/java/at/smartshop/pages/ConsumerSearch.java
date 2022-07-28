@@ -247,6 +247,7 @@ public class ConsumerSearch extends Factory {
 	}
 
 
+
 	/**
 	 * Search for Particular consumer on basis of Email in AutoLocation1 and
 	 * navigate to Consumer Summary Page to validate Subsidy Balance
@@ -274,6 +275,7 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 		String balance = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
 		return balance;
+
 	}
 	
 	/**
