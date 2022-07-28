@@ -710,9 +710,15 @@ public class EgiftCards extends TestInfra {
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-	
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		
 		List<String> heigwid = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(2));
+		String giftTitle = requiredData.get(0) + strings.getRandomCharacter();
+	
 
 		try {
 			// Login to ADM with Super User, Select Org
@@ -723,6 +729,7 @@ public class EgiftCards extends TestInfra {
 			//Navigate to Menu Item 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID));
 			
 			//verify the dimension of issue button
@@ -730,6 +737,10 @@ public class EgiftCards extends TestInfra {
 			
 			//verify the dimension of print button
 			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_PRINT_FIRST_ROW, heigwid.get(0), heigwid.get(1));
+			
+			//Create E-Gift card
+			consumerEngagement.createGiftCard(giftTitle, requiredData.get(1), expireDate);
+			
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
