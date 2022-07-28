@@ -2213,7 +2213,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
@@ -2619,7 +2619,6 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_ROLL_OVER));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.CANCEL_BTN);
 		} catch (Exception exc) {
@@ -2629,6 +2628,7 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);
+			foundation.threadWait(5);
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);

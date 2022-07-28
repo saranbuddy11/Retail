@@ -186,7 +186,7 @@ public class Device extends TestInfra {
 	 * } catch (Exception exc) { TestInfra.failWithScreenShot(exc.toString()); } }
 	 */
 
-	@Test(description = "145239-QAA-24-Verify the sort functionality of serial number column on Super>Device page")
+	@Test(description = "145239-QAA-24-Verify the sort functionality of serial number column on Admin>Device page")
 	public void serialNumberSortSuper() {
 		try {
 			final String CASE_NUM = "145239";

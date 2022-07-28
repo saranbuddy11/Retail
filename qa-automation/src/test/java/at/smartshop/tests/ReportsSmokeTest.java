@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
@@ -14,7 +13,6 @@ import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.ui.Foundation;
 import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -658,7 +656,8 @@ public class ReportsSmokeTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOFUND_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOFUND_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -676,8 +675,8 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			String fileName= rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME)+locationName;
+
+			String fileName = rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME) + locationName;
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -5544,8 +5543,8 @@ public class ReportsSmokeTest extends TestInfra {
 
 	/**
 	 * This Method is for Somke Test of Inventory Variance Report.
-	 * @author ravindhara
-	 * Date: 01-07-2022
+	 * 
+	 * @author ravindhara Date: 01-07-2022
 	 */
 	@Test(description = "197656- This test validates Data existance and Excel file exportaion of Inventory Variance Report")
 	public void inventoryVariance() {
@@ -5571,8 +5570,9 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(reportName);
-			
-			reportList.selectLocationForSecondTypeDropdown(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			reportList.selectLocationForSecondTypeDropdown(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.threadWait(Constants.ONE_SECOND);
 			reportList.selectDateRangeDateofType2(rstReportListData.get(CNReportList.DATE_RANGE),
 					InventoryVariance.DATA_EXISTING_DATE, InventoryVariance.DATA_EXISTING_DATE);
@@ -5585,8 +5585,9 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			String fileName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE)+rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME);
+
+			String fileName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE) + rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME);
 
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(reportName, fileName);
@@ -5597,11 +5598,11 @@ public class ReportsSmokeTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This Method is for Somke Test of Inventory List Report.
-	 * @author ravindhara
-	 * Date: 05-07-2022
+	 * 
+	 * @author ravindhara Date: 05-07-2022
 	 */
 	@Test(description = "197703- This test validates Data existance and Excel file exportaion of Inventory List Report")
 	public void inventoryList() {
@@ -5629,7 +5630,8 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(reportName);
 			reportList.selectDateRangeOfSinglrDateofType3(rstReportListData.get(CNReportList.DATE_RANGE),
 					InventoryList.DATA_EXISTING_DATE);
-			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -5639,7 +5641,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
 
 			foundation.threadWait(Constants.SHORT_TIME);
-			
+
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),

@@ -10,6 +10,8 @@ import at.framework.reportsetup.ExtFactory;
 import at.smartshop.tests.TestInfra;
 
 public class CheckBox extends Factory {
+	
+	private Foundation foundation =new Foundation();
 
 	public void check(By object) {
 		try {
@@ -73,4 +75,21 @@ public class CheckBox extends Factory {
 		}
 		return isEnabled;
 	}
+	/**
+	 * check box selection
+	 * @param element
+	 * @param selectionStatus
+	 */
+	public void checkboxSelection(WebElement element, String selectionStatus) {
+        if(selectionStatus.toLowerCase().equals("check")) {
+            if(element.getAttribute("checked") == null) {
+                element.click();
+            }
+        }else{
+            if(!element.getAttribute("checked").equals("false")) {
+                element.click();
+            }
+        }
+    }
+	
 }
