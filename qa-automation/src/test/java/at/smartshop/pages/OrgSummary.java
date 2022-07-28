@@ -9,12 +9,14 @@ import org.openqa.selenium.support.ui.Select;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
+	private Dropdown dropDown = new Dropdown();
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
 	public static final By POPUP_LBL_HEADER = By.id("ageverificationpopup");
 	public static final By POPUP_BTN_YES = By.id("ageverificationpopupSaveBtn");
@@ -149,5 +151,20 @@ public class OrgSummary extends Factory {
 			checkBox.check(OrgSummary.CHK_VDI);
 			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 		}
+	}
+	
+	/**
+	 * select dropDown values from Org summary 
+	 * @param object
+	 * @param dropdown
+	 */
+	public void selectDropdownValues(By object,String dropdown) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+		foundation.waitforElementToBeVisible(object, 5);
+		dropDown.selectItem(object, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, 3);
+		foundation.click(OrgSummary.BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+		
 	}
 }
