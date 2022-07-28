@@ -246,22 +246,6 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
-	
-	/**
-	 * search consumer and verify in grid
-	 * @param locationName
-	 */
-	public void searchConsumerAndVerifyInGrid(String locationName) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CONSUMER_SEARCH));
-		foundation.waitforElementToBeVisible(CLEAR_SEARCH, 3);
-		foundation.click(CLEAR_SEARCH);
-		dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
-		foundation.waitforElementToBeVisible(BTN_GO, 3);
-		foundation.click(BTN_GO);
-		foundation.waitforElementToBeVisible(ACTION_BTN, 3);
-		String data = foundation.getText(TBL_ROW_GRID);
-		CustomisedAssert.assertTrue(data.contains(locationName));
-	}
 
 
 	/**
@@ -291,6 +275,23 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 		String balance = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
 		return balance;
+
+	}
+	
+	/**
+	 * search consumer and verify in grid
+	 * @param locationName
+	 */
+	public void searchConsumerAndVerifyInGrid(String locationName) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CONSUMER_SEARCH));
+		foundation.waitforElementToBeVisible(CLEAR_SEARCH, 3);
+		foundation.click(CLEAR_SEARCH);
+		dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_GO, 3);
+		foundation.click(BTN_GO);
+		foundation.waitforElementToBeVisible(ACTION_BTN, 3);
+		String data = foundation.getText(TBL_ROW_GRID);
+		CustomisedAssert.assertTrue(data.contains(locationName));
 
 	}
 }
