@@ -4043,7 +4043,7 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(reportName);
 			reportList.selectLocationForSecondTypeDropdown(locationData.get(0));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			reportList.selectDateRangeDateofType2(locationData.get(1), InventoryVariance.DATA_EXISTING_DATE,
 					InventoryVariance.DATA_EXISTING_DATE);
 			foundation.click(ReportList.BTN_RUN_REPORT);

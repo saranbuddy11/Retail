@@ -558,6 +558,7 @@ public class ReportList extends Factory {
 					continue;
 			}
 			foundation.click(BTN_PREVIOUS_MONTH);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(firstDate);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(lastDate);
