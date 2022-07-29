@@ -738,7 +738,7 @@ public class EgiftCards extends TestInfra {
 			// verify the dimension of print button
 			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_PRINT_FIRST_ROW, heigwid.get(0), heigwid.get(1));
 
-			// Create E-Gift card
+			// Create E-Gift card with lower case
 			consumerEngagement.createGiftCard(requiredData.get(0), requiredData.get(1), expireDate);
 
 			// validate the error
