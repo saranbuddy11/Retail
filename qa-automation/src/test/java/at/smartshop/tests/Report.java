@@ -4371,13 +4371,16 @@ public class Report extends TestInfra {
 	 * @date: 28-07-2022
 	 */
 	@Test(description = "198561 - Sold Details Report data validation")
-	public void soldDetailsReportDataValication() {
+	public void soldDetailsReportDataValidation() {
 		final String CASE_NUM = "198561";
 
 		// Reading Test Data from DB
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
 			// Navigate to ADM and Select Org
 			browser.navigateURL(
@@ -4388,10 +4391,17 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.click(SoldDetails.FIND_TRANSACTION);
+			Thread.sleep(7000);
+
+			textBox.enterText(SoldDetails.TXT_SEARCH_TRANSACTION, date);
+			String txnId = foundation.getText(SoldDetails.TXT_ID_TRANSACTION);
 
 			// Navigate to Report Tab
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -4408,12 +4418,12 @@ public class Report extends TestInfra {
 			soldDetails.getIntialData().putAll(soldDetails.getReportsData());
 
 			// process sales API to generate data
-			soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			// soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// rerun and reread report
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			soldDetails.getTblRecordsUI();
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			soldDetails.getTblRecordsUI();
 
 			// update the report date based on calculation
 //			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);

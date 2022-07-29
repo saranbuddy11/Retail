@@ -23,6 +23,7 @@ import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
@@ -37,6 +38,7 @@ public class SoldDetails extends Factory {
 	private WebService webService = new WebService();
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
@@ -44,6 +46,9 @@ public class SoldDetails extends Factory {
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_ANALYSIS_GRID = By.cssSelector("#rptdt > tbody");
+	public final static By TXT_SEARCH_TRANSACTION = By.xpath("//input[@aria-controls='transdt']");
+	public final static By TXT_ID_TRANSACTION = By.cssSelector("#Row_0");
+	public final static By FIND_TRANSACTION = By.xpath("//button[@id='findBtn']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -51,7 +56,6 @@ public class SoldDetails extends Factory {
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 
 	public Map<Integer, Map<String, String>> getIntialData() {
-		System.out.println(intialData);
 		return intialData;
 	}
 
@@ -169,17 +173,21 @@ public class SoldDetails extends Factory {
 	 * 
 	 * @param value
 	 */
-	public void processAPI(String value) {
+	public String processAPI(String value) {
+		String date = "";
 		try {
 			generateJsonDetails(value);
 			salesJsonDataUpdate();
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
+			date = String.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
+			System.out.println(date);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+		return date;
 	}
 
 	/**
