@@ -703,7 +703,9 @@ public class EgiftCards extends TestInfra {
 	/**
 	 * @author afrosean Data: 27-07-2022
 	 */
-	@Test(description = "198470- verify the button size of issue and print button")
+	@Test(description = "198470- verify the button size of issue and print button"
+			+ "198472-Verify the error message when duplicate title is given in upper/lowercase"
+			+ "198471- Verify the error message when duplicate title is given")
 	public void verifyButtonSizeOfIssueAndPrintButon() {
 		final String CASE_NUM = "198470";
 
@@ -740,6 +742,12 @@ public class EgiftCards extends TestInfra {
 
 			// validate the error
 			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(0), requiredData.get(3));
+
+			// Create E-Gift card With Upper case
+			consumerEngagement.createGiftCard(requiredData.get(4), requiredData.get(1), expireDate);
+
+			// validate the error
+			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(4), requiredData.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
