@@ -469,8 +469,8 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EMAIL));
 		textBox.enterText(INPUT_EMAIL, mail);
 		foundation.click(BTN_EMAIL_CARDS);
-		foundation.waitforElementToBeVisible(BTN_OK, Constants.SHORT_TIME);
-		foundation.click(BTN_OK);
+//		foundation.waitforElementToBeVisible(BTN_OK, Constants.SHORT_TIME);
+//		foundation.click(BTN_OK);
 		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
 	}
 

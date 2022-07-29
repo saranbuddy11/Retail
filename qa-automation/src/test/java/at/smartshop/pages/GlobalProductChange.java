@@ -14,6 +14,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
@@ -23,7 +24,8 @@ public class GlobalProductChange extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropDown = new Dropdown();
 	private Foundation foundation = new Foundation();
-	private CheckBox checkBox =new CheckBox();
+	private CheckBox checkBox = new CheckBox();
+	private Table table = new Table();
 
 	public static final By TXT_LOCATION_SEARCH = By.id("loc-search");
 	public static final By TBL_LOCATION_LIST = By.id("location-list");
@@ -33,8 +35,12 @@ public class GlobalProductChange extends Factory {
 	public static final By BTN_NEXT = By.id("prd-dt-next");
 	public static final By DPD_PICKLISTACTION = By.id("prd-pick-list-action");
 	public static final By DPD_DISPLAY_NEEDBY = By.id("prd-display-need-by");
+	public static final By TXT_TAX1 = By.id("prd-tax-1");
 	public static final By TXT_MIN = By.id("prd-min");
 	public static final By TXT_MAX = By.id("prd-max");
+	public static final By TBL_ROW_RECORD = By.xpath("//tbody[@role='alert']");
+	public static final By TXT_TAX2=By.id("prd-tax-2");
+	public static final By TAX2_CHECKED=By.id("prd-tax-2-checked");
 	public static final By BTN_INCREMENT = By.xpath("//*[@id='increment-radio-btn']/..");
 	public static final By TXT_PRICE = By.id("prd-price");
 	public static final By TXT_PRODUCT_NAME = By.id("filter-name");
@@ -42,7 +48,7 @@ public class GlobalProductChange extends Factory {
 	public static final By LBL_MIN = By.xpath("//*[@id='prd-change-form']/dt[text()='Min']");
 	public static final By LBL_OPERATOR_MIN = By.xpath("//dt[text()='Min']");
 	public static final By LBL_MAX = By.xpath("//*[@id='prd-change-form']/dt[text()='Max']");
-
+	public static final By DEPOSITE_CHECKED = By.id("prd-deposit-checked");
 	public static final By DPD_LOYALITY_MULTIPLIER = By.id("prd-loyalty-multiplier");
 	public static final By BTN_SUBMIT = By.id("prd-update-submit");
 	public static final By BTN_OK = By.xpath("//button[@class='ajs-button ajs-ok']");
@@ -68,6 +74,8 @@ public class GlobalProductChange extends Factory {
 	public static final By ACTION_CHECKEDBOX = By.id("prd-pick-list-action-checked");
 	public static final By LOYALITY_CHECKEDBOX = By.id("prd-loyalty-multiplier-checked");
 	public static final By DISPLAY_CHECKBOX = By.id("prd-display-need-by");
+	public static final By TBL_GRID_PRODUCTS = By.cssSelector("#filtered-prd-dt > tbody > tr");
+	public static final By TAX1_CHECKED=By.id("prd-tax-1-checked");
 	public static final By ROUNDING_CHECKBOX = By.id("prd-display-need-by");
 	public static final By TXT_PROMPT_MSG = By.xpath("//div[text()='Confirm Global Product Change for Location(s)']");
 	public static final By PROMT_OPERATOR_PRODUCT = By.xpath("//div[text()='Confirm Operator Product Catalog Change']");
@@ -86,6 +94,7 @@ public class GlobalProductChange extends Factory {
 	public static final By TAX_CATEGORY = By.id("prd-tax-cate");
 	public static final By TAX_CATEGORY_CHECKBOX = By.id("prd-tax-cate-checked");
 	public static final By DEPOSIT_CATEGORY = By.id("prd-deposit-cate");
+	public static final By DEPOSIT_CAT = By.id("prd-deposit");
 	public static final By CASE_COUNT = By.id("prd-case");
 	public static final By CASE_COUNT_CHECKBOX = By.id("prd-case-checked");
 	public static final By TABLE_GRID_HISTORY = By.cssSelector("#gpchistory > tbody >tr");
@@ -94,6 +103,7 @@ public class GlobalProductChange extends Factory {
 	public static final By HISTORY_GPC = By.xpath("//h4[text()='Global Product Change History']");
 	public static final By HEADER_DATA = By.xpath("//tr[@role='row']");
 	public static final By GRID_HEADER = By.id("gpchistory");
+	public static final By GRID_CONTENT = By.id("filtered-prd-dt");
 	public static final By LBL_OPERATOR_MAX = By.xpath("//dt[text()='Max']");
 	public static final By LBL_PICK_LIST = By.xpath("//*[@id='prd-change-form']/dt[text()='Pick List Action']");
 	public static final By LBL_OPERATOR_PICK_LIST = By.xpath("//dt[text()='Pick List Action']");
@@ -116,8 +126,8 @@ public class GlobalProductChange extends Factory {
 	public static final By CHK_PRODUCT_LOYALTY_MULTIPLIER = By.id("prd-loyalty-multiplier-checked");
 	public static final By DPD_FILTER_BY = By.id("filter-by");
 	public static final By LBL_UPDATE = By.xpath("//label[@class='checked']");
-	public static final By TABLE_RECORD=By.xpath("//div[@id='prd-dt-paging']//a[contains(@id,'page')]");
-	public static final By TBL_ROW_DATA=By.xpath("//tr[@class='odd']");
+	public static final By TABLE_RECORD = By.xpath("//div[@id='prd-dt-paging']//a[contains(@id,'page')]");
+	public static final By TBL_ROW_DATA = By.xpath("//tr[@class='odd']");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -223,6 +233,57 @@ public class GlobalProductChange extends Factory {
 	}
 
 	/**
+	 * get table record datas from ui
+	 * 
+	 * @return
+	 */
+	public Map<Integer, Map<String, String>> getTablelRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_GRID_PRODUCTS);
+			WebElement table = getDriver().findElement(GRID_CONTENT);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
+	}
+   
+	/**
+	 * verify the records data in UI
+	 * @param header
+	 * @param value
+	 */
+	public void verifyRecordData(String header,String value) {
+		// verify the print group field
+		Map<Integer, Map<String, String>> uiTableData = getTablelRecordsUI();
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = "";
+		for (int i = 0; i < uiTableData.size(); i++) {
+			innerMap = uiTableData.get(i);
+			innerValue = innerMap.get(header);
+			CustomisedAssert.assertEquals(innerValue, value);
+		}
+		uiTableData.clear();
+	}
+
+	/**
 	 * searching a Products In Products Filter And Verify The Datas in the Grid
 	 * 
 	 * @param product
@@ -235,9 +296,10 @@ public class GlobalProductChange extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(FILTER_PRODUCTS_CONTENT));
 	}
-    
+
 	/**
-	 * select location and click on apply 
+	 * select location and click on apply
+	 * 
 	 * @param Location
 	 */
 	public void selectLocationAndClickOnApply(By Location) {
@@ -247,4 +309,39 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
+
+	/**
+	 * select location and click on products
+	 */
+	public void selectLocationAndProductClickOnNext(String location, String product) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 5);
+		selectLocationAndClickOnApply(objLocation(location));
+		table.selectRow(product);
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
+		foundation.click(GlobalProductChange.BTN_NEXT);
+	}
+
+	/**
+	 * update deposite and tax field 
+	 * @param deposit
+	 * @param tax1
+	 * @param tax2
+	 */
+	public void updateDepositeAndTaxField(String deposit,String tax1,String tax2) {
+		foundation.waitforElementToBeVisible(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE, 5);
+		textBox.enterText(GlobalProductChange.DEPOSIT_CAT, deposit);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DEPOSITE_CHECKED));
+		textBox.enterText(GlobalProductChange.TXT_TAX1, tax1);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TAX1_CHECKED));
+		textBox.enterText(GlobalProductChange.TXT_TAX2, tax2);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TAX2_CHECKED));
+		foundation.click(GlobalProductChange.BTN_SUBMIT);
+		foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
+		foundation.click(GlobalProductChange.BTN_OK);
+		foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+		foundation.click(GlobalProductChange.REASON_BTNOK);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 3);
+	}
+
 }
