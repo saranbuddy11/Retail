@@ -38,6 +38,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By LBL_HEADER = By.id("mainform");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
+	public static final By BTN_EMAIL=By.id("issueemailbyloc");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
 	public static final By EXPIRE_DATE_ERROR_MSG = By.id("expiredDateValid");
 	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
@@ -66,6 +67,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TXT_LOCATION_ENGAGEMENT = By.xpath("//input[@placeholder='Name of Location']");
 	public static final By LOCATION_TAB = By.id("byloc");
 	public static final By DPD_CLEAR = By.xpath("//div[@title='Clear value']");
+	public static final By TABLE_GRID=By.cssSelector("#consumerengageGrid > tbody > tr");
 	public static final By DPD_ALL_LOCATION = By.xpath("//li[@data-value='All Locations']");
 	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
 	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
@@ -546,7 +548,7 @@ public class ConsumerEngagement extends Factory {
 		textBox.enterText(INPUT_TITLE, title);
 		textBox.enterText(INPUT_AMOUNT, amount);
 		checkbox.check(CHECK_BOX_NO_END_DATE);
-		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.click(BTN_ADD_GIFT_SAVE); 
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
 		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, title);
@@ -583,4 +585,32 @@ public class ConsumerEngagement extends Factory {
 		String text = foundation.getText(TITLE_ERROR);
 		CustomisedAssert.assertEquals(text, error);
 	}
+	
+	/**
+	 * verify dropdown in location 
+	 * @param loc
+	 */
+	public void verifyDropdownInLocation(String loc) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
+		foundation.click(ConsumerEngagement.DPD_LOCATION);
+		foundation.waitforElementToBeVisible(TXT_LOCATION_ENGAGEMENT, 5);
+		textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, loc);
+		foundation.click(objSearchLocation(loc));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+		foundation.waitforElementToBeVisible(DPD_CLEAR, 5);
+	}
+	
+	/**
+	 * verify issue count in gift card grid
+	 * @param value
+	 */
+	public void verifyIssueCount(String value) {
+		foundation.threadWait(5);
+		foundation.refreshPage();
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
+		foundation.waitforElementToBeVisible(TABLE_GRID, 5);
+		String text = foundation.getText(TABLE_GRID);
+		CustomisedAssert.assertTrue(text.contains(value));
+	}
+	
 }

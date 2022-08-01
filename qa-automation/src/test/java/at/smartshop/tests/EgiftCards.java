@@ -698,7 +698,7 @@ public class EgiftCards extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	
+
 	}
 
 	/**
@@ -749,6 +749,59 @@ public class EgiftCards extends TestInfra {
 
 			// validate the error
 			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(4), requiredData.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab")
+	public void verifyIssueCountUpdation() {
+		final String CASE_NUM = "198588";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+
+			// Verify the “By Location” tabs in the Issue page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
+
+			// verify DropDown in location of recipient
+			consumerEngagement.verifyDropdownInLocation(Datas.get(2));
+
+			// verify add to note and click on email
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.CHECKBOX_SELECTALL, 3);
+			foundation.click(ConsumerEngagement.CHECKBOX_SELECTALL);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_EMAIL, 5);
+			foundation.click(ConsumerEngagement.BTN_EMAIL);
+			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
+			
+			//verify issue record count in UI
+			consumerEngagement.verifyIssueCount(Datas.get(1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
