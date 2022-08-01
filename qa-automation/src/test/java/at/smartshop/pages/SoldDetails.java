@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,6 +50,9 @@ public class SoldDetails extends Factory {
 	public final static By TXT_SEARCH_TRANSACTION = By.xpath("//input[@aria-controls='transdt']");
 	public final static By TXT_ID_TRANSACTION = By.cssSelector("#Row_0");
 	public final static By FIND_TRANSACTION = By.xpath("//button[@id='findBtn']");
+	public final static By TXT_SEARCH_FILTER = By.cssSelector("input[aria-controls='rptdt']");
+	public final static By DATE_RANGE = By.id("daterange");
+	public final static By DATE_TODAY = By.xpath("//li[contains(text(),'Today')]");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -182,7 +186,6 @@ public class SoldDetails extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 			date = String.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
-			System.out.println(date);
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -222,57 +225,6 @@ public class SoldDetails extends Factory {
 	}
 
 	/**
-	 * Updating the Data
-	 * 
-	 * @param columnName
-	 * @param values
-	 */
-	public void updateData(String columnName, String values) {
-		try {
-			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
-			for (int iter = 0; iter < reportsData.size(); iter++) {
-				intialData.get(iter).put(columnName, value.get(iter));
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	/**
-	 * Get the Sales Count
-	 * 
-	 * @param columnName
-	 */
-	public void saleCount(String columnName) {
-		try {
-			for (int iter = 0; iter < reportsData.size(); iter++) {
-				String saleCount = intialData.get(iter).get(columnName);
-				int updatedCount = Integer.parseInt(saleCount) + 1;
-				intialData.get(iter).put(columnName, String.valueOf(updatedCount));
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	public void calculateAmount(String columnName, String price, String tax) {
-		try {
-			for (int iter = 0; iter < reportsData.size(); iter++) {
-				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
-						Constants.EMPTY_STRING);
-				double updatedAmount = Double
-						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						+ Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						+ Double.parseDouble(initialAmount);
-				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	/**
 	 * Verify the Report Headers
 	 * 
 	 * @param columnNames
@@ -290,21 +242,57 @@ public class SoldDetails extends Factory {
 	}
 
 	/**
-	 * Verify the Report Data
+	 * Verify the Common value content of Table Record
+	 * 
+	 * @param uiTableData
+	 * @param columnName
+	 * @param data
 	 */
-	public void verifyReportData() {
-		try {
-			int count = intialData.size();
-			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println(reportsData + "\n" + intialData);
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
-				}
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
+	public void verifyCommonValueContentofTableRecord(Map<Integer, Map<String, String>> uiTableData, String columnName,
+			String value) {
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = " ";
+		Map<Integer, Map<String, String>> actualData = uiTableData;
+		for (int i = 0; i < actualData.size(); i++) {
+			innerMap = actualData.get(i);
+			innerValue = innerMap.get(columnName);
+			System.out.println(innerValue + "-" + value);
+			CustomisedAssert.assertTrue(innerValue.contains(value));
 		}
+	}
+
+	/**
+	 * Verify the Different value content of Table Record
+	 * 
+	 * @param uiTableData
+	 * @param columnName
+	 * @param data
+	 */
+	public void verifyDifferentValueContentofTableRecord(Map<Integer, Map<String, String>> uiTableData,
+			String columnName, String value) {
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = " ";
+		Map<Integer, Map<String, String>> actualData = uiTableData;
+		for (int i = 0; i < actualData.size(); i++) {
+			innerMap = actualData.get(i);
+			innerValue = innerMap.get(columnName);
+			System.out.println(innerValue + "-" + value);
+			CustomisedAssert.assertTrue(value.contains(innerValue));
+		}
+	}
+
+	public String calculateMargin(List<String> cost, Double totalPrice) {
+		List<String> marginValues = new ArrayList<String>();
+		for (int i = 0; i < cost.size(); i++) {
+			double margin = ((totalPrice
+					- Double.parseDouble(cost.get(i).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)))
+					/ totalPrice) * 100.0;
+			DecimalFormat df = new DecimalFormat("###.##");
+			String d = df.format(margin);
+			System.out.println(d);
+			marginValues.add(String.valueOf(d) + "%");
+		}
+		String s = marginValues.get(0) + Constants.DELIMITER_HASH + marginValues.get(1);
+		return s;
 	}
 }

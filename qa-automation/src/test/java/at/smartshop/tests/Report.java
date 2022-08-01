@@ -1,5 +1,7 @@
 package at.smartshop.tests;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -4381,6 +4383,9 @@ public class Report extends TestInfra {
 
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> columns = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		try {
 			// Navigate to ADM and Select Org
 			browser.navigateURL(
@@ -4398,6 +4403,7 @@ public class Report extends TestInfra {
 			Thread.sleep(7000);
 
 			textBox.enterText(SoldDetails.TXT_SEARCH_TRANSACTION, date);
+			foundation.threadWait(Constants.LONG_TIME);
 			String txnId = foundation.getText(SoldDetails.TXT_ID_TRANSACTION);
 
 			// Navigate to Report Tab
@@ -4406,43 +4412,46 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocation(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			soldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			// Read the Report the Data
-			soldDetails.getTblRecordsUI();
-			soldDetails.getIntialData().putAll(soldDetails.getReportsData());
+			// Search with Transaction ID and get the data
+			textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, txnId);
 
-			// process sales API to generate data
-			// soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
-			// rerun and reread report
-//			foundation.click(ReportList.BTN_RUN_REPORT);
-//			foundation.threadWait(Constants.TWO_SECOND);
-//			soldDetails.getTblRecordsUI();
-
-			// update the report date based on calculation
-//			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
-//			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
-//			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
-//			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
-//			String userKey = rstProductSummaryData.get(CNProductSummary.USER_KEY);
-//
-//			soldDetails.updateData(soldDetails.getTableHeaders().get(0), productName);
-//			soldDetails.updateData(soldDetails.getTableHeaders().get(1), scanCode);
-//			soldDetails.updateData(soldDetails.getTableHeaders().get(2), userKey);
-//			soldDetails.saleCount(soldDetails.getTableHeaders().get(6));
-//			soldDetails.calculateAmount(soldDetails.getTableHeaders().get(7), productPrice, tax);
-
+			// Read the Report the Data and validate it
+			Map<Integer, Map<String, String>> uiTableData = soldDetails.getTblRecordsUI();
+			System.out.println(uiTableData);
 			soldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(0), location);
+			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(2), txnId);
+			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(13),
+					rstProductSummaryData.get(CNProductSummary.PRICE));
+			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(14),
+					rstProductSummaryData.get(CNProductSummary.TAX));
+			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(5),
+					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
+			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(6),
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(7),
+					rstProductSummaryData.get(CNProductSummary.USER_KEY));
+			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(21),
+					rstProductSummaryData.get(CNProductSummary.COST));
+			List<String> cost = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COST).split(Constants.DELIMITER_HASH));
 
-			// verify report data
-			soldDetails.verifyReportData();
+			// Calculation of Total Price
+			Double totalPrice = Double.parseDouble(rstProductSummaryData.get(CNProductSummary.PRICE))
+					+ Double.parseDouble(rstProductSummaryData.get(CNProductSummary.TAX));
+			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(20), String.valueOf(totalPrice));
 
+			// Calculation of Margin
+			String margin = soldDetails.calculateMargin(cost, totalPrice);
+
+			System.out.println(margin);
+			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(22), margin);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
