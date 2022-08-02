@@ -383,10 +383,12 @@ public class PickList extends Factory {
 		List<WebElement> list = getDriver().findElements(CHECKBOX);
 		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
 		foundation.click(DATA_GRID_ROUTE);
+		foundation.waitforElementToBeVisible(DPD_ROUTE, 3);
 		foundation.click(DPD_ROUTE);
 		foundation.click(objRouteText(option1));
 		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
 		foundation.click(DATA_GRID_DRIVER);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 3);
 		foundation.click(DPD_DRIVER);
 		foundation.click(objDriverText(option2));
 		for (int i = 0; i <= list.size() - 1; i++) {
