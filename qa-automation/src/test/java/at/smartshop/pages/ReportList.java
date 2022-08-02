@@ -554,10 +554,11 @@ public class ReportList extends Factory {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.objectClick(DPD_DATE);
 			for (int count = 0; count < 60; count++) {
-				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear))
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear)) {
 					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
 			}
-			foundation.click(BTN_PREVIOUS_MONTH);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(firstDate);
 			foundation.threadWait(Constants.ONE_SECOND);
