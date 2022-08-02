@@ -4450,8 +4450,8 @@ public class Report extends TestInfra {
 			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.navigateToMenuItem(menu.get(1));
-			soldDetails.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
-			soldDetails.selectLocationForTransactionSearch(location);
+			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocationForTransactionSearch(location);
 			foundation.click(SoldDetails.FIND_TRANSACTION);
 			foundation.waitforElementToBeVisible(SoldDetails.TXT_SEARCH_TRANSACTION, Constants.LONG_TIME);
 
@@ -4470,21 +4470,21 @@ public class Report extends TestInfra {
 			textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, txnId);
 
 			// Read the Report the Data and validate it
-			Map<Integer, Map<String, String>> uiTableData = soldDetails.getTblRecordsUI();
+			soldDetails.getTblRecordsUI();
 			soldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
-			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(0), location);
-			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(2), txnId);
-			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(13),
+			soldDetails.verifyCommonValueContentofTableRecord(columns.get(0), location);
+			soldDetails.verifyCommonValueContentofTableRecord(columns.get(2), txnId);
+			soldDetails.verifyCommonValueContentofTableRecord(columns.get(13),
 					rstProductSummaryData.get(CNProductSummary.PRICE));
-			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(14),
+			soldDetails.verifyCommonValueContentofTableRecord(columns.get(14),
 					rstProductSummaryData.get(CNProductSummary.TAX));
-			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(5),
+			soldDetails.verifyDifferentValueContentofTableRecord(columns.get(5),
 					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
-			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(6),
+			soldDetails.verifyDifferentValueContentofTableRecord(columns.get(6),
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(7),
+			soldDetails.verifyDifferentValueContentofTableRecord(columns.get(7),
 					rstProductSummaryData.get(CNProductSummary.USER_KEY));
-			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(21),
+			soldDetails.verifyDifferentValueContentofTableRecord(columns.get(21),
 					rstProductSummaryData.get(CNProductSummary.COST));
 			List<String> cost = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COST).split(Constants.DELIMITER_HASH));
@@ -4492,11 +4492,11 @@ public class Report extends TestInfra {
 			// Calculation of Total Price
 			Double totalPrice = Double.parseDouble(rstProductSummaryData.get(CNProductSummary.PRICE))
 					+ Double.parseDouble(rstProductSummaryData.get(CNProductSummary.TAX));
-			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(20), String.valueOf(totalPrice));
+			soldDetails.verifyCommonValueContentofTableRecord(columns.get(20), String.valueOf(totalPrice));
 
 			// Calculation of Margin and verify Data
 			String margin = soldDetails.calculateMargin(cost, totalPrice);
-			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(22), margin);
+			soldDetails.verifyDifferentValueContentofTableRecord(columns.get(22), margin);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

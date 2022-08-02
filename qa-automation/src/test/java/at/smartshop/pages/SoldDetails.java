@@ -27,7 +27,6 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -41,7 +40,6 @@ public class SoldDetails extends Factory {
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
 	private DateAndTime dateAndTime = new DateAndTime();
-	private TextBox textBox = new TextBox();
 	private ReportList reportList = new ReportList();
 
 	public static final By LBL_REPORT_NAME = By
@@ -54,14 +52,6 @@ public class SoldDetails extends Factory {
 	public final static By TXT_ID_TRANSACTION = By.cssSelector("#Row_0");
 	public final static By FIND_TRANSACTION = By.xpath("//button[@id='findBtn']");
 	public final static By TXT_SEARCH_FILTER = By.cssSelector("input[aria-controls='rptdt']");
-	public static final By TRANSACTION_DPD_DATE = By.id("daterange");
-	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
-	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
-	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By
-			.xpath("//span[@role='presentation'][normalize-space()='×']");
-	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
-	private static final By SELECT_TRANSACTION_LOCATIONS = By
-			.cssSelector("#select2-loc-dropdown-results > li > ul > li");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -274,13 +264,11 @@ public class SoldDetails extends Factory {
 	 * @param columnName
 	 * @param data
 	 */
-	public void verifyCommonValueContentofTableRecord(Map<Integer, Map<String, String>> uiTableData, String columnName,
-			String value) {
+	public void verifyCommonValueContentofTableRecord(String columnName, String value) {
 		Map<String, String> innerMap = new HashMap<>();
 		String innerValue = " ";
-		Map<Integer, Map<String, String>> actualData = uiTableData;
-		for (int i = 0; i < actualData.size(); i++) {
-			innerMap = actualData.get(i);
+		for (int i = 0; i < reportsData.size(); i++) {
+			innerMap = reportsData.get(i);
 			innerValue = innerMap.get(columnName);
 			CustomisedAssert.assertTrue(innerValue.contains(value));
 		}
@@ -293,13 +281,11 @@ public class SoldDetails extends Factory {
 	 * @param columnName
 	 * @param data
 	 */
-	public void verifyDifferentValueContentofTableRecord(Map<Integer, Map<String, String>> uiTableData,
-			String columnName, String value) {
+	public void verifyDifferentValueContentofTableRecord(String columnName, String value) {
 		Map<String, String> innerMap = new HashMap<>();
 		String innerValue = " ";
-		Map<Integer, Map<String, String>> actualData = uiTableData;
-		for (int i = 0; i < actualData.size(); i++) {
-			innerMap = actualData.get(i);
+		for (int i = 0; i < reportsData.size(); i++) {
+			innerMap = reportsData.get(i);
 			innerValue = innerMap.get(columnName);
 			CustomisedAssert.assertTrue(value.contains(innerValue));
 		}
@@ -324,44 +310,5 @@ public class SoldDetails extends Factory {
 		}
 		String s = marginValues.get(0) + Constants.DELIMITER_HASH + marginValues.get(1);
 		return s;
-	}
-
-	/**
-	 * This method is to Select the Date for Transaction Search
-	 *
-	 */
-	public void selectDateTransactionSearch(String optionName) {
-		try {
-			foundation.waitforElement(TRANSACTION_DPD_DATE, 1);
-			foundation.click(TRANSACTION_DPD_DATE);
-			WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
-			foundation.waitforElement(DPD_DATE_OPTIONS, Constants.EXTRA_LONG_TIME);
-			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);
-			for (WebElement dateOption : dateOptions) {
-				if (dateOption.getText().equals(optionName)) {
-					foundation.waitforElement(GRID_SCHEDULED_REPORT, Constants.EXTRA_LONG_TIME);
-					dateOption.click();
-					break;
-				}
-			}
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	/**
-	 * This method is to Select the Location for Transaction Search
-	 *
-	 */
-
-	public void selectLocationForTransactionSearch(String locationName) {
-		try {
-			foundation.click(TRANSACTION_CLOSE_ALL_LOCATIONS);
-			textBox.enterText(TRANSACTION_DPD_LOCATIONS, locationName);
-			Thread.sleep(1000);
-			foundation.click(SELECT_TRANSACTION_LOCATIONS);
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
 	}
 }
