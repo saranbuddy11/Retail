@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +9,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 
 public class NationalAccounts extends Factory {
+
+	public Browser browser = new Browser();
+	public Login login = new Login();
+	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create New']");
 	public static final By TXT_ACCOUNT_NAME = By.id("name");
@@ -50,6 +58,15 @@ public class NationalAccounts extends Factory {
 	public static final By LBL_EXISTING_ERROR = By.xpath("//p[@id='alertifyForExisitError']");
 	public static final By BTN_POPUP_ACCOUNT_ADDED = By.id("toast");
 	public static final By BTN_ACCEPT_POPUP = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By DELETE_CONFIRM_POPUP_HEADER = By.cssSelector(".ajs-header");
+	public static final By DELETE_CONFIRM_POPUP_CONTENT = By.cssSelector(".ajs-content>p");
+	public static final By CANCEL_BTN = By.cssSelector(".ajs-cancel");
+	public static final By YES_BTN = By.cssSelector(".ajs-ok");
+	public static final By NA_ACCOUNT_GRID = By.cssSelector("tbody.ui-iggrid-tablebody>tr");
+	public static final By NA_ACCOUNT_GRID_HEADER = By.cssSelector("th.ui-iggrid-header>span.ui-iggrid-headertext");
+	public static final By SHOW_RECORD = By.cssSelector("span.ui-iggrid-pagesizelabel");
+	public static final By GRID_EDITOR = By.id("nationalAccountsSummaryGrid_editorEditingInput");
+	public static final By GRID_EDITOR_DPD = By.id("nationalAccountsSummaryGrid_editor_dropDownButton");
 
 	public List<String> nationalAccountsHeadersList = new ArrayList<>();
 	private Dropdown dropDown = new Dropdown();
@@ -101,6 +118,7 @@ public class NationalAccounts extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		By locationElement = By.xpath("//select[@name='locs']//option[text()='" + location + "']");
 		String actualColor = getDriver().findElement(locationElement).getAttribute("style");
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertEquals(actualColor, expctedlcolor);
 	}
 
@@ -110,7 +128,6 @@ public class NationalAccounts extends Factory {
 			select.selectByVisibleText(text);
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
@@ -147,6 +164,145 @@ public class NationalAccounts extends Factory {
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, client_Name, Constants.TEXT);
 		} catch (Exception exc) {
 			Assert.fail();
+		}
+	}
+
+	/**
+	 * Launch Browser and Navigate to National Accounts page
+	 * 
+	 * @param org
+	 * @param location
+	 */
+	public void launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(String org, String location) {
+		// Login ADM
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+		// Select Menu and Menu Item
+		navigationBar.selectOrganization(org);
+		navigationBar.navigateToMenuItem(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
+		foundation.threadWait(Constants.TWO_SECOND);
+	}
+
+	/**
+	 * Verify Trash Icon on created National Account and its popup with content
+	 * validation
+	 * 
+	 * @param nationalAcct
+	 * @param expectedConfirmStatus
+	 */
+	public void verifyTrashIconOfCreatedNationalAccount(String nationalAcct, List<String> expectedConfirmStatus) {
+		textBox.enterText(TXT_FILTER, nationalAcct);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ICO_DELETE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DELETE_CONFIRM_POPUP_HEADER));
+		List<WebElement> element = getDriver().findElements(DELETE_CONFIRM_POPUP_CONTENT);
+		for (int i = 0; i < element.size(); i++) {
+			String status = element.get(i).getText();
+			CustomisedAssert.assertEquals(status, expectedConfirmStatus.get(i));
+		}
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CANCEL_BTN));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(YES_BTN));
+		foundation.click(YES_BTN);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Verify the Headers of National Account Grid in National Account Page
+	 * 
+	 * @param expectedHeaders
+	 */
+	public void verifyHeadersOfNationalAccountGrid(List<String> expectedHeaders) {
+		List<WebElement> element = getDriver().findElements(NA_ACCOUNT_GRID_HEADER);
+		for (int i = 0; i < element.size() - 1; i++) {
+			String status = element.get(i).getText();
+			CustomisedAssert.assertEquals(status, expectedHeaders.get(i));
+		}
+	}
+
+	/**
+	 * Verify show records under National Account Summary Page in Different
+	 * Resolution
+	 * 
+	 * @param options
+	 */
+	public void verifyShowRecord(List<String> options) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GRID_EDITOR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GRID_EDITOR_DPD));
+		List<WebElement> element = getDriver().findElements(SHOW_RECORD);
+		for (int i = 0; i < element.size(); i++) {
+			String text = element.get(i).getText();
+			CustomisedAssert.assertEquals(text, options.get(i));
+		}
+	}
+
+	/**
+	 * Verify Show record field in Different Resolution
+	 * 
+	 * @param options
+	 * @throws AWTException
+	 */
+	public void verifyUIResolution(List<String> options) throws AWTException {
+		verifyShowRecord(options);
+		foundation.pageZoomOut();
+		verifyShowRecord(options);
+		foundation.pageZoomOut();
+		verifyShowRecord(options);
+		foundation.pageZoomIn();
+		verifyShowRecord(options);
+		foundation.pageZoomIn();
+		verifyShowRecord(options);
+	}
+
+	/**
+	 * Verify the fields of Create New Account in National Account Page
+	 * 
+	 * @param options
+	 */
+	public void verifyCreateAccountFields(List<String> options, String nationalAccountName) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
+		foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.NATIONAL_ACC_TITLE, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_ACC_TITLE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NATIONAL_CLIENT_LBL));
+		List<String> values = dropDown.getAllItems(AdminNationalAccounts.DPD_CLIENT);
+		CustomisedAssert.assertTrue(values.equals(options));
+		textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, nationalAccountName);
+		dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, options.get(1), Constants.TEXT);
+		foundation.click(AdminNationalAccounts.BTN_SAVE);
+	}
+
+	/**
+	 * Creating new National Account with Org and Location
+	 * 
+	 * @param org
+	 * @param loc
+	 */
+	public void createNewNationalAccountWithLocation(String org, String loc) {
+		foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
+		dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
+		dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, loc, Constants.TEXT);
+		foundation.click(AdminNationalAccounts.ADD_NA_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_GRID));
+		foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
+		foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Checking on Created National Acccount is deleted or not
+	 * 
+	 * @param nationalAccountName
+	 */
+	public void verifyCreatedNationalAccountDeletedOrNot(String nationalAccountName) {
+		textBox.enterText(TXT_FILTER, nationalAccountName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		if (foundation.isDisplayed(NA_ACCOUNT_GRID)) {
+			foundation.click(ICO_DELETE);
+			foundation.click(YES_BTN);
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.BTN_CREATE_NEW_RULE, Constants.SHORT_TIME);
 		}
 	}
 }

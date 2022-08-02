@@ -43,6 +43,7 @@ public class ConsumerSearch extends Factory {
 	public static final By LBL_BULK_REMOVE_FUNDS = By.xpath("//li[@id='removeFundSelectedBtn']");
 	public static final By LBL_BULK_TOPOFF_FUNDS = By.xpath("//li[@id='topOffFundSelectedBtn']");
 	public static final By LBL_BULK_PAYOUT = By.xpath("//li[@id='payoutAndCloseBtn']");
+	public static final By TBL_ROW_GRID=By.cssSelector("#consumerdt > tbody");
 	public static final By BTN_OK = By.xpath("//button[text()='Ok']");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
 	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
@@ -245,6 +246,8 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+
+
 	/**
 	 * Search for Particular consumer on basis of Email in AutoLocation1 and
 	 * navigate to Consumer Summary Page to validate Subsidy Balance
@@ -272,5 +275,23 @@ public class ConsumerSearch extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 		String balance = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
 		return balance;
+
+	}
+	
+	/**
+	 * search consumer and verify in grid
+	 * @param locationName
+	 */
+	public void searchConsumerAndVerifyInGrid(String locationName) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_CONSUMER_SEARCH));
+		foundation.waitforElementToBeVisible(CLEAR_SEARCH, 3);
+		foundation.click(CLEAR_SEARCH);
+		dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_GO, 3);
+		foundation.click(BTN_GO);
+		foundation.waitforElementToBeVisible(ACTION_BTN, 3);
+		String data = foundation.getText(TBL_ROW_GRID);
+		CustomisedAssert.assertTrue(data.contains(locationName));
+
 	}
 }

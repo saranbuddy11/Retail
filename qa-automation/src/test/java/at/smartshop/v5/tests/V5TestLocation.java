@@ -539,7 +539,10 @@ public class V5TestLocation extends TestInfra {
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
-			foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName), Constants.MEDIUM_TIME);
+			foundation.clickSpaceBar();
+			foundation.threadWait(Constants.SHORT_TIME);
+			// foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName),
+			// Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
@@ -1237,12 +1240,12 @@ public class V5TestLocation extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstConsumerData = dataBase.getConsumerData(Queries.CONSUMER, CASE_NUM);
 
-//			List<String> balance = Arrays
-//					.asList(rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
-//			List<String> status = Arrays
-//					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
-//			List<String> searchBy = Arrays
-//					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
+			List<String> balance = Arrays
+					.asList(rstConsumerData.get(CNConsumerSummary.ADJUST_BALANCE).split(Constants.DELIMITER_TILD));
+			List<String> status = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.STATUS).split(Constants.DELIMITER_TILD));
+			List<String> searchBy = Arrays
+					.asList(rstConsumerData.get(CNConsumerSearch.SEARCH_BY).split(Constants.DELIMITER_TILD));
 			List<String> menuItem = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 			String eMail = string.getRandomCharacter() + rstConsumerData.get(CNConsumer.EMAIL);
@@ -1270,45 +1273,42 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Enter fields in Consumer Search Page
-			/*
-			 * foundation.threadWait(Constants.ONE_SECOND);
-			 * consumerSearch.enterSearchFields(searchBy.get(0), eMail,
-			 * rstConsumerData.get(CNConsumerSearch.LOCATION), status.get(0));
-			 * consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
-			 * foundation.click(ConsumerSearch.BTN_ACTIONS);
-			 * foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
-			 * foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE,
-			 * Constants.SHORT_TIME); textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,
-			 * balance.get(0)); foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			 * foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
-			 * foundation.click(ConsumerSearch.BTN_OK);
-			 * foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK,
-			 * Constants.SHORT_TIME); // Negative Balance
-			 * consumerSearch.enterSearchFields(searchBy.get(0), eMail,
-			 * rstConsumerData.get(CNConsumerSearch.LOCATION), status.get(0));
-			 * consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
-			 * foundation.click(ConsumerSearch.BTN_ACTIONS);
-			 * foundation.click(ConsumerSearch.LBL_BULK_REMOVE_FUNDS);
-			 * foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE,
-			 * Constants.SHORT_TIME); textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE,
-			 * balance.get(2)); foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			 * foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
-			 * foundation.click(ConsumerSearch.BTN_OK);
-			 * 
-			 * consumerSearch.enterSearchFields(searchBy.get(1), FName,
-			 * rstConsumerData.get(CNConsumerSearch.LOCATION), status.get(0));
-			 * consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
-			 * foundation.click(ConsumerSearch.BTN_ACTIONS);
-			 * foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
-			 * foundation.click(ConsumerSearch.BTN_CONFIRM);
-			 * 
-			 * Map<String, String> uiTbl = consumerSearch
-			 * .getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION)); String
-			 * uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
-			 * CustomisedAssert.assertTrue(uiBal.contains(balance.get(4))); uiBal =
-			 * foundation.getNumbersFromString(uiBal);
-			 * CustomisedAssert.assertTrue(foundation.isNumeric(uiBal));
-			 */
+			foundation.threadWait(Constants.ONE_SECOND);
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_ADD_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(0));
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+			foundation.waitforElementToDisappear(ConsumerSearch.BTN_OK, Constants.SHORT_TIME); // Negative Balance
+			consumerSearch.enterSearchFields(searchBy.get(0), eMail, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_REMOVE_FUNDS);
+			foundation.waitforElement(ConsumerSummary.TXT_ADJUST_BALANCE, Constants.SHORT_TIME);
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance.get(2));
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.waitforElement(ConsumerSearch.BTN_OK, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.BTN_OK);
+
+			consumerSearch.enterSearchFields(searchBy.get(1), FName, rstConsumerData.get(CNConsumerSearch.LOCATION),
+					status.get(0));
+			consumerSearch.objLocation(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			foundation.click(ConsumerSearch.BTN_ACTIONS);
+			foundation.click(ConsumerSearch.LBL_BULK_PAYOUT);
+			foundation.click(ConsumerSearch.BTN_CONFIRM);
+
+			Map<String, String> uiTbl = consumerSearch
+					.getConsumerRecords(rstConsumerData.get(CNConsumerSearch.LOCATION));
+			String uiBal = uiTbl.get(rstConsumerData.get(CNConsumerSearch.COLUMN_NAME));
+			CustomisedAssert.assertTrue(uiBal.contains(balance.get(4)));
+			uiBal = foundation.getNumbersFromString(uiBal);
+			CustomisedAssert.assertTrue(foundation.isNumeric(uiBal));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

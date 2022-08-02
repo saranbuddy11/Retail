@@ -720,7 +720,7 @@ public class SmokeTests extends TestInfra {
 			// Detail page
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(3), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, actualData.get(1));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);

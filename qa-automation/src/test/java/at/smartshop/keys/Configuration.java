@@ -42,7 +42,9 @@ public class Configuration {
 	public static final String TEST_RAIL_USER_NAME = "testRailUsername";
 	public static final String TEST_RAIL_PASSWORD = "testRailPassword";
 	public static final String TEST_RAIL_RUNID = "testRailRunID";
-	public static final String EMAIL_TO = "emailTo";
+	public static final String EMAIL_To = "emailTo";
+	public static final String EMAIL_Cc = "emailCc";
+	public static final String EMAIL_From = "emailFrom";
 	public static final String EMAIL_HOST_NAME = "emailHostName";
 	public static final String DRIVER_USER = "DriverUser";
 	public static final String AUTOMATIONLOCATION1 = "third_loc";

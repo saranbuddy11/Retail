@@ -189,6 +189,7 @@ public class ResultSets extends Connections {
 				rstProductSummary.put(CNProductSummary.PRODUCT_NAME,
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
 				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
+				rstProductSummary.put(CNProductSummary.TAX, resultSet.getString(CNProductSummary.TAX));
 			}
 
 		} catch (Exception exc) {
@@ -730,7 +731,7 @@ public class ResultSets extends Connections {
 				rstLocation.put(CNLocation.CONTACT_EMAIL, resultSet.getString(CNLocation.CONTACT_EMAIL));
 				rstLocation.put(CNLocation.ADDRESS, resultSet.getString(CNLocation.ADDRESS));
 				rstLocation.put(CNLocation.INFO_NOTES, resultSet.getString(CNLocation.INFO_NOTES));
-
+				rstLocation.put(CNLocation.INFO_MSG, resultSet.getString(CNLocation.INFO_MSG));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
