@@ -73,7 +73,11 @@ public class ReportList extends Factory {
 	private static final By APPLY_DATE_RANGE_BUTTON = By.xpath("//button[normalize-space()='Apply']");
 	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_3 = By.cssSelector(
 			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
-
+	
+	public static final By TRANSACTION_DPD_DATE = By.id("daterange");
+	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
+	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
+	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -593,4 +597,44 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * This method is to Select the Date for Transaction Search
+	 * 
+	 */
+	public void selectDateTransactionSearch(String optionName) {
+		try {
+			foundation.waitforElement(TRANSACTION_DPD_DATE, 1);
+			foundation.click(TRANSACTION_DPD_DATE);
+			WebElement editerGrid = getDriver().findElement(GRID_SCHEDULED_REPORT);
+			foundation.waitforElement(DPD_DATE_OPTIONS, Constants.EXTRA_LONG_TIME);
+			List<WebElement> dateOptions = editerGrid.findElements(DPD_DATE_OPTIONS);
+			for (WebElement dateOption : dateOptions) {
+				if (dateOption.getText().equals(optionName)) {
+					foundation.waitforElement(GRID_SCHEDULED_REPORT, Constants.EXTRA_LONG_TIME);
+					dateOption.click();
+					break;
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This method is to Select the Location for Transaction Search
+	 * 
+	 */
+	
+	public void selectLocationForTransactionSearch(String locationName) {
+		try {
+			foundation.click(TRANSACTION_CLOSE_ALL_LOCATIONS);
+			textBox.enterText(TRANSACTION_DPD_LOCATIONS, locationName);
+			Thread.sleep(1000);
+			foundation.click(SELECT_TRANSACTION_LOCATIONS);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 }
