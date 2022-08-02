@@ -35,7 +35,7 @@ public class ReportList extends Factory {
 
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
-	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.left > div.calendar-table > table > thead > tr:nth-child(1) > th.prev.available");
+	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
 			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
