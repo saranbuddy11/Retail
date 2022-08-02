@@ -1,7 +1,5 @@
 package at.smartshop.tests;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -4399,6 +4397,8 @@ public class Report extends TestInfra {
 			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.navigateToMenuItem(menu.get(1));
+			soldDetails.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
+			soldDetails.selectLocationForTransactionSearch(location);
 			foundation.click(SoldDetails.FIND_TRANSACTION);
 			Thread.sleep(7000);
 
@@ -4423,7 +4423,6 @@ public class Report extends TestInfra {
 
 			// Read the Report the Data and validate it
 			Map<Integer, Map<String, String>> uiTableData = soldDetails.getTblRecordsUI();
-			System.out.println(uiTableData);
 			soldDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(0), location);
 			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(2), txnId);
@@ -4447,10 +4446,8 @@ public class Report extends TestInfra {
 					+ Double.parseDouble(rstProductSummaryData.get(CNProductSummary.TAX));
 			soldDetails.verifyCommonValueContentofTableRecord(uiTableData, columns.get(20), String.valueOf(totalPrice));
 
-			// Calculation of Margin
+			// Calculation of Margin and verify Data
 			String margin = soldDetails.calculateMargin(cost, totalPrice);
-
-			System.out.println(margin);
 			soldDetails.verifyDifferentValueContentofTableRecord(uiTableData, columns.get(22), margin);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
