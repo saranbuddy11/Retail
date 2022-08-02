@@ -1040,6 +1040,7 @@ public class AgeVerification extends TestInfra {
 		} finally {
 			// Deleting Active PIN record After validation
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(2)));
 			foundation.click(AgeVerificationDetails.BTN_YES);
