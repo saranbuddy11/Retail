@@ -42,6 +42,7 @@ public class SoldDetails extends Factory {
 	private PropertyFile propertyFile = new PropertyFile();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private TextBox textBox = new TextBox();
+	private ReportList reportList = new ReportList();
 
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
@@ -247,6 +248,23 @@ public class SoldDetails extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	/**
+	 * Select the report with Date range and Location to run the report
+	 * 
+	 * @param reportName
+	 * @param date
+	 * @param location
+	 */
+	public void selectAndRunReport(String reportName, String date, String location) {
+		reportList.selectReport(reportName);
+		reportList.selectDate(date);
+		reportList.selectLocation(location);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ReportList.BTN_RUN_REPORT);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		verifyReportName(reportName);
 	}
 
 	/**

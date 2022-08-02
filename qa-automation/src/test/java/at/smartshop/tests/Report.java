@@ -4400,7 +4400,7 @@ public class Report extends TestInfra {
 			soldDetails.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
 			soldDetails.selectLocationForTransactionSearch(location);
 			foundation.click(SoldDetails.FIND_TRANSACTION);
-			Thread.sleep(7000);
+			foundation.waitforElementToBeVisible(SoldDetails.TXT_SEARCH_TRANSACTION, Constants.LONG_TIME);
 
 			textBox.enterText(SoldDetails.TXT_SEARCH_TRANSACTION, date);
 			foundation.threadWait(Constants.LONG_TIME);
@@ -4410,13 +4410,8 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 
 			// Select the Report Date range and Location and run report
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(location);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			soldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			soldDetails.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
 
 			// Search with Transaction ID and get the data
 			textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, txnId);
