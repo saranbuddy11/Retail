@@ -2272,7 +2272,7 @@ public class ConsumerSubsidy extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
-			browser.close();
+			//browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
