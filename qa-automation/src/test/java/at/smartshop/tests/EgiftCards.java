@@ -755,7 +755,8 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
-	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab")
+	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab"
+	                  + "198589- Verify  issue count gets updated automatically when  e-Gift  issued to  multiple Consumers  from By location  tab")
 	public void verifyIssueCountUpdation() {
 		final String CASE_NUM = "198588";
 
@@ -790,7 +791,7 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
 
 			// verify DropDown in location of recipient
-			consumerEngagement.verifyDropdownInLocation(Datas.get(2));
+			consumerEngagement.verifyDropdownInLocation(Datas.get(4));
 
 			// verify add to note and click on email
 			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
@@ -799,8 +800,8 @@ public class EgiftCards extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_EMAIL, 5);
 			foundation.click(ConsumerEngagement.BTN_EMAIL);
 			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
-			
-			//verify issue record count in UI
+
+			// verify issue record count in UI
 			consumerEngagement.verifyIssueCount(Datas.get(1));
 
 		} catch (Exception exc) {

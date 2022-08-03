@@ -67,7 +67,6 @@ public class ConsumerEngagement extends Factory {
 	public static final By TXT_LOCATION_ENGAGEMENT = By.xpath("//input[@placeholder='Name of Location']");
 	public static final By LOCATION_TAB = By.id("byloc");
 	public static final By DPD_CLEAR = By.xpath("//div[@title='Clear value']");
-	public static final By TABLE_GRID=By.cssSelector("#consumerengageGrid > tbody > tr");
 	public static final By DPD_ALL_LOCATION = By.xpath("//li[@data-value='All Locations']");
 	public static final By BTN_PrintScreen_Cancel = By.xpath("//button[@id='printtitlecancel']");
 	public static final By Print_Panel = By.xpath("//div[@class='container-fluid printtitlecard-main']");
@@ -106,6 +105,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By BTN_OK = By.cssSelector(".ajs-ok");
 	public static final By CONSUMER_ENGAGEMENT_GRID = By.cssSelector("table#consumerengageGrid>tbody.ui-ig-record>tr");
 	public static final By SUCCESS_MSG = By.cssSelector("div.alertify-notifier>div");
+	public static final By ISSUEBY=By.xpath("//td[@aria-describedby='consumerengageGrid_issuedCount']");
 
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
@@ -605,11 +605,11 @@ public class ConsumerEngagement extends Factory {
 	 * @param value
 	 */
 	public void verifyIssueCount(String value) {
-		foundation.threadWait(5);
+		foundation.threadWait(3);
 		foundation.refreshPage();
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
-		foundation.waitforElementToBeVisible(TABLE_GRID, 5);
-		String text = foundation.getText(TABLE_GRID);
+		foundation.waitforElementToBeVisible(ISSUEBY, 5);
+		String text = foundation.getText(ISSUEBY);
 		CustomisedAssert.assertTrue(text.contains(value));
 	}
 	
