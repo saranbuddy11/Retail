@@ -25,6 +25,7 @@ public class FilePath {
 	public static final String JSON_MKA = PATH + "\\src\\test\\resources\\MKAAccount.json";
 	public static final String JSON_KIOSK_CASH_OUT = PATH + "\\src\\test\\resources\\KioskCashOut.json";
 	public static final String JSON_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesCreation.json";
+	public static final String JSON_SALES_CREATION_WITH_DEPOSIT = PATH + "\\src\\test\\resources\\SalesCreationWithDisount.json";
 	public static final String JSON_BAD_SCAN = PATH + "\\src\\test\\resources\\BadScan.json";
 	public static final String IMAGE_PATH = PATH + "\\src\\test\\resources\\lunch.jpg";
 	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xlsx";

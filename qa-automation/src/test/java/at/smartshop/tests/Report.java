@@ -4375,7 +4375,6 @@ public class Report extends TestInfra {
 			
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Data validation for Report Based on Groupby ITEMS
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -4403,14 +4402,19 @@ public class Report extends TestInfra {
 							rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA)));
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+			System.out.println("discount :" + discount);
 			
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(0), date);
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(1), locationName);
 			dailySalesSummary.TrasactionCount(dailySalesSummary.getTableHeaders().get(2));
 			dailySalesSummary.itemCount(dailySalesSummary.getTableHeaders().get(3));
-			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(4), productPrice);
+			dailySalesSummary.calculateSales(dailySalesSummary.getTableHeaders().get(4), productPrice, deposit, discount);
 			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(5), tax);
-			dailySalesSummary.totalAmount(dailySalesSummary.getTableHeaders().get(8), productPrice, tax);
+			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(6), deposit);
+			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(7), discount);
+			dailySalesSummary.totalAmount(dailySalesSummary.getTableHeaders().get(8), productPrice, tax, deposit, discount);
 
 			
 			// verify report headers

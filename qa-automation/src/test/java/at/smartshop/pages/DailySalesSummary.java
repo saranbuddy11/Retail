@@ -117,7 +117,7 @@ public class DailySalesSummary extends Factory {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_WITH_DEPOSIT);
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
@@ -184,6 +184,24 @@ public class DailySalesSummary extends Factory {
 		return reportsData;
 	}
 
+	public void calculateSales(String columnName, String amount, String deposit, String discount) {
+		try {
+			for (int iter = 0; iter < reportsData.size(); iter++) {
+				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+						Constants.EMPTY_STRING);
+				double updatedAmount = Double
+						.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
+						+ Double.parseDouble(deposit.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
+						- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
+						+ Double.parseDouble(initialAmount);
+				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
 	public void calculateAmount(String columnName, String amount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -200,7 +218,7 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 	
-	public void totalAmount(String columnName, String price, String tax) {
+	public void totalAmount(String columnName, String price, String tax, String deposit, String discount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
 				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
@@ -208,6 +226,8 @@ public class DailySalesSummary extends Factory {
 				double updatedAmount = Double
 						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
 						+ Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
+						+ Double.parseDouble(deposit.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
+//						- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))*2
 						+ Double.parseDouble(initialAmount);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
