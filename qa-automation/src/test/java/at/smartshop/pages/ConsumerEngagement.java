@@ -38,7 +38,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By LBL_HEADER = By.id("mainform");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
-	public static final By BTN_EMAIL=By.id("issueemailbyloc");
+	public static final By BTN_EMAIL = By.id("issueemailbyloc");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
 	public static final By EXPIRE_DATE_ERROR_MSG = By.id("expiredDateValid");
 	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
@@ -105,7 +105,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By BTN_OK = By.cssSelector(".ajs-ok");
 	public static final By CONSUMER_ENGAGEMENT_GRID = By.cssSelector("table#consumerengageGrid>tbody.ui-ig-record>tr");
 	public static final By SUCCESS_MSG = By.cssSelector("div.alertify-notifier>div");
-	public static final By ISSUEBY=By.xpath("//td[@aria-describedby='consumerengageGrid_issuedCount']");
+	public static final By ISSUEBY = By.xpath("//td[@aria-describedby='consumerengageGrid_issuedCount']");
 
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
@@ -516,6 +516,31 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
+	 * select consumer account in grid and click on email
+	 */
+	public void selectConsumerAndClickOnEmail() {
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, 3);
+		foundation.click(CHECKBOX_SELECTALL);
+		foundation.waitforElementToBeVisible(BTN_EMAIL, 5);
+		foundation.click(BTN_EMAIL);
+		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
+	}
+    /**
+     * click on by email filter and verify enter recipient
+     * @param mail
+     * @param inputText
+     */
+	public void clickOnByEmailFilterAndVerifyEnterRecipient(String mail,String inputText) {
+		foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
+		textBox.enterText(ADD_TO_NOTE_BY_EMAIL, inputText);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
+		textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail);
+		foundation.waitforElementToBeVisible(BTN_EMAIL, 5);
+	}
+
+	/**
 	 * Verify Error Message on Creation of Gift card without expiration date
 	 * 
 	 * @param title
@@ -548,7 +573,7 @@ public class ConsumerEngagement extends Factory {
 		textBox.enterText(INPUT_TITLE, title);
 		textBox.enterText(INPUT_AMOUNT, amount);
 		checkbox.check(CHECK_BOX_NO_END_DATE);
-		foundation.click(BTN_ADD_GIFT_SAVE); 
+		foundation.click(BTN_ADD_GIFT_SAVE);
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
 		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, title);
@@ -558,24 +583,26 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
-	 * verify height and width 
+	 * verify height and width
+	 * 
 	 * @param obj
 	 * @param heig
 	 * @param wid
 	 */
-	public void verifyDimentions(By obj,String heig,String wid) {
+	public void verifyDimentions(By obj, String heig, String wid) {
 		Rectangle dimention = foundation.getDimention(obj);
 		int height = dimention.height;
 		CustomisedAssert.assertEquals(height, Integer.parseInt(heig));
 		int width = dimention.width;
 		CustomisedAssert.assertEquals(width, Integer.parseInt(wid));
 	}
-	
+
 	/**
-	 * verifying error message in title 
+	 * verifying error message in title
+	 * 
 	 * @param title
 	 */
-	public void verifyErrorMessageInTitle(String title,String error) {
+	public void verifyErrorMessageInTitle(String title, String error) {
 		foundation.click(BTN_ADD_GIFT_CARD);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
 		textBox.enterText(INPUT_TITLE, title);
@@ -585,9 +612,10 @@ public class ConsumerEngagement extends Factory {
 		String text = foundation.getText(TITLE_ERROR);
 		CustomisedAssert.assertEquals(text, error);
 	}
-	
+
 	/**
-	 * verify dropdown in location 
+	 * verify dropdown in location
+	 * 
 	 * @param loc
 	 */
 	public void verifyDropdownInLocation(String loc) {
@@ -599,9 +627,10 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
 		foundation.waitforElementToBeVisible(DPD_CLEAR, 5);
 	}
-	
+
 	/**
 	 * verify issue count in gift card grid
+	 * 
 	 * @param value
 	 */
 	public void verifyIssueCount(String value) {
@@ -612,5 +641,5 @@ public class ConsumerEngagement extends Factory {
 		String text = foundation.getText(ISSUEBY);
 		CustomisedAssert.assertTrue(text.contains(value));
 	}
-	
+
 }

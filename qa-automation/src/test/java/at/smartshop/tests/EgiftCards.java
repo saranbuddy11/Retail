@@ -756,7 +756,7 @@ public class EgiftCards extends TestInfra {
 	}
 
 	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab"
-	                  + "198589- Verify  issue count gets updated automatically when  e-Gift  issued to  multiple Consumers  from By location  tab")
+			+ "198589- Verify  issue count gets updated automatically when  e-Gift  issued to  multiple Consumers  from By location  tab")
 	public void verifyIssueCountUpdation() {
 		final String CASE_NUM = "198588";
 
@@ -793,16 +793,64 @@ public class EgiftCards extends TestInfra {
 			// verify DropDown in location of recipient
 			consumerEngagement.verifyDropdownInLocation(Datas.get(4));
 
-			// verify add to note and click on email
+			// verify add to note
 			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
-			foundation.waitforElementToBeVisible(ConsumerEngagement.CHECKBOX_SELECTALL, 3);
-			foundation.click(ConsumerEngagement.CHECKBOX_SELECTALL);
-			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_EMAIL, 5);
-			foundation.click(ConsumerEngagement.BTN_EMAIL);
-			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
+
+			// click on email
+			consumerEngagement.selectConsumerAndClickOnEmail();
 
 			// verify issue record count in UI
 			consumerEngagement.verifyIssueCount(Datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrose
+	 * Date:04-08-2022
+	 */
+	@Test(description = "198590-Verify issue count gets updated automatically when  e-Gift  issued to  1  recipient  from By Email  tab"
+			+ "198591-Verify  issue count gets updated automatically when  e-Gift  issued to multiple recipients from By  Email  tab")
+
+	public void verifyIssueCountAfterUpdatingByEmail() {
+		final String CASE_NUM = "198590";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Click on email filter and verify enter recipient email
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(2), Datas.get(3));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
+
+			// verify issue record count in UI
+			consumerEngagement.verifyIssueCount(Datas.get(4));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
