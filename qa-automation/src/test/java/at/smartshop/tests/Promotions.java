@@ -1955,12 +1955,14 @@ public class Promotions extends TestInfra {
 			String locExistValue = dropDown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION);
 			CustomisedAssert.assertEquals(locExistValue, location.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
-			dropDown.deSelectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
 			dropDown.selectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_LEFT);
 			foundation.threadWait(Constants.TWO_SECOND);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
+			dropDown.deSelectItem(CreatePromotions.DPD_ORG, org.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.ONE_SECOND);
+			dropDown.selectItem(CreatePromotions.DPD_ORG, org.get(1), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(CreatePromotions.DPD_LOC, location.get(1), Constants.TEXT);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
@@ -3911,6 +3913,7 @@ public class Promotions extends TestInfra {
 			
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			
 			//click on create button and validate the err
 			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);

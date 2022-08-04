@@ -34,8 +34,7 @@ public class ReportList extends Factory {
 
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
-	private static final By BTN_PREVIOUS_MONTH = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.left > div.calendar-table > table > thead > tr:nth-child(1) > th.prev.available");
+	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
 			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
@@ -561,10 +560,12 @@ public class ReportList extends Factory {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.objectClick(DPD_DATE);
 			for (int count = 0; count < 60; count++) {
-				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear))
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear)) {
 					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
 			}
-			foundation.click(BTN_PREVIOUS_MONTH);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(firstDate);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(lastDate);
