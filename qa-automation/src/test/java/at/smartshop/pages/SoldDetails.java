@@ -267,10 +267,14 @@ public class SoldDetails extends Factory {
 	public void verifyCommonValueContentofTableRecord(String columnName, String value) {
 		Map<String, String> innerMap = new HashMap<>();
 		String innerValue = " ";
-		for (int i = 0; i < reportsData.size(); i++) {
-			innerMap = reportsData.get(i);
-			innerValue = innerMap.get(columnName);
-			CustomisedAssert.assertTrue(innerValue.contains(value));
+		try {
+			for (int i = 0; i < reportsData.size(); i++) {
+				innerMap = reportsData.get(i);
+				innerValue = innerMap.get(columnName);
+				CustomisedAssert.assertTrue(innerValue.contains(value));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -284,10 +288,14 @@ public class SoldDetails extends Factory {
 	public void verifyDifferentValueContentofTableRecord(String columnName, String value) {
 		Map<String, String> innerMap = new HashMap<>();
 		String innerValue = " ";
-		for (int i = 0; i < reportsData.size(); i++) {
-			innerMap = reportsData.get(i);
-			innerValue = innerMap.get(columnName);
-			CustomisedAssert.assertTrue(value.contains(innerValue));
+		try {
+			for (int i = 0; i < reportsData.size(); i++) {
+				innerMap = reportsData.get(i);
+				innerValue = innerMap.get(columnName);
+				CustomisedAssert.assertTrue(value.contains(innerValue));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -300,13 +308,17 @@ public class SoldDetails extends Factory {
 	 */
 	public String calculateMargin(List<String> cost, Double totalPrice) {
 		List<String> marginValues = new ArrayList<String>();
-		for (int i = 0; i < cost.size(); i++) {
-			double margin = ((totalPrice
-					- Double.parseDouble(cost.get(i).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)))
-					/ totalPrice) * 100.0;
-			DecimalFormat df = new DecimalFormat("###.##");
-			String d = df.format(margin);
-			marginValues.add(String.valueOf(d) + "%");
+		try {
+			for (int i = 0; i < cost.size(); i++) {
+				double margin = ((totalPrice
+						- Double.parseDouble(cost.get(i).replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)))
+						/ totalPrice) * 100.0;
+				DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
+				String d = df.format(margin);
+				marginValues.add(String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 		String s = marginValues.get(0) + Constants.DELIMITER_HASH + marginValues.get(1);
 		return s;
