@@ -30,7 +30,6 @@ public class ReportList extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private Dropdown dropdown = new Dropdown();
-	private NavigationBar navigationBar = new NavigationBar();
 	private Excel excel = new Excel();
 
 	private static final By TXT_SEARCH = By.id("Search");
@@ -58,7 +57,8 @@ public class ReportList extends Factory {
 	public static final By DPD_FILTER = By.cssSelector("#add-filter-container > span > span.selection > span");
 	public final By TO_EXCEL_BUTTON = By.xpath("//button[@id='runexcel']");
 	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
-	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	// private static final By NO_DATA_AVAILABLE_IN_TABLE =
+	// By.xpath("//td[@class='dataTables_empty']");
 	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
 	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath(
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");

@@ -40,6 +40,7 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
+import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -166,6 +167,7 @@ public class Report extends TestInfra {
 	private ConsumerFeedbackSurvey consumerFeedbackSurvey = new ConsumerFeedbackSurvey();
 	private IntlWebAppFunding intlWebAppFunding = new IntlWebAppFunding();
 	private ProductSales productSales = new ProductSales();
+	private CashFlowEmployeeDevice cashFlowEmployeeDevice = new CashFlowEmployeeDevice();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -175,6 +177,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstReportListData;
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstStaffSummaryData;
 
 	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
@@ -3867,8 +3870,7 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(InventoryTotals.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			inventoryTotals.verifyReportName(reportName);
-			textBox.enterText(InventoryTotals.TXT_SEARCH,
-					rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
+			textBox.enterText(InventoryTotals.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME));
 			inventoryTotals.getTblRecordsUI();
 
 			// Validating the Headers and Report data
@@ -4294,7 +4296,7 @@ public class Report extends TestInfra {
 			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
-	
+
 	/**
 	 * This Method is for Intl Web/App Funding Report Data Validation
 	 * 
@@ -4309,7 +4311,7 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4340,12 +4342,12 @@ public class Report extends TestInfra {
 			// Validating the Headers and Report data
 			intlWebAppFunding.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 			intlWebAppFunding.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This Method is for Product Sales Report Data Validation
 	 * 
@@ -4355,7 +4357,7 @@ public class Report extends TestInfra {
 	public void ProductSalesReportDataValication() {
 		try {
 			final String CASE_NUM = "198531";
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4370,7 +4372,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
@@ -4401,7 +4403,7 @@ public class Report extends TestInfra {
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
 			String userKey = rstProductSummaryData.get(CNProductSummary.USER_KEY);
-			
+
 			productSales.updateData(productSales.getTableHeaders().get(0), productName);
 			productSales.updateData(productSales.getTableHeaders().get(1), scanCode);
 			productSales.updateData(productSales.getTableHeaders().get(2), userKey);
@@ -4412,7 +4414,54 @@ public class Report extends TestInfra {
 
 			// verify report data
 			productSales.verifyReportData();
-			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cash Flow Employee Device Report Data Validation
+	 * 
+	 * @author KarthikR
+	 * @date: 05-08-2022
+	 */
+	@Test(description = "202033 - Cash Flow Employee Device Report data validation")
+	public void CashFlowEmployeeDeviceReportDataValidation() {
+		final String CASE_NUM = "202033";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstStaffSummaryData = dataBase.getStaffViewData(Queries.STAFF_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+//		List<String> columnValue = Arrays
+//				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+//		List<String> columns = Arrays
+//				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashFlowEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
