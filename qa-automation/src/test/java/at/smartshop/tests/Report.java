@@ -4185,6 +4185,7 @@ public class Report extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -4249,6 +4250,7 @@ public class Report extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
