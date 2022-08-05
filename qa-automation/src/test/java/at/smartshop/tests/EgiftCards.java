@@ -706,7 +706,8 @@ public class EgiftCards extends TestInfra {
 	 */
 	@Test(description = "198470- verify the button size of issue and print button"
 			+ "198472-Verify the error message when duplicate title is given in upper/lowercase"
-			+ "198471- Verify the error message when duplicate title is given")
+			+ "198471- Verify the error message when duplicate title is given"
+			+ "SOS-31255-198507 - verify the text on button label")
 	public void verifyButtonSizeOfIssueAndPrintButon() {
 		final String CASE_NUM = "198470";
 
@@ -730,7 +731,8 @@ public class EgiftCards extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID, 5);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID));
+			String name = foundation.getText(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			CustomisedAssert.assertEquals(name, heigwid.get(2));
 
 			// verify the dimension of issue button
 			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_ISSUE_FIRST_ROW, heigwid.get(0), heigwid.get(1));
@@ -808,8 +810,7 @@ public class EgiftCards extends TestInfra {
 	}
 
 	/**
-	 * @author afrose
-	 * Date:04-08-2022
+	 * @author afrose Date:04-08-2022
 	 */
 	@Test(description = "198590-Verify issue count gets updated automatically when  e-Gift  issued to  1  recipient  from By Email  tab"
 			+ "198591-Verify  issue count gets updated automatically when  e-Gift  issued to multiple recipients from By  Email  tab")
