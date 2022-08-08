@@ -28,7 +28,7 @@ public class InventoryVariance extends Factory {
 	private static final By TBL_INVENTORY_TOTAL = By.id("rptdt");
 	private static final By TBL_INVENTORY_TOTAL_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
-	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.in-range.available");
+	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.available");
 	
 	
 	//body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td.in-range.available
