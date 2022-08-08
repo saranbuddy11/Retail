@@ -74,11 +74,9 @@ public class ReportList extends Factory {
 	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_3 = By.cssSelector(
 			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
 	public static final By TRANSACTION_DPD_DATE = By.id("daterange");
-	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By
-			.xpath("//span[@role='presentation'][normalize-space()='×']");
+	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
-	private static final By SELECT_TRANSACTION_LOCATIONS = By
-			.cssSelector("#select2-loc-dropdown-results > li > ul > li");
+	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
 
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -625,11 +623,11 @@ public class ReportList extends Factory {
 		}
 	}
 
+
 	/**
 	 * This method is to Select the Location for Transaction Search
 	 *
 	 */
-
 	public void selectLocationForTransactionSearch(String locationName) {
 		try {
 			foundation.click(TRANSACTION_CLOSE_ALL_LOCATIONS);
