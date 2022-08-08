@@ -30,12 +30,11 @@ public class ReportList extends Factory {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private Dropdown dropdown = new Dropdown();
-	private NavigationBar navigationBar = new NavigationBar();
 	private Excel excel = new Excel();
 
 	private static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
-	private static final By BTN_PREVIOUS_MONTH = By.cssSelector("th.prev");
+	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
 			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
@@ -58,7 +57,8 @@ public class ReportList extends Factory {
 	public static final By DPD_FILTER = By.cssSelector("#add-filter-container > span > span.selection > span");
 	public final By TO_EXCEL_BUTTON = By.xpath("//button[@id='runexcel']");
 	public final By TO_EXCEL_EXPORTBUTTON = By.id("exportButton");
-	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	// private static final By NO_DATA_AVAILABLE_IN_TABLE =
+	// By.xpath("//td[@class='dataTables_empty']");
 	private static final By DPD_LOCATIONS_SECONDTYPE = By.xpath("//span[@title='Select...']");
 	private static final By DPD_SERACH_LOCATIONS_SECONDTYPE = By.xpath(
 			"//span[@class='select2-container select2-container--default select2-container--open']//span//span//input[@role='searchbox']");
@@ -73,11 +73,11 @@ public class ReportList extends Factory {
 	private static final By APPLY_DATE_RANGE_BUTTON = By.xpath("//button[normalize-space()='Apply']");
 	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_3 = By.cssSelector(
 			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
-	
 	public static final By TRANSACTION_DPD_DATE = By.id("daterange");
 	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
 	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
+
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -228,7 +228,7 @@ public class ReportList extends Factory {
 			for (int i = 1; i < items.size(); i++) {
 				List<WebElement> items1 = getDriver().findElements(filter);
 				for (int j = 1; j < 2; j++) {
-					String itemText = items1.get(1).getText();
+					// String itemText = items1.get(1).getText();
 					items1.get(1).click();
 					if (i == items.size() - 1) {
 						break;
@@ -558,10 +558,12 @@ public class ReportList extends Factory {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.objectClick(DPD_DATE);
 			for (int count = 0; count < 60; count++) {
-				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear))
+				if (foundation.getText(DATE_RANGE_NEXT_MONTH_OF_TYPE_2).equals(MonthAndYear)) {
 					continue;
+				}
+				foundation.click(BTN_PREVIOUS_MONTH);
 			}
-			foundation.click(BTN_PREVIOUS_MONTH);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(firstDate);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(lastDate);
@@ -597,10 +599,10 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This method is to Select the Date for Transaction Search
-	 * 
+	 *
 	 */
 	public void selectDateTransactionSearch(String optionName) {
 		try {
@@ -620,12 +622,12 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
+
 	/**
 	 * This method is to Select the Location for Transaction Search
-	 * 
+	 *
 	 */
-	
 	public void selectLocationForTransactionSearch(String locationName) {
 		try {
 			foundation.click(TRANSACTION_CLOSE_ALL_LOCATIONS);
@@ -636,5 +638,4 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
 }

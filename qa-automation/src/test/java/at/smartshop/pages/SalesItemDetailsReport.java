@@ -152,7 +152,7 @@ public class SalesItemDetailsReport extends Factory {
 				}
 			}
 			for (int iter = 1; iter < salesTime.size(); iter++) {
-				if (salesTime.get(iter-1).equals(salesTime.get(iter))) {
+				if (salesTime.get(iter - 1).equals(salesTime.get(iter))) {
 					Assert.fail("Failed due to Sales Items got created for Second time after redeeming promotion");
 				}
 			}

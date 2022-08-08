@@ -170,6 +170,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(3);
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),

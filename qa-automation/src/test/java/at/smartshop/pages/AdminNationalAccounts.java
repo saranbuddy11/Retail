@@ -70,7 +70,7 @@ public class AdminNationalAccounts extends Factory {
 	public static final By DPD_LOCATION_MODAL = By.id("locs");
 	public static final By CHK_AUTOADD = By.id("autoadd-act");
 	public static final By BTN_SAVE_MODAL = By.id("btn-save");
-	public static final By BTN_ORG_CLEAR = By.xpath("//select[@id='org']/..//*[@class='select2-selection__clear']");
+	public static final By BTN_ORG_CLEAR = By.cssSelector("span.select2-selection__clear");
 	public static final By BTN_LOC_CLEAR = By.id("//select[@id='loc']/..//*[@class='select2-selection__clear']");
 	public static final By BTN_CANCEL_MODAL = By.id("btn-cancel");
 	public static final By BTN_CANCEL_MANAGE_RULE = By.id("cancel-btn");

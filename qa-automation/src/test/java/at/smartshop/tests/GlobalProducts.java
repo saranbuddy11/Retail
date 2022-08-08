@@ -38,6 +38,7 @@ import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 
@@ -59,6 +60,7 @@ public class GlobalProducts extends TestInfra {
 	private Dropdown dropDown = new Dropdown();
 	private CheckBox checkBox = new CheckBox();
 	private LocationSummary locationSummary = new LocationSummary();
+	private OrgSummary orgsummary = new OrgSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -858,8 +860,9 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			navigationBar.navigateToMenuItem(menus.get(2));
+			foundation.threadWait(5);
 			locationList.selectLocationName(location.get(0));
-			foundation.scrollIntoViewElement(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS, 5);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product.get(0));
 			foundation.scrollIntoViewElement(locationSummary.objectProduct(product.get(0)));
@@ -934,10 +937,10 @@ public class GlobalProducts extends TestInfra {
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_OK);
 			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			header = foundation.getText(GlobalProductChange.REASONBOX_TITLE);
 			CustomisedAssert.assertEquals(header, title.get(1));
 			header = foundation.getText(GlobalProductChange.REASONBOX_BODY);
@@ -1155,7 +1158,8 @@ public class GlobalProducts extends TestInfra {
 						.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 				foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 				foundation.threadWait(Constants.TWO_SECOND);
-				textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+				textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH,
+						rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
 				foundation.threadWait(2);
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
 				foundation.click(GlobalProductChange.BTN_NEXT);
@@ -1270,6 +1274,7 @@ public class GlobalProducts extends TestInfra {
 				foundation.threadWait(Constants.SHORT_TIME);
 				textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,
 						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+				foundation.waitforElementToBeVisible(GlobalProductChange.BTN_PRODUCT_APPLY, 5);
 				foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 				foundation.threadWait(Constants.SHORT_TIME);
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
@@ -1290,7 +1295,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.REASON_BTNOK);
 
 			// verifying the values in Products >> Global products
@@ -1396,8 +1401,10 @@ public class GlobalProducts extends TestInfra {
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
 			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
+			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1587,11 +1594,11 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
 			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(requiredData.get(2)));
 			List<String> page = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
-			
-			//Select multiple location and verify the grid data
+
+			// Select multiple location and verify the grid data
 			globalProductChange.selectLocationAndClickOnApply(GlobalProductChange.SELECT_ALL);
 			List<String> page1 = foundation.getTextofListElement(GlobalProductChange.TABLE_RECORD);
-		    CustomisedAssert.assertTrue(page1.size()>page.size());
+			CustomisedAssert.assertTrue(page1.size() > page.size());
 
 			// Navigate to product Tab and search for product
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(0));
@@ -1600,12 +1607,67 @@ public class GlobalProducts extends TestInfra {
 
 			// Navigate to product Tab and search for product With Apostrophe in its name
 			globalProductChange.searchingProductsInProductsFilterAndVerifyTheDatas(requiredData.get(1));
-		    data=foundation.getText(GlobalProductChange.TBL_ROW_DATA);
+			data = foundation.getText(GlobalProductChange.TBL_ROW_DATA);
 			CustomisedAssert.assertTrue(data.contains(requiredData.get(1)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-}
 
+	/**
+	 * @author afrosean
+	 * Date: 26-07-2022
+	 */
+	@Test(description = "SOS-30208-198580-ADM > Global Product Change > Unable to Update Deposit field"
+			+ "SOS-29690-198581-ADM > Global Product Change > Unable to Update Tax1 or Tax2 Columns")
+	public void verifyDepositeFieldAfterTaxMethodSetToItemLevelTax() {
+
+		final String CASE_NUM = "198580";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> dropdown = Arrays
+				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Launch ADM application with super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to org summary and select dropDown from tax method
+			navigationBar.navigateToMenuItem(menu.get(0));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD, dropdown.get(0));
+
+			// Navigate to global products change
+			navigationBar.navigateToMenuItem(menu.get(1));
+			globalProductChange.selectLocationAndProductClickOnNext(dropdown.get(2), dropdown.get(3));
+
+			// update Deposit price in product field to change
+			globalProductChange.updateDepositeAndTaxField(dropdown.get(6), dropdown.get(4), dropdown.get(5));
+
+			// verify the deposit
+			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(dropdown.get(2)));
+			table.selectRow(dropdown.get(3));
+			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
+			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
+			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting the data
+			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 5);
+			foundation.click(GlobalProductChange.BTN_NEXT);
+			globalProductChange.updateDepositeAndTaxField(dropdown.get(7), dropdown.get(8), dropdown.get(9));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD, dropdown.get(1));
+		}
+	}
+
+}
