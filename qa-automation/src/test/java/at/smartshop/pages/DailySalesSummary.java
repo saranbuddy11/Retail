@@ -184,6 +184,13 @@ public class DailySalesSummary extends Factory {
 		return reportsData;
 	}
 
+	/**
+	 * To calculate sales
+	 * @param columnName
+	 * @param amount
+	 * @param deposit
+	 * @param discount
+	 */
 	public void calculateSales(String columnName, String amount, String deposit, String discount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -202,6 +209,11 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 	
+	/**
+	 * To calculate Amount
+	 * @param columnName
+	 * @param amount
+	 */
 	public void calculateAmount(String columnName, String amount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -218,6 +230,14 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 	
+	/**
+	 * To calculate Total Amount
+	 * @param columnName
+	 * @param price
+	 * @param tax
+	 * @param deposit
+	 * @param discount
+	 */
 	public void totalAmount(String columnName, String price, String tax, String deposit, String discount) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -237,6 +257,10 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 
+	/**
+	 *  To calculate Trasaction Count
+	 * @param columnName
+	 */
 	public void TrasactionCount(String columnName) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -249,6 +273,10 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 	
+	/**
+	 * To calculate Item Count
+	 * @param columnName
+	 */
 	public void itemCount(String columnName) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -261,6 +289,11 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 
+	/**
+	 * To update the data
+	 * @param columnName
+	 * @param values
+	 */
 	public void updateData(String columnName, String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
@@ -272,6 +305,9 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 
+	/**
+	 * Toverify Report Data
+	 */
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
@@ -287,6 +323,10 @@ public class DailySalesSummary extends Factory {
 		}
 	}
 
+	/**
+	 * To verify Report Headers 
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
