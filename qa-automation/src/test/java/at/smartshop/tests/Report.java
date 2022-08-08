@@ -4404,7 +4404,6 @@ public class Report extends TestInfra {
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
-			System.out.println("discount :" + discount);
 			
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(0), date);
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(1), locationName);
