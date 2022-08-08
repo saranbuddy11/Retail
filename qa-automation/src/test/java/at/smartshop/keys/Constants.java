@@ -117,4 +117,5 @@ public class Constants {
 	public static final String CREDIT = "CREDIT";
 	public static final String ACCOUNT = "ACCOUNT";
 	public static final String REJECTED = "REJECTED";
+	public static final String DECIMAL_FORMAT = "###.##";
 }
