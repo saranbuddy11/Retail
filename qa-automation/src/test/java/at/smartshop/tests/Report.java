@@ -4390,8 +4390,6 @@ public class Report extends TestInfra {
 			// process sales API to generate data
 			String date = salesItemDetailsReport
 					.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
-			System.out.println("date :" + date);
 
 			navigationBar.navigateToMenuItem(menuItems.get(0));
 			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -4400,8 +4398,6 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH_TRANSACTION, date);
 			String txnId = foundation.getText(SalesItemDetailsReport.TXT_ID_TRANSACTION);
-
-			System.out.println("txnId :" + txnId);
 
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 			// Select the Report Date range and Location and run report
