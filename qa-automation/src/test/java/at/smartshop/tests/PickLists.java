@@ -1,7 +1,6 @@
 package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

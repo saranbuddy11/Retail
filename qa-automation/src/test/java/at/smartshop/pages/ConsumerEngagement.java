@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
@@ -21,6 +22,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class ConsumerEngagement extends Factory {
@@ -29,6 +31,7 @@ public class ConsumerEngagement extends Factory {
 	private DeviceSummary devicesummary = new DeviceSummary();
 	private Table table = new Table();
 	private CheckBox checkbox = new CheckBox();
+	private Excel excel = new Excel();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By HEADER = By.cssSelector("#mainform > div > h4");
@@ -54,6 +57,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By INPUT_CARD_PRINT = By.id("cardstoprint");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
+	public static final By ERROR_RECIPIENTEMAIL = By.id("recipientemail-error");
 	public static final By TXT_SEARCH = By.id("filterType");
 	public static final By TBL_GRID = By.id("bylocationGrid");
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
@@ -525,12 +529,14 @@ public class ConsumerEngagement extends Factory {
 		foundation.click(BTN_EMAIL);
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
 	}
-    /**
-     * click on by email filter and verify enter recipient
-     * @param mail
-     * @param inputText
-     */
-	public void clickOnByEmailFilterAndVerifyEnterRecipient(String mail,String inputText) {
+
+	/**
+	 * click on by email filter and verify enter recipient
+	 * 
+	 * @param mail
+	 * @param inputText
+	 */
+	public void clickOnByEmailFilterAndVerifyEnterRecipient(String mail, String inputText) {
 		foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
 		foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
 		textBox.enterText(ADD_TO_NOTE_BY_EMAIL, inputText);
@@ -611,6 +617,36 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
 		String text = foundation.getText(TITLE_ERROR);
 		CustomisedAssert.assertEquals(text, error);
+	}
+	/**
+	 * Clicking on egift card template and Download 
+	 * Category
+	 */
+	public void clickOneGiftCardTemplateAndDownload() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TXT_DOWNLOAD_FILLOUTEMAIL));
+		foundation.click(ConsumerEngagement.EGIFT_CARD_TEMPLATE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
+		foundation.threadWait(Constants.SHORT_TIME);
+		}
+	/**
+	 * Edit Template and upload the same click on email cards
+	 * @param fileName
+	 * @param workSheetName
+	 * @param iterator
+	 * @param cellValue
+	 */
+	
+	public void editAndUploadTemplate(String fileName, String workSheetName, String iterator,String cellValue) {
+		excel.writeToExcel(fileName, workSheetName, iterator, cellValue);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
+		foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+		textBox.enterText(ConsumerEngagement.BTN_BROWSE, fileName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
 	}
 
 	/**

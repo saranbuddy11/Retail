@@ -26,6 +26,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerEngagement;
+import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
@@ -856,5 +857,60 @@ public class EgiftCards extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	@Test(description = "Verify  issue count gets updated automatically when  e-Gift  issued to  Multiple recipients from Bulk upload template  of  By  Email  tab")
+	public void verifyEnteringRecipientEmailAndBulkEmailConsumers() {
+		final String CASE_NUM = "198592";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Click on email filter and verify enter recipient email with invalid email id
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(4), Datas.get(2));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_RECIPIENTEMAIL));
+			String text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
+			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
+			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
+
+			// click on e-gift card template and download
+			consumerEngagement.clickOneGiftCardTemplateAndDownload();
+
+			// edit and upload Template
+			consumerEngagement.editAndUploadTemplate(FilePath.EGIFT_CARD_TEMPLATE, Datas.get(6), Datas.get(8),
+					rstLocationData.get(CNLocation.SHOW_RECORDS));
+
+			// Delete the file
+			foundation.deleteFile(FilePath.GIFT_CARDS);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
 	}
 }
