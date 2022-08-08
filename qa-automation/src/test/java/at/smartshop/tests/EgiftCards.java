@@ -897,13 +897,15 @@ public class EgiftCards extends TestInfra {
 			String text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
 			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
 			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
+			
+			//verify eter recipient with email id separated by comma
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(3), Datas.get(2));
 
 			// click on e-gift card template and download
 			consumerEngagement.clickOneGiftCardTemplateAndDownload();
 
 			// edit and upload Template
-			consumerEngagement.editAndUploadTemplate(FilePath.EGIFT_CARD_TEMPLATE, Datas.get(6), Datas.get(8),
-					rstLocationData.get(CNLocation.SHOW_RECORDS));
+			consumerEngagement.downloadAndUploadTemplate();
 
 			// Delete the file
 			foundation.deleteFile(FilePath.GIFT_CARDS);

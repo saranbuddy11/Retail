@@ -618,9 +618,9 @@ public class ConsumerEngagement extends Factory {
 		String text = foundation.getText(TITLE_ERROR);
 		CustomisedAssert.assertEquals(text, error);
 	}
+
 	/**
-	 * Clicking on egift card template and Download 
-	 * Category
+	 * Clicking on egift card template and Download Category
 	 */
 	public void clickOneGiftCardTemplateAndDownload() {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TXT_DOWNLOAD_FILLOUTEMAIL));
@@ -628,22 +628,18 @@ public class ConsumerEngagement extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
 		foundation.threadWait(Constants.SHORT_TIME);
-		}
+	}
+
 	/**
-	 * Edit Template and upload the same click on email cards
-	 * @param fileName
-	 * @param workSheetName
-	 * @param iterator
-	 * @param cellValue
+	 * download and upload the template
 	 */
-	
-	public void editAndUploadTemplate(String fileName, String workSheetName, String iterator,String cellValue) {
-		excel.writeToExcel(fileName, workSheetName, iterator, cellValue);
-		foundation.threadWait(Constants.SHORT_TIME);
+
+	public void downloadAndUploadTemplate() {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
+		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.IMAGE_PNG_PATH);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_MSG));
 		foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
-		textBox.enterText(ConsumerEngagement.BTN_BROWSE, fileName);
-		foundation.threadWait(Constants.SHORT_TIME);
+		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.EGIFT_CARD_TEMPLATE);
 		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
 		foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
