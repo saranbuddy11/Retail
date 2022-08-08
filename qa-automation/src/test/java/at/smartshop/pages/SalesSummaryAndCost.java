@@ -236,9 +236,9 @@ public class SalesSummaryAndCost extends Factory {
 			double margin = ((totalPrice
 					- Double.parseDouble(cost.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))) / totalPrice)
 					* 100.0;
-			DecimalFormat df = new DecimalFormat("###.##");
+			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
 			String d = df.format(margin);
-			intialData.get(0).put(columnName, String.valueOf(d) + "%");
+			intialData.get(0).put(columnName, String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
