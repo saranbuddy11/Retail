@@ -703,13 +703,13 @@ public class EgiftCards extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean Data: 27-07-2022
+	 * @author afrosean Date: 27-07-2022
 	 */
 	@Test(description = "198470- verify the button size of issue and print button"
 			+ "198472-Verify the error message when duplicate title is given in upper/lowercase"
 			+ "198471- Verify the error message when duplicate title is given"
-			+ "SOS-31255-198507 - verify the text on button label")
-	public void verifyButtonSizeOfIssueAndPrintButon() {
+			+ "198507- verify the text on button label")
+	public void verifyIssueAndPrintButonsAndValidationMessageForDuplicateTitle() {
 		final String CASE_NUM = "198470";
 
 		// Reading test data from database
@@ -753,11 +753,20 @@ public class EgiftCards extends TestInfra {
 			// validate the error
 			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(4), requiredData.get(3));
 
+			// Create E-Gift card with numerical with lower,upper case
+			consumerEngagement.createGiftCard(requiredData.get(5), requiredData.get(1), expireDate);
+
+			// validate the error
+			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(5), requiredData.get(3));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	/**
+	 * @author afrosean Date: 02.08.2022
+	 */
 	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab"
 			+ "198589- Verify  issue count gets updated automatically when  e-Gift  issued to  multiple Consumers  from By location  tab")
 	public void verifyIssueCountUpdation() {
@@ -859,7 +868,13 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
-	@Test(description = "Verify  issue count gets updated automatically when  e-Gift  issued to  Multiple recipients from Bulk upload template  of  By  Email  tab")
+	/**
+	 * @author afrosean Date:09.08.2022
+	 */
+	@Test(description = "198592-Verify  issue count gets updated automatically when  e-Gift  issued  By  Email  tab"
+			+ "198594-Verify  issue count is updated when  e-Gift  issued to  1   Invalid recipient  from By Email  tab"
+			+ "198595- Verify  issue count is updated when  e-Gift  issued to  both valid &Invalid recipients  from By Email  tab"
+			+ "198596- Verify  issue count is updated when  e-Gift  issued to  multiple recipients without comma separation  from By Email  tab")
 	public void verifyEnteringRecipientEmailAndBulkEmailConsumers() {
 		final String CASE_NUM = "198592";
 
@@ -897,15 +912,24 @@ public class EgiftCards extends TestInfra {
 			String text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
 			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
 			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
-			
-			//verify eter recipient with email id separated by comma
+
+			// Click on email filter and verify enter recipient email with valid and invalid
+			// email id
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(5), Datas.get(4));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_RECIPIENTEMAIL));
+			text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
+			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
+			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
+
+			// verify eter recipient with email id separated by comma
 			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(3), Datas.get(2));
 
 			// click on e-gift card template and download
 			consumerEngagement.clickOneGiftCardTemplateAndDownload();
 
 			// edit and upload Template
-			consumerEngagement.downloadAndUploadTemplate();
+			consumerEngagement.uploadTemplateInEgiftCard();
 
 			// Delete the file
 			foundation.deleteFile(FilePath.GIFT_CARDS);
@@ -913,6 +937,42 @@ public class EgiftCards extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 
+	/**
+	 * @author afrosean Date: 09-08-2022
+	 */
+	@Test(description = "202657-Verify valid email id in Enter Recipient Email from By Email  tab")
+	public void verifyValidEmailIdInEmailRecipient() {
+		final String CASE_NUM = "202657";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+
+		try {
+			// Login to ADM with Super User, Select Org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Create E-Gift card
+			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
+			for (int i = 3; i < requiredData.size(); i++) {
+				consumerEngagement.verifyEmailFormatInIssueByEmailField(requiredData.get(i), requiredData.get(2));
+			}
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }

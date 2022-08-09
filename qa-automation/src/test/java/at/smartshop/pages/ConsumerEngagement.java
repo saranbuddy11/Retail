@@ -634,7 +634,7 @@ public class ConsumerEngagement extends Factory {
 	 * download and upload the template
 	 */
 
-	public void downloadAndUploadTemplate() {
+	public void uploadTemplateInEgiftCard() {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
 		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.IMAGE_PNG_PATH);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_MSG));
@@ -673,5 +673,16 @@ public class ConsumerEngagement extends Factory {
 		String text = foundation.getText(ISSUEBY);
 		CustomisedAssert.assertTrue(text.contains(value));
 	}
+ 
+	/**
+	 * verify email foramt in isue by email field 
+	 * @param inputtext
+	 * @param mail
+	 */
+	public void verifyEmailFormatInIssueByEmailField(String inputtext,String mail) {
+		foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+		clickOnByEmailFilterAndVerifyEnterRecipient(inputtext, mail);
+		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
 
+	}
 }
