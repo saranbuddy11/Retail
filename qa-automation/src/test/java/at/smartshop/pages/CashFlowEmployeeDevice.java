@@ -58,7 +58,7 @@ public class CashFlowEmployeeDevice extends Factory {
 	private Map<Integer, Map<String, String>> cashFlowDetailsTotal = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> calculateCashFlowTotal = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> cashFlowDetailsTotalsSum = new LinkedHashMap<>();
-	public static Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
+	public Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private List<Double> requiredJsonData = new LinkedList<>();
 	private List<Integer> requiredData = new LinkedList<>();
 	private List<Integer> requiredCount = new LinkedList<>();
@@ -442,6 +442,77 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 		initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).put(colName.get(4),
 				String.valueOf(total));
+	}
+
+	public void calculateLocationSales(String deviceName, String location, String columnName, String columnValue)
+			throws Exception {
+		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
+		String paymentAmounts = reportsData
+				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
+		String voidAmounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(2));
+		String taxes = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(3));
+		double salesData = Double
+				.parseDouble(paymentAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(voidAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+		salesData = Math.round(salesData * 100.0) / 100.0;
+		initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.put(colName.get(4), String.valueOf(salesData));
+		String newSales = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(4)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+		reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).put(colName.get(4),
+				String.valueOf(newSales));
+	}
+
+	public void calculateLocationTax(String deviceName, String location, String columnName, String columnValue)
+			throws Exception {
+		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
+		String paymentCounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(1));
+		String voidCounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(2));
+		double taxes = requiredJsonData.get(1)
+				* (Double.parseDouble(paymentCounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+						- Double.parseDouble(voidCounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
+		taxes = Math.round(taxes * 100.0) / 100.0;
+		initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.put(colName.get(3), String.valueOf(taxes));
+		String newTax = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.get(colName.get(3)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING);
+		reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).put(colName.get(3),
+				String.valueOf(newTax));
+	}
+
+	public void updateTotalsGridValue(String deviceName, String location, String columnName, String columnValue)
+			throws Exception {
+		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
+		initialReportTotals.get(0).putAll(
+				initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1));
+	}
+
+	public void calculateTotalsGridCounts(String deviceName, String location, String columnName, String columnValue,
+			int count) throws Exception {
+		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
+		String initialCounts = initialReportTotals
+				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
+		int updatedCounts = Integer.parseInt(initialCounts) + count;
+		initialReportTotals.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.put(colName.get(1), String.valueOf(updatedCounts));
+	}
+
+	public void calculateTotalsGridAmounts(String deviceName, String location, String columnName, String columnValue)
+			throws Exception {
+		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
+		String initialAmounts = initialReportTotals
+				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
+		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
+		double updatedAmounts = Double
+				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
+		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
+		initialReportTotals.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
+				.put(colName.get(1), String.valueOf(updatedAmounts));
 	}
 
 	public void verifyReportRecords() throws Exception {

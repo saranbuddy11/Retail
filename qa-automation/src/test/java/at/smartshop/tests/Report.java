@@ -4786,10 +4786,10 @@ public class Report extends TestInfra {
 		rstStaffSummaryData = dataBase.getStaffViewData(Queries.STAFF_SUMMARY, CASE_NUM);
 		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-//		List<String> columnValue = Arrays
-//				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
-//		List<String> columns = Arrays
-//				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		List<String> columnValue = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columns = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		try {
 			// Navigate to ADM and Select Org
@@ -4804,13 +4804,50 @@ public class Report extends TestInfra {
 			cashFlowEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
 					rstProductSummaryData.get(CNProductSummary.DEVICE_ID));
-
+			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
 			cashFlowEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DATE_RANGE), location);
+			// read Updated Report Data
+			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			// read Report Data
+			cashFlowEmployeeDevice.getInitialReportsData().putAll(cashFlowEmployeeDevice.reportsData);
+			cashFlowEmployeeDevice.getInitialReportTotals().putAll(cashFlowEmployeeDevice.getReportsTotalData());
 
+			// process sales API to generate data
+			cashFlowEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID));
+			// read Updated Report Data
+			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowEmployeeDevice.getJsonSalesData();
+			// verify Report Headers
+			cashFlowEmployeeDevice.verifyReportHeaders(columns.get(10));
+			// calculate Credit Payment Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(0), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(0));
+			// calculate Credit Payment Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(1), columnValue.get(0));
+			// calculate Credit Void Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(2), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(4));
+			// calculate Credit Void Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(3), columnValue.get(0));
+			// calculate Credit Declined Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(4), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(5));
+			// calculate Credit Declined Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(5), columnValue.get(0));
+			// calculate Credit Sales
+			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(6), columnValue.get(0));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
