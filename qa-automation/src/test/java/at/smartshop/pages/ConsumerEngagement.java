@@ -353,6 +353,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param actual
 	 */
 	public void verifyGiftCardCreationFields(String title, String amount, String actual) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(AMOUNT_ERROR));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DATE_VALIDATION_ERROR));
