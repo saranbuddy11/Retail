@@ -4848,6 +4848,104 @@ public class Report extends TestInfra {
 			// calculate Credit Sales
 			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
 					location, columns.get(6), columnValue.get(0));
+			// calculate Credit Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(0));
+			// calculate Credit Total
+			cashFlowEmployeeDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(8), columnValue.get(0));
+			// calculate Credit SubTotal Payment Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(0),
+					columnValue.get(1));
+			// calculate Credit SubTotal Payment Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(1),
+					columnValue.get(1));
+			// calculate Credit SubTotal Void Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(2),
+					columnValue.get(1));
+			// calculate Credit SubTotal Void Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(3),
+					columnValue.get(1));
+			// calculate Credit SubTotal Declined Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(4),
+					columnValue.get(1));
+			// calculate Credit SubTotal Declined Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(5),
+					columnValue.get(1));
+			// calculate Credit SubTotal Sales
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(6),
+					columnValue.get(1));
+			// calculate Credit SubTotal Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(1));
+			// calculate Credit SubTotal Totals
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(9),
+					columnValue.get(1));
+			// calculate Account Payment Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(0), columnValue.get(2), cashFlowEmployeeDevice.getRequiredCount().get(1));
+			// calculate Account Payment Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(1), columnValue.get(2));
+			// calculate Account Void Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(2), columnValue.get(2), cashFlowEmployeeDevice.getRequiredCount().get(3));
+			// calculate Account Void Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(3), columnValue.get(2));
+			// calculate Account Declined Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(4), columnValue.get(2), 0);
+			// calculate Account Declined Amounts
+			cashFlowEmployeeDevice.calculateDeclinedAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(5), columnValue.get(2));
+			// calculate Account Sales
+			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(6), columnValue.get(2));
+			// calculate Account Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(2));
+			// calculate Account Total
+			cashFlowEmployeeDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(8), columnValue.get(2));
+			// calculate Total Payment Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(0), columnValue.get(4));
+			// calculate Total Payment Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(1), columnValue.get(4));
+			// calculate Total Void Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(2), columnValue.get(4));
+			// calculate Total Void Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(3), columnValue.get(4));
+			// calculate Total Declined Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(4), columnValue.get(4));
+			// calculate Total Declined Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(5), columnValue.get(4));
+			// calculate Total Sales
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(11), columnValue.get(4));
+			// calculate Total Taxes
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(12), columnValue.get(4));
+			// calculate Total Totals
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(13), columnValue.get(4));
+			// verify Payment Counts Total
+			cashFlowEmployeeDevice.calculateCashFlowDetailsTotals(location);
+			cashFlowEmployeeDevice.getCalculateCashFlowTotal().putAll(cashFlowEmployeeDevice.getCashFlowDetailsTotal());
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(15));
+			// verify Payment Amounts Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(16));
+			// verify Void Counts Total
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(17));
+			// verify Void Amounts Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(18));
+			// verify Credit Declined Counts Total
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(19));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
