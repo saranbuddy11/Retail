@@ -24,6 +24,9 @@ dist/
  
 # Package files
 *.jar
+
+# Include following
+!gradle/wrapper/gradle-wrapper.jar
  
 # Maven
 target/
