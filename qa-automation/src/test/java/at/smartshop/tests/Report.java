@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,7 @@ import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
 import at.smartshop.pages.SalesItemDetailsReport;
 import at.smartshop.pages.SalesSummaryAndCost;
+import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
@@ -174,6 +176,8 @@ public class Report extends TestInfra {
 	private ProductSales productSales = new ProductSales();
 	private SalesSummaryAndCost salesSummaryAndCost = new SalesSummaryAndCost();
 	private SoldDetails soldDetails = new SoldDetails();
+	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -4668,7 +4672,6 @@ public class Report extends TestInfra {
 
 			// verify report data
 			salesSummaryAndCost.verifyReportData();
-			salesItemDetailsReport.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -4764,4 +4767,95 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/*
+	 * This Method is for Sales Time Details Report data validation
+	 * 
+	 * @author ravindhara Date: 
+	 * 
+	 */
+	@Test(description = "202038-Verify the Data Validation of Sales Time Details Report")
+	public void SalesTimeDetailsReportDataValidation() {
+		try {
+			final String CASE_NUM = "202038";
+			
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesTimeDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			salesTimeDetailsReport.getTblRecordsUI();
+			salesTimeDetailsReport.getIntialData().putAll(salesTimeDetailsReport.getReportsData());
+
+			// process sales API to generate data
+			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			
+			System.out.println((LocalDateTime) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
+			
+			salesTimeDetailsReport.decideTimeRange((LocalDateTime) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
+			
+			salesTimeDetailsReport.getTblRecordsUI();
+
+			// update the report date based on calculation
+//			String date = String
+//					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//							rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA)));
+			
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+			String itemsCounts = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+			
+			salesTimeDetailsReport.updateData(salesTimeDetailsReport.getTableHeaders().get(0), locationName);
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(1), productPrice);
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(2), tax);
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(3), deposit);
+			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(4), discount);
+			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5), productPrice, tax, deposit, discount);
+			String totalCost = salesSummaryAndCost.calculateCost(salesSummaryAndCost.getTableHeaders().get(6), cost);
+			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost, totalAmount);
+			salesSummaryAndCost.TrasactionCount(salesSummaryAndCost.getTableHeaders().get(8));
+			salesSummaryAndCost.itemCount(salesSummaryAndCost.getTableHeaders().get(9));
+			
+			
+			// verify report headers
+			salesTimeDetailsReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			salesTimeDetailsReport.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+			
 }
