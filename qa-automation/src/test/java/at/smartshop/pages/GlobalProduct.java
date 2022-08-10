@@ -69,8 +69,21 @@ public class GlobalProduct extends Factory {
     public static final By BTN_EXTEND_LOC = By.xpath("//a[@id='extend']");
     public static final By MATCHING_RECORD=By.id("dataGrid_pager_label");
     public static final By CLICK_LOCATION = By.xpath("//ul[@class='ui-igcombo-listitemholder']//li//div[text()='AutomationLocation1']//preceding-sibling::span");
+    public static final By LBL_GLOBAL_PRODUCT = By.xpath("//div[@id='globalproductpagetitle']");
+    public static final By LBL_PRODUCT_CREATE = By.xpath("//li[text()='Product Create']");
+    public static final By POPUP_DROPDOWN = By.xpath("//div[@title='Show drop-down']");
+    public static final By DISABLE_PRODUCT = By.xpath("//select[@id='isdisabled']");
+    public static final By CLICK_PRODUCT = By.xpath("//tbody//td[@aria-describedby='dataGrid_name']");
+    public static final By LAB_RECORD = By.xpath("//div[@class='ui-iggrid-results']");
+    public static final By MATCH_RECORD = By.xpath("//span[@title='Current records range']");
+    public static final By DPD_RECORD = By.xpath("//div[contains(@class,'ui-igedit-buttonimage')]");
+    public static final By TXT_EXTEND=By.xpath("//input[@aria-controls='locdt']");
+    public static final By EXTEND_LOCATION=By.xpath("//td[@class=' sorting_1']");
+    public static final By TBL_HEADER = By.cssSelector("#dataGrid > tbody");
+    
+    
 	 
-	public By getGlobalProduct(String product) {
+    public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
 	}
 	public By getGlobalProductSearch(String product) {
@@ -110,6 +123,14 @@ public class GlobalProduct extends Factory {
 		return By.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_scancode' and text()='"
 				+ scancode + "']");
 	}
+	public By selectLocationForProduct(String location) {
+		return By.xpath("(//div[@class='ui-igcombo-listitemtextwithcheckbox'])[text()='" + location + "']");
+	}
+	public By selectRecord(String data) {
+		return By.xpath("//div[@id='dataGrid_editor_list']//span[text()='"+ data + "']");
+				
+	}
+	
 
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -181,6 +202,17 @@ public class GlobalProduct extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 	
+	public void changeRecordDataAndVerify(By recorddata,String dbData) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LAB_RECORD));
+		foundation.waitforElementToBeVisible(GlobalProduct.DPD_RECORD,3);
+		foundation.click(GlobalProduct.DPD_RECORD);
+        foundation.click(recorddata);		
+		foundation.scrollIntoViewElement(GlobalProduct.MATCH_RECORD);
+		foundation.threadWait(5);
+		String record=foundation.getText(MATCH_RECORD);
+		CustomisedAssert.assertTrue(record.contains(dbData));
+	}
+	
 	/**
 	 * search product and edit product name and save
 	 * @param product
@@ -197,6 +229,23 @@ public class GlobalProduct extends Factory {
 		foundation.click(ProductSummary.BTN_SAVE);
 		foundation.threadWait(Constants.TWO_SECOND);
 	}
+	/**
+	 * Disable created product in GlobalProduct
+	 * @param product
+	 * @param editproduct
+	 */
+	public void disableProduct(String editoption,String product) {
+		foundation.click(GlobalProduct.CLICK_PRODUCT);
+		foundation.waitforElementToBeVisible(GlobalProduct.DISABLE_PRODUCT,3);
+		dropDown.selectItem(GlobalProduct.DISABLE_PRODUCT, editoption, Constants.TEXT);
+		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE,5);
+		foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
+		foundation.click(GlobalProduct.BTN_SAVE);
+		foundation.waitforElementToBeVisible(GlobalProduct.TXT_FILTER,5);
+		textBox.enterText(LocationList.TXT_FILTER,product);
+		CustomisedAssert.assertFalse(foundation.getText(GlobalProduct.CLICK_PRODUCT).equals(product));
+		
+		}
 	
 	/**
 	 * create Product In Global Product Page
@@ -209,14 +258,37 @@ public class GlobalProduct extends Factory {
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 		textBox.enterText(TXT_PRODUCTNAME, name);
-		foundation.waitforElementToBeVisible(GlobalProduct.TXT_PRICE, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(GlobalProduct.TXT_PRICE, 2);
 		textBox.enterText(TXT_PRICE, price);
-		foundation.waitforElementToBeVisible(GlobalProduct.TXT_SCAN_CODE, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(GlobalProduct.TXT_SCAN_CODE, 2);
 		textBox.enterText(TXT_SCAN_CODE, scancode);
-		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, 2);
 		foundation.click(BTN_SAVE_EXTEND);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE, 2);
 		foundation.click(LBL_SAVE_DONE);
-		foundation.threadWait(Constants.SHORT_TIME);
+		
 	}
+	/**
+	 * create Product In Global Product Page
+	 * @param name
+	 * @param price
+	 * @param scancode
+	 */
+	public void createProducInGlobalProductPageWithLocation(String name,String price,String location,String randomChr) {
+		textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, name);
+		textBox.enterText(GlobalProduct.TXT_PRICE, price);
+		textBox.enterText(GlobalProduct.TXT_SCAN_CODE,randomChr);
+		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND,3);
+		foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
+		foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN,5);
+		foundation.click(GlobalProduct.POPUP_DROPDOWN);
+		foundation.click(selectLocationForProduct(location));
+		foundation.click(GlobalProduct.POPUP_DROPDOWN);
+		foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE,3);
+		foundation.click(GlobalProduct.LBL_SAVE_DONE);
+		
+	
+	}
+	
+	
 }

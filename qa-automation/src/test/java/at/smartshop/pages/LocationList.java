@@ -56,6 +56,10 @@ public class LocationList extends Factory {
 	public By objDailyRevenue(String locationName) {
 		return By.xpath("//a[text()='" + locationName + "']//..//..//*[@aria-describedby='dataGrid_table_revenue']");
 	}
+	public By selectRecord(String data) {
+		return By.xpath("//div[@id='dataGrid_table_editor_list']//span[text()='"+ data + "']");
+				
+	}
 
 	public void syncDevice(String menu, String location) {
 		navigationBar.navigateToMenuItem(menu);

@@ -1,10 +1,13 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +103,7 @@ public class GlobalProductChange extends Factory {
 	public static final By POP_UP_HEADER = By.cssSelector("div.ajs-header");
 	public static final By REASONBOX_TITLE = By.cssSelector("h4.modal-title");
 	public static final By REASONBOX_BODY = By.cssSelector("div.modal1-body>p");
-
+	
 	public static final By LBL_GPC = By.id("Global Product Change");
 	public static final By GPC_CHECK_BOX = By.id("global-prd");
 	public static final By OPC_CHECK_BOX = By.id("operator-prd");
@@ -118,6 +121,14 @@ public class GlobalProductChange extends Factory {
 	public static final By LBL_UPDATE = By.xpath("//label[@class='checked']");
 	public static final By TABLE_RECORD=By.xpath("//div[@id='prd-dt-paging']//a[contains(@id,'page')]");
 	public static final By TBL_ROW_DATA=By.xpath("//tr[@class='odd']");
+	public static final By CHECK_ALL_LOC = By.xpath("//input[@name='all-locs']");
+	public static final By CONFIRM_SUMITTED = By.xpath("//h4[contains(text(),'Change Submitted')]");
+	public static final By CONFIRM_CHANGE_OPC = By.xpath("//div[contains(text(),' Product Catalog Change')]");
+	public static final By DPD_REMOVE=By.xpath("//select[@id='prd-remove-product-loc']");
+	public static final By CHK_GREENCIRCLE=By.id("prd-remove-product-loc-checked");
+    public static final By TXT_UPDATE=By.xpath("//div[contains(@style,'text-align: center;')]/text()[preceding-sibling::br]");
+	public static final By TXT_CONFIRM_POPUP=By.xpath("//input[@class='ajs-input']");
+	public static final By POPUP_OK=By.xpath("//button[@class='btn btn-light']");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -247,4 +258,99 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
+	/**
+	 * update price value
+	 * 
+	 * @param price
+	 */
+	public void updatePriceInAllLocation(String price) {
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE,3);
+		foundation.click(GlobalProductChange.TXT_PRICE);
+		textBox.enterText(GlobalProductChange.TXT_PRICE, price);
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
+		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
+		
+	}
+	/**
+	 * Select Operator product catalog change 
+	 *
+	 * @param product
+	 * @param price
+	 */
+	public void selectProductOPC(String product) {
+	if (!checkBox.isChecked(GlobalProductChange.OPC_CHECK_BOX))
+		checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
+	foundation.threadWait(Constants.SHORT_TIME);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
+	foundation.waitforElementToBeVisible(objTableDataOperatorProduct(product),3);
+	foundation.click(objTableDataOperatorProduct(product));
+	foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
+	foundation.click(GlobalProductChange.BTN_NEXT);
+	}
+	/**
+	 * Click confirmation buttons in OPC
+	 */
+	public void clickConfirmMsgInOPC() {
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,3);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
+	foundation.click(GlobalProductChange.BTN_SUBMIT);
+	foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC,3);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
+	foundation.click(GlobalProductChange.BTN_OK);
+	foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_SUMITTED,5);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_SUMITTED));
+	foundation.click(GlobalProductChange.REASON_BTNOK);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+	}
+	
+	/**
+	 * Click confirmation buttons in GPC
+	 * @throws AWTException 
+	 */
+	public void clickConfirmMsgInGPC(String data) throws AWTException {
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,5);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
+		foundation.click(GlobalProductChange.BTN_SUBMIT);
+		foundation.waitforElementToBeVisible(GlobalProductChange.POPUP_OK,3);
+		foundation.click(GlobalProductChange.POPUP_OK);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_CONFIRM_POPUP,3);
+		foundation.click(GlobalProductChange.TXT_CONFIRM_POPUP);
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,data);
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,Keys.ENTER);
+		foundation.waitforElementToBeVisible(GlobalProductChange.REASONBOX_BTNOK,3);
+		foundation.click(GlobalProductChange.REASONBOX_BTNOK);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+	}
+	
+	/**
+	 * select product in global product change 
+	 * 
+	 * @param location
+	 * @param product
+	 */
+	public void selectProductInGPC(String location,String product) {
+
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+		foundation.click(objLocation(location));
+		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+		textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product);
+		foundation.click(objTableDataProduct(product));
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
+		foundation.click(GlobalProductChange.BTN_NEXT);}
+	/**
+	 * remove product in GPC
+	 * 
+	 * @param product
+	 */
+	public void removeProductInGPC(String product) {
+		foundation.waitforElementToBeVisible(GlobalProductChange.DPD_REMOVE,3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DPD_REMOVE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_GREENCIRCLE));
+		foundation.click(GlobalProductChange.DPD_REMOVE);
+		dropDown.selectItem(GlobalProductChange.DPD_REMOVE, product, Constants.TEXT);
+		
+	}
+	
+
 }
