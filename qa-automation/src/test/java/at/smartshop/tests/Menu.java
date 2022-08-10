@@ -165,7 +165,9 @@ public class Menu extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
             foundation.threadWait(Constants.SHORT_TIME);
             foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+            foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
+    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
     		foundation.click(LocationSummary.BTN_PRINT_GROUP);
     		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
     		foundation.click(LocationSummary.BTN_APPLY);
@@ -215,7 +217,8 @@ public class Menu extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			// resetting
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
@@ -224,14 +227,15 @@ public class Menu extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
             foundation.threadWait(Constants.SHORT_TIME);
             foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+            foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
+    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
     		foundation.click(LocationSummary.BTN_PRINT_GROUP);
     		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
     		foundation.click(LocationSummary.BTN_APPLY);
     		foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));
+			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			//foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 		}
