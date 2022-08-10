@@ -252,6 +252,7 @@ public class Report extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -266,7 +267,7 @@ public class Report extends TestInfra {
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -303,6 +304,8 @@ public class Report extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
+			System.out.println("tableHeaders" + uiData);
+			System.out.println("columnName" + dbData);
 			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
@@ -842,11 +845,13 @@ public class Report extends TestInfra {
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
 			memberPurchaseSummary.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -4623,8 +4628,9 @@ public class Report extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(locationName);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesSummaryAndCost.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
