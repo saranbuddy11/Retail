@@ -666,8 +666,9 @@ public class ConsumerEngagement extends Factory {
 	 * @param value
 	 */
 	public void verifyIssueCount(String value) {
-		foundation.threadWait(3);
+		foundation.threadWait(5);
 		foundation.refreshPage();
+		foundation.threadWait(3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		foundation.waitforElementToBeVisible(ISSUEBY, 5);
 		String text = foundation.getText(ISSUEBY);
