@@ -50,6 +50,7 @@ public class CashFlowEmployeeDevice extends Factory {
 	public static final String REPORTS_CONTAINERS = "report-container";
 	public static final String ID_TABLE_CASH_FLOW_DETAILS_TOTAL = "Totals";
 	public static final String ID_LBL_REPORT_NAME = "#report-container > script + style + div > div > label";
+	public static final By REPORT_NAME = By.id("reportId");
 
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> initialReportsData = new HashMap<>();
@@ -64,8 +65,7 @@ public class CashFlowEmployeeDevice extends Factory {
 	private List<Integer> requiredCount = new LinkedList<>();
 	private List<String> intialReportsData = new ArrayList<>();
 	private List<String> tableHeaders = new ArrayList<>();
-	private JsonObject sales;
-	public String staffName;
+	public String staffName = "Non-Employee";
 
 	public int getLocationCount() {
 		WebElement locationDropdown = getDriver().findElement(By.cssSelector(DPD_LOCATION));
@@ -81,8 +81,8 @@ public class CashFlowEmployeeDevice extends Factory {
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
-			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			String reportTitle = foundation.getText(REPORT_NAME);
+			Assert.assertEquals(reportTitle, reportName);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -111,6 +111,11 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
+	/**
+	 * Calculate Integer Total
+	 * 
+	 * @param columnName
+	 */
 	public void calculateIntegerTotal(String columnName) {
 		int rowSize = cashFlowDetailsTotal.size();
 		int totalValue = 0;
@@ -122,6 +127,11 @@ public class CashFlowEmployeeDevice extends Factory {
 		calculateCashFlowTotal.get(0).put(columnName, String.valueOf(totalValue));
 	}
 
+	/**
+	 * Calculate Double Total
+	 * 
+	 * @param columnName
+	 */
 	public void calculateDoubleTotal(String columnName) {
 		int rowSize = cashFlowDetailsTotal.size();
 		double totalValue = 0.0;
@@ -134,7 +144,12 @@ public class CashFlowEmployeeDevice extends Factory {
 		calculateCashFlowTotal.get(0).put(columnName, String.valueOf(totalValue));
 	}
 
-//current_loc=Automation@365
+	/**
+	 * Calculate Cash Flow Details Totals
+	 * 
+	 * @param location
+	 * @throws Exception
+	 */
 	public void calculateCashFlowDetailsTotals(String location) throws Exception {
 		cashFlowDetailsTotal.clear();
 		String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
@@ -164,7 +179,13 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
-//deviceID = Vsh601263    current_loc=Automation@365
+	/**
+	 * Read all Records from UI Report
+	 * 
+	 * @param deviceId
+	 * @param location
+	 * @throws Exception
+	 */
 	public void readAllRecordsFromCashFlowDetailsTable(String deviceId, String location) throws Exception {
 		int locCount = getLocationCount();
 		reportsData.clear();
@@ -216,6 +237,11 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
+	/**
+	 * Verify Report Headers
+	 * 
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
@@ -223,7 +249,16 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
-	// deviceID = Vsh601263 current_loc=Automation@365
+	/**
+	 * Get SubHeader Count
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @return
+	 * @throws Exception
+	 */
 	public int getSubHeaderCount(String deviceName, String location, String columnName, String columnValue)
 			throws Exception {
 		String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
@@ -256,7 +291,17 @@ public class CashFlowEmployeeDevice extends Factory {
 		return count;
 	}
 
-	// deviceID = Vsh601263 current_loc=Automation@365
+	/**
+	 * Get Header Counts
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param reqColumnName
+	 * @param columnValue
+	 * @param reqColumnValue
+	 * @throws Exception
+	 */
 	public void getHeaderCounts(String deviceName, String location, String columnName, String reqColumnName,
 			String columnValue, String reqColumnValue) throws Exception {
 		String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
@@ -300,6 +345,15 @@ public class CashFlowEmployeeDevice extends Factory {
 		requiredData.add(reqCount);
 	}
 
+	/**
+	 * Calculate Credit Card Sub Total counts
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateCreditCardSubTotalCounts(String deviceName, String location, String columnName,
 			String columnValue) throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -318,6 +372,15 @@ public class CashFlowEmployeeDevice extends Factory {
 		initialReportsData.get(count - 1).put(colName.get(1), updatedPayCount);
 	}
 
+	/**
+	 * Calcualte Credit Card Subtotal Amounts
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateCreditCardSubTotalAmounts(String deviceName, String location, String columnName,
 			String columnValue) throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -337,6 +400,13 @@ public class CashFlowEmployeeDevice extends Factory {
 		initialReportsData.get(count - 1).put(colName.get(1), String.valueOf(payAmount));
 	}
 
+	/**
+	 * Calcualte Location Total Amounts
+	 * 
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateLocationTotalsAmounts(String columnName, String columnValue) throws Exception {
 		double totalAmount = 0;
 		double amount = 0;
@@ -358,6 +428,13 @@ public class CashFlowEmployeeDevice extends Factory {
 		initialReportsData.get(counter).put(colName.get(1), String.valueOf(updatedAmount));
 	}
 
+	/**
+	 * Calculate Location Total Counts
+	 * 
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateLocationTotalCounts(String columnName, String columnValue) throws Exception {
 		int totalCount = 0;
 		int count = 0;
@@ -378,6 +455,16 @@ public class CashFlowEmployeeDevice extends Factory {
 		initialReportsData.get(counter).put(colName.get(1), String.valueOf(updatedCount));
 	}
 
+	/**
+	 * Calculate Counts
+	 * 
+	 * @param device
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @param count
+	 * @throws Exception
+	 */
 	public void calculateCounts(String device, String location, String columnName, String columnValue, int count)
 			throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -388,6 +475,15 @@ public class CashFlowEmployeeDevice extends Factory {
 				String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * Calculate Amounts
+	 * 
+	 * @param device
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateAmounts(String device, String location, String columnName, String columnValue)
 			throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -401,6 +497,15 @@ public class CashFlowEmployeeDevice extends Factory {
 				String.valueOf(updatedAmounts));
 	}
 
+	/**
+	 * Calculate Declined Amounts
+	 * 
+	 * @param device
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateDeclinedAmounts(String device, String location, String columnName, String columnValue)
 			throws Exception {
 		double updatedAmounts = 0;
@@ -421,6 +526,15 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
+	/**
+	 * Calculate Total Column Data
+	 * 
+	 * @param device
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateTotalsColumnData(String device, String location, String columnName, String columnValue)
 			throws Exception {
 		String total;
@@ -444,6 +558,15 @@ public class CashFlowEmployeeDevice extends Factory {
 				String.valueOf(total));
 	}
 
+	/**
+	 * Calculate Location sales
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateLocationSales(String deviceName, String location, String columnName, String columnValue)
 			throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -466,6 +589,15 @@ public class CashFlowEmployeeDevice extends Factory {
 				String.valueOf(newSales));
 	}
 
+	/**
+	 * Calculate Location Tax
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void calculateLocationTax(String deviceName, String location, String columnName, String columnValue)
 			throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -485,6 +617,15 @@ public class CashFlowEmployeeDevice extends Factory {
 				String.valueOf(newTax));
 	}
 
+	/**
+	 * Update Total Grid Value
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 	public void updateTotalsGridValue(String deviceName, String location, String columnName, String columnValue)
 			throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -492,6 +633,16 @@ public class CashFlowEmployeeDevice extends Factory {
 				initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1));
 	}
 
+	/**
+	 * Calculate Total Grid Count
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @param count
+	 * @throws Exception
+	 */
 	public void calculateTotalsGridCounts(String deviceName, String location, String columnName, String columnValue,
 			int count) throws Exception {
 		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
@@ -501,6 +652,16 @@ public class CashFlowEmployeeDevice extends Factory {
 		initialReportTotals.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
 				.put(colName.get(1), String.valueOf(updatedCounts));
 	}
+
+	/**
+	 * Calculate Total Grid Amount
+	 * 
+	 * @param deviceName
+	 * @param location
+	 * @param columnName
+	 * @param columnValue
+	 * @throws Exception
+	 */
 
 	public void calculateTotalsGridAmounts(String deviceName, String location, String columnName, String columnValue)
 			throws Exception {
@@ -515,6 +676,11 @@ public class CashFlowEmployeeDevice extends Factory {
 				.put(colName.get(1), String.valueOf(updatedAmounts));
 	}
 
+	/**
+	 * Verify Report Records
+	 * 
+	 * @throws Exception
+	 */
 	public void verifyReportRecords() throws Exception {
 		int count = initialReportsData.size();
 		int coulumnCount = tableHeaders.size();
@@ -522,32 +688,44 @@ public class CashFlowEmployeeDevice extends Factory {
 			Assert.assertTrue(reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum
 					.get(0).get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
 		}
-		for (int iter = 0; iter < count; iter++) {
+		for (int iter = 0; iter < count - 3; iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
 				Assert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
 						.contains(initialReportsData.get(iter).get(tableHeaders.get(val))));
 			}
 		}
-
 	}
 
-	public static void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String transID, String salesheader,
-			String transDate, String transStatus, String paymentType) {
-		JsonArray jsonarray = jsonObj.get(reqString).getAsJsonArray();
-		for (JsonElement jsonarr : jsonarray) {
-			JsonObject element = jsonarr.getAsJsonObject();
-			element.addProperty(Reports.ID,
-					UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
-			element.addProperty(Reports.SALES_HEADER, salesheader);
-			element.addProperty(Reports.TRANS_ID, transID);
-			element.addProperty(Reports.TRANS_DATE, transDate);
-		}
-		if (reqString.equals(Reports.PAYMENTS)) {
-			for (JsonElement jsonarr : jsonarray) {
-				JsonObject element = jsonarr.getAsJsonObject();
-				element.addProperty(Reports.STATUS, transStatus);
-				element.addProperty(Reports.TYPE, paymentType);
+	/**
+	 * Json Array Data Update
+	 * 
+	 * @param jsonObj
+	 * @param reqString
+	 * @param salesheader
+	 * @param transStatus
+	 * @param paymentType
+	 */
+	private void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader, String transStatus,
+			String paymentType) {
+		try {
+			JsonArray items = jsonObj.get(reqString).getAsJsonArray();
+			for (JsonElement item : items) {
+				JsonObject json = item.getAsJsonObject();
+				json.addProperty(Reports.ID,
+						UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
+				json.addProperty(Reports.SALES_HEADER, salesheader);
+				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
 			}
+			if (reqString.equals(Reports.PAYMENTS)) {
+				for (JsonElement jsonarr : items) {
+					JsonObject element = jsonarr.getAsJsonObject();
+					element.addProperty(Reports.STATUS, transStatus);
+					element.addProperty(Reports.TYPE, paymentType);
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -558,7 +736,7 @@ public class CashFlowEmployeeDevice extends Factory {
 	 * @param paymentType
 	 * @throws Exception
 	 */
-	public void processAPI(String transStatus, String paymentType, String deviceID) throws Exception {
+	public void processAPI(String transStatus, String paymentType, String deviceID, String value) throws Exception {
 		requiredCount.clear();
 		int credCount = 0;
 		int voidCredCount = 0;
@@ -570,9 +748,11 @@ public class CashFlowEmployeeDevice extends Factory {
 		List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 		for (int iterator = 0; iterator < payType.size(); iterator++) {
 			for (int iter = 0; iter < tStatus.size(); iter++) {
+				generateJsonDetails(value);
+				salesJsonDataUpdate(tStatus.get(iter), payType.get(iterator), deviceID);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
-						salesJsonDataUpdate(tStatus.get(iter), payType.get(iterator), deviceID));
+						(String) jsonData.get(Reports.JSON));
 				if (tStatus.get(iter).equals(Constants.ACCEPTED) && payType.get(iterator).equals(Constants.CREDIT)) {
 					credCount = credCount + 1;
 					tipCount = tipCount + 1;
@@ -615,25 +795,57 @@ public class CashFlowEmployeeDevice extends Factory {
 		}
 	}
 
-	public String salesJsonDataUpdate(String transStatus, String paymentType, String deviceID) throws Exception {
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-		String transDate = LocalDateTime.now().format(dateFormat);
-		String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING);
-		String transID = deviceID + Constants.DELIMITER_HYPHEN
-				+ transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
-		String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
-		JsonObject jsonData = jsonFunctions.convertStringToJson(saleValue);
-		jsonData.addProperty(Reports.TRANS_ID, transID);
-		jsonData.addProperty(Reports.TRANS_DATE, transDate);
-		String sale = jsonData.get(Reports.SALE).getAsString();
-		sales = jsonFunctions.convertStringToJson(sale);
-		sales.addProperty(Reports.ID, salesHeaderID);
-		sales.addProperty(Reports.TRANS_ID, transID);
-		sales.addProperty(Reports.TRANS_DATE, transDate);
-		jsonArrayDataUpdate(sales, Reports.ITEMS, transID, salesHeaderID, transDate, transStatus, paymentType);
-		jsonArrayDataUpdate(sales, Reports.PAYMENTS, transID, salesHeaderID, transDate, transStatus, paymentType);
-		jsonData.addProperty(Reports.SALE, sales.toString());
-		return jsonData.toString();
+	/**
+	 * Generate Json Details
+	 * 
+	 * @param reportFormat
+	 */
+	private void generateJsonDetails(String reportFormat) {
+		try {
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
+			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
+			LocalDateTime tranDate = LocalDateTime.now();
+			String transDate = tranDate.format(dateFormat);
+			String reportDate = tranDate.format(reqFormat);
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			jsonData.put(Reports.TRANS_ID, transID);
+			jsonData.put(Reports.TRANS_DATE, transDate);
+			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Sales Json Data Update
+	 * 
+	 * @param transStatus
+	 * @param paymentType
+	 * @param deviceID
+	 */
+	private void salesJsonDataUpdate(String transStatus, String paymentType, String deviceID) {
+		try {
+			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
+					Constants.EMPTY_STRING);
+			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
+			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			String sale = saleJson.get(Reports.SALE).getAsString();
+			JsonObject salesObj = jsonFunctions.convertStringToJson(sale);
+			salesObj.addProperty(Reports.ID, salesHeaderID);
+			salesObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			salesObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID, transStatus, paymentType);
+			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID, transStatus, paymentType);
+			saleJson.addProperty(Reports.SALE, salesObj.toString());
+			jsonData.put(Reports.JSON, saleJson.toString());
+			jsonData.put(Reports.SALES, salesObj);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 	/**
