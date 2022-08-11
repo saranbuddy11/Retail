@@ -3054,7 +3054,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "168025-Verify the All Redeemed Promtions for Tender type of Promtion Analysis")
+	@Test(priority = 4, description = "168025-Verify the All Redeemed Promtions for Tender type of Promtion Analysis")
 	public void PromtionAnalysisAllRedeemed() {
 		final String CASE_NUM = "168025";
 
@@ -3184,8 +3184,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3278,7 +3278,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "168026-Verify the All Redeemed Promtions for On-Screen type of Promtion Analysis")
+	@Test(priority = 3, description = "168026-Verify the All Redeemed Promtions for On-Screen type of Promtion Analysis")
 	public void PromtionAnalysisForRedeemedPromotions() {
 		final String CASE_NUM = "168026";
 
@@ -3355,8 +3355,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3438,8 +3438,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3523,7 +3523,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "177341-Verify the Duplicate Sales Itmes in Sales Items Details Report after Redeeming a promotion")
+	@Test(priority = 2, description = "177341-Verify the Duplicate Sales Itmes in Sales Items Details Report after Redeeming a promotion")
 	public void VerifyDuplicateSalesItmesInSalesItemsDetailsReport() {
 		final String CASE_NUM = "177341";
 
@@ -3598,8 +3598,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -4140,7 +4140,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 11-07-2022
 	 */
-	@Test(description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
+	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
 	public void consumerFeedbackSurveyReportDataValidation() {
 		final String CASE_NUM = "197794";
 
