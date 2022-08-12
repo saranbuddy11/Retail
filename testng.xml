@@ -15,7 +15,6 @@
 		<parameter name="reportsDB" value="RDS" />
 		<classes>
 			<class name="at.smartshop.tests.Menu" />
-			<class name="at.smartshop.tests.PickLists" />
 		</classes>
 	</test> <!-- Test -->
 
