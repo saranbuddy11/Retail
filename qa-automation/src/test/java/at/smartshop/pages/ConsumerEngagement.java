@@ -103,7 +103,14 @@ public class ConsumerEngagement extends Factory {
 	public static final By BTN_OK = By.cssSelector(".ajs-ok");
 	public static final By CONSUMER_ENGAGEMENT_GRID = By.cssSelector("table#consumerengageGrid>tbody.ui-ig-record>tr");
 	public static final By SUCCESS_MSG = By.cssSelector("div.alertify-notifier>div");
-
+	public static final By GIFTCARD_TITLE = By.xpath("//td[@aria-describedby='consumerengageGrid_title']");
+	public static final By CONSUMER_ACCOUNT = By.id("consumeraccount");
+	public static final By SELECT_CONSUMER_BY_GRID = By.xpath("//th[@class='ui-iggrid-rowselector-class']//span[@name='chk']");
+	public static final By LOC_BTN_CANCEL = By.id("issuebylocCancel");
+	public static final By EMAIL_BTN_CANCEL = By.id("issuebyemailCancel");
+	public static final By RECIPIENTS_DRP = By.xpath("//div[contains(@class,'ui-igcombo-fieldholder')]//input");
+	
+	
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
 	}
@@ -121,6 +128,10 @@ public class ConsumerEngagement extends Factory {
 
 	public List<WebElement> consumerEngagementGridElement() {
 		return getDriver().findElements(CONSUMER_ENGAGEMENT_GRID);
+	}
+	public By objTextbox(String id) {
+		return By.xpath("//input[@id='" + id + "']");
+
 	}
 
 	/**
@@ -553,4 +564,33 @@ public class ConsumerEngagement extends Factory {
 		int count = consumerEngagementGridElement().size();
 		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
 	}
+	
+	/**
+	 * Gift Card Creation with inputs and searching it
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param expiry
+	 */
+	public void createGiftCardAndSearchIt(String giftTitle,String amount, String expiry) {
+		createGiftCard(giftTitle, amount, expiry);
+		foundation.refreshPage();
+		
+		//Searching for Recently created Gift Card 
+		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, giftTitle);
+		CustomisedAssert.assertTrue(
+				foundation.getText(GIFTCARD_TITLE).equals(giftTitle));
+	}
+	
+	/**
+	 * verify textbox is blank
+	 * 
+	 * @param title
+	 */
+	public void verifyTextboxIsBlank(String id) {		
+		   WebElement Wb= getDriver().findElement(objTextbox(id));         
+           String CLbox =Wb.getAttribute("value");
+        CustomisedAssert.assertTrue(CLbox.isEmpty());     
+	}
+
 }
