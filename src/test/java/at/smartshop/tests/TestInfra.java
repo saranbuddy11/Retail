@@ -73,7 +73,7 @@ public class TestInfra {
 	public void afterSuit(String sendEmail,String environment) {
 		try {
 			if (sendEmail.equals(Constants.YES)) {
-				sendReport.triggerMail(ExtReport.reportFullPath,environment);
+//				sendReport.triggerMail(ExtReport.reportFullPath,environment);
 			}
 //			ResultSets.connection.close();
 //			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
