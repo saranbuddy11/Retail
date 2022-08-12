@@ -40,7 +40,7 @@ public class TestInfra {
 	@BeforeSuite
 	public void beforeSuit(String environment, String testRail) {
 		try {
-			ResultSets.getConnection();
+//			ResultSets.getConnection();
 			filePath.setEnvironment(environment);
 			updateTestRail = testRail;
 			HOST = InetAddress.getLocalHost().getHostName();
@@ -75,7 +75,7 @@ public class TestInfra {
 			if (sendEmail.equals(Constants.YES)) {
 				sendReport.triggerMail(ExtReport.reportFullPath,environment);
 			}
-			ResultSets.connection.close();
+//			ResultSets.connection.close();
 //			Process process=Runtime.getRuntime().exec("cmd /c taskkill /im chrome.exe /f");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
