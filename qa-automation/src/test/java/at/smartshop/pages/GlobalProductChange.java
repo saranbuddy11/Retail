@@ -1,8 +1,10 @@
 package at.smartshop.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -69,6 +71,8 @@ public class GlobalProductChange extends Factory {
 	public static final By OPS_DESELECT_ALL = By.id("prd-deselect-all");
 	public static final By ROUNDING = By.id("prd-rounding");
 	public static final By PRICE_CHECKBOX = By.id("prd-price-checked");
+	public static final By INPUT_TEXT=By.xpath("//input[@class='ajs-input']");
+	public static final By BUTTON_OK=By.id("gpcUpdateokbtn");
 	public static final By MIN_CHECKEDBOX = By.id("prd-min-checked");
 	public static final By MAX_CHECKEDBOX = By.id("prd-max-checked");
 	public static final By ACTION_CHECKEDBOX = By.id("prd-pick-list-action-checked");
@@ -83,6 +87,8 @@ public class GlobalProductChange extends Factory {
 	public static final By BTN_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By PRODUCT_FIELD = By.id("prd-name");
 	public static final By PRODUCT_CHECKOUT = By.id("prd-name-checked");
+	public static final By PROMPT_MESSAGE=By.id("gpc-UpdatepopupBody");
+	public static final By BUTTON_CANCEL=By.id("gpcUpdateCancelbtn");
 	public static final By COST_FIELD = By.id("prd-cost");
 	public static final By COST_CHECKOUT = By.id("prd-cost-checked");
 	public static final By CATEGORY_ONE = By.id("prd-cate-1");
@@ -327,8 +333,9 @@ public class GlobalProductChange extends Factory {
 	 * @param deposit
 	 * @param tax1
 	 * @param tax2
+	 * @throws AWTException 
 	 */
-	public void updateDepositeAndTaxField(String deposit,String tax1,String tax2) {
+	public void updateDepositeAndTaxField(String deposit,String tax1,String tax2) throws AWTException {
 		foundation.waitforElementToBeVisible(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE, 5);
 		textBox.enterText(GlobalProductChange.DEPOSIT_CAT, deposit);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DEPOSITE_CHECKED));
@@ -337,11 +344,23 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(GlobalProductChange.TXT_TAX2, tax2);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TAX2_CHECKED));
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
-		foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
-		foundation.click(GlobalProductChange.BTN_OK);
-		foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-		foundation.click(GlobalProductChange.REASON_BTNOK);
+		foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+		verifyButtonOkayInGPC();
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 3);
+	}
+	
+	/**
+	 * verify Button okay in GPC
+	 * @throws AWTException
+	 */
+	public void verifyButtonOkayInGPC() throws AWTException {
+		foundation.click(GlobalProductChange.BUTTON_OK);
+		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
+		textBox.enterText(INPUT_TEXT, "CONFIRM");
+		foundation.clickEnter();
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(REASON_BTNOK);
+
 	}
 
 }

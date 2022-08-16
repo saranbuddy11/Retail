@@ -825,5 +825,16 @@ public class Foundation extends Factory {
 		}
 		return rect;
 	}
+
+	/**
+	 * Clicking enter using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clickEnter() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
 }
 			

@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -137,10 +138,8 @@ public class GlobalProducts extends TestInfra {
 			textBox.enterText(GlobalProductChange.TXT_PRICE, Double.toString(Incrementprice));
 
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+			globalProductChange.verifyButtonOkayInGPC();
 
 			// Select Menu and Global product
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -732,7 +731,7 @@ public class GlobalProducts extends TestInfra {
 			+ "167951 - Verify to view the Update Max field value for a product in Global Product Change for Locations"
 			+ "167952 - Verify to view the Update Pick list Action field value for a product in Global Product Change for Locations"
 			+ "167953 - Verify to view the Update Loyalty Multiplier field value for a product in Global Product Change for Locations")
-	public void verifyGPCForLocation() {
+	public void verifyGPCForLocation() throws AWTException {
 		final String CASE_NUM = "167948";
 
 		// Reading test data from DataBase
@@ -794,27 +793,28 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 
 			// Verify the Popup's
-			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_OK));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_CANCEL));
-			String header = foundation.getText(GlobalProductChange.POP_UP_HEADER);
-			CustomisedAssert.assertEquals(header, title.get(0));
+			foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_OK));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_CANCEL));
+//			String header = foundation.getText(GlobalProductChange.POP_UP_HEADER);
+//			CustomisedAssert.assertEquals(header, title.get(0));
 
 			// Verify Cancel Button
-			foundation.click(GlobalProductChange.BTN_CANCEL);
+			foundation.threadWait(5);
+			foundation.click(GlobalProductChange.BUTTON_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.threadWait(Constants.ONE_SECOND);
-			header = foundation.getText(GlobalProductChange.REASONBOX_TITLE);
-			CustomisedAssert.assertEquals(header, title.get(1));
-			header = foundation.getText(GlobalProductChange.REASONBOX_BODY);
-			CustomisedAssert.assertEquals(header, title.get(2));
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+//			foundation.click(GlobalProductChange.BTN_OK);
+//			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			header = foundation.getText(GlobalProductChange.REASONBOX_TITLE);
+//			CustomisedAssert.assertEquals(header, title.get(1));
+//			header = foundation.getText(GlobalProductChange.REASONBOX_BODY);
+//			CustomisedAssert.assertEquals(header, title.get(2));
+			globalProductChange.verifyButtonOkayInGPC();
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 
 			// Navigate to Global Product to check on updated price, Min value, Max value,
@@ -835,13 +835,13 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertEquals(value, pickList.get(0));
 			value = foundation.getText(globalProduct.selectProductLoyaltyMultiplier(location.get(0)));
 			CustomisedAssert.assertEquals(value, price.get(0));
+			foundation.threadWait(5);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting Product data
 			navigationBar.navigateToMenuItem(menus.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
-			foundation.click(globalProductChange.objLocation(location.get(0)));
+ 			foundation.click(globalProductChange.objLocation(location.get(0)));
 			foundation.click(globalProductChange.objLocation(location.get(1)));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_LOCATION_APPLY);
 			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
@@ -855,9 +855,8 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_PRODUCT_LOYALTY_MULTIPLIER));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_SUBMIT);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.waitforElementToBeVisible(GlobalProductChange.BUTTON_OK, 5);
+			globalProductChange.verifyButtonOkayInGPC();
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			navigationBar.navigateToMenuItem(menus.get(2));
 			foundation.threadWait(5);
@@ -925,27 +924,25 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 
 			// Verify the Popup's
-			foundation.waitforElement(GlobalProductChange.BTN_OK, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_OK));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_CANCEL));
-			String header = foundation.getText(GlobalProductChange.POP_UP_HEADER);
-			CustomisedAssert.assertEquals(header, title.get(0));
-
+			foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_OK));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_CANCEL));
+			
 			// Verify Cancel Button
-			foundation.click(GlobalProductChange.BTN_CANCEL);
+			foundation.click(GlobalProductChange.BUTTON_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
 
 			// Verify OK Button
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
-			foundation.threadWait(Constants.ONE_SECOND);
-			header = foundation.getText(GlobalProductChange.REASONBOX_TITLE);
-			CustomisedAssert.assertEquals(header, title.get(1));
-			header = foundation.getText(GlobalProductChange.REASONBOX_BODY);
-			CustomisedAssert.assertEquals(header, title.get(2));
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			foundation.threadWait(Constants.SHORT_TIME);
+			globalProductChange.verifyButtonOkayInGPC();
+//			foundation.isDisplayed(GlobalProductChange.MSG_SUCCESS);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			header = foundation.getText(GlobalProductChange.REASONBOX_TITLE);
+//			CustomisedAssert.assertEquals(header, title.get(1));
+//			header = foundation.getText(GlobalProductChange.REASONBOX_BODY);
+//			CustomisedAssert.assertEquals(header, title.get(2));
+//			foundation.click(GlobalProductChange.REASON_BTNOK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 
 			// Navigate to Global Product to check on updated price
@@ -957,6 +954,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND);
 			String productPrice = foundation.getText(globalProduct.selectProductPrice(location.get(0)));
 			CustomisedAssert.assertEquals(productPrice, price.get(0) + ".00");
+			foundation.threadWait(5);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1063,6 +1061,7 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
+			foundation.threadWait(3);
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(2)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.scrollIntoViewElement(GlobalProduct.DPD_LOYALTY_MULTIPLIER);
@@ -1170,19 +1169,17 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.productFieldChange(requireddata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_PROMPT_MSG));
-			String value = foundation.getText(GlobalProductChange.TXT_PROMPT_CONTENT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.PROMPT_MESSAGE));
+			String value = foundation.getText(GlobalProductChange.PROMPT_MESSAGE);
 			CustomisedAssert
 					.assertTrue(value.contains(rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_OK));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_CANCEL));
-			foundation.click(GlobalProductChange.BTN_CANCEL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_OK));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_CANCEL));
+			foundation.click(GlobalProductChange.BUTTON_CANCEL);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			globalProductChange.verifyButtonOkayInGPC();
 
 			// Navigate to Products>>Global products and verify the min price
 			navigationBar.navigateToMenuItem(menus.get(1));
@@ -1191,6 +1188,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(globalProduct.selectGlobalProduct(product.get(0), product.get(1)));
 			foundation.refreshPage();
+			foundation.waitforElementToBeVisible(ProductSummary.SEARCH_FILTER, 5);
 			textBox.enterText(ProductSummary.SEARCH_FILTER,
 					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME));
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -1362,7 +1360,7 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	@Test(description = "C167960-Verify to view the GPC History Option")
-	public void verifyGPCHistoryOption() {
+	public void verifyGPCHistoryOption() throws AWTException {
 
 		final String CASE_NUM = "167960";
 
@@ -1394,15 +1392,15 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.productFieldChange(requireddata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			globalProductChange.verifyButtonOkayInGPC();
 
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
 			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
+			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1467,9 +1465,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.productFieldChange(resetdata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(GlobalProductChange.BTN_OK);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(GlobalProductChange.REASON_BTNOK);
+			globalProductChange.verifyButtonOkayInGPC();
 			foundation.threadWait(Constants.TWO_SECOND);
 
 		}
@@ -1616,10 +1612,11 @@ public class GlobalProducts extends TestInfra {
 	/**
 	 * @author afrosean
 	 * Date: 26-07-2022
+	 * @throws AWTException 
 	 */
 	@Test(description = "SOS-30208-198580-ADM > Global Product Change > Unable to Update Deposit field"
 			+ "SOS-29690-198581-ADM > Global Product Change > Unable to Update Tax1 or Tax2 Columns")
-	public void verifyDepositeFieldAfterTaxMethodSetToItemLevelTax() {
+	public void verifyDepositeFieldAfterTaxMethodSetToItemLevelTax() throws AWTException {
 
 		final String CASE_NUM = "198580";
 
@@ -1628,6 +1625,7 @@ public class GlobalProducts extends TestInfra {
 		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 
 		List<String> menu = Arrays
+				
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> dropdown = Arrays
 				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));

@@ -38,7 +38,6 @@ public class PickLists extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private PickList pickList = new PickList();
 	private Dropdown dropDown = new Dropdown();
-
 	private LocationList locationList = new LocationList();
 	private Excel excel = new Excel();
 	private Table table = new Table();
@@ -667,10 +666,7 @@ public class PickLists extends TestInfra {
 	@Test(description = "C195606-ADM>Pick List Manager>Select  Location>In picklist grid Select All location")
 	public void verifyPicklistGridSelectAllLocation() {
 		final String CASE_NUM = "195606";
-		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
+		
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
@@ -849,8 +845,8 @@ public class PickLists extends TestInfra {
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.MEDIUM_TIME);
-			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.waitforElement(PickList.SELECT_ALL, Constants.MEDIUM_TIME);
+			foundation.click(PickList.SELECT_ALL);
 			foundation.waitforElement(PickList.VALIDATE_HIGHLIGHTED_PRODUCTS, Constants.SHORT_TIME);
 			pickList.verifyProductsHighlighted("true");
 			foundation.click(PickList.BTN_REFRESH);

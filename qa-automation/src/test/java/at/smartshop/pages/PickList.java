@@ -116,7 +116,7 @@ public class PickList extends Factory {
 	public static final By LAST_PICKLIST_DATE = By.id("lastpicklistdaterange");
 	public static final By LAST_INVENTORIED_DATE = By.id("inventorieddaterange");
 	public static final By BTN_APPLY_FILTERBY = By.id("filter-by-apply");
-	public static final By TBL_SELECT_LOC_HEADERS = By.xpath("//table[@id='dataGridPickListManager']//thead");
+	public static final By TBL_SELECT_LOC_HEADERS = By.xpath("//table[@id='dataGridPickListManager']//thead//th");
 	public static final By DRP_FILTERBY = By.id("//div[@class='filter-by-group']//select");
 	public static final By TAB_DATE_RANGE = By.xpath("//div[@id='daterange']");
 	public static final By TAB_START_DATE = By.xpath("//input[@name='daterangepicker_start']");
@@ -330,8 +330,8 @@ public class PickList extends Factory {
 
 	public void getTableHeaders() {
 		List<WebElement> columnHeaders = Foundation.getDriver().findElements(TBL_SELECT_LOC_HEADERS);
-		for (WebElement columnHeader : columnHeaders) {
-			tableHeaders.add(columnHeader.getText());
+		for (int iter = 1; iter < columnHeaders.size(); iter++) {
+			tableHeaders.add(columnHeaders.get(iter).getText());
 			System.out.println(tableHeaders);
 		}
 	}
@@ -339,6 +339,7 @@ public class PickList extends Factory {
 	public void verifyLocationHeaders(List<String> columnNames) {
 		try {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				System.out.println(tableHeaders.get(iter) +" / "+ columnNames.get(iter));
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnNames.get(iter)));
 			}
 		} catch (Exception exc) {
@@ -383,10 +384,12 @@ public class PickList extends Factory {
 		List<WebElement> list = getDriver().findElements(CHECKBOX);
 		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
 		foundation.click(DATA_GRID_ROUTE);
+		foundation.waitforElementToBeVisible(DPD_ROUTE, 3);
 		foundation.click(DPD_ROUTE);
 		foundation.click(objRouteText(option1));
 		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
 		foundation.click(DATA_GRID_DRIVER);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 3);
 		foundation.click(DPD_DRIVER);
 		foundation.click(objDriverText(option2));
 		for (int i = 0; i <= list.size() - 1; i++) {

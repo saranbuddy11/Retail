@@ -88,7 +88,7 @@ public class TextBox extends Factory {
 			if (eachChar == ' ') {
 				foundation.click(By.xpath("//*[text()='Space']"));
 				foundation.click(By.xpath("//*[text()='abc']"));
-				foundation.threadWait(Constants.ONE_SECOND);
+				foundation.threadWait(Constants.TWO_SECOND);
 			} else {
 				foundation.click(By.xpath("//*[text()='" + eachChar + "']"));
 			}
