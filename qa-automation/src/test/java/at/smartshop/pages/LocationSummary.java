@@ -334,17 +334,23 @@ public class LocationSummary extends Factory {
 			"//div[@id='promoGrid_hiding_modalDialog']//span[@id='promoGrid_hiding_modalDialog_reset_button_lbl']");
 	public static final By MANAGE_COLUMN_APPLY_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By MANAGE_COLUMN_CANCEL_BUTTON = By.id("promoGrid_hiding_modalDialog_footer_buttoncancel_lbl");
-	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > thead");
+	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#productDataGrid > tbody");
 	public static final By CHK_TOP_OFF_EXCLUDE = By.className("chcktopoffexclude");
 	public static final By CHK_ROLL_OVER_EXCLUDE = By.className("chckClass_");
-
+	public static final By COL_PRICE = By.xpath("//tbody//td[@aria-describedby='productDataGrid_price']");
+	public static final By DPD_INVENTORY_RECORD = By.id("inventoryDataGrid_editor_dropDownButton");
+	public static final By DPD_PRODUCT_RECORD = By.id("productDataGrid_editor_dropDownButton");
+	public static final By MATCH_PRODUCT_RECORD = By.id("productDataGrid_pager_label");
+	public static final By MATCH_INVENTORY_RECORD = By.id("inventoryDataGrid_pager_label");
+	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[13]");
+	public static final By LBL_TAX2_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_taxrate2']");
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public By objAddTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
-
 	public By objDeleteTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy'])[" + index + "]");
 	}
@@ -368,6 +374,11 @@ public class LocationSummary extends Factory {
 	public By objTopOffSubsidyStartDatePickerYearSelection(int year) {
 		return By.xpath("(//span[contains(text()," + year + ")])[2]");
 	}
+	public By labShowRecord(String index) {
+		return By.xpath("//div[@class='ui-iggrid-results'])[" + index + "]");
+		
+	}
+	
 
 	/**
 	 * This method is to Select the Required Tab in Location
@@ -481,6 +492,14 @@ public class LocationSummary extends Factory {
 
 	public By manageColumnPopup(String column) {
 		return By.xpath("//div[@id='promoGrid_hiding_modalDialog_content']//li//span[text()='" + column + "']");
+	}
+	public By selectRecordProduct(String data) {
+		return By.xpath("//div[@id='productDataGrid_editor_list']//span[text()='"+ data + "']");
+				
+	}
+	public By selectRecordInventory(String data) {
+		return By.xpath("//div[@id='inventoryDataGrid_editor_list']//span[text()='"+ data + "']");
+				
 	}
 
 	/**
@@ -828,7 +847,8 @@ public class LocationSummary extends Factory {
 //		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.waitforElement(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
-						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+						+ "']//..//td[@aria-describedby='"
+						+ "DataGrid_qtyonhand']/div/div/span/input"),
 				Constants.TWO_SECOND);
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
@@ -2143,6 +2163,77 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.refreshPage();
 	}
+	/**
+	 * Verify the selected product
+	 * 
+	 * @param product
+	 */
+	public void verifySelectProduct(String product) {
+		foundation.threadWait(5);
+		foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+		foundation.click(LocationSummary.TAB_PRODUCTS);	 
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,5);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
+	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
+		
+	}
+	/**
+	 * Verify update price value in location
+	 * @param location
+	 * @param product
+	 * @param price
+	 */
+	public void updatePriceAndVerifyPrice(String location,String product,String price) {
+		
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+	    foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+	    foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS,3);
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
+	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+	    foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE,3);
+	    foundation.getText(LocationSummary.COL_PRICE);
+		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
+		foundation.threadWait(Constants.SHORT_TIME);
+	   
+	}
+	/**
+	 * Product verify page show records number cut off
+	 * @param recorddata
+	 */
+	public void validateProductTabRecord(By recorddata,String dbData) {
+		foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS,3);
+	    foundation.click(LocationSummary.TAB_PRODUCTS);	
+	    foundation.waitforElementToBeVisible(LocationSummary.DPD_PRODUCT_RECORD,3);
+	    foundation.click(LocationSummary.DPD_PRODUCT_RECORD);
+	    foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
+	    foundation.click(recorddata);	
+	    foundation.scrollIntoViewElement(LocationSummary.MATCH_PRODUCT_RECORD);
+	    foundation.waitforElementToBeVisible(LocationSummary.MATCH_PRODUCT_RECORD,5);
+	    String record=foundation.getText(MATCH_PRODUCT_RECORD);
+	    CustomisedAssert.assertTrue(record.contains(dbData));
+	
+	}
+	/**
+	 * Inventory verify page show records number cut off
+	 * @param recorddata
+	 */
+	public void validateInventoryTabRecord(By recorddata,String dbData) {
+		foundation.waitforElementToBeVisible(LocationSummary.LNK_INVENTORY,3);
+		foundation.click(LocationSummary.LNK_INVENTORY);
+		foundation.waitforElementToBeVisible(LocationSummary.DPD_INVENTORY_RECORD,3);
+		foundation.click(LocationSummary.DPD_INVENTORY_RECORD);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
+		foundation.click(recorddata);		
+		foundation.scrollIntoViewElement(LocationSummary.MATCH_INVENTORY_RECORD);
+		foundation.waitforElementToBeVisible(LocationSummary.MATCH_INVENTORY_RECORD,5);
+		String record=foundation.getText(MATCH_INVENTORY_RECORD);
+		CustomisedAssert.assertTrue(record.contains(dbData));
+		
+	}
 
 	/**
 	 * Removing the Product from Location
@@ -2217,4 +2308,6 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertEquals(value, expected.get(0));
 		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
+
+	
 }
