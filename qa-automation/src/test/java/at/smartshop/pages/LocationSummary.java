@@ -342,6 +342,8 @@ public class LocationSummary extends Factory {
 	public static final By DPD_PRODUCT_RECORD = By.id("productDataGrid_editor_dropDownButton");
 	public static final By MATCH_PRODUCT_RECORD = By.id("productDataGrid_pager_label");
 	public static final By MATCH_INVENTORY_RECORD = By.id("inventoryDataGrid_pager_label");
+	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[13]");
+	public static final By LBL_TAX2_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_taxrate2']");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -2173,7 +2175,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,5);
 		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
-	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,3);
+	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
 		
 	}
 	/**
@@ -2203,15 +2205,16 @@ public class LocationSummary extends Factory {
 	 * @param recorddata
 	 */
 	public void validateProductTabRecord(By recorddata,String dbData) {
-	foundation.click(LocationSummary.TAB_PRODUCTS);	
-	foundation.waitforElementToBeVisible(LocationSummary.DPD_PRODUCT_RECORD,3);
-	foundation.click(LocationSummary.DPD_PRODUCT_RECORD);
-	foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
-	foundation.click(recorddata);	
-	foundation.scrollIntoViewElement(LocationSummary.MATCH_PRODUCT_RECORD);
-	foundation.waitforElementToBeVisible(LocationSummary.MATCH_PRODUCT_RECORD,5);
-	String record=foundation.getText(MATCH_PRODUCT_RECORD);
-	CustomisedAssert.assertTrue(record.contains(dbData));
+		foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS,3);
+	    foundation.click(LocationSummary.TAB_PRODUCTS);	
+	    foundation.waitforElementToBeVisible(LocationSummary.DPD_PRODUCT_RECORD,3);
+	    foundation.click(LocationSummary.DPD_PRODUCT_RECORD);
+	    foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
+	    foundation.click(recorddata);	
+	    foundation.scrollIntoViewElement(LocationSummary.MATCH_PRODUCT_RECORD);
+	    foundation.waitforElementToBeVisible(LocationSummary.MATCH_PRODUCT_RECORD,5);
+	    String record=foundation.getText(MATCH_PRODUCT_RECORD);
+	    CustomisedAssert.assertTrue(record.contains(dbData));
 	
 	}
 	/**
@@ -2219,6 +2222,7 @@ public class LocationSummary extends Factory {
 	 * @param recorddata
 	 */
 	public void validateInventoryTabRecord(By recorddata,String dbData) {
+		foundation.waitforElementToBeVisible(LocationSummary.LNK_INVENTORY,3);
 		foundation.click(LocationSummary.LNK_INVENTORY);
 		foundation.waitforElementToBeVisible(LocationSummary.DPD_INVENTORY_RECORD,3);
 		foundation.click(LocationSummary.DPD_INVENTORY_RECORD);
@@ -2304,4 +2308,6 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertEquals(value, expected.get(0));
 		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
+
+	
 }

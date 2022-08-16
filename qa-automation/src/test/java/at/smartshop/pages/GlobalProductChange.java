@@ -4,9 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -126,9 +123,14 @@ public class GlobalProductChange extends Factory {
 	public static final By CONFIRM_CHANGE_OPC = By.xpath("//div[contains(text(),' Product Catalog Change')]");
 	public static final By DPD_REMOVE=By.xpath("//select[@id='prd-remove-product-loc']");
 	public static final By CHK_GREENCIRCLE=By.id("prd-remove-product-loc-checked");
-    public static final By TXT_UPDATE=By.xpath("//div[contains(@style,'text-align: center;')]/text()[preceding-sibling::br]");
+    public static final By TXT_UPDATE=By.xpath("//div[contains(@style,'text-align:')]//b[text()='update']");
+    public static final By TXT_INCREMENT=By.xpath("//div[contains(@style,'text-align:')]//b[text()='incrementally']");
 	public static final By TXT_CONFIRM_POPUP=By.xpath("//input[@class='ajs-input']");
 	public static final By POPUP_OK=By.xpath("//button[@class='btn btn-light']");
+	public static final By TXT_TAX2=By.xpath("//input[@id='prd-tax-2']");
+	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
+	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
+	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -151,6 +153,7 @@ public class GlobalProductChange extends Factory {
 		return By.xpath("//span[text()='" + productName + "']");
 
 	}
+	
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -298,17 +301,16 @@ public class GlobalProductChange extends Factory {
 	foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC,3);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
 	foundation.click(GlobalProductChange.BTN_OK);
-	foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_SUMITTED,5);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_SUMITTED));
+	foundation.waitforElementToBeVisible(GlobalProductChange.REASON_BTNOK,5);
 	foundation.click(GlobalProductChange.REASON_BTNOK);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 	}
 	
 	/**
 	 * Click confirmation buttons in GPC
-	 * @throws AWTException 
+	 * @param data
 	 */
-	public void clickConfirmMsgInGPC(String data) throws AWTException {
+	public void clickConfirmMsgInGPC(String data) {
 		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,5);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
@@ -337,7 +339,29 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product);
 		foundation.click(objTableDataProduct(product));
 		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
-		foundation.click(GlobalProductChange.BTN_NEXT);}
+		foundation.click(GlobalProductChange.BTN_NEXT);
+		}
+	
+	/**
+	 * verify Tax2 value in ProductsTab
+	 * 
+	 * @param location
+	 * @param product
+	 */
+	public void verifyTax2ValueInProductTab(String location,String product) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.click(objLocation(location));
+			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
+			foundation.click(GlobalProductChange.TAB_PRODUCT);
+			foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2_PRODUCT, 3);
+			foundation.click(GlobalProductChange.TXT_TAX2_PRODUCT);
+			textBox.enterText(GlobalProductChange.TXT_TAX2_PRODUCT,product);
+			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+			foundation.waitforElementToBeVisible(GlobalProductChange.COL_TAX2_PRODUCT,5);
+			foundation.scrollIntoViewElement(GlobalProductChange.COL_TAX2_PRODUCT);
+			String value=foundation.getText(GlobalProductChange.COL_TAX2_PRODUCT);
+			CustomisedAssert.assertTrue(value.contains(product));	
+}
 	/**
 	 * remove product in GPC
 	 * 
@@ -351,6 +375,4 @@ public class GlobalProductChange extends Factory {
 		dropDown.selectItem(GlobalProductChange.DPD_REMOVE, product, Constants.TEXT);
 		
 	}
-	
-
 }

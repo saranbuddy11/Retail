@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
-import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;

@@ -15,6 +15,8 @@ import at.smartshop.keys.Constants;
 public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
+
+	
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
 	public static final By POPUP_LBL_HEADER = By.id("ageverificationpopup");
 	public static final By POPUP_BTN_YES = By.id("ageverificationpopupSaveBtn");
@@ -147,7 +149,8 @@ public class OrgSummary extends Factory {
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			checkBox.check(OrgSummary.CHK_VDI);
-			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);}
 		}
+	
+	
 	}
-}
