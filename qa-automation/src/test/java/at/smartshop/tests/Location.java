@@ -48,6 +48,8 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.UserList;
+import at.smartshop.pages.UserRoles;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -60,6 +62,8 @@ public class Location extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private Table table = new Table();
+	private UserRoles userRoles = new UserRoles();
+	private UserList userList = new UserList();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
@@ -1238,7 +1242,7 @@ public class Location extends TestInfra {
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2069,6 +2073,55 @@ public class Location extends TestInfra {
 			// resetting GMA Subsidy
 			locationSummary.subsidyResettingValidationOff(rstLocationData.get(CNLocation.NAME),
 					rstLocationData.get(CNLocation.LOCATION_NAME), requiredData.get(1));
+		}
+	}
+
+	/**
+	 * @author afrosean
+	 */
+	@Test(description = "202842- ADM > Admin > User and Roles verify Navigation bar, access location and Edit users")
+	public void verifyNavigationBarAccessLocationAndEditUsers() {
+		final String CASE_NUM = "202842";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays
+				.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// launch Browser with super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Super > User and Roles
+			navigationBar.navigateToMenuItem(menu.get(0));
+			userRoles.searchDriver(datas.get(0));
+			login.logout();
+
+			// launch Browser by Using Operator User
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//verify natigationBar in operator user 
+			navigationBar.verifyNavigationBarsArePresent();
+			
+			//Navigate to location summary page
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING)
+					.contains(rstLocationData.get(CNLocation.LOCATION_NAME)));
+			
+			//Navigate to Admin > User and roles
+			navigationBar.navigateToMenuItem(menu.get(1));
+			userList.verifyEdidUserPage(datas.get(1), datas.get(2));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

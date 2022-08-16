@@ -5,10 +5,12 @@ import java.util.List;
 import org.openqa.selenium.By;
 
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -18,7 +20,6 @@ public class UserList {
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox=new TextBox();
-	private NavigationBar navigationBar=new NavigationBar();
 	private Strings string = new Strings();
 	private PropertyFile propertyFile=new PropertyFile();
 	
@@ -28,6 +29,7 @@ public class UserList {
     public static final By TXT_SEARCH_LOC = By.id("loc-dropdown");
     public static final By TXT_SPINNER_MSG = By.className("humane");
     public static final By BTN_UPDATE_USER = By.id("saveBtn");
+    public static final By EDIT_USERS=By.id("pagetitle");
     public static final By DPD_ORG = By.cssSelector("select#org-dropdown");
  	public static final By LBL_USER_LIST = By.id("User List");
  	public static final By LNK_ORG_REMOVE = By.xpath("//div[@id='org-select']//li/span");
@@ -165,9 +167,30 @@ public class UserList {
     
     public void searchAndSelectUser(String userFirstName) {
     	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
+    	foundation.threadWait(3);
 		foundation.click(UserList.TBL_DATA);
     }
    
+    /**
+     * verify edit user page by clicking on operator
+     * @param operator
+     * @param operatorname
+     */
+    public void verifyEdidUserPage(String operator,String operatorname) {
+    	CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.LBL_USER_LIST));
+    	foundation.waitforElementToBeVisible(BTN_MANAGE_ROLES, 3);
+    	foundation.click(BTN_MANAGE_ROLES);
+    	textBox.enterText(UserList.SEARCH_FILTER, operator);
+		foundation.click(objRoleName(operator));
+		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.LBL_HEADER));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.USER_ASSOCIATE_ROLES));
+		foundation.click(objRoleName(operatorname));
+		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
+		
+    	
+    }
       
 
 }
