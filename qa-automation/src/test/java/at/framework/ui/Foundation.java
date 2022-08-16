@@ -22,9 +22,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -807,6 +809,23 @@ public class Foundation extends Factory {
 		r.keyRelease(KeyEvent.VK_CONTROL);
 		r.keyRelease(KeyEvent.VK_ADD);
 	}
+
+	/**
+	 * get Dimention
+	 * @param object
+	 * @return
+	 */
+	public Rectangle getDimention(By object) {
+		Rectangle rect = null;
+		try {
+			rect = getDriver().findElement(object).getRect();
+			rect.getDimension();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return rect;
+	}
+
 	/**
 	 * Clicking enter using Keyboard Actions
 	 * 
@@ -817,5 +836,5 @@ public class Foundation extends Factory {
 		r.keyPress(KeyEvent.VK_ENTER);
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
-
 }
+			

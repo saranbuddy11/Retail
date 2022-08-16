@@ -284,7 +284,6 @@ public class AdminNationalAccounts extends Factory {
 		clickCategory(category);
 		foundation.click(IMPORT_BTN);
 		foundation.waitforElementToBeVisible(SUCCESS_MSG, Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(SUCCESS_MSG));
 		foundation.click(CANCEL_BTN);
 		foundation.waitforElementToBeVisible(LBL_NATIONAL_ACCOUNT, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_NATIONAL_ACCOUNT));
