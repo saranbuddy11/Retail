@@ -32,6 +32,7 @@ import at.smartshop.pages.ConsumerMove;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreateLocation;
+import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -53,6 +54,7 @@ public class Consumer extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private LocationSummary locationSummary = new LocationSummary();
+	private DataSourceManager datasourcemanager=new DataSourceManager();
 	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
 	private CreateLocation createLocation = new CreateLocation();
@@ -98,6 +100,7 @@ public class Consumer extends TestInfra {
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
 			// clicking consumer id
+			foundation.threadWait(3);
 			foundation.click(consumerSearch.objCell(firstName));
 			foundation.threadWait(3);
 			foundation.click(ConsumerSearch.BTN_ADJUST);
@@ -167,6 +170,7 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(3);
 
 			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
@@ -930,6 +934,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), emailID, location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.threadWait(3);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertNotEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle);
 			CustomisedAssert.assertFalse(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle));
@@ -2736,4 +2741,39 @@ public class Consumer extends TestInfra {
 			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(3));
 		}
 	}
+	
+	/**
+	 * @author afrosean
+	 * Date:15-07-2022
+	 */
+//	@Test(description = "197854-Verify consumer search on SF mode")
+//	public void verifyConsumerSearchOnSFMode() {
+//		final String CASE_NUM = "197854";
+//
+//		// Reading test data from DataBase
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+//
+//		List<String> menu = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//		List<String> location = Arrays
+//				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+//		try {
+//			// Launch Browser and Login to ADM with Super account
+//			navigationBar.launchBrowserAsSuperAndSelectOrg(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+//
+//			// Navigate to super-->data source management and check snoflake checkbox
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			datasourcemanager.searchConsumerAndVerifySnowFlakeIsChecked(location.get(0));
+//			
+//			//Navigate to Admin ->consumer search and verify consumer 
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			consumerSearch.searchConsumerAndVerifyInGrid(location.get(1));
+//		}
+//		catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} 
+	//}
 }

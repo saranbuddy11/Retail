@@ -1313,7 +1313,7 @@ public class NationalAccount extends TestInfra {
 			// Location field validation
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
 			nationalAccounts.verifyBackgroundColour(location, expectedColour);
 
@@ -2091,6 +2091,174 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.click(AdminNationalAccounts.BTN_NATIONAL_ACCOUNT_CATEGORY);
 			createNewNationalAccountsCategory.deleteNationalAccountCategory(ruleCategory);
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @Date 13/07/2022
+	 */
+	@Test(description = "142154 - SOS-16874 ADM > Super > National Accounts Screen > Create New Button"
+			+ "142156 - SOS-16878 ADM > Super > National Accounts Summary Screen > Client Dropdown"
+			+ "142157 - SOS-16873 ADM > Super > National Accounts Screen > Delete Icon AND Confirmation Prompt"
+			+ "142158 - SOS-16872 ADM > Super > National Accounts Screen > Ignite Grid")
+	public void verifyNationalAccountPage() {
+		final String CASE_NUM = "142154";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> confirmStatus = Arrays
+				.asList(rstNationalAccountsData.get(CNNationalAccounts.ERROR_MESSAGE).split(Constants.DELIMITER_TILD));
+		List<String> headers = Arrays
+				.asList(rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			nationalAccounts.launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Verify the Headers of National Account Grid in National Account Page
+			nationalAccounts.verifyHeadersOfNationalAccountGrid(headers);
+
+			// Verify Create Account button and validate the Fields
+			nationalAccounts.verifyCreateAccountFields(requiredOptions,
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+
+			// Creating New National Account on National Account Page by selecting Org, Loc
+			// to add National Account
+			nationalAccounts.createNewNationalAccountWithLocation(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
+
+			// Verify Trash Icon on created National Account and its popup
+			nationalAccounts.verifyTrashIconOfCreatedNationalAccount(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME), confirmStatus);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Check the created National Account is deleted or not
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			nationalAccounts.verifyCreatedNationalAccountDeletedOrNot(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME));
+			login.logout();
+			browser.close();
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @Date 18/07/2022
+	 */
+	@Test(description = "142165 - ADM > Admin > National Accounts:Client Category Import Template Screen > Import Button")
+	public void verifyMasterNationalAccountPageByMasterNationalAccountUser() {
+		final String CASE_NUM = "142165";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		List<String> requiredOptions = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME).split(Constants.DELIMITER_HASH));
+		try {
+			// Login to ADM with Master National Account User, select ORG as AutomationOrg
+			// and Navigate to Admin>National Accounts
+			adminNationalAccounts.launchApplicationWithUserAndNavigateToMenu(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Bulk import category mapping
+			adminNationalAccounts.clickOnBulkImportCategoryAndDownloadTemplate();
+
+			// Download, edit and upload Template to add new Product to category
+			adminNationalAccounts.editAndUploadTemplateToAddNewProductToCategory(
+					FilePath.NATIONAL_CAT_TEMPLATE_EXISTING,
+					rstNationalAccountsData.get(CNNationalAccounts.COLUMN_NAMES),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME));
+
+			// Verify category is displayed or not and delete the same
+			adminNationalAccounts.verifyUploadedProductInCategoryAndDelete(
+					rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME), requiredOptions.get(0),
+					rstNationalAccountsData.get(CNNationalAccounts.RULE_PRICE));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Delete the National Account Category Template file
+			foundation.deleteFile(FilePath.NATIONAL_CAT_TEMPLATE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			login.logout();
+			browser.close();
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @Date 20/07/2022
+	 */
+	@Test(description = "142162 - ADM > Admin > National Accounts:Client Rules List Screen > Rule Name (edit rule)")
+	public void verifyNationalAccountManageRuleByNationalAccountUser() {
+		final String CASE_NUM = "142162";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		try {
+			// Login to ADM with National Account User, select ORG as AutomationOrg
+			// and Navigate to Admin>National Accounts
+			adminNationalAccounts.launchApplicationWithUserAndNavigateToMenu(
+					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Click manage Rule on AutoamtionNationalAccount
+			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TBL_NATIONAL_ACCOUNT_TITLE));
+
+			// Verifying search functionality and select rule
+			adminNationalAccounts.verifySearchFunctionality(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			adminNationalAccounts.verifyRulePageDetails();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @Date 21/07/2022
+	 */
+	@Test(description = "151061 - Verify the UI if the resoultion is larger than 1920 x 1080")
+	public void verifyNationalAccountPageUIResolution() {
+		final String CASE_NUM = "151061";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			nationalAccounts.launchBrowserWithSuperUserAndVerifyNatioanlAccountPage(
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED),
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Navigate to National Account Summary page by selection
+			// AutomationNationalAccount
+			adminNationalAccounts.clickNationalAccountName(
+					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
+					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
+
+			// Changing the Resolution of Page by Zoom out / Zoom in
+			nationalAccounts.verifyUIResolution(requiredOptions);
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 }

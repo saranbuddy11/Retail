@@ -68,17 +68,22 @@ public class Constants {
 	public static final String PASS = "Pass";
 	public static final String FAIL = "Fail";
 	public static final String SKIP = "Skip";
-	public static final String EMAIL_NAME = "Results.html";
-	public static final String EMAIL_SUBJECT = "Automation Execution Report";
-	public static final String EMAIL_MESSAGE1 = "Hi Team,\r\n" + "<br>\r\n"
-			+ "Please find the execution report on Test Rail on the below link, which is ran on ScriptFixing branch. Also attached the report here.\r\n"
-			+ "<br>\r\n" + "Link to TestRail Run- https://365retailmarkets.testrail.net/index.php?/runs/view/1775";
-	public static final String EMAIL_OVERALL_RESULT = "<b>Overall Result:</b>";
-	public static final String EMAIL_MODULE_RESULT = "<b>Module wise Result:</b>";
-	public static final String EMAIL_MESSAGE2 = "Thank you,\r\n" + "<br>\r\n" + "This is an auto triggerd email";
+	public static final String EMAIL_NAME = "AutomationBatchExecution_Report_envValue_Date.html";
+	public static final String EMAIL_SUBJECT = "ADM and V5 | envValue Environment | Automation Batch Execution - Report | Date";
+	public static final String EMAIL_MESSAGE1 = "Hi Team,\r\n" + "<br>\r\n <br>\r\n"
+			+ "Please find <b>'ADM and V5 Device - Automation Batch Execution Report </b> on Testrail for <b>envValue</b> Environment, executed on ScriptFixes branch from GIT repo. "
+			+ "<br>\r\n" + "<br>\r\n"
+			+ "Link to view results in TestRail Suite - https://365retailmarkets.testrail.net/index.php?/runs/view/1775"
+			+ "<br>\r\n" + "<br>\r\n" + "Attached Execution Report for reference.\r\n" + "<br>\r\n" + "<br>\r\n"
+			+ "Environment Details: <b>envValue<b>\r\n";
+
+	public static final String EMAIL_OVERALL_RESULT = "<b><u>Overall Result:</u></b>\r\n";
+	public static final String EMAIL_MODULE_RESULT = "<b><u>Module wise Result:</u></b>";
+	public static final String EMAIL_MESSAGE2 = "***this mail is auto-generated email.\r\n<br><br>" + "Thank You,\r\n"
+			+ "<br>\r\n" + "AutomationTeam";
 	public static final String EMAIL_RESULT_BODY = "<html><body>\r\n"
 			+ "   <table cellpadding=\"0\" cellspacing=\"0\" width=\"200\" align=\"left\" border=\"1\">\r\n"
-			+ "   <tbody>\r\n" + "      <tr style=\"background-color:#ffff00;\" bold=\"\">\r\n"
+			+ "   <tbody>\r\n" + "      <tr style=\"background-color:#c4c4c4;\" bold=\"\">\r\n"
 			+ "         <td align=\"center\"><b>Module</b></td>\r\n"
 			+ "         <td align=\"center\"><b>Total</b></td>\r\n"
 			+ "         <td align=\"center\"><b>Pass</b></td>\r\n"
@@ -108,4 +113,5 @@ public class Constants {
 	public static final String DELIMITER_PERCENTAGE = "%";
 	public static final String DELIMITER_EMPTY = "";
 	public static final String USD = "USD";
+	public static final String DECIMAL_FORMAT = "###.##";
 }

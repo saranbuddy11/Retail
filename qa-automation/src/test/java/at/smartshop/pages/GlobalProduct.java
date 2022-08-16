@@ -50,7 +50,7 @@ public class GlobalProduct extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By GBL_PRODUCT_DATA = By
 			.xpath("//table[@id='dataGrid']/tbody/tr/td[@aria-describedby='dataGrid_name']");
-	public static final By TXT_GLOBAL_PRODUCT = By.id("Global Products");
+	public static final By TXT_GLOBAL_PRODUCT = By.id("globalproductpagetitle");
 	public static final By POPUP_HEADER=By.xpath("//h4[@style='text-align:center;']");
 	public static final By TXT_PRODUCT_CREATE = By.id("Product Create");
 	public static final By SELECT_LOCATION = By.xpath("//input[@class='ui-igcombo-field ui-corner-all']");
@@ -219,7 +219,9 @@ public class GlobalProduct extends Factory {
 	 */
 	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.waitforElementToBeVisible(TXT_FILTER, 5);
 		textBox.enterText(LocationList.TXT_FILTER, product);
+		foundation.threadWait(3);
 		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
 		foundation.click(getGlobalProduct(product));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));		

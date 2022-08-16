@@ -9,14 +9,16 @@ import org.openqa.selenium.support.ui.Select;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
 
 public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
+	private NavigationBar navigationBar = new NavigationBar();
+	private Dropdown dropDown = new Dropdown();
 
-	
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
 	public static final By POPUP_LBL_HEADER = By.id("ageverificationpopup");
 	public static final By POPUP_BTN_YES = By.id("ageverificationpopupSaveBtn");
@@ -120,7 +122,6 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
 	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
-	
 
 	public By objVDI(String text) {
 
@@ -149,8 +150,38 @@ public class OrgSummary extends Factory {
 			foundation.waitforElement(OrgSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			checkBox.check(OrgSummary.CHK_VDI);
-			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);}
+			foundation.waitforElement(OrgSummary.DPD_VDI_PROVDIER, Constants.SHORT_TIME);
 		}
-	
-	
 	}
+
+	/**
+	 * select dropDown values from Org summary
+	 * 
+	 * @param object
+	 * @param dropdown
+	 */
+	public void selectDropdownValues(By object, String dropdown) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+		foundation.waitforElementToBeVisible(object, 5);
+		dropDown.selectItem(object, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, 3);
+		foundation.click(OrgSummary.BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+
+	}
+	/**
+	 * Enable Tax2 column in super->org summary
+	 * 
+	 * @param location
+	 * @param product
+	 */
+	public void enableTax2Column(String menu,String data) {
+		
+			navigationBar.navigateToMenuItem(menu);
+			foundation.scrollIntoViewElement(OrgSummary.DPD_TAX_METHOD);
+			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD,data, Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+}
+
+}

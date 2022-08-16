@@ -1040,6 +1040,7 @@ public class AgeVerification extends TestInfra {
 		} finally {
 			// Deleting Active PIN record After validation
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(2)));
 			foundation.click(AgeVerificationDetails.BTN_YES);
@@ -2090,8 +2091,8 @@ public class AgeVerification extends TestInfra {
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String checkOutCurrentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
-		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
-		String pastDate = dateAndTime.getPastDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
+		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+		String pastDate = dateAndTime.getPastDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -2160,6 +2161,7 @@ public class AgeVerification extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Deleting Active PIN record After validation
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
 			foundation.click(ageVerificationDetails.objExpirePinConfirmation(
 					rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(0)));

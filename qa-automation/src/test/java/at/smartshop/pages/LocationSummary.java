@@ -2041,8 +2041,8 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * <<<<<<< HEAD Login to ADM as Super, Navigate to Location and select GMA
-	 * subsidy to Verify TopOff Subsidy
+	 * Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+	 * TopOff Subsidy
 	 * 
 	 * @param menu
 	 * @param location
@@ -2120,6 +2120,7 @@ public class LocationSummary extends Factory {
 	public void clickOnProductTabAndEnableThePrintGroup(String product) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_LOCATION_SETTINGS));
 		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.threadWait(5);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
@@ -2127,7 +2128,6 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_APPLY);
 		foundation.waitforElementToBeVisible(LBL_PRINT_GROUP, Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_GRID, Constants.SHORT_TIME);
 	}

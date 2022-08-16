@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.Robot;
 import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
 import org.apache.pdfbox.Loader;
@@ -22,9 +22,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -770,4 +772,69 @@ public class Foundation extends Factory {
 		}
 		return true;
 	}
+
+	/**
+	 * Clicking Space Bar using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clickSpaceBar() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_SPACE);
+		r.keyRelease(KeyEvent.VK_SPACE);
+	}
+
+	/**
+	 * Zoom out of Page using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void pageZoomOut() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_SUBTRACT);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_SUBTRACT);
+	}
+
+	/**
+	 * Zoom in of Page using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void pageZoomIn() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_ADD);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_ADD);
+	}
+
+	/**
+	 * get Dimention
+	 * @param object
+	 * @return
+	 */
+	public Rectangle getDimention(By object) {
+		Rectangle rect = null;
+		try {
+			rect = getDriver().findElement(object).getRect();
+			rect.getDimension();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return rect;
+	}
+
+	/**
+	 * Clicking enter using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clickEnter() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+	}
 }
+			

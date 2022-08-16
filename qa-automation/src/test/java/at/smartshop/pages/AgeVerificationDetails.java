@@ -106,6 +106,7 @@ public class AgeVerificationDetails extends Factory {
 	}
 
 	public void verifyPinExpirationPrompt(String location, List<String> prompt, String status) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(objExpirePinConfirmation(location, prompt.get(0)));
 		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PROMPT_MSG));
@@ -126,7 +127,7 @@ public class AgeVerificationDetails extends Factory {
 	}
 
 	public void createAgeVerificationPin(String location, List<String> datas) {
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		dropDown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		textBox.enterText(INPUT_MAIL, datas.get(3));
 		textBox.enterText(INPUT_FNAME, datas.get(4));
@@ -252,7 +253,7 @@ public class AgeVerificationDetails extends Factory {
 	 */
 	public void openingFolderAndClickMail(String option, String keyword) {
 		foundation.objectClick(objMailFolder(option));
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.objectClick(objEmailList(keyword));
 	}
 

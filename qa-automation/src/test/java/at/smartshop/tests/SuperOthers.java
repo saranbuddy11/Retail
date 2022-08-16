@@ -175,6 +175,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(ConsumerRolesList.ENDS_WITH, numeric);
 			textBox.enterText(ConsumerRolesList.LENGTH, numeric);
 			dropDown.selectItem(ConsumerRolesList.SELECT_ORG, dbData.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(ConsumerRolesList.SELECT_LOCATION, dbData.get(1), Constants.TEXT);
 
 			// Click on Save Button
@@ -228,9 +229,11 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(ConsumerRolesList.ENDS_WITH, device);
 			textBox.enterText(ConsumerRolesList.LENGTH, device);
 			dropDown.selectItem(ConsumerRolesList.SELECT_ORG, dbData.get(0), Constants.TEXT);
+			foundation.waitforElement(ConsumerRolesList.SELECT_LOCATION, Constants.THREE_SECOND);
 			dropDown.selectItem(ConsumerRolesList.SELECT_LOCATION, dbData.get(1), Constants.TEXT);
 
 			// Click on Save Button
+			foundation.waitforElement(ConsumerRolesList.BTN_CANCEL, Constants.THREE_SECOND);
 			foundation.click(ConsumerRolesList.BTN_CANCEL);
 
 		} catch (Exception exc) {

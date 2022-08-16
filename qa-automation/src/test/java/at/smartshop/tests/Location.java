@@ -291,7 +291,8 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PATH);
+			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
+			foundation.threadWait(5);
 			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 			foundation.click(LocationSummary.BTN_ADD);
@@ -1790,6 +1791,7 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_ADD_PRODUCT_SEARCH, product);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.SELECT_PRODUCT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_ADD);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.refreshPage();
@@ -1807,6 +1809,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_APPLY);
 			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
@@ -1821,6 +1824,9 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 			foundation.WaitForAjax(7000);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
+			Assert.assertTrue(foundation.getText(LocationSummary.PRINTGROUP_NAME).equals(printGroup.get(0)));
+			locationSummary.selectPrintGroup(product, printGroup.get(1));
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
@@ -1828,9 +1834,6 @@ public class Location extends TestInfra {
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_APPLY);
 			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRINT_GROUP, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRINT_GROUP));
-			Assert.assertTrue(foundation.getText(LocationSummary.PRINTGROUP_NAME).equals(printGroup.get(0)));
-			locationSummary.selectPrintGroup(product, printGroup.get(1));
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 
 		} catch (Exception exc) {
