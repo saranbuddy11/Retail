@@ -139,8 +139,6 @@ public class GlobalProductChange extends Factory {
 	public static final By CONFIRM_CHANGE_OPC = By.xpath("//div[contains(text(),' Product Catalog Change')]");
 	public static final By DPD_REMOVE=By.xpath("//select[@id='prd-remove-product-loc']");
 	public static final By CHK_GREENCIRCLE=By.id("prd-remove-product-loc-checked");
-    public static final By TXT_UPDATE=By.xpath("//div[contains(@style,'text-align:')]//b[text()='update']");
-    public static final By TXT_INCREMENT=By.xpath("//div[contains(@style,'text-align:')]//b[text()='incrementally']");
 	public static final By TXT_CONFIRM_POPUP=By.xpath("//input[@class='ajs-input']");
 	public static final By POPUP_OK=By.xpath("//button[@class='btn btn-light']");
 	public static final By TEXT_TAX2=By.xpath("//input[@id='prd-tax-2']");
@@ -493,5 +491,18 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.DPD_REMOVE);
 		dropDown.selectItem(GlobalProductChange.DPD_REMOVE, product, Constants.TEXT);
 		
+	}
+
+	/**
+	 * update Tax2 value
+	 * 
+	 * @param product
+	 * 
+	 */
+	public void updateTax2Value(String product) {
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2, 3);
+	foundation.click(GlobalProductChange.TXT_TAX2);
+	textBox.enterText(GlobalProductChange.TXT_TAX2, product);
+	
 	}
 }

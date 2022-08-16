@@ -17,6 +17,8 @@ public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
 
+	private NavigationBar navigationBar = new NavigationBar();
+
 	private Dropdown dropDown = new Dropdown();
 
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
@@ -169,4 +171,19 @@ public class OrgSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
 	}
+	/**
+	 * Enable Tax2 column in super->org summary
+	 * 
+	 * @param location
+	 * @param product
+	 */
+	public void enableTax2Column(String menu,String data) {
+		
+			navigationBar.navigateToMenuItem(menu);
+			foundation.scrollIntoViewElement(OrgSummary.DPD_TAX_METHOD);
+			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD,data, Constants.TEXT);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+}
+
 }

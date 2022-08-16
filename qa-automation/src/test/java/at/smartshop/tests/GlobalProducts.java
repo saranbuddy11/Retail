@@ -841,7 +841,7 @@ public class GlobalProducts extends TestInfra {
 		} finally {
 			// Resetting Product data
 			navigationBar.navigateToMenuItem(menus.get(0));
- 			foundation.click(globalProductChange.objLocation(location.get(0)));
+			foundation.click(globalProductChange.objLocation(location.get(0)));
 			foundation.click(globalProductChange.objLocation(location.get(1)));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_LOCATION_APPLY);
 			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
@@ -927,7 +927,7 @@ public class GlobalProducts extends TestInfra {
 			foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_OK));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BUTTON_CANCEL));
-			
+
 			// Verify Cancel Button
 			foundation.click(GlobalProductChange.BUTTON_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE));
@@ -1609,11 +1609,9 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-
 	/**
-	 * @author afrosean
-	 * Date: 26-07-2022
-	 * @throws AWTException 
+	 * @author afrosean Date: 26-07-2022
+	 * @throws AWTException
 	 */
 	@Test(description = "SOS-30208-198580-ADM > Global Product Change > Unable to Update Deposit field"
 			+ "SOS-29690-198581-ADM > Global Product Change > Unable to Update Tax1 or Tax2 Columns")
@@ -1626,7 +1624,7 @@ public class GlobalProducts extends TestInfra {
 		rstOrgSummaryData = dataBase.getOrgSummaryData(Queries.ORG_SUMMARY, CASE_NUM);
 
 		List<String> menu = Arrays
-				
+
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> dropdown = Arrays
 				.asList(rstOrgSummaryData.get(CNOrgSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -1667,10 +1665,8 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
-
 	/**
-	 * @author sakthir 
-	 * Date: 27-07-2022
+	 * @author sakthir Date: 27-07-2022
 	 */
 	@Test(description = "198583-ADM > Global Product Change > Operator Product Catalog Change > Not updating location level")
 	public void verifyUpdatedPriceOnGPC() {
@@ -1695,140 +1691,135 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
-			
-			//Select Operator product catalog change and update price value
+
+			// Select Operator product catalog change and update price value
 			globalProductChange.selectProductOPC(product.get(0));
 			globalProductChange.updatePriceInAllLocation(price.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			globalProductChange.clickConfirmMsgInOPC();
-			
+
 			// navigate to location and verifying update price
 			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
-			locationSummary.updatePriceAndVerifyPrice(location.get(0), product.get(0),price.get(0));
-						
+			locationSummary.updatePriceAndVerifyPrice(location.get(0), product.get(0), price.get(0));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			
-			//Reset price value
+
+			// Reset price value
 			navigationBar.navigateToMenuItem(menu.get(0));
 			globalProductChange.selectProductOPC(product.get(0));
 			globalProductChange.updatePriceInAllLocation(price.get(1));
 			globalProductChange.clickConfirmMsgInOPC();
 		}
 	}
-	
+
 	/**
-	 * @author sakthir 
-	 * Date: 28-07-2022
+	 * @author sakthir Date: 28-07-2022
 	 */
 	@Test(description = "198582-Unable to remove product from location using Global Product Change")
 	public void verifyProductRemoveFromLocation() {
 		final String CASE_NUM = "198582";
-		
+
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-		
+
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays.asList(
 				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays.asList(
 				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		String data=rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-		try {
-		// Select Org & Menu
-		navigationBar.launchBrowserAsSuperAndSelectOrg(
-				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-	
-		//creating new product in Product tab
-		locationList.selectLocationName(location.get(0));
-		foundation.click(LocationSummary.TAB_PRODUCTS);
-		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_ADD_PRODUCT);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_ADD_PRODUCT_SEARCH, 3);
-		locationSummary.selectProduct(product.get(0));
-		
-		//verifying new product
-		locationSummary.verifySelectProduct(product.get(0));
-		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product.get(0)));
-		
-		//remove product from global product change
-		navigationBar.navigateToMenuItem(menu.get(0));
-		globalProductChange.selectProductInGPC(location.get(0),product.get(0));
-		globalProductChange.removeProductInGPC(product.get(2));
-		globalProductChange.clickConfirmMsgInGPC(data);
-		
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			//validate remove product in location
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationList.selectLocationName(location.get(0));
-			locationSummary.verifySelectProduct(product.get(0));
-		}
-		
-	}
-	/**
-	 * @author sakthir 
-	 * Date: 02-08-2022
-	 */
-	@Test(description = "199788-Global Products->create Product without Userkey")
-	public void verifyProductCreationWithoutUserkey() {
-		final String CASE_NUM = "199788";
-		
-		    // Reading test data from DataBase
-		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		    rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-		    
-		    String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		    List<String> new_product = Arrays.asList(
-					rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		    List<String> location = Arrays.asList(
-					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		
+		String data = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//Creating new product without userKey in GlobalProduct
+
+			// creating new product in Product tab
+			locationList.selectLocationName(location.get(0));
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_ADD_PRODUCT_SEARCH, 3);
+			locationSummary.selectProduct(product.get(0));
+
+			// verifying new product
+			locationSummary.verifySelectProduct(product.get(0));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(product.get(0)));
+
+			// remove product from global product change
+			navigationBar.navigateToMenuItem(menu.get(0));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(0));
+			globalProductChange.removeProductInGPC(product.get(2));
+			globalProductChange.clickConfirmMsgInGPC(data);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// validate remove product in location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(location.get(0));
+			locationSummary.verifySelectProduct(product.get(0));
+		}
+
+	}
+
+	/**
+	 * @author sakthir Date: 02-08-2022
+	 */
+	@Test(description = "199788-Global Products->create Product without Userkey")
+	public void verifyProductCreationWithoutUserkey() {
+		final String CASE_NUM = "199788";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> new_product = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Creating new product without userKey in GlobalProduct
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 			foundation.click(GlobalProduct.BTN_CREATE);
 			foundation.isDisplayed(GlobalProduct.LBL_PRODUCT_CREATE);
-			globalProduct.createProducInGlobalProductPageWithLocation(new_product.get(0),new_product.get(2),
-					location.get(0),strings.getRandomCharacter());
-						
-			//verify the new product created
+			globalProduct.createProducInGlobalProductPageWithLocation(new_product.get(0), new_product.get(2),
+					location.get(0), strings.getRandomCharacter());
+
+			// verify the new product created
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-			foundation.waitforElementToBeVisible(GlobalProduct.GBL_PRODUCT_DATA,5);
+			foundation.waitforElementToBeVisible(GlobalProduct.GBL_PRODUCT_DATA, 5);
 			textBox.enterText(LocationList.TXT_FILTER, new_product.get(0));
-			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.CLICK_PRODUCT).equals(new_product.get(0)));			
-			
-		}
-		catch (Exception exc) {
+			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.CLICK_PRODUCT).equals(new_product.get(0)));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			// Reset product in GlobalProduct
+			foundation.waitforElementToBeVisible(GlobalProduct.CLICK_PRODUCT, 5);
+			globalProduct.disableProduct(new_product.get(5), new_product.get(0));
+
 		}
-		finally {
-			
-			//Reset product in GlobalProduct
-			foundation.waitforElementToBeVisible(GlobalProduct.CLICK_PRODUCT,5);
-			globalProduct.disableProduct(new_product.get(5),new_product.get(0));
-			
-		}
-		
+
 	}
+
 	/**
-	 * @author sakthir 
-	 * Date: 03-08-2022
+	 * @author sakthir Date: 03-08-2022
 	 */
 	@Test(description = "199789-Global Products Page show records number on Global product List"
 			+ "199790-Global Products Page show records number on ADM Dashboard/Location List"
@@ -1837,119 +1828,296 @@ public class GlobalProducts extends TestInfra {
 			+ "199793-Global Products Page show records number on Location summary: Inventory")
 	public void verifyShowRecordsNumber() {
 		final String CASE_NUM = "199789";
-		
-		//Reading test data from DataBase
+
+		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-		
-		
+
 		List<String> data = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		 List<String> location = Arrays.asList(
-					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
 		try {
-			
+
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//Navigate to Global Product and verify page show records number 
+
+			// Navigate to Global Product and verify page show records number
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-			foundation.waitforElementToBeVisible(GlobalProduct.TBL_HEADER,5);
-			globalProduct.changeRecordDataAndVerify(globalProduct.selectRecord(data.get(1)),data.get(0));
-			
-			//Navigate to super->xyz location and verify page show records number 
+			foundation.waitforElementToBeVisible(GlobalProduct.TBL_HEADER, 5);
+			globalProduct.changeRecordDataAndVerify(globalProduct.selectRecord(data.get(1)), data.get(0));
+
+			// Navigate to super->xyz location and verify page show records number
 			navigationBar.navigateToMenuItem(menu.get(2));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			globalProduct.changeRecordDataAndVerify(locationList.selectRecord(data.get(2)),data.get(3));
-					
-			//Navigate to locationList and verify page show records number 
+			globalProduct.changeRecordDataAndVerify(locationList.selectRecord(data.get(2)), data.get(3));
+
+			// Navigate to locationList and verify page show records number
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			globalProduct.changeRecordDataAndVerify(locationList.selectRecord(data.get(2)),data.get(3));
-		
-			//Navigate to locationSummary and click product
+			globalProduct.changeRecordDataAndVerify(locationList.selectRecord(data.get(2)), data.get(3));
+
+			// Navigate to locationSummary and click product
 			locationList.selectLocationName(location.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
-			
-			//Product verify page show records number 
-			locationSummary.validateProductTabRecord(locationSummary.selectRecordProduct(data.get(1)),data.get(0));
-			
-			//Inventory verify page show records number 
-			locationSummary.validateInventoryTabRecord(locationSummary.selectRecordInventory(data.get(1)),data.get(0));
-			
-			//Navigate to Admin ->Device and verify page show records number cut off 
+
+			// Product verify page show records number
+			locationSummary.validateProductTabRecord(locationSummary.selectRecordProduct(data.get(1)), data.get(0));
+
+			// Inventory verify page show records number
+			locationSummary.validateInventoryTabRecord(locationSummary.selectRecordInventory(data.get(1)), data.get(0));
+
+			// Navigate to Admin ->Device and verify page show records number cut off
 			navigationBar.navigateToMenuItem(menu.get(3));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
-			foundation.waitforElementToBeVisible(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD,5);
-			globalProduct.changeRecordDataAndVerify(deviceDashboard.selectRecord(data.get(1)),data.get(0));
-           
-		}
-		catch (Exception exc) {
+			foundation.waitforElementToBeVisible(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD, 5);
+			globalProduct.changeRecordDataAndVerify(deviceDashboard.selectRecord(data.get(1)), data.get(0));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * @author sakthir 
-	 * Date: 08-08-2022
+	 * @author sakthir Date: 08-08-2022
 	 */
 	@Test(description = "202644-verify Product extended locations are visible in extend tab at Global Products")
 	public void verifyProductExtenedLocation() {
 		final String CASE_NUM = "202644";
-		
-		//Reading test data from DataBase
+
+		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
-		
-		List<String> data = Arrays
-				.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		List<String> location = Arrays.asList(
-					rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-        
-		try {
-			
-		// Select Org & Menu
-		navigationBar.launchBrowserAsSuperAndSelectOrg(
-				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-		
-		//Navigate to locationSummary and check product extended
-		locationList.selectLocationName(location.get(0));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
-		locationSummary.verifySelectProduct(data.get(1));
-		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(data.get(1)));
 
-		
-		//Navigate to product->Global Product Change and verifying same extended product
-		navigationBar.navigateToMenuItem(menu);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-		globalProduct.selectGlobalProduct(data.get(1));
-		foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND_LOC);
-		foundation.waitforElementToBeVisible(GlobalProduct.TXT_EXTEND, 5);
-		textBox.enterText(GlobalProduct.TXT_EXTEND, location.get(0));
-		foundation.waitforElementToBeVisible(GlobalProduct.EXTEND_LOCATION,Constants.MEDIUM_TIME);
-		CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.EXTEND_LOCATION).equals(location.get(0)));
-		
+		List<String> data = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to locationSummary and check product extended
+			locationList.selectLocationName(location.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+			locationSummary.verifySelectProduct(data.get(1));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(data.get(1)));
+
+			// Navigate to product->Global Product Change and verifying same extended
+			// product
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+			globalProduct.selectGlobalProduct(data.get(1));
+			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND_LOC);
+			foundation.waitforElementToBeVisible(GlobalProduct.TXT_EXTEND, 5);
+			textBox.enterText(GlobalProduct.TXT_EXTEND, location.get(0));
+			foundation.waitforElementToBeVisible(GlobalProduct.EXTEND_LOCATION, Constants.MEDIUM_TIME);
+			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.EXTEND_LOCATION).equals(location.get(0)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
-         catch(Exception exc) {
-        	 TestInfra.failWithScreenShot(exc.toString());
-         }
-	
-	
+
+	}
+
+	/**
+	 * @author sakthir Date: 11-08-2022
+	 */
+	@Test(description = "202651-Tax2 rate Increment saved properly in Global Product change"
+			+ "202649-Tax2 rate update saved properly in Global Product change"
+			+ "202648-Tax2 search return proper results in Global product change")
+	public void verifyTax2RateUpdateAndIncrement() {
+		final String CASE_NUM = "202651";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		List<String> product = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Enable Tax column in super->org summary
+			orgsummary.enableTax2Column(menu.get(1), data.get(0));
+
+			// Navigate to Global Product Change
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+
+			// update Tax2 value and save
+			foundation.isDisplayed(GlobalProductChange.LBL_UPDATE);
+			globalProductChange.updateTax2Value(product.get(3));
+			globalProductChange.clickConfirmMsgInGPC(data.get(2));
+
+			// verify Tax2 value in ProductsTab
+			globalProductChange.verifyTax2ValueInProductTab(location.get(0), product.get(3));
+			foundation.refreshPage();
+
+			// Click Increment Tax2 value and save
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_INCREMENT));
+			foundation.click(GlobalProductChange.BTN_INCREMENT);
+			globalProductChange.updateTax2Value(product.get(2));
+			globalProductChange.clickConfirmMsgInGPC(data.get(2));
+
+			// verify Tax2 value in ProductsTab
+			globalProductChange.verifyTax2ValueInProductTab(location.get(0), product.get(4));
+			foundation.refreshPage();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Reset Data
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+			foundation.isDisplayed(GlobalProductChange.LBL_UPDATE);
+			globalProductChange.updateTax2Value(product.get(5));
+			globalProductChange.clickConfirmMsgInGPC(data.get(2));
+
+			// Disable Tax column in Super->org Summary
+			orgsummary.enableTax2Column(menu.get(1), data.get(1));
+
+		}
+	}
+
+	/**
+	 * @author sakthir Date: 12-08-2022
+	 */
+	@Test(description = "202650-Tax2 rate displayed in Global Product change screen")
+	public void verifyTax2RateInLocationProductAndInGPC() {
+		final String CASE_NUM = "202650";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> product = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Enable Tax column in super->org summary
+			orgsummary.enableTax2Column(menu.get(2), data.get(0));
+
+			// Navigate to Global Product Change
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+
+			// update Tax2 value and save
+			foundation.isDisplayed(GlobalProductChange.LBL_UPDATE);
+			globalProductChange.updateTax2Value(data.get(2));
+			globalProductChange.clickConfirmMsgInGPC(data.get(4));
+
+			// navigate to location and verify product tax2 value
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(location.get(0));
+			locationSummary.selectManageColumnTax2();
+			locationSummary.verifySelectProduct(product.get(1));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_TAX2_COLUMN, 3);
+			String tax2 = foundation.getText(LocationSummary.LBL_TAX2_COLUMN);
+			CustomisedAssert.assertTrue(tax2.contains(data.get(2)));
+
+			// Navigate to Global Product Change
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.click(globalProductChange.objLocation(location.get(0)));
+			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product.get(1));
+			foundation.scrollIntoViewElement(GlobalProductChange.TABLE_TAX2_COL);
+			String value = foundation.getText(GlobalProductChange.TABLE_TAX2_COL);
+			CustomisedAssert.assertTrue(value.contains(data.get(2)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			// Reset Data Tax2 value and save
+			foundation.click(globalProductChange.objTableDataProduct(product.get(1)));
+			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
+			foundation.click(GlobalProductChange.BTN_NEXT);
+			foundation.isDisplayed(GlobalProductChange.LBL_UPDATE);
+			globalProductChange.updateTax2Value(data.get(3));
+			globalProductChange.clickConfirmMsgInGPC(data.get(4));
+
+			// Disable Tax column in super->org summary
+			orgsummary.enableTax2Column(menu.get(2), data.get(0));
+		}
+	}
+
+	/**
+	 * @author sakthir Date: 16-08-2022
+	 */
+	@Test(description = "202646-ADM > Product > Global Product Change > Product Fields to Change > Min, Max and Case Count Fields have checkmarks for negative values for Global Product Change")
+	public void verifyCheckmarksForNegativeValues() {
+		final String CASE_NUM = "202646";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> product = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Global Product Change
+			navigationBar.navigateToMenuItem(menu);
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
+			foundation.click(GlobalProductChange.TXT_MIN);
+			textBox.enterText(GlobalProductChange.TXT_MIN, data.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
+			foundation.click(GlobalProductChange.TXT_MAX);
+			textBox.enterText(GlobalProductChange.TXT_MAX, data.get(0));
+			globalProductChange.clickConfirmMsgInGPC(data.get(4));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
-
-
-
-
-
-
-
