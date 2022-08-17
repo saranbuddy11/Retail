@@ -697,6 +697,491 @@ public class EgiftCards extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	
+
 	}
+
+	/**
+	 * @author afrosean Date: 27-07-2022
+	 */
+	@Test(description = "198470- verify the button size of issue and print button"
+			+ "198472-Verify the error message when duplicate title is given in upper/lowercase"
+			+ "198471- Verify the error message when duplicate title is given"
+			+ "198507- verify the text on button label")
+	public void verifyIssueAndPrintButonsAndValidationMessageForDuplicateTitle() {
+		final String CASE_NUM = "198470";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> heigwid = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(2));
+
+		try {
+			// Login to ADM with Super User, Select Org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.TBL_CONSUMER_ENGAGE_GRID, 5);
+			String name = foundation.getText(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			CustomisedAssert.assertEquals(name, heigwid.get(2));
+
+			// verify the dimension of issue button
+			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_ISSUE_FIRST_ROW, heigwid.get(0), heigwid.get(1));
+
+			// verify the dimension of print button
+			consumerEngagement.verifyDimentions(ConsumerEngagement.BTN_PRINT_FIRST_ROW, heigwid.get(0), heigwid.get(1));
+
+			// Create E-Gift card with lower case
+			consumerEngagement.createGiftCard(requiredData.get(0), requiredData.get(1), expireDate);
+
+			// validate the error
+			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(0), requiredData.get(3));
+
+			// Create E-Gift card With Upper case
+			consumerEngagement.createGiftCard(requiredData.get(4), requiredData.get(1), expireDate);
+
+			// validate the error
+			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(4), requiredData.get(3));
+
+			// Create E-Gift card with numerical with lower,upper case
+			consumerEngagement.createGiftCard(requiredData.get(5), requiredData.get(1), expireDate);
+
+			// validate the error
+			consumerEngagement.verifyErrorMessageInTitle(requiredData.get(5), requiredData.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date: 02.08.2022
+	 */
+	@Test(description = "198588-Verify  issue count gets updated automatically when  e-Gift  issued to  1  Consumer  from By location  tab"
+			+ "198589- Verify  issue count gets updated automatically when  e-Gift  issued to  multiple Consumers  from By location  tab")
+	public void verifyIssueCountUpdation() {
+		final String CASE_NUM = "198588";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+
+			// Verify the “By Location” tabs in the Issue page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
+
+			// verify DropDown in location of recipient
+			consumerEngagement.verifyDropdownInLocation(Datas.get(4));
+
+			// verify add to note
+			consumerEngagement.verifyUserAbleToAddNoteFieldText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(3));
+
+			// click on email
+			consumerEngagement.selectConsumerAndClickOnEmail();
+
+			// verify issue record count in UI
+			consumerEngagement.verifyIssueCount(Datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrose Date:04-08-2022
+	 */
+	@Test(description = "198590-Verify issue count gets updated automatically when  e-Gift  issued to  1  recipient  from By Email  tab"
+			+ "198591-Verify  issue count gets updated automatically when  e-Gift  issued to multiple recipients from By  Email  tab")
+
+	public void verifyIssueCountAfterUpdatingByEmail() {
+		final String CASE_NUM = "198590";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Click on email filter and verify enter recipient email
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(2), Datas.get(3));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			foundation.waitforElementToDisappear(ConsumerEngagement.SUCCESS_MSG, Constants.SHORT_TIME);
+
+			// verify issue record count in UI
+			consumerEngagement.verifyIssueCount(Datas.get(4));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date:09.08.2022
+	 */
+	@Test(description = "198592-Verify  issue count gets updated automatically when  e-Gift  issued  By  Email  tab"
+			+ "198594-Verify  issue count is updated when  e-Gift  issued to  1   Invalid recipient  from By Email  tab"
+			+ "198595- Verify  issue count is updated when  e-Gift  issued to  both valid &Invalid recipients  from By Email  tab"
+			+ "198596- Verify  issue count is updated when  e-Gift  issued to  multiple recipients without comma separation  from By Email  tab")
+	public void verifyEnteringRecipientEmailAndBulkEmailConsumers() {
+		final String CASE_NUM = "198592";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ADD_TO_NOTE, Constants.SHORT_TIME);
+
+			// Click on email filter and verify enter recipient email with invalid email id
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(4), Datas.get(2));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_RECIPIENTEMAIL));
+			String text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
+			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
+			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
+
+			// Click on email filter and verify enter recipient email with valid and invalid
+			// email id
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(5), Datas.get(4));
+			foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_RECIPIENTEMAIL));
+			text = foundation.getText(ConsumerEngagement.ERROR_RECIPIENTEMAIL);
+			CustomisedAssert.assertTrue(text.contains(Datas.get(7)));
+			textBox.clearText(ConsumerEngagement.TXT_ENTER_RECIPIENT);
+
+			// verify eter recipient with email id separated by comma
+			consumerEngagement.clickOnByEmailFilterAndVerifyEnterRecipient(Datas.get(3), Datas.get(2));
+
+			// click on e-gift card template and download
+			consumerEngagement.clickOneGiftCardTemplateAndDownload();
+
+			// edit and upload Template
+			consumerEngagement.uploadTemplateInEgiftCard();
+
+			// Delete the file
+			foundation.deleteFile(FilePath.GIFT_CARDS);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date: 09-08-2022
+	 */
+	@Test(description = "202657-Verify valid email id in Enter Recipient Email from By Email  tab")
+	public void verifyValidEmailIdInEmailRecipient() {
+		final String CASE_NUM = "202657";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+
+		try {
+			// Login to ADM with Super User, Select Org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Create E-Gift card
+			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
+			for (int i = 3; i < requiredData.size(); i++) {
+				consumerEngagement.verifyEmailFormatInIssueByEmailField(requiredData.get(i), requiredData.get(2));
+			}
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	/**
+	 * @author Prabha Nigam
+	 * @date 27-07-2022
+	 */
+	@Test(description = "198473 - SOS-31814 - Verify searching of Egift card"
+			+"198474 - SOS-31814 - Verify searching of Egift card is working for th title having special characters"
+			+"198475 - SOS-31814 - Verify searching of Egift card is working for the title having numbers"
+			+"198513 - SOS-31846: To Verify the new field, \"Consumer Account\" Dropdown Under Add Gift Card Page")
+	public void verifySearchingOfEgiftCard() {
+		final String CASE_NUM = "198473";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
+		List<String> giftTitle = Arrays
+				.asList(rstLocationData.get(CNLocation.TITLE).split(Constants.DELIMITER_TILD));
+		String newGiftCard = giftTitle.get(0) + strings.getRandomCharacter();
+		String newGiftCardWithSpecialChars = giftTitle.get(1) + strings.getRandomCharacter();
+		String newGiftCardWithNumbers = giftTitle.get(2) + strings.getRandomCharacter();
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item and click Create Gift Card
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerEngagement.BTN_ADD_GIFT_CARD), requiredData.get(2));
+			consumerEngagement.createGiftCardAndSearchIt(newGiftCard, requiredData.get(0), expireDate);
+			consumerEngagement.createGiftCardAndSearchIt(newGiftCardWithSpecialChars, requiredData.get(0), expireDate);	
+			consumerEngagement.createGiftCardAndSearchIt(newGiftCardWithNumbers, requiredData.get(0), expireDate);
+			
+			//Validating consumer account is present or not
+			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_HEADER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.CONSUMER_ACCOUNT));
+			CustomisedAssert.assertEquals(foundation.getText(ConsumerEngagement.CONSUMER_ACCOUNT), requiredData.get(3));
+			
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * @author Prabha Nigam
+	 * @date 04-08-2022
+	 */
+	@Test(description = "198586 - SOS-31262 Verify  Create Gift Card and Issue Card sections should not be allowed to be up at the same time.")
+	public void VerifyCreateGiftCardAndIssueCardSections() {
+		final String CASE_NUM = "198586";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item and click Create Gift Card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_LOCATION));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_EMAIL));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_HEADER);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_HEADER));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_LOCATION));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_EMAIL));
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	/**
+	 * @author Prabha Nigam
+	 * @date 04-08-2022
+	 */
+	@Test(description = "198632 - SOS-31261:  Verify the data in  Location, Note, and Consumer input in consumer engangement page for Location Tab")
+	public void VerifyLocationNoteAndConsumerInputOnConsumerEngagementPage() {
+		final String CASE_NUM = "198632";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		String id = rstLocationData.get(CNLocation.TAB_NAME);
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item and click Create Gift Card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			
+			// Verify the 'By Location' and 'By Email' tabs in the Issue page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BY_EMAIL_FILTER));
+			
+			// verify Location of Recipients, add to note and consumer Grid field 
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
+			foundation.click(ConsumerEngagement.DPD_LOCATION);
+			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, Datas.get(3));
+			foundation.click(consumerEngagement.objSearchLocation(Datas.get(3)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
+			CustomisedAssert.assertEquals(loc, Datas.get(3));
+			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			foundation.scrollIntoViewElement(ConsumerEngagement.SELECT_CONSUMER_BY_GRID);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(ConsumerEngagement.SELECT_CONSUMER_BY_GRID);
+			foundation.click(ConsumerEngagement.LOC_BTN_CANCEL);
+			
+			//verify entered data is not present on that panel
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			consumerEngagement.verifyTextboxIsBlank(id);
+			checkbox.isUnChecked(ConsumerEngagement.SELECT_CONSUMER_BY_GRID);
+			
+			//verify create new gift card button is visible
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * @author Prabha Nigam
+	 * @date 08-08-2022
+	 */
+	@Test(description = "198633 - SOS-31261:  Verif the data in  Location, Note, and Consumer input in consumer engangement page for Email Tab")
+	public void VerifyEmailNoteAndConsumerInputOnConsumerEngagementPage() {
+		final String CASE_NUM = "198633";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
+		String mail = rstLocationData.get(CNLocation.CONTACT_EMAIL);
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		List<String> id = Arrays
+				.asList(rstLocationData.get(CNLocation.TAB_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item and click Create Gift Card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			
+			// Verify the 'By Location' and 'By Email' tabs in the Issue page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LOCATION_TAB));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BY_EMAIL_FILTER));
+			
+			// verify the add to note field under Email tab
+			foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.HEADER_ADDTONOTE));
+			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
+			textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail);
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+			textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.EGIFT_CARD_TEMPLATE);
+			foundation.click(ConsumerEngagement.EMAIL_BTN_CANCEL);
+			
+			//verify entered data is not present on that panel
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			consumerEngagement.verifyTextboxIsBlank(id.get(0));
+			consumerEngagement.verifyTextboxIsBlank(id.get(1));
+	
+			//verify create new gift card button is visible
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			
+			login.logout();
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}}
+
 }

@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
@@ -20,6 +22,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class ConsumerEngagement extends Factory {
@@ -28,6 +31,7 @@ public class ConsumerEngagement extends Factory {
 	private DeviceSummary devicesummary = new DeviceSummary();
 	private Table table = new Table();
 	private CheckBox checkbox = new CheckBox();
+	private Excel excel = new Excel();
 
 	public static final By PAGE_TITLE = By.id("Consumer Engagement");
 	public static final By HEADER = By.cssSelector("#mainform > div > h4");
@@ -37,6 +41,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By LBL_HEADER = By.id("mainform");
 	public static final By INPUT_TITLE = By.id("title");
 	public static final By INPUT_AMOUNT = By.id("amount");
+	public static final By BTN_EMAIL = By.id("issueemailbyloc");
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
 	public static final By EXPIRE_DATE_ERROR_MSG = By.id("expiredDateValid");
 	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
@@ -52,6 +57,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By INPUT_CARD_PRINT = By.id("cardstoprint");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
+	public static final By ERROR_RECIPIENTEMAIL = By.id("recipientemail-error");
 	public static final By TXT_SEARCH = By.id("filterType");
 	public static final By TBL_GRID = By.id("bylocationGrid");
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
@@ -103,6 +109,14 @@ public class ConsumerEngagement extends Factory {
 	public static final By BTN_OK = By.cssSelector(".ajs-ok");
 	public static final By CONSUMER_ENGAGEMENT_GRID = By.cssSelector("table#consumerengageGrid>tbody.ui-ig-record>tr");
 	public static final By SUCCESS_MSG = By.cssSelector("div.alertify-notifier>div");
+	public static final By ISSUEBY = By.xpath("//td[@aria-describedby='consumerengageGrid_issuedCount']");
+	public static final By GIFTCARD_TITLE = By.xpath("//td[@aria-describedby='consumerengageGrid_title']");
+	public static final By CONSUMER_ACCOUNT = By.id("consumeraccount");
+	public static final By SELECT_CONSUMER_BY_GRID = By.xpath("//th[@class='ui-iggrid-rowselector-class']//span[@name='chk']");
+	public static final By LOC_BTN_CANCEL = By.id("issuebylocCancel");
+	public static final By EMAIL_BTN_CANCEL = By.id("issuebyemailCancel");
+	public static final By RECIPIENTS_DRP = By.xpath("//div[contains(@class,'ui-igcombo-fieldholder')]//input");
+	
 
 	public By objSearchLocation(String location) {
 		return By.xpath("//div[text()='" + location + "']");
@@ -121,6 +135,10 @@ public class ConsumerEngagement extends Factory {
 
 	public List<WebElement> consumerEngagementGridElement() {
 		return getDriver().findElements(CONSUMER_ENGAGEMENT_GRID);
+	}
+	public By objTextbox(String id) {
+		return By.xpath("//input[@id='" + id + "']");
+
 	}
 
 	/**
@@ -514,6 +532,33 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	/**
+	 * select consumer account in grid and click on email
+	 */
+	public void selectConsumerAndClickOnEmail() {
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, 3);
+		foundation.click(CHECKBOX_SELECTALL);
+		foundation.waitforElementToBeVisible(BTN_EMAIL, 5);
+		foundation.click(BTN_EMAIL);
+		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
+	}
+
+	/**
+	 * click on by email filter and verify enter recipient
+	 * 
+	 * @param mail
+	 * @param inputText
+	 */
+	public void clickOnByEmailFilterAndVerifyEnterRecipient(String mail, String inputText) {
+		foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
+		textBox.enterText(ADD_TO_NOTE_BY_EMAIL, inputText);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
+		textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail);
+		foundation.waitforElementToBeVisible(BTN_EMAIL, 5);
+	}
+
+	/**
 	 * Verify Error Message on Creation of Gift card without expiration date
 	 * 
 	 * @param title
@@ -553,5 +598,133 @@ public class ConsumerEngagement extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		int count = consumerEngagementGridElement().size();
 		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
+	}
+
+	/**
+	 * verify height and width
+	 * 
+	 * @param obj
+	 * @param heig
+	 * @param wid
+	 */
+	public void verifyDimentions(By obj, String heig, String wid) {
+		Rectangle dimention = foundation.getDimention(obj);
+		int height = dimention.height;
+		CustomisedAssert.assertEquals(height, Integer.parseInt(heig));
+		int width = dimention.width;
+		CustomisedAssert.assertEquals(width, Integer.parseInt(wid));
+	}
+
+	/**
+	 * verifying error message in title
+	 * 
+	 * @param title
+	 */
+	public void verifyErrorMessageInTitle(String title, String error) {
+		foundation.click(BTN_ADD_GIFT_CARD);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
+		textBox.enterText(INPUT_TITLE, title);
+		foundation.click(BTN_ADD_GIFT_SAVE);
+		foundation.waitforElementToBeVisible(TITLE_ERROR, 5);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TITLE_ERROR));
+		String text = foundation.getText(TITLE_ERROR);
+		CustomisedAssert.assertEquals(text, error);
+	}
+
+	/**
+	 * Clicking on egift card template and Download Category
+	 */
+	public void clickOneGiftCardTemplateAndDownload() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TXT_DOWNLOAD_FILLOUTEMAIL));
+		foundation.click(ConsumerEngagement.EGIFT_CARD_TEMPLATE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.GIFT_CARDS));
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * download and upload the template
+	 */
+
+	public void uploadTemplateInEgiftCard() {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
+		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.IMAGE_PNG_PATH);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_MSG));
+		foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.EGIFT_CARD_TEMPLATE);
+		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+	}
+
+	/**
+	 * verify dropdown in location
+	 * 
+	 * @param loc
+	 */
+	public void verifyDropdownInLocation(String loc) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
+		foundation.click(ConsumerEngagement.DPD_LOCATION);
+		foundation.waitforElementToBeVisible(TXT_LOCATION_ENGAGEMENT, 5);
+		textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, loc);
+		foundation.click(objSearchLocation(loc));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+		foundation.waitforElementToBeVisible(DPD_CLEAR, 5);
+	}
+
+	/**
+	 * verify issue count in gift card grid
+	 * 
+	 * @param value
+	 */
+	public void verifyIssueCount(String value) {
+		foundation.threadWait(5);
+		foundation.refreshPage();
+		foundation.threadWait(3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
+		foundation.waitforElementToBeVisible(ISSUEBY, 5);
+		String text = foundation.getText(ISSUEBY);
+		CustomisedAssert.assertTrue(text.contains(value));
+	}
+ 
+	/**
+	 * verify email foramt in isue by email field 
+	 * @param inputtext
+	 * @param mail
+	 */
+	public void verifyEmailFormatInIssueByEmailField(String inputtext,String mail) {
+		foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+		clickOnByEmailFilterAndVerifyEnterRecipient(inputtext, mail);
+		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
+
+	}
+
+	
+	/**
+	 * Gift Card Creation with inputs and searching it
+	 * 
+	 * @param title
+	 * @param amount
+	 * @param expiry
+	 */
+	public void createGiftCardAndSearchIt(String giftTitle,String amount, String expiry) {
+		createGiftCard(giftTitle, amount, expiry);
+		foundation.refreshPage();
+		
+		//Searching for Recently created Gift Card 
+		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, giftTitle);
+		CustomisedAssert.assertTrue(
+				foundation.getText(GIFTCARD_TITLE).equals(giftTitle));
+	}
+	
+	/**
+	 * verify textbox is blank
+	 * 
+	 * @param title
+	 */
+	public void verifyTextboxIsBlank(String id) {		
+		   WebElement Wb= getDriver().findElement(objTextbox(id));         
+           String CLbox =Wb.getAttribute("value");
+        CustomisedAssert.assertTrue(CLbox.isEmpty());     
 	}
 }
