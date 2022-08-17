@@ -2282,6 +2282,7 @@ public class ConsumerSubsidy extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			foundation.threadWait(3);
 			reportList.selectLocation(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
