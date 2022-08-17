@@ -4767,9 +4767,9 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Product Sales Report Data Validation
+	 * This Method is for Sold Details Int Report Data Validation
 	 * 
-	 * @author ravindhara Date:29-07-2022
+	 * @author ravindhara Date:16-08-2022
 	 */
 
 	@Test(description = "202035-Verify the Data Validation of Sold Details Int Report")
@@ -4793,14 +4793,6 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			soldDetailsInt.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
-//			navigationBar.navigateToMenuItem(menuItems.get(0));
-//			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
-//			reportList.selectLocationForTransactionSearch(location);
-//			foundation.click(SalesItemDetailsReport.FIND_TRANSACTION);
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH_TRANSACTION, date);
-//			String txnId = foundation.getText(SalesItemDetailsReport.TXT_ID_TRANSACTION);
 
 			String txnId = (String) soldDetailsInt.getJsonData().get(Reports.TRANS_ID);
 			List<String> txnDate_and_Time = soldDetailsInt.txnDateAndTime();
@@ -4862,8 +4854,6 @@ public class Report extends TestInfra {
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(0), location);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(1), deviceId);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(2), txnId);
-//			soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(3), productName);
-//			soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(4), scanCode);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(5), requiredData.get(0));
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(6), requiredData.get(1));
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(7), requiredData.get(2));

@@ -1,15 +1,11 @@
 package at.smartshop.pages;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,7 +26,6 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -198,6 +193,12 @@ public class SoldDetailsInt extends Factory {
 				+ columnName + "']");
 	}
 
+	/**
+	 * This Method is for Updating the Data
+	 * 
+	 * @param columnName
+	 * @param value
+	 */
 	public void updateData(String columnName, String value) {
 		try {
 			for (int iter = 0; iter < intialData.size(); iter++) {
@@ -208,6 +209,12 @@ public class SoldDetailsInt extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for Updating the Multiple Data
+	 * 
+	 * @param columnName
+	 * @param values
+	 */
 	public void updateMultiData(String columnName, String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
@@ -219,6 +226,11 @@ public class SoldDetailsInt extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for Transaction Date and Time
+	 * 
+	 * @return
+	 */
 	public List<String> txnDateAndTime() {
 		String[] txnDateAndTime = date.split(" ", 2);
 		List<String> listwithtxnDateAndTime = new ArrayList<>();
@@ -228,6 +240,9 @@ public class SoldDetailsInt extends Factory {
 		return listwithtxnDateAndTime;
 	}
 
+	/**
+	 * This Method is for verifying Report Data
+	 */
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
@@ -246,6 +261,9 @@ public class SoldDetailsInt extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for verifying Header Data
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
