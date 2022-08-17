@@ -55,80 +55,80 @@ public class Menu extends TestInfra {
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-//			// Reading test data from DataBase
-//			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-//
-//			List<String> menuItem = Arrays
-//					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-//			List<String> requiredData = Arrays
-//					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-//
-//			navigationBar.selectOrganization(
-//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-//
-//			navigationBar.navigateToMenuItem(menuItem.get(0));
-//
-//			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, rstLocationData.get(CNLocation.LOCATION_NAME),
-//					Constants.TEXT);
-//			foundation.click(PrintGroupLists.BTN_CREATENEW);
-//			final String printGroupName = requiredData.get(0) + strings.getRandomCharacter();
-//			textBox.enterText(PrintGroupLists.TXT_NAME, printGroupName);
-//			foundation.click(PrintGroupLists.BTN_SAVE);
-//
-//			foundation.waitforElement(PrintGroupLists.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-//			navigationBar.navigateToMenuItem(menuItem.get(1));
-//			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
-//			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
-//			dropDown.selectItem(LocationSummary.DPD_PRINTGROUP, printGroupName, Constants.TEXT);
-//			foundation.click(LocationSummary.BTN_SAVE);
-//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-//			navigationBar.navigateToMenuItem(menuItem.get(2));
-//			dropDown.selectItem(SelfService.DPD_LOCATION, rstLocationData.get(CNLocation.LOCATION_NAME),
-//					Constants.TEXT);
-//			foundation.click(SelfService.BTN_CREATE_NEW);
-//			textBox.enterText(SelfService.TXT_MENU_NAME, printGroupName);
-//			foundation.click(SelfService.BTN_ADD_ITEM);
-//			textBox.enterText(SelfService.TXT_SEARCH_PRODUCT, rstLocationData.get(CNLocation.PRODUCT_NAME));
-//			foundation.click(SelfService.LBL_PRODUCT_NAME);
-//			foundation.click(SelfService.LBL_BTN_ADD);
-//			foundation.click(SelfService.BTN_SUBMENU_ADD);
-//			foundation.threadWait(Constants.TWO_SECOND);
-//			String actualData = foundation.getText(SelfService.LBL_NO_PRINT);
-//			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
-//			
-//			//Verify has print group
-////			foundation.click(SelfService.LBL_FORWARD_ARROW);
-////			foundation.threadWait(Constants.ONE_SECOND);
-////			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
-////			checkBox.check(selfService.objPrintCheckbox(printGroupName));
-////
-////			foundation.click(SelfService.BTN_SAVE);
-////			foundation.threadWait(Constants.ONE_SECOND);
-////			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-////			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
-////			table.selectRow(printGroupName);
-////			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
-////			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
-////			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
-////			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
-//
-//			// deselect printgroup checkbox
-//			
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			dropDown.selectItem(PrintGroupLists.DPD_LOCATION, rstLocationData.get(CNLocation.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(PrintGroupLists.BTN_CREATENEW);
+			final String printGroupName = requiredData.get(0) + strings.getRandomCharacter();
+			textBox.enterText(PrintGroupLists.TXT_NAME, printGroupName);
+			foundation.click(PrintGroupLists.BTN_SAVE);
+
+			foundation.waitforElement(PrintGroupLists.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
+			dropDown.selectItem(LocationSummary.DPD_PRINTGROUP, printGroupName, Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(menuItem.get(2));
+			dropDown.selectItem(SelfService.DPD_LOCATION, rstLocationData.get(CNLocation.LOCATION_NAME),
+					Constants.TEXT);
+			foundation.click(SelfService.BTN_CREATE_NEW);
+			textBox.enterText(SelfService.TXT_MENU_NAME, printGroupName);
+			foundation.click(SelfService.BTN_ADD_ITEM);
+			textBox.enterText(SelfService.TXT_SEARCH_PRODUCT, rstLocationData.get(CNLocation.PRODUCT_NAME));
+			foundation.click(SelfService.LBL_PRODUCT_NAME);
+			foundation.click(SelfService.LBL_BTN_ADD);
+			foundation.click(SelfService.BTN_SUBMENU_ADD);
+			foundation.threadWait(Constants.TWO_SECOND);
+			String actualData = foundation.getText(SelfService.LBL_NO_PRINT);
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			
+			//Verify has print group
 //			foundation.click(SelfService.LBL_FORWARD_ARROW);
-//			checkBox.unCheck(selfService.objPrintCheckbox(printGroupName));
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
+//			checkBox.check(selfService.objPrintCheckbox(printGroupName));
 //
 //			foundation.click(SelfService.BTN_SAVE);
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-//			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
 //			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
 //			table.selectRow(printGroupName);
-//			foundation.waitforElement(SelfService.LBL_NO_PRINT, Constants.SHORT_TIME);
-//			actualData = foundation.getText(SelfService.LBL_NO_PRINT);
-//			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
-//			foundation.click(SelfService.BTN_DELETE);
-//			foundation.alertAccept();
+//			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
+//			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
+//			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
+//			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
+
+			// deselect printgroup checkbox
+			
+			foundation.click(SelfService.LBL_FORWARD_ARROW);
+			checkBox.unCheck(selfService.objPrintCheckbox(printGroupName));
+
+			foundation.click(SelfService.BTN_SAVE);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
+			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
+			table.selectRow(printGroupName);
+			foundation.waitforElement(SelfService.LBL_NO_PRINT, Constants.SHORT_TIME);
+			actualData = foundation.getText(SelfService.LBL_NO_PRINT);
+			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
+			foundation.click(SelfService.BTN_DELETE);
+			foundation.alertAccept();
 			System.out.println("[Passed]: Menu test");
 
 		} catch (Exception exc) {
