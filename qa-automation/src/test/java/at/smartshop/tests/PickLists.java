@@ -1,17 +1,14 @@
 package at.smartshop.tests;
 
 import static org.testng.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
@@ -21,8 +18,6 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocation;
-import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNPickList;
 import at.smartshop.keys.Configuration;
@@ -32,7 +27,6 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PickList;
-import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -851,8 +845,8 @@ public class PickLists extends TestInfra {
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
 			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.MEDIUM_TIME);
-			foundation.click(PickList.LBL_SELECT_ALL);
+			foundation.waitforElement(PickList.SELECT_ALL, Constants.MEDIUM_TIME);
+			foundation.click(PickList.SELECT_ALL);
 			foundation.waitforElement(PickList.VALIDATE_HIGHLIGHTED_PRODUCTS, Constants.SHORT_TIME);
 			pickList.verifyProductsHighlighted("true");
 			foundation.click(PickList.BTN_REFRESH);
