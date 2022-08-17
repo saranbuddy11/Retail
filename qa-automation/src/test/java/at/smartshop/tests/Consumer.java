@@ -934,6 +934,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), emailID, location,
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.threadWait(3);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertNotEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle);
 			CustomisedAssert.assertFalse(dropDown.getAllItems(ConsumerSummary.DPD_PAY_CYCLE).contains(paycycle));

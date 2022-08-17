@@ -46,6 +46,7 @@ public class MemberPurchaseSummaryReport extends Factory {
 	private static final By TBL_MEMBER_PURCHASE_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();

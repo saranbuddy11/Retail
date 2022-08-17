@@ -256,6 +256,7 @@ public class Report extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
+			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -270,7 +271,7 @@ public class Report extends TestInfra {
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -307,6 +308,8 @@ public class Report extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
+			System.out.println("tableHeaders" + uiData);
+			System.out.println("columnName" + dbData);
 			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
@@ -846,11 +849,13 @@ public class Report extends TestInfra {
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
 			memberPurchaseSummary.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -3053,7 +3058,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "168025-Verify the All Redeemed Promtions for Tender type of Promtion Analysis")
+	@Test(priority = 4, description = "168025-Verify the All Redeemed Promtions for Tender type of Promtion Analysis")
 	public void PromtionAnalysisAllRedeemed() {
 		final String CASE_NUM = "168025";
 
@@ -3183,8 +3188,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3277,7 +3282,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "168026-Verify the All Redeemed Promtions for On-Screen type of Promtion Analysis")
+	@Test(priority = 3, description = "168026-Verify the All Redeemed Promtions for On-Screen type of Promtion Analysis")
 	public void PromtionAnalysisForRedeemedPromotions() {
 		final String CASE_NUM = "168026";
 
@@ -3354,8 +3359,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3437,8 +3442,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3522,7 +3527,7 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "177341-Verify the Duplicate Sales Itmes in Sales Items Details Report after Redeeming a promotion")
+	@Test(priority = 2, description = "177341-Verify the Duplicate Sales Itmes in Sales Items Details Report after Redeeming a promotion")
 	public void VerifyDuplicateSalesItmesInSalesItemsDetailsReport() {
 		final String CASE_NUM = "177341";
 
@@ -3597,8 +3602,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -4139,7 +4144,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 11-07-2022
 	 */
-	@Test(description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
+	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
 	public void consumerFeedbackSurveyReportDataValidation() {
 		final String CASE_NUM = "197794";
 
@@ -4627,8 +4632,9 @@ public class Report extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(locationName);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesSummaryAndCost.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
