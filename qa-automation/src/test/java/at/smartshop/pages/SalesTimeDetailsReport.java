@@ -199,6 +199,11 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for calculating Amount
+	 * @param columnName
+	 * @param amount
+	 */
 	public void calculateAmount(String columnName, String amount) {
 		try {
 			String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
@@ -212,6 +217,11 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for calculating Total Amount
+	 * @param columnName
+	 * @param amount
+	 */
 	public void calculateAmountOfFooter(String columnName, String amount) {
 		try {
 			String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
@@ -225,6 +235,14 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for Sales Including Taxes
+	 * @param columnName
+	 * @param price
+	 * @param tax
+	 * @param discount
+	 * @return
+	 */
 	public double saleIncludingTaxes(String columnName, String price, String tax, String discount) {
 		try {
 			String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
@@ -240,7 +258,15 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 		return totalSales;
 	}
-
+	
+	/**
+	 * This Method is for Total Sales Including Taxes 
+	 * @param columnName
+	 * @param price
+	 * @param tax
+	 * @param discount
+	 * @return
+	 */
 	public double saleIncludingTaxesOfFooter(String columnName, String price, String tax, String discount) {
 		try {
 			String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
@@ -256,6 +282,10 @@ public class SalesTimeDetailsReport extends Factory {
 		return totalSales;
 	}
 
+	/**
+	 * This Method is for Tansaction count
+	 * @param columnName
+	 */
 	public void TrasactionCount(String columnName) {
 		try {
 			String saleCount = intialData.get(rowCount).get(columnName);
@@ -266,6 +296,10 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for Total Tansaction count
+	 * @param columnName
+	 */
 	public void TrasactionCountOfFooter(String columnName) {
 		try {
 			String saleCount = updatedTableFooters.get(columnName);
@@ -276,14 +310,10 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, String values) {
-		try {
-			intialData.get(0).put(columnName, values);
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
+	/**
+	 * This Method is for Deciding the Time Range
+	 * @param transDateTime
+	 */
 	public void decideTimeRange(String transDateTime) {
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -305,6 +335,9 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for verifying Report Data
+	 */
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
@@ -322,6 +355,9 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	/**
+	 * This Method is for verifying Header Data
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
@@ -336,7 +372,10 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
-	public void verifyReporFootertData() {
+	/**
+	 * This Method is for verifying Total Report Data
+	 */
+	public void verifyReportFootertData() {
 		try {
 			System.out.println("tableFooterData" + tableFooterData);
 			System.out.println("updatedTableFooters" + updatedTableFooters);

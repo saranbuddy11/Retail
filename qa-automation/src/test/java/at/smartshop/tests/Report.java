@@ -4777,7 +4777,7 @@ public class Report extends TestInfra {
 	/*
 	 * This Method is for Sales Time Details Report data validation
 	 * 
-	 * @author ravindhara Date: 
+	 * @author ravindhara Date: 17-08-2022
 	 * 
 	 */
 	@Test(description = "202038-Verify the Data Validation of Sales Time Details Report")
@@ -4858,7 +4858,7 @@ public class Report extends TestInfra {
 			salesTimeDetailsReport.verifyReportData();
 			
 			// verify report total data
-			salesTimeDetailsReport.verifyReporFootertData();
+			salesTimeDetailsReport.verifyReportFootertData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
