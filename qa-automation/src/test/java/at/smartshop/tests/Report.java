@@ -4805,11 +4805,13 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			salesTimeDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			salesTimeDetailsReport.verifyReportName(locationName);
 
 			// Read the Report the Data
 			salesTimeDetailsReport.getTblRecordsUI();
 			salesTimeDetailsReport.getIntialData().putAll(salesTimeDetailsReport.getReportsData());
+			salesTimeDetailsReport.getUpdatedTableFooters().putAll(salesTimeDetailsReport.getTableFooters());
+			System.out.println("initial data : "+ salesTimeDetailsReport.getIntialData() );
 
 			// process sales API to generate data
 			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -4817,42 +4819,40 @@ public class Report extends TestInfra {
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
-			
-			System.out.println((LocalDateTime) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
-			
-			salesTimeDetailsReport.decideTimeRange((LocalDateTime) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
-			
-			salesTimeDetailsReport.getTblRecordsUI();
 
-			// update the report date based on calculation
-//			String date = String
-//					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-//							rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA)));
+			salesTimeDetailsReport.getTblRecordsUI();
 			
+			System.out.println((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
+			
+			salesTimeDetailsReport.decideTimeRange((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
+			
+			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
-			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
-			String cost = rstProductSummaryData.get(CNProductSummary.COST);
-			String itemsCounts = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
 			
-			salesTimeDetailsReport.updateData(salesTimeDetailsReport.getTableHeaders().get(0), locationName);
-			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(1), productPrice);
-			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(2), tax);
-			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(3), deposit);
-			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(4), discount);
-			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5), productPrice, tax, deposit, discount);
-			String totalCost = salesSummaryAndCost.calculateCost(salesSummaryAndCost.getTableHeaders().get(6), cost);
-			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost, totalAmount);
-			salesSummaryAndCost.TrasactionCount(salesSummaryAndCost.getTableHeaders().get(8));
-			salesSummaryAndCost.itemCount(salesSummaryAndCost.getTableHeaders().get(9));
+			// Updating Table data
+			salesTimeDetailsReport.TrasactionCount(salesTimeDetailsReport.getTableHeaders().get(1));
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(2), productPrice);
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(3), discount);
+			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(4), tax);
+			salesTimeDetailsReport.saleIncludingTaxes(salesTimeDetailsReport.getTableHeaders().get(5), productPrice, tax, discount);
 			
+			// Updating Footer data
+			salesTimeDetailsReport.TrasactionCountOfFooter(salesTimeDetailsReport.getTableHeaders().get(1));
+			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(2), productPrice);
+			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(3), discount);
+			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(4), tax);
+			salesTimeDetailsReport.saleIncludingTaxesOfFooter(salesTimeDetailsReport.getTableHeaders().get(5), productPrice, tax, discount);
 			
 			// verify report headers
 			salesTimeDetailsReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			salesTimeDetailsReport.verifyReportData();
+			
+			// verify report total data
+			salesTimeDetailsReport.verifyReporFootertData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

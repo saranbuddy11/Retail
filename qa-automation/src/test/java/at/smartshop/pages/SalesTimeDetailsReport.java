@@ -50,6 +50,8 @@ public class SalesTimeDetailsReport extends Factory {
 	private static final By TBL_SALES_TIME_DETAILS_GRID = By.cssSelector("#table1 > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
+	private Map<String, String> tableFooterData = new LinkedHashMap<>();
+	private Map<String, String> updatedTableFooters = new LinkedHashMap<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -163,13 +165,14 @@ public class SalesTimeDetailsReport extends Factory {
 				+ columnName + "']");
 	}
 
-	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+	public void getTblRecordsUI() {
 		try {
 			int recordCount = 0;
 			tableHeaders.clear();
 			WebElement tableReportsList = getDriver().findElement(TBL_SALES_TIME_DETAILS_GRID);
 			WebElement tableReports = getDriver().findElement(TBL_SALES_TIME_DETAILS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> footerRow = tableReports.findElements(By.cssSelector("tfoot > tr"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
@@ -183,85 +186,91 @@ public class SalesTimeDetailsReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			for (WebElement footerRowValue : footerRow) {
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = footerRowValue.findElement(By.cssSelector("th:nth-child(" + columnCount + ")"));
+					tableFooterData.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+			}
+			System.out.println("reportsData : " + reportsData);
+			System.out.println("tableFooterData : " + tableFooterData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		return reportsData;
 	}
 
 	public void calculateAmount(String columnName, String amount) {
 		try {
-			String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+			String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 					Constants.EMPTY_STRING);
 			double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					* 2 + Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public String calculateCost(String columnName, String amount) {
+	public void calculateAmountOfFooter(String columnName, String amount) {
 		try {
-			String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+			String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 					Constants.EMPTY_STRING);
 			double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					* 2 + Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			cost = Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount);
-			intialData.get(0).put(columnName, cost);
+			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-		return cost;
 	}
 
-	public double totalAmount(String columnName, String price, String tax, String deposit, String discount) {
+	public double saleIncludingTaxes(String columnName, String price, String tax, String discount) {
 		try {
-			String initialAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+			String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 					Constants.EMPTY_STRING);
 			double updatedAmount = Double.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					* 2 + Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
-					+ Double.parseDouble(deposit.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
-					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
+//					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return totalSales;
 	}
 
-	public void calculateGrossMargin(String columnName, String cost, Double totalPrice) {
+	public double saleIncludingTaxesOfFooter(String columnName, String price, String tax, String discount) {
 		try {
-			double margin = ((totalPrice
-					- Double.parseDouble(cost.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))) / totalPrice)
-					* 100.0;
-			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
-			String d = df.format(margin);
-			intialData.get(0).put(columnName, String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
+			String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
+					Constants.EMPTY_STRING);
+			double updatedAmount = Double.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+					* 2 + Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
+					+ Double.parseDouble(initialAmount);
+			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
+			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+		return totalSales;
 	}
 
 	public void TrasactionCount(String columnName) {
 		try {
-			String saleCount = intialData.get(0).get(columnName);
+			String saleCount = intialData.get(rowCount).get(columnName);
 			int updatedCount = Integer.parseInt(saleCount) + 1;
-			intialData.get(0).put(columnName, String.valueOf(updatedCount));
+			intialData.get(rowCount).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public void itemCount(String columnName) {
+	public void TrasactionCountOfFooter(String columnName) {
 		try {
-			String saleCount = intialData.get(0).get(columnName);
-			int updatedCount = Integer.parseInt(saleCount) + 2;
-			intialData.get(0).put(columnName, String.valueOf(updatedCount));
+			String saleCount = updatedTableFooters.get(columnName);
+			int updatedCount = Integer.parseInt(saleCount) + 1;
+			updatedTableFooters.put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -275,17 +284,21 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
-	public void decideTimeRange(LocalDateTime transDateTime) {
+	public void decideTimeRange(String transDateTime) {
 		try {
-			LocalTime transTime = transDateTime.toLocalTime();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime transDateTime1 = LocalDateTime.parse(transDateTime, formatter);
+			LocalTime transTime = transDateTime1.toLocalTime();
+
+			System.out.println("transTime : " + transTime);
 			if (transTime.isAfter(LocalTime.MIN) && transTime.isBefore(LocalTime.of(6, 0, 59))) {
-				rowCount = 1;
+				rowCount = 0;
 			} else if (transTime.isAfter(LocalTime.of(06, 01, 00)) && transTime.isBefore(LocalTime.of(10, 30, 59))) {
-				rowCount = 2;
+				rowCount = 1;
 			} else if (transTime.isAfter(LocalTime.of(10, 31, 00)) && transTime.isBefore(LocalTime.of(14, 00, 59))) {
-				rowCount = 3;
+				rowCount = 2;
 			} else if (transTime.isAfter(LocalTime.of(14, 01, 00)) && transTime.isBefore(LocalTime.MAX)) {
-				rowCount = 4;
+				rowCount = 3;
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -323,6 +336,20 @@ public class SalesTimeDetailsReport extends Factory {
 		}
 	}
 
+	public void verifyReporFootertData() {
+		try {
+			System.out.println("tableFooterData" + tableFooterData);
+			System.out.println("updatedTableFooters" + updatedTableFooters);
+			foundation.threadWait(Constants.TWO_SECOND);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableFooterData.get(tableHeaders.get(iter))
+						.contains(updatedTableFooters.get(tableHeaders.get(iter))));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 	public Map<String, Object> getJsonData() {
 		return jsonData;
 	}
@@ -341,5 +368,13 @@ public class SalesTimeDetailsReport extends Factory {
 
 	public List<String> getTableHeaders() {
 		return tableHeaders;
+	}
+
+	public Map<String, String> getTableFooters() {
+		return tableFooterData;
+	}
+
+	public Map<String, String> getUpdatedTableFooters() {
+		return updatedTableFooters;
 	}
 }
