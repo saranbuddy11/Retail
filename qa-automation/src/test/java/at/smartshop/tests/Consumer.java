@@ -54,7 +54,7 @@ public class Consumer extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private LocationSummary locationSummary = new LocationSummary();
-	private DataSourceManager datasourcemanager=new DataSourceManager();
+	private DataSourceManager datasourcemanager = new DataSourceManager();
 	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
 	private CreateLocation createLocation = new CreateLocation();
@@ -2741,10 +2741,9 @@ public class Consumer extends TestInfra {
 			locationSummary.selectPayRollDeduct(menu.get(1), requiredData.get(2), requiredData.get(3));
 		}
 	}
-	
+
 	/**
-	 * @author afrosean
-	 * Date:15-07-2022
+	 * @author afrosean Date:15-07-2022
 	 */
 //	@Test(description = "197854-Verify consumer search on SF mode")
 //	public void verifyConsumerSearchOnSFMode() {
@@ -2775,5 +2774,43 @@ public class Consumer extends TestInfra {
 //		catch (Exception exc) {
 //			TestInfra.failWithScreenShot(exc.toString());
 //		} 
-	//}
+	// }
+	
+	/**
+	 * @author afrosean
+	 */
+	@Test(description = "203230-ADM > Consumer Summary > Adjust > Cancel Button")
+	public void verifyAdjustAndCancelButton() {
+		final String CASE_NUM = "203230";
+
+		try {
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+
+			List<String> inputs = Arrays
+					.asList(rstConsumerSearchData.get(CNConsumerSearch.SEARCH).split(Constants.DELIMITER_TILD));
+			// Launch Browser and Login to ADM with Super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select menu 
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			
+			//Enter field in consumer search field
+			consumerSearch.enterSearchFields(inputs.get(2), inputs.get(1), inputs.get(0),inputs.get(3));
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			
+			//Navigate to consumer summary page and verify excisiting amount 
+			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.BTN_ADJUST, inputs.get(4));
+			
+			//Navigate to consumer summary page and verify excisiting amount 
+			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.PAYROLL_DEDUCT, inputs.get(5));
+				
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
+	}
 }
