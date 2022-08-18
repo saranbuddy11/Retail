@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
@@ -685,12 +686,13 @@ public class CashFlowEmployeeDevice extends Factory {
 		int count = initialReportsData.size();
 		int coulumnCount = tableHeaders.size();
 		for (int val = 1; val < coulumnCount; val++) {
-			Assert.assertTrue(reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum
-					.get(0).get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
+			CustomisedAssert.assertTrue(
+					reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum.get(0)
+							.get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
 		}
 		for (int iter = 0; iter < count - 3; iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
-				Assert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
+				CustomisedAssert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
 						.contains(initialReportsData.get(iter).get(tableHeaders.get(val))));
 			}
 		}
