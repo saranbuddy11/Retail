@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -41,6 +40,7 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
+import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -101,7 +101,6 @@ import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
-import net.bytebuddy.asm.Advice.This;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class Report extends TestInfra {
@@ -172,6 +171,7 @@ public class Report extends TestInfra {
 	private DailySalesSummary dailySalesSummary = new DailySalesSummary();
 	private IntlWebAppFunding intlWebAppFunding = new IntlWebAppFunding();
 	private ProductSales productSales = new ProductSales();
+	private CashFlowEmployeeDevice cashFlowEmployeeDevice = new CashFlowEmployeeDevice();
 	private SalesSummaryAndCost salesSummaryAndCost = new SalesSummaryAndCost();
 	private SoldDetails soldDetails = new SoldDetails();
 
@@ -845,13 +845,15 @@ public class Report extends TestInfra {
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
-			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+					rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
 			memberPurchaseSummary.processAPI();
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+					rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
 			memberPurchaseSummary.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -4356,7 +4358,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
 	 * This Method is for Daily Sales Summary Report Data Validation
 	 * 
@@ -4378,12 +4380,13 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-				dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
@@ -4401,7 +4404,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -4415,18 +4418,19 @@ public class Report extends TestInfra {
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
-			
+
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(0), date);
 			dailySalesSummary.updateData(dailySalesSummary.getTableHeaders().get(1), locationName);
 			dailySalesSummary.TrasactionCount(dailySalesSummary.getTableHeaders().get(2));
 			dailySalesSummary.itemCount(dailySalesSummary.getTableHeaders().get(3));
-			dailySalesSummary.calculateSales(dailySalesSummary.getTableHeaders().get(4), productPrice, deposit, discount);
+			dailySalesSummary.calculateSales(dailySalesSummary.getTableHeaders().get(4), productPrice, deposit,
+					discount);
 			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(5), tax);
 			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(6), deposit);
 			dailySalesSummary.calculateAmount(dailySalesSummary.getTableHeaders().get(7), discount);
-			dailySalesSummary.totalAmount(dailySalesSummary.getTableHeaders().get(8), productPrice, tax, deposit, discount);
+			dailySalesSummary.totalAmount(dailySalesSummary.getTableHeaders().get(8), productPrice, tax, deposit,
+					discount);
 
-			
 			// verify report headers
 			dailySalesSummary.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
@@ -4457,7 +4461,7 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			// process sales API to generate data
 			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -4593,7 +4597,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
 	 * This Method is for Daily Sales Summary Report Data Validation
 	 * 
@@ -4604,7 +4608,7 @@ public class Report extends TestInfra {
 	public void salesSummaryAndCostReportDataValication() {
 		try {
 			final String CASE_NUM = "202034";
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -4613,15 +4617,16 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
 			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
@@ -4640,35 +4645,37 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			salesSummaryAndCost.getTblRecordsUI();
 
 			// update the report date based on calculation
-			String date = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-							rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA)));
+			// String date = String
+			// .valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+			// rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA)));
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
 			String cost = rstProductSummaryData.get(CNProductSummary.COST);
-			String itemsCounts = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
-			
+			// String itemsCounts =
+			// rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+
 			salesSummaryAndCost.updateData(salesSummaryAndCost.getTableHeaders().get(0), locationName);
 			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(1), productPrice);
 			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(2), tax);
 			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(3), deposit);
 			salesSummaryAndCost.calculateAmount(salesSummaryAndCost.getTableHeaders().get(4), discount);
-			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5), productPrice, tax, deposit, discount);
+			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5),
+					productPrice, tax, deposit, discount);
 			String totalCost = salesSummaryAndCost.calculateCost(salesSummaryAndCost.getTableHeaders().get(6), cost);
-			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost, totalAmount);
+			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost,
+					totalAmount);
 			salesSummaryAndCost.TrasactionCount(salesSummaryAndCost.getTableHeaders().get(8));
 			salesSummaryAndCost.itemCount(salesSummaryAndCost.getTableHeaders().get(9));
-			
-			
+
 			// verify report headers
 			salesSummaryAndCost.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
@@ -4679,7 +4686,6 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-			
 
 	/**
 	 * This Method is for Product Sales Report Data Validation
@@ -4766,6 +4772,264 @@ public class Report extends TestInfra {
 
 			// verify report data
 			salesItemDetailsReport.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cash Flow Employee Device Report Data Validation
+	 * 
+	 * @author KarthikR
+	 * @date: 05-08-2022
+	 */
+	@Test(description = "202033 - Cash Flow Employee Device Report data validation")
+	public void CashFlowEmployeeDeviceReportDataValidation() {
+		final String CASE_NUM = "202033";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> columnValue = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
+		List<String> columns = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashFlowEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowEmployeeDevice.getInitialReportsData().putAll(cashFlowEmployeeDevice.reportsData);
+			cashFlowEmployeeDevice.getInitialReportTotals().putAll(cashFlowEmployeeDevice.getReportsTotalData());
+
+			// process sales API to generate data
+			cashFlowEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowEmployeeDevice.getJsonSalesData();
+
+			// verify Report Headers
+			cashFlowEmployeeDevice.verifyReportHeaders(columns.get(10));
+
+			// calculate Credit Payment Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(0), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(0));
+
+			// calculate Credit Payment Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(1), columnValue.get(0));
+
+			// calculate Credit Void Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(2), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(4));
+
+			// calculate Credit Void Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(3), columnValue.get(0));
+
+			// calculate Credit Declined Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(4), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(5));
+
+			// calculate Credit Declined Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(5), columnValue.get(0));
+
+			// calculate Credit Sales
+			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(6), columnValue.get(0));
+
+			// calculate Credit Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(0));
+
+			// calculate Credit Total
+			cashFlowEmployeeDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(8), columnValue.get(1));
+
+			// calculate Credit SubTotal Payment Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(0),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Payment Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(1),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Void Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(2),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Void Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(3),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Declined Counts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalCounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(4),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Declined Amounts
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(5),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Sales
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(6),
+					columnValue.get(1));
+
+			// calculate Credit SubTotal Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(1));
+
+			// calculate Credit SubTotal Totals
+			cashFlowEmployeeDevice.calculateCreditCardSubTotalAmounts(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location, columns.get(9),
+					columnValue.get(1));
+
+			// calculate Account Payment Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(0), columnValue.get(2), cashFlowEmployeeDevice.getRequiredCount().get(1));
+
+			// calculate Account Payment Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(1), columnValue.get(2));
+
+			// calculate Account Void Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(2), columnValue.get(2), cashFlowEmployeeDevice.getRequiredCount().get(3));
+
+			// calculate Account Void Amounts
+			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(3), columnValue.get(2));
+
+			// calculate Account Declined Counts
+			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(4), columnValue.get(2), 0);
+
+			// calculate Account Declined Amounts
+			cashFlowEmployeeDevice.calculateDeclinedAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(5), columnValue.get(2));
+
+			// calculate Account Sales
+			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(6), columnValue.get(2));
+
+			// calculate Account Taxes
+			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columns.get(7), columnValue.get(2));
+
+			// calculate Account Total
+			cashFlowEmployeeDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columns.get(8), columnValue.get(2));
+
+			// calculate Total Payment Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(0), columnValue.get(4));
+
+			// calculate Total Payment Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(1), columnValue.get(4));
+
+			// calculate Total Void Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(2), columnValue.get(4));
+
+			// calculate Total Void Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(3), columnValue.get(4));
+
+			// calculate Total Declined Counts
+			cashFlowEmployeeDevice.calculateLocationTotalCounts(columns.get(4), columnValue.get(4));
+
+			// calculate Total Declined Amounts
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(5), columnValue.get(4));
+
+			// calculate Total Sales
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(11), columnValue.get(4));
+
+			// calculate Total Taxes
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(12), columnValue.get(4));
+
+			// calculate Total Totals
+			cashFlowEmployeeDevice.calculateLocationTotalsAmounts(columns.get(13), columnValue.get(4));
+
+			// verify Payment Counts Total
+			cashFlowEmployeeDevice.calculateCashFlowDetailsTotals(location);
+			cashFlowEmployeeDevice.getCalculateCashFlowTotal().putAll(cashFlowEmployeeDevice.getCashFlowDetailsTotal());
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(15));
+
+			// verify Payment Amounts Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(16));
+
+			// verify Void Counts Total
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(17));
+
+			// verify Void Amounts Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(18));
+
+			// verify Credit Declined Counts Total
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(19));
+
+			// verify Credit Declined Amounts Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(20));
+
+			// verify Cash Flow Sales Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(21));
+
+			// verify Cash Flow Taxes Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(22));
+
+			// verify Tips Counts Total
+			cashFlowEmployeeDevice.calculateIntegerTotal(columns.get(23));
+
+			// verify Tips Amount Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(24));
+
+			// verify Totals Total
+			cashFlowEmployeeDevice.calculateDoubleTotal(columns.get(25));
+			cashFlowEmployeeDevice.getCashFlowDetailsTotalsSum()
+					.putAll(cashFlowEmployeeDevice.getCalculateCashFlowTotal());
+
+			// verify Report Data
+			cashFlowEmployeeDevice.verifyReportRecords();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
