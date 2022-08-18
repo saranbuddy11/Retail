@@ -538,9 +538,10 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
 			foundation.clickSpaceBar();
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			// foundation.waitforElementToBeVisible(locationSummary.objectProduct(productName),
 			// Constants.MEDIUM_TIME);
 			CustomisedAssert.assertEquals(locationSummary.getCellData(requiredData.get(5)), requiredData.get(1));

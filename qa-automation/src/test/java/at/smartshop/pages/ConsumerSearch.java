@@ -85,11 +85,11 @@ public class ConsumerSearch extends Factory {
 		}
 	}
 
-	public void enterSearchField(String searchBy, String search, String locationName, String status) {
+	public void enterSearchField(String searchBy, String search, String status) {
 		try {
 			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);
 			textBox.enterText(TXT_SEARCH, search);
-			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
+			//dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
 		} catch (Exception exc) {
