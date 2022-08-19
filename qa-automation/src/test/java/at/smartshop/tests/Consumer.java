@@ -29,6 +29,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerMove;
+import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreateLocation;
@@ -50,6 +51,7 @@ public class Consumer extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private TextBox textBox = new TextBox();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private ConsumerRolesList consumerRoleList = new ConsumerRolesList();
 	private Table table = new Table();
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
@@ -2775,7 +2777,7 @@ public class Consumer extends TestInfra {
 //			TestInfra.failWithScreenShot(exc.toString());
 //		} 
 	// }
-	
+
 	/**
 	 * @author afrosean
 	 */
@@ -2794,23 +2796,22 @@ public class Consumer extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Select menu 
+			// Select menu
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
-			
-			//Enter field in consumer search field
-			consumerSearch.enterSearchFields(inputs.get(2), inputs.get(1), inputs.get(0),inputs.get(3));
+
+			// Enter field in consumer search field
+			consumerSearch.enterSearchFields(inputs.get(2), inputs.get(1), inputs.get(0), inputs.get(3));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			
-			//Navigate to consumer summary page and verify excisiting amount 
+
+			// Navigate to consumer summary page and verify excisiting amount
 			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.BTN_ADJUST, inputs.get(4));
-			
-			//Navigate to consumer summary page and verify excisiting amount 
+
+			// Navigate to consumer summary page and verify excisiting amount
 			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.PAYROLL_DEDUCT, inputs.get(5));
-				
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 }
