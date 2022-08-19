@@ -26,8 +26,8 @@ dist/
 *.jar
 
 # Include following
-!gradle/wrapper/gradle-wrapper.jar
-!gradlew
+!qa-automation/gradle/wrapper/gradle-wrapper.jar
+!qa-automation/gradlew
  
 # Maven
 target/
