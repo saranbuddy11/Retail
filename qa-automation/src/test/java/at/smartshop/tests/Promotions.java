@@ -24,7 +24,6 @@ import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -35,7 +34,6 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
-import at.smartshop.pages.PickList;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
@@ -3861,7 +3859,7 @@ public class Promotions extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "197842-SOS-30207 ADM>Able to create the promotions for the products that are not available in locations")
 	public void createOnScreenPromotionWithAgainSelectingLocation() {
 		final String CASE_NUM = "197842";
@@ -3885,13 +3883,14 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			List<String> currentData = Arrays
 					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-			
+
 			List<String> newData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-	
+
 			// Basic Information Page
 			foundation.click(PromotionList.BTN_CREATE);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, currentData.get(0), currentData.get(1));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, currentData.get(0),
+					currentData.get(1));
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
@@ -3910,12 +3909,12 @@ public class Promotions extends TestInfra {
 			dropDown.selectItem(CreatePromotions.DPD_LOC, newData.get(1), Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			
+
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
-			
-			//click on create button and validate the err
+
+			// click on create button and validate the err
 			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.TXT_PROMO_ERROR)
@@ -3923,7 +3922,7 @@ public class Promotions extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} 
+		}
 	}
 
 }

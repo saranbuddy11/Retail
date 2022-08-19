@@ -29,6 +29,7 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNStaffSummary;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.database.columns.CNV5Device;
@@ -1057,5 +1058,31 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstAdminDNAData;
+	}
+
+	public Map<String, String> getStaffViewData(String query, String testcaseID) {
+		Map<String, String> rstStaffViewData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstStaffViewData.put(CNStaffSummary.STAFF, resultSet.getString(CNStaffSummary.STAFF));
+				rstStaffViewData.put(CNStaffSummary.STAFF_NAME, resultSet.getString(CNStaffSummary.STAFF_NAME));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstStaffViewData;
 	}
 }

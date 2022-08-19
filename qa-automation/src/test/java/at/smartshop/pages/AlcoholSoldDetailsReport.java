@@ -52,6 +52,7 @@ public class AlcoholSoldDetailsReport extends Factory {
 	private List<String> productNameData = new LinkedList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private List<Integer> requiredRecords = new LinkedList<>();
+
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();

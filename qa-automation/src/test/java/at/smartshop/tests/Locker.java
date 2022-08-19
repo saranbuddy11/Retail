@@ -2033,6 +2033,7 @@ public class Locker extends TestInfra {
 			foundation.waitforElement(
 					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)),
 					Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(
 					lockerSystem.copyORDeleteSystem(systemName, rstLockerSystemData.get(CNLockerSystem.TEST_DATA)));
 			foundation.click(LockerSystem.BTN_YES_DELETE);

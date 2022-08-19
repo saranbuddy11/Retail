@@ -346,6 +346,7 @@ public class Location extends TestInfra {
 
 			// Searching for Product
 			radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
+			foundation.threadWait(5);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
 			textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
@@ -1159,7 +1160,6 @@ public class Location extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(LocationSummary.BTN_APPLY);
 			foundation.waitforElementToDisappear(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
-
 			CustomisedAssert.assertFalse(foundation.isDisplayed(locationSummary.objColumnHeaders(expectedData.get(0))));
 			// show functionality
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
