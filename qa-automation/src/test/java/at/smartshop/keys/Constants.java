@@ -118,4 +118,5 @@ public class Constants {
 	public static final String ACCOUNT = "ACCOUNT";
 	public static final String REJECTED = "REJECTED";
 	public static final String DECIMAL_FORMAT = "###.##";
+	public static final String REGEX_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 }
