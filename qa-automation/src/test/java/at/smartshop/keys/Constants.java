@@ -113,6 +113,10 @@ public class Constants {
 	public static final String DELIMITER_PERCENTAGE = "%";
 	public static final String DELIMITER_EMPTY = "";
 	public static final String USD = "USD";
+	public static final String VOID = "VOID";
+	public static final String CREDIT = "CREDIT";
+	public static final String ACCOUNT = "ACCOUNT";
+	public static final String REJECTED = "REJECTED";
 	public static final String DECIMAL_FORMAT = "###.##";
 	public static final String REGEX_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 }

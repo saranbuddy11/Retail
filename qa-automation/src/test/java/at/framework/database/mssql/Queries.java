@@ -25,4 +25,5 @@ public class Queries {
 	public static final String ADMIN_AGE_VERIFICATION = "SELECT * FROM QA.dbo.AdminAgeVerification where TestcaseID=";
 	public static final String ADMIN_DNA = "SELECT * FROM QA.dbo.AdminDNA where TestcaseID=";
 	public static final String LOGIN_PAGE = "SELECT * FROM QA.dbo.LoginPage where TestcaseID=";
+	public static final String STAFF_SUMMARY = "SELECT * FROM QA.dbo.StaffSummary where TestcaseID=";
 }
