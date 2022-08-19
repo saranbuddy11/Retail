@@ -192,8 +192,6 @@ public class SalesTimeDetailsReport extends Factory {
 					tableFooterData.put(tableHeaders.get(columnCount - 1), column.getText());
 				}
 			}
-			System.out.println("reportsData : " + reportsData);
-			System.out.println("tableFooterData : " + tableFooterData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -316,11 +314,9 @@ public class SalesTimeDetailsReport extends Factory {
 	 */
 	public void decideTimeRange(String transDateTime) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.REGEX_YYYY_MM_DD_HH_MM_SS);
 			LocalDateTime transDateTime1 = LocalDateTime.parse(transDateTime, formatter);
 			LocalTime transTime = transDateTime1.toLocalTime();
-
-			System.out.println("transTime : " + transTime);
 			if (transTime.isAfter(LocalTime.MIN) && transTime.isBefore(LocalTime.of(6, 0, 59))) {
 				rowCount = 0;
 			} else if (transTime.isAfter(LocalTime.of(06, 01, 00)) && transTime.isBefore(LocalTime.of(10, 30, 59))) {
@@ -341,8 +337,6 @@ public class SalesTimeDetailsReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
-			System.out.println("intialData" + intialData);
-			System.out.println("reportsData" + reportsData);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
@@ -361,8 +355,6 @@ public class SalesTimeDetailsReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders" + tableHeaders);
-			System.out.println("columnName" + columnName);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
@@ -377,8 +369,6 @@ public class SalesTimeDetailsReport extends Factory {
 	 */
 	public void verifyReportFootertData() {
 		try {
-			System.out.println("tableFooterData" + tableFooterData);
-			System.out.println("updatedTableFooters" + updatedTableFooters);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableFooterData.get(tableHeaders.get(iter))

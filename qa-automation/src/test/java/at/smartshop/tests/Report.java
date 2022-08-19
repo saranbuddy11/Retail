@@ -312,8 +312,6 @@ public class Report extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
-			System.out.println("tableHeaders" + uiData);
-			System.out.println("columnName" + dbData);
 			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
@@ -4821,7 +4819,6 @@ public class Report extends TestInfra {
 			salesTimeDetailsReport.getTblRecordsUI();
 			salesTimeDetailsReport.getIntialData().putAll(salesTimeDetailsReport.getReportsData());
 			salesTimeDetailsReport.getUpdatedTableFooters().putAll(salesTimeDetailsReport.getTableFooters());
-			System.out.println("initial data : "+ salesTimeDetailsReport.getIntialData() );
 
 			// process sales API to generate data
 			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -4831,8 +4828,6 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			salesTimeDetailsReport.getTblRecordsUI();
-			
-			System.out.println((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
 			
 			salesTimeDetailsReport.decideTimeRange((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
 			
@@ -4911,7 +4906,6 @@ public class Report extends TestInfra {
 			salesTimeDetailsByDevice.getTblRecordsUI();
 			salesTimeDetailsByDevice.getIntialData().putAll(salesTimeDetailsByDevice.getReportsData());
 			salesTimeDetailsByDevice.getUpdatedTableFooters().putAll(salesTimeDetailsByDevice.getTableFooters());
-			System.out.println("initial data : "+ salesTimeDetailsByDevice.getIntialData() );
 
 			// process sales API to generate data
 			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
@@ -4921,8 +4915,6 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			salesTimeDetailsByDevice.getTblRecordsUI();
-			
-			System.out.println((String) salesTimeDetailsByDevice.getJsonData().get(Reports.TRANS_DATE));
 			
 			salesTimeDetailsByDevice.decideTimeRange((String) salesTimeDetailsByDevice.getJsonData().get(Reports.TRANS_DATE));
 			
