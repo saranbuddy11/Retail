@@ -305,8 +305,6 @@ public class Report extends TestInfra {
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
 			// Validate account adjustment adjusted report data
-			System.out.println("tableHeaders" + uiData);
-			System.out.println("columnName" + dbData);
 			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
@@ -4803,9 +4801,6 @@ public class Report extends TestInfra {
 			String txnId = (String) soldDetailsInt.getJsonData().get(Reports.TRANS_ID);
 			List<String> txnDate_and_Time = soldDetailsInt.txnDateAndTime();
 
-			System.out.println(txnId);
-			System.out.println(txnDate_and_Time);
-
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -4843,14 +4838,11 @@ public class Report extends TestInfra {
 			List<String> costs = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COST).split(Constants.DELIMITER_TILD));
 
-			System.out.println("id222 : " + txnId);
-
 			if (soldDetailsInt.getIntialData().get(0).get(soldDetailsInt.getTableHeaders().get(4))
 					.equals(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA))) {
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(3), productNames.get(0));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(4), scanCodes.get(0));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(15), costs.get(0));
-				System.out.println("eneterd if cond");
 			} else {
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(3), productNames.get(1));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(4), scanCodes.get(1));
@@ -4869,7 +4861,6 @@ public class Report extends TestInfra {
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(11), tax);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(12), productPrice);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(14), productPrice);
-
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(17), txnDate_and_Time.get(0));
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(18), txnDate_and_Time.get(1).toUpperCase());
 

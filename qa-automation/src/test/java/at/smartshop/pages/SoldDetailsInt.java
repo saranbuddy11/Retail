@@ -110,7 +110,6 @@ public class SoldDetailsInt extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println(reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -247,9 +246,6 @@ public class SoldDetailsInt extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
-
-			System.out.println(" reportsData :" + reportsData);
-			System.out.println(" intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -268,8 +264,6 @@ public class SoldDetailsInt extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			foundation.threadWait(Constants.ONE_SECOND);
-			System.out.println(" tableHeaders :" + tableHeaders);
-			System.out.println(" columnName :" + columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
