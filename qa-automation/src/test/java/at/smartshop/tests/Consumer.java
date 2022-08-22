@@ -2780,9 +2780,10 @@ public class Consumer extends TestInfra {
 
 	/**
 	 * @author afrosean
+	 * Date:18-08-2022
 	 */
 	@Test(description = "203230-ADM > Consumer Summary > Adjust > Cancel Button")
-	public void verifyAdjustAndCancelButton() {
+	public void verifyCorrectBalanceValueInPopupOnClickingAdjust() {
 		final String CASE_NUM = "203230";
 
 		try {
@@ -2804,11 +2805,11 @@ public class Consumer extends TestInfra {
 			consumerSearch.enterSearchFields(inputs.get(2), inputs.get(1), inputs.get(0), inputs.get(3));
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 
-			// Navigate to consumer summary page and verify excisiting amount
-			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.BTN_ADJUST, inputs.get(4));
+			// Navigate to consumer summary page and verify existing amount
+			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.BTN_ADJUST, inputs.get(4));
 
-			// Navigate to consumer summary page and verify excisiting amount
-			consumerSummary.verifyAmountInConsumerSubsidy(ConsumerSummary.PAYROLL_DEDUCT, inputs.get(5));
+			// Navigate to consumer summary page and verify existing amount
+			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.PAYROLL_DEDUCT, inputs.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

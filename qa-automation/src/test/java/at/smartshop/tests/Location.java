@@ -2078,9 +2078,10 @@ public class Location extends TestInfra {
 
 	/**
 	 * @author afrosean
+	 * Date:17-08-20222
 	 */
 	@Test(description = "202842- ADM > Admin > User and Roles verify Navigation bar, access location and Edit users")
-	public void verifyNavigationBarAccessLocationAndEditUsers() {
+	public void verifyNavigationBarAccessLocationAndEditUsersWithOperator() {
 		final String CASE_NUM = "202842";
 
 		// Reading test data from DataBase
@@ -2119,7 +2120,7 @@ public class Location extends TestInfra {
 			
 			//Navigate to Admin > User and roles
 			navigationBar.navigateToMenuItem(menu.get(1));
-			userList.verifyEdidUserPage(datas.get(1), datas.get(2));
+			userList.verifyEditUserPage(datas.get(1), datas.get(2));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -401,7 +401,7 @@ public class ConsumerSummary extends Factory {
 	 * verify amount in consumer summary page
 	 * @param bal
 	 */
-	public void verifyAmountInConsumerSubsidy(By obj,String bal) {
+	public void verifyAmountInConsumerSummaryAndAdjustBalancePopup(By obj,String bal) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_CONSUMER_SUMMARY));
 		foundation.waitforElementToBeVisible(BTN_ADJUST, 3);
 		foundation.click(obj);
