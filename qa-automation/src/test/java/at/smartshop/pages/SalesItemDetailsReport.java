@@ -244,12 +244,9 @@ public class SalesItemDetailsReport extends Factory {
 	public void calculateAmount(String columnName, String price, String tax) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
-				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
-						Constants.EMPTY_STRING);
 				double updatedAmount = Double
 						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))+Double
-						.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						+ Double.parseDouble(initialAmount);
+						.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			}
@@ -295,6 +292,8 @@ public class SalesItemDetailsReport extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
