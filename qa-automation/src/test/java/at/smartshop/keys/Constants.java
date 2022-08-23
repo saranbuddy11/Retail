@@ -117,6 +117,10 @@ public class Constants {
 	public static final String CREDIT = "CREDIT";
 	public static final String ACCOUNT = "ACCOUNT";
 	public static final String REJECTED = "REJECTED";
+	public static final String CASH = "CASH";
+	public static final String SOGO = "SOGO";
+	public static final String COMP = "COMP";
+	public static final String GUESTPASS = "GUESTPASS";
 	public static final String DECIMAL_FORMAT = "###.##";
 	public static final String REGEX_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 }

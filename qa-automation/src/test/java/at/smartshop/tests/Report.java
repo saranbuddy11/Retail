@@ -1,6 +1,5 @@
 package at.smartshop.tests;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +95,7 @@ import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
+import at.smartshop.pages.UFSByDevice;
 import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
@@ -181,6 +181,7 @@ public class Report extends TestInfra {
 	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
 	private SalesTimeDetailsByDevice salesTimeDetailsByDevice = new SalesTimeDetailsByDevice();
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
+	private UFSByDevice ufsByDevice = new UFSByDevice();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -4715,7 +4716,7 @@ public class Report extends TestInfra {
 			// process sales API to generate data
 			String date = salesItemDetailsReport
 					.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			String txnId = (String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_ID);
 
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -4771,7 +4772,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
 	 * This Method is for Sales Time Details Report data validation
 	 * 
@@ -4782,24 +4783,25 @@ public class Report extends TestInfra {
 	public void SalesTimeDetailsReportDataValidation() {
 		try {
 			final String CASE_NUM = "202038";
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
 			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
@@ -4818,40 +4820,44 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			salesTimeDetailsReport.getTblRecordsUI();
-			
-			salesTimeDetailsReport.decideTimeRange((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
-			
+
+			salesTimeDetailsReport
+					.decideTimeRange((String) salesTimeDetailsReport.getJsonData().get(Reports.TRANS_DATE));
+
 			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
-			
+
 			// Updating Table data
 			salesTimeDetailsReport.TrasactionCount(salesTimeDetailsReport.getTableHeaders().get(1));
 			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(2), productPrice);
 			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(3), discount);
 			salesTimeDetailsReport.calculateAmount(salesTimeDetailsReport.getTableHeaders().get(4), tax);
-			salesTimeDetailsReport.saleIncludingTaxes(salesTimeDetailsReport.getTableHeaders().get(5), productPrice, tax, discount);
-			
+			salesTimeDetailsReport.saleIncludingTaxes(salesTimeDetailsReport.getTableHeaders().get(5), productPrice,
+					tax, discount);
+
 			// Updating Footer data
 			salesTimeDetailsReport.TrasactionCountOfFooter(salesTimeDetailsReport.getTableHeaders().get(1));
-			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(2), productPrice);
+			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(2),
+					productPrice);
 			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(3), discount);
 			salesTimeDetailsReport.calculateAmountOfFooter(salesTimeDetailsReport.getTableHeaders().get(4), tax);
-			salesTimeDetailsReport.saleIncludingTaxesOfFooter(salesTimeDetailsReport.getTableHeaders().get(5), productPrice, tax, discount);
-			
+			salesTimeDetailsReport.saleIncludingTaxesOfFooter(salesTimeDetailsReport.getTableHeaders().get(5),
+					productPrice, tax, discount);
+
 			// verify report headers
 			salesTimeDetailsReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			salesTimeDetailsReport.verifyReportData();
-			
+
 			// verify report total data
 			salesTimeDetailsReport.verifyReportFootertData();
 		} catch (Exception exc) {
@@ -5220,7 +5226,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
 	 * This Method is for Sales Time Details Report data validation
 	 * 
@@ -5231,7 +5237,7 @@ public class Report extends TestInfra {
 	public void SalesTimeDetailsByDeviceReportDataValidation() {
 		try {
 			final String CASE_NUM = "203347";
-			
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -5240,15 +5246,16 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
-			
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
 			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
@@ -5267,42 +5274,403 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			
+
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 
 			salesTimeDetailsByDevice.getTblRecordsUI();
-			
-			salesTimeDetailsByDevice.decideTimeRange((String) salesTimeDetailsByDevice.getJsonData().get(Reports.TRANS_DATE));
-			
+
+			salesTimeDetailsByDevice
+					.decideTimeRange((String) salesTimeDetailsByDevice.getJsonData().get(Reports.TRANS_DATE));
+
 			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
-			
+
 			// Updating Table data
 			salesTimeDetailsByDevice.TrasactionCount(salesTimeDetailsByDevice.getTableHeaders().get(1));
 			salesTimeDetailsByDevice.calculateAmount(salesTimeDetailsByDevice.getTableHeaders().get(2), productPrice);
 			salesTimeDetailsByDevice.calculateAmount(salesTimeDetailsByDevice.getTableHeaders().get(3), discount);
 			salesTimeDetailsByDevice.calculateAmount(salesTimeDetailsByDevice.getTableHeaders().get(4), tax);
-			salesTimeDetailsByDevice.saleIncludingTaxes(salesTimeDetailsByDevice.getTableHeaders().get(5), productPrice, tax, discount);
-			
+			salesTimeDetailsByDevice.saleIncludingTaxes(salesTimeDetailsByDevice.getTableHeaders().get(5), productPrice,
+					tax, discount);
+
 			// Updating Footer data
 			salesTimeDetailsByDevice.TrasactionCountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(1));
-			salesTimeDetailsByDevice.calculateAmountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(2), productPrice);
-			salesTimeDetailsByDevice.calculateAmountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(3), discount);
+			salesTimeDetailsByDevice.calculateAmountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(2),
+					productPrice);
+			salesTimeDetailsByDevice.calculateAmountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(3),
+					discount);
 			salesTimeDetailsByDevice.calculateAmountOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(4), tax);
-			salesTimeDetailsByDevice.saleIncludingTaxesOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(5), productPrice, tax, discount);
-			
+			salesTimeDetailsByDevice.saleIncludingTaxesOfFooter(salesTimeDetailsByDevice.getTableHeaders().get(5),
+					productPrice, tax, discount);
+
 			// verify report headers
 			salesTimeDetailsByDevice.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			salesTimeDetailsByDevice.verifyReportData();
-			
+
 			// verify report total data
 			salesTimeDetailsByDevice.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * UFS By Device Report data validation
+	 * 
+	 * @author KarthikR
+	 * @date: 16-08-2022
+	 */
+	@Test(description = "198563 - UFS By Device Report data validation")
+	public void ufsByDeviceReportDataValidation() {
+		final String CASE_NUM = "198563";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> columnValue = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_TILD));
+		List<String> columnName = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			ufsByDevice.processAPI(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UFSByDevice.LBL_REPORTS_LIST));
+
+			// Select the Report Date range and Location and run report
+			ufsByDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UFSByDevice.TABLE_CASH_FLOW_DETAILS_TOTAL));
+
+			// read Report Data
+			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByDevice.getInitialReportsData().putAll(ufsByDevice.getReportsData());
+			ufsByDevice.getInitialReportTotals().putAll(ufsByDevice.getReportsTotalData());
+			ufsByDevice.readSalesTimeDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByDevice.getInitialSalesTimeDetails().putAll(ufsByDevice.getSalesTimeDetails());
+			ufsByDevice.getInitialSalesTimeDetailsTotal().putAll(ufsByDevice.getSalesTimeDetailsTotal());
+
+			// process sales API to generate data
+			ufsByDevice.getJsonSalesData();
+			ufsByDevice.processAPI(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsByDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByDevice.readSalesTimeDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByDevice.getSalesTimeRowDetails();
+
+			// verify Report Headers
+			ufsByDevice.verifyCashFlowHeaders(columnName.get(10));
+			ufsByDevice.verifySalesTimeHeaders(columnName.get(14));
+
+			// calculate Credit Payment Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(0), columnValue.get(0), ufsByDevice.getCountDetails().get(0));
+			System.out.println("1");
+
+			// calculate Credit Payment Amounts
+			ufsByDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(1), columnValue.get(0));
+			System.out.println("2");
+
+			// calculate Credit Void Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(2), columnValue.get(0), ufsByDevice.getCountDetails().get(4));
+			System.out.println("3");
+
+			// calculate Credit Void Amounts
+			ufsByDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(3), columnValue.get(0));
+			System.out.println("4");
+
+			// calculate Credit Declined Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(4), columnValue.get(0), ufsByDevice.getCountDetails().get(5));
+			System.out.println("5");
+
+			// calculate Credit Declined Amounts
+			ufsByDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(5), columnValue.get(0));
+			System.out.println("6");
+
+			// calculate Credit Sales
+			ufsByDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(6), columnValue.get(0));
+			System.out.println("7");
+
+			// calculate Credit Taxes
+			ufsByDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(7), columnValue.get(0));
+			System.out.println("8");
+
+			// calculate Credit Total
+			ufsByDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(8), columnValue.get(0));
+			System.out.println("9");
+
+			// calculate Credit SubTotal Payment Counts
+			ufsByDevice.calculateCreditCardSubTotalCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(0), columnValue.get(1));
+			System.out.println("10");
+
+			// calculate Credit SubTotal Payment Amounts
+			ufsByDevice.calculateCreditCardSubTotalAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(1), columnValue.get(1));
+			System.out.println("11");
+
+			// calculate Credit SubTotal Void Counts
+			ufsByDevice.calculateCreditCardSubTotalCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(2), columnValue.get(1));
+			System.out.println("12");
+
+			// calculate Credit SubTotal Void Amounts
+			ufsByDevice.calculateCreditCardSubTotalAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(3), columnValue.get(1));
+			System.out.println("13");
+
+			// calculate Credit SubTotal Declined Counts
+			ufsByDevice.calculateCreditCardSubTotalCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(4), columnValue.get(1));
+			System.out.println("14");
+
+			// calculate Credit SubTotal Declined Amounts
+			ufsByDevice.calculateCreditCardSubTotalAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(5), columnValue.get(1));
+			System.out.println("15");
+
+			// calculate Credit SubTotal Sales
+			ufsByDevice.calculateCreditCardSubTotalAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(6), columnValue.get(1));
+			System.out.println("16");
+
+			// calculate Credit SubTotal Taxes
+			ufsByDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(7), columnValue.get(1));
+			System.out.println("17");
+
+			// calculate Credit SubTotal Totals
+			ufsByDevice.calculateCreditCardSubTotalAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location, columnName.get(9), columnValue.get(1));
+			System.out.println("18");
+
+			// calculate Account Payment Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(0), columnValue.get(2), ufsByDevice.getCountDetails().get(1));
+			System.out.println("19");
+
+			// calculate Account Payment Amounts
+			ufsByDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(1), columnValue.get(2));
+			System.out.println("20");
+
+			// calculate Account Void Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(2), columnValue.get(2), ufsByDevice.getCountDetails().get(3));
+			System.out.println("21");
+
+			// calculate Account Void Amounts
+			ufsByDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(3), columnValue.get(2));
+			System.out.println("22");
+
+			// calculate Account Declined Counts
+			ufsByDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(4), columnValue.get(2), 0);
+			System.out.println("23");
+
+			// calculate Account Declined Amounts
+			ufsByDevice.calculateDeclinedAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(5), columnValue.get(2));
+			System.out.println("24");
+
+			// calculate Account Sales
+			ufsByDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(6), columnValue.get(2));
+			System.out.println("25");
+
+			// calculate Account Taxes
+			ufsByDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(7), columnValue.get(2));
+			System.out.println("26");
+
+			// calculate Account Total
+			ufsByDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
+					columnName.get(8), columnValue.get(2));
+			System.out.println("27");
+
+			// calculate Total Payment Counts
+			ufsByDevice.calculateLocationTotalCounts(columnName.get(0), columnValue.get(4));
+			System.out.println("28");
+
+			// calculate Total Payment Amounts
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(1), columnValue.get(4));
+			System.out.println("29");
+
+			// calculate Total Void Counts
+			ufsByDevice.calculateLocationTotalCounts(columnName.get(2), columnValue.get(4));
+			System.out.println("30");
+
+			// calculate Total Void Amounts
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(3), columnValue.get(4));
+			System.out.println("31");
+
+			// calculate Total Declined Counts
+			ufsByDevice.calculateLocationTotalCounts(columnName.get(4), columnValue.get(4));
+			System.out.println("32");
+
+			// calculate Total Declined Amounts
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(5), columnValue.get(4));
+			System.out.println("33");
+
+			// calculate Total Sales
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(11), columnValue.get(4));
+			System.out.println("34");
+
+			// calculate Total Taxes
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(12), columnValue.get(4));
+			System.out.println("35");
+
+			// calculate Total Totals
+			ufsByDevice.calculateLocationTotalsAmounts(columnName.get(13), columnValue.get(4));
+			System.out.println("36");
+
+//			// verify Payment Counts Total
+//			ufsByDevice.calculateCashFlowDetailsTotals();
+//			ufsByDevice.getCashFlowDetailsTotalsSum().clear();
+//			ufsByDevice.getCashFlowDetailsTotalsSum().putAll(ufsByDevice.getCashFlowDetailsTotal());
+//			ufsByDevice.calculateIntegerTotal(columnName.get(15));
+//			System.out.println("37");
+//
+//			// verify Payment Amounts Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(16));
+//			System.out.println("38");
+//
+//			// verify Void Counts Total
+//			ufsByDevice.calculateIntegerTotal(columnName.get(17));
+//			System.out.println("39");
+//
+//			// verify Void Amounts Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(18));
+//			System.out.println("40");
+//
+//			// verify Credit Declined Counts Total
+//			ufsByDevice.calculateIntegerTotal(columnName.get(19));
+//			System.out.println("41");
+//
+//			// verify Credit Declined Amounts Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(20));
+//			System.out.println("42");
+//
+//			// verify Cash Flow Sales Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(21));
+//			System.out.println("43");
+//
+//			// verify Cash Flow Taxes Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(22));
+//			System.out.println("44");
+//
+//			// verify Tips Counts Total
+//			ufsByDevice.calculateIntegerTotal(columnName.get(23));
+//			System.out.println("45");
+//
+//			// verify Tips Amount Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(24));
+//			System.out.println("46");
+//
+//			// verify Totals Total
+//			ufsByDevice.calculateDoubleTotal(columnName.get(25));
+//			System.out.println("47");
+//
+//			// update Transactions Total
+//			ufsByDevice.calculateSalesTimeDetailsTotals();
+//			ufsByDevice.getSalesTimeDetailsTotalsSum().clear();
+//			ufsByDevice.getSalesTimeDetailsTotalsSum().putAll(ufsByDevice.getSalesTimeDetailsTotal());
+//			ufsByDevice.calculateSalesTimeIntegerTotal(columnName.get(26));
+//			System.out.println("48");
+//
+//			// update Sales Total
+//			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(27));
+//			System.out.println("49");
+//
+//			// update Discounts Total
+//			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(28));
+//			System.out.println("50");
+//
+//			// update Taxes Total
+//			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(29));
+//			System.out.println("51");
+//
+//			// update Sales Inc Tax Total
+//			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(30));
+//			System.out.println("52");
+
+			// update Transactions
+			ufsByDevice.updateTransactions(columnName.get(26));
+			System.out.println("53");
+			ufsByDevice.updateTransactionsTotal(columnName.get(26));
+			System.out.println("54");
+
+			// update Sales
+			ufsByDevice.updateData(columnName.get(27), String.valueOf(ufsByDevice.getRequiredJsonData().get(0)));
+			System.out.println("55");
+			ufsByDevice.updateTotalData(columnName.get(27), String.valueOf(ufsByDevice.getRequiredJsonData().get(0)));
+			System.out.println("56");
+
+			// update Discounts
+			ufsByDevice.updateData(columnName.get(28), String.valueOf(ufsByDevice.getRequiredJsonData().get(2)));
+			System.out.println("57");
+			ufsByDevice.updateTotalData(columnName.get(28), String.valueOf(ufsByDevice.getRequiredJsonData().get(2)));
+			System.out.println("58");
+
+			// update Taxes
+			ufsByDevice.updateData(columnName.get(29), String.valueOf(ufsByDevice.getRequiredJsonData().get(1)));
+			System.out.println("59");
+			ufsByDevice.updateTotalData(columnName.get(29), String.valueOf(ufsByDevice.getRequiredJsonData().get(1)));
+			System.out.println("60");
+
+			// update Sales Inc Tax
+			ufsByDevice.updateSalesIncTax(columnName.get(31));
+			System.out.println("61");
+			ufsByDevice.updateTotalSalesIncTax(columnName.get(31));
+			System.out.println("62");
+
+			// verify Reports Data
+			ufsByDevice.verifyCashFlowReportRecords();
+			ufsByDevice.verifySalesTimeReportRecords();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
