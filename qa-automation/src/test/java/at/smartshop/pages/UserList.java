@@ -5,6 +5,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 
 import at.framework.files.PropertyFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
@@ -80,6 +81,7 @@ public class UserList {
 	public static final By DELETE_ROLE= By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
 	public static final By DRP_SELECT_ROLE= By.xpath("//a[@id='standarduserBtn']");
+	public static final By SELECTED_LOC= By.xpath("(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
 
 
     public By objRoleName(String roleName) {
@@ -167,7 +169,20 @@ public class UserList {
     	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
 		foundation.click(UserList.TBL_DATA);
     }
-   
+    /**
+	 * Select location in User and Roles
+	 * @param location
+	 *
+	 */
+    public void selectLocation(String location) {
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+		foundation.click(UserList.LNK_LOCATION_REMOVE_ALL);
+		dropdown.selectItem(UserList.SELECT_LOCATION, location,Constants.TEXT);
+		foundation.getText(UserList.SELECTED_LOC);
+		CustomisedAssert.assertTrue(foundation.getText(UserList.SELECTED_LOC).contains(location));
+		foundation.click(UserList.BTN_UPDATE_USER);
+		
+    }
       
 
 }
