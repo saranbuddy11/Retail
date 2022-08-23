@@ -4,6 +4,7 @@ public class CNProductSummary {
 	private CNProductSummary() {
 
 	}
+
 	public static final String ACTUAL_DATA = "ActualData";
 	public static final String REQUIRED_DATA = "RequiredData";
 	public static final String COLUMN_NAME = "ColumnName";
@@ -50,5 +51,4 @@ public class CNProductSummary {
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String DEVICE_ID = "DeviceID";
 	public static final String TAX = "Tax";
-
 }
