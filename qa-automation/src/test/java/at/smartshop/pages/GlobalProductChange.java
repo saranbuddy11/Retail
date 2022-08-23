@@ -357,7 +357,7 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(GlobalProductChange.TXT_TAX2, tax2);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TAX2_CHECKED));
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
-		foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+		foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.THREE_SECOND);
 		verifyButtonOkayInGPC();
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 3);
 	}
@@ -370,8 +370,10 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BUTTON_OK);
 		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
+		foundation.threadWait(1);
 		foundation.clickEnter();
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(REASON_BTNOK, 3);
 		foundation.click(REASON_BTNOK);
 
 	}
