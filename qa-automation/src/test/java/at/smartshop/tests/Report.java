@@ -926,6 +926,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.MEDIUM_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(ICEReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
@@ -947,8 +948,10 @@ public class Report extends TestInfra {
 			// locationSummary.manageColumn(columnName.get(0));
 			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			locationSummary.selectTab(tabName.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					actualData.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
 			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
 					requiredData.get(0));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
@@ -3191,8 +3194,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3362,8 +3365,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3445,8 +3448,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3605,8 +3608,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
