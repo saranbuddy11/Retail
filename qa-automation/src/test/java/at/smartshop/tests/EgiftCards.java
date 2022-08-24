@@ -1207,7 +1207,7 @@ public class EgiftCards extends TestInfra {
 
 			// Navigate to Menu Item and click Create Gift Card
 			navigationBar.navigateToMenuItem(menu.get(0));
-			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), CASE_NUM);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

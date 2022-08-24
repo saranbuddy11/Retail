@@ -218,5 +218,5 @@ public class UserList {
 		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_TAB));
 		foundation.click(ADMIN_TAB);
-
+    }
 }
