@@ -8,4 +8,3 @@
  */
 
 rootProject.name = 'qa-automation'
-include('lib')
