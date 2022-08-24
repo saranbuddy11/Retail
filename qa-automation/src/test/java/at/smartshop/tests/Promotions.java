@@ -2298,6 +2298,7 @@ public class Promotions extends TestInfra {
 					promoName.get(1) + strings.getRandomCharacter() + strings.getRandomCharacter(), productName.get(1));
 			Point coordinatesAxis = foundation.getCoordinates(CreatePromotions.BTN_ADD_GROUP);
 			CustomisedAssert.assertEquals(String.valueOf(coordinatesAxis.getX()), coordinates.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertEquals(String.valueOf(coordinatesAxis.getY()), coordinates.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUNDLE_GROUP_EDIT));
 			color = foundation.getTextColor(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
