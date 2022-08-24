@@ -29,6 +29,7 @@ import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
+import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.UserList;
 
@@ -820,6 +821,7 @@ public class EgiftCards extends TestInfra {
 
 	/**
 	 * @author afrose Date:04-08-2022
+	 *SOS-32857
 	 */
 	@Test(description = "198590-Verify issue count gets updated automatically when  e-Gift  issued to  1  recipient  from By Email  tab"
 			+ "198591-Verify  issue count gets updated automatically when  e-Gift  issued to multiple recipients from By  Email  tab")
@@ -1190,7 +1192,7 @@ public class EgiftCards extends TestInfra {
 	/**
 	 * @author afrosean Date:22-08-2022
 	 */
-	@Test(description="203568-ADM > Super > User and Roles > Enable Gift Cards")
+	@Test(description = "203568-ADM > Super > User and Roles > Enable Gift Cards")
 	public void enabledEgiftCardInUserAndRoles() {
 		String CASE_NUM = "203568";
 
@@ -1198,18 +1200,41 @@ public class EgiftCards extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-		List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
 		try {
 			// Login to ADM with Super User, Select Org,
-			navigationBar.launchBrowserAndSelectOrg(propertyFile.readPropertyFile(Configuration.CONSUMER_USER, FilePath.PROPERTY_CONFIG_FILE),
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CONSUMER_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Navigate to Menu Item and click Create Gift Card
+			// Navigate to Menu Item and disabled e-gift card
 			navigationBar.navigateToMenuItem(menu.get(0));
-			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), CASE_NUM);
+			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			login.logout();
+
+			// Login with operator user
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Admin and verify consumer engagement is present
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 3);
+			navigationBar.navigateToMenuItem(menu.get(1));	
+			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerEngagement.CONSUMER_LOCATOR));
+			login.logout();
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			//enabled egift card
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CONSUMER_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			login.logout();
 		}
 
 	}

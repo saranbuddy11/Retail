@@ -83,6 +83,7 @@ public class Login extends Factory {
 		try {
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.click(LBL_USER_NAME);
+			foundation.waitforElementToBeVisible(Login.MUN_LOGOUT, 3);
 			foundation.click(MUN_LOGOUT);
 			foundation.waitforElement(BTN_SIGN_IN, Constants.SHORT_TIME);
 		} catch (Exception exc) {

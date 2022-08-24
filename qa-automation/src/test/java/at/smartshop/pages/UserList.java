@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import com.github.dockerjava.api.model.Driver;
 
+import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
@@ -21,7 +22,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
-public class UserList {
+public class UserList  extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
@@ -81,7 +82,7 @@ public class UserList {
 	public static final By CNFRM_PASSWORD_TXT = By.id("passwordConfirm");
 	public static final By SAVE_PASSWORD_BTN = By.id("savePasswordBtn");
 	public static final By USER_SUMMARY = By.id("li1");
-	public static final By EGIFTCARD_CHECKBOX = By.id("cb836b2ca8c70e11ec9d640242ac120002");
+	public static final By EGIFTCARD_CHECKBOX = By.xpath("//input[contains(@name,'hasview-c793c084c70e11ec9d640242ac12000')]");
 	public static final By REMOVE_USER_ROLES = By.xpath("//td[@class=' sorting_1']");
 	public static final By CANCEL_USER_ROLE = By.id("cancelBtn2");
 	public static final By CANCEL_USER_PASSWORD = By.id("cancelBtn3");
@@ -96,7 +97,7 @@ public class UserList {
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
 	}
-
+	
 	public void selectOrgs(By object, List<String> orgName) {
 		for (int i = 0; i < orgName.size(); i++) {
 			dropdown.selectItem(object, orgName.get(i), Constants.TEXT);
@@ -206,10 +207,10 @@ public class UserList {
 	}
 
 	/**
-  * verify enabled egift card
+  * verify enabled E-gift card
   * @param operator
   */
-    public void verifyEnabledEgiftCard(String operator,String checkboxSelection) {
+    public void verifyEnabledEgiftCard(String operator) {
     	CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.LBL_USER_LIST));
     	foundation.waitforElementToBeVisible(BTN_MANAGE_ROLES, 3);
     	foundation.click(BTN_MANAGE_ROLES);
@@ -218,5 +219,13 @@ public class UserList {
 		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_TAB));
 		foundation.click(ADMIN_TAB);
-    }
-}
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(EGIFTCARD_CHECKBOX);
+		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
+		foundation.click(BTN_UPDATE_USER);
+		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
+		
+			}
+		
+		}
+
