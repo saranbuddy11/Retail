@@ -97,6 +97,7 @@ import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.pages.UnfinishedCloseReport;
+import at.smartshop.pages.UnpaidOrder;
 import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
@@ -181,6 +182,9 @@ public class Report extends TestInfra {
 	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
 	private SalesTimeDetailsByDevice salesTimeDetailsByDevice = new SalesTimeDetailsByDevice();
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
+	private UnpaidOrder unpaidOrder = new UnpaidOrder();
+	
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5303,6 +5307,59 @@ public class Report extends TestInfra {
 			
 			// verify report total data
 			salesTimeDetailsByDevice.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * This Method is for Unpaid Order Report Data Validation 197820
+	 * 
+	 * @author ravindhara Date: -08-2022
+	 */
+	@Test(description = "203621-This test validates Unpaid Order Report Data Validation")
+	public void UnpaidOrderReportDataValidation() {
+		try {
+			final String CASE_NUM = "203621";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+//			List<String> requiredData = Arrays
+//					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			
+			System.out.println( "requiredData : "+ requiredData);
+			System.out.println( "reportName : "+ reportName);
+
+			navigationBar.selectOrganization(requiredData.get(0));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), requiredData.get(2),
+					UnpaidOrder.DATA_EXISTING_DATE, UnpaidOrder.DATA_EXISTING_DATE);
+			reportList.selectLocation(requiredData.get(1));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(UnpaidOrder.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			unpaidOrder.verifyReportName(reportName);
+			unpaidOrder.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			unpaidOrder.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			unpaidOrder.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
