@@ -2173,7 +2173,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS,5);
 		foundation.click(LocationSummary.TAB_PRODUCTS);	 
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,5);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
+		//foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
 		

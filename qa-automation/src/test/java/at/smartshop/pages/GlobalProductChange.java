@@ -544,5 +544,8 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.CASE_COUNT);
 		textBox.enterText(GlobalProductChange.CASE_COUNT,count);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CASE_COUNT_CHECKBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
+		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
 	}
 }

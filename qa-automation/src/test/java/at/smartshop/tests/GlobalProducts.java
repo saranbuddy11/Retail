@@ -34,6 +34,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.DeviceDashboard;
+import at.smartshop.pages.EntrySummaryReport;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
@@ -41,6 +42,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.ReportList;
 import at.smartshop.pages.UserList;
 import at.smartshop.pages.UserRoles;
 
@@ -64,6 +66,7 @@ public class GlobalProducts extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private OrgSummary orgsummary = new OrgSummary();
 	private UserList userList= new UserList();
+	private EntrySummaryReport entrySummaryReport= new EntrySummaryReport();
 
 	private DeviceDashboard deviceDashboard = new DeviceDashboard();
 	private Map<String, String> rstNavigationMenuData;
@@ -2202,7 +2205,7 @@ public class GlobalProducts extends TestInfra {
 
 			//Add new location in extend and verify the loyalty value in extend location are same
 			globalProduct.verifyAddLocationInExtend(location.get(1));
-			foundation.waitforElementToBeVisible(GlobalProduct.TBL_EXTEND,5);
+			foundation.waitforElementToBeVisible(GlobalProduct.TBL_EXTEND,Constants.MEDIUM_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.TBL_EXTEND).contains(product.get(2)));
 			
 			
@@ -2299,9 +2302,7 @@ public class GlobalProducts extends TestInfra {
 				rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays.asList(
 				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-		//List<String> product = Arrays.asList(
-				//rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
+		
 		try {
 
 			// Select Org & Menu
@@ -2351,5 +2352,7 @@ public class GlobalProducts extends TestInfra {
 		}
 		
 	}
-			
+	
+	
+		
 }

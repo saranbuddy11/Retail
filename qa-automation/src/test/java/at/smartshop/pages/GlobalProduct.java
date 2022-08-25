@@ -312,7 +312,7 @@ public class GlobalProduct extends Factory {
 	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SAVE,3);
 	foundation.click(GlobalProduct.POPUP_SAVE);
 	foundation.scrollIntoViewElement(GlobalProduct.SEARCH_EXTEND);
-	foundation.waitforElementToBeVisible(GlobalProduct.SEARCH_EXTEND,3);
+	foundation.waitforElementToBeVisible(GlobalProduct.SEARCH_EXTEND,5);
 	foundation.click(GlobalProduct.SEARCH_EXTEND);
 	textBox.enterText(GlobalProduct.SEARCH_EXTEND, location);
 	
