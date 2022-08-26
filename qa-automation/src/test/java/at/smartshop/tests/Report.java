@@ -5386,8 +5386,7 @@ public class Report extends TestInfra {
 
 			// Select Report, Data and Location to run Report
 			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNV5Device.LOCATION),
-					transID);
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
 
 			// Read the Table Data from UI and Validate
 			subsidyConsumerSpend.getTblRecordsUI();
@@ -5434,8 +5433,7 @@ public class Report extends TestInfra {
 
 			// Select Report, Data and Location to run Report
 			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNV5Device.LOCATION),
-					transID);
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
 
 			// Search with Transaction ID and get the data
 			subsidyConsumerSpend.getTblRecordsUI();

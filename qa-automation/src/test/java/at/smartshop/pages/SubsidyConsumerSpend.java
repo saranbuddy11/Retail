@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.awt.AWTException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -259,9 +260,10 @@ public class SubsidyConsumerSpend extends Factory {
 	 * @param pin
 	 * @param msg
 	 * @return
+	 * @throws ParseException
 	 */
 	public List<String> readPriceFromV5Transaction(String product, String orderPage, String mail, String pin,
-			String msg) {
+			String msg) throws ParseException {
 		List<String> v5Details = new ArrayList<String>();
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
@@ -281,13 +283,14 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(mail);
 		foundation.click(AccountLogin.BTN_NEXT);
-		String date = String.valueOf(dateAndTime.getDateAndTime1("MM/dd/yy hh:mm aa", "America/Chicago"));
-		System.out.println(date);
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(msg)));
+		String date = String
+				.valueOf(dateAndTime.getDateAndTimeWithMinutesAdjusted("MM/dd/yy hh:mm aa", "America/Chicago", "-2"));
+		System.out.println(date);
 		v5Details.add(date);
 		foundation.threadWait(Constants.THREE_SECOND);
 		return v5Details;

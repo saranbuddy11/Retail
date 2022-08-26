@@ -75,6 +75,27 @@ public class DateAndTime {
 	}
 
 	/**
+	 * Get Date and Time with Minutes Adjusted
+	 * 
+	 * @param format
+	 * @param requiredTimeZone
+	 * @return
+	 */
+	public String getDateAndTimeWithMinutesAdjusted(String format, String requiredTimeZone, String value) {
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		Date date = new Date();
+		try {
+			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
+			formatter.setTimeZone(timeZone);
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		}
+		System.out.println(formatter.format(date));
+		Date exactDate = DateUtils.addMinutes(date, Integer.parseInt(value));
+		return (formatter.format(exactDate));
+	}
+
+	/**
 	 * String List to Date List
 	 * 
 	 * @param listOfText
