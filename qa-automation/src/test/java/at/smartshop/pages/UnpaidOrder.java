@@ -118,7 +118,7 @@ public class UnpaidOrder extends Factory {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
 			System.out.println("reportsData1 :"+ reportsData);
 			System.out.println("expextedDataList1 : "+ expectedData);
-				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
+				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 							.contains(expectedDataList.get(iter)));
 			}
