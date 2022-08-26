@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -19,7 +18,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -94,6 +92,7 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.SubsidyConsumerSpend;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -119,7 +118,6 @@ public class Report extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
-	private CheckBox checkBox = new CheckBox();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ReportList reportList = new ReportList();
@@ -184,6 +182,7 @@ public class Report extends TestInfra {
 	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
 	private SalesTimeDetailsByDevice salesTimeDetailsByDevice = new SalesTimeDetailsByDevice();
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
+	private SubsidyConsumerSpend subsidyConsumerSpend = new SubsidyConsumerSpend();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5348,190 +5347,113 @@ public class Report extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> columnName = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		List<String> subsidyGroup = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
 		try {
 			// Login to ADM with Super Credentials
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
 
-			// Select Menu, Menu Item and Location
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Select Location
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 
 			// Verifying the selection of defaults as Top Off for GMA subsidy
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
-			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
-			dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(9), Constants.TEXT);
-			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
-			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(10));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.SHORT_TIME);
+			subsidyConsumerSpend.selectionOfGMASubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(7), requiredData.get(10));
 
-			// Navigate to Admin>Consumer
-			navigationBar.navigateToMenuItem(menu.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
-			foundation.click(ConsumerSearch.CLEAR_SEARCH);
-			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-			dropdown.selectItem(ConsumerSearch.DPD_LOCATION, rstV5DeviceData.get(CNV5Device.LOCATION), Constants.TEXT);
-			foundation.click(ConsumerSearch.BTN_GO);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-			List<WebElement> rowValues = Foundation.getDriver().findElements(ConsumerSearch.SCANCODE);
-			String scanCode = rowValues.get(11).getText();
-			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
-			foundation.threadWait(Constants.THREE_SECOND);
-			String consumerID = Foundation.getDriver().getCurrentUrl();
-			consumerID = consumerID.substring(42);
+			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
+			List<String> details = subsidyConsumerSpend.readConsumerDetails(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
 			login.logout();
 			browser.close();
 
-			// Launch V5 Device
+			// Launch V5 Device to do Transaction on Subsidy Balance
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(product.get(0));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			String price = foundation.getText(ProductSearch.PRODUCT_PRICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.click(Payments.EMAIL_ACCOUNT);
-			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_LOGIN_TXT);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.THREE_SECOND);
-			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
-			String date = String.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
+			List<String> v5Details = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0),
+					orderPageData.get(0), rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Navigate to ADM
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Navigate to Admin Transaction to Read Transaction ID
+			String transID = subsidyConsumerSpend.readTransactionID(menu.get(2),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION),
+					v5Details.get(1));
+
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNV5Device.LOCATION),
+					transID);
+
+			// Read the Table Data from UI and Validate
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), currentDate);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), v5Details.get(0));
+
+			// Verifying the selection of defaults as Roll Over for GMA subsidy
+			navigationBar.navigateToMenuItem(menu.get(3));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.selectionOfGMASubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(8), requiredData.get(11));
+			login.logout();
+			browser.close();
+
+			// Again Launch V5 Device to do another Transaction with Subsidy Balance
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			v5Details = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(1), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			foundation.threadWait(Constants.THREE_SECOND);
 			browser.close();
 
 			// Navigate to ADM
-			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
 
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Read Transaction ID
+			transID = subsidyConsumerSpend.readTransactionID(menu.get(2),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION),
+					v5Details.get(1));
 
-			navigationBar.navigateToMenuItem(menu.get(2));
-			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocationForTransactionSearch(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.click(SoldDetails.FIND_TRANSACTION);
-			foundation.waitforElementToBeVisible(SoldDetails.TXT_SEARCH_TRANSACTION, Constants.LONG_TIME);
-			textBox.enterText(SoldDetails.TXT_SEARCH_TRANSACTION, date);
-			foundation.clickEnter();
-			foundation.threadWait(Constants.LONG_TIME);
-			foundation.threadWait(Constants.SHORT_TIME);
-			String txnId = foundation.getText(SoldDetails.TXT_ID_TRANSACTION);
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstReportListData.get(CNV5Device.LOCATION),
+					transID);
 
-			navigationBar.navigateToMenuItem(menu.get(0));
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			foundation.threadWait(3);
-			reportList.selectLocation(rstReportListData.get(CNV5Device.LOCATION));
-			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			String reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
-			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
-			accountAdjustment.checkForDataAvailabilyInResultTable();
 			// Search with Transaction ID and get the data
-			textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, txnId);
-
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-
-			// Verifying the selection of defaults as Roll Over for GMA subsidy
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
-			dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
-			checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-			checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
-			locationSummary.verifyRollOverDateLocation1(currentDate);
-			dropdown.selectItem(LocationSummary.DPD_ROLL_OVER_RECURRENCE, requiredData.get(9), Constants.TEXT);
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(8));
-			textBox.enterText(LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(11));
-			foundation.click(LocationSummary.BTN_SYNC);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.SHORT_TIME);
-			login.logout();
-			browser.close();
-
-			// Launch V5 Device
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(product.get(1));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			price = foundation.getText(ProductSearch.PRODUCT_PRICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.click(Payments.EMAIL_ACCOUNT);
-			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_LOGIN_TXT);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.THREE_SECOND);
-			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
-			date = String.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
-			foundation.threadWait(Constants.THREE_SECOND);
-			browser.close();
-
-			// Navigate to ADM Report
-			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menu.get(0));
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			foundation.threadWait(3);
-			reportList.selectLocation(rstReportListData.get(CNV5Device.LOCATION));
-			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(AccountAdjustment.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			reportName = foundation.getText(AccountAdjustment.LBL_REPORT_NAME);
-			CustomisedAssert.assertTrue(reportName.contains(rstReportListData.get(CNReportList.REPORT_NAME)));
-			accountAdjustment.checkForDataAvailabilyInResultTable();
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), currentDate);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), v5Details.get(0));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
