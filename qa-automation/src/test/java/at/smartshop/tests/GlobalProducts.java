@@ -1012,6 +1012,7 @@ public class GlobalProducts extends TestInfra {
 			// Select Global Product Change for Locations and select two Locations
 			if (!checkBox.isChecked(GlobalProductChange.OPC_CHECK_BOX))
 				checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
+			foundation.waitforElementToBeVisible(GlobalProductChange.DPD_FILTER_BY, 3);
 			dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY, product.get(1), Constants.TEXT);
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_PRODUCT_APPLY);
 			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);

@@ -34,5 +34,4 @@ public class JsonFile {
 		}
 		return jsonObject;
 	}
-
 }

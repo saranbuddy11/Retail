@@ -141,7 +141,7 @@ public class OrgSummary extends Factory {
 				break;
 			}
 		}
-		CustomisedAssert.assertTrue(flag);
+		CustomisedAssert.assertFalse(flag);
 	}
 
 	public void deleteVDIIsAlreadySelected(String VDIProvideName) {
@@ -171,19 +171,20 @@ public class OrgSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
 	}
+
 	/**
 	 * Enable Tax2 column in super->org summary
 	 * 
 	 * @param location
 	 * @param product
 	 */
-	public void enableTax2Column(String menu,String data) {
-		
-			navigationBar.navigateToMenuItem(menu);
-			foundation.scrollIntoViewElement(OrgSummary.DPD_TAX_METHOD);
-			dropDown.selectItem(OrgSummary.DPD_TAX_METHOD,data, Constants.TEXT);
-			foundation.click(OrgSummary.BTN_SAVE);
-			foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-}
+	public void enableTax2Column(String menu, String data) {
+
+		navigationBar.navigateToMenuItem(menu);
+		foundation.scrollIntoViewElement(OrgSummary.DPD_TAX_METHOD);
+		dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, data, Constants.TEXT);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
 
 }

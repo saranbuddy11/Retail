@@ -51,6 +51,7 @@ public class LocationSummary extends Factory {
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
+	public static final By BTN_CLOSE_PRODUCT = By.id("previewcancel");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
