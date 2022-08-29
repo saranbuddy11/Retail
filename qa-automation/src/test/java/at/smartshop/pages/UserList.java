@@ -92,7 +92,11 @@ public class UserList  extends Factory {
 	public static final By SELECT_DATE = By.xpath("//td[@class='day  active']");
 	public static final By DELETE_ROLE = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
-	public static final By DRP_SELECT_ROLE = By.xpath("//a[@id='standarduserBtn']");
+
+	public static final By DRP_SELECT_ROLE= By.xpath("//a[@id='standarduserBtn']");
+	public static final By SELECTED_LOC= By.xpath("(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
+
+	
 
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
@@ -177,13 +181,32 @@ public class UserList  extends Factory {
 		foundation.click(UserList.DISABLE_USER);
 		foundation.click(UserList.CONFIRM_DISABLE);
 		foundation.waitforElement(ENABLE_USER, Constants.EXTRA_LONG_TIME);
-	}
 
-	public void searchAndSelectUser(String userFirstName) {
-		textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
-		foundation.threadWait(3);
+    }
+    
+    public void searchAndSelectUser(String userFirstName) {
+    	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
 		foundation.click(UserList.TBL_DATA);
-	}
+    }
+    /**
+	 * Select location in User and Roles
+	 * @param location
+	 *
+	 */
+    public void selectLocation(String location) {
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+		foundation.click(UserList.LNK_LOCATION_REMOVE_ALL);
+		dropdown.selectItem(UserList.SELECT_LOCATION, location,Constants.TEXT);
+		foundation.getText(UserList.SELECTED_LOC);
+		CustomisedAssert.assertTrue(foundation.getText(UserList.SELECTED_LOC).contains(location));
+		foundation.click(UserList.BTN_UPDATE_USER);
+		
+    }
+      
+
+	
+
+	
 
 	/**
 	 * verify edit user page by clicking on operator
@@ -228,4 +251,5 @@ public class UserList  extends Factory {
 			}
 		
 		}
+
 
