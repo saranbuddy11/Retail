@@ -29,6 +29,7 @@ public class ConsumerSummary extends Factory {
 	//public static final By BTN_ADJUST2=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dd[1]/a");
 	public static final By BTN_SUBSIDY_ADJUST = By.xpath("(//a[@class='adjustBalanceBtn'])[2]");
 	public static final By STRIKE_ADJUST = By.xpath("//a[@balanceid='3b1cb67f9533314380072e373ca2ba02']");
+	public static final By PAYROLL_DEDUCT=By.xpath("//a[@balanceid='c9dd6add3acb48ea84e1c0bc1e189db4']");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
@@ -394,6 +395,21 @@ public class ConsumerSummary extends Factory {
 		foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);
 		foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
-
+	}
+	
+	/**
+	 * verify amount in consumer summary page
+	 * @param bal
+	 */
+	public void verifyAmountInConsumerSummaryAndAdjustBalancePopup(By obj,String bal) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_CONSUMER_SUMMARY));
+		foundation.waitforElementToBeVisible(BTN_ADJUST, 3);
+		foundation.click(obj);
+		foundation.waitforElementToBeVisible(LBL_POPUP_ADJUST_BALANCE, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_POPUP_ADJUST_BALANCE));
+		String text = foundation.getAttributeValue(TXT_ADJUST_BALANCE);
+		CustomisedAssert.assertEquals(text, bal);
+		foundation.waitforElementToBeVisible(BTN_REASON_CANCEL, 3);
+		foundation.click(BTN_REASON_CANCEL);
 	}
 }

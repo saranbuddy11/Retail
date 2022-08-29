@@ -15,6 +15,8 @@ public class ViewRole extends Factory {
 	
 	public static final By LBL_NATIONAL_ACCOUNT_CATEGORIES = By.xpath("//*[@id='dt5']//td[text()='Admin:National Account Categories']");
 	public static final By LBL_NATIONAL_ACCOUNT_LOCKS_RULES = By.xpath("//*[@id='dt5']//td[text()='Admin:National Accounts Locks & Rules']");
+	public static final By LBL_HEADER=By.id("pagetitle");
+	public static final By USER_ASSOCIATE_ROLES=By.id("detail3");
 	
 	public void isAllCheckboxChecked(String text) {
 		List<WebElement> checkboxes=getDriver().findElements(By.xpath("//td[text()='"+text+"']//..//input"));
