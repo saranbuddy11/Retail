@@ -1,5 +1,7 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,13 +48,14 @@ public class InventoryValueSummary extends Factory {
 
 	private static final By TBL_INVENTORY_VALUE_SUMMARY = By.cssSelector("#rptdt");
 	private static final By TBL_INVENTORY_VALUE_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
-	public static final By PRODUCT_SEARCH_BY = By.xpath("//input[@id='search']");
+	public static final By PRODUCT_SEARCH_BY = By.xpath("//input[@id='search']");	    
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
+	private int quantityOnHand;
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -186,33 +189,47 @@ public class InventoryValueSummary extends Factory {
 		return reportsData;
 	}
 
-	public void calculateTotal(String columnName, String price, String cost) {
+	/**
+	 * This method is to calculate Quantity On Hand
+	 * @param columnName
+	 */
+	public void quantityOnHand(String columnName) {
 		try {
-			for (int iter = 0; iter < reportsData.size(); iter++) {
-				String initialAmount = intialData.get(iter).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
-						Constants.EMPTY_STRING);
-				double updatedAmount = Double
-						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						* Double.parseDouble(cost.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						+ Double.parseDouble(initialAmount);
-				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+			String saleCount = intialData.get(0).get(columnName);
+			quantityOnHand = Integer.parseInt(saleCount) - 1;
+			intialData.get(0).put(columnName, String.valueOf(quantityOnHand));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This method is to calculate Total cost and Total Price.
+	 * @param columnName
+	 * @param value
+	 */
+	public void calculateTotal(String columnName, String value) {
+		try {
+			double updatedAmount = Double.parseDouble(value.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+					* quantityOnHand;
+			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			if (updatedAmount < 0) {
+				    DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance();
+			        df.applyPattern(Constants.NUMBER_FORMATE_PATTERN_WITH_DOLLER);
+			        String finalValue = df.format(updatedAmount);
+				intialData.get(0).put(columnName, finalValue);
+			} else {
+				intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
-	public void quantityOnHand(String columnName) {
-		try {
-			String saleCount = intialData.get(0).get(columnName);
-			int updatedCount = Integer.parseInt(saleCount) - 1;
-			intialData.get(0).put(columnName, String.valueOf(updatedCount));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
+	/**
+	 * This method is to calculate Sales count.
+	 * @param columnName
+	 */
 	public void saleCount(String columnName) {
 		try {
 			String saleCount = intialData.get(0).get(columnName);
@@ -223,6 +240,11 @@ public class InventoryValueSummary extends Factory {
 		}
 	}
 
+	/**
+	 * This method is for updating data.
+	 * @param columnName
+	 * @param values
+	 */
 	public void updateData(String columnName, String values) {
 		try {
 			intialData.get(0).put(columnName, values);
@@ -232,23 +254,26 @@ public class InventoryValueSummary extends Factory {
 		}
 	}
 
+	/**
+	 * This method is for Verifying the Report Data.
+	 */
 	public void verifyReportData() {
 		try {
-			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
 			System.out.println("reportsData : " + reportsData);
 			System.out.println("intialData : " + intialData);
-			for (int counter = 0; counter < count; counter++) {
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
-				}
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
+						.contains(intialData.get(0).get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
+	/**
+	 * This method is for Verifying the Header Data.
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));

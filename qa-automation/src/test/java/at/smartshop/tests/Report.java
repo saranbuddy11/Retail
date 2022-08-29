@@ -5315,7 +5315,7 @@ public class Report extends TestInfra {
 	/**
 	 * This Method is for Inventory Value Summary Report Data Validation 198531
 	 * 
-	 * @author ravindhara Date: -08-2022
+	 * @author ravindhara Date: 29-08-2022
 	 */
 	@Test(description = "203690-Verify the Data Validation of Inventory Value Summary Report")
 	public void inventoryValueSummaryReportDataValidation() {
@@ -5373,14 +5373,14 @@ public class Report extends TestInfra {
 			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(1), userKey);
 			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(2), scanCode);
 			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(3), productName);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(4), cat1);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(5), cat2);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(6), cat3);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(4), cat1);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(5), cat2);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(6), cat3);
 			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(7), cost);
 			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(8), productPrice);
 			inventoryValueSummary.quantityOnHand(inventoryValueSummary.getTableHeaders().get(9));
-			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(12), productPrice, cost);
-			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(13), productPrice, cost);
+			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(12), cost);
+			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(13), productPrice);
 			inventoryValueSummary.saleCount(inventoryValueSummary.getTableHeaders().get(14));
 			inventoryValueSummary.saleCount(inventoryValueSummary.getTableHeaders().get(15));
 			
