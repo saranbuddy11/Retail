@@ -32,6 +32,8 @@ public class LocationList extends Factory {
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By LBL_LOCATION_LIST = By.xpath("//li[text()='Location List']");
+	public static final By TXT_SPINNER_SUCCESS_MSG = By
+			.xpath("//div[@class='humane humane-libnotify-success humane-animate']//li");
 
 	/**
 	 * Selecting the Location Name
@@ -56,9 +58,10 @@ public class LocationList extends Factory {
 	public By objDailyRevenue(String locationName) {
 		return By.xpath("//a[text()='" + locationName + "']//..//..//*[@aria-describedby='dataGrid_table_revenue']");
 	}
+
 	public By selectRecord(String data) {
-		return By.xpath("//div[@id='dataGrid_table_editor_list']//span[text()='"+ data + "']");
-				
+		return By.xpath("//div[@id='dataGrid_table_editor_list']//span[text()='" + data + "']");
+
 	}
 
 	public void syncDevice(String menu, String location) {

@@ -59,6 +59,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
 	public static final By ERROR_RECIPIENTEMAIL = By.id("recipientemail-error");
 	public static final By TXT_SEARCH = By.id("filterType");
+	public static final By CONSUMER_LOCATOR=By.xpath("//a[text()='Consumer Engagement']");
 	public static final By TBL_GRID = By.id("bylocationGrid");
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
 	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT = By.xpath("//table[@id='bylocationGrid']/thead");
