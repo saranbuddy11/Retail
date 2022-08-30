@@ -182,7 +182,6 @@ public class InventoryValueSummary extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -248,7 +247,6 @@ public class InventoryValueSummary extends Factory {
 	public void updateData(String columnName, String values) {
 		try {
 			intialData.get(0).put(columnName, values);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -260,8 +258,6 @@ public class InventoryValueSummary extends Factory {
 	public void verifyReportData() {
 		try {
 			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println("reportsData : " + reportsData);
-			System.out.println("intialData : " + intialData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 						.contains(intialData.get(0).get(tableHeaders.get(iter))));
@@ -278,8 +274,6 @@ public class InventoryValueSummary extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 			foundation.threadWait(Constants.ONE_SECOND);
-			System.out.println("tableHeaders : " + tableHeaders);
-			System.out.println("columnName : " + columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
