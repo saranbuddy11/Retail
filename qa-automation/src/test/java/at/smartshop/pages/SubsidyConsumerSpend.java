@@ -287,10 +287,10 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(msg)));
 		String date = String
 				.valueOf(dateAndTime.getDateAndTimeWithMinutesAdjusted("MM/dd/yy hh:mm aa", "America/Chicago", "-2"));
 		System.out.println(date);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(msg)));
 		v5Details.add(date);
 		foundation.threadWait(Constants.THREE_SECOND);
 		return v5Details;
