@@ -16,7 +16,9 @@ import at.smartshop.keys.Constants;
 public class OrgSummary extends Factory {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
+
 	private NavigationBar navigationBar = new NavigationBar();
+
 	private Dropdown dropDown = new Dropdown();
 
 	public static final By DPD_VDI_PROVDIER = By.xpath("//select [@id='vdiprovider-added']");
