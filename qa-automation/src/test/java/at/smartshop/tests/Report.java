@@ -187,8 +187,6 @@ public class Report extends TestInfra {
 	private UnpaidOrder unpaidOrder = new UnpaidOrder();
 	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
 	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
-	
-	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5376,7 +5374,7 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Inventory Value Summary Report Data Validation 198531
+	 * This Method is for Inventory Value Summary Report Data Validation
 	 * 
 	 * @author ravindhara Date: 29-08-2022
 	 */
@@ -5458,11 +5456,13 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * 186633
+	 * This Method is for Entry Summary Report Report Data Validation
+	 * 
+	 * @author ravindhara Date: -08-2022
 	 */
-	@Test(description = "203698-This test validates Entry Summary Report Data Calculation")
+	@Test(description = "203698-This test validates Entry Summary Report Data Calculation 186633")
 	public void entrySummaryReportDataValidation() {
 		try {
 			final String CASE_NUM = "203698";
@@ -5504,12 +5504,13 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			
-			String inventoryValue = locationSummary.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			// Updating the Inventory of the product
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), entrySummaryReport.incrementedInventoryValue(inventoryValue),
-					requiredData.get(2));
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					entrySummaryReport.incrementedInventoryValue(inventoryValue), requiredData.get(2));
 
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -5535,7 +5536,7 @@ public class Report extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-	}
+		}
 	}
 
 }
