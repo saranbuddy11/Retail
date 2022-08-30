@@ -21,15 +21,17 @@ import at.smartshop.tests.TestInfra;
 public class UnpaidOrder extends Factory {
 	private Foundation foundation = new Foundation();
 
-	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	public static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-	
+
 	private static final By TBL_UNPAID_OREDR = By.id("rptdt");
 	private static final By TBL_UNPAID_OREDR_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
-	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
-	
+	public static final By DATA_EXISTING_DATE = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 
@@ -61,7 +63,7 @@ public class UnpaidOrder extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This method is to get the Table Records Data from UI
 	 */
@@ -85,22 +87,19 @@ public class UnpaidOrder extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	/**
-     * This method is to validate the Report Table Headers
-     * @param columnNames
-     */
+	 * This method is to validate the Report Table Headers
+	 * 
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
-			
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("tableHeaders1 :"+ tableHeaders);
-			System.out.println("columnName1 : "+ columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -111,16 +110,14 @@ public class UnpaidOrder extends Factory {
 
 	/**
 	 * This method is to validate the Report Data
+	 * 
 	 * @param expextedData
 	 */
 	public void verifyReportData(String expectedData) {
-		try {			
+		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			System.out.println("reportsData1 :"+ reportsData);
-			System.out.println("expextedDataList1 : "+ expectedData);
-				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-							.contains(expectedDataList.get(iter)));
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

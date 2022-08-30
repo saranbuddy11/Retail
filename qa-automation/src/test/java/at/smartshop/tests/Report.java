@@ -5336,9 +5336,6 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			
-			System.out.println( "requiredData : "+ requiredData);
-			System.out.println( "reportName : "+ reportName);
 
 			navigationBar.selectOrganization(requiredData.get(0));
 			// navigate to Reports
