@@ -51,6 +51,7 @@ public class LocationSummary extends Factory {
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
+	public static final By BTN_CLOSE_PRODUCT = By.id("previewcancel");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
@@ -2169,11 +2170,11 @@ public class LocationSummary extends Factory {
 	 * @param product
 	 */
 	public void verifySelectProduct(String product) {
-		foundation.threadWait(5);
 		foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS,5);
 		foundation.click(LocationSummary.TAB_PRODUCTS);	 
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,5);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
+		//foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
 		
@@ -2194,9 +2195,9 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
-	    foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE,3);
+	    foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE,5);
 	    foundation.getText(LocationSummary.COL_PRICE);
-		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
+	    		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
 		foundation.threadWait(Constants.SHORT_TIME);
 	   
 	}
@@ -2307,6 +2308,18 @@ public class LocationSummary extends Factory {
 		value = dropDown.getSelectedItem(DPD_GMA_SUBSIDY);
 		CustomisedAssert.assertEquals(value, expected.get(0));
 		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
+	}
+	/**
+	 * Manage Tax2 Column
+	 * 
+	 */
+	public void selectManageColumnTax2() {
+	foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    foundation.scrollIntoViewElement(LocationSummary.BTN_TAX2);
+	foundation.waitforElementToBeVisible(LocationSummary.BTN_TAX2, Constants.MEDIUM_TIME);
+	foundation.click(LocationSummary.BTN_TAX2);
+	foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+	foundation.click(LocationSummary.BTN_APPLY);
 	}
 
 	
