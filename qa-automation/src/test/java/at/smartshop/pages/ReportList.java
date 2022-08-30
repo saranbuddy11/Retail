@@ -32,13 +32,13 @@ public class ReportList extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private Excel excel = new Excel();
 
-	private static final By TXT_SEARCH = By.id("Search");
+	public  static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
 			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
-	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
+	public static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 	private static final By DPD_LOCATIONS = By.xpath("//input[@placeholder='Select...']");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	private static final By DPD_CLIENT_AND_NATIONALACCOUNT_LIST = By
@@ -77,7 +77,8 @@ public class ReportList extends Factory {
 	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
 	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
-
+	
+	
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
