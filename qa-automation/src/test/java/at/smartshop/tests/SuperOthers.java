@@ -231,6 +231,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(ConsumerRolesList.LENGTH, device);
 			dropDown.selectItem(ConsumerRolesList.SELECT_ORG, dbData.get(0), Constants.TEXT);
 			foundation.waitforElement(ConsumerRolesList.SELECT_LOCATION, Constants.THREE_SECOND);
+			foundation.threadWait(3);
 			dropDown.selectItem(ConsumerRolesList.SELECT_LOCATION, dbData.get(1), Constants.TEXT);
 
 			// Click on Save Button
