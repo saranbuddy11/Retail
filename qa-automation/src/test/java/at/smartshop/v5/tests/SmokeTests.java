@@ -260,7 +260,7 @@ public class SmokeTests extends TestInfra {
 			locationSummary.addProduct(scanCode);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.refreshPage();
-            locationSummary.addEditProduct(tab, productName, updatedProductName, menuItem);
+            locationSummary.addEditProduct(tab, scanCode, updatedProductName, menuItem);
             
             List<String> language = Arrays
     				.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
@@ -305,7 +305,7 @@ public class SmokeTests extends TestInfra {
 			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, scanCode);
 			foundation.WaitForAjax(10000);
-			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(updatedProductName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_REMOVE);
