@@ -237,7 +237,7 @@ public class SmokeTests extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String tab = requiredData.get(0);
 		String scanCode = requiredData.get(1);
-		String productName = requiredData.get(2);
+		String productName = requiredData.get(1);
 		String updatedProductName = requiredData.get(3);
 		String productHeader = requiredData.get(4);
 		String productPrice = requiredData.get(5);

@@ -16,7 +16,11 @@ public class EntrySummaryReport {
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-
+    public static final By SELECT_REPORT=By.xpath("//div[text()='Entry Summary Report']");
+  
+  
+    	
+    
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
