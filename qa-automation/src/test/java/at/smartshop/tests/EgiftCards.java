@@ -16,6 +16,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
@@ -45,6 +46,7 @@ public class EgiftCards extends TestInfra {
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
 	private CheckBox checkbox = new CheckBox();
 	private DeviceList devicelist = new DeviceList();
+	private Dropdown dropDown = new Dropdown();
 	private Excel excel = new Excel();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1186,6 +1188,10 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrosean
+	 * Date:29:08:2022
+	 */
 	@Test(description = "203696- ADM< Egift card< Create Gift card when selected the location as 'All'")
 
 	public void verifyCreateGiftCardWhenSelectedLocationAsALL() {
@@ -1219,6 +1225,38 @@ public class EgiftCards extends TestInfra {
 
 			// Select All location in location of recipient
 			consumerEngagement.verifyLocationOfRecipientInLocationTab(Datas.get(2));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean
+	 * Date:01-09-2022
+	 */
+	@Test(description = "203719-ADM > Consumer Engagement > Verify Consumer Account Dropdown")
+	public void VerifyConsumerAccountDropdown() {
+		final String CASE_NUM = "203719";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		try {
+			// Login to ADM with Super User, Select Org,
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+
+			// Click on gift card button and verify Consumer Account dropDown
+			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.CONSUMER_ACCOUNT_DROPDOWN));
+			String item = dropDown.getSelectedItem(ConsumerEngagement.CONSUMER_ACCOUNT);
+			CustomisedAssert.assertEquals(item, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

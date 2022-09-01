@@ -74,6 +74,7 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
+	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService = new SpecialService();
 	private Strings strings = new Strings();
 	private DeviceCreate deviceCreate = new DeviceCreate();
@@ -1543,7 +1544,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), mandatory_Name_Error);
 			textBox.enterText(PrintGroupLists.TXT_NAME, wrong_Printer_Name);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(PrintGroupLists.BTN_SAVE);			
+			foundation.click(PrintGroupLists.BTN_SAVE);
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PrintGroupLists.BTN_CANCEL);
@@ -2844,7 +2845,7 @@ public class SuperOthers extends TestInfra {
 		List<String> record = Arrays
 				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
 		List<String> updatedData = Arrays
-				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));		
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
 
 		try {
 			browser.navigateURL(
@@ -2873,15 +2874,42 @@ public class SuperOthers extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			//resetting the data
+		} finally {
+			// resetting the data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			dropDown.selectItem(Announcement.DRP_COLOR, updatedData.get(0), Constants.TEXT);
 			dropDown.selectItem(Announcement.DRP_FONT_SIZE, updatedData.get(1), Constants.TEXT);
 			textBox.enterText(Announcement.TXT_MSG, updatedData.get(2));
 			foundation.click(Announcement.BTN_SAVE);
 		}
-		
+	}
+
+	/**
+	 * @author afrosean
+	 */
+	@Test(description = "203718-ADM>Super>Consumer Roles >creat new consumer >Verify error message in Length field enter combination of both String & integer value")
+	public void verifyLengthFieldInConsumerRoles() {
+		final String CASE_NUM = "203718";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// launch browser and select menu and menu item
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerRolesList.BTN_CREATE));
+
+			// click on create new and verify length error message in length
+			consumerRolesList.verifyErrorMessage(datas.get(0), datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
