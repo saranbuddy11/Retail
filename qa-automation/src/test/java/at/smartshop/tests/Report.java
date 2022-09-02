@@ -4983,7 +4983,7 @@ public class Report extends TestInfra {
 	 * @author KarthikR
 	 * @date: 05-08-2022
 	 */
-	@Test(description = "202033 - Cash Flow Employee Device Report data validation")
+	@Test(enabled = false, description = "202033 - Cash Flow Employee Device Report data validation")
 	public void CashFlowEmployeeDeviceReportDataValidation() {
 		final String CASE_NUM = "202033";
 

@@ -3949,8 +3949,7 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			cashFlowEmployeeDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlowEmployeeDevice.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
