@@ -65,6 +65,7 @@ public class EntrySummaryReport extends Factory {
 	public String incrementedInventoryValue(String inventoryValue) {
 		int value = Integer.parseInt(inventoryValue) + 1;
 		String updatedValue=String.valueOf(value);
+		System.out.println("value : "+ value);
 		return updatedValue; 
 	}
 
@@ -103,14 +104,16 @@ public class EntrySummaryReport extends Factory {
      */
 	public void verifyReportHeaders(String columnNames) {
 		try {
-			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_TILD));
+			System.out.println("tableHeaders : "+tableHeaders);
+			System.out.println("columnName : "+columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}
+	} 
 
 	/**
 	 * This method is to validate the Report Data
@@ -119,9 +122,11 @@ public class EntrySummaryReport extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {			
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
+			System.out.println("reportsData : "+reportsData);
+			System.out.println("expectedDataList : "+expectedDataList);
+				for (int iter = 1; iter < tableHeaders.size(); iter++) {
 					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-							.contains(expectedDataList.get(iter)));
+							.contains(expectedDataList.get(iter-1)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

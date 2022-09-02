@@ -197,17 +197,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -5480,8 +5480,7 @@ public class Report extends TestInfra {
 
 			// Reading test data from DataBase
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String reason = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
@@ -5495,22 +5494,25 @@ public class Report extends TestInfra {
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 
-			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
-					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
-					requiredData.get(2));
+//			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+//					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+//			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
+//					requiredData.get(2));
+//
+//			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
-
+			
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			String inventoryValue = locationSummary
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			// Updating the Inventory of the product
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					entrySummaryReport.incrementedInventoryValue(inventoryValue), requiredData.get(2));
+					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
 
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
