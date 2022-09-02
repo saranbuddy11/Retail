@@ -164,7 +164,7 @@ public class ConsumerFeedbackSurvey extends Factory {
 			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmail);
-			foundation.click(AccountLogin.BTN_NEXT);
+			foundation.objectClick(AccountLogin.BTN_NEXT);
 			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterPin(PIN);
