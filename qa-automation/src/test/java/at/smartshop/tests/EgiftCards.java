@@ -1230,6 +1230,46 @@ public class EgiftCards extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author afrosean
+	 * Date:29:08:2022
+	 */
+	@Test(description = "203697-ADM< Egift card< Search Create Gift card in search box")
+
+	public void verifySearchBoxAfterCreatingEgiftCard() {
+		final String CASE_NUM = "203697";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		List<String> Datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		try {
+			// Login to ADM with Super User, Select Organization
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(Datas.get(2), Datas.get(0), expireDate);
+			
+			//search with created gift card and verify
+			foundation.waitforElementToBeVisible(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, 3);
+			textBox.enterText(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, Datas.get(2));
+			String title = foundation.getText(ConsumerEngagement.GIFTCARD_TITLE);
+			CustomisedAssert.assertEquals(title, Datas.get(2));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	/**
 	 * @author afrosean
