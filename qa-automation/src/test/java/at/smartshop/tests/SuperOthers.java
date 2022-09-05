@@ -2889,7 +2889,7 @@ public class SuperOthers extends TestInfra {
 	 * Date:02.09.2022
 	 */
 	@Test(description = "203718-ADM>Super>Consumer Roles >creat new consumer >Verify error message in Length field enter combination of both String & integer value")
-	public void verifyLengthFieldInConsumerRoles() {
+	public void verifyDigitValidationMessageForLengthFieldInConsumerRoles() {
 		final String CASE_NUM = "203718";
 
 		// Reading test data from DataBase

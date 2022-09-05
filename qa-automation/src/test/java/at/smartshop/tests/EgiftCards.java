@@ -1233,11 +1233,11 @@ public class EgiftCards extends TestInfra {
 	
 	/**
 	 * @author afrosean
-	 * Date:29:08:2022
+	 * Date:29-08-2022
 	 */
 	@Test(description = "203697-ADM< Egift card< Search Create Gift card in search box")
 
-	public void verifySearchBoxAfterCreatingEgiftCard() {
+	public void verifyEgiftCardSearchAfterCreatingEgiftCard() {
 		final String CASE_NUM = "203697";
 
 		// Reading test data from database
@@ -1276,7 +1276,7 @@ public class EgiftCards extends TestInfra {
 	 * Date:01-09-2022
 	 */
 	@Test(description = "203719-ADM > Consumer Engagement > Verify Consumer Account Dropdown")
-	public void VerifyConsumerAccountDropdown() {
+	public void VerifyConsumerAccountDropdownDefaultValueIsLocked() {
 		final String CASE_NUM = "203719";
 
 		// Reading test data from database

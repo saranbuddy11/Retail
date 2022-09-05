@@ -744,6 +744,10 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_CLEAR));
 		foundation.click(LOCATION_TAB);
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+	}
+	
+	public void verifyCheckboxInConsumerEngagement() {
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 		foundation.click(CHECKBOX_SELECTALL);
 		foundation.waitforElementToBeVisible(SELECT_RECORDS, Constants.THREE_SECOND);
 		foundation.click(SELECT_RECORDS);

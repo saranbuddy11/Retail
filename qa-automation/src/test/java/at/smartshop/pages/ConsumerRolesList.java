@@ -41,11 +41,11 @@ public class ConsumerRolesList extends Factory{
 	 * @param length
 	 * @param errors
 	 */
-	public void verifyErrorMessage(String length,String errors) {
+	public void verifyErrorMessage(String length,String msg) {
 		foundation.click(ConsumerRolesList.BTN_CREATE);
 		textBox.enterText(ConsumerRolesList.LENGTH, length);
 		foundation.click(ConsumerRolesList.BTN_SUBMIT);
 		String error = foundation.getText(ConsumerRolesList.LENGTH_FIELD_ERROR);
-		CustomisedAssert.assertEquals(error, errors);
+		CustomisedAssert.assertEquals(error, msg);
 	}
 }
