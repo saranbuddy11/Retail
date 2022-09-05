@@ -1618,7 +1618,7 @@ public class GlobalProducts extends TestInfra {
 
 	/**
 	 * @author afrosean Date: 26-07-2022
-	 * @throws AWTException
+	 * 
 	 */
 	@Test(description = "SOS-30208-198580-ADM > Global Product Change > Unable to Update Deposit field"
 			+ "SOS-29690-198581-ADM > Global Product Change > Unable to Update Tax1 or Tax2 Columns")
@@ -1664,7 +1664,7 @@ public class GlobalProducts extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting the data
-			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 5);
+			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.updateDepositeAndTaxField(dropdown.get(7), dropdown.get(8), dropdown.get(9));
 			navigationBar.navigateToMenuItem(menu.get(0));

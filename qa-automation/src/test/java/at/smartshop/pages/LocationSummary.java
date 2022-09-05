@@ -1429,8 +1429,10 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
 		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
-		foundation.WaitForAjax(10000);
+		foundation.threadWait(5);
 		CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
+		foundation.WaitForAjax(10000);
+		//CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
 		foundation.click(PRODUCT_NAME);
 		foundation.waitforElement(BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
 		foundation.click(BTN_EDIT_PRODUCT);

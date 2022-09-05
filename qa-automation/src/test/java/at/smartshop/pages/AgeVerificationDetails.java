@@ -229,7 +229,7 @@ public class AgeVerificationDetails extends Factory {
 		foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
 		foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
 		foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, text)));
 	}
 

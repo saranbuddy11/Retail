@@ -109,7 +109,7 @@ public class V5ReleaseTest extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, requiredData.get(2), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
