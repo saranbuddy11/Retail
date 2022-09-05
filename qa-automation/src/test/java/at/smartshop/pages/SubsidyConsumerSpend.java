@@ -211,7 +211,7 @@ public class SubsidyConsumerSpend extends Factory {
 		dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, subsidy, Constants.TEXT);
 		checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 		locationSummary.verifyTopOffDateAutomationLocation1(date);
 		dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, name);
@@ -239,6 +239,8 @@ public class SubsidyConsumerSpend extends Factory {
 		textBox.enterText(ConsumerSearch.TXT_SEARCH, keyword);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
+		foundation.scrollIntoViewElement(ConsumerSearch.TBL_CONSUMERS);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		List<WebElement> rowValues = Foundation.getDriver().findElements(ConsumerSearch.SCANCODE);
 		String scanCode = rowValues.get(11).getText();
