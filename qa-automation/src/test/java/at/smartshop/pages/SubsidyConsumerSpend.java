@@ -211,7 +211,7 @@ public class SubsidyConsumerSpend extends Factory {
 		dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, subsidy, Constants.TEXT);
 		checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
+		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
 		locationSummary.verifyTopOffDateAutomationLocation1(date);
 		dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, name);
