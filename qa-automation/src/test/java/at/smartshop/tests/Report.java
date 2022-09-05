@@ -1,6 +1,5 @@
 package at.smartshop.tests;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
