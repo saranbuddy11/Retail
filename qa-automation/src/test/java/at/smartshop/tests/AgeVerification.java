@@ -1439,8 +1439,9 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.waitforElementToBeVisible(DeviceSummary.BTN_SAVE, 3);
 			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.LONG_TIME);
 
 			// Navigate to Location to verify the age verification prompt in NO
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
