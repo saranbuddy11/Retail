@@ -55,6 +55,7 @@ public class ConsumerSearch extends Factory {
 	public final static By TXT_SCAN_ID = By.id("scanid");
 	public final static By TXT_FIRST_NAME = By.id("firstname");
 	public final static By TXT_LAST_NAME = By.id("lastname");
+	public final static By BAL_HISTORY_SEARCH = By.id("balanceHistorySearch");
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
@@ -72,6 +73,7 @@ public class ConsumerSearch extends Factory {
 	public static final By BTN_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_EXPORT = By.id("exportBtn");
 	public static final By SCANCODE = By.cssSelector("#consumerdt>tbody>tr>td");
+	public static final By TRANSACTION_ID = By.cssSelector("[aria-describedby='balance-history_transactionId']");
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {

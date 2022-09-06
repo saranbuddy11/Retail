@@ -18,7 +18,6 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
-import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
@@ -46,7 +45,6 @@ public class SubsidyConsumerSpend extends Factory {
 	private LocationSummary locationSummary = new LocationSummary();
 	private NavigationBar navigationBar = new NavigationBar();
 	private Order order = new Order();
-	private DateAndTime dateAndTime = new DateAndTime();
 
 	private static final By REPORT_GRID_FIRST_ROW = By
 			.cssSelector("#subsidy-consumer-report-data > tbody > tr:nth-child(1)");
@@ -115,7 +113,7 @@ public class SubsidyConsumerSpend extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -159,6 +157,7 @@ public class SubsidyConsumerSpend extends Factory {
 		verifyReportName(reportName);
 		checkForDataAvailabilyInResultTable();
 		textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, transID);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -196,7 +195,7 @@ public class SubsidyConsumerSpend extends Factory {
 	}
 
 	/**
-	 * Selection of GMA Subsidy
+	 * Selection of GMA Subsidy TOP-Off
 	 * 
 	 * @param subsidy
 	 * @param date
@@ -204,7 +203,7 @@ public class SubsidyConsumerSpend extends Factory {
 	 * @param name
 	 * @param amount
 	 */
-	public void selectionOfGMASubsidy(String subsidy, String date, String recurrence, String name, String amount) {
+	public void selectionOfTopOffSubsidy(String subsidy, String date, String recurrence, String name, String amount) {
 		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
@@ -213,6 +212,35 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 		locationSummary.verifyTopOffDateAutomationLocation1(date);
+		dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
+		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, name);
+		textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, amount);
+		foundation.click(LocationSummary.BTN_SYNC);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Selection of GMA Subsidy Roll-over
+	 * 
+	 * @param subsidy
+	 * @param date
+	 * @param recurrence
+	 * @param name
+	 * @param amount
+	 */
+	public void selectionOfRollOverSubsidy(String subsidy, String date, String recurrence, String name, String amount) {
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+		dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, subsidy, Constants.TEXT);
+		checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
+		foundation.threadWait(Constants.THREE_SECOND);
+		checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
+		foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+		locationSummary.verifyRollOverDateLocation1(date);
 		dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, name);
 		textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, amount);
@@ -264,9 +292,8 @@ public class SubsidyConsumerSpend extends Factory {
 	 * @return
 	 * @throws ParseException
 	 */
-	public List<String> readPriceFromV5Transaction(String product, String orderPage, String mail, String pin,
-			String msg) throws ParseException {
-		List<String> v5Details = new ArrayList<String>();
+	public String readPriceFromV5Transaction(String product, String orderPage, String mail, String pin, String msg)
+			throws ParseException {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
@@ -274,7 +301,6 @@ public class SubsidyConsumerSpend extends Factory {
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		String price = foundation.getText(ProductSearch.PRODUCT_PRICE);
-		v5Details.add(price);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPage)));
 		foundation.click(Payments.EMAIL_ACCOUNT);
 		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
@@ -289,37 +315,34 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
-		String date = String
-				.valueOf(dateAndTime.getDateAndTimeWithMinutesAdjusted("MM/dd/yy hh:mm aa", "America/Chicago", "-2"));
-		System.out.println(date);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(msg)));
-		v5Details.add(date);
 		foundation.threadWait(Constants.THREE_SECOND);
-		return v5Details;
+		return price;
 	}
 
 	/**
-	 * Read Transaction ID from Admin > Transaction
+	 * Read Transaction ID from Admin > Consumer
 	 * 
 	 * @param menu
-	 * @param dateRange
-	 * @param location
-	 * @param transacDate
 	 * @return
 	 * @throws AWTException
 	 */
-	public String readTransactionID(String menu, String dateRange, String location, String transacDate)
-			throws AWTException {
+	public String readTransactionID(String menu, String keyword, String location) throws AWTException {
 		navigationBar.navigateToMenuItem(menu);
-		reportList.selectDateTransactionSearch(dateRange);
-		reportList.selectLocationForTransactionSearch(location);
-		foundation.click(SoldDetails.FIND_TRANSACTION);
-		foundation.waitforElementToBeVisible(SoldDetails.TXT_SEARCH_TRANSACTION, Constants.LONG_TIME);
-		textBox.enterText(SoldDetails.TXT_SEARCH_TRANSACTION, transacDate);
-		foundation.clickEnter();
-		foundation.threadWait(Constants.LONG_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		foundation.click(ConsumerSearch.CLEAR_SEARCH);
+		textBox.enterText(ConsumerSearch.TXT_SEARCH, keyword);
+		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(ConsumerSearch.BTN_GO);
+		foundation.scrollIntoViewElement(ConsumerSearch.TBL_CONSUMERS);
 		foundation.threadWait(Constants.SHORT_TIME);
-		String txnId = foundation.getText(SoldDetails.TXT_ID_TRANSACTION);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.scrollIntoViewElement(ConsumerSearch.BAL_HISTORY_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
+		List<WebElement> transac = Foundation.getDriver().findElements(ConsumerSearch.TRANSACTION_ID);
+		String txnId = transac.get(0).getText();
 		return txnId;
 	}
 }

@@ -563,7 +563,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "120269-This test validates Member Purchase Details Report Data Calculation")
@@ -884,7 +883,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "142642-This test validates ICE Report Data Calculation")
@@ -1638,7 +1636,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "143268-This test validates Voided Product Report Data Calculation")
@@ -1955,11 +1952,9 @@ public class Report extends TestInfra {
 
 			// verify report data
 			orderTransactionTime.verifyReportData();
-
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
 	}
 
 	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
@@ -5500,7 +5495,7 @@ public class Report extends TestInfra {
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
 
 			// Verifying the selection of defaults as Top Off for GMA subsidy
-			subsidyConsumerSpend.selectionOfGMASubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+			subsidyConsumerSpend.selectionOfTopOffSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
 					requiredData.get(7), requiredData.get(10));
 
 			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
@@ -5512,18 +5507,17 @@ public class Report extends TestInfra {
 			// Launch V5 Device to do Transaction on Subsidy Balance
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			List<String> v5Details = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0),
-					orderPageData.get(0), rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+			String price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
 					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
 
 			// Navigate to ADM
 			subsidyConsumerSpend.loginToADMWithSuperCredentials();
 
-			// Navigate to Admin Transaction to Read Transaction ID
-			String transID = subsidyConsumerSpend.readTransactionID(menu.get(2),
-					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION),
-					v5Details.get(1));
+			// Navigate to Admin Consumer to Read Transaction ID
+			String transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
 
 			// Select Report, Data and Location to run Report
 			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
@@ -5531,7 +5525,7 @@ public class Report extends TestInfra {
 
 			// Read the Table Data from UI and Validate
 			subsidyConsumerSpend.getTblRecordsUI();
-			subsidyConsumerSpend.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
 					rstV5DeviceData.get(CNV5Device.LOCATION));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
@@ -5544,13 +5538,19 @@ public class Report extends TestInfra {
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), currentDate);
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), v5Details.get(0));
+			String dateArray[] = currentDate.split("/");
+			String date = dateArray[0].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/"
+					+ dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/" + dateArray[2];
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
 
 			// Verifying the selection of defaults as Roll Over for GMA subsidy
 			navigationBar.navigateToMenuItem(menu.get(3));
 			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			subsidyConsumerSpend.selectionOfGMASubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+			subsidyConsumerSpend.selectionOfRollOverSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
 					requiredData.get(8), requiredData.get(11));
 			login.logout();
 			browser.close();
@@ -5558,7 +5558,7 @@ public class Report extends TestInfra {
 			// Again Launch V5 Device to do another Transaction with Subsidy Balance
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			v5Details = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(1), orderPageData.get(0),
+			price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(1), orderPageData.get(0),
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
 					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -5568,9 +5568,8 @@ public class Report extends TestInfra {
 			subsidyConsumerSpend.loginToADMWithSuperCredentials();
 
 			// Read Transaction ID
-			transID = subsidyConsumerSpend.readTransactionID(menu.get(2),
-					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION),
-					v5Details.get(1));
+			transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
 
 			// Select Report, Data and Location to run Report
 			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
@@ -5578,7 +5577,7 @@ public class Report extends TestInfra {
 
 			// Search with Transaction ID and get the data
 			subsidyConsumerSpend.getTblRecordsUI();
-			subsidyConsumerSpend.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
 					rstV5DeviceData.get(CNV5Device.LOCATION));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
@@ -5591,8 +5590,11 @@ public class Report extends TestInfra {
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), currentDate);
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), v5Details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
