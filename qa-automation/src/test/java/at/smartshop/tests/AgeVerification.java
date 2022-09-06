@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -1435,8 +1436,10 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollToBottom();
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.DEVICE_BTN);
+			List<WebElement> device = Foundation.getDriver().findElements(LocationSummary.DEVICE_BTN);
+			device.get(0).click();
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
 			foundation.click(DeviceSummary.BTN_SAVE);
@@ -1451,22 +1454,22 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
+			//foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Navigate to Location to verify the age verification prompt in YES
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
+//			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Verify the AgeVerification in location summary and device to ensure it's
 			// Disbaled
@@ -1475,7 +1478,7 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.DEVICE_BTN);
+			device.get(0).click();
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 
 		} catch (Exception exc) {
@@ -1647,7 +1650,7 @@ public class AgeVerification extends TestInfra {
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		try {
@@ -2091,7 +2094,7 @@ public class AgeVerification extends TestInfra {
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String checkOutCurrentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
+		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
 		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
 		String pastDate = dateAndTime.getPastDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
 		try {
