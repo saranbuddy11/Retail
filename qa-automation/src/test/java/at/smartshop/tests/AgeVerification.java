@@ -1435,6 +1435,7 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollToBottom();
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
@@ -1474,6 +1475,8 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
@@ -1648,7 +1651,7 @@ public class AgeVerification extends TestInfra {
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		try {
@@ -2092,7 +2095,7 @@ public class AgeVerification extends TestInfra {
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String checkOutCurrentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
+		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
 		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
 		String pastDate = dateAndTime.getPastDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
 		try {
