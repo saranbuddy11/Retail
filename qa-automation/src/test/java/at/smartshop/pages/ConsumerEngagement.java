@@ -50,6 +50,8 @@ public class ConsumerEngagement extends Factory {
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
 	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
 	public static final By TBL_CONSUMER_ENGAGE = By.id("consumerengageGrid");
+	public static final By NEXT_RECORD=By.xpath("//div[@id='bylocationGrid_pager']/div/div[3]/span");
+	public static final By PREVIOUS_RECORD=By.xpath("//div[@id='bylocationGrid_pager']/div/div[2]/span");
 	public static final By BTN_PRINT_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(2)");
 	public static final By BTN_ISSUE_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(1)");
 	public static final By LBL_PRINT = By.id("titletoprint");
@@ -64,6 +66,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
 	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT = By.xpath("//table[@id='bylocationGrid']/thead");
 	public static final By CHECKBOX_SELECTALL = By.cssSelector("thead>tr>th>span>span.ui-igcheckbox-normal-off");
+	public static final By CHECKBOX_UNSELECTALL = By.cssSelector("thead>tr>th>span>span.ui-igcheckbox-normal-on");
 	public static final By CHECKBOX_GIFTCARD = By.xpath("//input[@class='commonloction']");
 	public static final By RECORDS_CONSUMER_GRID = By.id("bylocationGrid_pager_label");
 	public static final By TXT_ADD_TO_NOTE = By.id("issueaddnote");
@@ -746,7 +749,25 @@ public class ConsumerEngagement extends Factory {
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 	}
 	
+	/**
+	 * verify checkBox in consumer engagement grid
+	 */
 	public void verifyCheckboxInConsumerEngagement() {
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(CHECKBOX_SELECTALL);
+		foundation.waitforElementToBeVisible(NEXT_RECORD, Constants.THREE_SECOND);
+		foundation.click(NEXT_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(checkbox.UnChecked(CHECKBOX_SELECTALL));
+		foundation.click(NEXT_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(checkbox.UnChecked(CHECKBOX_SELECTALL));
+		foundation.waitforElementToBeVisible(PREVIOUS_RECORD, Constants.THREE_SECOND);
+		foundation.click(PREVIOUS_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(PREVIOUS_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(CHECKBOX_UNSELECTALL);
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 		foundation.click(CHECKBOX_SELECTALL);
 		foundation.waitforElementToBeVisible(SELECT_RECORDS, Constants.THREE_SECOND);
