@@ -5465,7 +5465,7 @@ public class Report extends TestInfra {
 	/**
 	 * This Method is for Product Sales Report Data Validation 198531
 	 * 
-	 * @author ravindhara Date: -09-2022
+	 * @author ravindhara Date: 08-09-2022
 	 */
 	@Test(description = "203834-Verify the Data Validation of Sold Item COGS Report")
 	public void soldItemCOGSReportDataValidation() {
@@ -5502,7 +5502,9 @@ public class Report extends TestInfra {
 			// Read the Report the Data
 			soldItemCOGS.getTblRecordsUI();
 			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
+			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
 
+			System.out.println("init"+ soldItemCOGS.getIntialData());
 			// process sales API to generate data
 			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -5518,21 +5520,32 @@ public class Report extends TestInfra {
 			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
 			String cost = rstProductSummaryData.get(CNProductSummary.COST);
 
+			// Updating Table data
 			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(0), locationName);
 			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(1), productName);
 			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(2), scanCode);
-//			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(2), userKey);
 			soldItemCOGS.saleCount(soldItemCOGS.getTableHeaders().get(4));
 			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(5), cost);
 			soldItemCOGS.calculateTotalCOGS(soldItemCOGS.getTableHeaders().get(6), cost);
 			soldItemCOGS.calculateRevenue(soldItemCOGS.getTableHeaders().get(7), productPrice);
 			soldItemCOGS.calculateProfit(soldItemCOGS.getTableHeaders().get(8));
+			
+			// Updating Footer data
+			soldItemCOGS.updateCostPercentOfFooter(soldItemCOGS.getTableHeaders().get(1));
+			soldItemCOGS.calculateIntegerTotalOfFooter(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(5));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(6));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(7));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(8));
 
 			// verify report headers
 			soldItemCOGS.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
-			productSales.verifyReportData();
+			soldItemCOGS.verifyReportData();
+			
+			// verify report total data
+			soldItemCOGS.verifyReportFootertData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

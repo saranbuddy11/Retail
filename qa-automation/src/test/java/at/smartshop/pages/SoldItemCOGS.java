@@ -47,6 +47,8 @@ public class SoldItemCOGS extends Factory {
 	private static final By TBL_SOLD_ITEM_COGS_GRID = By.cssSelector("#rptdt > tbody");
 
 	private List<String> tableHeaders = new ArrayList<>();
+	private Map<String, String> tableFooterData = new LinkedHashMap<>();
+	private Map<String, String> updatedTableFooters = new LinkedHashMap<>();
 	private Map<String, Object> jsonData = new HashMap<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -169,6 +171,7 @@ public class SoldItemCOGS extends Factory {
 			WebElement tableReports = getDriver().findElement(TBL_SOLD_ITEM_COGS);
 			List<WebElement> columnHeaders = tableReports.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+			List<WebElement> footerRow = tableReports.findElements(By.cssSelector("tfoot > tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeaders.add(columnHeader.getText());
 			}
@@ -181,7 +184,14 @@ public class SoldItemCOGS extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			for (WebElement footerRowValue : footerRow) {
+				for (int columnCount = 1; columnCount < tableHeaders.size() + 1; columnCount++) {
+					WebElement column = footerRowValue.findElement(By.cssSelector("th:nth-child(" + columnCount + ")"));
+					tableFooterData.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+			}
 			System.out.println("reportsData : "+ reportsData);
+			System.out.println("tableFooterData : "+ tableFooterData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -261,10 +271,42 @@ public class SoldItemCOGS extends Factory {
 		}
 	}
 	
+	public void updateCostPercentOfFooter(String columnName) {
+		double costPercent = (Double.parseDouble(totalCOGS) / Double.parseDouble(revenue)) * 100.0;
+		costPercent = Math.round(costPercent * 100.0) / 100.0;
+		updatedTableFooters.put(columnName, String.valueOf(costPercent)+Constants.DELIMITER_PERCENTAGE);
+	}
+	
+	public void calculateIntegerTotalOfFooter(String columnName) {
+		int rowCount = reportsData.size();
+		int totalValue = 0;
+		for (int iter = 0; iter < rowCount; iter++) {
+			int value = Integer.parseInt(reportsData.get(iter).get(columnName)
+					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+			totalValue = totalValue + value;
+		}
+		updatedTableFooters.put(columnName, String.valueOf(totalValue));
+	}
+
+	public void calculateDoubleTotalOfFooter(String columnName) {
+		int rowCount = reportsData.size();
+		double totalValue = 0.0;
+		for (int iter = 0; iter < rowCount; iter++) {
+			double value = Double.parseDouble(reportsData.get(iter).get(columnName)
+					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+			totalValue = totalValue + value;
+			totalValue = Math.round(totalValue * 100.0) / 100.0;
+		}
+		updatedTableFooters.put(columnName, String.valueOf(totalValue));
+	}
+	
+	
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println( "reportsData :" + reportsData);
+			System.out.println( "intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -279,9 +321,29 @@ public class SoldItemCOGS extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+			System.out.println( "tableHeaders :" + tableHeaders);
+			System.out.println( "columnName :" + columnName);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+
+	/**
+	 * This Method is for verifying Total Report Data
+	 */
+	public void verifyReportFootertData() {
+		try {
+			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println( "tableFooterData :" + tableFooterData);
+			System.out.println( "updatedTableFooters :" + updatedTableFooters);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				CustomisedAssert.assertTrue(tableFooterData.get(tableHeaders.get(iter))
+						.contains(updatedTableFooters.get(tableHeaders.get(iter))));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -306,5 +368,13 @@ public class SoldItemCOGS extends Factory {
 
 	public List<String> getTableHeaders() {
 		return tableHeaders;
+	}
+
+	public Map<String, String> getTableFooters() {
+		return tableFooterData;
+	}
+
+	public Map<String, String> getUpdatedTableFooters() {
+		return updatedTableFooters;
 	}
 }
