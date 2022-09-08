@@ -16,6 +16,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
@@ -47,6 +48,7 @@ public class EgiftCards extends TestInfra {
 	private CheckBox checkbox = new CheckBox();
 	private UserList userList = new UserList();
 	private DeviceList devicelist = new DeviceList();
+	private Dropdown dropDown = new Dropdown();
 	private Excel excel = new Excel();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1189,54 +1191,76 @@ public class EgiftCards extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author afrosean
+	 * Date:29-08-2022
+	 */
+	@Test(description = "203697-ADM< Egift card< Search Create Gift card in search box")
+
+	public void verifyEgiftCardSearchAfterCreatingEgiftCard() {
+		final String CASE_NUM = "203697";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+		List<String> Datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+		try {
+			// Login to ADM with Super User, Select Organization
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(Datas.get(2), Datas.get(0), expireDate);
+			
+			//search with created gift card and verify
+			foundation.waitforElementToBeVisible(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, 3);
+			textBox.enterText(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, Datas.get(2));
+			String title = foundation.getText(ConsumerEngagement.GIFTCARD_TITLE);
+			CustomisedAssert.assertEquals(title, Datas.get(2));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	/**
-	 * @author afrosean Date:22-08-2022
+	 * @author afrosean
+	 * Date:01-09-2022
 	 */
-	@Test(description = "203568-ADM > Super > User and Roles > Enable Gift Cards")
-	public void enabledEgiftCardInUserAndRoles() {
-		String CASE_NUM = "203568";
+	@Test(description = "203719-ADM > Consumer Engagement > Verify Consumer Account Dropdown")
+	public void VerifyConsumerAccountDropdownDefaultValueIsLocked() {
+		final String CASE_NUM = "203719";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
 		try {
 			// Login to ADM with Super User, Select Org,
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CONSUMER_USER, FilePath.PROPERTY_CONFIG_FILE),
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Navigate to Menu Item and disabled e-gift card
-			navigationBar.navigateToMenuItem(menu.get(0));
-			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			login.logout();
+			// Navigate to Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
 
-			// Login with operator user
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Click on gift card button and verify Consumer Account dropDown
+			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.CONSUMER_ACCOUNT_DROPDOWN));
+			String item = dropDown.getSelectedItem(ConsumerEngagement.CONSUMER_ACCOUNT);
+			CustomisedAssert.assertEquals(item, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
-			// Navigate to Admin and verify consumer engagement is present
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 3);
-			navigationBar.navigateToMenuItem(menu.get(1));	
-			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerEngagement.CONSUMER_LOCATOR));
-			login.logout();
-			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			//enabled egift card
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CONSUMER_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menu.get(0));
-			userList.verifyEnabledEgiftCard(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-			login.logout();
 		}
-
 	}
 }

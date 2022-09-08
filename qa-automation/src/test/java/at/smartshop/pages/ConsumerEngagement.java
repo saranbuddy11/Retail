@@ -50,11 +50,14 @@ public class ConsumerEngagement extends Factory {
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
 	public static final By TBL_HEADERS_EXPIRED_GRID = By.cssSelector("#consumerexpiredGrid >thead > tr > th");
 	public static final By TBL_CONSUMER_ENGAGE = By.id("consumerengageGrid");
+	public static final By NEXT_RECORD=By.xpath("//div[@id='bylocationGrid_pager']/div/div[3]/span");
+	public static final By PREVIOUS_RECORD=By.xpath("//div[@id='bylocationGrid_pager']/div/div[2]/span");
 	public static final By BTN_PRINT_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(2)");
 	public static final By BTN_ISSUE_FIRST_ROW = By.cssSelector("#consumerengageGrid tr:nth-child(1) td:nth-child(1)");
 	public static final By LBL_PRINT = By.id("titletoprint");
 	public static final By LBL_ISSUE = By.id("titletoissue");
 	public static final By INPUT_CARD_PRINT = By.id("cardstoprint");
+	public static final By CONSUMER_ACCOUNT_DROPDOWN=By.xpath("//dt[text()='Consumer Account']");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
 	public static final By ERROR_RECIPIENTEMAIL = By.id("recipientemail-error");
@@ -64,6 +67,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
 	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT = By.xpath("//table[@id='bylocationGrid']/thead");
 	public static final By CHECKBOX_SELECTALL = By.cssSelector("thead>tr>th>span>span.ui-igcheckbox-normal-off");
+	public static final By CHECKBOX_UNSELECTALL = By.cssSelector("thead>tr>th>span>span.ui-igcheckbox-normal-on");
 	public static final By CHECKBOX_GIFTCARD = By.xpath("//input[@class='commonloction']");
 	public static final By RECORDS_CONSUMER_GRID = By.id("bylocationGrid_pager_label");
 	public static final By TXT_ADD_TO_NOTE = By.id("issueaddnote");
@@ -96,6 +100,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By TXT_ADMIN_TAB = By.xpath("//a[text()='Admin']");
 	public static final By TAB_ACTIVE = By.id("activetab");
 	public static final By TAB_EXPIRED = By.id("expiredtab");
+	public static final By SELECT_RECORDS = By.xpath("//a[@tabindex='0']");
 	public static final By TXT_EXPIRED_TITLE = By.className("ui-iggrid-headertext");
 	public static final By BTN_ISSUE = By.cssSelector("td[aria-describedby='consumerengageGrid_Issue']");
 	public static final By TBL_EXPIRED = By.cssSelector("tr[data-id='undefined']");
@@ -683,6 +688,7 @@ public class ConsumerEngagement extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.refreshPage();
 		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		foundation.waitforElementToBeVisible(ISSUEBY, Constants.SHORT_TIME);
 		String text = foundation.getText(ISSUEBY);
@@ -727,5 +733,53 @@ public class ConsumerEngagement extends Factory {
 		WebElement Wb = getDriver().findElement(objTextbox(id));
 		String CLbox = Wb.getAttribute("value");
 		CustomisedAssert.assertTrue(CLbox.isEmpty());
+
+	}
+
+	/**
+	 * verify location of recipient in location tab
+	 * 
+	 * @param location
+	 */
+	public void verifyLocationOfRecipientInLocationTab(String location) {
+		foundation.waitforElementToBeVisible(LOCATION_OF_RECIPIENTS, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LOCATION));
+		foundation.click(DPD_LOCATION);
+		textBox.enterText(TXT_LOCATION_ENGAGEMENT, location);
+		foundation.click(objSearchLocation(location));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_CLEAR));
+		foundation.click(LOCATION_TAB);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+	}
+	
+	/**
+	 * verify checkBox in consumer engagement grid
+	 */
+	public void verifyCheckboxInConsumerEngagement() {
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(CHECKBOX_SELECTALL);
+		foundation.waitforElementToBeVisible(NEXT_RECORD, Constants.THREE_SECOND);
+		foundation.click(NEXT_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(checkbox.UnChecked(CHECKBOX_SELECTALL));
+		foundation.click(NEXT_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(checkbox.UnChecked(CHECKBOX_SELECTALL));
+		foundation.waitforElementToBeVisible(PREVIOUS_RECORD, Constants.THREE_SECOND);
+		foundation.click(PREVIOUS_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(PREVIOUS_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(CHECKBOX_UNSELECTALL);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
+		foundation.click(CHECKBOX_SELECTALL);
+		foundation.waitforElementToBeVisible(SELECT_RECORDS, Constants.THREE_SECOND);
+		foundation.click(SELECT_RECORDS);
+		foundation.waitforElementToBeVisible(BTN_EMAIL, Constants.THREE_SECOND);
+		foundation.click(BTN_EMAIL);
+		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
+		foundation.refreshPage();
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ISSUEBY));
 	}
 }
