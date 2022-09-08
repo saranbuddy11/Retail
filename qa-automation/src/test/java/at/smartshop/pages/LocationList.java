@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
@@ -19,6 +20,7 @@ public class LocationList extends Factory {
 
 	private Foundation foundation = new Foundation();
 	public Browser browser = new Browser();
+	private Dropdown dropDown = new Dropdown();
 	public Login login = new Login();
 	private TextBox textBox = new TextBox();
 	private NavigationBar navigationBar = new NavigationBar();
@@ -29,9 +31,18 @@ public class LocationList extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By TXT_RECORD_UPDATE_MSG = By.xpath("//div[@class='humane ']");
 	public static final By TXT_SPINNER_ERROR_MSG = By.xpath("//div[@class='humane humane-libnotify-error']");
+	public static final By LOCATION_CREATE_LBL = By.id("Location Create");
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By LBL_LOCATION_LIST = By.xpath("//li[text()='Location List']");
+	public static final By TXT_NAME = By.id("name");
+	public static final By TIME_ZONE = By.id("timezone");
+	public static final By TYPE_ID = By.id("type-id");
+	public static final By SAVE_BTN = By.id("saveBtn");
+	public static final By POP_UP=By.xpath("//div[@class='modal-header']/h5");
+	public static final By POPUP_SAVE=By.id("confirmDisableId");
+	public static final By DISABLED=By.id("isdisabled");
+	public static final By DAILY_TRANS=By.id("dataGrid_table_transactions");
 	public static final By TXT_SPINNER_SUCCESS_MSG = By
 			.xpath("//div[@class='humane humane-libnotify-success humane-animate']//li");
 
@@ -134,5 +145,43 @@ public class LocationList extends Factory {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.ONE_SECOND);
 		selectLocationName(location);
+	}
+
+	/**
+	 * create location
+	 * 
+	 * @param name
+	 */
+	public void createLocation(String name, String time, String type) {
+		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, 5);
+		foundation.click(BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_CREATE_LBL));
+		textBox.enterText(TXT_NAME, name);
+		foundation.waitforElementToBeVisible(TIME_ZONE, 3);
+		dropDown.selectItem(TIME_ZONE, time, Constants.TEXT);
+		foundation.waitforElementToBeVisible(TYPE_ID, 3);
+		dropDown.selectItem(TYPE_ID, type, Constants.TEXT);
+		foundation.click(SAVE_BTN);
+		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, 5);
+	}
+	
+	/**
+	 * verify daily trans and disable location
+	 * @param locationName
+	 * @param dropdown
+	 */
+	public void verifyDailyTransInLocationList(String locationName,String dropdown) {
+		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
+		textBox.enterText(TXT_FILTER, locationName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DAILY_TRANS));
+		foundation.click(By.xpath("//a[text()='" + locationName + "']"));
+		foundation.waitforElementToBeVisible(DISABLED, 5);
+		dropDown.selectItem(DISABLED, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(SAVE_BTN, 5);
+		foundation.click(SAVE_BTN);
+		foundation.waitforElementToBeVisible(POP_UP, 5);
+		foundation.click(POPUP_SAVE);
+		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, 5);
 	}
 }
