@@ -344,19 +344,5 @@ public class GlobalProduct extends Factory {
 	}
 
 	
-	foundation.click(GlobalProduct.BTN_CREATE);
-	foundation.isDisplayed(GlobalProduct.LBL_PRODUCT_CREATE);
-	textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, name);
-	textBox.enterText(GlobalProduct.TXT_PRICE,price);
-	textBox.enterText(GlobalProduct.TXT_SCAN_CODE,randomChr);
-	dropDown.selectItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER, value,Constants.TEXT);
-	foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND,3);
-	foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
-	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN,5);
-	foundation.click(GlobalProduct.POPUP_DROPDOWN);
-	foundation.click(selectLocationForProduct(location));
-	foundation.click(GlobalProduct.POPUP_DROPDOWN);
-	foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE,3);
-	foundation.click(GlobalProduct.LBL_SAVE_DONE);
-	}
+
 }

@@ -147,8 +147,6 @@ public class GlobalProductChange extends Factory {
 
 	public static final By TABLE_PRODUCT=By.xpath("//tbody//tr[@class='odd']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
-	public static final By TXT_UPC=By.id("single-num");
-
     public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
     public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
 
