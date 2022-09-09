@@ -868,6 +868,15 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
 
+	public String getInventoryValue(String scancode) {
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
+		String inventoryValue = foundation.getText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		return inventoryValue;
+	}
+	
+	
 	/**
 	 * Return By Object for Upload Status
 	 * 
@@ -2182,7 +2191,6 @@ public class LocationSummary extends Factory {
 		// foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, 5);
-
 	}
 
 	/**
