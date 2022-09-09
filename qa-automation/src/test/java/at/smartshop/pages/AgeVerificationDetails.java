@@ -127,7 +127,7 @@ public class AgeVerificationDetails extends Factory {
 	}
 
 	public void createAgeVerificationPin(String location, List<String> datas) {
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
 		dropDown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		textBox.enterText(INPUT_MAIL, datas.get(3));
 		textBox.enterText(INPUT_FNAME, datas.get(4));
@@ -229,7 +229,7 @@ public class AgeVerificationDetails extends Factory {
 		foundation.click(AgeVerificationDetails.TXT_DAILY_USES);
 		foundation.click(AgeVerificationDetails.BTN_CREATE_PIN);
 		foundation.objectClick(AgeVerificationDetails.BTN_CREATE_PIN);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.ONE_SECOND);
+		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objExpirePinConfirmation(location, text)));
 	}
 
