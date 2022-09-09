@@ -5460,7 +5460,7 @@ public class Report extends TestInfra {
 	/**
 	 * This Method is for Entry Summary Report Report Data Validation
 	 * 
-	 * @author ravindhara Date: -08-2022
+	 * @author ravindhara Date: 02-09-2022
 	 */
 	@Test(description = "203698-This test validates Entry Summary Report Data Calculation 186633")
 	public void entrySummaryReportDataValidation() {
@@ -5493,13 +5493,6 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-
-//			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
-//					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-//			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
-//					requiredData.get(2));
-//
-//			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 			
