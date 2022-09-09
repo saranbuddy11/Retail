@@ -144,8 +144,9 @@ public class GlobalProductChange extends Factory {
 	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
 	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
 	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
-
-
+	public static final By TABLE_PRODUCT=By.xpath("//tbody//tr[@class='odd']");
+	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
+	public static final By TXT_UPC=By.id("single-num");
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
 	}
@@ -503,4 +504,48 @@ public class GlobalProductChange extends Factory {
 	textBox.enterText(GlobalProductChange.TXT_TAX2, product);
 	
 	}
+	/**
+	 * verify Min, Max have checkmarks for  values
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public void verifyCheckmarksInGPC(String min,String max) {
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
+	foundation.click(GlobalProductChange.TXT_MIN);
+	textBox.enterText(GlobalProductChange.TXT_MIN, min);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
+	foundation.click(GlobalProductChange.TXT_MAX);
+	textBox.enterText(GlobalProductChange.TXT_MAX, max);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
+	}
+	/**
+	 * verify Min, Max have checkmarks for  values
+	 * 
+	 * @param min
+	 * @param max
+	 * @param count
+	 */
+	public void verifyCheckmarksInOPC(String min,String max,String count) {
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
+		foundation.click(GlobalProductChange.TXT_MIN);
+		textBox.enterText(GlobalProductChange.TXT_MIN, min);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
+		foundation.click(GlobalProductChange.TXT_MAX);
+		textBox.enterText(GlobalProductChange.TXT_MAX,max);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.CASE_COUNT, 3);
+		foundation.click(GlobalProductChange.CASE_COUNT);
+		textBox.enterText(GlobalProductChange.CASE_COUNT,count);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CASE_COUNT_CHECKBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
+		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
+	}
 }
+	
+

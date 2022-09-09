@@ -21,6 +21,7 @@ import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 
@@ -575,5 +576,35 @@ public class OrganizationSummary extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	/**
+	 * @author sakthir Date: 05-09-2022
+	 */
+	@Test(description = "197607-Not seeing list of available Page Sets in Org summary")
+	public void verifyDropDownListOfPageSetsInOrgSummary() {
+		try {
+			final String CASE_NUM = "197607";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			String data =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(menu);
+			foundation.scrollIntoViewElement(OrgSummary.DPD_PAGESET);
+			foundation.click(OrgSummary.DPD_PAGESET);
+			List<String> list=foundation.getTextofListElement(OrgSummary.DPD_PAGESET);
+			CustomisedAssert.assertFalse(list.equals(data));
+			CustomisedAssert.assertTrue(list.get(0).length()>5);
+            
+		}catch (Exception exc) {
+	        TestInfra.failWithScreenShot(exc.toString());
+}
 	}
 }

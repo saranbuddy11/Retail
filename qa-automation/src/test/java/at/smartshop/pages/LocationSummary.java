@@ -2176,7 +2176,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
-		
+	    foundation.threadWait(5);
 	}
 	/**
 	 * Verify update price value in location
@@ -2308,6 +2308,17 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertEquals(value, expected.get(0));
 		foundation.scrollIntoViewElement(DPD_GMA_SUBSIDY);
 	}
-
+	/**
+	 * Manage Tax2 Column
+	 * 
+	 */
+	public void selectManageColumnTax2() {
+	foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+    foundation.scrollIntoViewElement(LocationSummary.BTN_TAX2);
+	foundation.waitforElementToBeVisible(LocationSummary.BTN_TAX2, Constants.MEDIUM_TIME);
+	foundation.click(LocationSummary.BTN_TAX2);
+	foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+	foundation.click(LocationSummary.BTN_APPLY);
+	}
 	
 }
