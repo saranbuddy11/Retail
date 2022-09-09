@@ -186,7 +186,7 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
-		return By.xpath("//div[contains(@style,'top: 353.635px;')]//li[contains(@class,'ui-state-default') and text()='"
+		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"
 				+ driver + "']");
 	}
 
@@ -390,9 +390,11 @@ public class PickList extends Factory {
 		foundation.click(objRouteText(option1));
 		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
 		foundation.click(DATA_GRID_DRIVER);
-		foundation.waitforElementToBeVisible(DPD_DRIVER, 3);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
+		foundation.threadWait(5);
 		foundation.click(objDriverText(option2));
+		foundation.threadWait(5);
 		for (int i = 0; i <= list.size() - 1; i++) {
 			if (checkboxSelection.equals("true")) {
 				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {

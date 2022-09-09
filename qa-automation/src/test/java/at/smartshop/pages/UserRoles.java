@@ -21,6 +21,7 @@ public class UserRoles extends Factory {
 	public static final By BTN_MANAGE_ROLE = By.id("customBtn");
 	public static final By LBL_USER_ROLES = By.xpath("//div[normalize-space(text())='User Roles']");
 	public static final By TBL_ROW=By.cssSelector("#dt > tbody");
+	
 
 	public By getRowByText(String text) {
 		return By.xpath("//td[text()='" + text + "']");

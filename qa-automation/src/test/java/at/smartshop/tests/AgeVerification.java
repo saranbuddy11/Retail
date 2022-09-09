@@ -1646,7 +1646,7 @@ public class AgeVerification extends TestInfra {
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays.asList(
 				rstAdminAgeVerificationData.get(CNAdminAgeVerification.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		List<String> status = Arrays
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		try {
@@ -1748,7 +1748,7 @@ public class AgeVerification extends TestInfra {
 			// Deleting Active PIN record After validation
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			for (int i = 0; i < uiTableData.size(); i++) {
 				foundation.click(ageVerificationDetails.objExpirePinConfirmation(

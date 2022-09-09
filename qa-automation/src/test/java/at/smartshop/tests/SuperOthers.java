@@ -141,7 +141,8 @@ public class SuperOthers extends TestInfra {
 	}
 
 	// Consumer Roles Test Scenarios -
-	@Test(description = "165178-Enter all the valid details in the fields and click on save")
+	@Test(description = "165178-Enter all the valid details in the fields and click on save"
+			            + "203348-ADM > Super > Consumer > Create Consumer roles")
 	public void ConsumerRolesValidDetails() {
 
 		final String CASE_NUM = "165178";
@@ -230,6 +231,7 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(ConsumerRolesList.LENGTH, device);
 			dropDown.selectItem(ConsumerRolesList.SELECT_ORG, dbData.get(0), Constants.TEXT);
 			foundation.waitforElement(ConsumerRolesList.SELECT_LOCATION, Constants.THREE_SECOND);
+			foundation.threadWait(3);
 			dropDown.selectItem(ConsumerRolesList.SELECT_LOCATION, dbData.get(1), Constants.TEXT);
 
 			// Click on Save Button
