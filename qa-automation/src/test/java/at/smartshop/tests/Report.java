@@ -93,6 +93,7 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.SoldItemCOGS;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -185,9 +186,8 @@ public class Report extends TestInfra {
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
 	private UnpaidOrder unpaidOrder = new UnpaidOrder();
 	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
+	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
-	
-	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5462,9 +5462,9 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	  * This Method is for Delete Summary Report Data Validation 
+	 * This Method is for Delete Summary Report Data Validation
 	 * 
 	 * @author ravindhara Date: 07-08-2022
 	 */
@@ -5499,7 +5499,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -5538,4 +5538,94 @@ public class Report extends TestInfra {
 		}
 	}
 
+	/**
+	 * This Method is for Product Sales Report Data Validation
+	 * 
+	 * @author ravindhara Date: 08-09-2022
+	 */
+	@Test(description = "203834-Verify the Data Validation of Sold Item COGS Report")
+	public void soldItemCOGSReportDataValidation() {
+		try {
+			final String CASE_NUM = "203834";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			soldItemCOGS.getTblRecordsUI();
+			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
+			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
+
+			System.out.println("init" + soldItemCOGS.getIntialData());
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			soldItemCOGS.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+
+			// Updating Table data
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(0), locationName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(1), productName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(2), scanCode);
+			soldItemCOGS.saleCount(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(5), cost);
+			soldItemCOGS.calculateTotalCOGS(soldItemCOGS.getTableHeaders().get(6), cost);
+			soldItemCOGS.calculateRevenue(soldItemCOGS.getTableHeaders().get(7), productPrice);
+			soldItemCOGS.calculateProfit(soldItemCOGS.getTableHeaders().get(8));
+
+			// Updating Footer data
+			soldItemCOGS.updateCostPercentOfFooter(soldItemCOGS.getTableHeaders().get(1));
+			soldItemCOGS.calculateIntegerTotalOfFooter(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(5));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(6));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(7));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(8));
+
+			// verify report headers
+			soldItemCOGS.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			soldItemCOGS.verifyReportData();
+
+			// verify report total data
+			soldItemCOGS.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
