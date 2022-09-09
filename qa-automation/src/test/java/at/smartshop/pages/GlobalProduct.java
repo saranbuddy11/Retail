@@ -84,6 +84,7 @@ public class GlobalProduct extends Factory {
     public static final By POPUP_SEARCH=By.id("productFilterType");
     public static final By POPUP_SAVE=By.id("modalsave");
     public static final By LBL_PRODUCT_SUMMARY = By.xpath("//li[text()='Product Summary']");
+
 	 
     public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -135,7 +136,6 @@ public class GlobalProduct extends Factory {
 	public By selectLocationInExtend(String location) {
 		return By.xpath("//tbody//tr//td[text()='"+ location +"']");
 	}
-	
 
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -325,6 +325,7 @@ public class GlobalProduct extends Factory {
 	 */
 	public void createProducInGlobalProductLoyaltyWithLocation(String name,String price,String value,String randomChr, String location) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+
 	
 	foundation.click(GlobalProduct.BTN_CREATE);
 	foundation.isDisplayed(GlobalProduct.LBL_PRODUCT_CREATE);
@@ -341,5 +342,21 @@ public class GlobalProduct extends Factory {
 	foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE,3);
 	foundation.click(GlobalProduct.LBL_SAVE_DONE);
 	}
+
 	
+	foundation.click(GlobalProduct.BTN_CREATE);
+	foundation.isDisplayed(GlobalProduct.LBL_PRODUCT_CREATE);
+	textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, name);
+	textBox.enterText(GlobalProduct.TXT_PRICE,price);
+	textBox.enterText(GlobalProduct.TXT_SCAN_CODE,randomChr);
+	dropDown.selectItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER, value,Constants.TEXT);
+	foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND,3);
+	foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
+	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN,5);
+	foundation.click(GlobalProduct.POPUP_DROPDOWN);
+	foundation.click(selectLocationForProduct(location));
+	foundation.click(GlobalProduct.POPUP_DROPDOWN);
+	foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE,3);
+	foundation.click(GlobalProduct.LBL_SAVE_DONE);
+	}
 }

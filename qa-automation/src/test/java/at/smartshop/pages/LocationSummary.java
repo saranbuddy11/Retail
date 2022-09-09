@@ -2179,7 +2179,7 @@ public class LocationSummary extends Factory {
 		//foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
 	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 	    foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME,5);
-		
+	    foundation.threadWait(5);
 	}
 	/**
 	 * Verify update price value in location

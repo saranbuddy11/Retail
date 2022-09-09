@@ -175,6 +175,7 @@ public class PickList extends Factory {
 	public static final By CHECKBOX_ACTIVE = By.xpath("//form//input[@id='active']");
 	public static final By TBL_PRODUCTS = By.id("filter-prd-grid");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#filter-prd-grid > thead");
+	public static final By SELECTED_ROW = By.xpath("//tr[@aria-selected='true']//td[@aria-describedby='filter-prd-grid_name']");
 
 	public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
@@ -655,5 +656,45 @@ public class PickList extends Factory {
 		}
 		return tableHeaders;
 	}
+	/**
+	 * Select location from location filter,apply and click on plan picklist
+	 * 
+	 * @param location
+	 */
+	public void selectLocationAndPicklistBtn(String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+		foundation.click(selectLocationFromList(location));
+		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+		foundation.click(PickList.BTN_APPLY);
+		foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+		foundation.click(objPickList(location));
+		foundation.click(PickList.BTN_PICKLIST_PLAN);
+		foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
+		String data = foundation.getText(PickList.TBL_ROW_DATA);
+		CustomisedAssert.assertTrue(data.contains(location));
+	}
+	/**
+	 * Get the Column Values
+	 * 
+	 * @param columnData
+	 * @return
+	 */
+	public List<String> getColumnValues(By columnData) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		try {
+			List<WebElement> ListElement = getDriver().findElements(columnData);
 
+			for (int i = 0; i < ListElement.size(); i++) {
+				text = ListElement.get(i).getText();
+				elementsText.add(text);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return elementsText;
+	}
 }
+
+
+
