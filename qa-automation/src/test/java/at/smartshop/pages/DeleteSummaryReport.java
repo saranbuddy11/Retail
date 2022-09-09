@@ -65,7 +65,6 @@ public class DeleteSummaryReport extends Factory {
 	public String decrementedInventoryValue(String inventoryValue) {
 		int value = Integer.parseInt(inventoryValue)-1;
 		String updatedValue = String.valueOf(value);
-		System.out.println("value : " + value);
 		return updatedValue;
 	}
 
@@ -92,7 +91,6 @@ public class DeleteSummaryReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -106,8 +104,6 @@ public class DeleteSummaryReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_TILD));
-			System.out.println("tableHeaders : " + tableHeaders);
-			System.out.println("columnName : " + columnName);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -124,8 +120,6 @@ public class DeleteSummaryReport extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			System.out.println("reportsData : " + reportsData);
-			System.out.println("expectedDataList : " + expectedDataList);
 			for (int iter = 1; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(
 						reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter - 1)));

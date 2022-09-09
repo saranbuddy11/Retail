@@ -5462,7 +5462,7 @@ public class Report extends TestInfra {
 	/**
 	  * This Method is for Delete Summary Report Data Validation 
 	 * 
-	 * @author ravindhara Date: -08-2022
+	 * @author ravindhara Date: 07-08-2022
 	 */
 	@Test(description = "203720-This test validates Entry Summary Report Data Calculation 186633")
 	public void deleteSummaryReportDataValidation() {
@@ -5495,8 +5495,6 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-
-			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 			
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
