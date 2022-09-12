@@ -3219,14 +3219,14 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.EXCLUDE_WEEKENDS));
 			foundation.click(LocationSummary.BTN_ADD_TOP_OFF);
 
-			//
+			//verify exclusive checkBox for top off
 			locationSummary.verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE_NEWROW,
 					LocationSummary.TXT_TOP_OFF_GROUP_NAME_NEWROW, LocationSummary.TXT_TOP_OFF_AMOUNT_NEWROW,
 					requiredData.get(8), requiredData.get(13), requiredData.get(9));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.EXECLUDE_ROW1));
 			foundation.click(LocationSummary.BTN_EXTRA_ADD_TOP_OFF);
 
-			//
+			//verify exclusive checkBox for adding recurrence to monthly and weekly
 			locationSummary.verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE_SECONDROW,
 					LocationSummary.TXT_TOP_OFF_GROUP_NAME_NEWROW, LocationSummary.TXT_TOP_OFF_AMOUNT_NEWROW,
 					requiredData.get(12), requiredData.get(14), requiredData.get(9));
@@ -3278,14 +3278,14 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.EXCLUDE_WEEKENDS_ROLLOVER));
 			foundation.click(LocationSummary.BTN_ADD_ROLL_OVER);
 
-			//
+			//verify exclusive checkBox for roll over
 			locationSummary.verifyGMASubsidy(LocationSummary.DPD_ROLL_OVER_RECURRENCE_NEWROW,
 					LocationSummary.TXT_ROLL_OVER_GROUP_NAME_NEWROW, LocationSummary.TXT_ROLL_OVER_AMOUNT_NEWROW,
 					requiredData.get(8), requiredData.get(13), requiredData.get(9));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.ROLL_OVER_EXECLUDE_ROW1));
 			foundation.click(LocationSummary.BTN_EXTRA_ADD_ROLL_OVER);
 
-			//
+			//verify exclusive checkBox for adding recurrence to monthly and weekly
 			locationSummary.verifyGMASubsidy(LocationSummary.DPD_ROLL_OVER_RECURRENCE_SECONDROW,
 					LocationSummary.TXT_ROLL_OVER_GROUP_NAME_SECONDROW, LocationSummary.TXT_ROLL_OVER_AMOUNT_NEWROW,
 					requiredData.get(12), requiredData.get(14), requiredData.get(9));
