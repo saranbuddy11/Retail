@@ -96,7 +96,6 @@ public class UserList  extends Factory {
 	public static final By DRP_SELECT_ROLE= By.xpath("//a[@id='standarduserBtn']");
 	public static final By SELECTED_LOC= By.xpath("(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
 
-	
 
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
@@ -188,6 +187,7 @@ public class UserList  extends Factory {
     	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
 		foundation.click(UserList.TBL_DATA);
     }
+
     /**
 	 * Select location in User and Roles
 	 * @param location
@@ -201,8 +201,12 @@ public class UserList  extends Factory {
 		CustomisedAssert.assertTrue(foundation.getText(UserList.SELECTED_LOC).contains(location));
 		foundation.click(UserList.BTN_UPDATE_USER);
 		
+
+    } 
+
     }
       
+
 
 	
 

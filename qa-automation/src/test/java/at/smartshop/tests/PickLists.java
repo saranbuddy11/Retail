@@ -1526,5 +1526,52 @@ public class PickLists extends TestInfra {
 		}
 
 	}
+	/**
+	 * @author sakthir Date: 01-09-2022
+	 */
+	@Test(description = "203683-ADM> Picklist> Able to select more than one product from the pick lists to export")
+	public void verifySelectMoreProductAndExportFile() {
+		try {
+			final String CASE_NUM = "203683";
 
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+			String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String>location = Arrays
+					.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+			String  filename =rstPickListData.get(CNPickList.RECORDS);
+			String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to Product->PickList
+			navigationBar.navigateToMenuItem(menu);
+			pickList.selectLocationAndPicklistBtn(location.get(0));
+			foundation.click(PickList.TBL_ROW_DATA);
+			foundation.clickShiftAndDown();
+			
+			int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
+		
+			
+			//Export Excel File
+			foundation.click(PickList.EXPORT_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+					pickListFilePathWithDateAndDay(filename,date)));	
+			int excelCount = excel.getExcelRowCount(FilePath.
+					pickListFilePathWithDateAndDay(filename,date));
+			
+			// record count validation
+			CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+		}
+	}
 }
