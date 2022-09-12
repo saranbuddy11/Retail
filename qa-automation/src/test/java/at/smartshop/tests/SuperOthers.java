@@ -69,6 +69,7 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
+	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService = new SpecialService();
 	private Strings strings = new Strings();
 	private DeviceCreate deviceCreate = new DeviceCreate();
@@ -2873,6 +2874,35 @@ public class SuperOthers extends TestInfra {
 			textBox.enterText(Announcement.TXT_MSG, updatedData.get(2));
 			foundation.click(Announcement.BTN_SAVE);
 		}
+	}
 
+	/**
+	 * @author afrosean
+	 * Date:02.09.2022
+	 */
+	@Test(description = "203718-ADM>Super>Consumer Roles >creat new consumer >Verify error message in Length field enter combination of both String & integer value")
+	public void verifyDigitValidationMessageForLengthFieldInConsumerRoles() {
+		final String CASE_NUM = "203718";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// launch browser and select menu and menu item
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerRolesList.BTN_CREATE));
+
+			// click on create new and verify length error message in length
+			consumerRolesList.verifyErrorMessage(datas.get(0), datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
