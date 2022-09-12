@@ -62,6 +62,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By ADD_TO_NOTE = By.xpath("//dt[text()='Add a Note']");
 	public static final By ERROR_RECIPIENTEMAIL = By.id("recipientemail-error");
 	public static final By TXT_SEARCH = By.id("filterType");
+	public static final By CONSUMER_LOCATOR=By.xpath("//a[text()='Consumer Engagement']");
 	public static final By TBL_GRID = By.id("bylocationGrid");
 	public static final By TBL_GMA_CONSUMER_ENGAGEMENT_GRID = By.cssSelector("#bylocationGrid > tbody");
 	public static final By HEADER_GMA_CONSUMER_ENGAGEMENT = By.xpath("//table[@id='bylocationGrid']/thead");
@@ -687,8 +688,9 @@ public class ConsumerEngagement extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.refreshPage();
 		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
-		foundation.waitforElementToBeVisible(ISSUEBY, 5);
+		foundation.waitforElementToBeVisible(ISSUEBY, Constants.SHORT_TIME);
 		String text = foundation.getText(ISSUEBY);
 		CustomisedAssert.assertTrue(text.contains(value));
 	}

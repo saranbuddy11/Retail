@@ -79,8 +79,12 @@ public class GlobalProduct extends Factory {
     public static final By TXT_EXTEND=By.xpath("//input[@aria-controls='locdt']");
     public static final By EXTEND_LOCATION=By.xpath("//td[@class=' sorting_1']");
     public static final By TBL_HEADER = By.cssSelector("#dataGrid > tbody");
-    
-    
+    public static final By TBL_EXTEND=By.xpath("//tbody[@role='alert']//tr");
+    public static final By SEARCH_EXTEND=By.xpath("//input[@aria-controls='locdt']");
+    public static final By POPUP_SEARCH=By.id("productFilterType");
+    public static final By POPUP_SAVE=By.id("modalsave");
+    public static final By LBL_PRODUCT_SUMMARY = By.xpath("//li[text()='Product Summary']");
+
 	 
     public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -129,7 +133,9 @@ public class GlobalProduct extends Factory {
 		return By.xpath("//div[@id='dataGrid_editor_list']//span[text()='"+ data + "']");
 				
 	}
-	
+	public By selectLocationInExtend(String location) {
+		return By.xpath("//tbody//tr//td[text()='"+ location +"']");
+	}
 
 	public Map<String, String> getTblRecordsUI() {
 		Map<String, String> uiTblRowValues = new HashMap<>();
@@ -291,5 +297,52 @@ public class GlobalProduct extends Factory {
 	
 	}
 	
+	/**
+	 * Add new location in extend and verify the loyalty value in extend location are same
+	 * @param location
+	 * 
+	 */
+	public void verifyAddLocationInExtend(String location) {
+	foundation.waitforElementToBeVisible(GlobalProduct.BTN_EXTEND_LOC,3);
+	foundation.click(GlobalProduct.BTN_EXTEND_LOC);
+	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SEARCH, 3);
+	foundation.click(GlobalProduct.POPUP_SEARCH);
+	textBox.enterText(GlobalProduct.POPUP_SEARCH, location);
+	foundation.click(selectLocationInExtend(location));
+	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SAVE,3);
+	foundation.click(GlobalProduct.POPUP_SAVE);
+	foundation.scrollIntoViewElement(GlobalProduct.SEARCH_EXTEND);
+	foundation.waitforElementToBeVisible(GlobalProduct.SEARCH_EXTEND,5);
+	foundation.click(GlobalProduct.SEARCH_EXTEND);
+	textBox.enterText(GlobalProduct.SEARCH_EXTEND, location);
 	
+}
+	/**
+	 * create Product In Global Product Page
+	 * @param name
+	 * @param price
+	 * @param scancode
+	 */
+	public void createProducInGlobalProductLoyaltyWithLocation(String name,String price,String value,String randomChr, String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+
+	
+	foundation.click(GlobalProduct.BTN_CREATE);
+	foundation.isDisplayed(GlobalProduct.LBL_PRODUCT_CREATE);
+	textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, name);
+	textBox.enterText(GlobalProduct.TXT_PRICE,price);
+	textBox.enterText(GlobalProduct.TXT_SCAN_CODE,randomChr);
+	dropDown.selectItem(GlobalProduct.DPD_LOYALTY_MULTIPLIER, value,Constants.TEXT);
+	foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND,3);
+	foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
+	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN,5);
+	foundation.click(GlobalProduct.POPUP_DROPDOWN);
+	foundation.click(selectLocationForProduct(location));
+	foundation.click(GlobalProduct.POPUP_DROPDOWN);
+	foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE,3);
+	foundation.click(GlobalProduct.LBL_SAVE_DONE);
+	}
+
+	
+
 }

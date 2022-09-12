@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
@@ -25,6 +26,12 @@ public class NavigationBar extends Factory {
 	private static final By TXT_ORG = By.xpath("//span/input[@class='select2-search__field']");
 	private static final By DPD_SELECT_ORG = By.className("select2-results__option");
 	public static final By MENU_SUPER = By.className("//ul[@olre='navigation']//li//a[contains(text(),'Super')]");
+	public static final By LOCATION_MENU=By.id("sup-location");
+	public static final By PRODUCT_MENU=By.id("drop1");
+	public static final By MENU=By.id("drop2");
+	public static final By REPORTS_MENU=By.id("supadmin-new-reports");
+	public static final By ADMIN_MENU=By.id("drop6");
+	
 
 	public void selectOrganization(String selectText) {
 		try {
@@ -108,5 +115,21 @@ public class NavigationBar extends Factory {
 		login.outLookLogin(propertyFile.readPropertyFile(Configuration.OUTLOOK_USERNAME, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.OUTLOOK_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.threadWait(Constants.LONG_TIME);
+	}
+	
+	/**
+	 * verify navigation bar are present 
+	 */
+	public void verifyNavigationBarsArePresent() {
+		foundation.waitforElementToBeVisible(LOCATION_MENU, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
+		foundation.waitforElementToBeVisible(PRODUCT_MENU, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
+		foundation.waitforElementToBeVisible(MENU, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
+		foundation.waitforElementToBeVisible(REPORTS_MENU, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
+		foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
 	}
 }

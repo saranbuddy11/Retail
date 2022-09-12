@@ -67,7 +67,8 @@ public class Device extends TestInfra {
 
 			// navigate to admin>device and verify serial number section display
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertFalse(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.COLUMN_SERIAL_NUMBER));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

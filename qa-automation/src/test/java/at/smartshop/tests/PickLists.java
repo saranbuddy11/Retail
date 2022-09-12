@@ -387,6 +387,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_CONFIRM_REFRESH);
 
 			// Click on Send to Lightspeed button
+			foundation.waitforElement(PickList.BTN_SEND_TO_LIGHTSPEED, 3);
 			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
 
 			// Verifying the details on confirm Popup for sending to Lightspeed
@@ -484,8 +485,10 @@ public class PickLists extends TestInfra {
 					rstPickListData.get(CNPickList.LOCATIONS));
 
 			// verify the plan pick list(s)
+			
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
+			foundation.waitforElementToBeVisible(PickList.BTN_PICKLIST_PLAN, 5);
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
 			String data = foundation.getText(PickList.TBL_ROW_DATA);
@@ -641,7 +644,8 @@ public class PickLists extends TestInfra {
 			// Enter all the datas in route driver and date
 			pickList.checkboxsServiceDay(requiredData.get(0), requiredData.get(1), "true");
 			foundation.click(PickList.BTN_SAVE);
-			foundation.waitforElementToBeVisible(PickList.SUCCESS_MSG, 5);
+			//foundation.waitforElementToBeVisible(PickList.SUCCESS_MSG, 5);
+			//CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SUCCESS_MSG) );
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -655,7 +659,7 @@ public class PickLists extends TestInfra {
 					Constants.SHORT_TIME);
 			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
 			foundation.click(PickList.BTN_SAVE);
-			foundation.waitforElement(PickList.SUCCESS_MSG, 5);
+			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
 	}
 
@@ -975,6 +979,8 @@ public class PickLists extends TestInfra {
 					.asList(rstPickListData.get(CNPickList.RECORDS).split(Constants.DELIMITER_TILD));
 			List<String> dbColumnHeaders = Arrays
 					.asList(rstPickListData.get(CNPickList.COLUMN_HEADERS).split(Constants.DELIMITER_TILD));
+			List<String> dbColor = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -986,7 +992,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
-			CustomisedAssert.assertEquals(color, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			CustomisedAssert.assertEquals(color,dbColor.get(0) );
 			foundation.click(PickList.TXT_DESELECT_ALL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1520,5 +1526,52 @@ public class PickLists extends TestInfra {
 		}
 
 	}
+	/**
+	 * @author sakthir Date: 01-09-2022
+	 */
+	@Test(description = "203683-ADM> Picklist> Able to select more than one product from the pick lists to export")
+	public void verifySelectMoreProductAndExportFile() {
+		try {
+			final String CASE_NUM = "203683";
 
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+			String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String>location = Arrays
+					.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+			String  filename =rstPickListData.get(CNPickList.RECORDS);
+			String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//navigate to Product->PickList
+			navigationBar.navigateToMenuItem(menu);
+			pickList.selectLocationAndPicklistBtn(location.get(0));
+			foundation.click(PickList.TBL_ROW_DATA);
+			foundation.clickShiftAndDown();
+			
+			int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
+		
+			
+			//Export Excel File
+			foundation.click(PickList.EXPORT_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+					pickListFilePathWithDateAndDay(filename,date)));	
+			int excelCount = excel.getExcelRowCount(FilePath.
+					pickListFilePathWithDateAndDay(filename,date));
+			
+			// record count validation
+			CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
+		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+		}
+	}
 }

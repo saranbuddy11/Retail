@@ -43,7 +43,12 @@ public class SelfService extends Factory {
 	public static final By TXT_MENU = By.xpath("//div[@id='menubtn-1-Id']//div[@class='category-content']");
 	public static final By TXT_NO_MATCH = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TBL_CHECKBOX = By.xpath("//ul[@id='hide_menu_time']");
-
+	public static final By LBL_SELFSERVICE= By.id("Self Service Menu List");
+	public static final By TXT_SEARCH = By.xpath("//input[@type='text']");
+	public static final By CLICK_SET_LIMITS = By.xpath("//td//a[text()='Set Limits']");
+	public static final By COL_TIMESLOT = By.xpath("//div[@class='flex-column']//dt[text()='Timeslot']");
+	public static final By COL_MAX_ORDER = By.xpath("//div[@class='flex-column']/dt/b[text()='Max Orders']");
+	public static final By ROW_SET_LIMITS = By.xpath("//div[@class='flex-row']");
 	public By objPrintCheckbox(String text) {
 	return By.xpath("//b[text()='"+text+"']//..//..//input");
 	}
