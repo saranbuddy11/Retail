@@ -3901,20 +3901,34 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			foundation.click(CreatePromotions.BTN_BACK);
-			foundation.click(CreatePromotions.BTN_ALLORG_LEFT);
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_SELECT_ORG);
-			dropDown.deSelectItem(CreatePromotions.DPD_ORG, newData.get(2), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(CreatePromotions.DPD_LOC, newData.get(1), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+			createPromotions.deselectOrgAndLoc();
+//			foundation.waitforElementToBeVisible(CreatePromotions.CHOOSE_ROLE_DEVICE_FILTER, 3);
+//			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
+//			foundation.waitforElementToBeVisible(CreatePromotions.CHOOSE_LOCATION, 3);
+//			foundation.click(CreatePromotions.BTN_BACK);
+//			foundation.waitforElement(CreatePromotions.TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+//			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, newData.get(2));
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.CHECKBOX_ORG);
+//			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+//			dropDown.deSelectItem(CreatePromotions.DPD_ORG, newData.get(2), Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			dropDown.selectItem(CreatePromotions.DPD_LOC, newData.get(1), Constants.TEXT);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+//			foundation.waitforElement(CreatePromotions.TXT_LOC_SEARCH, Constants.SHORT_TIME);
+//			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, newData.get(1));
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.CHECKBOX_LOC);
+//			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
 
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-
+	
 			// click on create button and validate the err
 			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
 			foundation.threadWait(Constants.THREE_SECOND);
