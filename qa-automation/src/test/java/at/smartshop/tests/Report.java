@@ -3782,7 +3782,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.TWO_SECOND);
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
 
@@ -3877,6 +3877,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
@@ -3885,6 +3886,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Updating the Inventory of the product
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
