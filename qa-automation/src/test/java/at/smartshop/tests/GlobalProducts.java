@@ -1527,7 +1527,7 @@ public class GlobalProducts extends TestInfra {
 					rstLocationListData.get(CNLocationList.LOCATION_NAME));
 
 			// Navigate to product tab and verify print group
-			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(2));
 
 			// verify the print group field
 			Map<Integer, Map<String, String>> uiTableData = locationSummary.getTblRecordsUI();
@@ -1535,14 +1535,14 @@ public class GlobalProducts extends TestInfra {
 			String innerValue = "";
 			for (int i = 0; i < uiTableData.size(); i++) {
 				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(requiredData.get(1));
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+				innerValue = innerMap.get(requiredData.get(0));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
 			}
 			uiTableData.clear();
 
 			// Navigate to product summary and edit the product
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
-			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.click(locationSummary.objectProduct(requiredData.get(2)));
 			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
 			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(0));
 
@@ -1550,14 +1550,14 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.threadWait(Constants.ONE_SECOND);
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(0));
+			locationSummary.clickOnProductTabAndEnableThePrintGroup(requiredData.get(2));
 
 			// verify the print group field
 			uiTableData = locationSummary.getTblRecordsUI();
 			for (int i = 0; i < uiTableData.size(); i++) {
 				innerMap = uiTableData.get(i);
-				innerValue = innerMap.get(requiredData.get(1));
-				CustomisedAssert.assertEquals(innerValue, requiredData.get(2));
+				innerValue = innerMap.get(requiredData.get(0));
+				CustomisedAssert.assertEquals(innerValue, requiredData.get(1));
 			}
 			uiTableData.clear();
 
@@ -1566,7 +1566,7 @@ public class GlobalProducts extends TestInfra {
 		} finally {
 			// Navigate to product summary and edit the product
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
-			foundation.click(locationSummary.objectProduct(requiredData.get(0)));
+			foundation.click(locationSummary.objectProduct(requiredData.get(2)));
 			foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
 			locationSummary.clickOnEditProductAfterUpdatingPriceClickOnSave(price.get(1));
 		}
