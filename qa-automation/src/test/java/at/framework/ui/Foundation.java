@@ -835,5 +835,17 @@ public class Foundation extends Factory {
 		r.keyPress(KeyEvent.VK_ENTER);
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
+	/**
+	 * Clicking Shift and Down using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clickShiftAndDown() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_SHIFT);
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_SHIFT);
+	}
 }
 			

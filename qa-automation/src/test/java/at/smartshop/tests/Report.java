@@ -29,6 +29,7 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -49,6 +50,7 @@ import at.smartshop.pages.CrossOrgLoyaltyReport;
 import at.smartshop.pages.CrossOrgRateReport;
 import at.smartshop.pages.DailySalesSummary;
 import at.smartshop.pages.DataSourceManager;
+import at.smartshop.pages.DeleteSummaryReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.FinancialRecapReport;
@@ -92,6 +94,8 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.SubsidyConsumerSpend;
+import at.smartshop.pages.SoldItemCOGS;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -182,8 +186,11 @@ public class Report extends TestInfra {
 	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
 	private SalesTimeDetailsByDevice salesTimeDetailsByDevice = new SalesTimeDetailsByDevice();
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
+	private SubsidyConsumerSpend subsidyConsumerSpend = new SubsidyConsumerSpend();
 	private UnpaidOrder unpaidOrder = new UnpaidOrder();
 	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
+	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
+	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -193,6 +200,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstReportListData;
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstV5DeviceData;
 
 	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
@@ -559,7 +567,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "120269-This test validates Member Purchase Details Report Data Calculation")
@@ -880,7 +887,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "142642-This test validates ICE Report Data Calculation")
@@ -1634,7 +1640,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "143268-This test validates Voided Product Report Data Calculation")
@@ -1951,11 +1956,9 @@ public class Report extends TestInfra {
 
 			// verify report data
 			orderTransactionTime.verifyReportData();
-
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
 	}
 
 	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
@@ -5456,6 +5459,314 @@ public class Report extends TestInfra {
 
 			// verify report data
 			inventoryValueSummary.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/*
+	 * This Method is for Delete Summary Report Data Validation
+	 * 
+	 * @author ravindhara Date: 07-08-2022
+	 */
+	@Test(description = "203720-This test validates Entry Summary Report Data Calculation 186633")
+	public void deleteSummaryReportDataValidation() {
+		try {
+			final String CASE_NUM = "203720";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String reason = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location and Inventory section
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason);
+
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(DeleteSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			deleteSummaryReport.verifyReportName(reportName);
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
+			deleteSummaryReport.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			deleteSummaryReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			deleteSummaryReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Product Sales Report Data Validation
+	 * 
+	 * @author ravindhara Date: 08-09-2022
+	 */
+	@Test(description = "203834-Verify the Data Validation of Sold Item COGS Report")
+	public void soldItemCOGSReportDataValidation() {
+		try {
+			final String CASE_NUM = "203834";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			soldItemCOGS.getTblRecordsUI();
+			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
+			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
+
+			System.out.println("init" + soldItemCOGS.getIntialData());
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			soldItemCOGS.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+
+			// Updating Table data
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(0), locationName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(1), productName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(2), scanCode);
+			soldItemCOGS.saleCount(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(5), cost);
+			soldItemCOGS.calculateTotalCOGS(soldItemCOGS.getTableHeaders().get(6), cost);
+			soldItemCOGS.calculateRevenue(soldItemCOGS.getTableHeaders().get(7), productPrice);
+			soldItemCOGS.calculateProfit(soldItemCOGS.getTableHeaders().get(8));
+
+			// Updating Footer data
+			soldItemCOGS.updateCostPercentOfFooter(soldItemCOGS.getTableHeaders().get(1));
+			soldItemCOGS.calculateIntegerTotalOfFooter(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(5));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(6));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(7));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(8));
+
+			// verify report headers
+			soldItemCOGS.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			soldItemCOGS.verifyReportData();
+
+			// verify report total data
+			soldItemCOGS.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Subsidy Consumer Spend Report Data Validation
+	 * 
+	 * @author KarthikR
+	 * @date: 24-08-2022
+	 */
+	@Test(description = "203623 - Subsidy Consumer Spend Report data validation")
+	public void SubsidyConsumerSpendReportDataValidation() {
+		final String CASE_NUM = "203623";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> orderPageData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+		List<String> product = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> columnName = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		List<String> subsidyGroup = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super Credentials
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Select Location
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Verifying the selection of defaults as Top Off for GMA subsidy
+			subsidyConsumerSpend.selectionOfTopOffSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(7), requiredData.get(10));
+
+			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
+			List<String> details = subsidyConsumerSpend.readConsumerDetails(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device to do Transaction on Subsidy Balance
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			String price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Navigate to ADM
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Navigate to Admin Consumer to Read Transaction ID
+			String transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
+
+			// Read the Table Data from UI and Validate
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			String dateArray[] = currentDate.split("/");
+			String date = dateArray[0].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/"
+					+ dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/" + dateArray[2];
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
+
+			// Verifying the selection of defaults as Roll Over for GMA subsidy
+			navigationBar.navigateToMenuItem(menu.get(3));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.selectionOfRollOverSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(8), requiredData.get(11));
+			login.logout();
+			browser.close();
+
+			// Again Launch V5 Device to do another Transaction with Subsidy Balance
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(1), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			foundation.threadWait(Constants.THREE_SECOND);
+			browser.close();
+
+			// Navigate to ADM
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Read Transaction ID
+			transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
+
+			// Search with Transaction ID and get the data
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

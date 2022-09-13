@@ -26,4 +26,6 @@ public class DNADetails extends Factory {
 	public static final By ACCESS_ICON = By.className("ion-information-circled");
 	public static final By TOOL_TIP_TEXT = By.className("dna-headerinner");
 	public static final By ERROR_MESSAGE = By.className("humane humane-libnotify-error");
+	//public static final By TXT_ERROR_MESSAGE = By.xpath("//div[contains(text(),'more than yellow min value')]");
+	public static final By TXT_ERROR_MESSAGE = By.xpath("//div[@class='humane humane-libnotify-error']");
 }
