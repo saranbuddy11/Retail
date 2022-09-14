@@ -175,7 +175,8 @@ public class LocationList extends Factory {
 		textBox.enterText(TXT_FILTER, locationName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DAILY_TRANS));
-		foundation.click(By.xpath("//a[text()='" + locationName + "']"));
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(LINK_LOCATION_LIST);
 		foundation.waitforElementToBeVisible(DISABLED, 5);
 		dropDown.selectItem(DISABLED, dropdown, Constants.TEXT);
 		foundation.waitforElementToBeVisible(SAVE_BTN, 5);

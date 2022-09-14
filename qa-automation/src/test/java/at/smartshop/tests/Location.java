@@ -2304,7 +2304,7 @@ public class Location extends TestInfra {
 			locationList.createLocation(locationName, datas.get(1), datas.get(2));	
 			
 			//search same location 
-			locationList.verifyDailyTransInLocationList(datas.get(0), datas.get(3));
+			locationList.verifyDailyTransInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
 			
 		}
 		catch (Exception exc) {
