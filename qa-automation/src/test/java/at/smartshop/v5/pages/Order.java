@@ -40,6 +40,7 @@ public class Order {
 	public static final By LBL_EMAIL = By.xpath("(//h3[text()='My Account']//.)[2]//..//..//img");
 	// public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
 	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div[@class='total-value']");
+	public static final By TAX=By.xpath("//div[text()='1']//..//div[@class='total-value']");
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div[@class='total-value']");

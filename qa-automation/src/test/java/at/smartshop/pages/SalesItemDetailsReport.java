@@ -27,9 +27,6 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocationSummary;
-import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -39,13 +36,12 @@ import at.smartshop.utilities.WebService;
 
 public class SalesItemDetailsReport extends Factory {
 
-	private Foundation foundation = new Foundation();	
+	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
 	private JsonFile jsonFunctions = new JsonFile();
 	private PropertyFile propertyFile = new PropertyFile();
 	private DateAndTime dateAndTime = new DateAndTime();
-	private TextBox textBox = new TextBox();
-	
+
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
@@ -55,16 +51,14 @@ public class SalesItemDetailsReport extends Factory {
 	public final static By TXT_SEARCH_TRANSACTION = By.xpath("//input[@aria-controls='transdt']");
 	public final static By TXT_ID_TRANSACTION = By.cssSelector("#Row_0");
 	public final static By FIND_TRANSACTION = By.xpath("//button[@id='findBtn']");
-	
-	private static final By TBL_SALES_ITEMS_DETAILS= By.cssSelector("#rptdt");
+
+	private static final By TBL_SALES_ITEMS_DETAILS = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_ITEMS_DETAILS_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TBL_EXPAND_ROW = By.xpath("//span[@title='Expand Row']");
 //	private static final By TBL_SALES_ANALYSIS_DETAILED_GROUPBY_LOCATIONS = By
 //			.cssSelector("#rptdt > tbody > tr:nth-child(2) > td  > div >div >div >table");
 //	private static final By TBL_SALES_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
 //			.cssSelector("#rptdt > tbody > tr:nth-child(2) > td  > div >div >div >table > tbody");
-
-	
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> salesTime = new ArrayList<>();
@@ -160,7 +154,7 @@ public class SalesItemDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public String processAPI(String value) {
 		try {
 			generateJsonDetails(value);
@@ -168,8 +162,7 @@ public class SalesItemDetailsReport extends Factory {
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
-			date = String
-					.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
+			date = String.valueOf(dateAndTime.getDateAndTime("MM/dd/yy hh:mm aa", "US/Alaska"));
 			foundation.threadWait(Constants.TWO_SECOND);
 			return date;
 		} catch (Exception exc) {
@@ -245,8 +238,8 @@ public class SalesItemDetailsReport extends Factory {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
 				double updatedAmount = Double
-						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))+Double
-						.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+						.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+						+ Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(iter).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			}
@@ -266,7 +259,7 @@ public class SalesItemDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateData(String columnName, String value) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -276,7 +269,7 @@ public class SalesItemDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateMultiData(String columnName, String values) {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
@@ -296,6 +289,8 @@ public class SalesItemDetailsReport extends Factory {
 			System.out.println("intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					System.out.println(reportsData.get(counter).get(tableHeaders.get(iter)) + "-"
+							+ intialData.get(counter).get(tableHeaders.get(iter)));
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}

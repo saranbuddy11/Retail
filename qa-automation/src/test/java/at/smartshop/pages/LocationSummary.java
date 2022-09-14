@@ -2192,11 +2192,11 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		foundation.threadWait(5);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_MANAGE_COLUMNS, Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_PRINT_GROUP);
-		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_APPLY);
+		//foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+		//foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.SHORT_TIME);
+		//foundation.click(LocationSummary.BTN_PRINT_GROUP);
+		//foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+		//foundation.click(LocationSummary.BTN_APPLY);
 		foundation.waitforElementToBeVisible(LBL_PRINT_GROUP, Constants.SHORT_TIME);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_GRID, Constants.SHORT_TIME);
@@ -2215,6 +2215,7 @@ public class LocationSummary extends Factory {
 		textBox.enterText(ProductSummary.PRICE_FIELD, price);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
 		foundation.click(ProductSummary.BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 
 	}

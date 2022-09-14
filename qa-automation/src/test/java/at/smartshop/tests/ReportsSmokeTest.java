@@ -4,9 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -30,7 +28,7 @@ public class ReportsSmokeTest extends TestInfra {
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 	private CustomerReportSkymiles customerReportSkymiles = new CustomerReportSkymiles();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
-	private DataSourceManager dataSourceManager = new DataSourceManager();
+	// private DataSourceManager dataSourceManager = new DataSourceManager();
 	private ModifiersReport modifiersReport = new ModifiersReport();
 	private EFTGMADisbursement EFTGMADisbursement = new EFTGMADisbursement();
 	private GMAMigration GMAMigration = new GMAMigration();
@@ -341,7 +339,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
-			
+
 			// Verifying, whether the Report data available or not
 			accountAdjustment.checkForDataAvailabilyInResultTable();
 		} catch (Exception exc) {
@@ -619,7 +617,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), reportRequiredData.get(3),
 					IntlWebAppFunding.DATA_EXISTING_DATE, IntlWebAppFunding.DATA_EXISTING_DATE);
 			reportList.selectLocation(reportRequiredData.get(2));
-			
+
 //			// Select Organization
 //			navigationBar.selectOrganization(
 //					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -674,7 +672,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 					FilePath.PROPERTY_CONFIG_FILE);
-			
+
 			List<String> dateRange_Data = Arrays
 					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
 
@@ -683,10 +681,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			reportList.selectDateRangeDate(dateRange_Data.get(0), dateRange_Data.get(1),
 					PayrollDeductDetails.DATA_EXISTING_DATE_START, PayrollDeductDetails.DATA_EXISTING_DATE_END);
-			
+
 //			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocationForSecondTypeDropdown(locationName);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -4240,7 +4238,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsByEmployeeDevice.verifyReportName(
@@ -4388,7 +4386,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			
+
 			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
