@@ -3926,4 +3926,44 @@ public class Promotions extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author afrosean
+	 * Date:14-09-2022
+	 */
+	@Test(description = "204886-ADM > Promotion > Verify pricing section after creating promotion")
+	public void verifyPriceAfterCreatingPromotion() {
+		final String CASE_NUM = "204886";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> promoName = Arrays
+				.asList(rstLocationData.get(CNLocation.PROMOTION_NAME).split(Constants.DELIMITER_TILD));
+		try {
+			// Launching Browser and Creating Promotion on Bundle upto Location Selection
+			createPromotions.launchBrowserAndCreateBundlePromoWithLocationDetails(
+					rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promoName.get(0), promoName.get(1),
+					promoName.get(2), promoName.get(3));
+
+			// Select Build Bundle as Category in Details Page with All Categories checkBox
+			createPromotions.selectBuildBundleAsCategoryAndCheckBox(promoName.get(4));
+
+			// verify price in promotion details page
+			createPromotions.verifyPriceInPromotionDetails(promoName.get(5));
+
+			// search with same promotion
+			promotionList.searchPromotion(promoName.get(1), promoName.get(6));
+			promotionList.clickSelectedRow(promoName.get(7), promoName.get(1));
+
+			// verify price in promotion details page
+			createPromotions.navigateToPromotionDetailsPageAndVerifyPrice(promoName.get(5));
+
+			// expire promotion
+			createPromotions.cancelingPromotionAndExpired();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
