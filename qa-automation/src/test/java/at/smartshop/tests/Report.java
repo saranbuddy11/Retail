@@ -4237,7 +4237,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			consumerFeedbackSurvey.getTblRecordsUI();
 			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
@@ -4302,7 +4302,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			consumerFeedbackSurvey.getTblRecordsUI();
 
