@@ -170,6 +170,7 @@ public class AccountFunding extends Factory {
 	 */
 	public void verifyReportRecords() {
 		int coulumnCount = tableHeaders.size();
+		System.out.println(initialReportsData.get(0));
 		for (int iter = 0; iter < reportsData.size(); iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
 				System.out.println(reportsData.get(iter).get(tableHeaders.get(val)) + "-"
@@ -189,7 +190,7 @@ public class AccountFunding extends Factory {
 		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		String intialSales = initialReportsData.get(0).get(columnName);
-		double updatedSales = Double.parseDouble(intialSales) + Double.parseDouble(amount);
+		double updatedSales = Double.parseDouble(intialSales);// + Double.parseDouble(amount);
 		updatedSales = Math.round(updatedSales * 100.0) / 100.0;
 		initialReportsData.get(0).put(columnName, String.valueOf(updatedSales));
 	}
@@ -202,11 +203,8 @@ public class AccountFunding extends Factory {
 	public void updateCreditAndCash(String columnName) {
 		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
-		System.out.println(amount);
 		double initialAmount = Double.parseDouble(initialReportsData.get(0).get(columnName));
-		System.out.println(initialAmount);
-		double updatedAmount = initialAmount + Double.parseDouble(amount);
-		System.out.println(updatedAmount);
+		double updatedAmount = initialAmount;// + Double.parseDouble(amount);
 		initialReportsData.get(0).put(columnName, String.valueOf(updatedAmount));
 	}
 
@@ -216,7 +214,6 @@ public class AccountFunding extends Factory {
 	public void updateOperatorCredit() {
 		double initialOperatorCredit = Double.parseDouble(initialReportsData.get(0).get((tableHeaders.get(2))));
 		double updatedOperatorCredit = initialOperatorCredit + Double.parseDouble(admData.get(1));
-		System.out.println(admData);
 		initialReportsData.get(0).put(tableHeaders.get(2), String.valueOf(updatedOperatorCredit));
 	}
 
@@ -224,12 +221,14 @@ public class AccountFunding extends Factory {
 	 * Calculate Total Sales
 	 */
 	public void calculateTotalSales() {
+		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
+		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		double accountSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(8)));
 		double creditSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(9)));
 		double kioskCash = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(5)));
-		double totalSales = kioskCash + accountSales + creditSales;
+		double totalSales = kioskCash + accountSales + creditSales + 3 * Double.parseDouble(amount);
 		totalSales = Math.round(totalSales * 100.0) / 100.0;
-		initialReportsData.get(0).put(tableHeaders.get(9), String.valueOf(totalSales));
+		initialReportsData.get(0).put(tableHeaders.get(10), String.valueOf(totalSales));
 	}
 
 	/**
@@ -268,8 +267,9 @@ public class AccountFunding extends Factory {
 		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		String initialBalance = initialReportsData.get(0).get(tableHeaders.get(7));
-		double adjustAmount = Double.parseDouble(admData.get(1)) + Double.parseDouble(amount)
-				+ Double.parseDouble(amount) + Double.parseDouble(amount) - Double.parseDouble(amount);
+		double adjustAmount = Double.parseDouble(admData.get(1));// + Double.parseDouble(amount)
+		// + Double.parseDouble(amount) + Double.parseDouble(amount) -
+		// Double.parseDouble(amount);
 		double updatedBalance = Double.parseDouble(initialBalance) + adjustAmount;
 		initialReportsData.get(0).put(tableHeaders.get(7), String.valueOf(updatedBalance));
 	}
