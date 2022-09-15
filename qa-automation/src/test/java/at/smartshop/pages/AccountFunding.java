@@ -39,14 +39,11 @@ public class AccountFunding extends Factory {
 	private ReportList reportList = new ReportList();
 
 	private List<String> admData = new LinkedList<>();
-	private Map<String, Object> data = new HashMap<>();
 	private Map<Integer, Map<String, String>> initialReportsData = new HashMap<>();
 	public static List<String> tableHeaders = new ArrayList<>();
 	public static Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<String, Object> jsonData = new HashMap<>();
-	private String transID;
-	private String transDate;
-	private String time;
+	private String time = Constants.EMPTY_STRING;
 
 	public static final By TABLE_ACCOUNT_FUNDING = By.id("rptdt");
 	public static final By LBL_REPORT_NAME = By
@@ -150,6 +147,7 @@ public class AccountFunding extends Factory {
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_GMA, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.GMA_JSON));
+			foundation.threadWait(Constants.MEDIUM_TIME);
 		}
 	}
 
@@ -187,10 +185,10 @@ public class AccountFunding extends Factory {
 	 * @param columnName
 	 */
 	public void updateSales(String columnName) {
-		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
+		JsonObject gmatrans = (JsonObject) jsonData.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		String intialSales = initialReportsData.get(0).get(columnName);
-		double updatedSales = Double.parseDouble(intialSales);// + Double.parseDouble(amount);
+		double updatedSales = Double.parseDouble(intialSales) + Double.parseDouble(amount);
 		updatedSales = Math.round(updatedSales * 100.0) / 100.0;
 		initialReportsData.get(0).put(columnName, String.valueOf(updatedSales));
 	}
@@ -201,7 +199,7 @@ public class AccountFunding extends Factory {
 	 * @param columnName
 	 */
 	public void updateCreditAndCash(String columnName) {
-		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
+		JsonObject gmatrans = (JsonObject) jsonData.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		double initialAmount = Double.parseDouble(initialReportsData.get(0).get(columnName));
 		double updatedAmount = initialAmount;// + Double.parseDouble(amount);
@@ -221,12 +219,10 @@ public class AccountFunding extends Factory {
 	 * Calculate Total Sales
 	 */
 	public void calculateTotalSales() {
-		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
-		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		double accountSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(8)));
 		double creditSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(9)));
 		double kioskCash = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(5)));
-		double totalSales = kioskCash + accountSales + creditSales + 3 * Double.parseDouble(amount);
+		double totalSales = kioskCash + 2 * accountSales + creditSales;
 		totalSales = Math.round(totalSales * 100.0) / 100.0;
 		initialReportsData.get(0).put(tableHeaders.get(10), String.valueOf(totalSales));
 	}
@@ -241,22 +237,22 @@ public class AccountFunding extends Factory {
 	 * @param transDate
 	 * @param paymentType
 	 */
-	public static void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String transID, String salesheader,
-			String transDate, String paymentType) {
-		JsonArray jsonarray = jsonObj.get(reqString).getAsJsonArray();
-		for (JsonElement jsonarr : jsonarray) {
-			JsonObject element = jsonarr.getAsJsonObject();
-			element.addProperty(Reports.ID,
-					UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
-			element.addProperty(Reports.SALES_HEADER, salesheader);
-			element.addProperty(Reports.TRANS_ID, transID);
-			element.addProperty(Reports.TRANS_DATE, transDate);
-		}
-		if (reqString.equals(Reports.PAYMENTS)) {
-			for (JsonElement jsonarr : jsonarray) {
-				JsonObject element = jsonarr.getAsJsonObject();
-				element.addProperty(Reports.TYPE, paymentType);
+	public void jsonArrayDataUpdate(JsonObject jsonObj, String reqString, String salesheader, String paymentType) {
+		try {
+			JsonArray items = jsonObj.get(reqString).getAsJsonArray();
+			for (JsonElement item : items) {
+				JsonObject json = item.getAsJsonObject();
+				json.addProperty(Reports.ID,
+						UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING));
+				json.addProperty(Reports.SALES_HEADER, salesheader);
+				json.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+				json.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+				if (reqString.equals(Reports.PAYMENTS)) {
+					json.addProperty(Reports.TYPE, paymentType);
+				}
 			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
@@ -264,13 +260,13 @@ public class AccountFunding extends Factory {
 	 * Update Remaining Account Balance
 	 */
 	public void updateRemainingAccountBalances() {
-		JsonObject gmatrans = (JsonObject) data.get(Reports.GMA_TRANS);
+		JsonObject gmatrans = (JsonObject) jsonData.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		String initialBalance = initialReportsData.get(0).get(tableHeaders.get(7));
-		double adjustAmount = Double.parseDouble(admData.get(1));// + Double.parseDouble(amount)
-		// + Double.parseDouble(amount) + Double.parseDouble(amount) -
-		// Double.parseDouble(amount);
+		double adjustAmount = Double.parseDouble(admData.get(1)) + Double.parseDouble(amount)
+				+ Double.parseDouble(amount) + Double.parseDouble(amount) - Double.parseDouble(amount);
 		double updatedBalance = Double.parseDouble(initialBalance) + adjustAmount;
+		updatedBalance = Math.round(updatedBalance * 100.0) / 100.0;
 		initialReportsData.get(0).put(tableHeaders.get(7), String.valueOf(updatedBalance));
 	}
 
@@ -281,13 +277,20 @@ public class AccountFunding extends Factory {
 	 * @throws Exception
 	 */
 	public void generateJsonDetails(String timeFormat) throws Exception {
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
-		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern(timeFormat);
-		LocalDateTime tranDate = LocalDateTime.now();
-		time = tranDate.format(dateTimeFormat);
-		transDate = tranDate.format(dateFormat);
-		transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_1, FilePath.PROPERTY_CONFIG_FILE)
-				+ Constants.DELIMITER_HYPHEN + transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		try {
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
+			DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern(timeFormat);
+			LocalDateTime tranDate = LocalDateTime.now();
+			time = tranDate.format(dateTimeFormat);
+			String transDate = tranDate.format(dateFormat);
+			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			jsonData.put(Reports.TRANS_ID, transID);
+			jsonData.put(Reports.TRANS_DATE, transDate);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 	/**
@@ -297,23 +300,27 @@ public class AccountFunding extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> salesJsonDataUpdate(String paymentType) throws Exception {
-		String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING);
-		String jsonSale = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
-		JsonObject jsonData = jsonFunctions.convertStringToJson(jsonSale);
-		jsonData.addProperty(Reports.TRANS_ID, transID);
-		jsonData.addProperty(Reports.TRANS_DATE, transDate);
-		String sale = jsonData.get(Reports.SALE).getAsString();
-		JsonObject salesObj = jsonFunctions.convertStringToJson(sale);
-		salesObj.addProperty(Reports.ID, salesHeaderID);
-		salesObj.addProperty(Reports.TRANS_ID, transID);
-		salesObj.addProperty(Reports.TRANS_DATE, transDate);
-		jsonArrayDataUpdate(salesObj, Reports.ITEMS, transID, salesHeaderID, transDate, paymentType);
-		jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, transID, salesHeaderID, transDate, paymentType);
-		jsonData.addProperty(Reports.SALE, salesObj.toString());
-		data.put(Reports.JSON, jsonData.toString());
-		data.put(Reports.SALES, salesObj);
-		return data;
+	public void salesJsonDataUpdate(String paymentType) throws Exception {
+		try {
+			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
+					Constants.EMPTY_STRING);
+			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
+			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			String sale = saleJson.get(Reports.SALE).getAsString();
+			JsonObject salesObj = jsonFunctions.convertStringToJson(sale);
+			salesObj.addProperty(Reports.ID, salesHeaderID);
+			salesObj.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			salesObj.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			jsonArrayDataUpdate(salesObj, Reports.ITEMS, salesHeaderID, paymentType);
+			jsonArrayDataUpdate(salesObj, Reports.PAYMENTS, salesHeaderID, paymentType);
+			saleJson.addProperty(Reports.SALE, salesObj.toString());
+			jsonData.put(Reports.JSON, saleJson.toString());
+			jsonData.put(Reports.SALES, salesObj);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 	/**
@@ -324,21 +331,24 @@ public class AccountFunding extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> gmaAddValueJsonDataUpdate(String actionType, String payType) throws Exception {
-		String jsonGMAAddValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
-		JsonObject jsonGMAAddValueData = jsonFunctions.convertStringToJson(jsonGMAAddValue);
-		jsonGMAAddValueData.addProperty(Reports.TRANS_ID, transID);
-		jsonGMAAddValueData.addProperty(Reports.TRANS_DATE, transDate);
-		String gmaData = jsonGMAAddValueData.get(Reports.DATA).getAsString();
-		JsonObject gmaAddValue = jsonFunctions.convertStringToJson(gmaData);
-		gmaAddValue.addProperty(Reports.TRANS_ID, transID);
-		gmaAddValue.addProperty(Reports.TRANS_DATE, transDate);
-		gmaAddValue.addProperty(Reports.ACTION_TYPE, actionType);
-		gmaAddValue.addProperty(Reports.PAYMENT_TYPE, payType);
-		jsonGMAAddValueData.addProperty(Reports.DATA, gmaAddValue.toString());
-		data.put(Reports.GMA_JSON, jsonGMAAddValueData.toString());
-		data.put(Reports.GMA_TRANS, gmaAddValue);
-		return data;
+	public void gmaAddValueJsonDataUpdate(String actionType, String payType) throws Exception {
+		try {
+			String jsonGMAAddValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+			JsonObject jsonGMAAddValueData = jsonFunctions.convertStringToJson(jsonGMAAddValue);
+			jsonGMAAddValueData.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			jsonGMAAddValueData.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			String gmaData = jsonGMAAddValueData.get(Reports.DATA).getAsString();
+			JsonObject gmaAddValue = jsonFunctions.convertStringToJson(gmaData);
+			gmaAddValue.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
+			gmaAddValue.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
+			gmaAddValue.addProperty(Reports.ACTION_TYPE, actionType);
+			gmaAddValue.addProperty(Reports.PAYMENT_TYPE, payType);
+			jsonGMAAddValueData.addProperty(Reports.DATA, gmaAddValue.toString());
+			jsonData.put(Reports.GMA_JSON, jsonGMAAddValueData.toString());
+			jsonData.put(Reports.GMA_TRANS, gmaAddValue);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 
 	/**
@@ -360,10 +370,6 @@ public class AccountFunding extends Factory {
 		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
 		verifyReportName(reportName);
 		checkForDataAvailabilyInResultTable();
-	}
-
-	public Map<String, Object> getData() {
-		return data;
 	}
 
 	public Map<Integer, Map<String, String>> getInitialReportsData() {
