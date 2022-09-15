@@ -108,7 +108,7 @@ public class ConsumerSubsidy extends TestInfra {
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
-		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM); 
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));

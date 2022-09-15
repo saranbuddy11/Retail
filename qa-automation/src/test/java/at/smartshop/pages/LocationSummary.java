@@ -2211,7 +2211,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Selecting the Product >>>>>>> main
+	 * Selecting the Product
 	 * 
 	 * @param product
 	 */

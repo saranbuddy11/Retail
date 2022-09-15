@@ -24,6 +24,7 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
+import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
@@ -143,7 +144,7 @@ public class SuperOthers extends TestInfra {
 
 	// Consumer Roles Test Scenarios -
 	@Test(description = "165178-Enter all the valid details in the fields and click on save"
-			            + "203348-ADM > Super > Consumer > Create Consumer roles")
+			+ "203348-ADM > Super > Consumer > Create Consumer roles")
 	public void ConsumerRolesValidDetails() {
 
 		final String CASE_NUM = "165178";
@@ -2887,8 +2888,7 @@ public class SuperOthers extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:02.09.2022
+	 * @author afrosean Date:02.09.2022
 	 */
 	@Test(description = "203718-ADM>Super>Consumer Roles >creat new consumer >Verify error message in Length field enter combination of both String & integer value")
 	public void verifyDigitValidationMessageForLengthFieldInConsumerRoles() {
@@ -2910,6 +2910,44 @@ public class SuperOthers extends TestInfra {
 
 			// click on create new and verify length error message in length
 			consumerRolesList.verifyErrorMessage(datas.get(0), datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "198489-Pageset - > Add column to show the Pageset status in list page"
+			+ "198449-ADM -> Pageset List -> Add Filters"
+			+ "198454-ADM -> PageSet List -> Add the dropdown to filter PageSets")
+	public void verifyPagesetListsAddFilters() {
+		final String CASE_NUM = "198489";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> values = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> dropdown = Arrays
+				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String pageTitle = values.get(0) + strings.getRandomCharacter();
+
+		try {
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(menu.get(0));
+
+			// Create pageset and verify "status" column in grid
+			pageset.verifyCreatePageset(pageTitle);
+
+			//
+			pageset.verifyDropdownValueInPageset(dropdown.get(0), dropdown.get(1), dropdown.get(2));
+
+			//
+			pageset.verifyDisablePageset(values.get(0), values.get(2), values.get(1), dropdown.get(2), values.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

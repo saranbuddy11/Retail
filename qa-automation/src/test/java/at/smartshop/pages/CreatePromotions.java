@@ -807,6 +807,7 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(PRICING, Constants.SHORT_TIME);
 		String text = foundation.getText(PRICING);
 		CustomisedAssert.assertEquals(text, price);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**
