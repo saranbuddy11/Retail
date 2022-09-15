@@ -22,7 +22,7 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
-public class UserList  extends Factory {
+public class UserList extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
@@ -82,7 +82,8 @@ public class UserList  extends Factory {
 	public static final By CNFRM_PASSWORD_TXT = By.id("passwordConfirm");
 	public static final By SAVE_PASSWORD_BTN = By.id("savePasswordBtn");
 	public static final By USER_SUMMARY = By.id("li1");
-	public static final By EGIFTCARD_CHECKBOX = By.xpath("//input[contains(@name,'hasview-c793c084c70e11ec9d640242ac12000')]");
+	public static final By EGIFTCARD_CHECKBOX = By
+			.xpath("//input[contains(@name,'hasview-c793c084c70e11ec9d640242ac12000')]");
 	public static final By REMOVE_USER_ROLES = By.xpath("//td[@class=' sorting_1']");
 	public static final By CANCEL_USER_ROLE = By.id("cancelBtn2");
 	public static final By CANCEL_USER_PASSWORD = By.id("cancelBtn3");
@@ -93,14 +94,14 @@ public class UserList  extends Factory {
 	public static final By DELETE_ROLE = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
 
-	public static final By DRP_SELECT_ROLE= By.xpath("//a[@id='standarduserBtn']");
-	public static final By SELECTED_LOC= By.xpath("(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
-
+	public static final By DRP_SELECT_ROLE = By.xpath("//a[@id='standarduserBtn']");
+	public static final By SELECTED_LOC = By.xpath(
+			"(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
 
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
 	}
-	
+
 	public void selectOrgs(By object, List<String> orgName) {
 		for (int i = 0; i < orgName.size(); i++) {
 			dropdown.selectItem(object, orgName.get(i), Constants.TEXT);
@@ -181,36 +182,27 @@ public class UserList  extends Factory {
 		foundation.click(UserList.CONFIRM_DISABLE);
 		foundation.waitforElement(ENABLE_USER, Constants.EXTRA_LONG_TIME);
 
-    }
-    
-    public void searchAndSelectUser(String userFirstName) {
-    	textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
-		foundation.click(UserList.TBL_DATA);
-    }
+	}
 
-    /**
+	public void searchAndSelectUser(String userFirstName) {
+		textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
+		foundation.click(UserList.TBL_DATA);
+	}
+
+	/**
 	 * Select location in User and Roles
+	 * 
 	 * @param location
 	 *
 	 */
-    public void selectLocation(String location) {
-	    CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
+	public void selectLocation(String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(UserRoles.LBL_VIEW_ROLE));
 		foundation.click(UserList.LNK_LOCATION_REMOVE_ALL);
-		dropdown.selectItem(UserList.SELECT_LOCATION, location,Constants.TEXT);
+		dropdown.selectItem(UserList.SELECT_LOCATION, location, Constants.TEXT);
 		foundation.getText(UserList.SELECTED_LOC);
 		CustomisedAssert.assertTrue(foundation.getText(UserList.SELECTED_LOC).contains(location));
 		foundation.click(UserList.BTN_UPDATE_USER);
-		
-
-    } 
-
-    }
-      
-
-
-	
-
-	
+	}
 
 	/**
 	 * verify edit user page by clicking on operator
@@ -234,14 +226,15 @@ public class UserList  extends Factory {
 	}
 
 	/**
-  * verify enabled E-gift card
-  * @param operator
-  */
-    public void verifyEnabledEgiftCard(String operator) {
-    	CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.LBL_USER_LIST));
-    	foundation.waitforElementToBeVisible(BTN_MANAGE_ROLES, 3);
-    	foundation.click(BTN_MANAGE_ROLES);
-    	textBox.enterText(UserList.SEARCH_FILTER, operator);
+	 * verify enabled E-gift card
+	 * 
+	 * @param operator
+	 */
+	public void verifyEnabledEgiftCard(String operator) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.LBL_USER_LIST));
+		foundation.waitforElementToBeVisible(BTN_MANAGE_ROLES, 3);
+		foundation.click(BTN_MANAGE_ROLES);
+		textBox.enterText(UserList.SEARCH_FILTER, operator);
 		foundation.click(objRoleName(operator));
 		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_TAB));
@@ -251,9 +244,7 @@ public class UserList  extends Factory {
 		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
 		foundation.click(BTN_UPDATE_USER);
 		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
-		
-			}
-		
-		}
 
+	}
 
+}
