@@ -3,21 +3,14 @@ package at.smartshop.pages;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.github.dockerjava.api.model.Driver;
 
 import at.framework.browser.Factory;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLocation;
-import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -27,7 +20,6 @@ public class UserList extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private Strings string = new Strings();
-	private CheckBox checkbox = new CheckBox();
 	private PropertyFile propertyFile = new PropertyFile();
 
 	public static final By BTN_MANAGE_ROLES = By.id("customBtn");
@@ -93,7 +85,6 @@ public class UserList extends Factory {
 	public static final By SELECT_DATE = By.xpath("//td[@class='day  active']");
 	public static final By DELETE_ROLE = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By TXT_SEARCH_ROLE = By.xpath("//input[@aria-controls='dt']");
-
 	public static final By DRP_SELECT_ROLE = By.xpath("//a[@id='standarduserBtn']");
 	public static final By SELECTED_LOC = By.xpath(
 			"(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
@@ -181,7 +172,6 @@ public class UserList extends Factory {
 		foundation.click(UserList.DISABLE_USER);
 		foundation.click(UserList.CONFIRM_DISABLE);
 		foundation.waitforElement(ENABLE_USER, Constants.EXTRA_LONG_TIME);
-
 	}
 
 	public void searchAndSelectUser(String userFirstName) {
@@ -222,7 +212,6 @@ public class UserList extends Factory {
 		foundation.click(objRoleName(operatorname));
 		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
-
 	}
 
 	/**
@@ -244,7 +233,5 @@ public class UserList extends Factory {
 		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
 		foundation.click(BTN_UPDATE_USER);
 		foundation.waitforElementToBeVisible(BTN_UPDATE_USER, 3);
-
 	}
-
 }

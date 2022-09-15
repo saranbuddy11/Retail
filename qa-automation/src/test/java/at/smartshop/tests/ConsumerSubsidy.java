@@ -2272,7 +2272,7 @@ public class ConsumerSubsidy extends TestInfra {
 			browser.close();
 
 			// Navigate to Reports
-			//browser.close();
+			// browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -3180,6 +3180,125 @@ public class ConsumerSubsidy extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
+			// Resetting GMA subsidy
+			locationSummary.subsidyResettingValidationOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData.get(1));
+			login.logout();
+			browser.close();
+		}
+	}
+
+	/**
+	 * @author afrosean Date:25-08-2022
+	 */
+	@Test(description = "197553 - SOS-30462 : To Verify that the Exclude Weekends Checkbox is not displayed for 'Weekly' in GMA Subsidy")
+	public void verifyExcludeWeekendsCheckboxForWeeklyRecurrence() {
+		final String CASE_NUM = "197553";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		try {
+			// Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+			// TopOff Subsidy
+			locationSummary.navigateToLocationAndSelectGMASubsidyToVerifyTopOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData);
+
+			// Setting start date as current date & recurrence as 'Monthly' in TopOff
+			// Subsidy
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE,
+					LocationSummary.TXT_TOP_OFF_GROUP_NAME, LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(15),
+					requiredData.get(7), requiredData.get(9));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.EXCLUDE_WEEKENDS));
+			foundation.click(LocationSummary.BTN_ADD_TOP_OFF);
+
+			//verify exclusive checkBox for top off
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE_NEWROW,
+					LocationSummary.TXT_TOP_OFF_GROUP_NAME_NEWROW, LocationSummary.TXT_TOP_OFF_AMOUNT_NEWROW,
+					requiredData.get(8), requiredData.get(13), requiredData.get(9));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.EXECLUDE_ROW1));
+			foundation.click(LocationSummary.BTN_EXTRA_ADD_TOP_OFF);
+
+			//verify exclusive checkBox for adding recurrence to monthly and weekly
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE_SECONDROW,
+					LocationSummary.TXT_TOP_OFF_GROUP_NAME_NEWROW, LocationSummary.TXT_TOP_OFF_AMOUNT_NEWROW,
+					requiredData.get(12), requiredData.get(14), requiredData.get(9));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.EXECLUDE_ROW2));
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			// Resetting GMA subsidy
+			locationSummary.subsidyResettingValidationOff(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData.get(1));
+			login.logout();
+			browser.close();
+		}
+	}
+	
+	/**
+	 * @author afrosean Date:26-08-2022
+	 */
+	@Test(description = "197554 - To Verify that the Exclude Weekends Checkbox is not displayed for monthly in GMA Subsidy")
+	public void verifyExcludeWeekendsCheckboxForWeeklyRecurrenceInRollOver() {
+		final String CASE_NUM = "197554";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> menus = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		try {
+			// Login to ADM as Super, Navigate to Location and select GMA subsidy to Verify
+			// TopOff Subsidy
+			locationSummary.navigateToLocationAndSelectGMASubsidyToVerifyRollOver(menus.get(0),
+					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData);
+
+			// Setting start date as current date & recurrence as 'Monthly' in TopOff
+			// Subsidy
+			locationSummary.verifyRollOverCurrentDate(currentDate);
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_ROLL_OVER_RECURRENCE,
+					LocationSummary.TXT_ROLL_OVER_GROUP_NAME, LocationSummary.TXT_ROLL_OVER_AMOUNT, requiredData.get(15),
+					requiredData.get(7), requiredData.get(9));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.EXCLUDE_WEEKENDS_ROLLOVER));
+			foundation.click(LocationSummary.BTN_ADD_ROLL_OVER);
+
+			//verify exclusive checkBox for roll over
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_ROLL_OVER_RECURRENCE_NEWROW,
+					LocationSummary.TXT_ROLL_OVER_GROUP_NAME_NEWROW, LocationSummary.TXT_ROLL_OVER_AMOUNT_NEWROW,
+					requiredData.get(8), requiredData.get(13), requiredData.get(9));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.ROLL_OVER_EXECLUDE_ROW1));
+			foundation.click(LocationSummary.BTN_EXTRA_ADD_ROLL_OVER);
+
+			//verify exclusive checkBox for adding recurrence to monthly and weekly
+			locationSummary.verifyGMASubsidy(LocationSummary.DPD_ROLL_OVER_RECURRENCE_SECONDROW,
+					LocationSummary.TXT_ROLL_OVER_GROUP_NAME_SECONDROW, LocationSummary.TXT_ROLL_OVER_AMOUNT_NEWROW,
+					requiredData.get(12), requiredData.get(14), requiredData.get(9));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.ROLL_OVER_EXECLUDE_ROW2));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, 5);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
 			// Resetting GMA subsidy
 			locationSummary.subsidyResettingValidationOff(menus.get(0),
 					rstLocationSummaryData.get(CNLocationSummary.NAME), requiredData.get(1));
