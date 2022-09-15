@@ -884,7 +884,12 @@ public class LocationSummary extends Factory {
 		foundation.objectClick(CLEAR_INVENTORY_FILTER);
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
-
+	
+	/**
+	 * This method is to get the inventory value of the product
+	 * @param scancode
+	 * @return
+	 */
 	public String getInventoryValue(String scancode) {
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
@@ -892,7 +897,6 @@ public class LocationSummary extends Factory {
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
 		return inventoryValue;
 	}
-	
 	
 	/**
 	 * Return By Object for Upload Status

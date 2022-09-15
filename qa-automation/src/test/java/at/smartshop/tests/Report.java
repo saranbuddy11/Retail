@@ -54,6 +54,7 @@ import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeleteSummaryReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
+import at.smartshop.pages.EntrySummaryReport;
 import at.smartshop.pages.FinancialRecapReport;
 import at.smartshop.pages.FolioBillingReport;
 import at.smartshop.pages.GuestPassByDevice;
@@ -190,6 +191,7 @@ public class Report extends TestInfra {
 	private SubsidyConsumerSpend subsidyConsumerSpend = new SubsidyConsumerSpend();
 	private UnpaidOrder unpaidOrder = new UnpaidOrder();
 	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
+	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
 	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
 	private AccountFunding accountFunding = new AccountFunding();
@@ -204,17 +206,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstV5DeviceData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -5383,7 +5385,7 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Inventory Value Summary Report Data Validation 198531
+	 * This Method is for Inventory Value Summary Report Data Validation
 	 * 
 	 * @author ravindhara Date: 29-08-2022
 	 */
@@ -5466,12 +5468,88 @@ public class Report extends TestInfra {
 		}
 	}
 
-	/*
+	/**
+	 * This Method is for Entry Summary Report Report Data Validation
+	 * 
+	 * @author ravindhara Date: 02-09-2022
+	 */
+	@Test(description = "203698-This test validates Entry Summary Report Data Calculation 186633")
+	public void entrySummaryReportDataValidation() {
+		try {
+			final String CASE_NUM = "203698";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String reason = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location and Inventory section
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
+
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.waitforElement(EntrySummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			entrySummaryReport.verifyReportName(reportName);
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
+			entrySummaryReport.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			entrySummaryReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			entrySummaryReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
 	 * This Method is for Delete Summary Report Data Validation
 	 * 
 	 * @author ravindhara Date: 07-08-2022
 	 */
-	@Test(description = "203720-This test validates Entry Summary Report Data Calculation 186633")
+	@Test(description = "203720-This test validates Delete Summary Report Data Calculation 186633")
 	public void deleteSummaryReportDataValidation() {
 		try {
 			final String CASE_NUM = "203720";
@@ -5527,6 +5605,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
+
 			foundation.waitforElement(DeleteSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			deleteSummaryReport.verifyReportName(reportName);
 			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
