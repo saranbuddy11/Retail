@@ -29,7 +29,7 @@ public class PageSet {
 	public static final By DRP_SERVICE = By.xpath("//select[@class='pageserviceselect']");
 	public static final By DRP_PAGEDEF = By.xpath("//select[@class='pageNAMEselect']");
 	public static final By DRP_PAGEINTENT = By.xpath("//select[@class='pageintentselect']");
-	public static final By GRID_DISABLE=By.xpath("//tbody[@aria-relevant='all']");
+	public static final By GRID_DISABLE=By.xpath("//td[text()='Disabled']");
 	public static final By BTN_DELETE_PAGEDEF = By
 			.xpath("//div[@class='delete-item delete-pagedef']//span[text()=' Delete']");
 	public static final By DRP_EXISTING_PAGESET = By.xpath("//div[@class='pageset-selectlist']//select");
@@ -63,7 +63,6 @@ public class PageSet {
 		textBox.enterText(PageSet.TXTBX_SEARCHBOX, createdPageset);
 		foundation.waitforElementToBeVisible(GRID_DISABLE, 5);
 		text = foundation.getText(PageSet.GRID_DISABLE);
-		System.out.println(text);
 		CustomisedAssert.assertTrue(text.contains(disabled));
 		
 		

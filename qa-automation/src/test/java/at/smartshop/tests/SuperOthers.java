@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -2952,5 +2954,15 @@ public class SuperOthers extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+	
+	
+	@Test
+	public void launchBrowser() {
+		System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://test4.365rm.us/capadm/public/login");
+		
+		
 	}
 }
