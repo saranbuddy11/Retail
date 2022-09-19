@@ -6004,15 +6004,50 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-//			// process sales API to generate data
-//			cashAudit.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
-//					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-//
-//			// Navigate To Report Tab and Select the Report Date range & Location, run
-//			// report
-//			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-//					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+			// process sales API to generate data
+			cashAudit.processAPI(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			cashAudit.getCashoutJsonData();
 
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+
+			// read Report Data
+			System.out.println("1");
+			cashAudit.readAllRecordsFromCashAuditTable();
+			System.out.println("2");
+			cashAudit.getLastPickupData().putAll(cashAudit.reportSecondLayerData);
+			System.out.println(cashAudit.getLastPickupData());
+
+			// verify Report Headers
+			cashAudit.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			System.out.println("3");
+
+			// verify GMA Record
+			cashAudit.updateGMARecord(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
+			System.out.println("4");
+			cashAudit.verifyGMARecord();
+			System.out.println("5");
+
+			// verify KCO Record
+			cashAudit.updateKCORecord();
+			System.out.println("6");
+			cashAudit.verifyKCORecord();
+			System.out.println("7");
+
+			// verify TotalPlus Total
+			cashAudit.verifyTotal(cashAudit.tableHeaders.get(3));
+			System.out.println("8");
+
+			// verify TotalMinus Total
+			cashAudit.verifyTotal(cashAudit.tableHeaders.get(4));
+			System.out.println("9");
+
+			// verify Last PickUp Record
+			cashAudit.verifyLastPickUp();
+			System.out.println("10");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

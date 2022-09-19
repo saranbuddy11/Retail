@@ -13,13 +13,13 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 import com.google.gson.JsonObject;
 
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Configuration;
@@ -33,12 +33,14 @@ public class CashAudit extends Factory {
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();
 	private JsonFile jsonFunctions = new JsonFile();
+	private NavigationBar navigationBar = new NavigationBar();
+	private ReportList reportList = new ReportList();
 
-	private List<String> tableHeaders = new ArrayList<>();
+	public List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredCashOutJsonData = new LinkedList<>();
 	private List<String> requiredGMAJsonData = new LinkedList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
-	private Map<Integer, Map<String, String>> reportSecondLayerData = new LinkedHashMap<>();
+	public Map<Integer, Map<String, String>> reportSecondLayerData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> lastPickupData = new HashMap<>();
 	private Map<String, Object> data = new HashMap<>();
 	private Map<String, String> gmaData = new HashMap<>();
@@ -66,7 +68,7 @@ public class CashAudit extends Factory {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			Assert.assertTrue(reportTitle.contains(reportName));
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -80,14 +82,14 @@ public class CashAudit extends Factory {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
 				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
-					Assert.fail("Failed Report because No Data Available in Report Table");
+					CustomisedAssert.fail("Failed Report because No Data Available in Report Table");
 				} else {
 					ExtFactory.getInstance().getExtent().log(Status.INFO,
 							"Report Data Available in the Table, Hence passing the Test case");
 				}
 			} else {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
-				Assert.fail("Failed Report because No Report Table Available");
+				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -203,7 +205,8 @@ public class CashAudit extends Factory {
 	public void verifyTotal(String columnName) {
 		double updatedTotal = calculateTotal(columnName);
 		int count = getTotalRowCount(Reports.TOTAL, reportSecondLayerData, tableHeaders.get(1));
-		Assert.assertTrue(reportSecondLayerData.get(count).get(columnName).contains(String.valueOf(updatedTotal)));
+		CustomisedAssert
+				.assertTrue(reportSecondLayerData.get(count).get(columnName).contains(String.valueOf(updatedTotal)));
 	}
 
 	/**
@@ -215,7 +218,7 @@ public class CashAudit extends Factory {
 		updateLastPickUpData();
 		int count = getTotalRowCount(Reports.TOTAL, reportSecondLayerData, tableHeaders.get(1)) + 1;
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
-			Assert.assertTrue(reportSecondLayerData.get(count).get(tableHeaders.get(iter))
+			CustomisedAssert.assertTrue(reportSecondLayerData.get(count).get(tableHeaders.get(iter))
 					.contains(lastPickupData.get(count).get(tableHeaders.get(iter))));
 		}
 	}
@@ -240,7 +243,7 @@ public class CashAudit extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
-			Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 		}
 	}
 
@@ -265,8 +268,10 @@ public class CashAudit extends Factory {
 		int counter = getRowCount(getRequiredGMAJsonData().get(0), reportsData, tableHeaders.get(0),
 				tableHeaders.get(4));
 		int count = tableHeaders.size();
+		System.out.println(reportsData.get(counter));
+		System.out.println(gmaData);
 		for (int iter = 0; iter < count; iter++) {
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(gmaData.get(tableHeaders.get(iter))));
 		}
 	}
@@ -301,7 +306,7 @@ public class CashAudit extends Factory {
 		System.out.println(reportsData.get(counter));
 		System.out.println(kcoData);
 		for (int iter = 0; iter < count; iter++) {
-			Assert.assertTrue(
+			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(kcoData.get(tableHeaders.get(iter))));
 		}
 	}
@@ -421,6 +426,27 @@ public class CashAudit extends Factory {
 		data.put(Reports.KIOSK_CASH_OUT_JSON, jsonKioskCashoutData.toString());
 		data.put(Reports.KIOSK_CASH_OUT_TRANS, kioskCashout);
 		return data;
+	}
+
+	/**
+	 * Select the report with Date range and Location to run the report
+	 * 
+	 * @param reportName
+	 * @param date
+	 * @param location
+	 */
+	public void selectAndRunReport(String menu, String reportName, String date, String location) {
+		navigationBar.navigateToMenuItem(menu);
+		reportList.selectReport(reportName);
+		reportList.selectDate(date);
+		foundation.threadWait(Constants.SHORT_TIME);
+		reportList.selectLocation(location);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
+		foundation.click(ReportList.BTN_RUN_REPORT);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		verifyReportName(reportName);
+		checkForDataAvailabilyInResultTable();
 	}
 
 	public Map<String, Object> getData() {
