@@ -59,6 +59,7 @@ import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.pages.SequenceNumber;
 import at.smartshop.pages.SpecialService;
+import lombok.val;
 import at.smartshop.pages.Announcement;
 import at.smartshop.pages.AppReferral;
 import at.smartshop.pages.Report;
@@ -77,6 +78,7 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
+	private OrgSummary orgsummary= new OrgSummary();
 	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService = new SpecialService();
 	private Strings strings = new Strings();
@@ -2945,24 +2947,61 @@ public class SuperOthers extends TestInfra {
 			// Create pageset and verify "status" column in grid
 			pageset.verifyCreatePageset(pageTitle);
 
-			//
+			// verify dropdown values in pageset page
 			pageset.verifyDropdownValueInPageset(dropdown.get(0), dropdown.get(1), dropdown.get(2));
 
-			//
-			pageset.verifyDisablePageset(values.get(0), values.get(2), values.get(1), dropdown.get(2), values.get(3));
+			// verify disable pageset
+			pageset.verifyActiveAndDisablePageset(values.get(0), values.get(2), values.get(1), dropdown.get(2),
+					values.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
-	@Test
-	public void launchBrowser() {
-		System.setProperty("webdriver.chrome.driver", FilePath.DRIVER_CHROME);
-		WebDriver driver = new ChromeDriver();
-		driver.get("https://test4.365rm.us/capadm/public/login");
-		
-		
+
+	/**
+	 * @author afrosean
+	 * Date:19-09-2022
+	 */
+	@Test(description = "198500- PageSet -> Fetch only active PageSets when Org is added or edited")
+	public void verifyActivePageSetWhenOrgIsAdded() {
+		final String CASE_NUM = "198500";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> values = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String pageTitle = values.get(0) + strings.getRandomCharacter();
+
+		try {
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(menu.get(0));
+
+			// Create pageSet and verify "status" column in grid
+			pageset.verifyCreatePageset(pageTitle);
+			
+			//Capture pageSet name and select dropDown in Org summary page
+			pageset.capturePagesetName(values.get(0), menu.get(1));	
+			
+			//verify org which is mapped with pageSet created
+			pageset.searchPagesetAndverifyOrgIsMapped(menu.get(0) ,values.get(0), values.get(4));
+			
+			//navigate to org summary and change pageset
+			orgsummary.navigateToOrgSummaryAndChangePageset(menu.get(1), values.get(5));
+			
+			//Disable the created pageset
+			pageset.disablePageset(menu.get(0),values.get(0), values.get(1));
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+
 	}
+
 }
