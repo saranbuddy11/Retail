@@ -870,6 +870,11 @@ public class LocationSummary extends Factory {
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='" + "DataGrid_qtyonhand']/div/div/span/input"),
 				Constants.TWO_SECOND);
+		
+		textBox.clearText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
+		
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
