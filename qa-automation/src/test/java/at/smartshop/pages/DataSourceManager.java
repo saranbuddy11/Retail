@@ -180,11 +180,34 @@ public class DataSourceManager extends Factory {
 			textBox.enterText(DSM_SEARCH_BOX, consumer);
 			foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
 			CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
-		
-
-		}
-		
 	}
+	
+	/**
+	 * search subsidy and verify snow flake is not checked
+	 * @param subsidy
+	 */
+	public void searchSubsidyAndVerifySnowFlakeIsNotChecked(String subsidy) {
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING));
+			foundation.click(DataSourceManager.DSM_SEARCH_BOX);
+			textBox.enterText(DataSourceManager.DSM_SEARCH_BOX, subsidy);
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
+			foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
+	}
+	
+	/**
+	 * search subsidy and verify snow flake is checked
+	 * @param subsidy
+	 */
+	public void searchSubsidyAndVerifySnowFlakeIsChecked(String subsidy) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DataSourceManager.VALIDATE_DSM_HEADING));
+		foundation.click(DataSourceManager.DSM_SEARCH_BOX);
+		textBox.enterText(DataSourceManager.DSM_SEARCH_BOX, subsidy);
+		CustomisedAssert.assertTrue(checkBox.isChkEnabled(DataSourceManager.DSM_CHECKBOX));
+		foundation.click(DataSourceManager.DSM_CHECKBOX);
+		foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
+	}
+	
+}
 	
 
 

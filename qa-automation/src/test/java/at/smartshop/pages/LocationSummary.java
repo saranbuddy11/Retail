@@ -345,6 +345,7 @@ public class LocationSummary extends Factory {
 	public static final By MATCH_INVENTORY_RECORD = By.id("inventoryDataGrid_pager_label");
 	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[13]");
 	public static final By LBL_TAX2_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_taxrate2']");
+	public static final By TBL_PRODUCT_HEADER = By.xpath("//table[@id='productDataGrid']//thead//tr[@role='row']");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();

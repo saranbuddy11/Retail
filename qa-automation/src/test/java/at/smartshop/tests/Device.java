@@ -46,7 +46,9 @@ public class Device extends TestInfra {
 	private Dropdown dropDown = new Dropdown();
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
-
+	private DeviceSummary deviceSummary = new DeviceSummary();
+	private DeviceDashboard deviceDashboard=new DeviceDashboard();
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 
@@ -1347,6 +1349,134 @@ public class Device extends TestInfra {
 			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));
 			
 		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * @author sakthir Date: 14-09-2022
+	 */
+	@Test(description = "197605-SOS-29862-Add option to include 'No MSR' within ADM")
+	public void verifyInEncryptMSROptionForNoMSR() {
+		   final String CASE_NUM = "197605";
+		
+		    // Reading test data from DataBase
+		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+		    String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		    String device=rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+		    List<String> data = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			// navigate to super>Device and search for device 
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
+			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
+			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
+			foundation.click(DeviceList.TXT_TABLE_RECORD);
+			
+			//Select freedom pay and enter client id, store id and pay label
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_SELECT_PAYMENT);
+			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT,data.get(0), Constants.TEXT);
+			foundation.click(DeviceSummary.TXT_PAYID);
+			textBox.enterText(DeviceSummary.TXT_PAYID, data.get(1));
+			deviceSummary.freedomPayConfig(data.get(1));
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_MSR);
+			foundation.click(DeviceSummary.DPD_MSR);
+			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(2), Constants.TEXT);
+			foundation.click(DeviceSummary.BTN_SAVE);
+			
+			//validating the No MSR option
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			foundation.click(DeviceList.TXT_SEARCH);
+			textBox.enterText(DeviceList.TXT_SEARCH, device);
+			foundation.click(DeviceList.TBL_DEVICE_NAME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_MSR_CHECK).equals(data.get(2)));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally
+		{
+			//resetting
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_SELECT_PAYMENT);
+			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT,data.get(3), Constants.TEXT);
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_MSR);
+			foundation.click(DeviceSummary.DPD_MSR);
+			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(4), Constants.TEXT);
+			foundation.click(DeviceSummary.BTN_SAVE);
+		}
+	}
+
+	/**
+	 * @author sakthir Date: 19-09-2022
+	 */
+	@Test(description = "198515-SOS-28841-To Verify the Device Level Rates in Existing Device")
+	public void verifyNewRateFieldsInDeviceSummary() {
+		   final String CASE_NUM = "198515";
+		
+		    // Reading test data from DataBase
+		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+		    List<String> menu= Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		    List<String> device=Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
+		    List<String> data = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			// navigate to location, select location and get existing device
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(device.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+			String device_name=foundation.getText(LocationSummary.DEVICE_NAME);
+			
+			//navigate to Admin->Device and search for existing device
+			deviceDashboard.selectDeviceName(menu.get(1),device_name);
+			
+			//verify the new Fields
+			deviceSummary.verifyNewFields(data.get(0));
+			
+			// navigate to location, select location and add new device
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(device.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
+			foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data.get(1));
+            foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
+            foundation.click(LocationSummary.BTN_DEVICE_ADD);
+    		CustomisedAssert.assertTrue(foundation.getTextofListElement(LocationSummary.DEVICE_NAME).contains(data.get(1)));
+			
+    		//navigate to Admin->Device and search for new device
+    		deviceDashboard.selectDeviceName(menu.get(1),data.get(1));
+					
+			//verify the new Fields
+			deviceSummary.verifyNewFields(data.get(0));
+    		
+		}
+		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

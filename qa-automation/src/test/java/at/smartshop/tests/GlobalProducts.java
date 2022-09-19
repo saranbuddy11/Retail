@@ -2286,6 +2286,7 @@ public class GlobalProducts extends TestInfra {
 			
 		}
 		}
+	
 	/**
 	 * @author sakthir Date: 22-08-2022
 	 */
