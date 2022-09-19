@@ -376,7 +376,7 @@ public class CashAudit extends Factory {
 	}
 
 	/**
-	 * GMA addvalue Json Data Update
+	 * GMA add value Json Data Update
 	 * 
 	 * @param amount
 	 * @return
