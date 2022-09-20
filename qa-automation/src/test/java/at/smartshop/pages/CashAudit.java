@@ -51,7 +51,7 @@ public class CashAudit extends Factory {
 
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div.span12.rpt-data > div.col-12.comment-table-heading");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By DATA_EXISTING_DATE = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(4)");
@@ -271,6 +271,8 @@ public class CashAudit extends Factory {
 		System.out.println(reportsData.get(counter));
 		System.out.println(gmaData);
 		for (int iter = 0; iter < count; iter++) {
+			System.out.println(
+					reportsData.get(counter).get(tableHeaders.get(iter)) + "-" + (gmaData.get(tableHeaders.get(iter))));
 			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(gmaData.get(tableHeaders.get(iter))));
 		}

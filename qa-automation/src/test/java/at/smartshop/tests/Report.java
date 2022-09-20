@@ -6015,39 +6015,29 @@ public class Report extends TestInfra {
 					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
 
 			// read Report Data
-			System.out.println("1");
 			cashAudit.readAllRecordsFromCashAuditTable();
-			System.out.println("2");
 			cashAudit.getLastPickupData().putAll(cashAudit.reportSecondLayerData);
 			System.out.println(cashAudit.getLastPickupData());
 
 			// verify Report Headers
 			cashAudit.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
-			System.out.println("3");
 
 			// verify GMA Record
 			cashAudit.updateGMARecord(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
-			System.out.println("4");
 			cashAudit.verifyGMARecord();
-			System.out.println("5");
 
 			// verify KCO Record
 			cashAudit.updateKCORecord();
-			System.out.println("6");
 			cashAudit.verifyKCORecord();
-			System.out.println("7");
 
 			// verify TotalPlus Total
 			cashAudit.verifyTotal(cashAudit.tableHeaders.get(3));
-			System.out.println("8");
 
 			// verify TotalMinus Total
 			cashAudit.verifyTotal(cashAudit.tableHeaders.get(4));
-			System.out.println("9");
 
 			// verify Last PickUp Record
 			cashAudit.verifyLastPickUp();
-			System.out.println("10");
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

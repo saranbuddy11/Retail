@@ -211,7 +211,7 @@ public class AccountFunding extends Factory {
 	 */
 	public void updateOperatorCredit() {
 		double initialOperatorCredit = Double.parseDouble(initialReportsData.get(0).get((tableHeaders.get(2))));
-		double updatedOperatorCredit = initialOperatorCredit;// + Double.parseDouble(admData.get(1));
+		double updatedOperatorCredit = initialOperatorCredit + Double.parseDouble(admData.get(1));
 		initialReportsData.get(0).put(tableHeaders.get(2), String.valueOf(updatedOperatorCredit));
 	}
 

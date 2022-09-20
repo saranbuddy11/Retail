@@ -1,1 +1,8 @@
-{"kiosk":"VSH601263","seqnbr":"36522","type":"cashout","transdate":"2021-03-03 18:15:50","transid":"VSH601263-20210303181550","data":"{\"id\":\"c55ea2fb3ff6ee6479a9ac5ffb2ba6d5\",\"totalcash\":430,\"totaltickets\":0,\"bills1\":30,\"bills2\":5,\"bills3\":10,\"bills4\":2,\"bills5\":1,\"bills6\":4,\"bills7\":1,\"tickets\":0,\"totalbills\":45,\"datecreated\":\"2021-03-03 18:15:50\",\"userid\":\"2a8a9f5cd2f8a824befe4212fd97db18\",\"currency\":\"USD\",\"org\":\"41fa7f4b4206cc7582005d153df2a86d\",\"location\":\"c35ea2fb3ff6ee6479a9ac5ffb2ba5d2\",\"orgName\":\"AutomationOrg\",\"locName\":\"Automation@365\",\"kiosk\":\"VSH601263\",\"transdate\":\"2021-03-03 18:15:50\",\"currentCashOutTime\":\"2021-03-03 18:15:50\",\"prevCashOutTime\":\"2021-03-02 16:45:45\",\"role\":\"Driver\",\"userName\":\"SuperMan Man\"}"}
+{"kiosk":"VSH601263","seqnbr":"36522","type":"cashout","transdate":"2021-03-03 18:15:50",
+"transid":"VSH601263-20210303181550","data":"{\"id\":\"c55ea2fb3ff6ee6479a9ac5ffb2ba6d5\",
+\"totalcash\":430,\"totaltickets\":0,\"bills1\":30,\"bills2\":5,\"bills3\":10,\"bills4\":2,
+\"bills5\":1,\"bills6\":4,\"bills7\":1,\"tickets\":0,\"totalbills\":45,
+\"datecreated\":\"2021-03-03 18:15:50\",\"userid\":\"2a8a9f5cd2f8a824befe4212fd97db18\",
+\"currency\":\"USD\",\"org\":\"41fa7f4b4206cc7582005d153df2a86d\",\"location\":\"c35ea2fb3ff6ee6479a9ac5ffb2ba5d2\",
+\"orgName\":\"AutomationOrg\",\"locName\":\"Automation@365\",\"kiosk\":\"VSH601263\",\"transdate\":\"2021-03-03 18:15:50\",
+\"currentCashOutTime\":\"2021-03-03 18:15:50\",\"prevCashOutTime\":\"2021-03-02 16:45:45\",\"role\":\"Driver\",\"userName\":\"SuperMan Man\"}"}
