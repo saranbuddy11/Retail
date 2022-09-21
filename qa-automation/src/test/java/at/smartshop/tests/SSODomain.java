@@ -12,7 +12,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.keys.Configuration;

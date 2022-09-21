@@ -423,8 +423,8 @@ public class UserRoles extends TestInfra {
 	 * Date:21-09-2022
 	 */
 
-	@Test(description = "204699-SOS-verify copy user contains duplicate values")
-	public void copyADMUser() {
+	@Test(description = "204699-ADM > User and Roles > Verify Copy ADM User")
+	public void verifyCopyUserFunctionality() {
 
 		final String CASE_NUM = "204699";
 
