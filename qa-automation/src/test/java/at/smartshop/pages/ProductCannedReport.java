@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -262,23 +263,44 @@ public class ProductCannedReport extends Factory {
 			double percent = (Double.parseDouble(unit) / Double.parseDouble(salesUnit)) * 100;
 //			BigDecimal updatePercent =  new BigDecimal(percent);
 //			updatePercent = updatePercent.setScale(2, BigDecimal.ROUND_UP);
-			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
-			String d = df.format(percent);
-			intialData.get(recordCount).put(columnName, String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
+			
+//			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
+//			String decimalvalue = df.format(percent);
+//			double value = Double.parseDouble(decimalvalue); 
+//			DecimalFormat decimalFormat = new DecimalFormat(".#");
+//			String result = decimalFormat.format(value); 
+			
+			
+			DecimalFormat df = new DecimalFormat("#,###");
+			df.setRoundingMode(RoundingMode.FLOOR);
+			String result = df.format(percent);
+					
+//			df.setRoundingMode(RoundingMode.HALF_UP);
+//			String result = df.format(percent);
+			
+			intialData.get(recordCount).put(columnName, String.valueOf(result));
 //			intialData.get(recordCount).put(columnName,  String.valueOf(updatePercent));
+			System.out.println("result : "+ result);
 	}
 
+	public String decrementedInventoryValue(String inventoryValue) {
+		int value = Integer.parseInt(inventoryValue)-1;
+		String updatedValue = String.valueOf(value);
+		return updatedValue;
+	}
+	
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
 			System.out.println("reportsData :" + reportsData);
 			System.out.println("intialData :" + intialData);
 			foundation.threadWait(Constants.TWO_SECOND);
-			for (int counter = 0; counter < count; counter++) {
+//			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
-							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
-				}
+					CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
+							.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
+					System.out.println("iter : "+ iter);
+//				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
