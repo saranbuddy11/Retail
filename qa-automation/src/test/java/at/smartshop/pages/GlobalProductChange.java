@@ -377,7 +377,7 @@ public class GlobalProductChange extends Factory {
 		foundation.threadWait(1);
 		foundation.clickEnter();
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.waitforElementToBeVisible(REASON_BTNOK, 3);
+		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
 	}

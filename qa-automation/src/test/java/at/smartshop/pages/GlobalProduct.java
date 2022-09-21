@@ -225,7 +225,7 @@ public class GlobalProduct extends Factory {
 	 */
 	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
-		foundation.waitforElementToBeVisible(TXT_FILTER, 5);
+		foundation.waitforElementToBeVisible(GBL_PRODUCT_DATA, 5);
 		textBox.enterText(LocationList.TXT_FILTER, product);
 		foundation.threadWait(3);
 		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
