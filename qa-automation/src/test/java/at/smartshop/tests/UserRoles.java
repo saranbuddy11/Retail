@@ -15,6 +15,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNUserRoles;
 import at.smartshop.keys.Configuration;
@@ -34,9 +35,11 @@ public class UserRoles extends TestInfra {
 	private Strings string = new Strings();
 	private Foundation foundation = new Foundation();
 	private ResultSets dataBase = new ResultSets();
+	private UserList userList = new UserList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstUserRolesData;
+	private Map<String, String> rstConsumerSearchData;
 
 	@Test(description = "118208-This test is to validate 'Client' drop down field for Super and Master National Account user")
 	public void verifClientDropdownField() {
@@ -137,7 +140,6 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
 			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
 			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
-			
 
 			// Click on cancel Button
 			foundation.click(UserList.CANCEL_USER);
@@ -150,7 +152,7 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.DRP_SELECT_ROLE);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device+ rowData);
+			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
 			foundation.click(UserList.GENERATE_PIN);
 			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
 			foundation.click(UserList.CLICK_OUTSIDE);
@@ -161,7 +163,7 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
 			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
 			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
-			
+
 			// Click on Save Button
 			foundation.click(UserList.SAVE_USER);
 
@@ -226,7 +228,7 @@ public class UserRoles extends TestInfra {
 			// resetting test data
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			//textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(1));
+			// textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(1));
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
@@ -234,7 +236,7 @@ public class UserRoles extends TestInfra {
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.SHORT_TIME);
 		}
 	}
-	
+
 	@Test(description = "166020 - Update the User details on Manage User Roles")
 	public void UpdateManageUserRolesDetails() {
 
@@ -244,7 +246,7 @@ public class UserRoles extends TestInfra {
 		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
 
 		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
-		
+
 		List<String> security = Arrays
 				.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
 
@@ -265,7 +267,7 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 
-			//Check for Manage User Roles and click cancel 
+			// Check for Manage User Roles and click cancel
 			foundation.click(UserList.MANAGE_USER_ROLES);
 			dropDown.selectItem(UserList.SECURITY_ROLE, security.get(0), Constants.TEXT);
 			foundation.click(UserList.EXPIRATION_DATE);
@@ -273,8 +275,8 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SEND_NOTIFICATION);
 			foundation.click(UserList.CANCEL_USER_ROLE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
-			
-			//Check for Manage User Roles and click save 
+
+			// Check for Manage User Roles and click save
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
 			foundation.click(UserList.MANAGE_USER_ROLES);
@@ -284,10 +286,10 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.SEND_NOTIFICATION);
 			foundation.click(UserList.ADD_ROLE_USER_BTN);
 			foundation.threadWait(Constants.TWO_SECOND);
-			//Navigate to User Summary Tab
+			// Navigate to User Summary Tab
 			foundation.click(UserList.USER_SUMMARY);
 			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 			foundation.waitforElement(UserList.SEARCH_FILTER, Constants.MEDIUM_TIME);
@@ -297,7 +299,7 @@ public class UserRoles extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 
-			// resetting test data	
+			// resetting test data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
@@ -334,14 +336,14 @@ public class UserRoles extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
-			
-			//Check for Manage Password button and click cancel button
+
+			// Check for Manage Password button and click cancel button
 			foundation.click(UserList.MANAGE_PASSWORD);
 			textBox.enterText(UserList.PASSWORD_TXT, updatedData);
 			textBox.enterText(UserList.CNFRM_PASSWORD_TXT, updatedData);
 			foundation.click(UserList.CANCEL_USER_PASSWORD);
-			
-			//Check for Manage Password button and click save button
+
+			// Check for Manage Password button and click save button
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
 			foundation.click(UserList.TBL_DATA);
@@ -349,10 +351,10 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.PASSWORD_TXT, updatedData);
 			textBox.enterText(UserList.CNFRM_PASSWORD_TXT, updatedData);
 			foundation.click(UserList.SAVE_PASSWORD_BTN);
-			
-			//Navigate to User Summary Tab
+
+			// Navigate to User Summary Tab
 			foundation.click(UserList.USER_SUMMARY);
-			
+
 			// Click on Update User Button
 			foundation.click(UserList.SAVE_USER);
 
@@ -395,10 +397,10 @@ public class UserRoles extends TestInfra {
 
 			// Validate the error message
 			CustomisedAssert.assertEquals(foundation.getText(UserList.FIRST_NAME_ERROR), error_Status);
-			CustomisedAssert.assertEquals(foundation.getText(UserList.LAST_NAME_ERROR),error_Status);
-			//foundation.scroll();
-			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),error_Status);
-			CustomisedAssert.assertEquals(foundation.getText(UserList.LOCATION_ERROR),error_Status);	
+			CustomisedAssert.assertEquals(foundation.getText(UserList.LAST_NAME_ERROR), error_Status);
+			// foundation.scroll();
+			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR), error_Status);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.LOCATION_ERROR), error_Status);
 			foundation.click(UserList.CANCEL_USER);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
@@ -409,11 +411,50 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, rowData);
 			foundation.click(UserList.SAVE_USER);
 			foundation.waitforElement(UserList.EMAIL_ERROR, Constants.SHORT_TIME);
-			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR),invalid_Email);
+			CustomisedAssert.assertEquals(foundation.getText(UserList.EMAIL_ERROR), invalid_Email);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}
 
+	}
+	/**
+	 * @author afrosean
+	 * Date:21-09-2022
+	 */
+
+	@Test(description = "204699-SOS-verify copy user contains duplicate values")
+	public void copyADMUser() {
+
+		final String CASE_NUM = "204699";
+
+		// reading data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		List<String> inputs = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.ACTIONS).split(Constants.DELIMITER_TILD));
+
+		try {
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to menu item -> user and roles
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// search user and validate
+			userList.searchAndSelectUser(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(UserList.EDIT_USERS)
+					.contains(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
+
+			// Click on copy user and enter all mandatory fields
+			userList.clickOnCopyUserAndEnterAllMandatoryFields(inputs.get(0), inputs.get(1), inputs.get(2),
+					inputs.get(3), inputs.get(4));
+
+			// Search user and verify copy user fields
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			userList.searchUserAndVerifyCopyUser(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

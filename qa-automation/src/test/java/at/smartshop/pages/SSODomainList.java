@@ -26,6 +26,8 @@ public class SSODomainList extends Factory {
 	public static final By DOMAIN_ADDRESS_GRID = By.id("ssodomaingrid_address");
 	public static final By CREATE_SSO_DOMAIN = By.xpath("//li[@class='active']");
 	public static final By BTN_CANCEL = By.id("cancelBtn");
+	public static final By TXT_DOMAIN_NAME=By.id("name");
+	public static final By TXT_DOMAIN_ADDRESS=By.id("address");
 
 	/**
 	 * verify all fields in sso domain list page
@@ -55,4 +57,11 @@ public class SSODomainList extends Factory {
 
 	}
 
+	
+	public void createSSODomain() {
+		foundation.waitforElementToBeVisible(BTN_CREATE_NEW, Constants.THREE_SECOND);
+		foundation.click(BTN_CREATE_NEW);
+		
+		
+	}
 }

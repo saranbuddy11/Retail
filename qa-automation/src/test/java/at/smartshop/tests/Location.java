@@ -2175,6 +2175,52 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Test(description = "204719 - ADM > Menu > Create New Location > Verify Daily Trans In Dashboard - TestRail")
+	public void verifyDailyTransInDashBoard() {
+		try {
+			final String CASE_NUM = "204719";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			List<String> DropDownResult = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.FILTER_RESULT).split(Constants.DELIMITER_TILD));
+			String location = Constants.AUTO_TEST + string.getRandomCharacter();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to menu item -> user and roles
+			foundation.threadWait(Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationList.BTN_CREATE);
+
+			textBox.enterText(LocationSummary.TXT_NAME, location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_TIME_ZONE, DropDownResult.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, DropDownResult.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationList.TXT_FILTER, location);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			Map<String, String> tableInformation = locationList.fetchLocationInformation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(
+					tableInformation.get(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME)),
+					rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+
 	/**
 	 * @author Prabha Nigam
 	 *
