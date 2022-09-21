@@ -31,16 +31,21 @@ public class SSODomain extends TestInfra {
 
 	private Map<String, String> rstNavigationMenuData;
 
+	
+	/**
+	 * @author afrosean
+	 * Date:20-09-2022
+	 */
 	@Test(description = "198529-Verify display of SSO Domains Option in Super Dropdown"
 			+ "198530-Verify SSO Domains List Landingpage"
-			+ "198521-To Verify the functionality of 'Cancel' button, In Create SSO Domain Page")
+			+ "198521-To Verify the functionality of 'Cancel' button, In Create SSO Domain Page"
+			+ "198523-To Verify the functionality of  'Save' button by entering Valid Domain Name and Address, In Create SSO Domain Page"
+			+ "198527-To Verify the functionality of manage SSO Domain where user deletes the existing SSO Domain record")
 	public void verifySSODomainCreationAndDeletion() {
 		final String CASE_NUM = "198529";
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-		
 
 		try {
 
@@ -55,6 +60,12 @@ public class SSODomain extends TestInfra {
 			// Navigate to SSO Domain page and verify all fields
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			ssoDomainList.verifyAllFieldsInSSODomainListpage();
+
+			// create SSO Domain
+			ssoDomainList.createSSODomain(CASE_NUM, CASE_NUM);
+
+			// Delete created SSO Domain
+			ssoDomainList.deleteCreatedSSODomain(CASE_NUM);
 
 			// Navigate to create SSO Domain page and click on cancel button
 			ssoDomainList.navigateoCreateSSOAndClickOnCancel();

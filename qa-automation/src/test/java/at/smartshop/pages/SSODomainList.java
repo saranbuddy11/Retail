@@ -26,8 +26,13 @@ public class SSODomainList extends Factory {
 	public static final By DOMAIN_ADDRESS_GRID = By.id("ssodomaingrid_address");
 	public static final By CREATE_SSO_DOMAIN = By.xpath("//li[@class='active']");
 	public static final By BTN_CANCEL = By.id("cancelBtn");
-	public static final By TXT_DOMAIN_NAME=By.id("name");
-	public static final By TXT_DOMAIN_ADDRESS=By.id("address");
+	public static final By TXT_DOMAIN_NAME = By.id("name");
+	public static final By BTN_DELETE = By.id("deleteBtn");
+	public static final By POPUP_DELETE_BTN = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_SAVE = By.id("saveBtn");
+	public static final By TXT_DOMAIN_ADDRESS = By.id("address");
+	public static final By POPUP_HEADER = By.xpath("//div[@class='ajs-header']");
+	public static final By DOMAIN_NAME_GRID_ROW = By.xpath("//td[@aria-describedby='ssodomaingrid_name']");
 
 	/**
 	 * verify all fields in sso domain list page
@@ -57,11 +62,37 @@ public class SSODomainList extends Factory {
 
 	}
 
-	
-	public void createSSODomain() {
+	/**
+	 * delete created SSO Domain
+	 * @param createdsso
+	 */
+	public void deleteCreatedSSODomain(String createdsso) {
+		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
+		textBox.enterText(TXT_SEARCH, createdsso);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.doubleClick(DOMAIN_NAME_GRID_ROW);
+		foundation.waitforElementToBeVisible(BTN_DELETE, Constants.TWO_SECOND);
+		foundation.click(BTN_DELETE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(POPUP_HEADER));
+		foundation.click(POPUP_DELETE_BTN);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
+	}
+
+	/**
+	 * create sso domain
+	 * 
+	 * @param name
+	 * @param address
+	 */
+	public void createSSODomain(String name, String address) {
 		foundation.waitforElementToBeVisible(BTN_CREATE_NEW, Constants.THREE_SECOND);
 		foundation.click(BTN_CREATE_NEW);
-		
-		
+		foundation.waitforElementToBeVisible(TXT_DOMAIN_ADDRESS, Constants.TWO_SECOND);
+		textBox.enterText(TXT_DOMAIN_NAME, name);
+		textBox.enterText(TXT_DOMAIN_NAME, address);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.TWO_SECOND);
+		foundation.click(BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
+
 	}
 }
