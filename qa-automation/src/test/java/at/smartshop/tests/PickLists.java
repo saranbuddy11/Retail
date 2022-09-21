@@ -216,7 +216,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 
-			// verifying Location Dropdown is present or not
+			// verifying Location  is present or not
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DRP_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(PickList.DRP_LOCATION, location, Constants.TEXT);

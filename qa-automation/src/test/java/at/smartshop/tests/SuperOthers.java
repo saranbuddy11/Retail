@@ -2927,7 +2927,7 @@ public class SuperOthers extends TestInfra {
 	@Test(description = "198489-Pageset - > Add column to show the Pageset status in list page"
 			+ "198449-ADM -> Pageset List -> Add Filters"
 			+ "198454-ADM -> PageSet List -> Add the dropdown to filter PageSets")
-	public void verifyPagesetListsAddFilters() {
+	public void verifyFilterOptionsAndPagesetSearchBasedOnStatus() {
 		final String CASE_NUM = "198489";
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2954,7 +2954,7 @@ public class SuperOthers extends TestInfra {
 			// verify dropdown values in pageset page
 			pageset.verifyDropdownValueInPageset(dropdown.get(0), dropdown.get(1), dropdown.get(2));
 
-			// verify disable pageset
+			// verify Active and Disable pageset
 			pageset.verifyActiveAndDisablePageset(values.get(0), values.get(2), values.get(1), dropdown.get(2),
 					values.get(3));
 

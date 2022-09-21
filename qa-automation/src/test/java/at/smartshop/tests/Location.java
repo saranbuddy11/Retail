@@ -2274,40 +2274,38 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * @author afrosean
-	 * Date:08-09-2022
+	 * @author afrosean Date:08-09-2022
 	 */
 	@Test(description = "203865-ADM > Super > Create new location")
-	public void createLocation() {
+	public void verifyUserIsAbleToCreateLocation() {
 		final String CASE_NUM = "203865";
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
-		
-		List<String> datas = Arrays.asList(
-				rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		String locationName = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
-		
-		
-		try {	
-		
+
+		try {
+
 			// launch Browser, Select Menu and location by Using super User
-			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
-			//select menu and menu item
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select menu and menu item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
-			//create location under automation Org location
-			locationList.createLocation(locationName, datas.get(1), datas.get(2));	
-			
-			//search same location 
-			locationList.verifyDailyTransInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
-			
-		}
-		catch (Exception exc) {
+
+			// create location under automation Org location
+			locationList.createLocation(locationName, datas.get(1), datas.get(2));
+
+			// search same location
+			locationList.verifyLocationInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

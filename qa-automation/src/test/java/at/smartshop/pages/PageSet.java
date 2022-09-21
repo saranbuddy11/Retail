@@ -65,7 +65,7 @@ public class PageSet {
 		foundation.click(PageSet.BTN_SAVE);
 		dropDown.selectItem(DPD_FILTERPAGESET, disable, Constants.TEXT);
 		textBox.enterText(PageSet.TXTBX_SEARCHBOX, createdPageset);
-		foundation.waitforElementToBeVisible(GRID_DISABLE, 5);
+		foundation.waitforElementToBeVisible(GRID_DISABLE, Constants.THREE_SECOND);
 		text = foundation.getText(PageSet.GRID_DISABLE);
 		CustomisedAssert.assertTrue(text.contains(disabled));
 

@@ -166,23 +166,25 @@ public class LocationList extends Factory {
 	}
 	
 	/**
-	 * verify daily trans and disable location
+	 * verify location in location list page
 	 * @param locationName
 	 * @param dropdown
 	 */
-	public void verifyDailyTransInLocationList(String locationName,String dropdown) {
+	public void verifyLocationInLocationList(String locationName,String dropdown) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
-		textBox.enterText(TXT_FILTER, locationName);
-		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(DAILY_TRANS));
+		textBox.enterText(TXT_FILTER, locationName);	
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(LINK_LOCATION_LIST);
-		foundation.waitforElementToBeVisible(DISABLED, 5);
+		foundation.waitforElementToBeVisible(DISABLED, Constants.SHORT_TIME);
 		dropDown.selectItem(DISABLED, dropdown, Constants.TEXT);
-		foundation.waitforElementToBeVisible(SAVE_BTN, 5);
+		foundation.waitforElementToBeVisible(SAVE_BTN, Constants.SHORT_TIME);
 		foundation.click(SAVE_BTN);
-		foundation.waitforElementToBeVisible(POP_UP, 5);
+		foundation.waitforElementToBeVisible(POP_UP, Constants.SHORT_TIME);
 		foundation.click(POPUP_SAVE);
-		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, 5);
+		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, Constants.THREE_SECOND);
+		textBox.enterText(TXT_FILTER, locationName);	
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertFalse(foundation.isDisplayed(LINK_LOCATION_LIST));
+		
 	}
 }
