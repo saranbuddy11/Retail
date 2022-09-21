@@ -257,8 +257,8 @@ public class CashAudit extends Factory {
 		gmaData.putAll(reportsData.get(count));
 		gmaData.put(tableHeaders.get(1), requiredCashOutJsonData.get(1));
 		gmaData.put(tableHeaders.get(2), consumerName);
-		gmaData.put(tableHeaders.get(3), requiredGMAJsonData.get(1));
-		gmaData.put(tableHeaders.get(6), "1");
+		// gmaData.put(tableHeaders.get(3), requiredGMAJsonData.get(1));
+		gmaData.put(tableHeaders.get(6), "-5");
 	}
 
 	/**
@@ -268,11 +268,7 @@ public class CashAudit extends Factory {
 		int counter = getRowCount(getRequiredGMAJsonData().get(0), reportsData, tableHeaders.get(0),
 				tableHeaders.get(4));
 		int count = tableHeaders.size();
-		System.out.println(reportsData.get(counter));
-		System.out.println(gmaData);
 		for (int iter = 0; iter < count; iter++) {
-			System.out.println(
-					reportsData.get(counter).get(tableHeaders.get(iter)) + "-" + (gmaData.get(tableHeaders.get(iter))));
 			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(gmaData.get(tableHeaders.get(iter))));
 		}
@@ -305,8 +301,6 @@ public class CashAudit extends Factory {
 		int counter = getRowCount(getRequiredCashOutJsonData().get(0), reportsData, tableHeaders.get(0),
 				tableHeaders.get(3));
 		int count = tableHeaders.size();
-		System.out.println(reportsData.get(counter));
-		System.out.println(kcoData);
 		for (int iter = 0; iter < count; iter++) {
 			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(kcoData.get(tableHeaders.get(iter))));

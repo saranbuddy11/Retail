@@ -6017,7 +6017,6 @@ public class Report extends TestInfra {
 			// read Report Data
 			cashAudit.readAllRecordsFromCashAuditTable();
 			cashAudit.getLastPickupData().putAll(cashAudit.reportSecondLayerData);
-			System.out.println(cashAudit.getLastPickupData());
 
 			// verify Report Headers
 			cashAudit.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
@@ -6031,7 +6030,7 @@ public class Report extends TestInfra {
 			cashAudit.verifyKCORecord();
 
 			// verify TotalPlus Total
-			cashAudit.verifyTotal(cashAudit.tableHeaders.get(3));
+			// cashAudit.verifyTotal(cashAudit.tableHeaders.get(3));
 
 			// verify TotalMinus Total
 			cashAudit.verifyTotal(cashAudit.tableHeaders.get(4));

@@ -340,7 +340,7 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.scrollIntoViewElement(ConsumerSearch.BAL_HISTORY_SEARCH);
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
 		List<WebElement> transac = Foundation.getDriver().findElements(ConsumerSearch.TRANSACTION_ID);
 		String txnId = transac.get(0).getText();
 		return txnId;
