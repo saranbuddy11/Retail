@@ -12,8 +12,9 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.database.columns.CNNavigationMenu;
-import at.smartshop.database.columns.CNUserRoles;
+import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -30,6 +31,7 @@ public class SSODomain extends TestInfra {
 	private SSODomainList ssoDomainList = new SSODomainList();
 
 	private Map<String, String> rstNavigationMenuData;
+	private Map<String, String> rstSSODomainData;
 
 	
 	/**
@@ -46,6 +48,10 @@ public class SSODomain extends TestInfra {
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSSODomainData = dataBase.getSSODomainData(Queries.SSO_DOMAIN, CASE_NUM);
+		
+		List<String> datas = Arrays
+				.asList(rstSSODomainData.get(CNSSODomain.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 		try {
 
@@ -62,10 +68,10 @@ public class SSODomain extends TestInfra {
 			ssoDomainList.verifyAllFieldsInSSODomainListpage();
 
 			// create SSO Domain
-			ssoDomainList.createSSODomain(CASE_NUM, CASE_NUM);
+			ssoDomainList.createSSODomain(datas.get(0), datas.get(1));
 
 			// Delete created SSO Domain
-			ssoDomainList.deleteCreatedSSODomain(CASE_NUM);
+			ssoDomainList.deleteCreatedSSODomain(datas.get(0));
 
 			// Navigate to create SSO Domain page and click on cancel button
 			ssoDomainList.navigateoCreateSSOAndClickOnCancel();

@@ -29,6 +29,7 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.database.columns.CNStaffSummary;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
@@ -1084,5 +1085,33 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstStaffViewData;
+	}
+	
+	
+	public Map<String, String> getSSODomainData(String query, String testcaseID) {
+		Map<String, String> rstSSODomainData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstSSODomainData.put(CNSSODomain.DOMAIN_ADDRESS, resultSet.getString(CNSSODomain.DOMAIN_ADDRESS));
+				rstSSODomainData.put(CNSSODomain.DOMAIN_NAME, resultSet.getString(CNSSODomain.DOMAIN_NAME));
+				rstSSODomainData.put(CNSSODomain.REQUIRED_DATA, resultSet.getString(CNSSODomain.REQUIRED_DATA));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstSSODomainData;
 	}
 }

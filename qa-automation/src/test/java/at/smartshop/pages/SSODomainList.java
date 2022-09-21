@@ -89,7 +89,7 @@ public class SSODomainList extends Factory {
 		foundation.click(BTN_CREATE_NEW);
 		foundation.waitforElementToBeVisible(TXT_DOMAIN_ADDRESS, Constants.TWO_SECOND);
 		textBox.enterText(TXT_DOMAIN_NAME, name);
-		textBox.enterText(TXT_DOMAIN_NAME, address);
+		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
 		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.TWO_SECOND);
 		foundation.click(BTN_SAVE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
