@@ -191,6 +191,8 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
 				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
 				rstProductSummary.put(CNProductSummary.TAX, resultSet.getString(CNProductSummary.TAX));
+				rstProductSummary.put(CNProductSummary.LOCATION_NAME,
+						resultSet.getString(CNProductSummary.LOCATION_NAME));
 			}
 
 		} catch (Exception exc) {
