@@ -275,7 +275,7 @@ public class SalesAnalysisReport extends Factory {
 					- Double.parseDouble(costValue.trim())) * 100
 					/ (totalProductPrice - Double.parseDouble(discountValue.trim()));
 			finalValue = Math.round(finalValue * 100.0) / 100.0;
-			String gmValue = String.valueOf(finalValue) + Constants.DELIMITER_PERCENTAGE;
+			String gmValue = String.valueOf(finalValue);
 			intialData.get(iter).put(columnName, gmValue);
 		}
 	}
@@ -284,10 +284,13 @@ public class SalesAnalysisReport extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println("reportsData : "+ reportsData);
+			System.out.println("intialData : "+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println(iter);
 				}
 			}
 		} catch (Exception exc) {

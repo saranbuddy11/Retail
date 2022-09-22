@@ -315,7 +315,7 @@ public class SoldDetails extends Factory {
 						/ totalPrice) * 100.0;
 				DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
 				String d = df.format(margin);
-				marginValues.add(String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
+				marginValues.add(String.valueOf(d));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
