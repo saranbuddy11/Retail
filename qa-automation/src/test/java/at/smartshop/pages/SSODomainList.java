@@ -33,6 +33,8 @@ public class SSODomainList extends Factory {
 	public static final By TXT_DOMAIN_ADDRESS = By.id("address");
 	public static final By POPUP_HEADER = By.xpath("//div[@class='ajs-header']");
 	public static final By DOMAIN_NAME_GRID_ROW = By.xpath("//td[@aria-describedby='ssodomaingrid_name']");
+	public static final By DOMAIN_NAME_ERROR = By.id("name-error");
+	public static final By DOMAIN_ADDRESS_ERROR = By.id("address-error");
 
 	/**
 	 * verify all fields in sso domain list page
@@ -46,6 +48,38 @@ public class SSODomainList extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DOMAIN_ADDRESS_GRID));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DOMAIN_NAME_GRID));
 
+	}
+
+	/**
+	 * search with created sso domain and enter duplicate name address
+	 * 
+	 * @param createdsso
+	 * @param name
+	 * @param address
+	 */
+	public void searchWithCreatedSSODomainAndEnterDupicateNameAddress(String createdsso, String name, String address,
+			String errordb) {
+		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
+		textBox.enterText(TXT_SEARCH, createdsso);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.doubleClick(DOMAIN_NAME_GRID_ROW);
+		foundation.waitforElementToBeVisible(TXT_DOMAIN_NAME, Constants.TWO_SECOND);
+		textBox.enterText(TXT_DOMAIN_NAME, name);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND); 
+		String error = foundation.getText(DOMAIN_NAME_ERROR);
+		CustomisedAssert.assertEquals(error, errordb);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);	
+		error = foundation.getText(DOMAIN_ADDRESS_ERROR);
+		CustomisedAssert.assertEquals(error, errordb);
+		foundation.waitforElementToBeVisible(BTN_DELETE, Constants.TWO_SECOND);
+		foundation.click(BTN_DELETE);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(POPUP_DELETE_BTN);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
 	}
 
 	/**
@@ -64,6 +98,7 @@ public class SSODomainList extends Factory {
 
 	/**
 	 * delete created SSO Domain
+	 * 
 	 * @param createdsso
 	 */
 	public void deleteCreatedSSODomain(String createdsso) {
@@ -73,7 +108,7 @@ public class SSODomainList extends Factory {
 		foundation.doubleClick(DOMAIN_NAME_GRID_ROW);
 		foundation.waitforElementToBeVisible(BTN_DELETE, Constants.TWO_SECOND);
 		foundation.click(BTN_DELETE);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(POPUP_HEADER));
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(POPUP_DELETE_BTN);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
 	}
@@ -94,5 +129,50 @@ public class SSODomainList extends Factory {
 		foundation.click(BTN_SAVE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
 
+	}
+
+	/**
+	 * verify error message while creating sso domain
+	 * 
+	 * @param name
+	 * @param address
+	 */
+	public void createSSODomainWithDuplicaeNameAndAddress(String name, String address, String errordb) {
+		foundation.waitforElementToBeVisible(BTN_CREATE_NEW, Constants.THREE_SECOND);
+		foundation.click(BTN_CREATE_NEW);
+		foundation.waitforElementToBeVisible(TXT_DOMAIN_ADDRESS, Constants.TWO_SECOND);
+		textBox.enterText(TXT_DOMAIN_NAME, name);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND); 
+		String error = foundation.getText(DOMAIN_NAME_ERROR);
+		CustomisedAssert.assertEquals(error, errordb);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
+		foundation.threadWait(Constants.THREE_SECOND);	
+		error = foundation.getText(DOMAIN_ADDRESS_ERROR);
+		CustomisedAssert.assertEquals(error, errordb);
+		foundation.waitforElementToBeVisible(BTN_CANCEL, Constants.THREE_SECOND);
+		foundation.click(BTN_CANCEL);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
+	}
+
+	/**
+	 * search created sso domain edit domain name and address
+	 * 
+	 * @param createdsso
+	 * @param name
+	 * @param address
+	 */
+	public void searchCreatedSSODomainEditDomainNameAndDominAddress(String createdsso, String name, String address) {
+		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
+		textBox.enterText(TXT_SEARCH, createdsso);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.doubleClick(DOMAIN_NAME_GRID_ROW);
+		foundation.waitforElementToBeVisible(BTN_DELETE, Constants.TWO_SECOND);
+		textBox.enterText(TXT_DOMAIN_NAME, name);
+		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.TWO_SECOND);
+		foundation.click(BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
 	}
 }
