@@ -85,7 +85,7 @@ public class SSODomain extends TestInfra {
 	@Test(description = "198522-To Verify the functionality of 'Save' button by entering Duplicate Domain Name and Address, In Create SSO Domain Pag"
 			+ "198526-To Verify the functionality of manage SSO Domain where user can’t make the changes because of duplicate error"
 			+ "198525-To Verify the functionality of manage SSO Domain where user can’t make the changes because of duplicate error")
-	public void verifyFunctionaliyOfManageSSOPage() {
+	public void verifyEditSSODomainAndValidationMessagesInCreateManagePage() {
 		final String CASE_NUM = "198522";
 
 		// Reading test data from DataBase
@@ -107,17 +107,19 @@ public class SSODomain extends TestInfra {
 			ssoDomainList.createSSODomain(datas.get(2), datas.get(3));
 
 			// verify error while creating SSO Domain with duplicate name and address
-			ssoDomainList.createSSODomainWithDuplicaeNameAndAddress(datas.get(0), datas.get(1), datas.get(6));
+			ssoDomainList.createSSODomainWithDuplicateNameAndAddress(datas.get(0), datas.get(1), datas.get(6));
 
 			// verify created SSO domain edit domain name and address
-			ssoDomainList.searchCreatedSSODomainEditDomainNameAndDominAddress(datas.get(0), datas.get(4), datas.get(5));
+			ssoDomainList.searchCreatedSSODomainEditDomainNameAndDomainAddress(datas.get(0), datas.get(4),
+					datas.get(5));
 
 			// verify with created sso domain and enter duplicate name address
-			ssoDomainList.searchWithCreatedSSODomainAndEnterDupicateNameAddress(datas.get(4), datas.get(2),
+			ssoDomainList.searchWithCreatedSSODomainAndEnterDuplicateNameAddress(datas.get(4), datas.get(2),
 					datas.get(3), datas.get(6));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
+			// Deleting SSO Created Domain
 			ssoDomainList.deleteCreatedSSODomain(datas.get(2));
 		}
 	}

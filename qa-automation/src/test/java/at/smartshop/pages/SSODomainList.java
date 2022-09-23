@@ -57,7 +57,7 @@ public class SSODomainList extends Factory {
 	 * @param name
 	 * @param address
 	 */
-	public void searchWithCreatedSSODomainAndEnterDupicateNameAddress(String createdsso, String name, String address,
+	public void searchWithCreatedSSODomainAndEnterDuplicateNameAddress(String createdsso, String name, String address,
 			String errordb) {
 		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
 		textBox.enterText(TXT_SEARCH, createdsso);
@@ -137,7 +137,7 @@ public class SSODomainList extends Factory {
 	 * @param name
 	 * @param address
 	 */
-	public void createSSODomainWithDuplicaeNameAndAddress(String name, String address, String errordb) {
+	public void createSSODomainWithDuplicateNameAndAddress(String name, String address, String errordb) {
 		foundation.waitforElementToBeVisible(BTN_CREATE_NEW, Constants.THREE_SECOND);
 		foundation.click(BTN_CREATE_NEW);
 		foundation.waitforElementToBeVisible(TXT_DOMAIN_ADDRESS, Constants.TWO_SECOND);
@@ -163,7 +163,7 @@ public class SSODomainList extends Factory {
 	 * @param name
 	 * @param address
 	 */
-	public void searchCreatedSSODomainEditDomainNameAndDominAddress(String createdsso, String name, String address) {
+	public void searchCreatedSSODomainEditDomainNameAndDomainAddress(String createdsso, String name, String address) {
 		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
 		textBox.enterText(TXT_SEARCH, createdsso);
 		foundation.threadWait(Constants.THREE_SECOND);
