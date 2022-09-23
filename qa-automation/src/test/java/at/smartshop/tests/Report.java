@@ -5873,7 +5873,7 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// process sales API to generate data
+			// process Kiosk Cashout API to generate data
 			cashOutLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 			cashOutLog.getCashoutJsonData();
 
