@@ -10,8 +10,6 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
-import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.keys.Configuration;
@@ -23,9 +21,7 @@ import at.smartshop.pages.SSODomainList;
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class SSODomain extends TestInfra {
 
-	private Foundation foundation = new Foundation();
 	private NavigationBar navigationBar = new NavigationBar();
-	private TextBox textBox = new TextBox();
 	private ResultSets dataBase = new ResultSets();
 	private SSODomainList ssoDomainList = new SSODomainList();
 
