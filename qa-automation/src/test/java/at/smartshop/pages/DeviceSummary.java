@@ -41,8 +41,14 @@ public class DeviceSummary extends Factory {
 	public static final By TXT_NANOGMR=By.xpath("//select[@id='nanogmarateusedevice']/option[@selected='selected']");
 	public static final By TXT_CREDIT=By.xpath("//select[@id='creditrateusedevice']/option[@selected='selected']");
 	public static final By TXT_NANOCREDIT=By.xpath("//select[@id='nanocreditrateusedevice']/option[@selected='selected']");
-	
-	
+	public static final By TXT_ORG_GMR = By.id("gmaRateOrgSettingIs");
+	public static final By TXT_ORG_NANOGMR = By.id("nanoGmaRateOrgSettingIs");
+	public static final By TXT_ORG_CREDIT = By.id("creditRateOrgSettingIs");
+	public static final By TXT_ORG_NANOCREDIT = By.id("nanoCreditRateOrgSettingIs");
+	public static final By DPD_OPTION_GMR=By.xpath("//select[@id='gmarateusedevice']/option[@value='1']");
+	public static final By DPD_OPTION_NANOGMR=By.xpath("//select[@id='nanogmarateusedevice']/option[@value='1']");
+	public static final By DPD_OPTION_CREDIT=By.xpath("//select[@id='creditrateusedevice']/option[@value='1']");
+	public static final By DPD_OPTION_NANOCREDIT=By.xpath("//select[@id='nanocreditrateusedevice']/option[@value='1']");
 	
 	public By objSFEOptions(String text) {
 		return By.xpath("//dt[text()='"+text+"']/following-sibling::dd[1]");

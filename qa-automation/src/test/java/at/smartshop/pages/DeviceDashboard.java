@@ -32,9 +32,7 @@ public class DeviceDashboard {
 	 * 
 	 * @param tabName
 	 */
-	public void selectDeviceName(String menu,String device_name) {
-	
-	navigationBar.navigateToMenuItem(menu);
+	public void selectDeviceName(String device_name) {
 	CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 	foundation.waitforElementToBeVisible(DeviceDashboard.TBL_DEVICE_NAME,3);
 	foundation.click(DeviceDashboard.TXT_SEARCH);
@@ -42,5 +40,7 @@ public class DeviceDashboard {
 	foundation.click(DeviceDashboard.BTN_SEARCH);
 	foundation.click(DeviceDashboard.TBL_DEVICE_NAME);
 }
+	
+	
 }
 	

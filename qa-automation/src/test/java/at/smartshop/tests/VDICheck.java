@@ -558,12 +558,7 @@ public class VDICheck extends TestInfra {
 		    foundation.click(VDIProvider.BTN_CREATE);
 		    CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_CREATE));
 		    foundation.click(VDIProvider.BTN_CANCEL);
-		    vDIProvider.createVersionToGenerate(data.get(0),data.get(1),data.get(2),data.get(3),data.get(4),data.get(5),data.get(6));
-			foundation.click(VDIProvider.TXT_SEARCH);
-			textBox.enterText(VDIProvider.TXT_SEARCH, data.get(0));
-			CustomisedAssert.assertTrue(foundation.getText(VDIProvider.TBL_ROW).contains(data.get(0)));
-			foundation.click(VDIProvider.TBL_ROW);
-			
+		    vDIProvider.createVersionToGenerate(data.get(0),data.get(1),data.get(2),data.get(3),data.get(4),data.get(5),data.get(6));			
 		}
 		
 		catch (Exception exc) {
@@ -573,9 +568,14 @@ public class VDICheck extends TestInfra {
 		finally{
 			
 			//resetting
+			foundation.click(VDIProvider.TXT_SEARCH);
+			textBox.enterText(VDIProvider.TXT_SEARCH, data.get(0));
+			CustomisedAssert.assertTrue(foundation.getText(VDIProvider.TBL_ROW).contains(data.get(0)));
+			foundation.click(VDIProvider.TBL_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_SUMMARY));
 		    foundation.scrollIntoViewElement(VDIProvider.BTN_DELETE);
 		    foundation.click(VDIProvider.BTN_DELETE);
+		    foundation.waitforElementToBeVisible(VDIProvider.LBL_CONFIRM_DELETE, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_CONFIRM_DELETE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.BTN_CONFIRM_CANCEL));
 			foundation.click(VDIProvider.BTN_CONFIRM_YES);

@@ -1544,7 +1544,7 @@ public class PickLists extends TestInfra {
 		String location=rstPickListData.get(CNPickList.LOCATIONS);
 		
 		try {
-			// Select Org & Menu for RDS
+			// Select Org & Menu 
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));

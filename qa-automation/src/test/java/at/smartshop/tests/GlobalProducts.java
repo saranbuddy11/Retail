@@ -34,7 +34,6 @@ import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.DeviceDashboard;
-import at.smartshop.pages.EntrySummaryReport;
 import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.GlobalProductChange;
 import at.smartshop.pages.LocationList;
@@ -42,9 +41,7 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
-import at.smartshop.pages.ReportList;
 import at.smartshop.pages.UserList;
-import at.smartshop.pages.UserRoles;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class GlobalProducts extends TestInfra {
@@ -66,7 +63,6 @@ public class GlobalProducts extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private OrgSummary orgsummary = new OrgSummary();
 	private UserList userList= new UserList();
-	private EntrySummaryReport entrySummaryReport= new EntrySummaryReport();
 
 	private DeviceDashboard deviceDashboard = new DeviceDashboard();
 	private Map<String, String> rstNavigationMenuData;
@@ -2291,7 +2287,7 @@ public class GlobalProducts extends TestInfra {
 	 * @author sakthir Date: 22-08-2022
 	 */
 	@Test(description = "203349-Global Product Location List match User's Location list")
-	public void VerifyOperatorLocationMatchUserLocationList() {
+	public void verifyOperatorLocationMatchUserLocationList() {
 		final String CASE_NUM = "203349";
 
 		// Reading test data from DataBase
@@ -2355,6 +2351,89 @@ public class GlobalProducts extends TestInfra {
 		
 	}
 	
-	
+	/**
+	 * @author sakthir Date: 22-09-2022
+	 */
+	@Test(description = "203579-SOS-9040-Searching Global Product Change Via 'product' Tab > validate Global Product Change product match with UPC value"
+			+"204683-Searching Global Product Change Via 'product' Tab> validate Global Product Change product match with UPC Range value"
+			+"204684-Searching Global Product Change Via 'product' Tab> validate Global Product Change product match with ProductID value"
+			+"204685-Searching Global Product Change Via 'product' Tab> validate Global Product Change product match with ProductID Range value")
+	public void verifyGlobalProductChangeProductMatchWithFilterOptions() {
+		final String CASE_NUM = "203579";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+		List<String> data =Arrays.asList(
+				rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> menu =Arrays.asList(
+				rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays.asList(
+				rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//navigate to product->Global Product and verify UPC
+			navigationBar.navigateToMenuItem(menu.get(0));
+			foundation.click(globalProductChange.objLocation(location.get(0)));
+			foundation.click(GlobalProductChange.TAB_PRODUCT);
+			globalProductChange.verifyExactMatch(data.get(0),data.get(2));
+			String UPC=foundation.getText(GlobalProductChange.TABLE_ROW);
+			
+			//verify UPCRange
+			globalProductChange.verifyStartAndEnd(data.get(3),data.get(4),data.get(5));
+			String UPCRange=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			
+			//verify ProductIDRange
+			globalProductChange.verifyStartAndEnd(data.get(6),data.get(8),data.get(9));
+			String ProductIDRange=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			
+			//verify ProductID
+			globalProductChange.verifyExactMatch(data.get(7),data.get(10));
+			String ProductID=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			
+		   //Navigate to location and select product
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			
+			//verify UPC in location
+			locationSummary.SearchProduct(data.get(2));
+			String UPC_Product=foundation.getText(LocationSummary.PRODUCT_NAME);
+			CustomisedAssert.assertTrue(UPC.contains(UPC_Product));
+			
+			//verify UPCRange in location
+			locationSummary.SearchProduct(data.get(1));
+			String UPCRange_Product=foundation.getText(LocationSummary.PRODUCT_NAME);
+			CustomisedAssert.assertTrue(UPCRange_Product.equals(UPCRange));
+			
+			//verify ProductID location Summary into Product Summary
+			locationSummary.verifyProductID(ProductID);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.GUID_PRODUCTID));
+			
+			//verify ProductID Range location Summary into Product Summary
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			locationSummary.verifyProductID(ProductIDRange);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.GUID_PRODUCTIDRANGE));
+			
+}
+		catch (Exception exc) {
+	        TestInfra.failWithScreenShot(exc.toString());
+}
+	}
+
+
 		
 }

@@ -1374,7 +1374,7 @@ public class Device extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
+					
 			// navigate to super>Device and search for device 
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
@@ -1422,7 +1422,9 @@ public class Device extends TestInfra {
 	/**
 	 * @author sakthir Date: 19-09-2022
 	 */
-	@Test(description = "198515-SOS-28841-To Verify the Device Level Rates in Existing Device")
+	@Test(description = "198515-SOS-28841-To Verify the Device Level Rates in Existing Device"
+			+"198516-SOS-28842-To Verify the Device Level Rates in New Device"
+			+"198514-SOS-28840-To Verify Add Rate Fields is displayed under Device Summary Page")
 	public void verifyNewRateFieldsInDeviceSummary() {
 		   final String CASE_NUM = "198515";
 		
@@ -1437,12 +1439,11 @@ public class Device extends TestInfra {
 		    List<String> data = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		try {
-
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
+		
 			// navigate to location, select location and get existing device
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
@@ -1450,35 +1451,87 @@ public class Device extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
 			String device_name=foundation.getText(LocationSummary.DEVICE_NAME);
 			
-			//navigate to Admin->Device and search for existing device
-			deviceDashboard.selectDeviceName(menu.get(1),device_name);
+			//verify the new Fields location level
+			locationSummary.verifyRateFields(data.get(2));
 			
-			//verify the new Fields
+			//change location level rate values
+			locationSummary.enterRateValueForFields(data.get(3),data.get(5));
+			foundation.click(LocationSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
+			
+			//navigate to Admin->Device and search for existing device
+			navigationBar.navigateToMenuItem(menu.get(1));
+			deviceDashboard.selectDeviceName(device_name);
+			
+			//verify the new Fields Device level Option as Default as Inherit from location
 			deviceSummary.verifyNewFields(data.get(0));
 			
+			//verify changes rate on device level 
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_GMR).equals(data.get(9)));
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_NANOGMR).equals(data.get(9)));
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_CREDIT).equals(data.get(9)));
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_NANOCREDIT).equals(data.get(9)));
+								
 			// navigate to location, select location and add new device
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
-			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-			foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
-			foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
-			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data.get(1));
-            foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
-            foundation.click(LocationSummary.BTN_DEVICE_ADD);
-    		CustomisedAssert.assertTrue(foundation.getTextofListElement(LocationSummary.DEVICE_NAME).contains(data.get(1)));
+			locationSummary.addDeviceAndVerify(data.get(1));
+			
+			//verify error msg after three decimal point in location Summary
+			dropDown.selectItem(LocationSummary.DPD_GMR, data.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.TXT_LOCATION_GMR);
+			textBox.enterText(LocationSummary.TXT_LOCATION_GMR, data.get(8));
+			dropDown.selectItem(LocationSummary.DPD_NANOGMR, data.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.TXT_LOCATION_NANOGMR);
+			textBox.enterText(LocationSummary.TXT_LOCATION_NANOGMR, data.get(8));			
+			dropDown.selectItem(LocationSummary.DPD_CREDIT, data.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.TXT_LOCATION_CREDIT);
+			textBox.enterText(LocationSummary.TXT_LOCATION_CREDIT, data.get(8));
+			dropDown.selectItem(LocationSummary.DPD_NANOCREDIT, data.get(3), Constants.TEXT);
+			foundation.click(LocationSummary.TXT_LOCATION_NANOCREDIT);
+			textBox.enterText(LocationSummary.TXT_LOCATION_NANOCREDIT, data.get(8));
+			foundation.click(LocationSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.GMR_ERROR).equals(data.get(10)));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.NANOGMR_ERROR).equals(data.get(10)));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.CREDIT_ERROR).equals(data.get(10)));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.NANOCREDIT_ERROR).equals(data.get(10)));
 			
     		//navigate to Admin->Device and search for new device
-    		deviceDashboard.selectDeviceName(menu.get(1),data.get(1));
+			navigationBar.navigateToMenuItem(menu.get(1));
+    		deviceDashboard.selectDeviceName(data.get(1));
 					
-			//verify the new Fields
+    		//verify the new Fields Device level Option as Default as Inherit from location
+			deviceSummary.verifyNewFields(data.get(0));	
+			
+			//verify DropDown Options
 			deviceSummary.verifyNewFields(data.get(0));
-    		
-		}
-		catch (Exception exc) {
+			dropDown.selectItem(DeviceSummary.DPD_GMR, data.get(4), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_GMR).equals(data.get(4)));
+			dropDown.selectItem(DeviceSummary.DPD_NANOGMR, data.get(4), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_NANOGMR).equals(data.get(4)));
+			dropDown.selectItem(DeviceSummary.DPD_CREDIT, data.get(4), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_CREDIT).equals(data.get(4)));
+			dropDown.selectItem(DeviceSummary.DPD_NANOCREDIT, data.get(4), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_NANOCREDIT).equals(data.get(4)));
+			
+		}catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
+		}finally
+	    {
+		   //resetting 
+		   navigationBar.navigateToMenuItem(menu.get(0));
+		   locationList.selectLocationName(device.get(0));
+		   locationSummary.enterRateValueForFields(data.get(3),data.get(6));
+		   dropDown.selectItem(LocationSummary.DPD_GMR, data.get(2), Constants.TEXT);
+		   dropDown.selectItem(LocationSummary.DPD_NANOGMR, data.get(2), Constants.TEXT);
+		   dropDown.selectItem(LocationSummary.DPD_CREDIT, data.get(2), Constants.TEXT);
+		   dropDown.selectItem(LocationSummary.DPD_NANOCREDIT, data.get(2), Constants.TEXT);
+		   foundation.click(LocationSummary.BTN_SAVE);
+		   CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
+		   locationList.selectLocationName(device.get(0));
+		   foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+		   locationSummary.removeDevice(data.get(1));
+	    }
 	}
-
 }
