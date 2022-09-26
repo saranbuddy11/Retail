@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
-import at.framework.ui.CheckBox;
-import at.framework.ui.Dropdown;
+import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
@@ -13,10 +12,8 @@ import at.smartshop.keys.Constants;
 public class SSODomainList extends Factory {
 
 	private Foundation foundation = new Foundation();
-	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private CheckBox checkBox = new CheckBox();
-	private NavigationBar navigationBar = new NavigationBar();
+	private Strings strings = new Strings();
 
 	public static final By LBL_SSO_DOMAIN = By.id("page-title");
 	public static final By BTN_CREATE_NEW = By.id("createNewBtn");
@@ -50,6 +47,43 @@ public class SSODomainList extends Factory {
 
 	}
 
+	public void createSsoDomain(String domain) {
+		foundation.click(BTN_CREATE_NEW);
+		foundation.waitforElementToBeVisible(CREATE_SSO_DOMAIN, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CREATE_SSO_DOMAIN));
+		String domainName = domain + strings.getRandomCharacter();
+		String domainAddress = domain + strings.getRandomCharacter();
+		textBox.enterText(TXT_DOMAIN_NAME, domainName);
+		textBox.enterText(TXT_DOMAIN_ADDRESS, domainAddress);
+		foundation.click(BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
+	}
+
+	/**
+	 * Search particular domain name and select value
+	 */
+
+	public void searchAndSelectParticularDomain(String domainName) {
+		textBox.enterText(TXT_SEARCH, domainName);
+		foundation.waitforElementToBeVisible(DOMAIN_NAME_GRID_ROW, Constants.THREE_SECOND);
+		foundation.click(DOMAIN_NAME_GRID_ROW);
+		foundation.waitforElementToBeVisible(CREATE_SSO_DOMAIN, Constants.THREE_SECOND);
+	}
+
+	/**
+	 * Navigate to Manage SSO Domain and click on cancel
+	 */
+	public void navigateoManageSSOAndClickOnCancel() {
+
+		foundation.waitforElementToBeVisible(TXT_DOMAIN_NAME, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_DOMAIN_NAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_DOMAIN_ADDRESS));
+		foundation.waitforElementToBeVisible(BTN_CANCEL, Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL);
+		foundation.waitforElementToBeVisible(LBL_SSO_DOMAIN, Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SSO_DOMAIN));
+	}
+
 	/**
 	 * search with created sso domain and enter duplicate name address
 	 * 
@@ -66,13 +100,13 @@ public class SSODomainList extends Factory {
 		foundation.waitforElementToBeVisible(TXT_DOMAIN_NAME, Constants.TWO_SECOND);
 		textBox.enterText(TXT_DOMAIN_NAME, name);
 		foundation.click(BTN_SAVE);
-		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND); 
+		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND);
 		String error = foundation.getText(DOMAIN_NAME_ERROR);
 		CustomisedAssert.assertEquals(error, errordb);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
 		foundation.click(BTN_SAVE);
-		foundation.threadWait(Constants.THREE_SECOND);	
+		foundation.threadWait(Constants.THREE_SECOND);
 		error = foundation.getText(DOMAIN_ADDRESS_ERROR);
 		CustomisedAssert.assertEquals(error, errordb);
 		foundation.waitforElementToBeVisible(BTN_DELETE, Constants.TWO_SECOND);
@@ -143,12 +177,12 @@ public class SSODomainList extends Factory {
 		foundation.waitforElementToBeVisible(TXT_DOMAIN_ADDRESS, Constants.TWO_SECOND);
 		textBox.enterText(TXT_DOMAIN_NAME, name);
 		foundation.click(BTN_SAVE);
-		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND); 
+		foundation.waitforElementToBeVisible(DOMAIN_NAME_ERROR, Constants.THREE_SECOND);
 		String error = foundation.getText(DOMAIN_NAME_ERROR);
 		CustomisedAssert.assertEquals(error, errordb);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_DOMAIN_ADDRESS, address);
-		foundation.threadWait(Constants.THREE_SECOND);	
+		foundation.threadWait(Constants.THREE_SECOND);
 		error = foundation.getText(DOMAIN_ADDRESS_ERROR);
 		CustomisedAssert.assertEquals(error, errordb);
 		foundation.waitforElementToBeVisible(BTN_CANCEL, Constants.THREE_SECOND);
