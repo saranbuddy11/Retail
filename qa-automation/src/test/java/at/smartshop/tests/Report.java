@@ -38,6 +38,7 @@ import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
+import at.smartshop.pages.CancelReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.CashoutLog;
@@ -105,6 +106,7 @@ import at.smartshop.pages.UnpaidOrder;
 import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
+import at.smartshop.utilities.WebService;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
@@ -193,6 +195,8 @@ public class Report extends TestInfra {
 	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
 	private CashoutLog cashOutLog = new CashoutLog();
+	private CancelReport cancelReport = new CancelReport();
+	private WebService webService = new WebService();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5892,6 +5896,80 @@ public class Report extends TestInfra {
 
 			// verify Report Data
 			cashOutLog.verifyKCORecord();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cancel Report data validation
+	 * 
+	 * @author KarthikR Date: 26-09-2022
+	 */
+	@Test(description = "119170 - Cancel Report data validation")
+	public void cancelReportDataValidation() {
+		try {
+			final String CASE_NUM = "119170";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process API POST Request to generate data
+			webService.apiReportPostRequest(
+					propertyFile.readPropertyFile(Configuration.SALE_CANCEL_TRANS, FilePath.PROPERTY_CONFIG_FILE),
+					cancelReport.saleCancelJsonDataUpdate());
+			cancelReport.getJsonSalesData();
+			cancelReport.getJsonArrayData(CancelReport.jsonData, Reports.ITEMS, Reports.PAYMENTS);
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cancelReport.selectAndRunReport(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DATE_RANGE),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			// textBox.enterText(CashoutLog.TXT_SEARCH_FILTER,
+			// cashOutLog.getRequiredCashOutJsonData().get(0));
+			cancelReport.readAllRecordsFromCancelReportTable();
+			cancelReport.getRequiredRecord(columnName.get(0),
+					String.valueOf(CancelReport.REQUIRED_JSON_DATA_LIST.get(0)));
+
+			// verify Report Headers
+			cancelReport.verifyReportHeaders(columnName.get(1));
+
+			// verify Location of UI Table Record
+			cancelReport.verifyLocation(columnName.get(2));
+
+			// verify Time Cancelled column of UI Table Record
+			cancelReport.verifyTimeCancelled(columnName.get(3),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+			// verify TransID column of UI Table Record
+			cancelReport.verifyTransID(columnName.get(4));
+
+			// verify Items column of UI Table Record
+			cancelReport.verifyItems(columnName.get(5));
+
+			// verify Total column of UI Table Record
+			cancelReport.verifyTotal(columnName.get(6));
+
+			// verify Name On CC column of UI Table Record
+			cancelReport.verifyNameOnCC(columnName.get(7));
+
+			// verify Last 4 Of CC column of UI Table Record
+			cancelReport.verifyLast4OfCC(columnName.get(8));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
