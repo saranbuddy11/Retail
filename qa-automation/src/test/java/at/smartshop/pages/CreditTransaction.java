@@ -110,6 +110,10 @@ public class CreditTransaction extends Factory {
 		return reportsData;
 	}
 
+	/**
+	 * This method is to get the required record
+	 * @param transDate
+	 */
 	public void getRequiredRecord(String transDate) {
 		try {
 			boolean flag = true;
@@ -127,6 +131,11 @@ public class CreditTransaction extends Factory {
 		}
 	}
 
+	/**
+	 *  This method is to update the data
+	 * @param columnName
+	 * @param value
+	 */
 	public void updateData(String columnName, String value) {
 		try {
 			intialData.get(recordCount).put(columnName, value);
@@ -135,6 +144,10 @@ public class CreditTransaction extends Factory {
 		}
 	}
 
+	/**
+	 *  This method is to Verify Report Headers
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
@@ -148,7 +161,10 @@ public class CreditTransaction extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
+	/**
+	 *  This method is to Verify Report Data
+	 */
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
