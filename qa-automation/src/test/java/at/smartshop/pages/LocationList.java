@@ -1,9 +1,11 @@
 package at.smartshop.pages;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
@@ -29,6 +31,10 @@ public class LocationList extends Factory {
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane humane-libnotify-info']");
 	public static final By TXT_RECORD_UPDATE_MSG = By.xpath("//div[@class='humane ']");
 	public static final By TXT_SPINNER_ERROR_MSG = By.xpath("//div[@class='humane humane-libnotify-error']");
+	public static final By LBL_LOCATION_TABLE_HEADER = By
+			.xpath("//table[@id='dataGrid_table']//th//span[@class='ui-iggrid-headertext']");
+	public static final By LBL_LOCATION_TABLE_BODY = By.xpath("//table[@id='dataGrid_table']//td");
+	
 	public static final By LINK_LOCATION_LIST = By.xpath("//td[@aria-describedby='dataGrid_table_namelink']//a");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By LBL_LOCATION_LIST = By.xpath("//li[text()='Location List']");
@@ -93,6 +99,17 @@ public class LocationList extends Factory {
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		login.logout();
 		browser.close();
+	}
+
+	public Map<String, String> fetchLocationInformation(String locationName) {
+		textBox.enterText(TXT_FILTER, locationName);
+		Map<String, String> mp = new LinkedHashMap<>();
+		List<WebElement> allHeading = getDriver().findElements(LBL_LOCATION_TABLE_HEADER);
+		List<WebElement> allBody = getDriver().findElements(LBL_LOCATION_TABLE_BODY);
+		for (int i = 0; i < allHeading.size(); i++) {
+			mp.put(allHeading.get(i).getText(), allBody.get(i).getText());
+		}
+		return mp;
 	}
 
 	public void removeDevice(String menu, String location) {

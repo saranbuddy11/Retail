@@ -54,6 +54,8 @@ public class LocationSummary extends Factory {
 	public static final By BTN_CLOSE_PRODUCT = By.id("previewcancel");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
+	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
+	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
