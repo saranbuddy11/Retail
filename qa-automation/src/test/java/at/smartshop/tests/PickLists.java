@@ -1534,6 +1534,54 @@ public class PickLists extends TestInfra {
 		try {
 			final String CASE_NUM = "203683";
 
+
+	
+	/**
+	 * @author sakthir Date-15-09-2022
+	 */
+	@Test(description = "204681-SOS-33846-To Verify Location Column under Plan pick list Add products in pick list menu"
+			+ "204682-To Verify Location Column in Add Product(s) to pick list grid while selecting any particular location under plan pick list")
+	public void verifyLocationNameInLocationColumnForAddProductPickList() {
+		final String CASE_NUM = "204681";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String location=rstPickListData.get(CNPickList.LOCATIONS);
+		
+		try {
+			// Select Org & Menu 
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//Navigate to Product->PickList and Select Plan pick list
+			navigationBar.navigateToMenuItem(menu); 
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+			pickList.selectLocationAndPicklistBtn(location);
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+		
+			//Verifying location name shows under location column
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
+			foundation.click(PickList.BTN_CLOSE);
+			
+			//select location in pick list page ,click Add product and Verifying location name shows under location column
+			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 3);
+			foundation.click(PickList.TBL_ROW_DATA);
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
+			foundation.click(PickList.BTN_CLOSE);
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
@@ -1572,6 +1620,7 @@ public class PickLists extends TestInfra {
 		} finally {
 			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+
 		}
 	}
 }
