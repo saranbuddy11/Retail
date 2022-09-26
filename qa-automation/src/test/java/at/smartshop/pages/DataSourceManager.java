@@ -12,12 +12,11 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
-import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class DataSourceManager extends Factory {
-	
+
 	public static final By VALIDATE_DSM_HEADING = By.id("page-title");
 	public static final By DSM_SEARCH_BOX = By.id("search-box");
 	public static final By DSM_CHECKBOX = By.xpath("//td[@aria-describedby='datasourcemangergrid_issfenabled']//input");
@@ -30,12 +29,12 @@ public class DataSourceManager extends Factory {
 	public static final By CSS_CANCEL_BTN = By.id("cancelBtn");
 	public static final By VALIDATE_CREATE_HEADING = By.id("CSS Create");
 	public static final By VALIDATE_UPDATE_HEADING = By.id("CSS Show");
-	public static final By CHECKBOX_SNOWFLAKE=By.xpath("//input[@type='checkbox']");
+	public static final By CHECKBOX_SNOWFLAKE = By.xpath("//input[@type='checkbox']");
 	public static final By CSS_GRID = By.xpath("//td[@class=' sorting_1']");
 	public static final By CSS_PATH_ERROR = By.id("path-error");
 	public static final By CSS_NAME_ERROR = By.id("name-error");
 	public static final By CSS_SUCCESS_POPUP = By.xpath("//div[@class='humane ']");
-	public static final By CSS_SEARCH_BOX= By.xpath("//input[@aria-controls='dt']");
+	public static final By CSS_SEARCH_BOX = By.xpath("//input[@aria-controls='dt']");
 
 	private TextBox textBox = new TextBox();
 	private CheckBox checkBox = new CheckBox();
@@ -92,7 +91,7 @@ public class DataSourceManager extends Factory {
 			int countPaginationList = foundation.getSizeofListElement(object1);
 			for (int iter = 0; iter < countPaginationList; iter++) {
 				List<WebElement> paginationList = getDriver().findElements(object1);
-				paginationList.get(iter).click();			
+				paginationList.get(iter).click();
 				int countOfCheckboxes = foundation.getSizeofListElement(object2);
 				for (int count = 0; count < countOfCheckboxes; count++) {
 					List<WebElement> checkBoxList = getDriver().findElements(object2);
@@ -125,11 +124,12 @@ public class DataSourceManager extends Factory {
 			} else if (reportsDB.equals(RDS)) {
 				unCheckInListOfCheckBoxes(PAGINATION_LIST, CHECKBOXS);
 			}
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void createCSS(String css_Path) {
 		try {
 			foundation.click(CSS_CREATE_NEW_BTN);
@@ -139,9 +139,10 @@ public class DataSourceManager extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This method is for switching to ReportsDB like SnowFlake or RDS
+	 * 
 	 * @param reportsDB
 	 * @param object
 	 * @param dataObject
@@ -150,7 +151,7 @@ public class DataSourceManager extends Factory {
 		try {
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(DATA_SOURCE_MANAGER_MANU);
-			textBox.enterText(SEARCH_BOX_DATA_SOURCE_MANAGER, dataObject );
+			textBox.enterText(SEARCH_BOX_DATA_SOURCE_MANAGER, dataObject);
 			WebElement checkBoxList = getDriver().findElement(object);
 			if (reportsDB.equals(SNOWFLAKE)) {
 				foundation.objectFocusOnWebElement(checkBoxList);
@@ -169,12 +170,14 @@ public class DataSourceManager extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * search consumer and verify snow flake is checked
+	 * 
 	 * @param consumer
 	 */
 	public void searchConsumerAndVerifySnowFlakeIsChecked(String consumer) {
+
 			CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
 			foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
 			textBox.enterText(DSM_SEARCH_BOX, consumer);
@@ -211,3 +214,13 @@ public class DataSourceManager extends Factory {
 	
 
 
+		CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
+		foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
+		textBox.enterText(DSM_SEARCH_BOX, consumer);
+		foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
+		CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
+
+	}
+
+
+}

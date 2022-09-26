@@ -1117,8 +1117,8 @@ public class SmokeTests extends TestInfra {
 
 			// verify the display of total section		
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			String tax1 = foundation.getText(Order.LBL_TAX_1).split(Constants.DOLLAR)[1];
-			String tax2 = foundation.getText(Order.LBL_TAX_2).split(Constants.DOLLAR)[1];
+			String tax1 = foundation.getText(Order.TAX).split(Constants.DOLLAR)[1];
+			String tax2 = foundation.getText(Order.TAX).split(Constants.DOLLAR)[1];
 			String tax3 = foundation.getText(Order.LBL_TAX_3).split(Constants.DOLLAR)[1];
 			String tax4 = foundation.getText(Order.LBL_TAX_4).split(Constants.DOLLAR)[1];
 			String balanceDue = foundation.getText(Order.LBL_BALANCE_DUE).split(Constants.DOLLAR)[1];

@@ -144,11 +144,14 @@ public class GlobalProductChange extends Factory {
 	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
 	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
 	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
-    public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
-    public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
-    public static final By TXT_START=By.id("start-num");
-    public static final By TXT_END=By.id("end-num");
-    public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']");
+	public static final By TABLE_PRODUCT=By.xpath("//tbody//tr[@class='odd']");
+	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
+  public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
+  public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
+  public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
+  public static final By TXT_START=By.id("start-num");
+  public static final By TXT_END=By.id("end-num");
+  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']");
 	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
 
 
@@ -378,7 +381,7 @@ public class GlobalProductChange extends Factory {
 		foundation.threadWait(1);
 		foundation.clickEnter();
 		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.waitforElementToBeVisible(REASON_BTNOK, 3);
+		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
 	}
@@ -513,7 +516,11 @@ public class GlobalProductChange extends Factory {
 	
 	}
 	/**
+
+	 * verify Min, Max have checkmarks for  values
+
 	 * verify Min, Max have checkmarks for negative values
+
 	 * 
 	 * @param min
 	 * @param max
@@ -531,7 +538,11 @@ public class GlobalProductChange extends Factory {
 	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
 	}
 	/**
+
+	 * verify Min, Max have checkmarks for  values
+
 	 * verify Min, Max have checkmarks for negative values
+
 	 * 
 	 * @param min
 	 * @param max
@@ -585,3 +596,5 @@ public class GlobalProductChange extends Factory {
 	}
 
 }
+	
+

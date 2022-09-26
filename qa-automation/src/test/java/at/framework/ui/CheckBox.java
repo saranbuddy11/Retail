@@ -109,6 +109,24 @@ public class CheckBox extends Factory {
 		}
 		return isUnChecked;
 	}
+	
+	public boolean UnChecked(By object) {
+		boolean isUnChecked = false;
+		try {
+			WebElement element = getDriver().findElement(object);
+
+			if(!element.isSelected()) {
+				isUnChecked = true;
+			} else {
+				isUnChecked = false;
+			}
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"element [ " + object + " ] is not checked [ " + isUnChecked + " ]");
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return isUnChecked;
+	}
 
 	
 }

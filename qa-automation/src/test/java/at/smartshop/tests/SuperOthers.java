@@ -1,12 +1,10 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,14 +22,15 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
-import at.smartshop.database.columns.CNV5Device;
-import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Announcement;
+import at.smartshop.pages.AppReferral;
 import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
@@ -53,12 +52,8 @@ import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
 import at.smartshop.pages.PageSet;
 import at.smartshop.pages.PrintGroupLists;
-import at.smartshop.pages.PromotionList;
-import at.smartshop.pages.SequenceNumber;
-import at.smartshop.pages.SpecialService;
-import at.smartshop.pages.Announcement;
-import at.smartshop.pages.AppReferral;
 import at.smartshop.pages.Report;
+import at.smartshop.pages.SpecialService;
 
 public class SuperOthers extends TestInfra {
 
@@ -74,13 +69,12 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
+	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService = new SpecialService();
 	private Strings strings = new Strings();
 	private DeviceCreate deviceCreate = new DeviceCreate();
 	private PrintGroupLists printGroupLists = new PrintGroupLists();
 	private DICRules dicRules = new DICRules();
-	private SequenceNumber sequenceNumber = new SequenceNumber();
-	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
 	private Campus campus = new Campus();
@@ -88,11 +82,8 @@ public class SuperOthers extends TestInfra {
 	private AppReferral appReferral = new AppReferral();
 	private Lookup lookup = new Lookup();
 	private Middid middid = new Middid();
-	private Copy copy = new Copy();
-	private Report report = new Report();
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
-	private Announcement announcement = new Announcement();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -142,7 +133,7 @@ public class SuperOthers extends TestInfra {
 
 	// Consumer Roles Test Scenarios -
 	@Test(description = "165178-Enter all the valid details in the fields and click on save"
-			            + "203348-ADM > Super > Consumer > Create Consumer roles")
+			+ "203348-ADM > Super > Consumer > Create Consumer roles")
 	public void ConsumerRolesValidDetails() {
 
 		final String CASE_NUM = "165178";
@@ -772,6 +763,7 @@ public class SuperOthers extends TestInfra {
 			// resetting test data
 			foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
 			textBox.enterText(OrgstrList.ORG_DEVICE_SEARCH, dbData.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(OrgstrList.TBL_DATA);
 			foundation.waitforElement(OrgstrList.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_REMOVE);
@@ -1545,7 +1537,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), mandatory_Name_Error);
 			textBox.enterText(PrintGroupLists.TXT_NAME, wrong_Printer_Name);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(PrintGroupLists.BTN_SAVE);			
+			foundation.click(PrintGroupLists.BTN_SAVE);
 			CustomisedAssert.assertEquals(foundation.getText(PrintGroupLists.TXT_NAME_ERROR), quotes_Error);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PrintGroupLists.BTN_CANCEL);
@@ -2846,7 +2838,7 @@ public class SuperOthers extends TestInfra {
 		List<String> record = Arrays
 				.asList(rstSuperListData.get(CNSuperList.PAGE_ROW_RECORD).split(Constants.DELIMITER_TILD));
 		List<String> updatedData = Arrays
-				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));		
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
 
 		try {
 			browser.navigateURL(
@@ -2875,15 +2867,43 @@ public class SuperOthers extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			//resetting the data
+		} finally {
+			// resetting the data
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			dropDown.selectItem(Announcement.DRP_COLOR, updatedData.get(0), Constants.TEXT);
 			dropDown.selectItem(Announcement.DRP_FONT_SIZE, updatedData.get(1), Constants.TEXT);
 			textBox.enterText(Announcement.TXT_MSG, updatedData.get(2));
 			foundation.click(Announcement.BTN_SAVE);
 		}
-		
+	}
+
+	/**
+	 * @author afrosean
+	 * Date:02.09.2022
+	 */
+	@Test(description = "203718-ADM>Super>Consumer Roles >creat new consumer >Verify error message in Length field enter combination of both String & integer value")
+	public void verifyDigitValidationMessageForLengthFieldInConsumerRoles() {
+		final String CASE_NUM = "203718";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// launch browser and select menu and menu item
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerRolesList.BTN_CREATE));
+
+			// click on create new and verify length error message in length
+			consumerRolesList.verifyErrorMessage(datas.get(0), datas.get(1));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
