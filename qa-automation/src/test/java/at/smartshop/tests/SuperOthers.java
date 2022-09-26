@@ -763,6 +763,7 @@ public class SuperOthers extends TestInfra {
 			// resetting test data
 			foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
 			textBox.enterText(OrgstrList.ORG_DEVICE_SEARCH, dbData.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(OrgstrList.TBL_DATA);
 			foundation.waitforElement(OrgstrList.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_REMOVE);

@@ -364,7 +364,24 @@ public class LocationSummary extends Factory {
 	public static final By MATCH_INVENTORY_RECORD = By.id("inventoryDataGrid_pager_label");
 	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[13]");
 	public static final By LBL_TAX2_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_taxrate2']");
-
+	public static final By TBL_PRODUCT_HEADER = By.xpath("//table[@id='productDataGrid']//thead//tr[@role='row']");
+	public static final By DPD_GMR = By.id("gmarateuselocation");
+	public static final By DPD_NANOGMR = By.id("nanogmarateuselocation");
+	public static final By DPD_CREDIT = By.id("creditrateuselocation");
+	public static final By DPD_NANOCREDIT = By.id("nanocreditrateuselocation");
+	public static final By TXT_GMR=By.xpath("//select[@id='gmarateuselocation']/option[@selected='selected']");
+	public static final By TXT_NANOGMR=By.xpath("//select[@id='nanogmarateuselocation']/option[@selected='selected']");
+	public static final By TXT_CREDIT=By.xpath("//select[@id='creditrateuselocation']/option[@selected='selected']");
+	public static final By TXT_NANOCREDIT=By.xpath("//select[@id='nanocreditrateuselocation']/option[@selected='selected']");
+	public static final By TXT_LOCATION_GMR = By.id("gmaratepercent");
+	public static final By TXT_LOCATION_NANOGMR = By.id("nanogmaratepercent");
+	public static final By TXT_LOCATION_CREDIT = By.id("creditratepercent");
+	public static final By TXT_LOCATION_NANOCREDIT = By.id("nanocreditratepercent");
+	public static final By NANOGMR_ERROR = By.id("nanogmaratepercent-error");
+	public static final By GMR_ERROR = By.id("gmaratepercent-error");
+	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
+	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
@@ -2155,7 +2172,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Selecting the Product ======= Get table records in UI
+	 * Selecting the Product Get table records in UI
 	 * 
 	 * @return
 	 */
@@ -2227,7 +2244,7 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Selecting the Product >>>>>>> main
+	 * Selecting the Product 
 	 * 
 	 * @param product
 	 */
@@ -2428,5 +2445,84 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.BTN_APPLY);
 	}
 
+
+	/**
+	 * Add Device and Verify Added Device
+	 * @param data
+	 */
+	public void addDeviceAndVerify(String data) {
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+	foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+	foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
+	foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
+	textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data);
+    foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
+    foundation.click(LocationSummary.BTN_DEVICE_ADD);
+	foundation.waitforElementToBeVisible(LocationSummary.DEVICE_NAME,3);
+    foundation.click(LocationSummary.TXT_DEVICE_SEARCH);
+	textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, data);
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.DEVICE_NAME).equals(data));
+}
+	/**
+	 * verify the Rate Fields
+	 * @param data
+	 */
+	public void verifyRateFields(String data) {
+	foundation.scrollIntoViewElement(LocationSummary.DPD_GMR);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_GMR));
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_GMR).equals(data));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_NANOGMR));
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_NANOGMR).equals(data));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_CREDIT));
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_CREDIT).equals(data));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_NANOCREDIT));
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_NANOCREDIT).equals(data));
+}
+	/**
+	 * enter Value for Rate Fields
+	 * @param dropdown
+	 * @param data
+	 */
+	public void enterRateValueForFields(String dropdown,String data) {
+	dropDown.selectItem(LocationSummary.DPD_GMR, dropdown, Constants.TEXT);
+	foundation.click(LocationSummary.TXT_LOCATION_GMR);
+	textBox.enterText(LocationSummary.TXT_LOCATION_GMR, data);
+	dropDown.selectItem(LocationSummary.DPD_NANOGMR, dropdown, Constants.TEXT);
+	foundation.click(LocationSummary.TXT_LOCATION_NANOGMR);
+	textBox.enterText(LocationSummary.TXT_LOCATION_NANOGMR, data);
+	dropDown.selectItem(LocationSummary.DPD_CREDIT, dropdown, Constants.TEXT);
+	foundation.click(LocationSummary.TXT_LOCATION_CREDIT);
+	textBox.enterText(LocationSummary.TXT_LOCATION_CREDIT, data);
+	dropDown.selectItem(LocationSummary.DPD_NANOCREDIT, dropdown, Constants.TEXT);
+	foundation.click(LocationSummary.TXT_LOCATION_NANOCREDIT);
+	textBox.enterText(LocationSummary.TXT_LOCATION_NANOCREDIT, data);
+	
+	}
+	/*
+	 *Search Product
+	 * @param data
+	 * 
+	 */
+	public void SearchProduct(String data) {
+	foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, 5);
+	foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER, 3);
+	textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, data);
+	foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, 5);
+	}
+	/*
+	 *verify ProductID location Summary into Product Summary
+	 * @param data
+	 *  
+	 */
+	public void verifyProductID(String data) {
+	SearchProduct(data);
+	foundation.click(LocationSummary.PRODUCT_NAME);
+	foundation.waitforElementToBeVisible(LocationSummary.TBL_DATA_GRID, Constants.SHORT_TIME);
+	foundation.waitforElementToBeVisible(LocationSummary.LBL_PRODUCT_POPUP, Constants.SHORT_TIME);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_PRODUCT_POPUP));
+	foundation.click(LocationSummary.EDIT_PRODUCT);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+	
+	}
 
 }

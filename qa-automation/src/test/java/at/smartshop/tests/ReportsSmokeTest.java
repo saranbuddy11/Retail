@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -28,7 +30,7 @@ public class ReportsSmokeTest extends TestInfra {
 	private SalesAnalysisReport salesAnalysisReport = new SalesAnalysisReport();
 	private CustomerReportSkymiles customerReportSkymiles = new CustomerReportSkymiles();
 	private AccountAdjustment accountAdjustment = new AccountAdjustment();
-	// private DataSourceManager dataSourceManager = new DataSourceManager();
+	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private ModifiersReport modifiersReport = new ModifiersReport();
 	private EFTGMADisbursement EFTGMADisbursement = new EFTGMADisbursement();
 	private GMAMigration GMAMigration = new GMAMigration();
@@ -142,17 +144,17 @@ public class ReportsSmokeTest extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "166893- This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {

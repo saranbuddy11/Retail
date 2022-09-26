@@ -2319,4 +2319,44 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author sakthir  12-09-2022
+	 *
+	 */
+
+	@Test(description = "202654-Location Summary > Product Tab - Print Group Shows By Default")
+	public void verifyPrintGroupTableHeaderShowsByDefaultInProductTab() {
+		final String CASE_NUM = "202654";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		String location =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String product = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						
+
+			//select Location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// adding product and verifying on Product UI
+            foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
+			String Column_Header=foundation.getText(LocationSummary.TBL_PRODUCT_HEADER);
+			CustomisedAssert.assertTrue(Column_Header.contains(product));
+			
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }
