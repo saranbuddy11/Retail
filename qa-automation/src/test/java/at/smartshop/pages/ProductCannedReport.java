@@ -202,6 +202,11 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 	
+	/**
+	 * This method is to Calculate the Sales
+	 * @param columnName
+	 * @param price
+	 */
 	public void calculateSales(String columnName, String price) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -218,6 +223,12 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to Calculate the amount
+	 * @param columnName
+	 * @param price
+	 * @param tax
+	 */
 	public void calculateAmount(String columnName, String price, String tax) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -235,6 +246,11 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 
+	/**
+	 * This method is to Calculate the Sales Count
+	 * @param columnName
+	 * @return
+	 */
 	public String saleCount(String columnName) {
 		String count = null;
 		try {
@@ -249,6 +265,11 @@ public class ProductCannedReport extends Factory {
 		return count;
 	}
 
+	/**
+	 * This method is to Update the Data
+	 * @param columnName
+	 * @param values
+	 */
 	public void updateData(String columnName, String values) {
 		try {
 			for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -259,54 +280,54 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 	
+	/**
+	 * This method is to calculate percentage
+	 * @param columnName
+	 * @param salesUnit
+	 * @param unit
+	 */
 	public  void calculatePercent(String columnName, String salesUnit, String unit) {
-			double percent = (Double.parseDouble(unit) / Double.parseDouble(salesUnit)) * 100;
-//			BigDecimal updatePercent =  new BigDecimal(percent);
-//			updatePercent = updatePercent.setScale(2, BigDecimal.ROUND_UP);
-			
-//			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
-//			String decimalvalue = df.format(percent);
-//			double value = Double.parseDouble(decimalvalue); 
-//			DecimalFormat decimalFormat = new DecimalFormat(".#");
-//			String result = decimalFormat.format(value); 
-			
-			
+			double percent = (Double.parseDouble(unit) / Double.parseDouble(salesUnit)) * 100;			
 			DecimalFormat df = new DecimalFormat("#,###");
 			df.setRoundingMode(RoundingMode.FLOOR);
 			String result = df.format(percent);
-					
-//			df.setRoundingMode(RoundingMode.HALF_UP);
-//			String result = df.format(percent);
-			
 			intialData.get(recordCount).put(columnName, String.valueOf(result));
-//			intialData.get(recordCount).put(columnName,  String.valueOf(updatePercent));
 			System.out.println("result : "+ result);
 	}
 
+	/**
+	 * This method is to get the Decremented Inventory Value
+	 * @param inventoryValue
+	 * @return
+	 */
 	public String decrementedInventoryValue(String inventoryValue) {
 		int value = Integer.parseInt(inventoryValue)-1;
 		String updatedValue = String.valueOf(value);
 		return updatedValue;
 	}
 	
+	/**
+	 *  This method is to Verify Report Data
+	 */
 	public void verifyReportData() {
 		try {
-			int count = intialData.size();
 			System.out.println("reportsData :" + reportsData);
 			System.out.println("intialData :" + intialData);
 			foundation.threadWait(Constants.TWO_SECOND);
-//			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 							.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
 					System.out.println("iter : "+ iter);
-//				}
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	/**
+	 * This method is to Verify Report Headers
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
