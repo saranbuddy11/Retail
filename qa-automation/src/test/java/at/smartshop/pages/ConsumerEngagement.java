@@ -689,6 +689,8 @@ public class ConsumerEngagement extends Factory {
 		foundation.refreshPage();
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
 		foundation.waitforElementToBeVisible(ISSUEBY, Constants.SHORT_TIME);
 		String text = foundation.getText(ISSUEBY);
@@ -733,7 +735,6 @@ public class ConsumerEngagement extends Factory {
 		WebElement Wb = getDriver().findElement(objTextbox(id));
 		String CLbox = Wb.getAttribute("value");
 		CustomisedAssert.assertTrue(CLbox.isEmpty());
-
 	}
 
 	/**

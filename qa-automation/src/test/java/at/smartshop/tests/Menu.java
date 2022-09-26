@@ -434,4 +434,39 @@ public class Menu extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	/**
+	 * @author sakthir Date: 05-09-2022
+	 */
+	@Test(description = "197566-To Verify time slot and Max order columns are loading as expected in ADM->Menu->Self Service Menu-> Set Limits")
+	public void verifyTimeSlotAndMaxOrderColumnInSetLimitsPage() {
+		try {
+			final String CASE_NUM = "197566";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
+			foundation.click(SelfService.TXT_SEARCH);
+			textBox.enterText(SelfService.TXT_SEARCH,data.get(0));
+			foundation.waitforElementToBeVisible(SelfService.CLICK_SET_LIMITS, 3);
+			foundation.click(SelfService.CLICK_SET_LIMITS);
+			foundation.waitforElementToBeVisible(SelfService.COL_TIMESLOT,Constants.MEDIUM_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.COL_TIMESLOT));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.COL_MAX_ORDER));
+		    List<String> value=foundation.getTextofListElement(SelfService.ROW_SET_LIMITS);
+		    CustomisedAssert.assertTrue(value.get(0).length()>5);
+		    CustomisedAssert.assertFalse(value.equals(data.get(1)));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

@@ -1,15 +1,11 @@
 package at.smartshop.tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -26,15 +22,15 @@ import at.framework.ui.Foundation;
 import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNDeviceList;
-import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNSuperList;
-import at.smartshop.database.columns.CNV5Device;
-import at.smartshop.database.columns.CNNationalAccounts;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Announcement;
+import at.smartshop.pages.AppReferral;
 import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerRolesList;
 import at.smartshop.pages.ContactList;
@@ -56,13 +52,8 @@ import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.OrgstrList;
 import at.smartshop.pages.PageSet;
 import at.smartshop.pages.PrintGroupLists;
-import at.smartshop.pages.PromotionList;
-import at.smartshop.pages.SequenceNumber;
-import at.smartshop.pages.SpecialService;
-import lombok.val;
-import at.smartshop.pages.Announcement;
-import at.smartshop.pages.AppReferral;
 import at.smartshop.pages.Report;
+import at.smartshop.pages.SpecialService;
 
 public class SuperOthers extends TestInfra {
 
@@ -85,8 +76,6 @@ public class SuperOthers extends TestInfra {
 	private DeviceCreate deviceCreate = new DeviceCreate();
 	private PrintGroupLists printGroupLists = new PrintGroupLists();
 	private DICRules dicRules = new DICRules();
-	private SequenceNumber sequenceNumber = new SequenceNumber();
-	private DataSourceManager dataSourceManager = new DataSourceManager();
 	private LookupType lookupType = new LookupType();
 	private NationalAccounts nationalAccounts = new NationalAccounts();
 	private Campus campus = new Campus();
@@ -94,11 +83,8 @@ public class SuperOthers extends TestInfra {
 	private AppReferral appReferral = new AppReferral();
 	private Lookup lookup = new Lookup();
 	private Middid middid = new Middid();
-	private Copy copy = new Copy();
-	private Report report = new Report();
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
-	private Announcement announcement = new Announcement();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
@@ -778,6 +764,7 @@ public class SuperOthers extends TestInfra {
 			// resetting test data
 			foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
 			textBox.enterText(OrgstrList.ORG_DEVICE_SEARCH, dbData.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(OrgstrList.TBL_DATA);
 			foundation.waitforElement(OrgstrList.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(OrgstrList.BTN_REMOVE);

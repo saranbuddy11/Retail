@@ -116,6 +116,7 @@ public class AccountAdjustment extends Factory {
 		CustomisedAssert.assertEquals(value, amount1);
 		value = actuals.get("Amount");
 		CustomisedAssert.assertEquals(value, amount);
+		foundation.threadWait(Constants.THREE_SECOND);
 		value = actuals.get("Reflect on EFT");
 		CustomisedAssert.assertEquals(value, reflect);
 		value = actuals.get("Consumer Name");

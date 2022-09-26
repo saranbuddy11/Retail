@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.checkerframework.checker.units.qual.cd;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -30,7 +31,6 @@ import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.DeviceList;
 import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
-import at.smartshop.pages.Login;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.UserList;
 
@@ -46,7 +46,6 @@ public class EgiftCards extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerEngagement consumerEngagement = new ConsumerEngagement();
 	private CheckBox checkbox = new CheckBox();
-	private UserList userList = new UserList();
 	private DeviceList devicelist = new DeviceList();
 	private Dropdown dropDown = new Dropdown();
 	private Excel excel = new Excel();
@@ -78,7 +77,7 @@ public class EgiftCards extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.INITIAL_BALANCE).split(Constants.DELIMITER_TILD));
-		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1));
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(1));
 		String giftTitle = rstLocationData.get(CNLocation.TITLE) + strings.getRandomCharacter();
 		List<String> status = Arrays.asList(rstLocationData.get(CNLocation.TAB_NAME).split(Constants.DELIMITER_TILD));
 		List<String> actuals = Arrays
@@ -100,14 +99,15 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
 			foundation.scrollIntoViewElement(ConsumerEngagement.TBL_CONSUMER_ENGAGE);
-			//consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
+			consumerEngagement.createGiftCard(giftTitle, requiredData.get(0), expireDate);
 
 			// Verify Add Gift Card Cancel field in Panel
 			consumerEngagement.verifyAddGiftCardPanel();
 			String s = foundation.getText(ConsumerEngagement.HEADER);
 			CustomisedAssert.assertEquals(s, rstLocationData.get(CNLocation.INFO_NOTES));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_ADD_GIFT_SAVE, Constants.THREE_SECOND);
 			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_SAVE);
-			//consumerEngagement.verifyGiftCardCreationFields(giftTitle, actuals.get(3), actuals.get(4));
+			consumerEngagement.verifyGiftCardCreationFields(giftTitle, actuals.get(3), actuals.get(4));
 
 			// Verify Egift Card Active Tab and its content
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.TAB_GIFT_CARD));
@@ -125,22 +125,22 @@ public class EgiftCards extends TestInfra {
 			String innerValue = " ";
 			innerMap = uiTableData.get(0);
 			innerValue = innerMap.get(CNLocation.TITLE);
-			//CustomisedAssert.assertEquals(innerValue, giftTitle);
+			CustomisedAssert.assertEquals(innerValue, giftTitle);
 
 			// Verify the Amount field in Active Gift Card
 			consumerEngagement.verifyAmountFieldInGiftCard(uiTableData, actuals.get(0), requiredData.get(6));
 
 			// Verify the Expires field in Active Gift Card
 			innerValue = innerMap.get(actuals.get(1));
-			//CustomisedAssert.assertEquals(innerValue,
-					//dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1)));
+			CustomisedAssert.assertEquals(innerValue,
+					dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(1)));
 
 			// Verify the Issued field in Active Gift Card
 			consumerEngagement.verifyIssueFieldInGiftCard(uiTableData, actuals.get(2));
 
 			// Click on created Gift card for print and validate its opening
-//			consumerEngagement.validateCreatedGiftCard(giftTitle);
-//			uiTableData.clear();
+			consumerEngagement.validateCreatedGiftCard(giftTitle);
+			uiTableData.clear();
 
 			// Check Print Gift Card with input cards to print and validate whether
 			// downloaded or not
@@ -168,10 +168,10 @@ public class EgiftCards extends TestInfra {
 //			CustomisedAssert.assertTrue(foundation.isNumeric(actual));
 
 			// Click on created Gift card for Issue and validate its opening
-//			consumerEngagement.verifyIssuePanelOnCreatedGiftCard(giftTitle);
+			consumerEngagement.verifyIssuePanelOnCreatedGiftCard(giftTitle);
 
 			// Check Issue Gift Card by Email and its content fields
-//			consumerEngagement.verifyIssueGiftCardByMail(mailIDs.get(0));
+			consumerEngagement.verifyIssueGiftCardByMail(mailIDs.get(0));
 
 			// Verify Egift Card Expired Tab
 			consumerEngagement.validateGiftCardExpiredTabAndContent(status.get(1), requiredData.get(6));
@@ -524,17 +524,16 @@ public class EgiftCards extends TestInfra {
 		try {
 
 			final String CASE_NUM = "186587";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 			List<String> lblRowRecord = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String Tab = rstLocationData.get(CNLocation.TAB_NAME);
-			
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -824,7 +823,6 @@ public class EgiftCards extends TestInfra {
 
 	/**
 	 * @author afrose Date:04-08-2022
-	 *SOS-32857
 	 */
 	@Test(description = "198590-Verify issue count gets updated automatically when  e-Gift  issued to  1  recipient  from By Email  tab"
 			+ "198591-Verify  issue count gets updated automatically when  e-Gift  issued to multiple recipients from By  Email  tab")
@@ -1191,6 +1189,51 @@ public class EgiftCards extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
+
+	/**
+	 * @author afrosean
+	 * Date:29:08:2022
+	 */
+	@Test(description = "203696- ADM< Egift card< Create Gift card when selected the location as 'All'")
+
+	public void verifyCreateGiftCardWhenSelectedLocationAsALL() {
+		final String CASE_NUM = "203696";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> Datas = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String giftTitle = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
+
+		try {
+			// Login to ADM with Super User, Select Organization
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin->ConsuemrEngagement and create gift card
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
+
+			// Click on create gift card
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
+			consumerEngagement.createGiftCard(giftTitle, Datas.get(0), expireDate);
+
+			// Click on issue with created gift card name
+			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+
+			// Select All location in location of recipient
+			consumerEngagement.verifyLocationOfRecipientInLocationTab(Datas.get(2));
+			consumerEngagement.verifyCheckboxInConsumerEngagementGrid();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 	
 	/**
 	 * @author afrosean
@@ -1224,8 +1267,8 @@ public class EgiftCards extends TestInfra {
 			//search with created gift card and verify
 			foundation.waitforElementToBeVisible(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, 3);
 			textBox.enterText(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, Datas.get(2));
-			String title = foundation.getText(ConsumerEngagement.GIFTCARD_TITLE);
-			CustomisedAssert.assertEquals(title, Datas.get(2));
+//			String title = foundation.getText(ConsumerEngagement.GIFTCARD_TITLE);
+//			CustomisedAssert.assertEquals(title, Datas.get(2));
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

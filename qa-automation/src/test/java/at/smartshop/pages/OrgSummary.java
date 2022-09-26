@@ -124,7 +124,9 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
 	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
-
+	
+	
+	
 	public By objVDI(String text) {
 
 		return By.xpath("//input[@value='" + text + "']");

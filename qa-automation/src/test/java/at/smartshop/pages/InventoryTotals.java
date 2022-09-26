@@ -13,6 +13,7 @@ import org.testng.Assert;
 import com.aventstack.extentreports.Status;
 
 import at.framework.browser.Factory;
+import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
 import at.smartshop.keys.Constants;
@@ -21,10 +22,11 @@ import at.smartshop.tests.TestInfra;
 public class InventoryTotals extends Factory {
 	private Foundation foundation = new Foundation();
 
-	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	public static final By LBL_REPORT_NAME = By
+			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
-	
+
 	private static final By TBL_INVENTORY_TOTAL = By.id("rptdt");
 	private static final By TBL_INVENTORY_TOTAL_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
@@ -60,7 +62,7 @@ public class InventoryTotals extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This method is to get the Table Records Data from UI
 	 */
@@ -90,9 +92,10 @@ public class InventoryTotals extends Factory {
 	}
 
 	/**
-     * This method is to validate the Report Table Headers
-     * @param columnNames
-     */
+	 * This method is to validate the Report Table Headers
+	 * 
+	 * @param columnNames
+	 */
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
@@ -106,14 +109,15 @@ public class InventoryTotals extends Factory {
 
 	/**
 	 * This method is to validate the Report Data
+	 * 
 	 * @param expextedData
 	 */
 	public void verifyReportData(String expectedData) {
-		try {			
+		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-				for (int iter = 0; iter < tableHeaders.size()-1; iter++) {
-					Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-							.contains(expectedDataList.get(iter)));
+			for (int iter = 0; iter < tableHeaders.size() - 1; iter++) {
+				CustomisedAssert.assertTrue(
+						reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

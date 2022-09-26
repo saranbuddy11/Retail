@@ -1,6 +1,5 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -45,8 +44,19 @@ public class ConsumerRolesList extends Factory{
 	public static final By DELETE_DATA = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By ACCPT_POPUP = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By Validate_CREATE_BUTTON = By.id("newBtn");
-	
-	
+
+	/**
+	 * verify error message in length field
+	 * @param length
+	 * @param errors
+	 */
+	public void verifyErrorMessage(String length,String msg) {
+		foundation.click(ConsumerRolesList.BTN_CREATE);
+		textBox.enterText(ConsumerRolesList.LENGTH, length);
+		foundation.click(ConsumerRolesList.BTN_SUBMIT);
+		String error = foundation.getText(ConsumerRolesList.LENGTH_FIELD_ERROR);
+		CustomisedAssert.assertEquals(error, msg);
+	}
 
 	/**
 	 * create consumer in consumer roles
@@ -70,18 +80,5 @@ public class ConsumerRolesList extends Factory{
 		dropdown.selectItem(SELECT_ORG, values.get(5), Constants.TEXT);
 		foundation.waitforElementToBeVisible(SELECT_LOCATION, 3);
 		dropdown.selectItem(SELECT_LOCATION, values.get(6), Constants.TEXT);
-	}
-	
-	/**
-	 * verify error message in length field
-	 * @param length
-	 * @param errors
-	 */
-	public void verifyErrorMessage(String length,String msg) {
-		foundation.click(ConsumerRolesList.BTN_CREATE);
-		textBox.enterText(ConsumerRolesList.LENGTH, length);
-		foundation.click(ConsumerRolesList.BTN_SUBMIT);
-		String error = foundation.getText(ConsumerRolesList.LENGTH_FIELD_ERROR);
-		CustomisedAssert.assertEquals(error, msg);
 	}
 }

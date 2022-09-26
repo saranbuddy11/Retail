@@ -25,6 +25,7 @@ public class ProductSearch {
 	public static final By LINK_CLOSE_POPUP = By.xpath("//i[@data-reactid='.0.c.0.0.0.2.0']");
 	public static final By LBL_PRODUCT_SCANCODE = By
 			.xpath("//button[@class='product search-product']/span[@class='product-scan-code']");
+	public static final By PRODUCT_PRICE = By.cssSelector(".product-price");
 
 	private Foundation foundation = new Foundation();
 
@@ -41,6 +42,7 @@ public class ProductSearch {
 
 	/**
 	 * searching a product in v5 device
+	 * 
 	 * @param product
 	 * @return
 	 */
