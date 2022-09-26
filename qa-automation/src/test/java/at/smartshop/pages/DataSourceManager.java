@@ -12,6 +12,7 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
+import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
@@ -209,18 +210,5 @@ public class DataSourceManager extends Factory {
 		foundation.click(DataSourceManager.DSM_CHECKBOX);
 		foundation.waitforElement(DataSourceManager.DSM_SUCCESS_POPUP, Constants.SHORT_TIME);
 	}
-	
-}
-	
-
-
-		CustomisedAssert.assertTrue(foundation.isDisplayed(VALIDATE_DSM_HEADING));
-		foundation.waitforElementToBeVisible(DSM_SEARCH_BOX, 5);
-		textBox.enterText(DSM_SEARCH_BOX, consumer);
-		foundation.waitforElementToBeVisible(CHECKBOX_SNOWFLAKE, 3);
-		CustomisedAssert.assertTrue(checkBox.isChecked(CHECKBOX_SNOWFLAKE));
-
-	}
-
 
 }

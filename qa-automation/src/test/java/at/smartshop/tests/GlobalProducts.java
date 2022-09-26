@@ -65,9 +65,9 @@ public class GlobalProducts extends TestInfra {
 	private OrgSummary orgsummary = new OrgSummary();
 	private UserList userList= new UserList();
 
-	private EntrySummaryReport entrySummaryReport= new EntrySummaryReport();
+	
     private DeviceDashboard deviceDashboard = new DeviceDashboard();
-	private UserList userList = new UserList();
+
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstGlobalProductChangeData;
@@ -2463,7 +2463,7 @@ catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 			}
 }
-}
+
 
 	
 	/**
@@ -2548,6 +2548,7 @@ catch (Exception exc) {
 	        TestInfra.failWithScreenShot(exc.toString());
 }
 	}
+}
 
 
 		
