@@ -1,16 +1,16 @@
 package at.smartshop.pages;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.framework.ui.Dropdown;
 import at.smartshop.keys.Constants;
+
 
 
 public class ConsumerRolesList extends Factory{
@@ -44,10 +44,7 @@ public class ConsumerRolesList extends Factory{
 	public static final By DELETE_DATA = By.xpath("//a[@class='fa fa-trash icon']");
 	public static final By ACCPT_POPUP = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By Validate_CREATE_BUTTON = By.id("newBtn");
-	
-	
 
-	
 	/**
 	 * verify error message in length field
 	 * @param length
@@ -60,6 +57,7 @@ public class ConsumerRolesList extends Factory{
 		String error = foundation.getText(ConsumerRolesList.LENGTH_FIELD_ERROR);
 		CustomisedAssert.assertEquals(error, msg);
 	}
+
 	/**
 	 * create consumer in consumer roles
 	 * @param name
