@@ -7,9 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.browser.Factory;
@@ -42,6 +40,7 @@ import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowEmployeeDevice;
+import at.smartshop.pages.CashoutLog;
 import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -95,8 +94,8 @@ import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
-import at.smartshop.pages.SubsidyConsumerSpend;
 import at.smartshop.pages.SoldItemCOGS;
+import at.smartshop.pages.SubsidyConsumerSpend;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
@@ -193,6 +192,7 @@ public class Report extends TestInfra {
 	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
 	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
+	private CashoutLog cashOutLog = new CashoutLog();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5848,6 +5848,52 @@ public class Report extends TestInfra {
 			price = price.replace(".", "");
 			price = price.replace("0", "");
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cashout Log Report data validation
+	 * 
+	 * @author KarthikR Date: 22-09-2022
+	 */
+	@Test(description = "120168 - CashOut Log Report data validation")
+	public void cashOutLogReportDataValidation() {
+		try {
+			final String CASE_NUM = "120168";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process Kiosk Cashout API to generate data
+			cashOutLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			cashOutLog.getCashoutJsonData();
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cashOutLog.selectAndRunReport(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DATE_RANGE),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			textBox.enterText(CashoutLog.TXT_SEARCH_FILTER, cashOutLog.getRequiredCashOutJsonData().get(0));
+			cashOutLog.getCashOutLog();
+
+			// verify Report Headers
+			cashOutLog.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify Report Data
+			cashOutLog.verifyKCORecord();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
