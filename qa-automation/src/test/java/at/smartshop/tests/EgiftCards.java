@@ -1190,6 +1190,7 @@ public class EgiftCards extends TestInfra {
 		}
 	}
 
+
 	/**
 	 * @author afrosean Date:29:08:2022
 	 */
@@ -1226,7 +1227,7 @@ public class EgiftCards extends TestInfra {
 
 			// Select All location in location of recipient
 			consumerEngagement.verifyLocationOfRecipientInLocationTab(Datas.get(2));
-			consumerEngagement.verifyCheckboxInConsumerEngagement();
+			consumerEngagement.verifyCheckboxInConsumerEngagementGrid();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

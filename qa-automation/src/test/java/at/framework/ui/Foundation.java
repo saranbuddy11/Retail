@@ -836,6 +836,8 @@ public class Foundation extends Factory {
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
 	/**
+
+	 * Clicking enter using Keyboard Actions
 	 * Clicking Shift and Down using Keyboard Actions
 	 * 
 	 * @throws AWTException

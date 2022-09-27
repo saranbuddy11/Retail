@@ -24,6 +24,7 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
+import at.smartshop.pages.VDIProvider;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class VDICheck extends TestInfra {
@@ -38,7 +39,7 @@ public class VDICheck extends TestInfra {
 	private OrgSummary orgSummary = new OrgSummary();
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
-
+	private VDIProvider vDIProvider=new VDIProvider();
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstOrgSummaryData;
 
@@ -527,4 +528,59 @@ public class VDICheck extends TestInfra {
 			login.logout();
 		}
 	}
+	
+	/**
+	 * @author sakthir Date: 12-09-2022
+	 */
+	@Test(description = "203691-Verify API credentials are generated on Click of Generate Button for VDI2.0")
+	public void verifyAPICredentialsAreGeneratedForVDI2() {
+		final String CASE_NUM = "203691";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		
+        List<String> data =Arrays.asList(
+				rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+	    String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//navigate to Admin->VPI
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_LIST));
+			
+			//validate that API generate
+		    foundation.click(VDIProvider.BTN_CREATE);
+		    CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_CREATE));
+		    foundation.click(VDIProvider.BTN_CANCEL);
+		    vDIProvider.createVersionToGenerate(data.get(0),data.get(1),data.get(2),data.get(3),data.get(4),data.get(5),data.get(6));			
+		}
+		
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+		
+		finally{
+			
+			//resetting
+			foundation.click(VDIProvider.TXT_SEARCH);
+			textBox.enterText(VDIProvider.TXT_SEARCH, data.get(0));
+			CustomisedAssert.assertTrue(foundation.getText(VDIProvider.TBL_ROW).contains(data.get(0)));
+			foundation.click(VDIProvider.TBL_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_SUMMARY));
+		    foundation.scrollIntoViewElement(VDIProvider.BTN_DELETE);
+		    foundation.click(VDIProvider.BTN_DELETE);
+		    foundation.waitforElementToBeVisible(VDIProvider.LBL_CONFIRM_DELETE, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_CONFIRM_DELETE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.BTN_CONFIRM_CANCEL));
+			foundation.click(VDIProvider.BTN_CONFIRM_YES);
+			
+			}
+		}
+		
 }

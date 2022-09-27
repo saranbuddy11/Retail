@@ -216,7 +216,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 
-			// verifying Location Dropdown is present or not
+			// verifying Location  is present or not
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DRP_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(PickList.DRP_LOCATION, location, Constants.TEXT);
@@ -1533,45 +1533,96 @@ public class PickLists extends TestInfra {
 	public void verifySelectMoreProductAndExportFile() {
 		try {
 			final String CASE_NUM = "203683";
-
 			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-			String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			List<String>location = Arrays
-					.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-			String  filename =rstPickListData.get(CNPickList.RECORDS);
-			String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-			
-			// Select Org & Menu
+						rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+						rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+						String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+						List<String>location = Arrays
+								.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+						String  filename =rstPickListData.get(CNPickList.RECORDS);
+						String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+						
+						// Select Org & Menu
+						navigationBar.launchBrowserAsSuperAndSelectOrg(
+								propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						
+						//navigate to Product->PickList
+						navigationBar.navigateToMenuItem(menu);
+						pickList.selectLocationAndPicklistBtn(location.get(0));
+						foundation.click(PickList.TBL_ROW_DATA);
+						foundation.clickShiftAndDown();
+						
+						int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
+					
+						
+						//Export Excel File
+						foundation.click(PickList.EXPORT_BTN);
+						foundation.threadWait(Constants.THREE_SECOND);
+						CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+								pickListFilePathWithDateAndDay(filename,date)));	
+						int excelCount = excel.getExcelRowCount(FilePath.
+								pickListFilePathWithDateAndDay(filename,date));
+						
+						// record count validation
+						CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
+					
+					} catch (Exception exc) {
+						TestInfra.failWithScreenShot(exc.toString());
+					} finally {
+						foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
+								rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+
+					}
+	}
+
+	
+	/**
+	 * @author sakthir Date-15-09-2022
+	 */
+	@Test(description = "204681-SOS-33846-To Verify Location Column under Plan pick list Add products in pick list menu"
+			+ "204682-To Verify Location Column in Add Product(s) to pick list grid while selecting any particular location under plan pick list")
+	public void verifyLocationNameInLocationColumnForAddProductPickList() {
+		final String CASE_NUM = "204681";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String location=rstPickListData.get(CNPickList.LOCATIONS);
+		
+		try {
+			// Select Org & Menu 
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			
-			//navigate to Product->PickList
-			navigationBar.navigateToMenuItem(menu);
-			pickList.selectLocationAndPicklistBtn(location.get(0));
+			//Navigate to Product->PickList and Select Plan pick list
+			navigationBar.navigateToMenuItem(menu); 
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+			pickList.selectLocationAndPicklistBtn(location);
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+		
+			//Verifying location name shows under location column
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
+			foundation.click(PickList.BTN_CLOSE);
+			
+			//select location in pick list page ,click Add product and Verifying location name shows under location column
+			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 3);
 			foundation.click(PickList.TBL_ROW_DATA);
-			foundation.clickShiftAndDown();
-			
-			int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
-		
-			
-			//Export Excel File
-			foundation.click(PickList.EXPORT_BTN);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
-					pickListFilePathWithDateAndDay(filename,date)));	
-			int excelCount = excel.getExcelRowCount(FilePath.
-					pickListFilePathWithDateAndDay(filename,date));
-			
-			// record count validation
-			CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
-		
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+			foundation.click(PickList.LBL_ADD_PRODUCT);
+			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
+			foundation.click(PickList.BTN_CLOSE);
 		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
+			
+	}
 	}
 }
