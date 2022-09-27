@@ -657,7 +657,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),
 					Constants.SHORT_TIME);
-			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
+			pickList.checkBoxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
 			foundation.click(PickList.BTN_SAVE);
 			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
