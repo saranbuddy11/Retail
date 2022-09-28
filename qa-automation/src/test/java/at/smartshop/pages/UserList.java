@@ -11,6 +11,8 @@ import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -39,6 +41,8 @@ public class UserList extends Factory {
 	public static final By FIRST_NAME_FIELD = By.id("firstname");
 	public static final By LAST_NAME_FIELD = By.id("lastname");
 	public static final By EMAIL_ADDRESS_FIELD = By.id("email");
+	public static final By BTN_COPY_USER = By.id("copyBtn");
+	public static final By SELECT_ORG = By.xpath("(//ul[@class='select2-selection__rendered'])[1]");
 	public static final By PIN_TXT = By.id("pin");
 	public static final By SELECT_LOCATION = By.id("loc-dropdown");
 	public static final By SELECT_CLIENT = By.xpath("//span[@id='select2-client-container']");
@@ -51,6 +55,8 @@ public class UserList extends Factory {
 	public static final By GENERATE_PIN = By.id("genpin");
 	public static final By SAVE_USER = By.xpath("//button[@id='saveBtn']");
 	public static final By ADMIN_TAB = By.id("li5");
+	public static final By SELECTED_ORG = By.xpath("//ul[@id='select2-org-dropdown-results']//li");
+	public static final By SELECTED_LOCATION = By.xpath("//ul[@id='select2-loc-dropdown-results']//li");
 	public static final By CANCEL_USER = By.id("cancelBtn");
 	public static final By CONFIRM_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By SEARCH_FILTER = By.xpath("//input[@aria-controls='dt']");
@@ -97,6 +103,40 @@ public class UserList extends Factory {
 		for (int i = 0; i < orgName.size(); i++) {
 			dropdown.selectItem(object, orgName.get(i), Constants.TEXT);
 		}
+	}
+
+	public void clickOrgs(By object, String orgName) {
+		foundation.getAttributeValueofListElement(object, orgName);
+	}
+
+	/**
+	 * click on copy user and enter all mandatory fields
+	 * 
+	 * @param fname
+	 * @param lname
+	 * @param address
+	 * @param org
+	 * @param loc
+	 */
+	public void clickOnCopyUserAndEnterAllMandatoryFields(String fname, String lname, String address, String org,
+			String loc) {
+		foundation.click(BTN_COPY_USER);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.getAttribute(FIRST_NAME_FIELD, "value").isEmpty());
+		CustomisedAssert.assertTrue(foundation.getAttribute(LAST_NAME_FIELD, "value").isEmpty());
+		CustomisedAssert.assertTrue(foundation.getAttribute(EMAIL_ADDRESS_FIELD, "value").isEmpty());
+		textBox.enterText(UserList.FIRST_NAME_FIELD, fname);
+		textBox.enterText(UserList.LAST_NAME_FIELD, lname);
+		textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, address);
+		foundation.click(UserList.SELECT_ORG);
+		foundation.threadWait(Constants.SHORT_TIME);
+		clickOrgs(UserList.SELECTED_ORG, org);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(UserList.SELECTED_LOC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		clickOrgs(UserList.SELECTED_LOCATION, loc);
+		foundation.click(UserList.BTN_UPDATE_USER);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	public String createNewUser(String location, String client, String nationalAccount) {
@@ -177,6 +217,19 @@ public class UserList extends Factory {
 	public void searchAndSelectUser(String userFirstName) {
 		textBox.enterText(UserList.SEARCH_FILTER, userFirstName);
 		foundation.click(UserList.TBL_DATA);
+	}
+
+	/**
+	 * search user and verify copy user
+	 * 
+	 * @param fname
+	 */
+	public void searchUserAndVerifyCopyUser(String fname) {
+		searchAndSelectUser(fname);
+		CustomisedAssert.assertTrue(foundation.getText(UserList.EDIT_USERS).contains(fname));
+		foundation.click(UserList.BTN_COPY_USER);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.getAttribute(UserList.FIRST_NAME_FIELD, "value").isEmpty());
 	}
 
 	/**
